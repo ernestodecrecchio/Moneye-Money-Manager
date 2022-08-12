@@ -1,8 +1,11 @@
 import 'package:expense_tracker/Helper/database_helper.dart';
 import 'package:expense_tracker/models/category.dart';
-import 'package:sqflite/sqflite.dart';
+import 'package:sqflite/sqlite_api.dart';
 
 class DatabaseCategoryHelper {
+  static final DatabaseCategoryHelper instance = DatabaseCategoryHelper._init();
+  DatabaseCategoryHelper._init();
+
   static Future inizializeTable(Database db) async {
     const idType = 'INTEGER PRIMARY KEY AUTOINCREMENT';
     const textType = 'TEXT NOT NULL';
@@ -18,10 +21,10 @@ class DatabaseCategoryHelper {
 
     final categoryDog = Category(name: 'Cane', colorValue: 10);
 
-    await insertCategory(category: categoryDog);
+    await db.insert(tableCategories, categoryDog.toJson());
   }
 
-  static Future<Category> insertCategory({required Category category}) async {
+  Future<Category> insertCategory({required Category category}) async {
     final db = await DatabaseHelper.instance.database;
 
     final id = await db.insert(tableCategories, category.toJson());
@@ -46,13 +49,12 @@ class DatabaseCategoryHelper {
     }
   }
 
-  static Future<List<Category>> readAllCategories() async {
+  Future<List<Category>> readAllCategories() async {
     final db = await DatabaseHelper.instance.database;
 
     const orderBy = '${CategoryFields.name} ASC';
 
     final result = await db.query(tableCategories, orderBy: orderBy);
-
     return result.map((json) => Category.fromJson(json)).toList();
   }
 

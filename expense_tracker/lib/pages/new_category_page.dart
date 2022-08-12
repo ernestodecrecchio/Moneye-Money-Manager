@@ -1,6 +1,7 @@
-import 'package:expense_tracker/Helper/database_category_helper.dart';
 import 'package:expense_tracker/models/category.dart';
+import 'package:expense_tracker/notifiers/category_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class NewCategoryPage extends StatefulWidget {
   const NewCategoryPage({Key? key}) : super(key: key);
@@ -50,10 +51,9 @@ class _NewCategoryPageState extends State<NewCategoryPage> {
   _saveNewCategory() {
     if (title != null) {
       final newCategory = Category(name: title!, colorValue: 1);
-
-      DatabaseCategoryHelper.insertCategory(category: newCategory);
-
-      Navigator.of(context).pop();
+      Provider.of<CategoryProvider>(context, listen: false)
+          .addNewCategory(newCategory)
+          .then((value) => Navigator.of(context).pop());
     }
   }
 }

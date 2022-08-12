@@ -29,28 +29,28 @@ class Transaction {
 
   Transaction copy({
     int? id,
-    required String title,
-    required double value,
-    required DateTime date,
+    String? title,
+    double? value,
+    DateTime? date,
   }) =>
       Transaction(
         id: id ?? this.id,
-        title: title,
-        value: value,
-        date: date,
+        title: title ?? this.title,
+        value: value ?? this.value,
+        date: date ?? this.date,
       );
 
   static Transaction fromJson(Map<String, Object?> json) => Transaction(
         id: json[TransactionFields.id] as int?,
         title: json[TransactionFields.title] as String,
         value: json[TransactionFields.value] as double,
-        date: json[TransactionFields.date] as DateTime,
+        date: DateTime.parse(json[TransactionFields.date] as String),
       );
 
   Map<String, Object?> toJson() => {
         TransactionFields.id: id,
         TransactionFields.title: title,
         TransactionFields.value: value,
-        TransactionFields.date: date
+        TransactionFields.date: date.toIso8601String()
       };
 }

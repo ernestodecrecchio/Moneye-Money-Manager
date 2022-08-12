@@ -1,4 +1,6 @@
+import 'package:expense_tracker/notifiers/transaction_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class ExpenseListPage extends StatefulWidget {
@@ -10,18 +12,32 @@ class ExpenseListPage extends StatefulWidget {
 
 class _ExpenseListPageState extends State<ExpenseListPage> {
   @override
+  void initState() {
+    super.initState();
+
+    Provider.of<TransactionProvider>(context, listen: false)
+        .getAllTransactions();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text('Spese'),
-        ),
-        body: Column(
-          children: [
-            _buildCalendar(),
-          ],
-        ),
-        floatingActionButton: FloatingActionButton(
-            child: const Icon(Icons.add), onPressed: () {}));
+      appBar: AppBar(
+        title: const Text('Spese'),
+      ),
+      body: Column(
+        children: [
+          _buildCalendar(),
+          _buildTransactionList(),
+        ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: const Icon(Icons.add),
+        onPressed: () {
+          Navigator.pushNamed(context, '/newTransaction');
+        },
+      ),
+    );
   }
 
   DateTime _selectedDay = DateTime.now();
@@ -30,8 +46,8 @@ class _ExpenseListPageState extends State<ExpenseListPage> {
 
   _buildCalendar() {
     return TableCalendar(
-      firstDay: DateTime.utc(2010, 10, 16),
-      lastDay: DateTime.utc(2030, 3, 14),
+      firstDay: DateTime.utc(1999, 1, 1),
+      lastDay: DateTime.utc(2030, 1, 1),
       focusedDay: _focusedDay,
       selectedDayPredicate: (day) {
         return isSameDay(_selectedDay, day);
@@ -57,6 +73,25 @@ class _ExpenseListPageState extends State<ExpenseListPage> {
         CalendarFormat.month: 'Mese',
         CalendarFormat.week: 'Settimana'
       },
+    );
+  }
+
+  _buildTransactionList() {
+    return Expanded(
+      child: Consumer<TransactionProvider>(
+        builder: (context, transactionProvider, child) {
+          final transactionsList = transactionProvider.transactionList;
+
+          return ListView.builder(
+            itemCount: transactionsList.length,
+            itemBuilder: (context, index) {
+              return ListTile(
+                title: Text(transactionsList[index].title),
+              );
+            },
+          );
+        },
+      ),
     );
   }
 }
