@@ -31,7 +31,21 @@ class MyApp extends StatelessWidget {
         routes: {
           '/': (context) => const TabBarPage(),
           '/newCategory': (context) => const NewCategoryPage(),
-          '/newTransaction': (context) => const NewTransactionPage(),
+        },
+        onGenerateRoute: (settings) {
+          if (settings.name == NewTransactionPage.routeName) {
+            final args = settings.arguments as DateTime;
+
+            return MaterialPageRoute(
+              builder: (context) {
+                return NewTransactionPage(
+                  date: args,
+                );
+              },
+            );
+          }
+          assert(false, 'Need to implement ${settings.name}');
+          return null;
         },
       ),
     );

@@ -10,6 +10,9 @@ class DatabaseHelper {
   static Database? _database;
 
   Future<Database> get database async {
+    final dbPath = await getDatabasesPath();
+    // print(dbPath);
+
     if (_database != null) return _database!;
 
     _database = await _initDB();

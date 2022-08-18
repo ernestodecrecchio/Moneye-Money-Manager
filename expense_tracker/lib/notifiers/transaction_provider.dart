@@ -12,6 +12,13 @@ class TransactionProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  Future getTransactionsForDate(DateTime date) async {
+    transactionList = await DatabaseTransactionHelper.instance
+        .getTransactionsForDate(date: date);
+
+    notifyListeners();
+  }
+
   Future addNewTransaction(Transaction newTransaction) async {
     transactionList.add(await DatabaseTransactionHelper.instance
         .insertTransaction(transaction: newTransaction));

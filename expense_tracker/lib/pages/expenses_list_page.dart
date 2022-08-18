@@ -1,4 +1,5 @@
 import 'package:expense_tracker/notifiers/transaction_provider.dart';
+import 'package:expense_tracker/pages/new_transaction_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -11,6 +12,10 @@ class ExpenseListPage extends StatefulWidget {
 }
 
 class _ExpenseListPageState extends State<ExpenseListPage> {
+  DateTime _selectedDay = DateTime.now();
+  DateTime _focusedDay = DateTime.now();
+  CalendarFormat _calendarFormat = CalendarFormat.month;
+
   @override
   void initState() {
     super.initState();
@@ -34,15 +39,12 @@ class _ExpenseListPageState extends State<ExpenseListPage> {
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),
         onPressed: () {
-          Navigator.pushNamed(context, '/newTransaction');
+          Navigator.pushNamed(context, NewTransactionPage.routeName,
+              arguments: _selectedDay);
         },
       ),
     );
   }
-
-  DateTime _selectedDay = DateTime.now();
-  DateTime _focusedDay = DateTime.now();
-  CalendarFormat _calendarFormat = CalendarFormat.month;
 
   _buildCalendar() {
     return TableCalendar(
@@ -53,6 +55,8 @@ class _ExpenseListPageState extends State<ExpenseListPage> {
         return isSameDay(_selectedDay, day);
       },
       onDaySelected: (selectedDay, focusedDay) {
+        Provider.of<TransactionProvider>(context, listen: false)
+            .getTransactionsForDate(selectedDay);
         setState(() {
           _selectedDay = selectedDay;
           _focusedDay = focusedDay; // update `_focusedDay` here as well
@@ -87,6 +91,8 @@ class _ExpenseListPageState extends State<ExpenseListPage> {
             itemBuilder: (context, index) {
               return ListTile(
                 title: Text(transactionsList[index].title),
+                subtitle: Text(transactionsList[index].value.toString()),
+                trailing: Text(transactionsList[index].category.name),
               );
             },
           );

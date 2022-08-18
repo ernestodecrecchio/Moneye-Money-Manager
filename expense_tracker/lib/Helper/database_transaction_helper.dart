@@ -1,4 +1,5 @@
 import 'package:expense_tracker/Helper/database_helper.dart';
+import 'package:expense_tracker/models/category.dart';
 import 'package:expense_tracker/models/transaction.dart';
 
 import 'package:expense_tracker/models/transaction.dart' as trans;
@@ -14,13 +15,16 @@ class DatabaseTransactionHelper {
     const textType = 'TEXT NOT NULL';
     const realType = 'REAL NOT NULL';
     const dateTimeType = 'DATETIME NOT NULL';
+    const integerType = 'INTEGER NOT NULL';
 
     await db.execute('''
     CREATE TABLE $tableTransactions (
       ${TransactionFields.id} $idType,
       ${TransactionFields.title} $textType,
       ${TransactionFields.value} $realType,
-      ${TransactionFields.date} $dateTimeType
+      ${TransactionFields.date} $dateTimeType,
+      ${TransactionFields.categoryId} $integerType,
+      FOREIGN KEY (${TransactionFields.categoryId}) REFERENCES $tableCategories (${CategoryFields.id}) ON DELETE NO ACTION ON UPDATE NO ACTION
       )
     ''');
   }
@@ -57,6 +61,19 @@ class DatabaseTransactionHelper {
     const orderBy = '${TransactionFields.date} ASC';
 
     final result = await db.query(tableTransactions, orderBy: orderBy);
+    return result.map((json) => trans.Transaction.fromJson(json)).toList();
+  }
+
+  Future<List<trans.Transaction>> getTransactionsForDate(
+      {required DateTime date}) async {
+    final db = await DatabaseHelper.instance.database;
+
+    const orderBy = '${TransactionFields.date} ASC';
+
+    final result = await db.query(tableTransactions,
+        orderBy: orderBy,
+        where: 'date(${TransactionFields.date}) = date(?)',
+        whereArgs: [date.toIso8601String()]);
     return result.map((json) => trans.Transaction.fromJson(json)).toList();
   }
 }

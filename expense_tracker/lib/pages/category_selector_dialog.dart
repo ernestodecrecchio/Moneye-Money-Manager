@@ -4,11 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class CategorySelectorDialog extends StatefulWidget {
-  final List<Category> currentSelection;
+  final Category? currentSelection;
 
   const CategorySelectorDialog({
     Key? key,
-    required this.currentSelection,
+    this.currentSelection,
   }) : super(key: key);
 
   @override
@@ -16,12 +16,13 @@ class CategorySelectorDialog extends StatefulWidget {
 }
 
 class _CategorySelectorDialogState extends State<CategorySelectorDialog> {
-  final List<Category> _selectedCategories = [];
+  Category? _selectedCategory;
 
   @override
   void initState() {
-    _selectedCategories.addAll(widget.currentSelection);
     super.initState();
+
+    _selectedCategory = widget.currentSelection;
   }
 
   @override
@@ -38,14 +39,13 @@ class _CategorySelectorDialogState extends State<CategorySelectorDialog> {
                   itemCount: categoriesList.length,
                   itemBuilder: (BuildContext context, int index) {
                     return CheckboxListTile(
-                      value:
-                          _selectedCategories.contains(categoriesList[index]),
+                      value: _selectedCategory == categoriesList[index],
                       onChanged: (bool? selected) {
                         setState(() {
                           if (selected == true) {
-                            _selectedCategories.add(categoriesList[index]);
+                            _selectedCategory = categoriesList[index];
                           } else {
-                            _selectedCategories.remove(categoriesList[index]);
+                            _selectedCategory = null;
                           }
                         });
                       },
@@ -65,7 +65,7 @@ class _CategorySelectorDialogState extends State<CategorySelectorDialog> {
               ),
               ElevatedButton(
                 onPressed: () {
-                  Navigator.pop(context, _selectedCategories);
+                  Navigator.pop(context, _selectedCategory);
                 },
                 child: const Text("Done"),
               )
