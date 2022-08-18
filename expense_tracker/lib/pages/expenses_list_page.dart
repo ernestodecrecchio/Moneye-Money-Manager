@@ -1,3 +1,4 @@
+import 'package:expense_tracker/notifiers/category_provider.dart';
 import 'package:expense_tracker/notifiers/transaction_provider.dart';
 import 'package:expense_tracker/pages/new_transaction_page.dart';
 import 'package:flutter/material.dart';
@@ -81,23 +82,44 @@ class _ExpenseListPageState extends State<ExpenseListPage> {
   }
 
   _buildTransactionList() {
-    return Expanded(
-      child: Consumer<TransactionProvider>(
-        builder: (context, transactionProvider, child) {
-          final transactionsList = transactionProvider.transactionList;
+    return Consumer<TransactionProvider>(
+      builder: (context, transactionProvider, child) {
+        final transactionsList = transactionProvider.transactionList;
 
-          return ListView.builder(
-            itemCount: transactionsList.length,
-            itemBuilder: (context, index) {
-              return ListTile(
-                title: Text(transactionsList[index].title),
-                subtitle: Text(transactionsList[index].value.toString()),
-                trailing: Text(transactionsList[index].category.name),
-              );
-            },
-          );
-        },
-      ),
+        final total = transactionsList.fold<double>(
+            0, (previousValue, element) => previousValue + element.value);
+
+        return Expanded(
+          child: Column(
+            children: [
+              Expanded(
+                child: ListView.builder(
+                  itemCount: transactionsList.length,
+                  itemBuilder: (context, index) {
+                    return ListTile(
+                      title: Text(transactionsList[index].title),
+                      subtitle: Text(transactionsList[index].value.toString()),
+                      trailing: Container(
+                        color: Provider.of<CategoryProvider>(context,
+                                listen: false)
+                            .getCategoryFromId(
+                                transactionsList[index].categoryId)
+                            .color,
+                        child: Text(Provider.of<CategoryProvider>(context,
+                                listen: false)
+                            .getCategoryFromId(
+                                transactionsList[index].categoryId)
+                            .name),
+                      ),
+                    );
+                  },
+                ),
+              ),
+              Text('Totale: $total'),
+            ],
+          ),
+        );
+      },
     );
   }
 }

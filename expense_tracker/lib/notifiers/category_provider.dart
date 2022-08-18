@@ -11,6 +11,10 @@ class CategoryProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  Category getCategoryFromId(int id) {
+    return categoryList.firstWhere((element) => element.id == id);
+  }
+
   Future addNewCategory(Category newCategory) async {
     categoryList.add(await DatabaseCategoryHelper.instance
         .insertCategory(category: newCategory));

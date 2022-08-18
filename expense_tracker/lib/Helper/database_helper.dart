@@ -11,7 +11,7 @@ class DatabaseHelper {
 
   Future<Database> get database async {
     final dbPath = await getDatabasesPath();
-    // print(dbPath);
+    print(dbPath);
 
     if (_database != null) return _database!;
 

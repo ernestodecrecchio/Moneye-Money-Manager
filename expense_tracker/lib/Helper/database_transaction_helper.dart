@@ -70,10 +70,19 @@ class DatabaseTransactionHelper {
 
     const orderBy = '${TransactionFields.date} ASC';
 
+    /*final result = await db.rawQuery('''
+      SELECT t._id, title, value, date, categoryId, c.name  AS  'categoryName', c.colorValue AS 'categoryColor'
+      FROM transactions AS t
+      INNER JOIN categories AS  c ON t.categoryId =  c._id
+      WHERE date(${TransactionFields.date}) = date(?)
+      ORDER BY ${TransactionFields.date} ASC
+    ''', [date.toIso8601String()]);*/
+
     final result = await db.query(tableTransactions,
         orderBy: orderBy,
         where: 'date(${TransactionFields.date}) = date(?)',
         whereArgs: [date.toIso8601String()]);
+
     return result.map((json) => trans.Transaction.fromJson(json)).toList();
   }
 }

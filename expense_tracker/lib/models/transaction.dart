@@ -25,10 +25,6 @@ class Transaction {
   DateTime date;
   int categoryId;
 
-  Category get category {
-    return Category(name: 'name', colorValue: 1);
-  }
-
   Transaction({
     this.id,
     required this.title,
