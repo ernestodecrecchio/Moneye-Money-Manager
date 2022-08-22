@@ -1,5 +1,3 @@
-import 'package:expense_tracker/models/category.dart';
-
 const String tableTransactions = 'transactions';
 
 class TransactionFields {
@@ -9,6 +7,7 @@ class TransactionFields {
     value,
     date,
     categoryId,
+    accountId,
   ];
 
   static const String id = '_id'; // Default id column
@@ -16,6 +15,7 @@ class TransactionFields {
   static const String value = 'value';
   static const String date = 'date';
   static const String categoryId = 'categoryId';
+  static const String accountId = 'accountId';
 }
 
 class Transaction {
@@ -23,14 +23,16 @@ class Transaction {
   String title;
   double value;
   DateTime date;
-  int categoryId;
+  int? categoryId;
+  int? accountId;
 
   Transaction({
     this.id,
     required this.title,
     required this.value,
     required this.date,
-    required this.categoryId,
+    this.categoryId,
+    this.accountId,
   });
 
   Transaction copy({
@@ -39,6 +41,7 @@ class Transaction {
     double? value,
     DateTime? date,
     int? categoryId,
+    int? accountId,
   }) =>
       Transaction(
         id: id ?? this.id,
@@ -46,6 +49,7 @@ class Transaction {
         value: value ?? this.value,
         date: date ?? this.date,
         categoryId: categoryId ?? this.categoryId,
+        accountId: accountId ?? this.accountId,
       );
 
   static Transaction fromJson(Map<String, Object?> json) => Transaction(
@@ -53,7 +57,8 @@ class Transaction {
         title: json[TransactionFields.title] as String,
         value: json[TransactionFields.value] as double,
         date: DateTime.parse(json[TransactionFields.date] as String),
-        categoryId: json[TransactionFields.categoryId] as int,
+        categoryId: json[TransactionFields.categoryId] as int?,
+        accountId: json[TransactionFields.accountId] as int?,
       );
 
   Map<String, Object?> toJson() => {
@@ -62,5 +67,6 @@ class Transaction {
         TransactionFields.value: value,
         TransactionFields.date: date.toIso8601String(),
         TransactionFields.categoryId: categoryId,
+        TransactionFields.accountId: accountId,
       };
 }

@@ -5,6 +5,8 @@ import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:provider/provider.dart';
 
 class NewCategoryPage extends StatefulWidget {
+  static const routeName = '/newCategoryPage';
+
   const NewCategoryPage({Key? key}) : super(key: key);
 
   @override

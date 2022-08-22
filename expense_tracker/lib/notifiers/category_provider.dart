@@ -11,8 +11,12 @@ class CategoryProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Category getCategoryFromId(int id) {
-    return categoryList.firstWhere((element) => element.id == id);
+  Category? getCategoryFromId(int id) {
+    try {
+      return categoryList.firstWhere((element) => element.id == id);
+    } catch (e) {
+      return null;
+    }
   }
 
   Future addNewCategory(Category newCategory) async {
@@ -20,5 +24,20 @@ class CategoryProvider with ChangeNotifier {
         .insertCategory(category: newCategory));
 
     notifyListeners();
+  }
+
+  Future<bool> deleteCategory(Category category) async {
+    final removedCategoryCount = await DatabaseCategoryHelper.instance
+        .deleteCategory(category: category);
+
+    if (removedCategoryCount > 0) {
+      categoryList.removeWhere((element) => element.id == category.id);
+
+      notifyListeners();
+
+      return true;
+    }
+
+    return false;
   }
 }

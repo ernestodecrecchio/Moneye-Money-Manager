@@ -1,6 +1,8 @@
+import 'package:expense_tracker/notifiers/account_provider.dart';
 import 'package:expense_tracker/notifiers/category_provider.dart';
 import 'package:expense_tracker/notifiers/transaction_provider.dart';
 import 'package:expense_tracker/pages/new_transaction_page.dart';
+import 'package:expense_tracker/pages/transaction_list_cell.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -93,26 +95,25 @@ class _ExpenseListPageState extends State<ExpenseListPage> {
           child: Column(
             children: [
               Expanded(
-                child: ListView.builder(
+                child: ListView.separated(
                   itemCount: transactionsList.length,
                   itemBuilder: (context, index) {
-                    return ListTile(
-                      title: Text(transactionsList[index].title),
-                      subtitle: Text(transactionsList[index].value.toString()),
-                      trailing: Container(
-                        color: Provider.of<CategoryProvider>(context,
-                                listen: false)
-                            .getCategoryFromId(
-                                transactionsList[index].categoryId)
-                            .color,
-                        child: Text(Provider.of<CategoryProvider>(context,
-                                listen: false)
-                            .getCategoryFromId(
-                                transactionsList[index].categoryId)
-                            .name),
+                    return Dismissible(
+                      key: Key(transactionsList[index].id.toString()),
+                      confirmDismiss: (_) {
+                        return transactionProvider
+                            .deleteTransaction(transactionsList[index]);
+                      },
+                      background: Container(color: Colors.red),
+                      child: TransactionListCell(
+                        transaction: transactionsList[index],
                       ),
                     );
                   },
+                  separatorBuilder: ((context, index) => const Divider(
+                        height: 13,
+                        color: Colors.transparent,
+                      )),
                 ),
               ),
               Text('Totale: $total'),

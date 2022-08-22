@@ -19,9 +19,15 @@ class DatabaseCategoryHelper {
       )
     ''');
 
-    final categoryDog = Category(name: 'Cane', colorValue: 10);
+    final dog = Category(name: 'Cane', colorValue: 10);
+    final shopping = Category(name: 'Shopping', colorValue: 11);
+    final car = Category(name: 'Auto', colorValue: 12);
+    final entertainment = Category(name: 'Intrattenimento', colorValue: 13);
 
-    await db.insert(tableCategories, categoryDog.toJson());
+    await db.insert(tableCategories, dog.toJson());
+    await db.insert(tableCategories, shopping.toJson());
+    await db.insert(tableCategories, car.toJson());
+    await db.insert(tableCategories, entertainment.toJson());
   }
 
   Future<Category> insertCategory({required Category category}) async {
@@ -30,6 +36,16 @@ class DatabaseCategoryHelper {
     final id = await db.insert(tableCategories, category.toJson());
 
     return category.copy(id: id);
+  }
+
+  Future<int> deleteCategory({required Category category}) async {
+    final db = await DatabaseHelper.instance.database;
+
+    return db.delete(
+      tableCategories,
+      where: '${CategoryFields.id} = ?',
+      whereArgs: [category.id],
+    );
   }
 
   static Future<Category> readCategory(int id) async {
@@ -66,16 +82,6 @@ class DatabaseCategoryHelper {
       category.toJson(),
       where: '${CategoryFields.id} = ?',
       whereArgs: [category.id],
-    );
-  }
-
-  static Future<int> deleteCategory(int id) async {
-    final db = await DatabaseHelper.instance.database;
-
-    return await db.delete(
-      tableCategories,
-      where: '${CategoryFields.id} = ?',
-      whereArgs: [id],
     );
   }
 }

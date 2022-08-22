@@ -1,6 +1,7 @@
+import 'package:expense_tracker/models/account.dart';
 import 'package:expense_tracker/models/category.dart';
-import 'package:expense_tracker/models/transaction.dart';
 import 'package:expense_tracker/notifiers/transaction_provider.dart';
+import 'package:expense_tracker/pages/account_selector_dialog.dart';
 import 'package:expense_tracker/pages/category_selector_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -23,6 +24,7 @@ class _NewTransactionPageState extends State<NewTransactionPage> {
   String? title;
   double? value;
   Category? selectedCategory;
+  Account? selectedAccount;
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +55,7 @@ class _NewTransactionPageState extends State<NewTransactionPage> {
             ),
             ElevatedButton(
               onPressed: () async {
-                final Category newSelectedCategory = await showDialog(
+                final Category? newSelectedCategory = await showDialog(
                   context: context,
                   builder: ((context) {
                     return Dialog(
@@ -64,9 +66,25 @@ class _NewTransactionPageState extends State<NewTransactionPage> {
                 );
                 setState(() => selectedCategory = newSelectedCategory);
               },
-              child: const Text('ciao'),
+              child: const Text('Seleziona categoria'),
             ),
             if (selectedCategory != null) Text(selectedCategory!.name),
+            ElevatedButton(
+              onPressed: () async {
+                final Account? newSelectedAccount = await showDialog(
+                  context: context,
+                  builder: ((context) {
+                    return Dialog(
+                      child: AccountSelectorDialog(
+                          currentSelection: selectedAccount),
+                    );
+                  }),
+                );
+                setState(() => selectedAccount = newSelectedAccount);
+              },
+              child: const Text('Seleziona conto'),
+            ),
+            if (selectedAccount != null) Text(selectedAccount!.name),
             const Spacer(),
             ElevatedButton(
                 onPressed: _saveNewTransaction, child: const Text('Salva')),
@@ -78,13 +96,13 @@ class _NewTransactionPageState extends State<NewTransactionPage> {
 
   _saveNewTransaction() {
     if (title != null && value != null) {
-      final newTransaction = Transaction(
-          title: title!,
-          value: value!,
-          date: widget.date,
-          categoryId: selectedCategory!.id!);
       Provider.of<TransactionProvider>(context, listen: false)
-          .addNewTransaction(newTransaction)
+          .addNewTransaction(
+              title: title!,
+              value: value!,
+              date: widget.date,
+              category: selectedCategory,
+              account: selectedAccount)
           .then((value) => Navigator.of(context).pop());
     }
   }

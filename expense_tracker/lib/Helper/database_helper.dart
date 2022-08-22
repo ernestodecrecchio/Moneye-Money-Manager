@@ -1,3 +1,4 @@
+import 'package:expense_tracker/Helper/database_account_helper.dart';
 import 'package:expense_tracker/Helper/database_category_helper.dart';
 import 'package:expense_tracker/Helper/database_transaction_helper.dart';
 import 'package:path/path.dart';
@@ -28,11 +29,18 @@ class DatabaseHelper {
       path,
       version: 1,
       onCreate: _createDB,
+      onConfigure: _configureDB,
     );
   }
 
   Future _createDB(Database db, int version) async {
     await DatabaseCategoryHelper.inizializeTable(db);
+    await DatabaseAccountHelper.inizializeTable(db);
     await DatabaseTransactionHelper.inizializeTable(db);
+  }
+
+  Future _configureDB(Database db) async {
+    print('configure');
+    await db.execute('PRAGMA foreign_keys = ON');
   }
 }

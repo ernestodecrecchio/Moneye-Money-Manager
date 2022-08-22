@@ -1,5 +1,7 @@
+import 'package:expense_tracker/notifiers/account_provider.dart';
 import 'package:expense_tracker/notifiers/category_provider.dart';
 import 'package:expense_tracker/notifiers/transaction_provider.dart';
+import 'package:expense_tracker/pages/new_account_page.dart';
 import 'package:expense_tracker/pages/new_category_page.dart';
 import 'package:expense_tracker/pages/new_transaction_page.dart';
 import 'package:expense_tracker/pages/tab_bar_page.dart';
@@ -20,6 +22,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => CategoryProvider()),
+        ChangeNotifierProvider(create: (_) => AccountProvider()),
         ChangeNotifierProvider(create: (_) => TransactionProvider()),
       ],
       child: MaterialApp(
@@ -30,7 +33,8 @@ class MyApp extends StatelessWidget {
         initialRoute: '/',
         routes: {
           '/': (context) => const TabBarPage(),
-          '/newCategory': (context) => const NewCategoryPage(),
+          NewCategoryPage.routeName: (context) => const NewCategoryPage(),
+          NewAccountPage.routeName: (context) => const NewAccountPage(),
         },
         onGenerateRoute: (settings) {
           if (settings.name == NewTransactionPage.routeName) {

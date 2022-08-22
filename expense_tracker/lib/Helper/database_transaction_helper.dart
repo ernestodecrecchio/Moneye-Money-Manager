@@ -1,4 +1,5 @@
 import 'package:expense_tracker/Helper/database_helper.dart';
+import 'package:expense_tracker/models/account.dart';
 import 'package:expense_tracker/models/category.dart';
 import 'package:expense_tracker/models/transaction.dart';
 
@@ -15,7 +16,7 @@ class DatabaseTransactionHelper {
     const textType = 'TEXT NOT NULL';
     const realType = 'REAL NOT NULL';
     const dateTimeType = 'DATETIME NOT NULL';
-    const integerType = 'INTEGER NOT NULL';
+    const integerType = 'INTEGER';
 
     await db.execute('''
     CREATE TABLE $tableTransactions (
@@ -24,7 +25,9 @@ class DatabaseTransactionHelper {
       ${TransactionFields.value} $realType,
       ${TransactionFields.date} $dateTimeType,
       ${TransactionFields.categoryId} $integerType,
-      FOREIGN KEY (${TransactionFields.categoryId}) REFERENCES $tableCategories (${CategoryFields.id}) ON DELETE NO ACTION ON UPDATE NO ACTION
+      ${TransactionFields.accountId} $integerType,
+      FOREIGN KEY (${TransactionFields.categoryId}) REFERENCES $tableCategories (${CategoryFields.id}) ON DELETE SET NULL ON UPDATE NO ACTION,
+      FOREIGN KEY (${TransactionFields.accountId}) REFERENCES $tableAccounts (${AccountFields.id}) ON DELETE SET NULL ON UPDATE NO ACTION
       )
     ''');
   }
@@ -36,6 +39,17 @@ class DatabaseTransactionHelper {
     final id = await db.insert(tableTransactions, transaction.toJson());
 
     return transaction.copy(id: id);
+  }
+
+  Future<int> deleteTransaction(
+      {required trans.Transaction transaction}) async {
+    final db = await DatabaseHelper.instance.database;
+
+    return db.delete(
+      tableTransactions,
+      where: '${TransactionFields.id} = ?',
+      whereArgs: [transaction.id],
+    );
   }
 
   Future<trans.Transaction> readTransaction(int id) async {
@@ -69,14 +83,6 @@ class DatabaseTransactionHelper {
     final db = await DatabaseHelper.instance.database;
 
     const orderBy = '${TransactionFields.date} ASC';
-
-    /*final result = await db.rawQuery('''
-      SELECT t._id, title, value, date, categoryId, c.name  AS  'categoryName', c.colorValue AS 'categoryColor'
-      FROM transactions AS t
-      INNER JOIN categories AS  c ON t.categoryId =  c._id
-      WHERE date(${TransactionFields.date}) = date(?)
-      ORDER BY ${TransactionFields.date} ASC
-    ''', [date.toIso8601String()]);*/
 
     final result = await db.query(tableTransactions,
         orderBy: orderBy,

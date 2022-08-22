@@ -1,4 +1,5 @@
 import 'package:expense_tracker/notifiers/category_provider.dart';
+import 'package:expense_tracker/pages/new_category_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -39,12 +40,19 @@ class _CategoriesListPageState extends State<CategoriesListPage> {
           itemBuilder: (context, index) {
             final category = categoryProvider.categoryList[index];
 
-            return ListTile(
-              title: Text(category.name),
-              trailing: Container(
-                height: 20,
-                width: 20,
-                color: Color(category.colorValue),
+            return Dismissible(
+              key: Key(category.id.toString()),
+              confirmDismiss: (_) {
+                return categoryProvider.deleteCategory(category);
+              },
+              background: Container(color: Colors.red),
+              child: ListTile(
+                title: Text(category.name),
+                trailing: Container(
+                  height: 20,
+                  width: 20,
+                  color: Color(category.colorValue),
+                ),
               ),
             );
           },
@@ -56,9 +64,7 @@ class _CategoriesListPageState extends State<CategoriesListPage> {
   Widget _buildFloatingActionButton(BuildContext context) {
     return FloatingActionButton(
       child: const Icon(Icons.add),
-      onPressed: () {
-        Navigator.pushNamed(context, '/newCategory');
-      },
+      onPressed: () => Navigator.pushNamed(context, NewCategoryPage.routeName),
     );
   }
 }

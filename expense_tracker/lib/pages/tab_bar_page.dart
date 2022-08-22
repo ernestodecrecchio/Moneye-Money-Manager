@@ -1,4 +1,6 @@
+import 'package:expense_tracker/notifiers/account_provider.dart';
 import 'package:expense_tracker/notifiers/category_provider.dart';
+import 'package:expense_tracker/pages/accounts_list_page.dart';
 import 'package:expense_tracker/pages/categories_list_page.dart';
 import 'package:expense_tracker/pages/expenses_list_page.dart';
 import 'package:flutter/material.dart';
@@ -17,6 +19,7 @@ class _TabBarPageState extends State<TabBarPage> {
   final screen = [
     const ExpenseListPage(),
     const CategoriesListPage(),
+    const AccountsListPage(),
   ];
 
   @override
@@ -24,6 +27,7 @@ class _TabBarPageState extends State<TabBarPage> {
     super.initState();
 
     Provider.of<CategoryProvider>(context, listen: false).getAllCategories();
+    Provider.of<AccountProvider>(context, listen: false).getAllAccounts();
   }
 
   @override
@@ -41,6 +45,10 @@ class _TabBarPageState extends State<TabBarPage> {
             ),
             NavigationDestination(
               label: 'Categorie',
+              icon: Icon(Icons.abc),
+            ),
+            NavigationDestination(
+              label: 'Conti',
               icon: Icon(Icons.abc),
             ),
           ],
