@@ -4,6 +4,7 @@ import 'package:expense_tracker/models/category.dart';
 import 'package:expense_tracker/models/transaction.dart';
 
 import 'package:expense_tracker/models/transaction.dart' as trans;
+import 'package:intl/intl.dart';
 import 'package:sqflite/sqlite_api.dart';
 
 class DatabaseTransactionHelper {
@@ -69,7 +70,7 @@ class DatabaseTransactionHelper {
     }
   }
 
-  Future<List<trans.Transaction>> readAllTransactions() async {
+  Future<List<trans.Transaction>> getAllTransactions() async {
     final db = await DatabaseHelper.instance.database;
 
     const orderBy = '${TransactionFields.date} ASC';
@@ -78,16 +79,38 @@ class DatabaseTransactionHelper {
     return result.map((json) => trans.Transaction.fromJson(json)).toList();
   }
 
-  Future<List<trans.Transaction>> getTransactionsForDate(
-      {required DateTime date}) async {
+  Future<Map<String, Object?>> getBalanceBetweenDates(
+      {required DateTime startDate, required DateTime endDate}) async {
+    final db = await DatabaseHelper.instance.database;
+
+    final result = await db.rawQuery('''
+      SELECT 
+				SUM(CASE WHEN ${TransactionFields.value} >= 0 THEN value END ) AS income, 
+				SUM(CASE WHEN ${TransactionFields.value} < 0  THEN value END ) AS expense
+      FROM $tableTransactions
+      WHERE ${TransactionFields.date} BETWEEN date(?, 'localtime') AND date(?, 'localtime')
+      ''', [
+      DateFormat('yyyy-MM-dd').format(startDate).toString(),
+      DateFormat('yyyy-MM-dd').format(endDate).toString(),
+    ]);
+
+    return result.first;
+  }
+
+  Future<List<trans.Transaction>> getTransactionsBetweenDates(
+      {required DateTime startDate, required DateTime endDate}) async {
     final db = await DatabaseHelper.instance.database;
 
     const orderBy = '${TransactionFields.date} ASC';
 
     final result = await db.query(tableTransactions,
         orderBy: orderBy,
-        where: 'date(${TransactionFields.date}) = date(?)',
-        whereArgs: [date.toIso8601String()]);
+        where:
+            "${TransactionFields.date} BETWEEN date(?, 'localtime') AND date(?, 'localtime')",
+        whereArgs: [
+          DateFormat('yyyy-MM-dd').format(startDate).toString(),
+          DateFormat('yyyy-MM-dd').format(endDate).toString(),
+        ]);
 
     return result.map((json) => trans.Transaction.fromJson(json)).toList();
   }

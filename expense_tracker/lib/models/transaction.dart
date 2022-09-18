@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 const String tableTransactions = 'transactions';
 
 class TransactionFields {
@@ -69,4 +71,10 @@ class Transaction {
         TransactionFields.categoryId: categoryId,
         TransactionFields.accountId: accountId,
       };
+
+  @override
+  operator ==(other) => other is Transaction && other.id == id;
+
+  @override
+  int get hashCode => hashValues(id, title, value, date, categoryId, accountId);
 }

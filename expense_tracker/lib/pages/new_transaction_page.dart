@@ -20,11 +20,29 @@ class NewTransactionPage extends StatefulWidget {
 class _NewTransactionPageState extends State<NewTransactionPage> {
   TextEditingController titleInput = TextEditingController();
   TextEditingController valueInput = TextEditingController();
+  TextEditingController dateInput = TextEditingController();
 
   String? title;
   double? value;
   Category? selectedCategory;
   Account? selectedAccount;
+  DateTime selectedDate = DateTime.now();
+
+  @override
+  void initState() {
+    super.initState();
+
+    dateInput.text = selectedDate.toString();
+  }
+
+  @override
+  void dispose() {
+    titleInput.dispose();
+    valueInput.dispose();
+    dateInput.dispose();
+
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,9 +67,16 @@ class _NewTransactionPageState extends State<NewTransactionPage> {
               inputFormatters: <TextInputFormatter>[
                 FilteringTextInputFormatter.allow(RegExp(r'(^[-,+]?\d*\.?\d*)'))
               ],
-              onChanged: (newValue) {
-                value = double.parse(newValue);
-              },
+            ),
+            TextFormField(
+              controller: dateInput,
+              keyboardType: const TextInputType.numberWithOptions(
+                  signed: true, decimal: true),
+              decoration: const InputDecoration(hintText: 'Data'),
+              inputFormatters: <TextInputFormatter>[
+                FilteringTextInputFormatter.allow(RegExp(r'(^[-,+]?\d*\.?\d*)'))
+              ],
+              onTap: () => _selectDate(context),
             ),
             ElevatedButton(
               onPressed: () async {
@@ -94,7 +119,23 @@ class _NewTransactionPageState extends State<NewTransactionPage> {
     );
   }
 
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+        context: context,
+        initialDate: selectedDate,
+        firstDate: DateTime(2015, 8),
+        lastDate: DateTime(2101));
+    if (picked != null && picked != selectedDate) {
+      setState(() {
+        dateInput.text = picked.toString();
+        selectedDate = picked;
+      });
+    }
+  }
+
   _saveNewTransaction() {
+    value = double.parse(valueInput.text);
+
     if (title != null && value != null) {
       Provider.of<TransactionProvider>(context, listen: false)
           .addNewTransaction(

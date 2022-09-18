@@ -1,11 +1,8 @@
-import 'package:expense_tracker/notifiers/account_provider.dart';
-import 'package:expense_tracker/notifiers/category_provider.dart';
 import 'package:expense_tracker/notifiers/transaction_provider.dart';
 import 'package:expense_tracker/pages/new_transaction_page.dart';
 import 'package:expense_tracker/pages/transaction_list_cell.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:table_calendar/table_calendar.dart';
 
 class ExpenseListPage extends StatefulWidget {
   const ExpenseListPage({Key? key}) : super(key: key);
@@ -15,112 +12,160 @@ class ExpenseListPage extends StatefulWidget {
 }
 
 class _ExpenseListPageState extends State<ExpenseListPage> {
-  DateTime _selectedDay = DateTime.now();
-  DateTime _focusedDay = DateTime.now();
-  CalendarFormat _calendarFormat = CalendarFormat.month;
-
-  @override
-  void initState() {
-    super.initState();
-
-    Provider.of<TransactionProvider>(context, listen: false)
-        .getAllTransactions();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Spese'),
-      ),
-      body: Column(
-        children: [
-          _buildCalendar(),
-          _buildTransactionList(),
-        ],
+      body: SafeArea(
+        child: Column(
+          children: [
+            _buildHeader(),
+            const SizedBox(
+              height: 20,
+            ),
+            _buildTransactionList(),
+          ],
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),
         onPressed: () {
           Navigator.pushNamed(context, NewTransactionPage.routeName,
-              arguments: _selectedDay);
+              arguments: DateTime.now());
         },
       ),
     );
   }
 
-  _buildCalendar() {
-    return TableCalendar(
-      firstDay: DateTime.utc(1999, 1, 1),
-      lastDay: DateTime.utc(2030, 1, 1),
-      focusedDay: _focusedDay,
-      selectedDayPredicate: (day) {
-        return isSameDay(_selectedDay, day);
-      },
-      onDaySelected: (selectedDay, focusedDay) {
-        Provider.of<TransactionProvider>(context, listen: false)
-            .getTransactionsForDate(selectedDay);
-        setState(() {
-          _selectedDay = selectedDay;
-          _focusedDay = focusedDay; // update `_focusedDay` here as well
-        });
-      },
-      onPageChanged: (focusedDay) {
-        _focusedDay = focusedDay;
-      },
-      calendarFormat: _calendarFormat,
-      formatAnimationCurve: Curves.easeInOut,
-      formatAnimationDuration: const Duration(milliseconds: 500),
-      onFormatChanged: (format) {
-        setState(() {
-          _calendarFormat = format;
-        });
-      },
-      availableCalendarFormats: const {
-        CalendarFormat.month: 'Mese',
-        CalendarFormat.week: 'Settimana'
-      },
+  _buildHeader() {
+    return Container(
+      height: 220,
+      margin: const EdgeInsets.symmetric(horizontal: 30),
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20),
+        boxShadow: const [
+          BoxShadow(
+              offset: Offset(-6, -6),
+              blurRadius: 36,
+              spreadRadius: 18,
+              color: Color.fromRGBO(255, 255, 255, 0.5)),
+          BoxShadow(
+              offset: Offset(6, 6),
+              blurRadius: 36,
+              spreadRadius: 18,
+              color: Color.fromRGBO(217, 217, 217, 0.5))
+        ],
+      ),
+      child: Consumer<TransactionProvider>(
+        builder: ((context, transactionProvider, child) {
+          final double totalBalance = transactionProvider.allTransaction.fold(0,
+              (double previousValue, element) => previousValue + element.value);
+
+          DateTime firstDayCurrentMonth =
+              DateTime.utc(DateTime.now().year, DateTime.now().month, 1);
+
+          DateTime lastDayCurrentMonth = DateTime.utc(
+            DateTime.now().year,
+            DateTime.now().month + 1,
+          ).subtract(const Duration(days: 1));
+
+          final currentMonthList = transactionProvider.transactionsBetweenDates(
+              firstDayCurrentMonth, lastDayCurrentMonth);
+
+          double currentMonthExpenses = 0;
+          double currentMonthIncome = 0;
+
+          for (var element in currentMonthList) {
+            if (element.value >= 0) {
+              currentMonthIncome += element.value;
+            } else {
+              currentMonthExpenses += element.value;
+            }
+          }
+
+          return Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              const Text('Total balance'),
+              Text(totalBalance.toString()),
+              const Divider(),
+              Row(
+                children: [
+                  _buildHeaderCounter(
+                      title: 'Income', value: currentMonthIncome),
+                  const Spacer(),
+                  _buildHeaderCounter(
+                      title: 'Expense', value: currentMonthExpenses),
+                ],
+              )
+            ],
+          );
+        }),
+      ),
+    );
+  }
+
+  _buildHeaderCounter({required String title, required double value}) {
+    return Row(
+      children: [
+        Container(
+          height: 50,
+          width: 50,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: value >= 0 ? Colors.green.shade400 : Colors.red.shade400,
+          ),
+          child: Icon(
+            value >= 0 ? Icons.arrow_upward_outlined : Icons.arrow_downward,
+            color: Colors.white,
+          ),
+        ),
+        const SizedBox(
+          width: 10,
+        ),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(title),
+            Text(
+              value.toString(),
+            ),
+          ],
+        )
+      ],
     );
   }
 
   _buildTransactionList() {
-    return Consumer<TransactionProvider>(
-      builder: (context, transactionProvider, child) {
-        final transactionsList = transactionProvider.transactionList;
+    return Expanded(
+      child: Consumer<TransactionProvider>(
+        builder: ((context, transactionProvider, child) {
+          final transactions = transactionProvider.allTransaction;
 
-        final total = transactionsList.fold<double>(
-            0, (previousValue, element) => previousValue + element.value);
-
-        return Expanded(
-          child: Column(
-            children: [
-              Expanded(
-                child: ListView.separated(
-                  itemCount: transactionsList.length,
-                  itemBuilder: (context, index) {
-                    return Dismissible(
-                      key: Key(transactionsList[index].id.toString()),
-                      confirmDismiss: (_) {
-                        return transactionProvider
-                            .deleteTransaction(transactionsList[index]);
-                      },
-                      background: Container(color: Colors.red),
-                      child: TransactionListCell(
-                        transaction: transactionsList[index],
-                      ),
-                    );
-                  },
-                  separatorBuilder: ((context, index) => const Divider(
-                        height: 13,
-                        color: Colors.transparent,
-                      )),
+          return ListView.separated(
+            itemCount: transactions.length,
+            itemBuilder: (context, index) {
+              return Dismissible(
+                key: Key(transactions[index].id.toString()),
+                confirmDismiss: (_) {
+                  return Provider.of<TransactionProvider>(context,
+                          listen: false)
+                      .deleteTransaction(transactions[index]);
+                },
+                background: Container(color: Colors.red),
+                child: TransactionListCell(
+                  transaction: transactions[index],
                 ),
-              ),
-              Text('Totale: $total'),
-            ],
-          ),
-        );
-      },
+              );
+            },
+            separatorBuilder: ((context, index) => const Divider(
+                  height: 13,
+                  color: Colors.transparent,
+                )),
+          );
+        }),
+      ),
     );
   }
 }

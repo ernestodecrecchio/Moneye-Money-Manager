@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:expense_tracker/Helper/database_transaction_helper.dart';
 import 'package:expense_tracker/models/account.dart';
 import 'package:expense_tracker/models/category.dart';
@@ -5,23 +7,21 @@ import 'package:expense_tracker/models/transaction.dart';
 import 'package:flutter/material.dart';
 
 class TransactionProvider with ChangeNotifier {
-  List<Transaction> transactionList = [];
+  List<Transaction> _transactions = [];
 
-  Future getAllTransactions() async {
-    transactionList =
-        await DatabaseTransactionHelper.instance.readAllTransactions();
+  UnmodifiableListView<Transaction> get allTransaction =>
+      UnmodifiableListView(_transactions);
 
-    notifyListeners();
+  UnmodifiableListView<Transaction> transactionsBetweenDates(
+          DateTime startDate, DateTime endDate) =>
+      UnmodifiableListView(_transactions.where((element) =>
+          element.date.isAfter(startDate) && element.date.isBefore(endDate)));
+
+  TransactionProvider() {
+    getAllTransactions();
   }
 
-  Future getTransactionsForDate(DateTime date) async {
-    transactionList = await DatabaseTransactionHelper.instance
-        .getTransactionsForDate(date: date);
-
-    notifyListeners();
-  }
-
-  Future addNewTransaction({
+  addNewTransaction({
     required String title,
     required double value,
     required DateTime date,
@@ -35,7 +35,7 @@ class TransactionProvider with ChangeNotifier {
         categoryId: category?.id,
         accountId: account?.id);
 
-    transactionList.add(await DatabaseTransactionHelper.instance
+    _transactions.add(await DatabaseTransactionHelper.instance
         .insertTransaction(transaction: newTransaction));
 
     notifyListeners();
@@ -46,7 +46,7 @@ class TransactionProvider with ChangeNotifier {
         .deleteTransaction(transaction: transaction);
 
     if (removedTransactionCount > 0) {
-      transactionList.removeWhere((element) => element.id == transaction.id);
+      _transactions.remove(transaction);
 
       notifyListeners();
 
@@ -54,5 +54,12 @@ class TransactionProvider with ChangeNotifier {
     }
 
     return false;
+  }
+
+  getAllTransactions() async {
+    _transactions =
+        await DatabaseTransactionHelper.instance.getAllTransactions();
+
+    notifyListeners();
   }
 }
