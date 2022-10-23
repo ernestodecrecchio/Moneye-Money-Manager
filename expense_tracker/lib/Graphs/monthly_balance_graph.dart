@@ -1,7 +1,9 @@
 import 'dart:convert';
 
+import 'package:expense_tracker/notifiers/transaction_provider.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class MonthlyBalanceGraph extends StatelessWidget {
   const MonthlyBalanceGraph({super.key});
@@ -9,7 +11,7 @@ class MonthlyBalanceGraph extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: _getChartData(),
+      future: _getChartData(context),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const CircularProgressIndicator();
@@ -70,7 +72,8 @@ class MonthlyBalanceGraph extends StatelessWidget {
                   LineChartBarData(spots: [
                     ...result.map((monthlyBalance) {
                       return FlSpot(
-                          monthlyBalance['month'], monthlyBalance['balance']);
+                          double.parse(monthlyBalance['month'] as String),
+                          monthlyBalance['balance']);
                     }),
                   ], isCurved: true)
                 ],
@@ -82,56 +85,8 @@ class MonthlyBalanceGraph extends StatelessWidget {
     );
   }
 
-  Future _getChartData() async {
-    return [
-      {
-        'month': 0.0,
-        'balance': 1984.0,
-      },
-      {
-        'month': 1.0,
-        'balance': 123.0,
-      },
-      {
-        'month': 2.0,
-        'balance': -1453.0,
-      },
-      {
-        'month': 3.0,
-        'balance': 2760.0,
-      },
-      {
-        'month': 4.0,
-        'balance': 2654.0,
-      },
-      {
-        'month': 5.0,
-        'balance': 2500.0,
-      },
-      {
-        'month': 6.0,
-        'balance': 1800.0,
-      },
-      {
-        'month': 7.0,
-        'balance': 2000.0,
-      },
-      {
-        'month': 8.0,
-        'balance': 2145.0,
-      },
-      {
-        'month': 9.0,
-        'balance': 2200.0,
-      },
-      {
-        'month': 10.0,
-        'balance': 4500.0,
-      },
-      {
-        'month': 11.0,
-        'balance': 3000.0,
-      },
-    ];
+  Future<List<Map<String, dynamic>>> _getChartData(BuildContext context) async {
+    return await Provider.of<TransactionProvider>(context, listen: false)
+        .getMonthlyBalanceForYear(2022);
   }
 }

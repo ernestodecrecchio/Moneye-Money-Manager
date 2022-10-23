@@ -49,4 +49,8 @@ class TransactionProvider with ChangeNotifier {
   Future<List<Transaction>> getLastTransactions(int limit) async {
     return await DatabaseTransactionHelper.instance.getLastTransactions(limit);
   }
+
+  Future<List<Map<String, dynamic>>> getMonthlyBalanceForYear(int year) async {
+    return DatabaseTransactionHelper.instance.getMonthlyBalanceForYear(2022);
+  }
 }

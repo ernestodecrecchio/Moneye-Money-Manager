@@ -303,13 +303,20 @@ class DatabasePopulate {
 
     await db.insert(transactionsTable, passaporto.toJson());
 
-    final traversine = trans.Transaction(
+    final traversine1 = trans.Transaction(
         title: 'traversine',
         value: -12,
         date: DateTime(2022, 9, 11),
         accountId: 1);
+    final traversine2 = trans.Transaction(
+        title: 'traversine',
+        value: -1200,
+        date: DateTime(2022, 6, 18),
+        accountId: 1,
+        categoryId: 1);
 
-    await db.insert(transactionsTable, traversine.toJson());
+    await db.insert(transactionsTable, traversine1.toJson());
+    await db.insert(transactionsTable, traversine2.toJson());
 
     final ciboCane1 = trans.Transaction(
         title: 'Cibo cane',

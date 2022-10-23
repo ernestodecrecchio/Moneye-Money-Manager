@@ -127,4 +127,25 @@ class DatabaseTransactionHelper {
         await db.query(transactionsTable, orderBy: orderBy, limit: limit);
     return result.map((json) => trans.Transaction.fromJson(json)).toList();
   }
+
+  /*
+    Returns a map formatted like: 
+    [
+      {
+        'month': 01,
+        'balance': 1234.0
+      }
+    ]
+  */
+  Future<List<Map<String, dynamic>>> getMonthlyBalanceForYear(int year) async {
+    final db = await DatabaseHelper.instance.database;
+
+    final result = await db.rawQuery('''
+        SELECT strftime('%m', ${TransactionFields.date} ) as 'month', coalesce(SUM(${TransactionFields.value}),0) as 'balance'
+        FROM transactions
+        GROUP BY strftime('%m', ${TransactionFields.date} )
+    ''');
+
+    return result;
+  }
 }
