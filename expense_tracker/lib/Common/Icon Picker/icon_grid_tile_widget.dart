@@ -1,4 +1,3 @@
-import 'package:cv_project/Helper/ColorCustom.dart';
 import 'package:flutter/material.dart';
 
 class IconGridTileWidget extends StatelessWidget {
@@ -18,14 +17,14 @@ class IconGridTileWidget extends StatelessWidget {
     return InkWell(
       child: GridTile(
         child: Container(
-          margin: EdgeInsets.all(10),
+          margin: const EdgeInsets.all(10),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(20),
-            color: isSelected ? ColorCustom.ClearBlue : Colors.transparent,
+            color: isSelected ? Colors.blue : Colors.transparent,
           ),
           child: Icon(
             iconInfo['icon'] as IconData,
-            color: ColorCustom.PrussianBlue,
+            color: Colors.blue,
           ),
         ),
       ),

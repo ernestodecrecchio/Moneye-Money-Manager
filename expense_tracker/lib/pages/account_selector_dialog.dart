@@ -27,7 +27,8 @@ class _AccountSelectorDialogState extends State<AccountSelectorDialog> {
 
   @override
   Widget build(BuildContext context) {
-    return ConstrainedBox(
+    return Container();
+    /*ConstrainedBox(
       constraints: const BoxConstraints(maxHeight: 350, minHeight: 200),
       child: Column(
         children: [
@@ -73,6 +74,6 @@ class _AccountSelectorDialogState extends State<AccountSelectorDialog> {
           ),
         ],
       ),
-    );
+    );*/
   }
 }

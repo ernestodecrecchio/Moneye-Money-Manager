@@ -11,7 +11,8 @@ class TransactionListCell extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final currentCategory = transaction.categoryId != null
+    return Container();
+    /* final currentCategory = transaction.categoryId != null
         ? Provider.of<CategoryProvider>(context, listen: true)
             .getCategoryFromId(transaction.categoryId!)
         : null;
@@ -22,24 +23,7 @@ class TransactionListCell extends StatelessWidget {
 
     return Container(
       height: 65,
-      margin: const EdgeInsets.symmetric(horizontal: 30),
       padding: const EdgeInsets.symmetric(horizontal: 17),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(20),
-        boxShadow: const [
-          BoxShadow(
-              offset: Offset(-6, -6),
-              blurRadius: 36,
-              spreadRadius: 18,
-              color: Color.fromRGBO(255, 255, 255, 0.5)),
-          BoxShadow(
-              offset: Offset(6, 6),
-              blurRadius: 36,
-              spreadRadius: 18,
-              color: Color.fromRGBO(217, 217, 217, 0.5))
-        ],
-      ),
       child: Row(
         children: [
           Container(
@@ -47,9 +31,13 @@ class TransactionListCell extends StatelessWidget {
             width: 26,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              color:
-                  currentCategory != null ? currentCategory.color : Colors.red,
+              color: currentCategory != null
+                  ? currentCategory.color
+                  : Colors.white,
             ),
+            child: Icon(currentCategory != null
+                ? currentCategory.iconData
+                : Icons.offline_bolt),
           ),
           const SizedBox(
             width: 8,
@@ -59,7 +47,7 @@ class TransactionListCell extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                transaction.date.toString(),
+                transaction.date.toIso8601String().substring(0, 10),
                 style: const TextStyle(fontSize: 10),
               ),
               Text(transaction.title,
@@ -73,7 +61,7 @@ class TransactionListCell extends StatelessWidget {
           _buildValue()
         ],
       ),
-    );
+    );*/
   }
 
   Widget _buildValue() {

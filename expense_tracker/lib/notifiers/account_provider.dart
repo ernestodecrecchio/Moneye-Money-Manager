@@ -1,31 +1,17 @@
-import 'package:expense_tracker/Helper/database_account_helper.dart';
+import 'package:expense_tracker/Helper/Database/database_account_helper.dart';
 import 'package:expense_tracker/models/account.dart';
 import 'package:flutter/material.dart';
 
 class AccountProvider with ChangeNotifier {
-  List<Account> accountList = [];
-
-  Future getAllAccounts() async {
-    accountList = await DatabaseAccountHelper.instance.readAllAccounts();
-
-    notifyListeners();
-  }
-
-  Account? geAccountFromId(int id) {
-    try {
-      return accountList.firstWhere((element) => element.id == id);
-    } catch (e) {
-      return null;
-    }
+  Future<List<Account>> getAllAccounts() async {
+    return await DatabaseAccountHelper.instance.getAllAccounts();
   }
 
   Future addNewAccount({required String name}) async {
     final newAccount = Account(name: name);
 
-    accountList.add(await DatabaseAccountHelper.instance
-        .insertAccount(account: newAccount));
-
-    notifyListeners();
+    return await DatabaseAccountHelper.instance
+        .insertAccount(account: newAccount);
   }
 
   Future<bool> deleteAccount(Account account) async {
@@ -33,13 +19,17 @@ class AccountProvider with ChangeNotifier {
         await DatabaseAccountHelper.instance.deleteAccount(account: account);
 
     if (removedAccountCount > 0) {
-      accountList.removeWhere((element) => element.id == account.id);
-
-      notifyListeners();
-
       return true;
     }
 
     return false;
+  }
+
+  Future<List<Map<String, dynamic>>> getAllAccountsWithBalance() async {
+    return await DatabaseAccountHelper.instance.getAllAccountsWithBalance();
+  }
+
+  Future<Account?> getAccountFromId(int id) async {
+    return await DatabaseAccountHelper.instance.getAccountFromId(id);
   }
 }

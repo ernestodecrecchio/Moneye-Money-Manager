@@ -1,6 +1,4 @@
-import 'package:flutter/material.dart';
-
-const String tableTransactions = 'transactions';
+const String transactionsTable = 'transactions';
 
 class TransactionFields {
   static final List<String> values = [
@@ -76,5 +74,11 @@ class Transaction {
   operator ==(other) => other is Transaction && other.id == id;
 
   @override
-  int get hashCode => hashValues(id, title, value, date, categoryId, accountId);
+  int get hashCode =>
+      Object.hash(id, title, value, date, categoryId, accountId);
+
+  @override
+  String toString() {
+    return 'Transaction [ID: $id - title: $title  - value: $value - data: $date]';
+  }
 }

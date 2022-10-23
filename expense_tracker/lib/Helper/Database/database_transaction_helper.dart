@@ -1,4 +1,5 @@
-import 'package:expense_tracker/Helper/database_helper.dart';
+import 'package:expense_tracker/Helper/Database/database_helper.dart';
+import 'package:expense_tracker/Helper/Database/database_populate.dart';
 import 'package:expense_tracker/models/account.dart';
 import 'package:expense_tracker/models/category.dart';
 import 'package:expense_tracker/models/transaction.dart';
@@ -20,7 +21,7 @@ class DatabaseTransactionHelper {
     const integerType = 'INTEGER';
 
     await db.execute('''
-    CREATE TABLE $tableTransactions (
+    CREATE TABLE $transactionsTable (
       ${TransactionFields.id} $idType,
       ${TransactionFields.title} $textType,
       ${TransactionFields.value} $realType,
@@ -28,16 +29,18 @@ class DatabaseTransactionHelper {
       ${TransactionFields.categoryId} $integerType,
       ${TransactionFields.accountId} $integerType,
       FOREIGN KEY (${TransactionFields.categoryId}) REFERENCES $tableCategories (${CategoryFields.id}) ON DELETE SET NULL ON UPDATE NO ACTION,
-      FOREIGN KEY (${TransactionFields.accountId}) REFERENCES $tableAccounts (${AccountFields.id}) ON DELETE SET NULL ON UPDATE NO ACTION
+      FOREIGN KEY (${TransactionFields.accountId}) REFERENCES $accountsTable (${AccountFields.id}) ON DELETE SET NULL ON UPDATE NO ACTION
       )
     ''');
+
+    await DatabasePopulate.addData(db);
   }
 
   Future<trans.Transaction> insertTransaction(
       {required trans.Transaction transaction}) async {
     final db = await DatabaseHelper.instance.database;
 
-    final id = await db.insert(tableTransactions, transaction.toJson());
+    final id = await db.insert(transactionsTable, transaction.toJson());
 
     return transaction.copy(id: id);
   }
@@ -47,17 +50,17 @@ class DatabaseTransactionHelper {
     final db = await DatabaseHelper.instance.database;
 
     return db.delete(
-      tableTransactions,
+      transactionsTable,
       where: '${TransactionFields.id} = ?',
       whereArgs: [transaction.id],
     );
   }
 
-  Future<trans.Transaction> readTransaction(int id) async {
+  Future<trans.Transaction> getTransactionFromId(int id) async {
     final db = await DatabaseHelper.instance.database;
 
     final maps = await db.query(
-      tableTransactions,
+      transactionsTable,
       columns: TransactionFields.values,
       where: '${TransactionFields.id} = ?',
       whereArgs: [id],
@@ -75,7 +78,7 @@ class DatabaseTransactionHelper {
 
     const orderBy = '${TransactionFields.date} ASC';
 
-    final result = await db.query(tableTransactions, orderBy: orderBy);
+    final result = await db.query(transactionsTable, orderBy: orderBy);
     return result.map((json) => trans.Transaction.fromJson(json)).toList();
   }
 
@@ -87,7 +90,7 @@ class DatabaseTransactionHelper {
       SELECT 
 				SUM(CASE WHEN ${TransactionFields.value} >= 0 THEN value END ) AS income, 
 				SUM(CASE WHEN ${TransactionFields.value} < 0  THEN value END ) AS expense
-      FROM $tableTransactions
+      FROM $transactionsTable
       WHERE ${TransactionFields.date} BETWEEN date(?, 'localtime') AND date(?, 'localtime')
       ''', [
       DateFormat('yyyy-MM-dd').format(startDate).toString(),
@@ -103,7 +106,7 @@ class DatabaseTransactionHelper {
 
     const orderBy = '${TransactionFields.date} ASC';
 
-    final result = await db.query(tableTransactions,
+    final result = await db.query(transactionsTable,
         orderBy: orderBy,
         where:
             "${TransactionFields.date} BETWEEN date(?, 'localtime') AND date(?, 'localtime')",
@@ -112,6 +115,16 @@ class DatabaseTransactionHelper {
           DateFormat('yyyy-MM-dd').format(endDate).toString(),
         ]);
 
+    return result.map((json) => trans.Transaction.fromJson(json)).toList();
+  }
+
+  Future<List<trans.Transaction>> getLastTransactions(int limit) async {
+    final db = await DatabaseHelper.instance.database;
+
+    const orderBy = '${TransactionFields.date} ASC';
+
+    final result =
+        await db.query(transactionsTable, orderBy: orderBy, limit: limit);
     return result.map((json) => trans.Transaction.fromJson(json)).toList();
   }
 }

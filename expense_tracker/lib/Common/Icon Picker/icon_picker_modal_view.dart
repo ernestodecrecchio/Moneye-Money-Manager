@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-import 'IconGridTileWidget.dart';
+import 'icon_grid_tile_widget.dart';
 
 class IconPickerModalView extends StatelessWidget {
   final iconList = [
@@ -12,7 +13,7 @@ class IconPickerModalView extends StatelessWidget {
 
   final Map<String, Object>? alreadySelected;
 
-  IconPickerModalView({this.alreadySelected});
+  IconPickerModalView({super.key, this.alreadySelected});
 
   @override
   Widget build(BuildContext context) {
@@ -39,8 +40,8 @@ class IconPickerModalView extends StatelessWidget {
           ),
           Expanded(
               child: GridView.builder(
-            gridDelegate:
-                const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 5),
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 5),
             itemCount: iconList.length,
             itemBuilder: (BuildContext context, i) {
               return IconGridTileWidget(

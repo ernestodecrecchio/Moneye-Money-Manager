@@ -1,3 +1,4 @@
+import 'package:expense_tracker/Common/Icon%20Picker/icon_picker_modal_view.dart';
 import 'package:expense_tracker/models/category.dart';
 import 'package:expense_tracker/notifiers/category_provider.dart';
 import 'package:flutter/material.dart';
@@ -20,6 +21,7 @@ class _NewCategoryPageState extends State<NewCategoryPage> {
   String? title;
   String? description;
   Color selectedColor = Colors.amber;
+  IconData? selectedIcon;
 
   @override
   Widget build(BuildContext context) {
@@ -56,6 +58,26 @@ class _NewCategoryPageState extends State<NewCategoryPage> {
                     _showColorPicker();
                   },
                   child: const Text('Seleziona colore'),
+                )
+              ],
+            ),
+            Row(
+              children: [
+                const Text('Icona'),
+                Icon(selectedIcon),
+                ElevatedButton(
+                  onPressed: () {
+                    showModalBottomSheet(
+                      context: context,
+                      builder: ((context) {
+                        return IconPickerModalView();
+                      }),
+                    ).then((value) {
+                      selectedIcon = value['icon'];
+                      setState(() {});
+                    });
+                  },
+                  child: const Text('Seleziona icona'),
                 )
               ],
             ),
@@ -104,8 +126,12 @@ class _NewCategoryPageState extends State<NewCategoryPage> {
 
   _saveNewCategory() {
     if (title != null) {
-      final newCategory =
-          Category(name: title!, colorValue: selectedColor.value);
+      final newCategory = Category(
+        name: title!,
+        colorValue: selectedColor.value,
+        iconData: selectedIcon,
+      );
+
       Provider.of<CategoryProvider>(context, listen: false)
           .addNewCategory(newCategory)
           .then((value) => Navigator.of(context).pop());

@@ -1,4 +1,4 @@
-import 'package:expense_tracker/Helper/database_category_helper.dart';
+import 'package:expense_tracker/Helper/Database/database_category_helper.dart';
 import 'package:expense_tracker/models/category.dart';
 import 'package:flutter/material.dart';
 

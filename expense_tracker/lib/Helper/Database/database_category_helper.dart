@@ -1,5 +1,6 @@
-import 'package:expense_tracker/Helper/database_helper.dart';
+import 'package:expense_tracker/Helper/Database/database_helper.dart';
 import 'package:expense_tracker/models/category.dart';
+import 'package:flutter/material.dart';
 import 'package:sqflite/sqlite_api.dart';
 
 class DatabaseCategoryHelper {
@@ -15,14 +16,31 @@ class DatabaseCategoryHelper {
       CREATE TABLE $tableCategories ( 
       ${CategoryFields.id} $idType, 
       ${CategoryFields.name} $textType,
-      ${CategoryFields.colorValue} $integerType
+      ${CategoryFields.colorValue} $integerType,
+      ${CategoryFields.iconData} $textType
       )
     ''');
 
-    final dog = Category(name: 'Cane', colorValue: 10);
-    final shopping = Category(name: 'Shopping', colorValue: 11);
-    final car = Category(name: 'Auto', colorValue: 12);
-    final entertainment = Category(name: 'Intrattenimento', colorValue: 13);
+    final dog = Category(
+      name: 'Cane',
+      colorValue: 4294951175,
+      iconData: Icons.pets,
+    );
+    final shopping = Category(
+      name: 'Shopping',
+      colorValue: 4294951175,
+      iconData: Icons.shopping_bag_rounded,
+    );
+    final car = Category(
+      name: 'Auto',
+      colorValue: 4294951175,
+      iconData: Icons.car_crash,
+    );
+    final entertainment = Category(
+      name: 'Intrattenimento',
+      colorValue: 4294951175,
+      iconData: Icons.camera_alt,
+    );
 
     await db.insert(tableCategories, dog.toJson());
     await db.insert(tableCategories, shopping.toJson());

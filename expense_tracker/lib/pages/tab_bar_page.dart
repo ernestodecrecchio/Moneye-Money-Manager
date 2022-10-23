@@ -2,7 +2,8 @@ import 'package:expense_tracker/notifiers/account_provider.dart';
 import 'package:expense_tracker/notifiers/category_provider.dart';
 import 'package:expense_tracker/pages/accounts_list_page.dart';
 import 'package:expense_tracker/pages/categories_list_page.dart';
-import 'package:expense_tracker/pages/expenses_list_page.dart';
+import 'package:expense_tracker/pages/home_page/home_page.dart';
+import 'package:expense_tracker/pages/statistics_page/statistics_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -17,9 +18,10 @@ class _TabBarPageState extends State<TabBarPage> {
   int index = 0;
 
   final screen = [
-    const ExpenseListPage(),
+    const HomePage(),
     const CategoriesListPage(),
     const AccountsListPage(),
+    const StatisticsPage(),
   ];
 
   @override
@@ -50,6 +52,10 @@ class _TabBarPageState extends State<TabBarPage> {
             NavigationDestination(
               label: 'Conti',
               icon: Icon(Icons.abc),
+            ),
+            NavigationDestination(
+              label: 'Statistiche',
+              icon: Icon(Icons.bar_chart),
             ),
           ],
         ),

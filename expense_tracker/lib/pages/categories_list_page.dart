@@ -48,6 +48,7 @@ class _CategoriesListPageState extends State<CategoriesListPage> {
               background: Container(color: Colors.red),
               child: ListTile(
                 title: Text(category.name),
+                leading: category.icon,
                 trailing: Container(
                   height: 20,
                   width: 20,

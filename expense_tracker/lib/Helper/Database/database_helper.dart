@@ -1,6 +1,6 @@
-import 'package:expense_tracker/Helper/database_account_helper.dart';
-import 'package:expense_tracker/Helper/database_category_helper.dart';
-import 'package:expense_tracker/Helper/database_transaction_helper.dart';
+import 'package:expense_tracker/Helper/Database/database_account_helper.dart';
+import 'package:expense_tracker/Helper/Database/database_category_helper.dart';
+import 'package:expense_tracker/Helper/Database/database_transaction_helper.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -23,7 +23,7 @@ class DatabaseHelper {
 
   Future<Database> _initDB() async {
     final dbPath = await getDatabasesPath();
-    final path = join(dbPath, 'myDb2.db');
+    final path = join(dbPath, 'myDbj.db');
 
     return await openDatabase(
       path,

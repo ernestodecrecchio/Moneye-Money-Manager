@@ -24,11 +24,11 @@ class _AccountsListPageState extends State<AccountsListPage> {
       appBar: AppBar(
         title: const Text('Conti'),
       ),
-      floatingActionButton: _buildFloatingActionButton(context),
-      body: _buildList(),
+      // floatingActionButton: _buildFloatingActionButton(context),
+      body: Container(), // _buildList(),
     );
   }
-
+/*
   Widget _buildList() {
     return RefreshIndicator(
       onRefresh: () =>
@@ -61,5 +61,5 @@ class _AccountsListPageState extends State<AccountsListPage> {
       child: const Icon(Icons.add),
       onPressed: () => Navigator.pushNamed(context, NewAccountPage.routeName),
     );
-  }
+  }*/
 }
