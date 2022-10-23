@@ -232,8 +232,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
                 ...list
-                    .map((transaction) => _buildTransactionCell(transaction))
-                    .toList(),
+                    .map((transaction) => _buildTransactionCell(transaction)),
               ],
             );
           }
