@@ -84,7 +84,7 @@ class DatabaseAccountHelper {
         where: '${AccountFields.id} = ?', whereArgs: [id]);
 
     if (result.isNotEmpty) {
-      return result.first as Account;
+      return Account.fromJson(result.first);
     }
 
     return null;

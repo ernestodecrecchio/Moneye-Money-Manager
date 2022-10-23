@@ -1,7 +1,7 @@
 import 'package:expense_tracker/Helper/icon_data_helper.dart';
 import 'package:flutter/material.dart';
 
-const String tableCategories = 'categories';
+const String categoriesTable = 'categories';
 
 class CategoryFields {
   static final List<String> values = [

@@ -11,14 +11,6 @@ class CategoryProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Category? getCategoryFromId(int id) {
-    try {
-      return categoryList.firstWhere((element) => element.id == id);
-    } catch (e) {
-      return null;
-    }
-  }
-
   Future addNewCategory(Category newCategory) async {
     categoryList.add(await DatabaseCategoryHelper.instance
         .insertCategory(category: newCategory));
@@ -39,5 +31,9 @@ class CategoryProvider with ChangeNotifier {
     }
 
     return false;
+  }
+
+  Future<Category?> getCategoryFromId(int id) async {
+    return await DatabaseCategoryHelper.instance.getCategoryFromId(id);
   }
 }

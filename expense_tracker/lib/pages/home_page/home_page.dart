@@ -1,7 +1,9 @@
 import 'package:expense_tracker/Graphs/monthly_balance_graph.dart';
 import 'package:expense_tracker/models/account.dart';
+import 'package:expense_tracker/models/category.dart';
 import 'package:expense_tracker/models/transaction.dart';
 import 'package:expense_tracker/notifiers/account_provider.dart';
+import 'package:expense_tracker/notifiers/category_provider.dart';
 import 'package:expense_tracker/notifiers/transaction_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -208,7 +210,7 @@ class _HomePageState extends State<HomePage> {
   _buildLastTransactionsSection() {
     return FutureBuilder(
       future: Provider.of<TransactionProvider>(context, listen: false)
-          .getLastTransactions(4),
+          .getLastTransactions(5),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const CircularProgressIndicator();
@@ -242,46 +244,81 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  Future<Account?> getAccountForTransaction(Transaction transaction) async {
+    if (transaction.accountId != null) {
+      return await Provider.of<AccountProvider>(context, listen: false)
+          .getAccountFromId(transaction.accountId!);
+    }
+
+    return null;
+  }
+
+  Future<Category?> getCategoryForTransaction(Transaction transaction) async {
+    if (transaction.categoryId != null) {
+      return await Provider.of<CategoryProvider>(context, listen: false)
+          .getCategoryFromId(transaction.categoryId!);
+    }
+
+    return null;
+  }
+
   _buildTransactionCell(Transaction transaction) {
-    return Container(
-      padding: const EdgeInsets.all(10),
-      margin: const EdgeInsets.all(10),
-      height: 60,
-      color: Colors.green,
-      child: Row(
-        children: [
-          Container(
-            // margin: EdgeInsets.only(right: 10),
-            width: 50,
-            height: 50,
-            decoration: const BoxDecoration(
-              color: Colors.white,
-              shape: BoxShape.circle,
+    return FutureBuilder(
+      future: Future.wait<dynamic>([
+        getAccountForTransaction(transaction),
+        getCategoryForTransaction(transaction),
+      ]),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const CircularProgressIndicator();
+        } else if (snapshot.hasData) {
+          final account = (snapshot.data! as List<dynamic>)[0] as Account?;
+          final category = (snapshot.data! as List<dynamic>)[1] as Category?;
+
+          return Container(
+            padding: const EdgeInsets.all(10),
+            margin: const EdgeInsets.all(10),
+            height: 60,
+            color: Colors.grey,
+            child: Row(
+              children: [
+                Container(
+                  width: 50,
+                  padding: const EdgeInsets.all(10),
+                  decoration: const BoxDecoration(
+                    color: Colors.white,
+                    shape: BoxShape.circle,
+                  ),
+                  child: category?.icon,
+                ),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      transaction.title,
+                      style: const TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: 16),
+                    ),
+                    Text(category?.name ?? 'ERROR'),
+                  ],
+                ),
+                const Spacer(),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Text(transaction.value.toString()),
+                    Text(account?.name ?? 'ERROR'),
+                  ],
+                ),
+              ],
             ),
-          ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                transaction.title,
-                style:
-                    const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-              ),
-              Text(transaction.categoryId.toString()),
-            ],
-          ),
-          const Spacer(),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              Text(transaction.value.toString()),
-              Text(transaction.accountId.toString()),
-            ],
-          ),
-        ],
-      ),
+          );
+        } else {
+          return const Icon(Icons.error);
+        }
+      },
     );
   }
 }

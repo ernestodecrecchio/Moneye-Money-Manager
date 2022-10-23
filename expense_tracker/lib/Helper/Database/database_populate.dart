@@ -5,10 +5,11 @@ import 'package:sqflite/sqlite_api.dart';
 class DatabasePopulate {
   static addData(Database db) async {
     final stipendio1 = trans.Transaction(
-        title: 'stipendio',
-        value: 1555,
-        date: DateTime(2022, 1, 27),
-        accountId: 1);
+      title: 'stipendio',
+      value: 1555,
+      date: DateTime(2022, 1, 27),
+      accountId: 2,
+    );
     final stipendio2 = trans.Transaction(
         title: 'stipendio',
         value: 1545,
@@ -67,50 +68,68 @@ class DatabasePopulate {
     await db.insert(transactionsTable, stipendio10.toJson());
 
     final netflix1 = trans.Transaction(
-        title: 'Netflix',
-        value: -4.50,
-        date: DateTime(2022, 1, 21),
-        accountId: 1);
+      title: 'Netflix',
+      value: -4.50,
+      date: DateTime(2022, 1, 21),
+      accountId: 2,
+      categoryId: 4,
+    );
     final netflix2 = trans.Transaction(
-        title: 'Netflix',
-        value: -4.50,
-        date: DateTime(2022, 2, 20),
-        accountId: 1);
+      title: 'Netflix',
+      value: -4.50,
+      date: DateTime(2022, 2, 20),
+      accountId: 2,
+      categoryId: 4,
+    );
     final netflix3 = trans.Transaction(
-        title: 'Netflix',
-        value: -4.50,
-        date: DateTime(2022, 3, 20),
-        accountId: 1);
+      title: 'Netflix',
+      value: -4.50,
+      date: DateTime(2022, 3, 20),
+      accountId: 2,
+      categoryId: 4,
+    );
     final netflix4 = trans.Transaction(
-        title: 'Netflix',
-        value: -4.50,
-        date: DateTime(2022, 4, 20),
-        accountId: 1);
+      title: 'Netflix',
+      value: -4.50,
+      date: DateTime(2022, 4, 20),
+      accountId: 2,
+      categoryId: 4,
+    );
     final netflix5 = trans.Transaction(
-        title: 'Netflix',
-        value: -4.50,
-        date: DateTime(2022, 5, 20),
-        accountId: 1);
+      title: 'Netflix',
+      value: -4.50,
+      date: DateTime(2022, 5, 20),
+      accountId: 2,
+      categoryId: 4,
+    );
     final netflix6 = trans.Transaction(
-        title: 'Netflix',
-        value: -4.50,
-        date: DateTime(2022, 6, 21),
-        accountId: 1);
+      title: 'Netflix',
+      value: -4.50,
+      date: DateTime(2022, 6, 21),
+      accountId: 2,
+      categoryId: 4,
+    );
     final netflix7 = trans.Transaction(
-        title: 'Netflix',
-        value: -4.50,
-        date: DateTime(2022, 7, 22),
-        accountId: 1);
+      title: 'Netflix',
+      value: -4.50,
+      date: DateTime(2022, 7, 22),
+      accountId: 2,
+      categoryId: 4,
+    );
     final netflix8 = trans.Transaction(
-        title: 'Netflix',
-        value: -4.50,
-        date: DateTime(2022, 8, 22),
-        accountId: 1);
+      title: 'Netflix',
+      value: -4.50,
+      date: DateTime(2022, 8, 22),
+      accountId: 2,
+      categoryId: 4,
+    );
     final netflix9 = trans.Transaction(
-        title: 'Netflix',
-        value: -4.50,
-        date: DateTime(2022, 9, 21),
-        accountId: 1);
+      title: 'Netflix',
+      value: -4.50,
+      date: DateTime(2022, 9, 21),
+      accountId: 2,
+      categoryId: 4,
+    );
 
     await db.insert(transactionsTable, netflix1.toJson());
     await db.insert(transactionsTable, netflix2.toJson());
@@ -126,27 +145,32 @@ class DatabasePopulate {
         title: 'Lavaggio auto',
         value: -12,
         date: DateTime(2022, 1, 7),
-        accountId: 1);
+        accountId: 1,
+        categoryId: 1);
     final auto2 = trans.Transaction(
         title: 'Lavaggio auto',
         value: -12,
         date: DateTime(2022, 3, 14),
-        accountId: 1);
+        accountId: 1,
+        categoryId: 1);
     final auto3 = trans.Transaction(
         title: 'Lavaggio auto',
         value: -12,
         date: DateTime(2022, 5, 2),
-        accountId: 1);
+        accountId: 1,
+        categoryId: 1);
     final auto4 = trans.Transaction(
         title: 'Lavaggio auto',
         value: -12,
         date: DateTime(2022, 7, 5),
-        accountId: 1);
+        accountId: 1,
+        categoryId: 1);
     final auto5 = trans.Transaction(
         title: 'Lavaggio auto',
         value: -12,
         date: DateTime(2022, 10, 24),
-        accountId: 1);
+        accountId: 1,
+        categoryId: 1);
 
     await db.insert(transactionsTable, auto1.toJson());
     await db.insert(transactionsTable, auto2.toJson());
@@ -414,47 +438,56 @@ class DatabasePopulate {
         title: 'Bolletta Internet',
         value: -43,
         date: DateTime(2022, 10, 1),
-        accountId: 1);
+        accountId: 4,
+        categoryId: 2);
     final bollettaInternet2 = trans.Transaction(
         title: 'Bolletta Internet',
         value: -44,
         date: DateTime(2022, 2, 2),
-        accountId: 1);
+        accountId: 4,
+        categoryId: 2);
     final bollettaInternet3 = trans.Transaction(
         title: 'Bolletta Internet',
         value: -26,
         date: DateTime(2022, 3, 3),
-        accountId: 1);
+        accountId: 4,
+        categoryId: 2);
     final bollettaInternet4 = trans.Transaction(
         title: 'Bolletta Internet',
         value: -32,
         date: DateTime(2022, 4, 4),
-        accountId: 1);
+        accountId: 4,
+        categoryId: 2);
     final bollettaInternet5 = trans.Transaction(
         title: 'Bolletta Internet',
         value: -44,
         date: DateTime(2022, 5, 5),
-        accountId: 1);
+        accountId: 4,
+        categoryId: 2);
     final bollettaInternet6 = trans.Transaction(
         title: 'Bolletta Internet',
         value: -44,
         date: DateTime(2022, 6, 6),
-        accountId: 1);
+        accountId: 4,
+        categoryId: 2);
     final bollettaInternet7 = trans.Transaction(
         title: 'Bolletta Internet',
         value: -37,
         date: DateTime(2022, 7, 7),
-        accountId: 1);
+        accountId: 4,
+        categoryId: 2);
     final bollettaInternet8 = trans.Transaction(
         title: 'Bolletta Internet',
         value: -37,
         date: DateTime(2022, 8, 7),
-        accountId: 1);
+        accountId: 4,
+        categoryId: 2);
     final bollettaInternet9 = trans.Transaction(
         title: 'Bolletta Internet',
         value: -37,
         date: DateTime(2022, 9, 7),
-        accountId: 1);
+        accountId: 4,
+        categoryId: 2);
 
     await db.insert(transactionsTable, bollettaInternet1.toJson());
     await db.insert(transactionsTable, bollettaInternet2.toJson());

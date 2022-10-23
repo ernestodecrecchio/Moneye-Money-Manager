@@ -13,7 +13,7 @@ class DatabaseCategoryHelper {
     const integerType = 'INTEGER NOT NULL';
 
     await db.execute('''
-      CREATE TABLE $tableCategories ( 
+      CREATE TABLE $categoriesTable ( 
       ${CategoryFields.id} $idType, 
       ${CategoryFields.name} $textType,
       ${CategoryFields.colorValue} $integerType,
@@ -42,16 +42,16 @@ class DatabaseCategoryHelper {
       iconData: Icons.camera_alt,
     );
 
-    await db.insert(tableCategories, dog.toJson());
-    await db.insert(tableCategories, shopping.toJson());
-    await db.insert(tableCategories, car.toJson());
-    await db.insert(tableCategories, entertainment.toJson());
+    await db.insert(categoriesTable, dog.toJson());
+    await db.insert(categoriesTable, shopping.toJson());
+    await db.insert(categoriesTable, car.toJson());
+    await db.insert(categoriesTable, entertainment.toJson());
   }
 
   Future<Category> insertCategory({required Category category}) async {
     final db = await DatabaseHelper.instance.database;
 
-    final id = await db.insert(tableCategories, category.toJson());
+    final id = await db.insert(categoriesTable, category.toJson());
 
     return category.copy(id: id);
   }
@@ -60,7 +60,7 @@ class DatabaseCategoryHelper {
     final db = await DatabaseHelper.instance.database;
 
     return db.delete(
-      tableCategories,
+      categoriesTable,
       where: '${CategoryFields.id} = ?',
       whereArgs: [category.id],
     );
@@ -70,7 +70,7 @@ class DatabaseCategoryHelper {
     final db = await DatabaseHelper.instance.database;
 
     final maps = await db.query(
-      tableCategories,
+      categoriesTable,
       columns: CategoryFields.values,
       where: '${CategoryFields.id} = ?',
       whereArgs: [id],
@@ -88,7 +88,7 @@ class DatabaseCategoryHelper {
 
     const orderBy = '${CategoryFields.name} ASC';
 
-    final result = await db.query(tableCategories, orderBy: orderBy);
+    final result = await db.query(categoriesTable, orderBy: orderBy);
     return result.map((json) => Category.fromJson(json)).toList();
   }
 
@@ -96,10 +96,23 @@ class DatabaseCategoryHelper {
     final db = await DatabaseHelper.instance.database;
 
     return db.update(
-      tableCategories,
+      categoriesTable,
       category.toJson(),
       where: '${CategoryFields.id} = ?',
       whereArgs: [category.id],
     );
+  }
+
+  Future<Category?> getCategoryFromId(int id) async {
+    final db = await DatabaseHelper.instance.database;
+
+    final result = await db.query(categoriesTable,
+        where: '${CategoryFields.id} = ?', whereArgs: [id]);
+
+    if (result.isNotEmpty) {
+      return Category.fromJson(result.first);
+    }
+
+    return null;
   }
 }

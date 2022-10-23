@@ -28,7 +28,7 @@ class DatabaseTransactionHelper {
       ${TransactionFields.date} $dateTimeType,
       ${TransactionFields.categoryId} $integerType,
       ${TransactionFields.accountId} $integerType,
-      FOREIGN KEY (${TransactionFields.categoryId}) REFERENCES $tableCategories (${CategoryFields.id}) ON DELETE SET NULL ON UPDATE NO ACTION,
+      FOREIGN KEY (${TransactionFields.categoryId}) REFERENCES $categoriesTable (${CategoryFields.id}) ON DELETE SET NULL ON UPDATE NO ACTION,
       FOREIGN KEY (${TransactionFields.accountId}) REFERENCES $accountsTable (${AccountFields.id}) ON DELETE SET NULL ON UPDATE NO ACTION
       )
     ''');
