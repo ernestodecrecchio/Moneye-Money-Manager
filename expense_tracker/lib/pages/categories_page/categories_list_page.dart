@@ -12,13 +12,6 @@ class CategoriesListPage extends StatefulWidget {
 
 class _CategoriesListPageState extends State<CategoriesListPage> {
   @override
-  void initState() {
-    super.initState();
-
-    Provider.of<CategoryProvider>(context, listen: false).getAllCategories();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(

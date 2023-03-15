@@ -5,6 +5,11 @@ import 'package:flutter/material.dart';
 class CategoryProvider with ChangeNotifier {
   List<Category> categoryList = [];
 
+  CategoryProvider() {
+    print('cat init');
+    getAllCategories();
+  }
+
   Future getAllCategories() async {
     categoryList = await DatabaseCategoryHelper.instance.readAllCategories();
 

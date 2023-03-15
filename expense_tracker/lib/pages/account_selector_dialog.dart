@@ -1,5 +1,7 @@
 import 'package:expense_tracker/models/account.dart';
+import 'package:expense_tracker/notifiers/account_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class AccountSelectorDialog extends StatefulWidget {
   final Account? currentSelection;
@@ -25,8 +27,7 @@ class _AccountSelectorDialogState extends State<AccountSelectorDialog> {
 
   @override
   Widget build(BuildContext context) {
-    return Container();
-    /*ConstrainedBox(
+    return ConstrainedBox(
       constraints: const BoxConstraints(maxHeight: 350, minHeight: 200),
       child: Column(
         children: [
@@ -72,6 +73,6 @@ class _AccountSelectorDialogState extends State<AccountSelectorDialog> {
           ),
         ],
       ),
-    );*/
+    );
   }
 }

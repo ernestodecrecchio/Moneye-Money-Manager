@@ -1,3 +1,4 @@
+import 'package:expense_tracker/models/account.dart';
 import 'package:expense_tracker/notifiers/account_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -51,8 +52,11 @@ class _NewAccountPageState extends State<NewAccountPage> {
 
   _saveNewAccount() {
     if (title != null) {
+      final newAccount = Account(
+        name: title!,
+      );
       Provider.of<AccountProvider>(context, listen: false)
-          .addNewAccount(name: title!)
+          .addNewAccount(newAccount: newAccount)
           .then((value) => Navigator.of(context).pop());
     }
   }

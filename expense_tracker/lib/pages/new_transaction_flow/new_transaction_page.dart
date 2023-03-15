@@ -2,7 +2,7 @@ import 'package:expense_tracker/models/account.dart';
 import 'package:expense_tracker/models/category.dart';
 import 'package:expense_tracker/notifiers/transaction_provider.dart';
 import 'package:expense_tracker/pages/account_selector_dialog.dart';
-import 'package:expense_tracker/pages/category_selector_dialog.dart';
+import 'package:expense_tracker/pages/new_transaction_flow/category_selector_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -10,8 +10,7 @@ import 'package:provider/provider.dart';
 class NewTransactionPage extends StatefulWidget {
   static const routeName = '/newTransactionPage';
 
-  final DateTime date;
-  const NewTransactionPage({Key? key, required this.date}) : super(key: key);
+  const NewTransactionPage({Key? key}) : super(key: key);
 
   @override
   State<NewTransactionPage> createState() => _NewTransactionPageState();
@@ -141,7 +140,7 @@ class _NewTransactionPageState extends State<NewTransactionPage> {
           .addNewTransaction(
               title: title!,
               value: value!,
-              date: widget.date,
+              date: DateTime.now(),
               category: selectedCategory,
               account: selectedAccount)
           .then((value) => Navigator.of(context).pop());

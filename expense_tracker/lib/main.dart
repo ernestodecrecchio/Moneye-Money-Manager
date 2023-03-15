@@ -3,8 +3,8 @@ import 'package:expense_tracker/notifiers/account_provider.dart';
 import 'package:expense_tracker/notifiers/category_provider.dart';
 import 'package:expense_tracker/notifiers/transaction_provider.dart';
 import 'package:expense_tracker/pages/categories_page/new_category_page.dart';
-import 'package:expense_tracker/pages/new_account_page.dart';
-import 'package:expense_tracker/pages/new_transaction_page.dart';
+import 'package:expense_tracker/pages/accounts_page/new_account_page.dart';
+import 'package:expense_tracker/pages/new_transaction_flow/new_transaction_page.dart';
 import 'package:expense_tracker/pages/tab_bar_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -39,22 +39,23 @@ class MyApp extends StatelessWidget {
           '/': (context) => const TabBarPage(),
           NewCategoryPage.routeName: (context) => const NewCategoryPage(),
           NewAccountPage.routeName: (context) => const NewAccountPage(),
+          NewTransactionPage.routeName: (context) => const NewTransactionPage()
         },
-        onGenerateRoute: (settings) {
-          if (settings.name == NewTransactionPage.routeName) {
-            final args = settings.arguments as DateTime;
+        // onGenerateRoute: (settings) {
+        //   if (settings.name == NewTransactionPage.routeName) {
+        //     final args = settings.arguments as DateTime;
 
-            return MaterialPageRoute(
-              builder: (context) {
-                return NewTransactionPage(
-                  date: args,
-                );
-              },
-            );
-          }
-          assert(false, 'Need to implement ${settings.name}');
-          return null;
-        },
+        //     return MaterialPageRoute(
+        //       builder: (context) {
+        //         return NewTransactionPage(
+        //           date: args,
+        //         );
+        //       },
+        //     );
+        //   }
+        //   assert(false, 'Need to implement ${settings.name}');
+        //   return null;
+        // },
       ),
     );
   }

@@ -5,17 +5,21 @@ import 'package:flutter/material.dart';
 class AccountProvider with ChangeNotifier {
   List<Account> accountList = [];
 
+  AccountProvider() {
+    getAllAccounts();
+  }
+
   Future getAllAccounts() async {
     accountList = await DatabaseAccountHelper.instance.getAllAccounts();
 
     notifyListeners();
   }
 
-  Future addNewAccount({required String name}) async {
-    final newAccount = Account(name: name);
-
+  Future addNewAccount({required Account newAccount}) async {
     accountList.add(await DatabaseAccountHelper.instance
         .insertAccount(account: newAccount));
+
+    notifyListeners();
   }
 
   Future<bool> deleteAccount(Account account) async {

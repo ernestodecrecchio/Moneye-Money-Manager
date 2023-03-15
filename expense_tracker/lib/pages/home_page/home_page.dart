@@ -5,6 +5,7 @@ import 'package:expense_tracker/models/transaction.dart';
 import 'package:expense_tracker/notifiers/account_provider.dart';
 import 'package:expense_tracker/notifiers/category_provider.dart';
 import 'package:expense_tracker/notifiers/transaction_provider.dart';
+import 'package:expense_tracker/pages/new_transaction_flow/new_transaction_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:collection/collection.dart';
@@ -23,6 +24,7 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: const Text('Dashboard'),
       ),
+      floatingActionButton: _buildFloatingActionButton(context),
       body: SingleChildScrollView(
         child: Column(children: [
           _buildMonthlyBalanceSection(),
@@ -34,10 +36,6 @@ class _HomePageState extends State<HomePage> {
             height: 5,
           ),
           _buildAccountSection(),
-          // const SizedBox(
-          //   height: 5,
-          // ),
-          //  _buildLastTransactionsSection(),
         ]),
       ),
     );
@@ -198,99 +196,11 @@ class _HomePageState extends State<HomePage> {
     return null;
   }
 
-  // _buildLastTransactionsSection() {
-  //   return FutureBuilder(
-  //     future: Provider.of<TransactionProvider>(context, listen: false)
-  //         .getLastTransactions(5),
-  //     builder: (context, snapshot) {
-  //       if (snapshot.connectionState == ConnectionState.waiting) {
-  //         return const CircularProgressIndicator();
-  //       } else {
-  //         if (snapshot.hasData) {
-  //           final list = snapshot.data as List<Transaction>;
-
-  //           return Column(
-  //             crossAxisAlignment: CrossAxisAlignment.start,
-  //             children: [
-  //               const Padding(
-  //                 padding: EdgeInsets.symmetric(horizontal: 10),
-  //                 child: Text(
-  //                   'Le ultime transazione',
-  //                   style: TextStyle(
-  //                     fontSize: 24,
-  //                     fontWeight: FontWeight.bold,
-  //                   ),
-  //                 ),
-  //               ),
-  //               ...list
-  //                   .map((transaction) => _buildTransactionCell(transaction)),
-  //             ],
-  //           );
-  //         }
-
-  //         return const Icon(Icons.error);
-  //       }
-  //     },
-  //   );
-  // }
-
-  // _buildTransactionCell(Transaction transaction) {
-  //   return FutureBuilder(
-  //     future: Future.wait<dynamic>([
-  //       getAccountForTransaction(transaction),
-  //       getCategoryForTransaction(transaction),
-  //     ]),
-  //     builder: (context, snapshot) {
-  //       if (snapshot.connectionState == ConnectionState.waiting) {
-  //         return const CircularProgressIndicator();
-  //       } else if (snapshot.hasData) {
-  //         final account = (snapshot.data! as List<dynamic>)[0] as Account?;
-  //         final category = (snapshot.data! as List<dynamic>)[1] as Category?;
-
-  //         return Container(
-  //           padding: const EdgeInsets.all(10),
-  //           margin: const EdgeInsets.all(10),
-  //           height: 60,
-  //           color: Colors.grey,
-  //           child: Row(
-  //             children: [
-  //               Container(
-  //                 width: 50,
-  //                 padding: const EdgeInsets.all(10),
-  //                 decoration: const BoxDecoration(
-  //                   color: Colors.white,
-  //                   shape: BoxShape.circle,
-  //                 ),
-  //                 child: category?.icon,
-  //               ),
-  //               Column(
-  //                 mainAxisAlignment: MainAxisAlignment.center,
-  //                 crossAxisAlignment: CrossAxisAlignment.start,
-  //                 children: [
-  //                   Text(
-  //                     transaction.title,
-  //                     style: const TextStyle(
-  //                         fontWeight: FontWeight.bold, fontSize: 16),
-  //                   ),
-  //                   Text(category?.name ?? 'ERROR'),
-  //                 ],
-  //               ),
-  //               const Spacer(),
-  //               Column(
-  //                 mainAxisAlignment: MainAxisAlignment.center,
-  //                 crossAxisAlignment: CrossAxisAlignment.end,
-  //                 children: [
-  //                   Text(transaction.value.toString()),
-  //                   Text(account?.name ?? 'ERROR'),
-  //                 ],
-  //               ),
-  //             ],
-  //           ),
-  //         );
-  //       } else {
-  //         return const Icon(Icons.error);
-  //       }
-  //     },
-  //   );
-  // }
+  Widget _buildFloatingActionButton(BuildContext context) {
+    return FloatingActionButton(
+      child: const Icon(Icons.add),
+      onPressed: () =>
+          Navigator.pushNamed(context, NewTransactionPage.routeName),
+    );
+  }
 }

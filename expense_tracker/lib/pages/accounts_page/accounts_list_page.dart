@@ -1,4 +1,5 @@
 import 'package:expense_tracker/notifiers/account_provider.dart';
+import 'package:expense_tracker/pages/accounts_page/new_account_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -11,23 +12,16 @@ class AccountsListPage extends StatefulWidget {
 
 class _AccountsListPageState extends State<AccountsListPage> {
   @override
-  void initState() {
-    super.initState();
-
-    Provider.of<AccountProvider>(context, listen: false).getAllAccounts();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Conti'),
       ),
-      // floatingActionButton: _buildFloatingActionButton(context),
-      body: Container(), // _buildList(),
+      floatingActionButton: _buildFloatingActionButton(context),
+      body: _buildList(),
     );
   }
-/*
+
   Widget _buildList() {
     return RefreshIndicator(
       onRefresh: () =>
@@ -60,5 +54,5 @@ class _AccountsListPageState extends State<AccountsListPage> {
       child: const Icon(Icons.add),
       onPressed: () => Navigator.pushNamed(context, NewAccountPage.routeName),
     );
-  }*/
+  }
 }
