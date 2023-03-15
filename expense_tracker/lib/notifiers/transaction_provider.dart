@@ -28,8 +28,6 @@ class TransactionProvider with ChangeNotifier {
     transactionList =
         await DatabaseTransactionHelper.instance.getAllTransactions();
 
-    print('NUMERO TRANSAZIONI: ${transactionList.length}');
-
     notifyListeners();
   }
 
@@ -93,7 +91,7 @@ class TransactionProvider with ChangeNotifier {
       accountMap[account] = 0;
     });
 
-    transactionList.forEach((transaction) {
+    for (var transaction in transactionList) {
       Account? transactionAccount = accountProvider?.accountList
           .firstWhereOrNull((element) => element.id == transaction.accountId);
 
@@ -101,7 +99,7 @@ class TransactionProvider with ChangeNotifier {
         accountMap[transactionAccount] =
             accountMap[transactionAccount]! + transaction.value;
       }
-    });
+    }
 
     return accountMap;
   }

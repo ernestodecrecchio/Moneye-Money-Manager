@@ -6,7 +6,6 @@ class CategoryProvider with ChangeNotifier {
   List<Category> categoryList = [];
 
   CategoryProvider() {
-    print('cat init');
     getAllCategories();
   }
 
