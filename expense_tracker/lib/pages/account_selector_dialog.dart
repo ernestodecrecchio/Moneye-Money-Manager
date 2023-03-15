@@ -1,7 +1,5 @@
 import 'package:expense_tracker/models/account.dart';
-import 'package:expense_tracker/notifiers/account_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class AccountSelectorDialog extends StatefulWidget {
   final Account? currentSelection;

@@ -7,53 +7,53 @@ class DatabasePopulate {
     final stipendio1 = trans.Transaction(
       title: 'stipendio',
       value: 1555,
-      date: DateTime(2022, 1, 27),
+      date: DateTime(2023, 1, 27),
       accountId: 2,
     );
     final stipendio2 = trans.Transaction(
         title: 'stipendio',
         value: 1545,
-        date: DateTime(2022, 2, 26),
+        date: DateTime(2023, 2, 26),
         accountId: 1);
     final stipendio3 = trans.Transaction(
         title: 'stipendio',
         value: 1450,
-        date: DateTime(2022, 3, 27),
+        date: DateTime(2023, 3, 27),
         accountId: 1);
     final stipendio4 = trans.Transaction(
         title: 'stipendio',
         value: 1535,
-        date: DateTime(2022, 4, 27),
+        date: DateTime(2023, 4, 27),
         accountId: 1);
     final stipendio5 = trans.Transaction(
         title: 'stipendio',
         value: 1600,
-        date: DateTime(2022, 5, 26),
+        date: DateTime(2023, 5, 26),
         accountId: 1);
     final stipendio6 = trans.Transaction(
         title: 'stipendio',
         value: 1500,
-        date: DateTime(2022, 6, 27),
+        date: DateTime(2023, 6, 27),
         accountId: 1);
     final stipendio7 = trans.Transaction(
         title: 'stipendio',
         value: 1512,
-        date: DateTime(2022, 7, 26),
+        date: DateTime(2023, 7, 26),
         accountId: 1);
     final stipendio8 = trans.Transaction(
         title: 'stipendio',
         value: 1527,
-        date: DateTime(2022, 8, 26),
+        date: DateTime(2023, 8, 26),
         accountId: 1);
     final stipendio9 = trans.Transaction(
         title: 'stipendio',
         value: 1558,
-        date: DateTime(2022, 9, 27),
+        date: DateTime(2023, 9, 27),
         accountId: 1);
     final stipendio10 = trans.Transaction(
         title: 'stipendio',
         value: 1558,
-        date: DateTime(2022, 10, 27),
+        date: DateTime(2023, 10, 27),
         accountId: 1);
 
     await db.insert(transactionsTable, stipendio1.toJson());
@@ -70,63 +70,63 @@ class DatabasePopulate {
     final netflix1 = trans.Transaction(
       title: 'Netflix',
       value: -4.50,
-      date: DateTime(2022, 1, 21),
+      date: DateTime(2023, 1, 21),
       accountId: 2,
       categoryId: 4,
     );
     final netflix2 = trans.Transaction(
       title: 'Netflix',
       value: -4.50,
-      date: DateTime(2022, 2, 20),
+      date: DateTime(2023, 2, 20),
       accountId: 2,
       categoryId: 4,
     );
     final netflix3 = trans.Transaction(
       title: 'Netflix',
       value: -4.50,
-      date: DateTime(2022, 3, 20),
+      date: DateTime(2023, 3, 20),
       accountId: 2,
       categoryId: 4,
     );
     final netflix4 = trans.Transaction(
       title: 'Netflix',
       value: -4.50,
-      date: DateTime(2022, 4, 20),
+      date: DateTime(2023, 4, 20),
       accountId: 2,
       categoryId: 4,
     );
     final netflix5 = trans.Transaction(
       title: 'Netflix',
       value: -4.50,
-      date: DateTime(2022, 5, 20),
+      date: DateTime(2023, 5, 20),
       accountId: 2,
       categoryId: 4,
     );
     final netflix6 = trans.Transaction(
       title: 'Netflix',
       value: -4.50,
-      date: DateTime(2022, 6, 21),
+      date: DateTime(2023, 6, 21),
       accountId: 2,
       categoryId: 4,
     );
     final netflix7 = trans.Transaction(
       title: 'Netflix',
       value: -4.50,
-      date: DateTime(2022, 7, 22),
+      date: DateTime(2023, 7, 22),
       accountId: 2,
       categoryId: 4,
     );
     final netflix8 = trans.Transaction(
       title: 'Netflix',
       value: -4.50,
-      date: DateTime(2022, 8, 22),
+      date: DateTime(2023, 8, 22),
       accountId: 2,
       categoryId: 4,
     );
     final netflix9 = trans.Transaction(
       title: 'Netflix',
       value: -4.50,
-      date: DateTime(2022, 9, 21),
+      date: DateTime(2023, 9, 21),
       accountId: 2,
       categoryId: 4,
     );
@@ -144,31 +144,31 @@ class DatabasePopulate {
     final auto1 = trans.Transaction(
         title: 'Lavaggio auto',
         value: -12,
-        date: DateTime(2022, 1, 7),
+        date: DateTime(2023, 1, 7),
         accountId: 1,
         categoryId: 1);
     final auto2 = trans.Transaction(
         title: 'Lavaggio auto',
         value: -12,
-        date: DateTime(2022, 3, 14),
+        date: DateTime(2023, 3, 14),
         accountId: 1,
         categoryId: 1);
     final auto3 = trans.Transaction(
         title: 'Lavaggio auto',
         value: -12,
-        date: DateTime(2022, 5, 2),
+        date: DateTime(2023, 5, 2),
         accountId: 1,
         categoryId: 1);
     final auto4 = trans.Transaction(
         title: 'Lavaggio auto',
         value: -12,
-        date: DateTime(2022, 7, 5),
+        date: DateTime(2023, 7, 5),
         accountId: 1,
         categoryId: 1);
     final auto5 = trans.Transaction(
         title: 'Lavaggio auto',
         value: -12,
-        date: DateTime(2022, 10, 24),
+        date: DateTime(2023, 10, 24),
         accountId: 1,
         categoryId: 1);
 
@@ -181,92 +181,92 @@ class DatabasePopulate {
     final pub1 = trans.Transaction(
         title: 'Panino pub',
         value: -12,
-        date: DateTime(2022, 10, 3),
+        date: DateTime(2023, 10, 3),
         accountId: 1);
     final pub2 = trans.Transaction(
         title: 'Panino pub',
         value: -12.5,
-        date: DateTime(2022, 10, 24),
+        date: DateTime(2023, 10, 24),
         accountId: 1);
     final pub3 = trans.Transaction(
         title: 'Panino pub',
         value: -17,
-        date: DateTime(2022, 2, 4),
+        date: DateTime(2023, 2, 4),
         accountId: 1);
     final pub4 = trans.Transaction(
         title: 'Panino pub',
         value: -18.9,
-        date: DateTime(2022, 2, 12),
+        date: DateTime(2023, 2, 12),
         accountId: 1);
     final pub5 = trans.Transaction(
         title: 'Panino pub',
         value: -21,
-        date: DateTime(2022, 3, 6),
+        date: DateTime(2023, 3, 6),
         accountId: 1);
     final pub6 = trans.Transaction(
         title: 'Panino pub',
         value: -12,
-        date: DateTime(2022, 3, 24),
+        date: DateTime(2023, 3, 24),
         accountId: 1);
     final pub7 = trans.Transaction(
         title: 'Panino pub',
         value: -8,
-        date: DateTime(2022, 3, 17),
+        date: DateTime(2023, 3, 17),
         accountId: 1);
     final pub8 = trans.Transaction(
         title: 'Panino pub',
         value: -23,
-        date: DateTime(2022, 4, 23),
+        date: DateTime(2023, 4, 23),
         accountId: 1);
     final pub9 = trans.Transaction(
         title: 'Panino pub',
         value: -12,
-        date: DateTime(2022, 5, 6),
+        date: DateTime(2023, 5, 6),
         accountId: 1);
     final pub10 = trans.Transaction(
         title: 'Panino pub',
         value: -10,
-        date: DateTime(2022, 5, 15),
+        date: DateTime(2023, 5, 15),
         accountId: 1);
     final pub11 = trans.Transaction(
         title: 'Panino pub',
         value: -6,
-        date: DateTime(2022, 6, 7),
+        date: DateTime(2023, 6, 7),
         accountId: 1);
     final pub12 = trans.Transaction(
         title: 'Panino pub',
         value: -9.9,
-        date: DateTime(2022, 7, 9),
+        date: DateTime(2023, 7, 9),
         accountId: 1);
     final pub13 = trans.Transaction(
         title: 'Panino pub',
         value: -17,
-        date: DateTime(2022, 7, 24),
+        date: DateTime(2023, 7, 24),
         accountId: 1);
     final pub14 = trans.Transaction(
         title: 'Panino pub',
         value: -12.5,
-        date: DateTime(2022, 7, 28),
+        date: DateTime(2023, 7, 28),
         accountId: 1);
     final pub15 = trans.Transaction(
         title: 'Panino pub',
         value: -13.4,
-        date: DateTime(2022, 8, 10),
+        date: DateTime(2023, 8, 10),
         accountId: 1);
     final pub16 = trans.Transaction(
         title: 'Panino pub',
         value: -10.4,
-        date: DateTime(2022, 8, 29),
+        date: DateTime(2023, 8, 29),
         accountId: 1);
     final pub17 = trans.Transaction(
         title: 'Panino pub',
         value: -12,
-        date: DateTime(2022, 8, 24),
+        date: DateTime(2023, 8, 24),
         accountId: 1);
     final pub18 = trans.Transaction(
         title: 'Panino pub',
         value: -11.25,
-        date: DateTime(2022, 9, 25),
+        date: DateTime(2023, 9, 25),
         accountId: 1);
 
     await db.insert(transactionsTable, pub1.toJson());
@@ -291,14 +291,14 @@ class DatabasePopulate {
     final componentiPC = trans.Transaction(
         title: 'componentiPC',
         value: -1750,
-        date: DateTime(2022, 3, 11),
+        date: DateTime(2023, 3, 11),
         accountId: 1);
     await db.insert(transactionsTable, componentiPC.toJson());
 
     final passaporto = trans.Transaction(
         title: 'passaport',
         value: -78.90,
-        date: DateTime(2022, 10, 11),
+        date: DateTime(2023, 10, 11),
         accountId: 1);
 
     await db.insert(transactionsTable, passaporto.toJson());
@@ -306,12 +306,12 @@ class DatabasePopulate {
     final traversine1 = trans.Transaction(
         title: 'traversine',
         value: -12,
-        date: DateTime(2022, 9, 11),
+        date: DateTime(2023, 9, 11),
         accountId: 1);
     final traversine2 = trans.Transaction(
         title: 'traversine',
         value: -1200,
-        date: DateTime(2022, 6, 18),
+        date: DateTime(2023, 6, 18),
         accountId: 1,
         categoryId: 1);
 
@@ -321,22 +321,22 @@ class DatabasePopulate {
     final ciboCane1 = trans.Transaction(
         title: 'Cibo cane',
         value: -64.5,
-        date: DateTime(2022, 3, 10),
+        date: DateTime(2023, 3, 10),
         accountId: 1);
     final ciboCane2 = trans.Transaction(
         title: 'Cibo cane',
         value: -70.99,
-        date: DateTime(2022, 5, 21),
+        date: DateTime(2023, 5, 21),
         accountId: 1);
     final ciboCane3 = trans.Transaction(
         title: 'Cibo cane',
         value: -64.5,
-        date: DateTime(2022, 7, 24),
+        date: DateTime(2023, 7, 24),
         accountId: 1);
     final ciboCane4 = trans.Transaction(
         title: 'Cibo cane',
         value: -64.5,
-        date: DateTime(2022, 9, 15),
+        date: DateTime(2023, 9, 15),
         accountId: 1);
 
     await db.insert(transactionsTable, ciboCane1.toJson());
@@ -347,34 +347,34 @@ class DatabasePopulate {
     final benzina1 = trans.Transaction(
         title: 'Benzina',
         value: -20,
-        date: DateTime(2022, 10, 3),
+        date: DateTime(2023, 10, 3),
         accountId: 1);
     final benzina2 = trans.Transaction(
         title: 'Benzina',
         value: -20,
-        date: DateTime(2022, 2, 21),
+        date: DateTime(2023, 2, 21),
         accountId: 1);
     final benzina3 = trans.Transaction(
         title: 'Benzina',
         value: -20,
-        date: DateTime(2022, 3, 17),
+        date: DateTime(2023, 3, 17),
         accountId: 1);
     final benzina4 = trans.Transaction(
-        title: 'Benzina', value: -20, date: DateTime(2022, 4, 1), accountId: 1);
+        title: 'Benzina', value: -20, date: DateTime(2023, 4, 1), accountId: 1);
     final benzina5 = trans.Transaction(
         title: 'Benzina',
         value: -20,
-        date: DateTime(2022, 5, 15),
+        date: DateTime(2023, 5, 15),
         accountId: 3);
     final benzina6 = trans.Transaction(
         title: 'Benzina',
         value: -20,
-        date: DateTime(2022, 6, 21),
+        date: DateTime(2023, 6, 21),
         accountId: 1);
     final benzina7 = trans.Transaction(
         title: 'Benzina',
         value: -50,
-        date: DateTime(2022, 7, 18),
+        date: DateTime(2023, 7, 18),
         accountId: 1);
 
     await db.insert(transactionsTable, benzina1.toJson());
@@ -388,47 +388,47 @@ class DatabasePopulate {
     final ricaricaTIM1 = trans.Transaction(
         title: 'Ricarica telefonica',
         value: -10,
-        date: DateTime(2022, 10, 3),
+        date: DateTime(2023, 10, 3),
         accountId: 1);
     final ricaricaTIM2 = trans.Transaction(
         title: 'Ricarica telefonica',
         value: -10,
-        date: DateTime(2022, 2, 3),
+        date: DateTime(2023, 2, 3),
         accountId: 1);
     final ricaricaTIM3 = trans.Transaction(
         title: 'Ricarica telefonica',
         value: -10,
-        date: DateTime(2022, 3, 3),
+        date: DateTime(2023, 3, 3),
         accountId: 1);
     final ricaricaTIM4 = trans.Transaction(
         title: 'Ricarica telefonica',
         value: -10,
-        date: DateTime(2022, 4, 3),
+        date: DateTime(2023, 4, 3),
         accountId: 1);
     final ricaricaTIM5 = trans.Transaction(
         title: 'Ricarica telefonica',
         value: -10,
-        date: DateTime(2022, 5, 3),
+        date: DateTime(2023, 5, 3),
         accountId: 1);
     final ricaricaTIM6 = trans.Transaction(
         title: 'Ricarica telefonica',
         value: -10,
-        date: DateTime(2022, 6, 3),
+        date: DateTime(2023, 6, 3),
         accountId: 1);
     final ricaricaTIM7 = trans.Transaction(
         title: 'Ricarica telefonica',
         value: -10,
-        date: DateTime(2022, 7, 3),
+        date: DateTime(2023, 7, 3),
         accountId: 1);
     final ricaricaTIM8 = trans.Transaction(
         title: 'Ricarica telefonica',
         value: -10,
-        date: DateTime(2022, 8, 3),
+        date: DateTime(2023, 8, 3),
         accountId: 1);
     final ricaricaTIM9 = trans.Transaction(
         title: 'Ricarica telefonica',
         value: -10,
-        date: DateTime(2022, 9, 3),
+        date: DateTime(2023, 9, 3),
         accountId: 1);
 
     await db.insert(transactionsTable, ricaricaTIM1.toJson());
@@ -444,55 +444,55 @@ class DatabasePopulate {
     final bollettaInternet1 = trans.Transaction(
         title: 'Bolletta Internet',
         value: -43,
-        date: DateTime(2022, 10, 1),
+        date: DateTime(2023, 10, 1),
         accountId: 4,
         categoryId: 2);
     final bollettaInternet2 = trans.Transaction(
         title: 'Bolletta Internet',
         value: -44,
-        date: DateTime(2022, 2, 2),
+        date: DateTime(2023, 2, 2),
         accountId: 4,
         categoryId: 2);
     final bollettaInternet3 = trans.Transaction(
         title: 'Bolletta Internet',
         value: -26,
-        date: DateTime(2022, 3, 3),
+        date: DateTime(2023, 3, 3),
         accountId: 4,
         categoryId: 2);
     final bollettaInternet4 = trans.Transaction(
         title: 'Bolletta Internet',
         value: -32,
-        date: DateTime(2022, 4, 4),
+        date: DateTime(2023, 4, 4),
         accountId: 4,
         categoryId: 2);
     final bollettaInternet5 = trans.Transaction(
         title: 'Bolletta Internet',
         value: -44,
-        date: DateTime(2022, 5, 5),
+        date: DateTime(2023, 5, 5),
         accountId: 4,
         categoryId: 2);
     final bollettaInternet6 = trans.Transaction(
         title: 'Bolletta Internet',
         value: -44,
-        date: DateTime(2022, 6, 6),
+        date: DateTime(2023, 6, 6),
         accountId: 4,
         categoryId: 2);
     final bollettaInternet7 = trans.Transaction(
         title: 'Bolletta Internet',
         value: -37,
-        date: DateTime(2022, 7, 7),
+        date: DateTime(2023, 7, 7),
         accountId: 4,
         categoryId: 2);
     final bollettaInternet8 = trans.Transaction(
         title: 'Bolletta Internet',
         value: -37,
-        date: DateTime(2022, 8, 7),
+        date: DateTime(2023, 8, 7),
         accountId: 4,
         categoryId: 2);
     final bollettaInternet9 = trans.Transaction(
         title: 'Bolletta Internet',
         value: -37,
-        date: DateTime(2022, 9, 7),
+        date: DateTime(2023, 9, 7),
         accountId: 4,
         categoryId: 2);
 

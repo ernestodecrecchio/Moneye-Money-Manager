@@ -45,6 +45,7 @@ class DatabaseTransactionHelper {
     return transaction.copy(id: id);
   }
 
+  /// Returns the number of the row deleted
   Future<int> deleteTransaction(
       {required trans.Transaction transaction}) async {
     final db = await DatabaseHelper.instance.database;
@@ -82,24 +83,6 @@ class DatabaseTransactionHelper {
     return result.map((json) => trans.Transaction.fromJson(json)).toList();
   }
 
-  Future<Map<String, Object?>> getBalanceBetweenDates(
-      {required DateTime startDate, required DateTime endDate}) async {
-    final db = await DatabaseHelper.instance.database;
-
-    final result = await db.rawQuery('''
-      SELECT 
-				SUM(CASE WHEN ${TransactionFields.value} >= 0 THEN value END ) AS income, 
-				SUM(CASE WHEN ${TransactionFields.value} < 0  THEN value END ) AS expense
-      FROM $transactionsTable
-      WHERE ${TransactionFields.date} BETWEEN date(?, 'localtime') AND date(?, 'localtime')
-      ''', [
-      DateFormat('yyyy-MM-dd').format(startDate).toString(),
-      DateFormat('yyyy-MM-dd').format(endDate).toString(),
-    ]);
-
-    return result.first;
-  }
-
   Future<List<trans.Transaction>> getTransactionsBetweenDates(
       {required DateTime startDate, required DateTime endDate}) async {
     final db = await DatabaseHelper.instance.database;
@@ -116,36 +99,5 @@ class DatabaseTransactionHelper {
         ]);
 
     return result.map((json) => trans.Transaction.fromJson(json)).toList();
-  }
-
-  Future<List<trans.Transaction>> getLastTransactions(int limit) async {
-    final db = await DatabaseHelper.instance.database;
-
-    const orderBy = '${TransactionFields.date} ASC';
-
-    final result =
-        await db.query(transactionsTable, orderBy: orderBy, limit: limit);
-    return result.map((json) => trans.Transaction.fromJson(json)).toList();
-  }
-
-  /*
-    Returns a map formatted like: 
-    [
-      {
-        'month': 01,
-        'balance': 1234.0
-      }
-    ]
-  */
-  Future<List<Map<String, dynamic>>> getMonthlyBalanceForYear(int year) async {
-    final db = await DatabaseHelper.instance.database;
-
-    final result = await db.rawQuery('''
-        SELECT strftime('%m', ${TransactionFields.date} ) as 'month', coalesce(SUM(${TransactionFields.value}),0) as 'balance'
-        FROM transactions
-        GROUP BY strftime('%m', ${TransactionFields.date} )
-    ''');
-
-    return result;
   }
 }

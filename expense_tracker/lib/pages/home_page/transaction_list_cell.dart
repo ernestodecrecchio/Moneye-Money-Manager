@@ -1,8 +1,5 @@
 import 'package:expense_tracker/models/transaction.dart';
-import 'package:expense_tracker/notifiers/account_provider.dart';
-import 'package:expense_tracker/notifiers/category_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class TransactionListCell extends StatelessWidget {
   final Transaction transaction;

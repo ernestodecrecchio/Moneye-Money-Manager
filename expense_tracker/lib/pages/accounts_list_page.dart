@@ -1,5 +1,4 @@
 import 'package:expense_tracker/notifiers/account_provider.dart';
-import 'package:expense_tracker/pages/new_account_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

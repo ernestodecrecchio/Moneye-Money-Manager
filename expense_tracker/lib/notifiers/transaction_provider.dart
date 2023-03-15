@@ -1,10 +1,38 @@
+import 'package:collection/collection.dart';
 import 'package:expense_tracker/Helper/Database/database_transaction_helper.dart';
 import 'package:expense_tracker/models/account.dart';
 import 'package:expense_tracker/models/category.dart';
 import 'package:expense_tracker/models/transaction.dart';
+import 'package:expense_tracker/notifiers/account_provider.dart';
 import 'package:flutter/material.dart';
 
 class TransactionProvider with ChangeNotifier {
+  AccountProvider? accountProvider;
+
+  List<Transaction> transactionList = [];
+  List<Transaction> get currentMonthTransactionList {
+    final todayDate = DateTime.now();
+
+    return transactionList
+        .where((element) =>
+            element.date.month == todayDate.month &&
+            element.date.year == todayDate.year)
+        .toList();
+  }
+
+  TransactionProvider({this.accountProvider}) {
+    getAllTransactions();
+  }
+
+  Future getAllTransactions() async {
+    transactionList =
+        await DatabaseTransactionHelper.instance.getAllTransactions();
+
+    print('NUMERO TRANSAZIONI: ${transactionList.length}');
+
+    notifyListeners();
+  }
+
   Future<Transaction?> addNewTransaction({
     required String title,
     required double value,
@@ -19,8 +47,12 @@ class TransactionProvider with ChangeNotifier {
         categoryId: category?.id,
         accountId: account?.id);
 
-    return await DatabaseTransactionHelper.instance
-        .insertTransaction(transaction: newTransaction);
+    transactionList.add(await DatabaseTransactionHelper.instance
+        .insertTransaction(transaction: newTransaction));
+
+    notifyListeners();
+
+    return transactionList.last;
   }
 
   Future<bool> deleteTransaction(Transaction transaction) async {
@@ -28,29 +60,49 @@ class TransactionProvider with ChangeNotifier {
         .deleteTransaction(transaction: transaction);
 
     if (removedTransactionCount > 0) {
+      transactionList.removeWhere((element) => element.id == transaction.id);
+
+      notifyListeners();
+
       return true;
     }
 
     return false;
   }
 
-  Future<List<Transaction>> getMonthlyBalance() async {
-    final todayDate = DateTime.now();
+  /// Returns a Map where for each month of the year, there is a sum of all the transactions value
+  Map<int, double> getMonthlyBalanceForYear(int year) {
+    final Map<int, double> balanceMap = {};
 
-    final firstDayOfMonth = DateTime(todayDate.year, todayDate.month, 1);
-    final lastDayOfMonth = (todayDate.month < 12)
-        ? DateTime(todayDate.year, todayDate.month + 1, 0)
-        : DateTime(todayDate.year + 1, 1, 0);
+    final currentYearTransactions =
+        transactionList.where((element) => element.date.year == year);
 
-    return await DatabaseTransactionHelper.instance.getTransactionsBetweenDates(
-        startDate: firstDayOfMonth, endDate: lastDayOfMonth);
+    for (var transaction in currentYearTransactions) {
+      balanceMap[transaction.date.month] =
+          (balanceMap[transaction.date.month] ?? 0) + transaction.value;
+    }
+
+    return balanceMap;
   }
 
-  Future<List<Transaction>> getLastTransactions(int limit) async {
-    return await DatabaseTransactionHelper.instance.getLastTransactions(limit);
-  }
+  /// Returns a Map where for each account, there is a sum of all the transactions value
+  Map<Account, double> getAccountBalance() {
+    final Map<Account, double> accountMap = {};
 
-  Future<List<Map<String, dynamic>>> getMonthlyBalanceForYear(int year) async {
-    return DatabaseTransactionHelper.instance.getMonthlyBalanceForYear(2022);
+    accountProvider?.accountList.forEach((account) {
+      accountMap[account] = 0;
+    });
+
+    transactionList.forEach((transaction) {
+      Account? transactionAccount = accountProvider?.accountList
+          .firstWhereOrNull((element) => element.id == transaction.accountId);
+
+      if (transactionAccount != null) {
+        accountMap[transactionAccount] =
+            accountMap[transactionAccount]! + transaction.value;
+      }
+    });
+
+    return accountMap;
   }
 }

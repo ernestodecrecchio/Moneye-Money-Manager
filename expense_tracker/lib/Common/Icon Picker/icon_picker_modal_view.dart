@@ -31,7 +31,7 @@ class IconPickerModalView extends StatelessWidget {
           ),
           const Text(
             "Servirà a decorare l'informazione sul cv",
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 12,
             ),
           ),

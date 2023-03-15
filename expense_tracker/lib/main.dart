@@ -1,8 +1,9 @@
+import 'package:expense_tracker/models/transaction.dart';
 import 'package:expense_tracker/notifiers/account_provider.dart';
 import 'package:expense_tracker/notifiers/category_provider.dart';
 import 'package:expense_tracker/notifiers/transaction_provider.dart';
+import 'package:expense_tracker/pages/categories_page/new_category_page.dart';
 import 'package:expense_tracker/pages/new_account_page.dart';
-import 'package:expense_tracker/pages/new_category_page.dart';
 import 'package:expense_tracker/pages/new_transaction_page.dart';
 import 'package:expense_tracker/pages/tab_bar_page.dart';
 import 'package:flutter/material.dart';
@@ -23,7 +24,10 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (_) => CategoryProvider()),
         ChangeNotifierProvider(create: (_) => AccountProvider()),
-        ChangeNotifierProvider(create: (_) => TransactionProvider()),
+        ChangeNotifierProxyProvider<AccountProvider, TransactionProvider>(
+            create: (_) => TransactionProvider(),
+            update: (context, accountProvider, transactionProvider) =>
+                transactionProvider!..accountProvider = accountProvider)
       ],
       child: MaterialApp(
         title: 'Flutter Demo',
