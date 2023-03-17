@@ -27,8 +27,7 @@ class _CategorySelectorDialogState extends State<CategorySelectorDialog> {
 
   @override
   Widget build(BuildContext context) {
-    return ConstrainedBox(
-      constraints: const BoxConstraints(maxHeight: 350, minHeight: 200),
+    return SingleChildScrollView(
       child: Column(
         children: [
           Consumer<CategoryProvider>(

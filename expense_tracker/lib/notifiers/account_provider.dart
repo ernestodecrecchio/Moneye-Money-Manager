@@ -1,5 +1,7 @@
+import 'package:collection/collection.dart';
 import 'package:expense_tracker/Helper/Database/database_account_helper.dart';
 import 'package:expense_tracker/models/account.dart';
+import 'package:expense_tracker/models/transaction.dart';
 import 'package:flutter/material.dart';
 
 class AccountProvider with ChangeNotifier {
@@ -13,6 +15,11 @@ class AccountProvider with ChangeNotifier {
     accountList = await DatabaseAccountHelper.instance.getAllAccounts();
 
     notifyListeners();
+  }
+
+  Account? getAccountForTransaction(Transaction transaction) {
+    return accountList
+        .firstWhereOrNull((element) => element.id == transaction.accountId);
   }
 
   Future addNewAccount({required Account newAccount}) async {

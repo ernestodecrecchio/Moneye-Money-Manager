@@ -5,8 +5,10 @@ import 'package:expense_tracker/models/transaction.dart';
 import 'package:expense_tracker/notifiers/account_provider.dart';
 import 'package:expense_tracker/notifiers/category_provider.dart';
 import 'package:expense_tracker/notifiers/transaction_provider.dart';
+import 'package:expense_tracker/pages/account_detail_page/account_detail_page.dart';
 import 'package:expense_tracker/pages/home_page/transaction_list_cell.dart';
 import 'package:expense_tracker/pages/new_transaction_flow/new_transaction_page.dart';
+import 'package:expense_tracker/style.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:collection/collection.dart';
@@ -26,19 +28,26 @@ class _HomePageState extends State<HomePage> {
         title: const Text('Dashboard'),
       ),
       floatingActionButton: _buildFloatingActionButton(context),
+      backgroundColor: Colors.white,
       body: SingleChildScrollView(
-        child: Column(children: [
-          _buildMonthlyBalanceSection(),
-          const SizedBox(
-            height: 20,
-          ),
-          const MonthlyBalanceGraph(),
-          const SizedBox(
-            height: 5,
-          ),
-          _buildAccountSection(),
-          _buildLastTransactionList(),
-        ]),
+        child: SafeArea(
+          minimum: EdgeInsets.symmetric(horizontal: 17),
+          child: Column(children: [
+            _buildMonthlyBalanceSection(),
+            const SizedBox(
+              height: 20,
+            ),
+            const MonthlyBalanceGraph(),
+            const SizedBox(
+              height: 5,
+            ),
+            _buildAccountSection(),
+            const SizedBox(
+              height: 25,
+            ),
+            _buildLastTransactionList(),
+          ]),
+        ),
       ),
     );
   }
@@ -145,41 +154,45 @@ class _HomePageState extends State<HomePage> {
   }
 
   _buildAccountCell(Account account, double balance) {
-    return Container(
-      padding: const EdgeInsets.all(5),
-      width: 150,
-      color: Colors.grey,
-      child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                  height: 30,
-                  width: 30,
-                  decoration: const BoxDecoration(
-                    color: Colors.white,
-                    shape: BoxShape.circle,
+    return InkWell(
+      onTap: () => Navigator.pushNamed(context, AccountDetailPage.routeName,
+          arguments: account),
+      child: Container(
+        padding: const EdgeInsets.all(5),
+        width: 150,
+        color: Colors.grey,
+        child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    height: 30,
+                    width: 30,
+                    decoration: const BoxDecoration(
+                      color: Colors.white,
+                      shape: BoxShape.circle,
+                    ),
                   ),
-                ),
-                const SizedBox(
-                  width: 10,
-                ),
-                Text(
-                  account.name,
-                  style: const TextStyle(fontWeight: FontWeight.bold),
-                ),
-              ],
-            ),
-            Text(
-              balance.toStringAsFixed(2),
-              style: const TextStyle(
-                fontSize: 20,
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  Text(
+                    account.name,
+                    style: const TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                ],
               ),
-            ),
-          ]),
+              Text(
+                balance.toStringAsFixed(2),
+                style: const TextStyle(
+                  fontSize: 20,
+                ),
+              ),
+            ]),
+      ),
     );
   }
 
@@ -206,24 +219,40 @@ class _HomePageState extends State<HomePage> {
             .toList();
 
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text('Ultime transazioni'),
-        ListView.builder(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          itemCount: lastTransactionList.length,
-          itemBuilder: (context, index) {
-            return Dismissible(
-                key: Key(lastTransactionList[index].id.toString()),
-                confirmDismiss: (_) {
-                  return Provider.of<TransactionProvider>(context,
-                          listen: false)
-                      .deleteTransaction(lastTransactionList[index]);
-                },
-                background: Container(color: Colors.red),
-                child: TransactionListCell(
-                    transaction: lastTransactionList[index]));
-          },
+        const Text(
+          'Ultime transazioni',
+          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+        ),
+        const SizedBox(
+          height: 8,
+        ),
+        Container(
+          decoration: const BoxDecoration(
+              color: Style.lightBlue,
+              border: Border(),
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(33), topRight: Radius.circular(33))),
+          child: ListView.separated(
+            padding: const EdgeInsets.symmetric(horizontal: 10),
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            itemCount: lastTransactionList.length,
+            itemBuilder: (context, index) {
+              return Dismissible(
+                  key: Key(lastTransactionList[index].id.toString()),
+                  confirmDismiss: (_) {
+                    return Provider.of<TransactionProvider>(context,
+                            listen: false)
+                        .deleteTransaction(lastTransactionList[index]);
+                  },
+                  background: Container(color: Colors.red),
+                  child: TransactionListCell(
+                      transaction: lastTransactionList[index]));
+            },
+            separatorBuilder: (context, index) => const Divider(),
+          ),
         ),
       ],
     );

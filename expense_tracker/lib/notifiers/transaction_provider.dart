@@ -20,6 +20,12 @@ class TransactionProvider with ChangeNotifier {
         .toList();
   }
 
+  List<Transaction> getTransactionListForAccount(Account account) {
+    return transactionList
+        .where((element) => element.accountId == account.id)
+        .toList();
+  }
+
   TransactionProvider({this.accountProvider}) {
     getAllTransactions();
   }

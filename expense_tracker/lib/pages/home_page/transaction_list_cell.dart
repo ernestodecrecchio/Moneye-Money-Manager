@@ -1,5 +1,11 @@
+import 'dart:ui';
+
 import 'package:expense_tracker/models/transaction.dart';
+import 'package:expense_tracker/notifiers/account_provider.dart';
+import 'package:expense_tracker/notifiers/category_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:path/path.dart';
+import 'package:provider/provider.dart';
 
 class TransactionListCell extends StatelessWidget {
   final Transaction transaction;
@@ -9,24 +15,24 @@ class TransactionListCell extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 65,
-      padding: const EdgeInsets.symmetric(horizontal: 17),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
       child: Row(
         children: [
-          const SizedBox(
+          _buildCategoryIcon(context),
+          SizedBox(
             width: 8,
           ),
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              Text(transaction.title,
+                  style: const TextStyle(
+                      fontSize: 14, fontWeight: FontWeight.bold)),
               Text(
                 transaction.date.toIso8601String().substring(0, 10),
                 style: const TextStyle(fontSize: 10),
               ),
-              Text(transaction.title,
-                  style: const TextStyle(
-                      fontSize: 16, fontWeight: FontWeight.bold)),
             ],
           ),
           const Spacer(),
@@ -34,6 +40,33 @@ class TransactionListCell extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  _buildCategoryIcon(BuildContext context) {
+    final category = Provider.of<CategoryProvider>(context, listen: false)
+        .getCategoryForTransaction(transaction);
+
+    Icon categoryIcon = Icon(
+      category!.iconData,
+      color: Colors.white,
+      size: 12,
+    );
+
+    return Container(
+        width: 26,
+        height: 26,
+        decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            gradient: const LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: <Color>[
+                Color(0xff002fff),
+                Color(0xff00f4ff),
+              ],
+            ),
+            color: category != null ? Color(category.colorValue) : Colors.pink),
+        child: categoryIcon);
   }
 
   Widget _buildValue() {

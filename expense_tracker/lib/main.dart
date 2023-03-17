@@ -1,6 +1,8 @@
+import 'package:expense_tracker/models/account.dart';
 import 'package:expense_tracker/notifiers/account_provider.dart';
 import 'package:expense_tracker/notifiers/category_provider.dart';
 import 'package:expense_tracker/notifiers/transaction_provider.dart';
+import 'package:expense_tracker/pages/account_detail_page/account_detail_page.dart';
 import 'package:expense_tracker/pages/categories_page/new_category_page.dart';
 import 'package:expense_tracker/pages/accounts_page/new_account_page.dart';
 import 'package:expense_tracker/pages/new_transaction_flow/new_transaction_page.dart';
@@ -40,21 +42,21 @@ class MyApp extends StatelessWidget {
           NewAccountPage.routeName: (context) => const NewAccountPage(),
           NewTransactionPage.routeName: (context) => const NewTransactionPage()
         },
-        // onGenerateRoute: (settings) {
-        //   if (settings.name == NewTransactionPage.routeName) {
-        //     final args = settings.arguments as DateTime;
+        onGenerateRoute: (settings) {
+          if (settings.name == AccountDetailPage.routeName) {
+            final args = settings.arguments as Account;
 
-        //     return MaterialPageRoute(
-        //       builder: (context) {
-        //         return NewTransactionPage(
-        //           date: args,
-        //         );
-        //       },
-        //     );
-        //   }
-        //   assert(false, 'Need to implement ${settings.name}');
-        //   return null;
-        // },
+            return MaterialPageRoute(
+              builder: (context) {
+                return AccountDetailPage(
+                  account: args,
+                );
+              },
+            );
+          }
+          assert(false, 'Need to implement ${settings.name}');
+          return null;
+        },
       ),
     );
   }
