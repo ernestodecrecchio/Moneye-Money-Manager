@@ -5,6 +5,7 @@ import 'package:expense_tracker/models/transaction.dart';
 import 'package:expense_tracker/notifiers/account_provider.dart';
 import 'package:expense_tracker/notifiers/category_provider.dart';
 import 'package:expense_tracker/notifiers/transaction_provider.dart';
+import 'package:expense_tracker/pages/home_page/transaction_list_cell.dart';
 import 'package:expense_tracker/pages/new_transaction_flow/new_transaction_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -36,6 +37,7 @@ class _HomePageState extends State<HomePage> {
             height: 5,
           ),
           _buildAccountSection(),
+          _buildLastTransactionList(),
         ]),
       ),
     );
@@ -194,6 +196,37 @@ class _HomePageState extends State<HomePage> {
     }
 
     return null;
+  }
+
+  _buildLastTransactionList() {
+    final lastTransactionList =
+        Provider.of<TransactionProvider>(context, listen: true)
+            .transactionList
+            .take(5)
+            .toList();
+
+    return Column(
+      children: [
+        const Text('Ultime transazioni'),
+        ListView.builder(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          itemCount: lastTransactionList.length,
+          itemBuilder: (context, index) {
+            return Dismissible(
+                key: Key(lastTransactionList[index].id.toString()),
+                confirmDismiss: (_) {
+                  return Provider.of<TransactionProvider>(context,
+                          listen: false)
+                      .deleteTransaction(lastTransactionList[index]);
+                },
+                background: Container(color: Colors.red),
+                child: TransactionListCell(
+                    transaction: lastTransactionList[index]));
+          },
+        ),
+      ],
+    );
   }
 
   Widget _buildFloatingActionButton(BuildContext context) {

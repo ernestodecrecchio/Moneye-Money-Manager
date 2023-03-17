@@ -8,34 +8,11 @@ class TransactionListCell extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container();
-    /* final currentCategory = transaction.categoryId != null
-        ? Provider.of<CategoryProvider>(context, listen: true)
-            .getCategoryFromId(transaction.categoryId!)
-        : null;
-    final currentAccount = transaction.accountId != null
-        ? Provider.of<AccountProvider>(context, listen: true)
-            .geAccountFromId(transaction.accountId!)
-        : null;
-
     return Container(
       height: 65,
       padding: const EdgeInsets.symmetric(horizontal: 17),
       child: Row(
         children: [
-          Container(
-            height: 26,
-            width: 26,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: currentCategory != null
-                  ? currentCategory.color
-                  : Colors.white,
-            ),
-            child: Icon(currentCategory != null
-                ? currentCategory.iconData
-                : Icons.offline_bolt),
-          ),
           const SizedBox(
             width: 8,
           ),
@@ -50,15 +27,13 @@ class TransactionListCell extends StatelessWidget {
               Text(transaction.title,
                   style: const TextStyle(
                       fontSize: 16, fontWeight: FontWeight.bold)),
-              if (currentAccount != null)
-                Text(currentAccount.name, style: const TextStyle(fontSize: 10)),
             ],
           ),
           const Spacer(),
           _buildValue()
         ],
       ),
-    );*/
+    );
   }
 
   Widget _buildValue() {
