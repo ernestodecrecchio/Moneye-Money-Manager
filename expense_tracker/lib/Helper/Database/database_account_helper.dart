@@ -1,6 +1,7 @@
 import 'package:expense_tracker/Helper/Database/database_helper.dart';
 import 'package:expense_tracker/models/account.dart';
 import 'package:expense_tracker/models/transaction.dart';
+import 'package:flutter/material.dart';
 import 'package:sqflite/sqlite_api.dart';
 
 class DatabaseAccountHelper {
@@ -14,16 +15,32 @@ class DatabaseAccountHelper {
     await db.execute('''
       CREATE TABLE $accountsTable ( 
       ${AccountFields.id} $idType, 
-      ${AccountFields.name} $textType
+      ${AccountFields.name} $textType,
+      ${AccountFields.iconData} $textType
       )
     ''');
 
-    final accountCash = Account(name: 'Contanti');
-    final accountBuddyBank = Account(name: 'Buddybank');
-    final accountPaypal = Account(name: 'Paypal');
-    final accountCripto = Account(name: 'Cripto');
+    final accountCash = Account(
+      name: 'Contanti',
+      iconData: Icons.shopping_bag_rounded,
+    );
+    final accountBuddyBank = Account(
+      name: 'Buddybank',
+      iconData: Icons.shopping_bag_rounded,
+    );
+    final accountPaypal = Account(
+      name: 'Paypal',
+      iconData: Icons.shopping_bag_rounded,
+    );
+    final accountCripto = Account(
+      name: 'Cripto',
+      iconData: Icons.shopping_bag_rounded,
+    );
 
-    await db.insert(accountsTable, accountBuddyBank.toJson());
+    await db.insert(
+      accountsTable,
+      accountBuddyBank.toJson(),
+    );
     await db.insert(accountsTable, accountPaypal.toJson());
     await db.insert(accountsTable, accountCripto.toJson());
     await db.insert(accountsTable, accountCash.toJson());

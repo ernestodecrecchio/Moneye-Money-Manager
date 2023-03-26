@@ -2,8 +2,6 @@ import 'package:expense_tracker/models/account.dart';
 import 'package:expense_tracker/notifiers/transaction_provider.dart';
 import 'package:expense_tracker/pages/home_page/transaction_list_cell.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:provider/provider.dart';
 
 class AccountDetailPage extends StatelessWidget {

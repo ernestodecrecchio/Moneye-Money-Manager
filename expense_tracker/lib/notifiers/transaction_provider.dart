@@ -20,6 +20,11 @@ class TransactionProvider with ChangeNotifier {
         .toList();
   }
 
+  double get totalBalance {
+    return transactionList.fold(
+        0, (previousValue, element) => previousValue + element.value);
+  }
+
   List<Transaction> getTransactionListForAccount(Account account) {
     return transactionList
         .where((element) => element.accountId == account.id)

@@ -41,6 +41,10 @@ class _AccountsListPageState extends State<AccountsListPage> {
               background: Container(color: Colors.red),
               child: ListTile(
                 title: Text(account.name),
+                leading: Container(
+                  color: Colors.black,
+                  child: account.icon,
+                ),
               ),
             );
           },

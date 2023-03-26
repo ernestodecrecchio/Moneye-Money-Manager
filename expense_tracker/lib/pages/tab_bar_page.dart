@@ -5,6 +5,7 @@ import 'package:expense_tracker/pages/categories_page/categories_list_page.dart'
 import 'package:expense_tracker/pages/home_page/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 
 class TabBarPage extends StatefulWidget {
   const TabBarPage({Key? key}) : super(key: key);
@@ -33,26 +34,49 @@ class _TabBarPageState extends State<TabBarPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        bottomNavigationBar: NavigationBar(
-          selectedIndex: index,
-          onDestinationSelected: (newIndex) {
+        bottomNavigationBar: SalomonBottomBar(
+          currentIndex: index,
+          onTap: (newIndex) {
             setState(() => index = newIndex);
           },
-          destinations: const [
-            NavigationDestination(
-              label: 'Spese',
-              icon: Icon(Icons.money),
+          items: [
+            SalomonBottomBarItem(
+              icon: const Icon(Icons.money),
+              title: const Text('Spese'),
+              //  selectedColor: Colors.purple,
             ),
-            NavigationDestination(
-              label: 'Categorie',
-              icon: Icon(Icons.abc),
+            SalomonBottomBarItem(
+              icon: const Icon(Icons.money),
+              title: const Text('Categorie'),
+              //  selectedColor: Colors.purple,
             ),
-            NavigationDestination(
-              label: 'Conti',
-              icon: Icon(Icons.abc),
+            SalomonBottomBarItem(
+              icon: const Icon(Icons.money),
+              title: const Text('Conti'),
+              //  selectedColor: Colors.purple,
             ),
           ],
         ),
+        // bottomNavigationBar: NavigationBar(
+        //   selectedIndex: index,
+        //   onDestinationSelected: (newIndex) {
+        //     setState(() => index = newIndex);
+        //   },
+        //   destinations: const [
+        //     NavigationDestination(
+        //       label: 'Spese',
+        //       icon: Icon(Icons.money),
+        //     ),
+        //     NavigationDestination(
+        //       label: 'Categorie',
+        //       icon: Icon(Icons.abc),
+        //     ),
+        //     NavigationDestination(
+        //       label: 'Conti',
+        //       icon: Icon(Icons.abc),
+        //     ),
+        //   ],
+        // ),
         body: screen[index]);
   }
 }

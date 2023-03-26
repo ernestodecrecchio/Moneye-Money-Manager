@@ -28,7 +28,9 @@ class MonthlyBalanceGraph extends StatelessWidget {
         top: 20,
         right: 20,
       ),
-      color: Colors.grey,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
+      ),
       child: LineChart(
         LineChartData(
           minX: 1,
@@ -59,7 +61,10 @@ class MonthlyBalanceGraph extends StatelessWidget {
               ),
             ),
           ),
-          lineBarsData: [LineChartBarData(spots: spotList, isCurved: true)],
+          lineBarsData: [
+            LineChartBarData(
+                spots: spotList, isCurved: true, color: Colors.white)
+          ],
         ),
       ),
     );

@@ -1,3 +1,4 @@
+import 'package:expense_tracker/Common/Icon%20Picker/icon_picker_modal_view.dart';
 import 'package:expense_tracker/models/account.dart';
 import 'package:expense_tracker/notifiers/account_provider.dart';
 import 'package:flutter/material.dart';
@@ -18,6 +19,7 @@ class _NewAccountPageState extends State<NewAccountPage> {
 
   String? title;
   String? description;
+  IconData? selectedIcon;
 
   @override
   Widget build(BuildContext context) {
@@ -41,6 +43,26 @@ class _NewAccountPageState extends State<NewAccountPage> {
                 description = newValue;
               },
             ),
+            Row(
+              children: [
+                const Text('Icona'),
+                Icon(selectedIcon),
+                ElevatedButton(
+                  onPressed: () {
+                    showModalBottomSheet(
+                      context: context,
+                      builder: ((context) {
+                        return IconPickerModalView();
+                      }),
+                    ).then((value) {
+                      selectedIcon = value['icon'];
+                      setState(() {});
+                    });
+                  },
+                  child: const Text('Seleziona icona'),
+                )
+              ],
+            ),
             const Spacer(),
             ElevatedButton(
                 onPressed: _saveNewAccount, child: const Text('Salva'))
@@ -54,6 +76,7 @@ class _NewAccountPageState extends State<NewAccountPage> {
     if (title != null) {
       final newAccount = Account(
         name: title!,
+        iconData: selectedIcon,
       );
       Provider.of<AccountProvider>(context, listen: false)
           .addNewAccount(newAccount: newAccount)

@@ -38,6 +38,7 @@ dependencies:
   font_awesome_flutter: ^10.1.0
   fl_chart: ^0.55.2
   collection: ^1.17.0
+  salomon_bottom_bar: ^3.3.1
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.

@@ -1,11 +1,10 @@
-import 'package:expense_tracker/Graphs/monthly_balance_graph.dart';
 import 'package:expense_tracker/models/account.dart';
 import 'package:expense_tracker/models/category.dart';
 import 'package:expense_tracker/models/transaction.dart';
 import 'package:expense_tracker/notifiers/account_provider.dart';
 import 'package:expense_tracker/notifiers/category_provider.dart';
 import 'package:expense_tracker/notifiers/transaction_provider.dart';
-import 'package:expense_tracker/pages/account_detail_page/account_detail_page.dart';
+import 'package:expense_tracker/pages/home_page/account_list_cell.dart';
 import 'package:expense_tracker/pages/home_page/transaction_list_cell.dart';
 import 'package:expense_tracker/pages/new_transaction_flow/new_transaction_page.dart';
 import 'package:expense_tracker/style.dart';
@@ -21,34 +20,55 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  static const double horizontalPadding = 17;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Dashboard'),
-      ),
       floatingActionButton: _buildFloatingActionButton(context),
-      backgroundColor: Colors.white,
-      body: SingleChildScrollView(
-        child: SafeArea(
-          minimum: EdgeInsets.symmetric(horizontal: 17),
-          child: Column(children: [
-            _buildMonthlyBalanceSection(),
-            const SizedBox(
-              height: 20,
+      body: Container(
+        color: CustomColors.blue,
+        child: Stack(
+          children: [
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Container(
+                height: MediaQuery.of(context).size.height / 2.5,
+                color: Colors.white,
+              ),
             ),
-            const MonthlyBalanceGraph(),
-            const SizedBox(
-              height: 5,
+            SingleChildScrollView(
+              child: SafeArea(
+                child: Column(children: [
+                  _buildTopSection(),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  _buildBottomSection(),
+                ]),
+              ),
             ),
-            _buildAccountSection(),
-            const SizedBox(
-              height: 25,
-            ),
-            _buildLastTransactionList(),
-          ]),
+          ],
         ),
       ),
+    );
+  }
+
+  _buildTopSection() {
+    return _buildMonthlyBalanceSection();
+  }
+
+  Widget _buildBottomSection() {
+    return Container(
+      padding: const EdgeInsets.only(top: 8),
+      color: Colors.white,
+      child: Column(children: [
+        _buildAccountSection(),
+        const SizedBox(
+          height: 25,
+        ),
+        _buildLastTransactionList(),
+      ]),
     );
   }
 
@@ -57,65 +77,137 @@ class _HomePageState extends State<HomePage> {
         Provider.of<TransactionProvider>(context, listen: true)
             .currentMonthTransactionList;
 
-    double monthlyBalance = 0;
+    // double monthlyBalance = 0;
     double monthlyIncome = 0;
     double monthlyExpenses = 0;
     for (var transaction in currentMonthTransactions) {
-      monthlyBalance += transaction.value;
+      // monthlyBalance += transaction.value;
 
       transaction.value >= 0
           ? monthlyIncome += transaction.value
           : monthlyExpenses += transaction.value;
     }
 
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        RichText(
-          text: TextSpan(
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: horizontalPadding),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          const Text(
+            'Total balance',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 16,
+              fontWeight: FontWeight.w400,
+            ),
+          ),
+          Text(
+            '${Provider.of<TransactionProvider>(context, listen: false).totalBalance} €',
             style: const TextStyle(
               fontWeight: FontWeight.bold,
-              fontSize: 36,
-              color: Colors.black,
+              fontSize: 40,
+              color: Colors.white,
             ),
+          ),
+          const Divider(
+            color: Colors.white,
+          ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              TextSpan(
-                text: monthlyBalance.toString(),
+              const Text(
+                'This month',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w400,
+                ),
               ),
-              const TextSpan(
-                text: '€',
-                style: TextStyle(fontSize: 24),
+              const SizedBox(
+                height: 10,
+              ),
+              Row(
+                children: [
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      const Icon(
+                        Icons.arrow_downward_rounded,
+                        color: Colors.green,
+                      ),
+                      const SizedBox(
+                        width: 4,
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text(
+                            'Introiti',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w300,
+                            ),
+                          ),
+                          Text(
+                            monthlyIncome.toString(),
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      const Icon(
+                        Icons.arrow_upward_rounded,
+                        color: Colors.red,
+                      ),
+                      const SizedBox(
+                        width: 4,
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text(
+                            'Sperse',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w300,
+                            ),
+                          ),
+                          Text(
+                            monthlyExpenses.toString(),
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  )
+                ],
               ),
             ],
-          ),
-        ),
-        const Text('Monthly  balance'),
-        const SizedBox(
-          height: 20,
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            Column(
-              children: [
-                Text(monthlyIncome.toString()),
-                const Text('INCOME'),
-              ],
-            ),
-            Column(
-              children: [
-                Text(monthlyExpenses.toString()),
-                const Text('EXPENSES'),
-              ],
-            )
-          ],
-        ),
-      ],
+          )
+        ],
+      ),
     );
   }
 
-  _buildAccountSection() {
+  Widget _buildAccountSection() {
     final list = Provider.of<TransactionProvider>(context, listen: false)
         .getAccountBalance();
 
@@ -123,26 +215,26 @@ class _HomePageState extends State<HomePage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 10),
+          padding:
+              EdgeInsets.symmetric(horizontal: horizontalPadding, vertical: 8),
           child: Text(
             'I tuoi conti',
             style: TextStyle(
-              fontSize: 24,
+              fontSize: 16,
               fontWeight: FontWeight.bold,
             ),
           ),
         ),
         SizedBox(
-          height: 70,
+          height: 100,
           child: ListView.separated(
-            padding: const EdgeInsets.symmetric(horizontal: 10),
+            padding: const EdgeInsets.symmetric(horizontal: horizontalPadding),
             scrollDirection: Axis.horizontal,
             itemCount: list.length,
             itemBuilder: (context, index) {
-              return _buildAccountCell(
-                list.keys.toList()[index],
-                list.values.toList()[index],
-              );
+              return AccountListCell(
+                  account: list.keys.toList()[index],
+                  balance: list.values.toList()[index]);
             },
             separatorBuilder: (context, index) => const SizedBox(
               width: 10,
@@ -150,49 +242,6 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
       ],
-    );
-  }
-
-  _buildAccountCell(Account account, double balance) {
-    return InkWell(
-      onTap: () => Navigator.pushNamed(context, AccountDetailPage.routeName,
-          arguments: account),
-      child: Container(
-        padding: const EdgeInsets.all(5),
-        width: 150,
-        color: Colors.grey,
-        child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                    height: 30,
-                    width: 30,
-                    decoration: const BoxDecoration(
-                      color: Colors.white,
-                      shape: BoxShape.circle,
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  Text(
-                    account.name,
-                    style: const TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                ],
-              ),
-              Text(
-                balance.toStringAsFixed(2),
-                style: const TextStyle(
-                  fontSize: 20,
-                ),
-              ),
-            ]),
-      ),
     );
   }
 
@@ -211,50 +260,59 @@ class _HomePageState extends State<HomePage> {
     return null;
   }
 
-  _buildLastTransactionList() {
+  Widget _buildLastTransactionList() {
     final lastTransactionList =
         Provider.of<TransactionProvider>(context, listen: true)
             .transactionList
             .take(5)
             .toList();
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const Text(
-          'Ultime transazioni',
-          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-        ),
-        const SizedBox(
-          height: 8,
-        ),
-        Container(
-          decoration: const BoxDecoration(
-              color: Style.lightBlue,
-              border: Border(),
-              borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(33), topRight: Radius.circular(33))),
-          child: ListView.separated(
-            padding: const EdgeInsets.symmetric(horizontal: 10),
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            itemCount: lastTransactionList.length,
-            itemBuilder: (context, index) {
-              return Dismissible(
-                  key: Key(lastTransactionList[index].id.toString()),
-                  confirmDismiss: (_) {
-                    return Provider.of<TransactionProvider>(context,
-                            listen: false)
-                        .deleteTransaction(lastTransactionList[index]);
-                  },
-                  background: Container(color: Colors.red),
-                  child: TransactionListCell(
-                      transaction: lastTransactionList[index]));
-            },
-            separatorBuilder: (context, index) => const Divider(),
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.symmetric(horizontal: horizontalPadding),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text(
+            'Ultime transazioni',
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+            ),
           ),
-        ),
-      ],
+          const SizedBox(
+            height: 8,
+          ),
+          lastTransactionList.isNotEmpty
+              ? ListView.separated(
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: lastTransactionList.length,
+                  itemBuilder: (context, index) {
+                    return Dismissible(
+                        key: Key(lastTransactionList[index].id.toString()),
+                        confirmDismiss: (_) {
+                          return Provider.of<TransactionProvider>(context,
+                                  listen: false)
+                              .deleteTransaction(lastTransactionList[index]);
+                        },
+                        background: Container(color: Colors.red),
+                        child: TransactionListCell(
+                            transaction: lastTransactionList[index]));
+                  },
+                  separatorBuilder: (context, index) => const Divider(),
+                )
+              : const Align(
+                  alignment: Alignment.center,
+                  child: Text(
+                    'Nessuna transazione inserita',
+                    style: TextStyle(color: Colors.grey),
+                    textAlign: TextAlign.start,
+                  ),
+                ),
+        ],
+      ),
     );
   }
 
