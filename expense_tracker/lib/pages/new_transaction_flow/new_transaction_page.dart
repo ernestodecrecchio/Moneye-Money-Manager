@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:expense_tracker/models/account.dart';
 import 'package:expense_tracker/models/category.dart';
 import 'package:expense_tracker/notifiers/transaction_provider.dart';
-import 'package:expense_tracker/pages/account_selector_dialog.dart';
+import 'package:expense_tracker/pages/new_transaction_flow/account_selector_dialog.dart';
 import 'package:expense_tracker/pages/common/custom_text_field.dart';
 import 'package:expense_tracker/pages/new_transaction_flow/category_selector_dialog.dart';
 import 'package:expense_tracker/style.dart';
@@ -151,15 +151,8 @@ class _NewTransactionPageState extends State<NewTransactionPage> {
               icon: Icons.chevron_right_rounded,
               readOnly: true,
               onTap: () async {
-                final Category? newSelectedCategory = await showDialog(
-                  context: context,
-                  builder: ((context) {
-                    return Dialog(
-                      child: CategorySelectorDialog(
-                          currentSelection: selectedCategory),
-                    );
-                  }),
-                );
+                final Category? newSelectedCategory =
+                    await showCategoryBottomSheet(context, selectedCategory);
 
                 if (newSelectedCategory != null) {
                   categoryInput.text = newSelectedCategory.name;
@@ -177,15 +170,8 @@ class _NewTransactionPageState extends State<NewTransactionPage> {
               icon: Icons.chevron_right_rounded,
               readOnly: true,
               onTap: () async {
-                final Account? newSelectedAccount = await showDialog(
-                  context: context,
-                  builder: ((context) {
-                    return Dialog(
-                      child: AccountSelectorDialog(
-                          currentSelection: selectedAccount),
-                    );
-                  }),
-                );
+                final Account? newSelectedAccount =
+                    await showAccountBottomSheet(context, selectedAccount);
 
                 if (newSelectedAccount != null) {
                   accountInput.text = newSelectedAccount.name;
