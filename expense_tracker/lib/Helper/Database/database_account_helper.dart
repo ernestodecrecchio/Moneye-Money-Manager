@@ -1,7 +1,6 @@
 import 'package:expense_tracker/Helper/Database/database_helper.dart';
 import 'package:expense_tracker/models/account.dart';
 import 'package:expense_tracker/models/transaction.dart';
-import 'package:flutter/material.dart';
 import 'package:sqflite/sqlite_api.dart';
 
 class DatabaseAccountHelper {

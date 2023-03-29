@@ -27,7 +27,7 @@ class CategoryProvider with ChangeNotifier {
     required int colorValue,
     required IconData iconData,
   }) async {
-    Category newCategory = Category(
+    final newCategory = Category(
       name: name,
       colorValue: colorValue,
       iconData: iconData,

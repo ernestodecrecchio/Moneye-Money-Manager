@@ -1,4 +1,3 @@
-import 'package:expense_tracker/Common/Icon%20Picker/icon_picker_modal_view.dart';
 import 'package:expense_tracker/notifiers/category_provider.dart';
 import 'package:expense_tracker/pages/common/custom_text_field.dart';
 import 'package:expense_tracker/pages/common/inline_color_picker.dart';
@@ -60,7 +59,7 @@ class _NewCategoryPageState extends State<NewCategoryPage> {
     return Form(
       key: _formKey,
       child: Padding(
-        padding: EdgeInsets.only(top: 30),
+        padding: const EdgeInsets.only(top: 30),
         child: Column(
           children: [
             CustomTextField(

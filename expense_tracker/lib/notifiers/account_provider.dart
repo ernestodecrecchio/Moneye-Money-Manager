@@ -22,7 +22,17 @@ class AccountProvider with ChangeNotifier {
         .firstWhereOrNull((element) => element.id == transaction.accountId);
   }
 
-  Future addNewAccount({required Account newAccount}) async {
+  Future addNewAccount({
+    required String name,
+    required int colorValue,
+    required IconData iconData,
+  }) async {
+    final newAccount = Account(
+      name: name,
+      colorValue: colorValue,
+      iconData: iconData,
+    );
+
     accountList.add(await DatabaseAccountHelper.instance
         .insertAccount(account: newAccount));
 
