@@ -19,6 +19,8 @@ class _NewAccountPageState extends State<NewAccountPage> {
 
   String? title;
   String? description;
+  Color selectedColor = Colors.amber;
+
   IconData? selectedIcon;
 
   @override
@@ -42,6 +44,22 @@ class _NewAccountPageState extends State<NewAccountPage> {
               onChanged: (newValue) {
                 description = newValue;
               },
+            ),
+            Row(
+              children: [
+                const Text('Colore'),
+                Container(
+                  height: 40,
+                  width: 40,
+                  color: selectedColor,
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    _showColorPicker();
+                  },
+                  child: const Text('Seleziona colore'),
+                )
+              ],
             ),
             Row(
               children: [
@@ -72,10 +90,45 @@ class _NewAccountPageState extends State<NewAccountPage> {
     );
   }
 
+  _showColorPicker() {
+    // create some values
+    Color pickerColor = const Color(0xff443a49);
+
+    // ValueChanged<Color> callback
+    void changeColor(Color color) {
+      setState(() => pickerColor = color);
+    }
+
+    // showDialog(
+    //   context: context,
+    //   builder: (context) {
+    //     return AlertDialog(
+    //       title: const Text('Pick a color!'),
+    //       content: SingleChildScrollView(
+    //         child: BlockPicker(
+    //           pickerColor: selectedColor,
+    //           onColorChanged: changeColor,
+    //         ),
+    //       ),
+    //       actions: <Widget>[
+    //         ElevatedButton(
+    //           child: const Text('Got it'),
+    //           onPressed: () {
+    //             setState(() => selectedColor = pickerColor);
+    //             Navigator.of(context).pop();
+    //           },
+    //         ),
+    //       ],
+    //     );
+    //   },
+    // );
+  }
+
   _saveNewAccount() {
     if (title != null) {
       final newAccount = Account(
         name: title!,
+        colorValue: selectedColor.value,
         iconData: selectedIcon,
       );
       Provider.of<AccountProvider>(context, listen: false)

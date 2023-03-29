@@ -20,32 +20,6 @@ class DatabaseCategoryHelper {
       ${CategoryFields.iconData} $textType
       )
     ''');
-
-    final dog = Category(
-      name: 'Cane',
-      colorValue: 4294951175,
-      iconData: Icons.pets,
-    );
-    final shopping = Category(
-      name: 'Shopping',
-      colorValue: 4294951175,
-      iconData: Icons.shopping_bag_rounded,
-    );
-    final car = Category(
-      name: 'Auto',
-      colorValue: 4294951175,
-      iconData: Icons.car_crash,
-    );
-    final entertainment = Category(
-      name: 'Intrattenimento',
-      colorValue: 4294951175,
-      iconData: Icons.camera_alt,
-    );
-
-    await db.insert(categoriesTable, dog.toJson());
-    await db.insert(categoriesTable, shopping.toJson());
-    await db.insert(categoriesTable, car.toJson());
-    await db.insert(categoriesTable, entertainment.toJson());
   }
 
   Future<Category> insertCategory({required Category category}) async {

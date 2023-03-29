@@ -28,27 +28,16 @@ class _HomePageState extends State<HomePage> {
       floatingActionButton: _buildFloatingActionButton(context),
       body: Container(
         color: CustomColors.blue,
-        child: Stack(
-          children: [
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: Container(
-                height: MediaQuery.of(context).size.height / 2.5,
-                color: Colors.white,
+        child: SingleChildScrollView(
+          child: SafeArea(
+            child: Column(children: [
+              _buildTopSection(),
+              const SizedBox(
+                height: 20,
               ),
-            ),
-            SingleChildScrollView(
-              child: SafeArea(
-                child: Column(children: [
-                  _buildTopSection(),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  _buildBottomSection(),
-                ]),
-              ),
-            ),
-          ],
+              _buildBottomSection(),
+            ]),
+          ),
         ),
       ),
     );
@@ -225,22 +214,32 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
         ),
-        SizedBox(
-          height: 100,
-          child: ListView.separated(
-            padding: const EdgeInsets.symmetric(horizontal: horizontalPadding),
-            scrollDirection: Axis.horizontal,
-            itemCount: list.length,
-            itemBuilder: (context, index) {
-              return AccountListCell(
-                  account: list.keys.toList()[index],
-                  balance: list.values.toList()[index]);
-            },
-            separatorBuilder: (context, index) => const SizedBox(
-              width: 10,
-            ),
-          ),
-        ),
+        list.isNotEmpty
+            ? SizedBox(
+                height: 100,
+                child: ListView.separated(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: horizontalPadding),
+                  scrollDirection: Axis.horizontal,
+                  itemCount: list.length,
+                  itemBuilder: (context, index) {
+                    return AccountListCell(
+                        account: list.keys.toList()[index],
+                        balance: list.values.toList()[index]);
+                  },
+                  separatorBuilder: (context, index) => const SizedBox(
+                    width: 10,
+                  ),
+                ),
+              )
+            : const Align(
+                alignment: Alignment.center,
+                child: Text(
+                  'Nessuna transazione inserita',
+                  style: TextStyle(color: Colors.grey),
+                  textAlign: TextAlign.start,
+                ),
+              ),
       ],
     );
   }

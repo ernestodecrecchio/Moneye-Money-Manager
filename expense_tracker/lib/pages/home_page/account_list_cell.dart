@@ -1,6 +1,5 @@
 import 'package:expense_tracker/models/account.dart';
 import 'package:expense_tracker/pages/account_detail_page/account_detail_page.dart';
-import 'package:expense_tracker/style.dart';
 import 'package:flutter/material.dart';
 
 class AccountListCell extends StatelessWidget {
@@ -20,7 +19,7 @@ class AccountListCell extends StatelessWidget {
         margin: const EdgeInsets.symmetric(vertical: 10),
         width: 150,
         decoration: BoxDecoration(
-          color: CustomColors.blue,
+          color: account.color,
           borderRadius: BorderRadius.circular(10),
           boxShadow: const [
             BoxShadow(

@@ -1,5 +1,6 @@
 import 'package:expense_tracker/models/category.dart';
 import 'package:expense_tracker/notifiers/category_provider.dart';
+import 'package:expense_tracker/style.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -43,19 +44,25 @@ class _CategorySelectorContentState extends State<CategorySelectorContent> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Padding(
-        padding: const EdgeInsets.only(top: 30, left: 17, right: 17),
+        padding: const EdgeInsets.only(top: 10),
         child: SingleChildScrollView(
           child: Column(
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: const [
-                  Text(
-                    'Seleziona la categoria',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
-                  ),
-                  Icon(Icons.close)
-                ],
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 17),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text(
+                      'Seleziona la categoria',
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                    ),
+                    IconButton(
+                        onPressed: () => Navigator.of(context).pop(),
+                        icon: const Icon(Icons.close))
+                  ],
+                ),
               ),
               Consumer<CategoryProvider>(
                 builder: (context, categoryProvider, child) {
@@ -77,6 +84,8 @@ class _CategorySelectorContentState extends State<CategorySelectorContent> {
 
   _buildCategoryTile(Category category) {
     return ListTile(
+      tileColor:
+          _selectedCategory == category ? CustomColors.lightBlue : Colors.white,
       leading: Container(
         height: 32,
         width: 32,

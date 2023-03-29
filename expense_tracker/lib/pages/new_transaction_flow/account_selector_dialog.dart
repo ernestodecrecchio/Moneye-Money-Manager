@@ -1,5 +1,6 @@
 import 'package:expense_tracker/models/account.dart';
 import 'package:expense_tracker/notifiers/account_provider.dart';
+import 'package:expense_tracker/style.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -40,34 +41,56 @@ class _AccountSelectorContentState extends State<AccountSelectorContent> {
 
   @override
   Widget build(BuildContext context) {
-    return ConstrainedBox(
-      constraints: const BoxConstraints(maxHeight: 350, minHeight: 200),
-      child: Column(
-        children: [
-          Consumer<AccountProvider>(
-            builder: (context, accountProvider, child) {
-              final accountsList = accountProvider.accountList;
-              return ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: accountsList.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return _buildAccountTile(accountsList[index]);
-                  });
-            },
+    return SafeArea(
+      child: Padding(
+        padding: const EdgeInsets.only(top: 10),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 17),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text(
+                      'Seleziona il conto',
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                    ),
+                    IconButton(
+                        onPressed: () => Navigator.of(context).pop(),
+                        icon: const Icon(Icons.close))
+                  ],
+                ),
+              ),
+              Consumer<AccountProvider>(
+                builder: (context, accountProvider, child) {
+                  final accountsList = accountProvider.accountList;
+                  return ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: accountsList.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return _buildAccountTile(accountsList[index]);
+                      });
+                },
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }
 
   _buildAccountTile(Account account) {
     return ListTile(
+      tileColor:
+          _selectedAccount == account ? CustomColors.lightBlue : Colors.white,
       leading: Container(
         height: 32,
         width: 32,
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           shape: BoxShape.circle,
-          color: Colors.red,
+          color: account.color,
         ),
         child: Icon(
           account.iconData,

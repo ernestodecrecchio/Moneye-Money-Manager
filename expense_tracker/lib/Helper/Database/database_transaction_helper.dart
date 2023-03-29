@@ -1,5 +1,4 @@
 import 'package:expense_tracker/Helper/Database/database_helper.dart';
-import 'package:expense_tracker/Helper/Database/database_populate.dart';
 import 'package:expense_tracker/models/account.dart';
 import 'package:expense_tracker/models/category.dart';
 import 'package:expense_tracker/models/transaction.dart';
@@ -32,8 +31,6 @@ class DatabaseTransactionHelper {
       FOREIGN KEY (${TransactionFields.accountId}) REFERENCES $accountsTable (${AccountFields.id}) ON DELETE SET NULL ON UPDATE NO ACTION
       )
     ''');
-
-    await DatabasePopulate.addData(db);
   }
 
   Future<trans.Transaction> insertTransaction(

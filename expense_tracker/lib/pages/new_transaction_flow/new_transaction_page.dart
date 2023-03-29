@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:expense_tracker/models/account.dart';
 import 'package:expense_tracker/models/category.dart';
 import 'package:expense_tracker/notifiers/transaction_provider.dart';
@@ -7,7 +5,6 @@ import 'package:expense_tracker/pages/new_transaction_flow/account_selector_dial
 import 'package:expense_tracker/pages/common/custom_text_field.dart';
 import 'package:expense_tracker/pages/new_transaction_flow/category_selector_dialog.dart';
 import 'package:expense_tracker/style.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
@@ -32,8 +29,6 @@ class _NewTransactionPageState extends State<NewTransactionPage> {
   TextEditingController categoryInput = TextEditingController();
   TextEditingController accountInput = TextEditingController();
 
-  String? title;
-  double? value;
   Category? selectedCategory;
   Account? selectedAccount;
   DateTime selectedDate = DateTime.now();
@@ -69,9 +64,7 @@ class _NewTransactionPageState extends State<NewTransactionPage> {
       ),
       backgroundColor: Colors.white,
       body: SafeArea(
-        minimum: const EdgeInsets.symmetric(
-          horizontal: 17,
-        ),
+        minimum: const EdgeInsets.symmetric(horizontal: 17),
         child: CustomScrollView(
           slivers: [
             SliverFillRemaining(
@@ -213,17 +206,11 @@ class _NewTransactionPageState extends State<NewTransactionPage> {
             _saveNewTransaction();
           }
         },
-        style: ButtonStyle(
-          backgroundColor:
-              MaterialStateProperty.all<Color>(CustomColors.darkBlue),
-          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-            RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(25),
-              side: const BorderSide(
-                style: BorderStyle.none,
-                width: 0,
-              ),
-            ),
+        style: ElevatedButton.styleFrom(
+          elevation: 0,
+          backgroundColor: CustomColors.darkBlue,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(25),
           ),
         ),
         child: const Text(

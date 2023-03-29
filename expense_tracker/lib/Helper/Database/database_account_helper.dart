@@ -11,39 +11,16 @@ class DatabaseAccountHelper {
   static Future inizializeTable(Database db) async {
     const idType = 'INTEGER PRIMARY KEY AUTOINCREMENT';
     const textType = 'TEXT NOT NULL';
+    const integerType = 'INTEGER NOT NULL';
 
     await db.execute('''
       CREATE TABLE $accountsTable ( 
       ${AccountFields.id} $idType, 
       ${AccountFields.name} $textType,
+      ${AccountFields.colorValue} $integerType,
       ${AccountFields.iconData} $textType
       )
     ''');
-
-    final accountCash = Account(
-      name: 'Contanti',
-      iconData: Icons.shopping_bag_rounded,
-    );
-    final accountBuddyBank = Account(
-      name: 'Buddybank',
-      iconData: Icons.shopping_bag_rounded,
-    );
-    final accountPaypal = Account(
-      name: 'Paypal',
-      iconData: Icons.shopping_bag_rounded,
-    );
-    final accountCripto = Account(
-      name: 'Cripto',
-      iconData: Icons.shopping_bag_rounded,
-    );
-
-    await db.insert(
-      accountsTable,
-      accountBuddyBank.toJson(),
-    );
-    await db.insert(accountsTable, accountPaypal.toJson());
-    await db.insert(accountsTable, accountCripto.toJson());
-    await db.insert(accountsTable, accountCash.toJson());
   }
 
   Future<Account> insertAccount({required Account account}) async {
