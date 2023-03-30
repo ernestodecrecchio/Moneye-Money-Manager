@@ -216,8 +216,8 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
         list.isNotEmpty
-            ? SizedBox(
-                height: 80,
+            ? Container(
+                height: 85,
                 child: ListView.separated(
                   padding:
                       const EdgeInsets.symmetric(horizontal: horizontalPadding),
@@ -261,11 +261,13 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _buildLastTransactionList() {
-    final lastTransactionList =
+    final List<Transaction> lastTransactionList =
         Provider.of<TransactionProvider>(context, listen: true)
             .transactionList
             .take(5)
             .toList();
+
+    lastTransactionList.sort((a, b) => b.date.compareTo(a.date));
 
     return Container(
       width: double.infinity,
