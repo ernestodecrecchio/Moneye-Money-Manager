@@ -150,6 +150,9 @@ class _NewTransactionPageState extends State<NewTransactionPage> {
                 if (newSelectedCategory != null) {
                   categoryInput.text = newSelectedCategory.name;
                   setState(() => selectedCategory = newSelectedCategory);
+                } else {
+                  categoryInput.clear();
+                  setState(() => selectedCategory = null);
                 }
               },
             ),
@@ -169,6 +172,9 @@ class _NewTransactionPageState extends State<NewTransactionPage> {
                 if (newSelectedAccount != null) {
                   accountInput.text = newSelectedAccount.name;
                   setState(() => selectedAccount = newSelectedAccount);
+                } else {
+                  accountInput.clear();
+                  setState(() => selectedAccount = null);
                 }
               },
             ),
@@ -256,8 +262,6 @@ class _NewTransactionPageState extends State<NewTransactionPage> {
   _saveNewTransaction({required bool income}) {
     final transactionValue =
         income ? double.parse(valueInput.text) : -double.parse(valueInput.text);
-
-    print(transactionValue);
 
     Provider.of<TransactionProvider>(context, listen: false)
         .addNewTransaction(
