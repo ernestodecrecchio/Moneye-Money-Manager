@@ -1,4 +1,6 @@
+import 'package:expense_tracker/models/account.dart';
 import 'package:expense_tracker/models/transaction.dart';
+import 'package:expense_tracker/notifiers/account_provider.dart';
 
 import 'package:expense_tracker/notifiers/category_provider.dart';
 import 'package:flutter/material.dart';
@@ -13,6 +15,7 @@ class TransactionListCell extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      height: 60,
       padding: const EdgeInsets.symmetric(vertical: 8),
       child: Row(
         children: [
@@ -25,25 +28,17 @@ class TransactionListCell extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                transaction.date.toIso8601String().substring(0, 10),
-                style: const TextStyle(fontSize: 10, color: Colors.black54),
-              ),
-              Text(
                 transaction.title,
                 style: const TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              if (transaction.accountId != null)
-                Text(
-                  transaction.accountId.toString(),
-                  style: const TextStyle(fontSize: 10, color: Colors.black54),
-                ),
+              _buildDate(),
             ],
           ),
           const Spacer(),
-          _buildValue()
+          _buildValue(context),
         ],
       ),
     );
@@ -71,15 +66,55 @@ class TransactionListCell extends StatelessWidget {
         child: categoryIcon);
   }
 
-  Widget _buildValue() {
+  Widget _buildDate() {
+    final now = DateTime.now();
+    final today = DateTime(now.year, now.month, now.day);
+    final yesterday = DateTime(now.year, now.month, now.day - 1);
+
+    String dateString = transaction.date.toIso8601String().substring(0, 10);
+
+    DateTime dateToCheck = DateTime(
+        transaction.date.year, transaction.date.month, transaction.date.day);
+
+    if (dateToCheck == today) {
+      dateString = 'Oggi';
+    } else if (dateToCheck == yesterday) {
+      dateString = 'Ieri';
+    }
+
     return Text(
-      transaction.value.toString(),
-      textAlign: TextAlign.center,
-      style: TextStyle(
-        fontSize: 12,
-        fontWeight: FontWeight.bold,
-        color: transaction.value >= 0 ? Colors.green : Colors.red,
-      ),
+      dateString,
+      style: const TextStyle(fontSize: 10, color: Colors.black54),
+    );
+  }
+
+  Widget _buildValue(BuildContext context) {
+    Account? account;
+
+    if (transaction.accountId != null) {
+      account = Provider.of<AccountProvider>(context, listen: false)
+          .getAccountFromId(transaction.accountId!);
+    }
+
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.end,
+      children: [
+        Text(
+          transaction.value.toString(),
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            fontSize: 14,
+            fontWeight: FontWeight.bold,
+            color: transaction.value >= 0 ? Colors.green : Colors.red,
+          ),
+        ),
+        if (account != null)
+          Text(
+            account.name,
+            style: const TextStyle(fontSize: 10, color: Colors.black54),
+          ),
+      ],
     );
   }
 }

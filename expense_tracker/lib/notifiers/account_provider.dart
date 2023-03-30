@@ -17,6 +17,10 @@ class AccountProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  Account? getAccountFromId(int id) {
+    return accountList.firstWhereOrNull((element) => element.id == id);
+  }
+
   Account? getAccountForTransaction(Transaction transaction) {
     return accountList
         .firstWhereOrNull((element) => element.id == transaction.accountId);

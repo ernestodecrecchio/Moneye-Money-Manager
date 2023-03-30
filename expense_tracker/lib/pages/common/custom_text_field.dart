@@ -4,10 +4,11 @@ import 'package:flutter/services.dart';
 
 class CustomTextField extends StatelessWidget {
   final TextEditingController controller;
-  final String label;
+  final String? label;
   final String hintText;
   final IconData? icon;
   final Function()? onTap;
+  final Function(String newText)? onTextChanged;
   final List<TextInputFormatter>? textInputFormatters;
   final TextInputType? keyboardType;
   final bool readOnly;
@@ -19,10 +20,11 @@ class CustomTextField extends StatelessWidget {
   const CustomTextField({
     super.key,
     required this.controller,
-    required this.label,
+    this.label,
     required this.hintText,
     this.icon,
     this.onTap,
+    this.onTextChanged,
     this.textInputFormatters,
     this.keyboardType,
     this.readOnly = false,
@@ -38,14 +40,15 @@ class CustomTextField extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            label,
-            style: const TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.w600,
-              color: CustomColors.lightBlack,
+          if (label != null)
+            Text(
+              label!,
+              style: const TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.w600,
+                color: CustomColors.lightBlack,
+              ),
             ),
-          ),
           const SizedBox(
             height: 5,
           ),
@@ -57,6 +60,9 @@ class CustomTextField extends StatelessWidget {
             maxLines: maxLines,
             inputFormatters: [...?textInputFormatters],
             keyboardType: keyboardType,
+            onChanged: onTextChanged != null
+                ? (newText) => onTextChanged!(newText)
+                : null,
             decoration: InputDecoration(
               isDense: true,
               hintText: hintText,

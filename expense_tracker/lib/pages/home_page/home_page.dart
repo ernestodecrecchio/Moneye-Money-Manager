@@ -264,10 +264,9 @@ class _HomePageState extends State<HomePage> {
     final List<Transaction> lastTransactionList =
         Provider.of<TransactionProvider>(context, listen: true)
             .transactionList
+            .sorted((a, b) => b.date.compareTo(a.date))
             .take(5)
             .toList();
-
-    lastTransactionList.sort((a, b) => b.date.compareTo(a.date));
 
     return Container(
       width: double.infinity,
