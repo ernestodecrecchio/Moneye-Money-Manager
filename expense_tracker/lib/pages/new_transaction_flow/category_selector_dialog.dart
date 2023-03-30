@@ -48,26 +48,25 @@ class _CategorySelectorContentState extends State<CategorySelectorContent> {
     return SafeArea(
       child: Padding(
         padding: const EdgeInsets.only(top: 10),
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 17),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Text(
-                      'Seleziona la categoria',
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
-                    ),
-                    IconButton(
-                        onPressed: () => Navigator.of(context).pop(),
-                        icon: const Icon(Icons.close))
-                  ],
-                ),
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 17),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text(
+                    'Seleziona la categoria',
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                  ),
+                  IconButton(
+                      onPressed: () => Navigator.of(context).pop(),
+                      icon: const Icon(Icons.close))
+                ],
               ),
-              Consumer<CategoryProvider>(
+            ),
+            Expanded(
+              child: Consumer<CategoryProvider>(
                 builder: (context, categoryProvider, child) {
                   final categoriesList = categoryProvider.categoryList;
                   return ListView.builder(
@@ -81,8 +80,8 @@ class _CategorySelectorContentState extends State<CategorySelectorContent> {
                       });
                 },
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

@@ -47,26 +47,25 @@ class _AccountSelectorContentState extends State<AccountSelectorContent> {
     return SafeArea(
       child: Padding(
         padding: const EdgeInsets.only(top: 10),
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 17),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Text(
-                      'Seleziona il conto',
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
-                    ),
-                    IconButton(
-                        onPressed: () => Navigator.of(context).pop(),
-                        icon: const Icon(Icons.close))
-                  ],
-                ),
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 17),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text(
+                    'Seleziona il conto',
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                  ),
+                  IconButton(
+                      onPressed: () => Navigator.of(context).pop(),
+                      icon: const Icon(Icons.close))
+                ],
               ),
-              Consumer<AccountProvider>(
+            ),
+            Expanded(
+              child: Consumer<AccountProvider>(
                 builder: (context, accountProvider, child) {
                   final accountsList = accountProvider.accountList;
                   return ListView.builder(
@@ -80,8 +79,8 @@ class _AccountSelectorContentState extends State<AccountSelectorContent> {
                       });
                 },
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
