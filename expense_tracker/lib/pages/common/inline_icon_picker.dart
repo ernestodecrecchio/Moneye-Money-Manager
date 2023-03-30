@@ -19,12 +19,28 @@ class InlineIconPicker extends StatefulWidget {
 
 class _InlineIconPickerState extends State<InlineIconPicker> {
   final _controller = PageController();
+  int selectedIndex = 0;
+
+  late List<Widget> _pageList;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _pageList = [
+      _buildPage1(),
+      _buildPage1(),
+      _buildPage1(),
+      _buildPage1(),
+    ];
+  }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 116,
-      padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 15),
+      height: 114,
+      clipBehavior: Clip.antiAlias,
+      padding: const EdgeInsets.only(top: 10, bottom: 5),
       decoration: BoxDecoration(
           color: CustomColors.lightBlue,
           borderRadius: BorderRadius.circular(25)),
@@ -40,15 +56,35 @@ class _InlineIconPickerState extends State<InlineIconPicker> {
   }
 
   Widget _buildPageView() {
-    return PageView(
-      controller: _controller,
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        _buildPage1(),
+        Expanded(
+          child: PageView.builder(
+            controller: _controller,
+            onPageChanged: (int page) {
+              setState(() {
+                selectedIndex = page;
+              });
+            },
+            itemCount: _pageList.length,
+            itemBuilder: (context, index) {
+              return Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 22),
+                child: _buildPage1(),
+              );
+            },
+          ),
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [..._buildPageIndicator()],
+        )
       ],
     );
   }
 
-  _buildPage1() {
+  Widget _buildPage1() {
     return Wrap(
       spacing: 18,
       alignment: WrapAlignment.spaceEvenly,
@@ -90,6 +126,30 @@ class _InlineIconPickerState extends State<InlineIconPicker> {
             iconData,
             color: Colors.white,
           )),
+    );
+  }
+
+  List<Widget> _buildPageIndicator() {
+    List<Widget> list = [];
+    for (int i = 0; i < _pageList.length; i++) {
+      list.add(i == selectedIndex ? _indicator(true) : _indicator(false));
+    }
+    return list;
+  }
+
+  Widget _indicator(bool isActive) {
+    return SizedBox(
+      height: 10,
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 150),
+        margin: const EdgeInsets.symmetric(horizontal: 4.0),
+        height: isActive ? 4 : 4,
+        width: isActive ? 4 : 4,
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color: isActive ? const Color(0XFF6BC4C9) : const Color(0XFFEAEAEA),
+        ),
+      ),
     );
   }
 }
