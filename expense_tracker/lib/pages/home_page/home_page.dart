@@ -26,6 +26,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: _buildFloatingActionButton(context),
+      backgroundColor: Colors.white,
       body: Container(
         color: CustomColors.blue,
         child: SingleChildScrollView(
@@ -197,7 +198,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _buildAccountSection() {
-    final list = Provider.of<TransactionProvider>(context, listen: false)
+    final list = Provider.of<TransactionProvider>(context, listen: true)
         .getAccountBalance();
 
     return Column(

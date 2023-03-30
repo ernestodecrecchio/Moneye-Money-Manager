@@ -1,5 +1,6 @@
 import 'package:expense_tracker/models/category.dart';
 import 'package:expense_tracker/notifiers/category_provider.dart';
+import 'package:expense_tracker/pages/categories_page/new_category_page.dart';
 import 'package:expense_tracker/style.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -10,6 +11,8 @@ Future<Category?> showCategoryBottomSheet(
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(34.0),
     ),
+    backgroundColor: Colors.white,
+    clipBehavior: Clip.antiAlias,
     context: context,
     builder: ((context) {
       return CategorySelectorContent(currentSelection: initialSelection);
@@ -69,8 +72,11 @@ class _CategorySelectorContentState extends State<CategorySelectorContent> {
                   final categoriesList = categoryProvider.categoryList;
                   return ListView.builder(
                       shrinkWrap: true,
-                      itemCount: categoriesList.length,
+                      itemCount: categoriesList.length + 1,
                       itemBuilder: (BuildContext context, int index) {
+                        if (index == categoriesList.length) {
+                          return _buildAddCategoryTile();
+                        }
                         return _buildCategoryTile(categoriesList[index]);
                       });
                 },
@@ -79,6 +85,32 @@ class _CategorySelectorContentState extends State<CategorySelectorContent> {
           ),
         ),
       ),
+    );
+  }
+
+  _buildAddCategoryTile() {
+    return ListTile(
+      tileColor: Colors.white,
+      leading: Container(
+        height: 32,
+        width: 32,
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          border: Border.all(color: CustomColors.darkBlue, width: 2),
+        ),
+        child: const Icon(
+          Icons.add,
+          color: CustomColors.darkBlue,
+          size: 20,
+        ),
+      ),
+      title: const Text(
+        'Nuova categoria',
+        style: TextStyle(fontSize: 18),
+      ),
+      onTap: () {
+        Navigator.of(context).pushNamed(NewCategoryPage.routeName);
+      },
     );
   }
 
