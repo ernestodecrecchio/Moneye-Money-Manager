@@ -110,9 +110,9 @@ class _NewTransactionPageState extends State<NewTransactionPage> {
             CustomTextField(
               controller: valueInput,
               label: 'Valore*',
-              hintText: 'Inserisci il valore',
+              hintText: 'Inserisci il valore della transazione',
               textInputFormatters: <TextInputFormatter>[
-                FilteringTextInputFormatter.allow(RegExp(r'(^[-,+]?\d*\.?\d*)'))
+                FilteringTextInputFormatter.allow(RegExp(r'^\d+\.?\d*'))
               ],
               keyboardType: const TextInputType.numberWithOptions(
                   signed: true, decimal: true),
@@ -197,38 +197,72 @@ class _NewTransactionPageState extends State<NewTransactionPage> {
   }
 
   Widget _buildSaveButton() {
-    return SizedBox(
+    return Container(
+      clipBehavior: Clip.antiAlias,
       height: 50,
       width: double.infinity,
-      child: ElevatedButton(
-        onPressed: () {
-          if (_formKey.currentState!.validate()) {
-            _saveNewTransaction();
-          }
-        },
-        style: ElevatedButton.styleFrom(
-          elevation: 0,
-          backgroundColor: CustomColors.darkBlue,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(25),
+      decoration: BoxDecoration(
+        color: CustomColors.darkBlue,
+        borderRadius: BorderRadius.circular(25),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Expanded(
+            child: TextButton(
+              onPressed: () {
+                if (_formKey.currentState!.validate()) {
+                  _saveNewTransaction(income: true);
+                }
+              },
+              child: const Text(
+                'Entrata',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ),
           ),
-        ),
-        child: const Text(
-          'Salva',
-          style: TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.w600,
+          Container(
+            width: 2,
+            margin: const EdgeInsets.symmetric(vertical: 12),
+            height: double.infinity,
+            color: Colors.white,
           ),
-        ),
+          Expanded(
+            child: TextButton(
+              onPressed: () {
+                if (_formKey.currentState!.validate()) {
+                  _saveNewTransaction(income: false);
+                }
+              },
+              child: const Text(
+                'Uscita',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
 
-  _saveNewTransaction() {
+  _saveNewTransaction({required bool income}) {
+    final transactionValue =
+        income ? double.parse(valueInput.text) : -double.parse(valueInput.text);
+
+    print(transactionValue);
+
     Provider.of<TransactionProvider>(context, listen: false)
         .addNewTransaction(
             title: titleInput.text,
-            value: double.parse(valueInput.text),
+            value: transactionValue,
             date: selectedDate,
             category: selectedCategory,
             account: selectedAccount)
