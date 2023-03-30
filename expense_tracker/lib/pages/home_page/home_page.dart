@@ -216,7 +216,7 @@ class _HomePageState extends State<HomePage> {
         ),
         list.isNotEmpty
             ? SizedBox(
-                height: 100,
+                height: 80,
                 child: ListView.separated(
                   padding:
                       const EdgeInsets.symmetric(horizontal: horizontalPadding),

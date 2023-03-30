@@ -15,9 +15,9 @@ class AccountListCell extends StatelessWidget {
       onTap: () => Navigator.pushNamed(context, AccountDetailPage.routeName,
           arguments: account),
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
-        margin: const EdgeInsets.symmetric(vertical: 10),
-        width: 150,
+        clipBehavior: Clip.antiAlias,
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
+        width: 140,
         decoration: BoxDecoration(
           color: account.color,
           borderRadius: BorderRadius.circular(10),
@@ -30,7 +30,7 @@ class AccountListCell extends StatelessWidget {
           ],
         ),
         child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            // mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
@@ -43,17 +43,19 @@ class AccountListCell extends StatelessWidget {
                     color: Colors.white,
                   ),
                   const SizedBox(
-                    width: 10,
+                    width: 4,
                   ),
-                  Text(
-                    account.name,
-                    style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                      fontSize: 12,
+                  Expanded(
+                    child: Text(
+                      account.name,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                        fontSize: 12,
+                      ),
                     ),
                   ),
-                  const Spacer(),
                   Icon(
                     Icons.more_vert_rounded,
                     color: Colors.white.withOpacity(0.5),
@@ -61,9 +63,7 @@ class AccountListCell extends StatelessWidget {
                   )
                 ],
               ),
-              const SizedBox(
-                height: 5,
-              ),
+              Spacer(),
               Text(
                 'Total',
                 style: TextStyle(
