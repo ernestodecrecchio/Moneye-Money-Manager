@@ -238,7 +238,7 @@ class _HomePageState extends State<HomePage> {
             : const Align(
                 alignment: Alignment.center,
                 child: Text(
-                  'Nessuna transazione inserita',
+                  'Nessuna conto inserito',
                   style: TextStyle(color: Colors.grey),
                   textAlign: TextAlign.start,
                 ),
