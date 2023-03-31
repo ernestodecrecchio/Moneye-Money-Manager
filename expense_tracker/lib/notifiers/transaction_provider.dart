@@ -98,6 +98,8 @@ class TransactionProvider with ChangeNotifier {
   Map<Account, double> getAccountBalance() {
     final Map<Account, double> accountMap = {};
 
+    double balanceTransactionsWithoutAccount = 0;
+
     accountProvider?.accountList.forEach((account) {
       accountMap[account] = 0;
     });
@@ -109,7 +111,19 @@ class TransactionProvider with ChangeNotifier {
       if (transactionAccount != null) {
         accountMap[transactionAccount] =
             accountMap[transactionAccount]! + transaction.value;
+      } else {
+        balanceTransactionsWithoutAccount += transaction.value;
       }
+    }
+
+    if (balanceTransactionsWithoutAccount != 0) {
+      Account otherAccount = Account(
+        name: 'Altro',
+        colorValue: Colors.grey.value,
+        iconData: Icons.cases_outlined,
+      );
+
+      accountMap[otherAccount] = balanceTransactionsWithoutAccount;
     }
 
     return accountMap;
