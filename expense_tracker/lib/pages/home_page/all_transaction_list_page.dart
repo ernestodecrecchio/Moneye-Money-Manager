@@ -9,6 +9,7 @@ class AllTransactionList extends StatelessWidget {
 
   const AllTransactionList({super.key});
 
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(

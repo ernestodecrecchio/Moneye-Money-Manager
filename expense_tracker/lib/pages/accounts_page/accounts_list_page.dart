@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class AccountsListPage extends StatefulWidget {
+  static const routeName = '/accountsListPage';
+
   const AccountsListPage({Key? key}) : super(key: key);
 
   @override

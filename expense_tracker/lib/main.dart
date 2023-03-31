@@ -3,6 +3,8 @@ import 'package:expense_tracker/notifiers/account_provider.dart';
 import 'package:expense_tracker/notifiers/category_provider.dart';
 import 'package:expense_tracker/notifiers/transaction_provider.dart';
 import 'package:expense_tracker/pages/account_detail_page/account_detail_page.dart';
+import 'package:expense_tracker/pages/accounts_page/accounts_list_page.dart';
+import 'package:expense_tracker/pages/categories_page/categories_list_page.dart';
 import 'package:expense_tracker/pages/categories_page/new_category_page.dart';
 import 'package:expense_tracker/pages/accounts_page/new_account_page.dart';
 import 'package:expense_tracker/pages/home_page/all_transaction_list_page.dart';
@@ -43,6 +45,8 @@ class MyApp extends StatelessWidget {
           NewAccountPage.routeName: (context) => const NewAccountPage(),
           NewTransactionPage.routeName: (context) => const NewTransactionPage(),
           AllTransactionList.routeName: (context) => const AllTransactionList(),
+          CategoriesListPage.routeName: (context) => const CategoriesListPage(),
+          AccountsListPage.routeName: (context) => const AccountsListPage(),
         },
         onGenerateRoute: (settings) {
           if (settings.name == AccountDetailPage.routeName) {

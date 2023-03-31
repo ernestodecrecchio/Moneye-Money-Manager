@@ -3,10 +3,13 @@ import 'package:expense_tracker/notifiers/category_provider.dart';
 import 'package:expense_tracker/pages/accounts_page/accounts_list_page.dart';
 import 'package:expense_tracker/pages/categories_page/categories_list_page.dart';
 import 'package:expense_tracker/pages/home_page/home_page.dart';
+import 'package:expense_tracker/pages/options_page/options_page.dart';
 import 'package:expense_tracker/style.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
+import 'package:cupertino_icons/cupertino_icons.dart';
 
 class TabBarPage extends StatefulWidget {
   const TabBarPage({Key? key}) : super(key: key);
@@ -20,8 +23,7 @@ class _TabBarPageState extends State<TabBarPage> {
 
   final screen = [
     const HomePage(),
-    const CategoriesListPage(),
-    const AccountsListPage(),
+    const OptionsPage(),
   ];
 
   @override
@@ -49,14 +51,8 @@ class _TabBarPageState extends State<TabBarPage> {
               //  selectedColor: Colors.purple,
             ),
             SalomonBottomBarItem(
-              icon: const Icon(Icons.pie_chart_rounded),
-              title: const Text('Categorie'),
-
-              //  selectedColor: Colors.purple,
-            ),
-            SalomonBottomBarItem(
-              icon: const Icon(Icons.abc_outlined),
-              title: const Text('Conti'),
+              icon: const Icon(CupertinoIcons.gear_solid),
+              title: const Text('Opzioni'),
               //  selectedColor: Colors.purple,
             ),
           ],
