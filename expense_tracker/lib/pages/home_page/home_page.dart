@@ -55,7 +55,7 @@ class _HomePageState extends State<HomePage> {
       child: Column(children: [
         _buildAccountSection(),
         const SizedBox(
-          height: 25,
+          height: 14,
         ),
         _buildLastTransactionList(),
       ]),
@@ -216,9 +216,10 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
         list.isNotEmpty
-            ? Container(
+            ? SizedBox(
                 height: 85,
                 child: ListView.separated(
+                  clipBehavior: Clip.none,
                   padding:
                       const EdgeInsets.symmetric(horizontal: horizontalPadding),
                   scrollDirection: Axis.horizontal,
@@ -319,9 +320,10 @@ class _HomePageState extends State<HomePage> {
 
   Widget _buildFloatingActionButton(BuildContext context) {
     return FloatingActionButton(
-      child: const Icon(Icons.add),
+      backgroundColor: CustomColors.darkBlue,
       onPressed: () =>
           Navigator.pushNamed(context, NewTransactionPage.routeName),
+      child: const Icon(Icons.add),
     );
   }
 }

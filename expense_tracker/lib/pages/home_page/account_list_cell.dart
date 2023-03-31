@@ -15,10 +15,9 @@ class AccountListCell extends StatelessWidget {
       onTap: () => Navigator.pushNamed(context, AccountDetailPage.routeName,
           arguments: account),
       child: Container(
-        //    clipBehavior: Clip.antiAlias,
-        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
-        margin: EdgeInsets.symmetric(vertical: 5),
         width: 140,
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
+        margin: const EdgeInsets.symmetric(vertical: 5),
         decoration: BoxDecoration(
           color: account.color,
           borderRadius: BorderRadius.circular(10),
