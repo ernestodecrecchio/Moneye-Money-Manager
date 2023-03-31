@@ -30,7 +30,6 @@ class AccountDetailPage extends StatelessWidget {
             .getTransactionListForAccount(account);
 
     return SafeArea(
-      //minimum: EdgeInsets.symmetric(horizontal: 17),
       child: ListView.builder(
         itemCount: transactionList.length,
         itemBuilder: (context, index) {
