@@ -85,7 +85,7 @@ class _HomePageState extends State<HomePage> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           const Text(
-            'Total balance',
+            'Bilancio totale',
             style: TextStyle(
               color: Colors.white,
               fontSize: 16,
@@ -107,7 +107,7 @@ class _HomePageState extends State<HomePage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Text(
-                'This month',
+                'Questo mese',
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 14,
@@ -271,15 +271,17 @@ class _HomePageState extends State<HomePage> {
 
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.symmetric(horizontal: horizontalPadding),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            'Ultime transazioni',
-            style: TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
+          const Padding(
+            padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
+            child: Text(
+              'Ultime transazioni',
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
           const SizedBox(
@@ -287,21 +289,13 @@ class _HomePageState extends State<HomePage> {
           ),
           lastTransactionList.isNotEmpty
               ? ListView.separated(
-                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  // padding: const EdgeInsets.symmetric(horizontal: 10),
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
                   itemCount: lastTransactionList.length,
                   itemBuilder: (context, index) {
-                    return Dismissible(
-                        key: Key(lastTransactionList[index].id.toString()),
-                        confirmDismiss: (_) {
-                          return Provider.of<TransactionProvider>(context,
-                                  listen: false)
-                              .deleteTransaction(lastTransactionList[index]);
-                        },
-                        background: Container(color: Colors.red),
-                        child: TransactionListCell(
-                            transaction: lastTransactionList[index]));
+                    return TransactionListCell(
+                        transaction: lastTransactionList[index]);
                   },
                   separatorBuilder: (context, index) => const Divider(),
                 )

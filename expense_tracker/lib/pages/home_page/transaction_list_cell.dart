@@ -3,43 +3,66 @@ import 'package:expense_tracker/models/transaction.dart';
 import 'package:expense_tracker/notifiers/account_provider.dart';
 
 import 'package:expense_tracker/notifiers/category_provider.dart';
+import 'package:expense_tracker/notifiers/transaction_provider.dart';
 import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
 
 class TransactionListCell extends StatelessWidget {
   final Transaction transaction;
-  const TransactionListCell({Key? key, required this.transaction})
-      : super(key: key);
+  const TransactionListCell({
+    Key? key,
+    required this.transaction,
+    bool? dismissible = true,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 60,
-      padding: const EdgeInsets.symmetric(vertical: 8),
-      child: Row(
-        children: [
-          _buildCategoryIcon(context),
-          const SizedBox(
-            width: 8,
+    return Dismissible(
+      direction: DismissDirection.endToStart,
+      key: Key(transaction.id.toString()),
+      confirmDismiss: (_) {
+        return Provider.of<TransactionProvider>(context, listen: false)
+            .deleteTransaction(transaction);
+      },
+      background: Container(
+        padding: const EdgeInsets.only(right: 17),
+        color: Colors.red,
+        child: const Align(
+          alignment: Alignment.centerRight,
+          child: Icon(
+            Icons.delete,
+            color: Colors.white,
           ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                transaction.title,
-                style: const TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.bold,
+        ),
+      ),
+      child: Container(
+        height: 60,
+        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 17),
+        child: Row(
+          children: [
+            _buildCategoryIcon(context),
+            const SizedBox(
+              width: 8,
+            ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  transaction.title,
+                  style: const TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
-              ),
-              _buildDate(),
-            ],
-          ),
-          const Spacer(),
-          _buildValue(context),
-        ],
+                _buildDate(),
+              ],
+            ),
+            const Spacer(),
+            _buildValue(context),
+          ],
+        ),
       ),
     );
   }
