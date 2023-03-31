@@ -3,6 +3,7 @@ import 'package:expense_tracker/notifiers/category_provider.dart';
 import 'package:expense_tracker/pages/accounts_page/accounts_list_page.dart';
 import 'package:expense_tracker/pages/categories_page/categories_list_page.dart';
 import 'package:expense_tracker/pages/home_page/home_page.dart';
+import 'package:expense_tracker/style.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
@@ -36,6 +37,8 @@ class _TabBarPageState extends State<TabBarPage> {
     return Scaffold(
         bottomNavigationBar: SalomonBottomBar(
           currentIndex: index,
+          selectedItemColor: CustomColors.blue,
+          unselectedItemColor: Colors.grey,
           onTap: (newIndex) {
             setState(() => index = newIndex);
           },
@@ -46,37 +49,18 @@ class _TabBarPageState extends State<TabBarPage> {
               //  selectedColor: Colors.purple,
             ),
             SalomonBottomBarItem(
-              icon: const Icon(Icons.money),
+              icon: const Icon(Icons.pie_chart_rounded),
               title: const Text('Categorie'),
+
               //  selectedColor: Colors.purple,
             ),
             SalomonBottomBarItem(
-              icon: const Icon(Icons.money),
+              icon: const Icon(Icons.abc_outlined),
               title: const Text('Conti'),
               //  selectedColor: Colors.purple,
             ),
           ],
         ),
-        // bottomNavigationBar: NavigationBar(
-        //   selectedIndex: index,
-        //   onDestinationSelected: (newIndex) {
-        //     setState(() => index = newIndex);
-        //   },
-        //   destinations: const [
-        //     NavigationDestination(
-        //       label: 'Spese',
-        //       icon: Icon(Icons.money),
-        //     ),
-        //     NavigationDestination(
-        //       label: 'Categorie',
-        //       icon: Icon(Icons.abc),
-        //     ),
-        //     NavigationDestination(
-        //       label: 'Conti',
-        //       icon: Icon(Icons.abc),
-        //     ),
-        //   ],
-        // ),
         body: screen[index]);
   }
 }

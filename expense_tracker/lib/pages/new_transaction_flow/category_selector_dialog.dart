@@ -60,8 +60,9 @@ class _CategorySelectorContentState extends State<CategorySelectorContent> {
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
                   ),
                   IconButton(
-                      onPressed: () => Navigator.of(context).pop(),
-                      icon: const Icon(Icons.close))
+                    onPressed: () => Navigator.of(context).pop(),
+                    icon: const Icon(Icons.close),
+                  )
                 ],
               ),
             ),

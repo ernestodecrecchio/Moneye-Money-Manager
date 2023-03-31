@@ -60,7 +60,7 @@ class AccountListCell extends StatelessWidget {
               )
             ],
           ),
-          Spacer(),
+          const Spacer(),
           Text(
             'Total',
             style: TextStyle(
