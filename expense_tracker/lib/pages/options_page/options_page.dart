@@ -2,8 +2,6 @@ import 'package:expense_tracker/pages/accounts_page/accounts_list_page.dart';
 import 'package:expense_tracker/pages/categories_page/categories_list_page.dart';
 import 'package:expense_tracker/style.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 
 class OptionsPage extends StatelessWidget {
   const OptionsPage({super.key});

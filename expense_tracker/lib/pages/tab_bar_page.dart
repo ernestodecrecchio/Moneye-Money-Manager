@@ -1,8 +1,6 @@
 import 'package:expense_tracker/notifiers/account_provider.dart';
 import 'package:expense_tracker/notifiers/category_provider.dart';
 import 'package:expense_tracker/notifiers/transaction_provider.dart';
-import 'package:expense_tracker/pages/accounts_page/accounts_list_page.dart';
-import 'package:expense_tracker/pages/categories_page/categories_list_page.dart';
 import 'package:expense_tracker/pages/home_page/home_page.dart';
 import 'package:expense_tracker/pages/options_page/options_page.dart';
 import 'package:expense_tracker/style.dart';
