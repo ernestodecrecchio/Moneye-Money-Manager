@@ -1,6 +1,7 @@
 import 'package:expense_tracker/models/account.dart';
 import 'package:expense_tracker/notifiers/account_provider.dart';
 import 'package:expense_tracker/notifiers/category_provider.dart';
+import 'package:expense_tracker/notifiers/central_provider.dart';
 import 'package:expense_tracker/notifiers/transaction_provider.dart';
 import 'package:expense_tracker/pages/account_detail_page/account_detail_page.dart';
 import 'package:expense_tracker/pages/accounts_page/accounts_list_page.dart';
@@ -31,7 +32,22 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProxyProvider<AccountProvider, TransactionProvider>(
             create: (_) => TransactionProvider(),
             update: (context, accountProvider, transactionProvider) =>
-                transactionProvider!..accountProvider = accountProvider)
+                transactionProvider!..accountProvider = accountProvider),
+        ChangeNotifierProxyProvider3<TransactionProvider, AccountProvider,
+            CategoryProvider, CentralProvider>(
+          create: (_) => CentralProvider(),
+          update: (
+            context,
+            transactionProvider,
+            accountProvider,
+            categoryProvider,
+            centralProvider,
+          ) =>
+              centralProvider!
+                ..transactionProvider = transactionProvider
+                ..accountProvider = accountProvider
+                ..categoryProvider = categoryProvider,
+        ),
       ],
       child: MaterialApp(
         title: 'Flutter Demo',

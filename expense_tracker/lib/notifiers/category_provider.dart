@@ -39,6 +39,7 @@ class CategoryProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  /// Deletes the category without affecting the transactions viewed in the current session
   Future<bool> deleteCategory(Category category) async {
     final removedCategoryCount = await DatabaseCategoryHelper.instance
         .deleteCategory(category: category);

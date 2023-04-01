@@ -43,6 +43,7 @@ class AccountProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  /// Deletes the account without affecting the transactions viewed in the current session
   Future<bool> deleteAccount(Account account) async {
     final removedAccountCount =
         await DatabaseAccountHelper.instance.deleteAccount(account: account);

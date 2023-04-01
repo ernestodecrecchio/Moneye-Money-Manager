@@ -1,4 +1,5 @@
 import 'package:expense_tracker/notifiers/account_provider.dart';
+import 'package:expense_tracker/notifiers/central_provider.dart';
 import 'package:expense_tracker/pages/accounts_page/new_account_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -38,7 +39,8 @@ class _AccountsListPageState extends State<AccountsListPage> {
             return Dismissible(
               key: Key(account.id.toString()),
               confirmDismiss: (_) {
-                return accountProvider.deleteAccount(account);
+                return Provider.of<CentralProvider>(context, listen: false)
+                    .deleteAccount(account);
               },
               background: Container(color: Colors.red),
               child: ListTile(
