@@ -247,12 +247,6 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Account? getAccountForTransaction(Transaction transaction) {
-    return Provider.of<AccountProvider>(context, listen: false)
-        .accountList
-        .firstWhereOrNull((element) => element.id == transaction.accountId);
-  }
-
   Future<Category?> getCategoryForTransaction(Transaction transaction) async {
     if (transaction.categoryId != null) {
       return await Provider.of<CategoryProvider>(context, listen: false)
@@ -310,7 +304,6 @@ class _HomePageState extends State<HomePage> {
           ),
           lastTransactionList.isNotEmpty
               ? ListView.separated(
-                  // padding: const EdgeInsets.symmetric(horizontal: 10),
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
                   itemCount: lastTransactionList.length,

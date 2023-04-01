@@ -8,7 +8,7 @@ class AccountProvider with ChangeNotifier {
   List<Account> accountList = [];
 
   AccountProvider() {
-    getAllAccounts();
+    // getAllAccounts();
   }
 
   Future getAllAccounts() async {

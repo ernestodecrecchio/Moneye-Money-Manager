@@ -25,14 +25,14 @@ class TransactionProvider with ChangeNotifier {
         0, (previousValue, element) => previousValue + element.value);
   }
 
+  TransactionProvider({this.accountProvider}) {
+    //getAllTransactions();
+  }
+
   List<Transaction> getTransactionListForAccount(Account account) {
     return transactionList
         .where((element) => element.accountId == account.id)
         .toList();
-  }
-
-  TransactionProvider({this.accountProvider}) {
-    getAllTransactions();
   }
 
   Future getAllTransactions() async {
@@ -50,11 +50,12 @@ class TransactionProvider with ChangeNotifier {
     Account? account,
   }) async {
     Transaction newTransaction = Transaction(
-        title: title,
-        value: value,
-        date: date,
-        categoryId: category?.id,
-        accountId: account?.id);
+      title: title,
+      value: value,
+      date: date,
+      categoryId: category?.id,
+      accountId: account?.id,
+    );
 
     transactionList.add(await DatabaseTransactionHelper.instance
         .insertTransaction(transaction: newTransaction));

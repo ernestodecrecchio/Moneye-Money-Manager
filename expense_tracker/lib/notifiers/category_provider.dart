@@ -8,7 +8,7 @@ class CategoryProvider with ChangeNotifier {
   List<Category> categoryList = [];
 
   CategoryProvider() {
-    getAllCategories();
+    // getAllCategories();
   }
 
   Future getAllCategories() async {
