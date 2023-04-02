@@ -63,7 +63,6 @@ class AccountProvider with ChangeNotifier {
 
       if (accountIndexToModify != -1) {
         accountList[accountIndexToModify] = modifiedAccount;
-        print('edited');
       }
 
       notifyListeners();

@@ -1,4 +1,6 @@
+import 'package:collection/collection.dart';
 import 'package:expense_tracker/models/account.dart';
+import 'package:expense_tracker/notifiers/account_provider.dart';
 import 'package:expense_tracker/notifiers/transaction_provider.dart';
 import 'package:expense_tracker/pages/accounts_page/new_account_page.dart';
 import 'package:expense_tracker/pages/home_page/transaction_list_cell.dart';
@@ -15,11 +17,15 @@ class AccountDetailPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final referenceAccount = Provider.of<AccountProvider>(context, listen: true)
+        .accountList
+        .firstWhereOrNull((element) => element.id == account.id);
+
     return Scaffold(
       appBar: AppBar(
-        title: Text(account.name),
+        title: Text(referenceAccount?.name ?? account.name),
         backgroundColor: CustomColors.blue,
-        actions: [_buildEditAction(context)],
+        actions: [if (account.id != null) _buildEditAction(context)],
       ),
       backgroundColor: Colors.white,
       body: _buildBody(context),
