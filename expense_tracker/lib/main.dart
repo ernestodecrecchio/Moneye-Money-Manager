@@ -1,4 +1,5 @@
 import 'package:expense_tracker/models/account.dart';
+import 'package:expense_tracker/models/category.dart';
 import 'package:expense_tracker/notifiers/account_provider.dart';
 import 'package:expense_tracker/notifiers/category_provider.dart';
 import 'package:expense_tracker/notifiers/central_provider.dart';
@@ -58,24 +59,51 @@ class MyApp extends StatelessWidget {
         routes: {
           '/': (context) => const TabBarPage(),
           NewCategoryPage.routeName: (context) => const NewCategoryPage(),
-          NewAccountPage.routeName: (context) => const NewAccountPage(),
           NewTransactionPage.routeName: (context) => const NewTransactionPage(),
           AllTransactionList.routeName: (context) => const AllTransactionList(),
           CategoriesListPage.routeName: (context) => const CategoriesListPage(),
           AccountsListPage.routeName: (context) => const AccountsListPage(),
         },
         onGenerateRoute: (settings) {
-          if (settings.name == AccountDetailPage.routeName) {
-            final args = settings.arguments as Account;
+          switch (settings.name) {
+            case AccountDetailPage.routeName:
+              {
+                final args = settings.arguments as Account;
 
-            return MaterialPageRoute(
-              builder: (context) {
-                return AccountDetailPage(
-                  account: args,
+                return MaterialPageRoute(
+                  builder: (context) {
+                    return AccountDetailPage(
+                      account: args,
+                    );
+                  },
                 );
-              },
-            );
+              }
+            case NewAccountPage.routeName:
+              {
+                final args = settings.arguments as Account;
+
+                return MaterialPageRoute(
+                  builder: (context) {
+                    return NewAccountPage(
+                      initialAccountSettings: args,
+                    );
+                  },
+                );
+              }
+            case NewCategoryPage.routeName:
+              {
+                final args = settings.arguments as Category;
+
+                return MaterialPageRoute(
+                  builder: (context) {
+                    return NewCategoryPage(
+                      initialCategorySettings: args,
+                    );
+                  },
+                );
+              }
           }
+
           assert(false, 'Need to implement ${settings.name}');
           return null;
         },

@@ -1,5 +1,7 @@
+import 'package:expense_tracker/models/account.dart';
 import 'package:expense_tracker/models/category.dart';
 import 'package:expense_tracker/models/transaction.dart';
+import 'package:expense_tracker/notifiers/account_provider.dart';
 import 'package:expense_tracker/notifiers/category_provider.dart';
 import 'package:expense_tracker/notifiers/transaction_provider.dart';
 import 'package:expense_tracker/pages/home_page/account_list_cell.dart';
@@ -197,8 +199,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _buildAccountSection() {
-    final list = Provider.of<TransactionProvider>(context, listen: true)
-        .getAccountBalance();
+    final list = getAccountBalance();
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -243,6 +244,46 @@ class _HomePageState extends State<HomePage> {
               ),
       ],
     );
+  }
+
+  /// Returns a Map where for each account, there is a sum of all the transactions value
+  Map<Account, double> getAccountBalance() {
+    final Map<Account, double> accountMap = {};
+
+    double balanceTransactionsWithoutAccount = 0;
+
+    final accountList =
+        Provider.of<AccountProvider>(context, listen: true).accountList;
+    final transactionList =
+        Provider.of<TransactionProvider>(context, listen: true).transactionList;
+
+    accountList.forEach((account) {
+      accountMap[account] = 0;
+    });
+
+    for (var transaction in transactionList) {
+      Account? transactionAccount = accountList
+          .firstWhereOrNull((element) => element.id == transaction.accountId);
+
+      if (transactionAccount != null) {
+        accountMap[transactionAccount] =
+            accountMap[transactionAccount]! + transaction.value;
+      } else {
+        balanceTransactionsWithoutAccount += transaction.value;
+      }
+    }
+
+    if (balanceTransactionsWithoutAccount != 0) {
+      Account otherAccount = Account(
+        name: 'Altro',
+        colorValue: Colors.grey.value,
+        iconData: Icons.cases_outlined,
+      );
+
+      accountMap[otherAccount] = balanceTransactionsWithoutAccount;
+    }
+
+    return accountMap;
   }
 
   Future<Category?> getCategoryForTransaction(Transaction transaction) async {

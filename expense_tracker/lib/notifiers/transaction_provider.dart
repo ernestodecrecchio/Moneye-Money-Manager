@@ -94,39 +94,4 @@ class TransactionProvider with ChangeNotifier {
 
     return balanceMap;
   }
-
-  /// Returns a Map where for each account, there is a sum of all the transactions value
-  Map<Account, double> getAccountBalance() {
-    final Map<Account, double> accountMap = {};
-
-    double balanceTransactionsWithoutAccount = 0;
-
-    accountProvider?.accountList.forEach((account) {
-      accountMap[account] = 0;
-    });
-
-    for (var transaction in transactionList) {
-      Account? transactionAccount = accountProvider?.accountList
-          .firstWhereOrNull((element) => element.id == transaction.accountId);
-
-      if (transactionAccount != null) {
-        accountMap[transactionAccount] =
-            accountMap[transactionAccount]! + transaction.value;
-      } else {
-        balanceTransactionsWithoutAccount += transaction.value;
-      }
-    }
-
-    if (balanceTransactionsWithoutAccount != 0) {
-      Account otherAccount = Account(
-        name: 'Altro',
-        colorValue: Colors.grey.value,
-        iconData: Icons.cases_outlined,
-      );
-
-      accountMap[otherAccount] = balanceTransactionsWithoutAccount;
-    }
-
-    return accountMap;
-  }
 }

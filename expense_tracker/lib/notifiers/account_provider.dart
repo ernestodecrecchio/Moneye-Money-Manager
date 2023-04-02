@@ -43,6 +43,33 @@ class AccountProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  Future updateAccount({
+    required Account accountToEdit,
+    required String name,
+    required int colorValue,
+    required IconData iconData,
+  }) async {
+    final modifiedAccount = Account(
+      id: accountToEdit.id,
+      name: name,
+      colorValue: colorValue,
+      iconData: iconData,
+    );
+
+    if (await DatabaseAccountHelper.instance.updateAccount(
+        accountToEdit: accountToEdit, modifiedAccount: modifiedAccount)) {
+      final accountIndexToModify =
+          accountList.indexWhere((element) => element.id == accountToEdit.id);
+
+      if (accountIndexToModify != -1) {
+        accountList[accountIndexToModify] = modifiedAccount;
+        print('edited');
+      }
+
+      notifyListeners();
+    }
+  }
+
   /// Deletes the account without affecting the transactions viewed in the current session
   Future<bool> deleteAccount(Account account) async {
     final removedAccountCount =

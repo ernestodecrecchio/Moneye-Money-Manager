@@ -30,6 +30,18 @@ class DatabaseAccountHelper {
     return account.copy(id: id);
   }
 
+  Future<bool> updateAccount(
+      {required Account accountToEdit,
+      required Account modifiedAccount}) async {
+    final db = await DatabaseHelper.instance.database;
+
+    if (await db.update(accountsTable, modifiedAccount.toJson()) > 0) {
+      return true;
+    }
+
+    return false;
+  }
+
   Future<int> deleteAccount({required Account account}) async {
     final db = await DatabaseHelper.instance.database;
 

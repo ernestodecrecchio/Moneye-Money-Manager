@@ -1,3 +1,4 @@
+import 'package:expense_tracker/models/category.dart';
 import 'package:expense_tracker/notifiers/category_provider.dart';
 import 'package:expense_tracker/pages/common/custom_text_field.dart';
 import 'package:expense_tracker/pages/common/inline_color_picker.dart';
@@ -9,7 +10,12 @@ import 'package:provider/provider.dart';
 class NewCategoryPage extends StatefulWidget {
   static const routeName = '/newCategoryPage';
 
-  const NewCategoryPage({Key? key}) : super(key: key);
+  final Category? initialCategorySettings;
+
+  const NewCategoryPage({
+    Key? key,
+    this.initialCategorySettings,
+  }) : super(key: key);
 
   @override
   State<NewCategoryPage> createState() => _NewCategoryPageState();
@@ -24,6 +30,22 @@ class _NewCategoryPageState extends State<NewCategoryPage> {
   Color selectedColor = CustomColors.darkBlue;
   IconData? selectedIcon;
 
+  bool editMode = false;
+
+  @override
+  void initState() {
+    super.initState();
+
+    if (widget.initialCategorySettings != null) {
+      editMode = true;
+
+      titleInput.text = widget.initialCategorySettings!.name;
+      //descriptionInput.text = widget.initialAccountSettings!.description;
+      selectedColor = widget.initialCategorySettings!.color;
+      selectedIcon = widget.initialCategorySettings!.iconData;
+    }
+  }
+
   @override
   void dispose() {
     titleInput.dispose();
@@ -36,7 +58,7 @@ class _NewCategoryPageState extends State<NewCategoryPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Nuova categoria'),
+        title: Text(editMode ? 'Modifica categoria' : 'Nuova categoria'),
         backgroundColor: CustomColors.blue,
         elevation: 0,
       ),

@@ -1,3 +1,4 @@
+import 'package:expense_tracker/models/account.dart';
 import 'package:expense_tracker/notifiers/account_provider.dart';
 import 'package:expense_tracker/pages/common/custom_text_field.dart';
 import 'package:expense_tracker/pages/common/inline_color_picker.dart';
@@ -9,7 +10,12 @@ import 'package:provider/provider.dart';
 class NewAccountPage extends StatefulWidget {
   static const routeName = '/newAccountPage';
 
-  const NewAccountPage({Key? key}) : super(key: key);
+  final Account? initialAccountSettings;
+
+  const NewAccountPage({
+    Key? key,
+    this.initialAccountSettings,
+  }) : super(key: key);
 
   @override
   State<NewAccountPage> createState() => _NewAccountPageState();
@@ -24,6 +30,22 @@ class _NewAccountPageState extends State<NewAccountPage> {
   Color selectedColor = CustomColors.darkBlue;
   IconData? selectedIcon;
 
+  bool editMode = false;
+
+  @override
+  void initState() {
+    super.initState();
+
+    if (widget.initialAccountSettings != null) {
+      editMode = true;
+
+      titleInput.text = widget.initialAccountSettings!.name;
+      //descriptionInput.text = widget.initialAccountSettings!.description;
+      selectedColor = widget.initialAccountSettings!.color;
+      selectedIcon = widget.initialAccountSettings!.iconData;
+    }
+  }
+
   @override
   void dispose() {
     titleInput.dispose();
@@ -36,7 +58,7 @@ class _NewAccountPageState extends State<NewAccountPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Nuovo conto'),
+        title: Text(editMode ? 'Modifica conto' : 'Nuovo conto'),
         backgroundColor: CustomColors.blue,
         elevation: 0,
       ),
@@ -158,7 +180,11 @@ class _NewAccountPageState extends State<NewAccountPage> {
       child: ElevatedButton(
         onPressed: () {
           if (_formKey.currentState!.validate()) {
-            _saveNewAccount();
+            if (editMode) {
+              _editAccount();
+            } else {
+              _saveNewAccount();
+            }
           }
         },
         style: ElevatedButton.styleFrom(
@@ -168,9 +194,9 @@ class _NewAccountPageState extends State<NewAccountPage> {
             borderRadius: BorderRadius.circular(25),
           ),
         ),
-        child: const Text(
-          'Salva',
-          style: TextStyle(
+        child: Text(
+          editMode ? 'Modifica' : 'Salva',
+          style: const TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.w600,
           ),
@@ -182,6 +208,16 @@ class _NewAccountPageState extends State<NewAccountPage> {
   _saveNewAccount() {
     Provider.of<AccountProvider>(context, listen: false)
         .addNewAccount(
+            name: titleInput.text,
+            colorValue: selectedColor.value,
+            iconData: selectedIcon!)
+        .then((value) => Navigator.of(context).pop());
+  }
+
+  _editAccount() {
+    Provider.of<AccountProvider>(context, listen: false)
+        .updateAccount(
+            accountToEdit: widget.initialAccountSettings!,
             name: titleInput.text,
             colorValue: selectedColor.value,
             iconData: selectedIcon!)

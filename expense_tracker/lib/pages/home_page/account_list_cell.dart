@@ -6,14 +6,20 @@ class AccountListCell extends StatelessWidget {
   final Account account;
   final double balance;
 
-  const AccountListCell(
-      {super.key, required this.account, required this.balance});
+  const AccountListCell({
+    super.key,
+    required this.account,
+    required this.balance,
+  });
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => Navigator.pushNamed(context, AccountDetailPage.routeName,
-          arguments: account),
+      onTap: () => Navigator.pushNamed(
+        context,
+        AccountDetailPage.routeName,
+        arguments: account,
+      ),
       child: Container(
         width: 140,
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),

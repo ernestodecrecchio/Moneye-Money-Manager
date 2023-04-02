@@ -1,5 +1,6 @@
 import 'package:expense_tracker/models/account.dart';
 import 'package:expense_tracker/notifiers/transaction_provider.dart';
+import 'package:expense_tracker/pages/accounts_page/new_account_page.dart';
 import 'package:expense_tracker/pages/home_page/transaction_list_cell.dart';
 import 'package:expense_tracker/style.dart';
 import 'package:flutter/material.dart';
@@ -18,6 +19,7 @@ class AccountDetailPage extends StatelessWidget {
       appBar: AppBar(
         title: Text(account.name),
         backgroundColor: CustomColors.blue,
+        actions: [_buildEditAction(context)],
       ),
       backgroundColor: Colors.white,
       body: _buildBody(context),
@@ -35,6 +37,19 @@ class AccountDetailPage extends StatelessWidget {
         itemBuilder: (context, index) {
           return TransactionListCell(transaction: transactionList[index]);
         },
+      ),
+    );
+  }
+
+  Widget _buildEditAction(BuildContext context) {
+    return TextButton(
+      child: const Text(
+        'Modifica',
+        style: TextStyle(color: Colors.white),
+      ),
+      onPressed: () => Navigator.of(context).pushNamed(
+        NewAccountPage.routeName,
+        arguments: account,
       ),
     );
   }
