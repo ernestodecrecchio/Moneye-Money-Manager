@@ -9,14 +9,16 @@ class DatabaseCategoryHelper {
   static Future inizializeTable(Database db) async {
     const idType = 'INTEGER PRIMARY KEY AUTOINCREMENT';
     const textType = 'TEXT NOT NULL';
-    const integerType = 'INTEGER NOT NULL';
+    const textTypeNullable = 'TEXT';
+    //const integerType = 'INTEGER NOT NULL';
+    const integerTypeNullable = 'INTEGER';
 
     await db.execute('''
       CREATE TABLE $categoriesTable ( 
       ${CategoryFields.id} $idType, 
       ${CategoryFields.name} $textType,
-      ${CategoryFields.colorValue} $integerType,
-      ${CategoryFields.iconPath} $textType
+      ${CategoryFields.colorValue} $integerTypeNullable,
+      ${CategoryFields.iconPath} $textTypeNullable
       )
     ''');
   }

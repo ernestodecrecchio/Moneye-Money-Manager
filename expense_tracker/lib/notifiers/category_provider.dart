@@ -24,8 +24,8 @@ class CategoryProvider with ChangeNotifier {
 
   Future addNewCategory({
     required String name,
-    required int colorValue,
-    required String iconPath,
+    required int? colorValue,
+    required String? iconPath,
   }) async {
     final newCategory = Category(
       name: name,

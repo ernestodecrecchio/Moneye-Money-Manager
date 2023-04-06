@@ -53,11 +53,13 @@ class _CategoriesListPageState extends State<CategoriesListPage> {
                         child: SvgPicture.asset(category.iconPath!),
                       )
                     : null,
-                trailing: Container(
-                  height: 20,
-                  width: 20,
-                  color: Color(category.colorValue),
-                ),
+                trailing: category.colorValue != null
+                    ? Container(
+                        height: 20,
+                        width: 20,
+                        color: Color(category.colorValue!),
+                      )
+                    : null,
               ),
             );
           },

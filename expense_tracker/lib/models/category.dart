@@ -1,3 +1,4 @@
+import 'package:expense_tracker/style.dart';
 import 'package:flutter/material.dart';
 
 const String categoriesTable = 'categories';
@@ -19,11 +20,11 @@ class CategoryFields {
 class Category {
   int? id;
   String name;
-  int colorValue;
+  int? colorValue;
   String? iconPath;
 
   Color get color {
-    return Color(colorValue);
+    return colorValue != null ? Color(colorValue!) : CustomColors.darkBlue;
   }
 
   Category({

@@ -48,15 +48,20 @@ class _AccountsListPageState extends State<AccountsListPage> {
               background: Container(color: Colors.red),
               child: ListTile(
                 title: Text(account.name),
-                leading: Container(
-                  color: account.color,
-                  child: account.iconPath != null
-                      ? SizedBox(
-                          height: 20,
-                          width: 20,
-                          child: SvgPicture.asset(account.iconPath!))
-                      : null,
-                ),
+                leading: account.iconPath != null
+                    ? SizedBox(
+                        height: 20,
+                        width: 20,
+                        child: SvgPicture.asset(account.iconPath!),
+                      )
+                    : null,
+                trailing: account.colorValue != null
+                    ? Container(
+                        height: 20,
+                        width: 20,
+                        color: Color(account.colorValue!),
+                      )
+                    : null,
               ),
             );
           },

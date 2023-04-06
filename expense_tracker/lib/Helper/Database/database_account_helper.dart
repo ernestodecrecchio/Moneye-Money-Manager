@@ -10,14 +10,16 @@ class DatabaseAccountHelper {
   static Future inizializeTable(Database db) async {
     const idType = 'INTEGER PRIMARY KEY AUTOINCREMENT';
     const textType = 'TEXT NOT NULL';
-    const integerType = 'INTEGER NOT NULL';
+    const textTypeNullable = 'TEXT';
+    //const integerType = 'INTEGER NOT NULL';
+    const integerTypeNullable = 'INTEGER';
 
     await db.execute('''
       CREATE TABLE $accountsTable ( 
       ${AccountFields.id} $idType, 
       ${AccountFields.name} $textType,
-      ${AccountFields.colorValue} $integerType,
-      ${AccountFields.iconPath} $textType
+      ${AccountFields.colorValue} $integerTypeNullable,
+      ${AccountFields.iconPath} $textTypeNullable
       )
     ''');
   }

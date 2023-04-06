@@ -206,7 +206,7 @@ class _NewCategoryPageState extends State<NewCategoryPage> {
         .addNewCategory(
             name: titleInput.text,
             colorValue: selectedColor.value,
-            iconPath: selectedIconPath!)
+            iconPath: selectedIconPath)
         .then((value) => Navigator.of(context).pop());
   }
 }

@@ -211,7 +211,7 @@ class _NewAccountPageState extends State<NewAccountPage> {
         .addNewAccount(
             name: titleInput.text,
             colorValue: selectedColor.value,
-            iconPath: selectedIconPath!)
+            iconPath: selectedIconPath)
         .then((value) => Navigator.of(context).pop());
   }
 
@@ -221,7 +221,7 @@ class _NewAccountPageState extends State<NewAccountPage> {
             accountToEdit: widget.initialAccountSettings!,
             name: titleInput.text,
             colorValue: selectedColor.value,
-            iconPath: selectedIconPath!)
+            iconPath: selectedIconPath)
         .then((value) => Navigator.of(context).pop());
   }
 }

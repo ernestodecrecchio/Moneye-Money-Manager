@@ -28,8 +28,8 @@ class AccountProvider with ChangeNotifier {
 
   Future addNewAccount({
     required String name,
-    required int colorValue,
-    required String iconPath,
+    required int? colorValue,
+    required String? iconPath,
   }) async {
     final newAccount = Account(
       name: name,
@@ -46,8 +46,8 @@ class AccountProvider with ChangeNotifier {
   Future updateAccount({
     required Account accountToEdit,
     required String name,
-    required int colorValue,
-    required String iconPath,
+    required int? colorValue,
+    required String? iconPath,
   }) async {
     final modifiedAccount = Account(
       id: accountToEdit.id,

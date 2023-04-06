@@ -1,3 +1,4 @@
+import 'package:expense_tracker/style.dart';
 import 'package:flutter/material.dart';
 
 const String accountsTable = 'accounts';
@@ -19,11 +20,11 @@ class AccountFields {
 class Account {
   int? id;
   String name;
-  int colorValue;
+  int? colorValue;
   String? iconPath;
 
   Color get color {
-    return Color(colorValue);
+    return colorValue != null ? Color(colorValue!) : CustomColors.darkBlue;
   }
 
   Account({
