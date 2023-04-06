@@ -10,6 +10,7 @@ import 'package:expense_tracker/pages/home_page/transaction_list_cell.dart';
 import 'package:expense_tracker/pages/new_transaction_flow/new_transaction_page.dart';
 import 'package:expense_tracker/style.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:collection/collection.dart';
 
@@ -21,7 +22,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  static const double horizontalPadding = 17;
+  static const double horizontalPadding = 22;
 
   @override
   Widget build(BuildContext context) {
@@ -68,23 +69,32 @@ class _HomePageState extends State<HomePage> {
         Provider.of<TransactionProvider>(context, listen: true)
             .currentMonthTransactionList;
 
-    // double monthlyBalance = 0;
     double monthlyIncome = 0;
     double monthlyExpenses = 0;
     for (var transaction in currentMonthTransactions) {
-      // monthlyBalance += transaction.value;
-
       transaction.value >= 0
           ? monthlyIncome += transaction.value
           : monthlyExpenses += transaction.value;
     }
 
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: horizontalPadding),
+      padding: const EdgeInsets.symmetric(
+          horizontal: horizontalPadding, vertical: 18),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          const Text(
+            'Il resoconto finanziaro di questo mese',
+            style: TextStyle(
+              color: Colors.white70,
+              fontSize: 16,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+          const SizedBox(
+            height: 20,
+          ),
           const Text(
             'Bilancio totale',
             style: TextStyle(
@@ -93,106 +103,130 @@ class _HomePageState extends State<HomePage> {
               fontWeight: FontWeight.w400,
             ),
           ),
-          Text(
-            '${Provider.of<TransactionProvider>(context, listen: false).totalBalance} €',
-            style: const TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 40,
-              color: Colors.white,
-            ),
-          ),
-          const Divider(
-            color: Colors.white,
-          ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          Row(
             children: [
-              const Text(
-                'Questo mese',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 14,
-                  fontWeight: FontWeight.w400,
+              Expanded(
+                child: Text(
+                  '${Provider.of<TransactionProvider>(context, listen: false).totalBalance} €',
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 40,
+                    overflow: TextOverflow.clip,
+                    color: Colors.white,
+                  ),
                 ),
               ),
               const SizedBox(
-                height: 10,
+                width: 28,
               ),
-              Row(
-                children: [
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      const Icon(
-                        Icons.arrow_downward_rounded,
-                        color: Colors.green,
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.white24,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.only(
+                    left: 10,
+                    right: 20,
+                    top: 8,
+                    bottom: 8,
+                  ),
+                  child: Row(
+                    children: const [
+                      Icon(
+                        Icons.arrow_drop_up_rounded,
+                        color: Colors.white,
                       ),
-                      const SizedBox(
-                        width: 4,
-                      ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Text(
-                            'Introiti',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 14,
-                              fontWeight: FontWeight.w300,
-                            ),
-                          ),
-                          Text(
-                            monthlyIncome.toString(),
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 14,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
+                      Text(
+                        '20%',
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
                       ),
                     ],
                   ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      const Icon(
-                        Icons.arrow_upward_rounded,
-                        color: Colors.red,
-                      ),
-                      const SizedBox(
-                        width: 4,
-                      ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Text(
-                            'Sperse',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 14,
-                              fontWeight: FontWeight.w300,
-                            ),
-                          ),
-                          Text(
-                            monthlyExpenses.toString(),
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 14,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  )
-                ],
+                ),
               ),
             ],
-          )
+          ),
+          const SizedBox(
+            height: 14,
+          ),
+          Row(
+            children: [
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  SvgPicture.asset('assets/icons/pocket_out.svg'),
+                  const SizedBox(
+                    width: 4,
+                  ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        'Uscite',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w300,
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 6,
+                      ),
+                      Text(
+                        monthlyIncome.toString(),
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+              const SizedBox(
+                width: 30,
+              ),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  SvgPicture.asset('assets/icons/pocket_in.svg'),
+                  const SizedBox(
+                    width: 4,
+                  ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        'Entrate',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w300,
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 6,
+                      ),
+                      Text(
+                        monthlyExpenses.toString(),
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              )
+            ],
+          ),
         ],
       ),
     );
@@ -348,7 +382,9 @@ class _HomePageState extends State<HomePage> {
                   itemCount: lastTransactionList.length,
                   itemBuilder: (context, index) {
                     return TransactionListCell(
-                        transaction: lastTransactionList[index]);
+                      transaction: lastTransactionList[index],
+                      horizontalPadding: horizontalPadding,
+                    );
                   },
                   separatorBuilder: (context, index) => const Divider(),
                 )

@@ -1,6 +1,7 @@
 import 'package:expense_tracker/notifiers/account_provider.dart';
 import 'package:expense_tracker/notifiers/central_provider.dart';
 import 'package:expense_tracker/pages/accounts_page/new_account_page.dart';
+import 'package:expense_tracker/style.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -19,6 +20,7 @@ class _AccountsListPageState extends State<AccountsListPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Conti'),
+        backgroundColor: CustomColors.blue,
       ),
       floatingActionButton: _buildFloatingActionButton(context),
       body: _buildList(),

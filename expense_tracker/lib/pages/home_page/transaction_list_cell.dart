@@ -10,10 +10,13 @@ import 'package:provider/provider.dart';
 
 class TransactionListCell extends StatelessWidget {
   final Transaction transaction;
+  final double horizontalPadding;
+
   const TransactionListCell({
     Key? key,
     required this.transaction,
     bool? dismissible = true,
+    this.horizontalPadding = 17,
   }) : super(key: key);
 
   @override
@@ -38,7 +41,8 @@ class TransactionListCell extends StatelessWidget {
       ),
       child: Container(
         height: 60,
-        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 17),
+        padding:
+            EdgeInsets.symmetric(vertical: 8, horizontal: horizontalPadding),
         child: Row(
           children: [
             _buildCategoryIcon(context),
