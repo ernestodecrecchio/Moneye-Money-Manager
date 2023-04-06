@@ -24,6 +24,21 @@ class TransactionProvider with ChangeNotifier {
         0, (previousValue, element) => previousValue + element.value);
   }
 
+  double getTotalBanalceUntilDate(DateTime date) {
+    double totalBalance = 0;
+    transactionList.forEach(
+      (transaction) {
+        print('analizzo ${transaction.date} vs $date');
+        if (transaction.date.isBefore(date)) {
+          print('è prima');
+          totalBalance += transaction.value;
+        }
+      },
+    );
+
+    return totalBalance;
+  }
+
   TransactionProvider({this.accountProvider}) {
     //getAllTransactions();
   }

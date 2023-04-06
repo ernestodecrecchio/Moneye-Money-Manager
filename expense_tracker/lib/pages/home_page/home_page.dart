@@ -119,36 +119,7 @@ class _HomePageState extends State<HomePage> {
               const SizedBox(
                 width: 28,
               ),
-              Container(
-                decoration: BoxDecoration(
-                  color: Colors.white24,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.only(
-                    left: 10,
-                    right: 20,
-                    top: 8,
-                    bottom: 8,
-                  ),
-                  child: Row(
-                    children: const [
-                      Icon(
-                        Icons.arrow_drop_up_rounded,
-                        color: Colors.white,
-                      ),
-                      Text(
-                        '20%',
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+              _buildPercentageDifference()
             ],
           ),
           const SizedBox(
@@ -178,7 +149,7 @@ class _HomePageState extends State<HomePage> {
                         height: 6,
                       ),
                       Text(
-                        monthlyIncome.toString(),
+                        monthlyExpenses.toString(),
                         style: const TextStyle(
                           color: Colors.white,
                           fontSize: 14,
@@ -214,7 +185,7 @@ class _HomePageState extends State<HomePage> {
                         height: 6,
                       ),
                       Text(
-                        monthlyExpenses.toString(),
+                        monthlyIncome.toString(),
                         style: const TextStyle(
                           color: Colors.white,
                           fontSize: 14,
@@ -229,6 +200,59 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
+    );
+  }
+
+  Widget _buildPercentageDifference() {
+    return Consumer<TransactionProvider>(
+      builder: (context, transactionProvider, child) {
+        final currMonthDate = DateTime.now();
+        final prevMonthDate =
+            DateTime(currMonthDate.year, currMonthDate.month, 0);
+
+        double currMonthBalance =
+            transactionProvider.getTotalBanalceUntilDate(currMonthDate);
+        double prevMonthBalance =
+            transactionProvider.getTotalBanalceUntilDate(prevMonthDate);
+
+        if (prevMonthBalance != 0) {
+          final diffPercentage =
+              ((currMonthBalance - prevMonthBalance) / prevMonthBalance) * 100;
+
+          return Container(
+            decoration: BoxDecoration(
+              color: Colors.white24,
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.only(
+                left: 10,
+                right: 20,
+                top: 8,
+                bottom: 8,
+              ),
+              child: Row(
+                children: [
+                  const Icon(
+                    Icons.arrow_drop_up_rounded,
+                    color: Colors.white,
+                  ),
+                  Text(
+                    '${diffPercentage.toStringAsFixed(2)}%',
+                    style: const TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+        }
+
+        return SizedBox.shrink();
+      },
     );
   }
 
