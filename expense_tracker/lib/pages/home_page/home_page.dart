@@ -208,7 +208,7 @@ class _HomePageState extends State<HomePage> {
       builder: (context, transactionProvider, child) {
         final currMonthDate = DateTime.now();
         final prevMonthDate =
-            DateTime(currMonthDate.year, currMonthDate.month, 0);
+            DateTime(currMonthDate.year, currMonthDate.month, 1);
 
         double currMonthBalance =
             transactionProvider.getTotalBanalceUntilDate(currMonthDate);
@@ -251,7 +251,7 @@ class _HomePageState extends State<HomePage> {
           );
         }
 
-        return SizedBox.shrink();
+        return const SizedBox.shrink();
       },
     );
   }
