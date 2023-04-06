@@ -5,6 +5,7 @@ import 'package:expense_tracker/notifiers/account_provider.dart';
 import 'package:expense_tracker/notifiers/category_provider.dart';
 import 'package:expense_tracker/notifiers/transaction_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:provider/provider.dart';
 
@@ -75,22 +76,26 @@ class TransactionListCell extends StatelessWidget {
     final category = Provider.of<CategoryProvider>(context, listen: false)
         .getCategoryForTransaction(transaction);
 
-    Icon? categoryIcon;
+    SvgPicture? categoryIcon;
     if (category != null) {
-      categoryIcon = Icon(
-        category.iconData,
-        color: Colors.white,
-        size: 12,
+      categoryIcon = SvgPicture.asset(
+        category.iconPath!,
+        colorFilter: const ColorFilter.mode(
+          Colors.white,
+          BlendMode.srcIn,
+        ),
       );
     }
 
     return Container(
-        width: 26,
-        height: 26,
-        decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            color: category != null ? category.color : Colors.grey),
-        child: categoryIcon);
+      width: 26,
+      height: 26,
+      padding: const EdgeInsets.all(6),
+      decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color: category != null ? category.color : Colors.grey),
+      child: categoryIcon,
+    );
   }
 
   Widget _buildDate() {

@@ -1,6 +1,7 @@
 import 'package:expense_tracker/models/account.dart';
 import 'package:expense_tracker/pages/account_detail_page/account_detail_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class AccountListCell extends StatelessWidget {
   final Account account;
@@ -40,11 +41,18 @@ class AccountListCell extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Icon(
-                account.iconData,
-                size: 14,
-                color: Colors.white,
-              ),
+              if (account.iconPath != null)
+                SizedBox(
+                  height: 14,
+                  width: 14,
+                  child: SvgPicture.asset(
+                    account.iconPath!,
+                    colorFilter: const ColorFilter.mode(
+                      Colors.white,
+                      BlendMode.srcIn,
+                    ),
+                  ),
+                ),
               const SizedBox(
                 width: 4,
               ),

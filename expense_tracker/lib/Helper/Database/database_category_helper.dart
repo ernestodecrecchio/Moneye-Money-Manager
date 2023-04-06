@@ -16,7 +16,7 @@ class DatabaseCategoryHelper {
       ${CategoryFields.id} $idType, 
       ${CategoryFields.name} $textType,
       ${CategoryFields.colorValue} $integerType,
-      ${CategoryFields.iconData} $textType
+      ${CategoryFields.iconPath} $textType
       )
     ''');
   }

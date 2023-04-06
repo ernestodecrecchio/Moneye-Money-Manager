@@ -3,6 +3,7 @@ import 'package:expense_tracker/notifiers/central_provider.dart';
 import 'package:expense_tracker/pages/accounts_page/new_account_page.dart';
 import 'package:expense_tracker/style.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
 class AccountsListPage extends StatefulWidget {
@@ -48,8 +49,13 @@ class _AccountsListPageState extends State<AccountsListPage> {
               child: ListTile(
                 title: Text(account.name),
                 leading: Container(
-                  color: Colors.black,
-                  child: account.icon,
+                  color: account.color,
+                  child: account.iconPath != null
+                      ? SizedBox(
+                          height: 20,
+                          width: 20,
+                          child: SvgPicture.asset(account.iconPath!))
+                      : null,
                 ),
               ),
             );

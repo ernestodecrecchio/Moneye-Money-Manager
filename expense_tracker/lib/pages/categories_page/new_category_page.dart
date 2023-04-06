@@ -28,7 +28,7 @@ class _NewCategoryPageState extends State<NewCategoryPage> {
   TextEditingController descriptionInput = TextEditingController();
 
   Color selectedColor = CustomColors.darkBlue;
-  IconData? selectedIcon;
+  String? selectedIconPath;
 
   bool editMode = false;
 
@@ -42,7 +42,7 @@ class _NewCategoryPageState extends State<NewCategoryPage> {
       titleInput.text = widget.initialCategorySettings!.name;
       //descriptionInput.text = widget.initialAccountSettings!.description;
       selectedColor = widget.initialCategorySettings!.color;
-      selectedIcon = widget.initialCategorySettings!.iconData;
+      selectedIconPath = widget.initialCategorySettings!.iconPath;
     }
   }
 
@@ -162,10 +162,10 @@ class _NewCategoryPageState extends State<NewCategoryPage> {
           height: 5,
         ),
         InlineIconPicker(
-            selectedIconData: selectedIcon,
+            selectedIconPath: selectedIconPath,
             backgorundColor: selectedColor,
-            onSelectedIconData: (newSelectedIcon) {
-              selectedIcon = newSelectedIcon;
+            onSelectedIcon: (newSelectedIconPath) {
+              selectedIconPath = newSelectedIconPath;
 
               setState(() {});
             }),
@@ -206,7 +206,7 @@ class _NewCategoryPageState extends State<NewCategoryPage> {
         .addNewCategory(
             name: titleInput.text,
             colorValue: selectedColor.value,
-            iconData: selectedIcon!)
+            iconPath: selectedIconPath!)
         .then((value) => Navigator.of(context).pop());
   }
 }

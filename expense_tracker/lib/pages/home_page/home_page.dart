@@ -333,10 +333,9 @@ class _HomePageState extends State<HomePage> {
 
     if (balanceTransactionsWithoutAccount != 0) {
       Account otherAccount = Account(
-        name: 'Altro',
-        colorValue: Colors.grey.value,
-        iconData: Icons.cases_outlined,
-      );
+          name: 'Altro',
+          colorValue: Colors.grey.value,
+          iconPath: 'assets/icons/box.svg');
 
       accountMap[otherAccount] = balanceTransactionsWithoutAccount;
     }

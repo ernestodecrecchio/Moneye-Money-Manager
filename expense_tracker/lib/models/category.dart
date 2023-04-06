@@ -1,4 +1,3 @@
-import 'package:expense_tracker/Helper/icon_data_helper.dart';
 import 'package:flutter/material.dart';
 
 const String categoriesTable = 'categories';
@@ -8,61 +7,56 @@ class CategoryFields {
     id,
     name,
     colorValue,
-    iconData,
+    iconPath,
   ];
 
   static const String id = '_id'; // Default id column
   static const String name = 'name';
   static const String colorValue = 'colorValue';
-  static const String iconData = 'iconData';
+  static const String iconPath = 'iconPath';
 }
 
 class Category {
   int? id;
   String name;
   int colorValue;
-  IconData? iconData;
+  String? iconPath;
 
   Color get color {
     return Color(colorValue);
-  }
-
-  Icon get icon {
-    return Icon(iconData);
   }
 
   Category({
     this.id,
     required this.name,
     required this.colorValue,
-    this.iconData,
+    this.iconPath,
   });
 
   Category copy({
     int? id,
     String? name,
     int? colorValue,
-    IconData? iconData,
+    String? iconPath,
   }) =>
       Category(
         id: id ?? this.id,
         name: name ?? this.name,
         colorValue: colorValue ?? this.colorValue,
-        iconData: iconData ?? this.iconData,
+        iconPath: iconPath ?? this.iconPath,
       );
 
   static Category fromJson(Map<String, Object?> json) => Category(
         id: json[CategoryFields.id] as int?,
         name: json[CategoryFields.name] as String,
         colorValue: json[CategoryFields.colorValue] as int,
-        iconData: fromJSONStringToIcon(json[CategoryFields.iconData] as String),
+        iconPath: json[CategoryFields.iconPath] as String?,
       );
 
   Map<String, Object?> toJson() => {
         CategoryFields.id: id,
         CategoryFields.name: name,
         CategoryFields.colorValue: colorValue,
-        CategoryFields.iconData:
-            iconData != null ? iconToJSONString(iconData!) : null,
+        CategoryFields.iconPath: iconPath,
       };
 }

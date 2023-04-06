@@ -17,7 +17,7 @@ class DatabaseAccountHelper {
       ${AccountFields.id} $idType, 
       ${AccountFields.name} $textType,
       ${AccountFields.colorValue} $integerType,
-      ${AccountFields.iconData} $textType
+      ${AccountFields.iconPath} $textType
       )
     ''');
   }

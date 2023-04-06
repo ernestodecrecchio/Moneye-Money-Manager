@@ -2,6 +2,7 @@ import 'package:expense_tracker/notifiers/category_provider.dart';
 import 'package:expense_tracker/pages/categories_page/new_category_page.dart';
 import 'package:expense_tracker/style.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
 class CategoriesListPage extends StatefulWidget {
@@ -45,7 +46,13 @@ class _CategoriesListPageState extends State<CategoriesListPage> {
               background: Container(color: Colors.red),
               child: ListTile(
                 title: Text(category.name),
-                leading: category.icon,
+                leading: category.iconPath != null
+                    ? SizedBox(
+                        height: 20,
+                        width: 20,
+                        child: SvgPicture.asset(category.iconPath!),
+                      )
+                    : null,
                 trailing: Container(
                   height: 20,
                   width: 20,

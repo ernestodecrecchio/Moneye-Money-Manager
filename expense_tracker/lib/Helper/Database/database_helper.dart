@@ -20,7 +20,7 @@ class DatabaseHelper {
 
   Future<Database> _initDB() async {
     final dbPath = await getDatabasesPath();
-    final path = join(dbPath, 'myDB.db');
+    final path = join(dbPath, 'app_db.db');
 
     return await openDatabase(
       path,
@@ -37,7 +37,6 @@ class DatabaseHelper {
   }
 
   Future _configureDB(Database db) async {
-    print('configure');
     await db.execute('PRAGMA foreign_keys = ON');
   }
 }

@@ -1,15 +1,16 @@
 import 'package:expense_tracker/style.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class InlineIconPicker extends StatefulWidget {
-  final IconData? selectedIconData;
-  final Function(IconData selectedIconData) onSelectedIconData;
+  final String? selectedIconPath;
+  final Function(String selectedIconPath) onSelectedIcon;
   final Color? backgorundColor;
 
   const InlineIconPicker({
     super.key,
-    required this.onSelectedIconData,
-    this.selectedIconData,
+    required this.onSelectedIcon,
+    this.selectedIconPath,
     this.backgorundColor,
   });
 
@@ -29,9 +30,7 @@ class _InlineIconPickerState extends State<InlineIconPicker> {
 
     _pageList = [
       _buildPage1(),
-      _buildPage1(),
-      _buildPage1(),
-      _buildPage1(),
+      _buildPage2(),
     ];
   }
 
@@ -60,20 +59,17 @@ class _InlineIconPickerState extends State<InlineIconPicker> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Expanded(
-          child: PageView.builder(
+          child: PageView(
             controller: _controller,
             onPageChanged: (int page) {
               setState(() {
                 selectedIndex = page;
               });
             },
-            itemCount: _pageList.length,
-            itemBuilder: (context, index) {
-              return Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 22),
-                child: _buildPage1(),
-              );
-            },
+            children: [
+              _buildPage1(),
+              _buildPage2(),
+            ],
           ),
         ),
         Row(
@@ -85,47 +81,71 @@ class _InlineIconPickerState extends State<InlineIconPicker> {
   }
 
   Widget _buildPage1() {
-    return Wrap(
-      spacing: 18,
-      alignment: WrapAlignment.spaceEvenly,
-      runSpacing: 14,
-      children: [
-        _buildIconItem(Icons.house),
-        _buildIconItem(Icons.car_rental),
-        _buildIconItem(Icons.air),
-        _buildIconItem(Icons.money),
-        _buildIconItem(Icons.donut_large),
-        _buildIconItem(Icons.pets),
-        _buildIconItem(Icons.catching_pokemon),
-        _buildIconItem(Icons.search),
-        _buildIconItem(Icons.place_rounded),
-        _buildIconItem(Icons.trending_neutral),
-        _buildIconItem(Icons.earbuds),
-        _buildIconItem(Icons.album),
-      ],
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 22),
+      child: Wrap(
+        spacing: 18,
+        alignment: WrapAlignment.spaceEvenly,
+        runSpacing: 14,
+        children: [
+          _buildIconItem('assets/icons/boar.svg'),
+          _buildIconItem('assets/icons/box.svg'),
+          _buildIconItem('assets/icons/car.svg'),
+          _buildIconItem('assets/icons/cat.svg'),
+          _buildIconItem('assets/icons/cinema.svg'),
+          _buildIconItem('assets/icons/cow.svg'),
+          _buildIconItem('assets/icons/food.svg'),
+          _buildIconItem('assets/icons/graduate.svg'),
+          _buildIconItem('assets/icons/house.svg'),
+          _buildIconItem('assets/icons/paw.svg'),
+          _buildIconItem('assets/icons/popcorn.svg'),
+          _buildIconItem('assets/icons/twitch-logo.svg'),
+          _buildIconItem('assets/icons/university.svg'),
+        ],
+      ),
     );
   }
 
-  _buildIconItem(IconData iconData) {
+  Widget _buildPage2() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 22),
+      child: Wrap(
+        spacing: 18,
+        alignment: WrapAlignment.spaceEvenly,
+        runSpacing: 14,
+        children: [
+          _buildIconItem('assets/icons/university.svg'),
+        ],
+      ),
+    );
+  }
+
+  _buildIconItem(String iconPath) {
     final backgroundColor = widget.backgorundColor ?? CustomColors.darkBlue;
 
     return InkWell(
       onTap: () {
-        widget.onSelectedIconData(iconData);
+        print('cc');
+        widget.onSelectedIcon(iconPath);
       },
       child: Container(
-          height: 35,
-          width: 35,
-          decoration: BoxDecoration(
-            color: iconData == widget.selectedIconData
-                ? backgroundColor
-                : backgroundColor.withOpacity(0.5),
-            shape: BoxShape.circle,
+        height: 35,
+        width: 35,
+        padding: const EdgeInsets.all(7),
+        decoration: BoxDecoration(
+          color: iconPath == widget.selectedIconPath
+              ? backgroundColor
+              : backgroundColor.withOpacity(0.5),
+          shape: BoxShape.circle,
+        ),
+        child: SvgPicture.asset(
+          iconPath,
+          colorFilter: const ColorFilter.mode(
+            Colors.white,
+            BlendMode.srcIn,
           ),
-          child: Icon(
-            iconData,
-            color: Colors.white,
-          )),
+        ),
+      ),
     );
   }
 

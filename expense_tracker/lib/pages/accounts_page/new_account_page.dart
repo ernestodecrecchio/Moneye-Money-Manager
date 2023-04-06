@@ -28,7 +28,7 @@ class _NewAccountPageState extends State<NewAccountPage> {
   TextEditingController descriptionInput = TextEditingController();
 
   Color selectedColor = CustomColors.darkBlue;
-  IconData? selectedIcon;
+  String? selectedIconPath;
 
   bool editMode = false;
 
@@ -42,7 +42,7 @@ class _NewAccountPageState extends State<NewAccountPage> {
       titleInput.text = widget.initialAccountSettings!.name;
       //descriptionInput.text = widget.initialAccountSettings!.description;
       selectedColor = widget.initialAccountSettings!.color;
-      selectedIcon = widget.initialAccountSettings!.iconData;
+      selectedIconPath = widget.initialAccountSettings!.iconPath;
     }
   }
 
@@ -162,13 +162,14 @@ class _NewAccountPageState extends State<NewAccountPage> {
           height: 5,
         ),
         InlineIconPicker(
-            selectedIconData: selectedIcon,
-            backgorundColor: selectedColor,
-            onSelectedIconData: (newSelectedIcon) {
-              selectedIcon = newSelectedIcon;
+          selectedIconPath: selectedIconPath,
+          backgorundColor: selectedColor,
+          onSelectedIcon: (newSelectedIconPath) {
+            selectedIconPath = newSelectedIconPath;
 
-              setState(() {});
-            }),
+            setState(() {});
+          },
+        ),
       ],
     );
   }
@@ -210,7 +211,7 @@ class _NewAccountPageState extends State<NewAccountPage> {
         .addNewAccount(
             name: titleInput.text,
             colorValue: selectedColor.value,
-            iconData: selectedIcon!)
+            iconPath: selectedIconPath!)
         .then((value) => Navigator.of(context).pop());
   }
 
@@ -220,7 +221,7 @@ class _NewAccountPageState extends State<NewAccountPage> {
             accountToEdit: widget.initialAccountSettings!,
             name: titleInput.text,
             colorValue: selectedColor.value,
-            iconData: selectedIcon!)
+            iconPath: selectedIconPath!)
         .then((value) => Navigator.of(context).pop());
   }
 }

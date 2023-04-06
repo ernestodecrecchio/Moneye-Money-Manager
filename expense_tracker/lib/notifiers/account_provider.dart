@@ -29,12 +29,12 @@ class AccountProvider with ChangeNotifier {
   Future addNewAccount({
     required String name,
     required int colorValue,
-    required IconData iconData,
+    required String iconPath,
   }) async {
     final newAccount = Account(
       name: name,
       colorValue: colorValue,
-      iconData: iconData,
+      iconPath: iconPath,
     );
 
     accountList.add(await DatabaseAccountHelper.instance
@@ -47,13 +47,13 @@ class AccountProvider with ChangeNotifier {
     required Account accountToEdit,
     required String name,
     required int colorValue,
-    required IconData iconData,
+    required String iconPath,
   }) async {
     final modifiedAccount = Account(
       id: accountToEdit.id,
       name: name,
       colorValue: colorValue,
-      iconData: iconData,
+      iconPath: iconPath,
     );
 
     if (await DatabaseAccountHelper.instance.updateAccount(

@@ -3,6 +3,7 @@ import 'package:expense_tracker/notifiers/account_provider.dart';
 import 'package:expense_tracker/pages/accounts_page/new_account_page.dart';
 import 'package:expense_tracker/style.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
 Future<Account?> showAccountBottomSheet(
@@ -120,14 +121,14 @@ class _AccountSelectorContentState extends State<AccountSelectorContent> {
       leading: Container(
         height: 32,
         width: 32,
+        padding: const EdgeInsets.all(6),
         decoration: BoxDecoration(
           shape: BoxShape.circle,
           color: account.color,
         ),
-        child: Icon(
-          account.iconData,
-          color: Colors.white,
-          size: 16,
+        child: SvgPicture.asset(
+          account.iconPath!,
+          colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn),
         ),
       ),
       trailing: _selectedAccount == account ? const Icon(Icons.check) : null,

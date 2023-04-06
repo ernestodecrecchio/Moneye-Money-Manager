@@ -3,6 +3,7 @@ import 'package:expense_tracker/notifiers/category_provider.dart';
 import 'package:expense_tracker/pages/categories_page/new_category_page.dart';
 import 'package:expense_tracker/style.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
 Future<Category?> showCategoryBottomSheet(
@@ -121,14 +122,14 @@ class _CategorySelectorContentState extends State<CategorySelectorContent> {
       leading: Container(
         height: 32,
         width: 32,
+        padding: const EdgeInsets.all(6),
         decoration: BoxDecoration(
           shape: BoxShape.circle,
           color: category.color,
         ),
-        child: Icon(
-          category.iconData,
-          color: Colors.white,
-          size: 16,
+        child: SvgPicture.asset(
+          category.iconPath!,
+          colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn),
         ),
       ),
       trailing: _selectedCategory == category ? const Icon(Icons.check) : null,

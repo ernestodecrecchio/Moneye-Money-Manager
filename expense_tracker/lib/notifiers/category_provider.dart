@@ -25,12 +25,12 @@ class CategoryProvider with ChangeNotifier {
   Future addNewCategory({
     required String name,
     required int colorValue,
-    required IconData iconData,
+    required String iconPath,
   }) async {
     final newCategory = Category(
       name: name,
       colorValue: colorValue,
-      iconData: iconData,
+      iconPath: iconPath,
     );
 
     categoryList.add(await DatabaseCategoryHelper.instance
