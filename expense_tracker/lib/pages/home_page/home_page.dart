@@ -14,6 +14,14 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:collection/collection.dart';
 
+// todo:
+// Il testo del bilancio totale dovrebbe rimpicciolirsi,  non andare a capo
+// Ingrandire in generale font, tasti e icone
+// fix scoll home (si vede il blu sotto)
+// Impostare date picker basato su piattaform
+// Se % è 0,  mettere un uguale o far scomparire
+// Verificare calcolo percentuale
+
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
@@ -233,8 +241,10 @@ class _HomePageState extends State<HomePage> {
               ),
               child: Row(
                 children: [
-                  const Icon(
-                    Icons.arrow_drop_up_rounded,
+                  Icon(
+                    diffPercentage >= 0
+                        ? Icons.arrow_drop_up_rounded
+                        : Icons.arrow_drop_down_rounded,
                     color: Colors.white,
                   ),
                   Text(
