@@ -133,7 +133,7 @@ class TransactionListCell extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
         Text(
-          transaction.value.toString(),
+          '${transaction.value.toString()}€',
           textAlign: TextAlign.center,
           style: TextStyle(
             fontSize: 14,
