@@ -22,7 +22,7 @@ class AccountListCell extends StatelessWidget {
         arguments: account,
       ),
       child: Container(
-        width: 140,
+        width: 145,
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
         margin: const EdgeInsets.symmetric(vertical: 5),
         decoration: BoxDecoration(
@@ -36,64 +36,67 @@ class AccountListCell extends StatelessWidget {
             ),
           ],
         ),
-        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              if (account.iconPath != null)
-                SizedBox(
-                  height: 14,
-                  width: 14,
-                  child: SvgPicture.asset(
-                    account.iconPath!,
-                    colorFilter: const ColorFilter.mode(
-                      Colors.white,
-                      BlendMode.srcIn,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                if (account.iconPath != null)
+                  SizedBox(
+                    height: 14,
+                    width: 14,
+                    child: SvgPicture.asset(
+                      account.iconPath!,
+                      colorFilter: const ColorFilter.mode(
+                        Colors.white,
+                        BlendMode.srcIn,
+                      ),
+                    ),
+                  ),
+                const SizedBox(
+                  width: 4,
+                ),
+                Expanded(
+                  child: Text(
+                    account.name,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                      fontSize: 12,
                     ),
                   ),
                 ),
-              const SizedBox(
-                width: 4,
-              ),
-              Expanded(
-                child: Text(
-                  account.name,
-                  overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                    fontSize: 12,
-                  ),
-                ),
-              ),
-              Icon(
-                Icons.more_vert_rounded,
+                Icon(
+                  Icons.more_vert_rounded,
+                  color: Colors.white.withOpacity(0.5),
+                  size: 15,
+                )
+              ],
+            ),
+            const Spacer(),
+            Text(
+              'Total',
+              style: TextStyle(
+                fontSize: 8,
                 color: Colors.white.withOpacity(0.5),
-                size: 15,
-              )
-            ],
-          ),
-          const Spacer(),
-          Text(
-            'Total',
-            style: TextStyle(
-              fontSize: 8,
-              color: Colors.white.withOpacity(0.5),
+              ),
             ),
-          ),
-          const SizedBox(
-            height: 2,
-          ),
-          Text(
-            '${balance.toStringAsFixed(2)}€',
-            style: const TextStyle(
-              fontSize: 16,
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
+            const SizedBox(
+              height: 2,
             ),
-          ),
-        ]),
+            Text(
+              '${balance.toStringAsFixed(2)}€',
+              style: const TextStyle(
+                fontSize: 16,
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

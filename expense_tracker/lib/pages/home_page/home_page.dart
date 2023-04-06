@@ -29,7 +29,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  static const double horizontalPadding = 22;
+  static const double horizontalPadding = 18;
 
   @override
   Widget build(BuildContext context) {
@@ -287,7 +287,7 @@ class _HomePageState extends State<HomePage> {
         ),
         list.isNotEmpty
             ? SizedBox(
-                height: 85,
+                height: 90,
                 child: ListView.separated(
                   clipBehavior: Clip.none,
                   padding:
