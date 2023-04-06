@@ -41,7 +41,7 @@ class TransactionListCell extends StatelessWidget {
         ),
       ),
       child: Container(
-        height: 60,
+        height: 64,
         padding:
             EdgeInsets.symmetric(vertical: 8, horizontal: horizontalPadding),
         child: Row(

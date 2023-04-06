@@ -15,7 +15,6 @@ import 'package:provider/provider.dart';
 import 'package:collection/collection.dart';
 
 // todo:
-// Il testo del bilancio totale dovrebbe rimpicciolirsi,  non andare a capo
 // Ingrandire in generale font, tasti e icone
 // fix scoll home (si vede il blu sotto)
 // Impostare date picker basato su piattaform
@@ -113,14 +112,17 @@ class _HomePageState extends State<HomePage> {
           ),
           Row(
             children: [
-              Expanded(
-                child: Text(
-                  '${Provider.of<TransactionProvider>(context, listen: false).totalBalance} €',
-                  style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 40,
-                    overflow: TextOverflow.clip,
-                    color: Colors.white,
+              Flexible(
+                child: FittedBox(
+                  fit: BoxFit.fitWidth,
+                  child: Text(
+                    '${Provider.of<TransactionProvider>(context, listen: false).totalBalance} €',
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 40,
+                      overflow: TextOverflow.clip,
+                      color: Colors.white,
+                    ),
                   ),
                 ),
               ),
@@ -419,7 +421,9 @@ class _HomePageState extends State<HomePage> {
                       horizontalPadding: horizontalPadding,
                     );
                   },
-                  separatorBuilder: (context, index) => const Divider(),
+                  separatorBuilder: (context, index) => const Divider(
+                    height: 1,
+                  ),
                 )
               : const Align(
                   alignment: Alignment.center,
