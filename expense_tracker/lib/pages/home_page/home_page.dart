@@ -132,7 +132,7 @@ class _HomePageState extends State<HomePage> {
                 children: [
                   SvgPicture.asset('assets/icons/pocket_out.svg'),
                   const SizedBox(
-                    width: 4,
+                    width: 8,
                   ),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -168,7 +168,7 @@ class _HomePageState extends State<HomePage> {
                 children: [
                   SvgPicture.asset('assets/icons/pocket_in.svg'),
                   const SizedBox(
-                    width: 4,
+                    width: 8,
                   ),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
