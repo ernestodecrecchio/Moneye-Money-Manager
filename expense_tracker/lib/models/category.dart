@@ -59,4 +59,10 @@ class Category {
         CategoryFields.colorValue: colorValue,
         CategoryFields.iconPath: iconPath,
       };
+
+  @override
+  operator ==(other) => other is Category && other.id == id;
+
+  @override
+  int get hashCode => Object.hash(id, name, colorValue, iconPath);
 }

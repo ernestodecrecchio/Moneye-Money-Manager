@@ -138,11 +138,7 @@ class _CategorySelectorContentState extends State<CategorySelectorContent> {
         style: const TextStyle(fontSize: 18),
       ),
       onTap: () {
-        if (category == widget.currentSelection) {
-          _selectedCategory = null;
-        } else {
-          _selectedCategory = category;
-        }
+        _selectedCategory = category;
 
         Navigator.of(context).pop(_selectedCategory);
       },

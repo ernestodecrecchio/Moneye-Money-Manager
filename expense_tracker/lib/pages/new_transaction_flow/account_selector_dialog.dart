@@ -137,11 +137,7 @@ class _AccountSelectorContentState extends State<AccountSelectorContent> {
         style: const TextStyle(fontSize: 18),
       ),
       onTap: () {
-        if (account == widget.currentSelection) {
-          _selectedAccount = null;
-        } else {
-          _selectedAccount = account;
-        }
+        _selectedAccount = account;
 
         Navigator.of(context).pop(_selectedAccount);
       },

@@ -148,11 +148,15 @@ class _NewTransactionPageState extends State<NewTransactionPage> {
                     await showCategoryBottomSheet(context, selectedCategory);
 
                 if (newSelectedCategory != null) {
-                  categoryInput.text = newSelectedCategory.name;
-                  setState(() => selectedCategory = newSelectedCategory);
-                } else {
-                  categoryInput.clear();
-                  setState(() => selectedCategory = null);
+                  if (newSelectedCategory == selectedCategory) {
+                    selectedCategory = null;
+                    categoryInput.clear();
+                  } else {
+                    categoryInput.text = newSelectedCategory.name;
+                    selectedCategory = newSelectedCategory;
+                  }
+
+                  setState(() {});
                 }
               },
             ),
@@ -170,11 +174,15 @@ class _NewTransactionPageState extends State<NewTransactionPage> {
                     await showAccountBottomSheet(context, selectedAccount);
 
                 if (newSelectedAccount != null) {
-                  accountInput.text = newSelectedAccount.name;
-                  setState(() => selectedAccount = newSelectedAccount);
-                } else {
-                  accountInput.clear();
-                  setState(() => selectedAccount = null);
+                  if (newSelectedAccount == selectedAccount) {
+                    selectedAccount = null;
+                    accountInput.clear();
+                  } else {
+                    accountInput.text = newSelectedAccount.name;
+                    selectedAccount = newSelectedAccount;
+                  }
+
+                  setState(() {});
                 }
               },
             ),

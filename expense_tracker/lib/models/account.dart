@@ -59,4 +59,10 @@ class Account {
         AccountFields.colorValue: colorValue,
         AccountFields.iconPath: iconPath,
       };
+
+  @override
+  operator ==(other) => other is Account && other.id == id;
+
+  @override
+  int get hashCode => Object.hash(id, name, colorValue, iconPath);
 }
