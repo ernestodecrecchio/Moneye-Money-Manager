@@ -46,45 +46,43 @@ class _CategorySelectorContentState extends State<CategorySelectorContent> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Padding(
-        padding: const EdgeInsets.only(top: 10),
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 17),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text(
-                    'Seleziona la categoria',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
-                  ),
-                  IconButton(
-                    onPressed: () => Navigator.of(context).pop(),
-                    icon: const Icon(Icons.close),
-                  )
-                ],
-              ),
+    return Padding(
+      padding: const EdgeInsets.only(top: 10),
+      child: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 17),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text(
+                  'Seleziona la categoria',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                ),
+                IconButton(
+                  onPressed: () => Navigator.of(context).pop(),
+                  icon: const Icon(Icons.close),
+                )
+              ],
             ),
-            Expanded(
-              child: Consumer<CategoryProvider>(
-                builder: (context, categoryProvider, child) {
-                  final categoriesList = categoryProvider.categoryList;
-                  return ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: categoriesList.length + 1,
-                      itemBuilder: (BuildContext context, int index) {
-                        if (index == categoriesList.length) {
-                          return _buildAddCategoryTile();
-                        }
-                        return _buildCategoryTile(categoriesList[index]);
-                      });
-                },
-              ),
+          ),
+          Expanded(
+            child: Consumer<CategoryProvider>(
+              builder: (context, categoryProvider, child) {
+                final categoriesList = categoryProvider.categoryList;
+                return ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: categoriesList.length + 1,
+                    itemBuilder: (BuildContext context, int index) {
+                      if (index == categoriesList.length) {
+                        return _buildAddCategoryTile();
+                      }
+                      return _buildCategoryTile(categoriesList[index]);
+                    });
+              },
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
