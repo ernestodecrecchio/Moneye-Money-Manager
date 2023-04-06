@@ -35,7 +35,9 @@ class DatabaseAccountHelper {
       required Account modifiedAccount}) async {
     final db = await DatabaseHelper.instance.database;
 
-    if (await db.update(accountsTable, modifiedAccount.toJson()) > 0) {
+    if (await db.update(accountsTable, modifiedAccount.toJson(),
+            where: '${AccountFields.id} = ?', whereArgs: [accountToEdit.id]) >
+        0) {
       return true;
     }
 
