@@ -80,7 +80,7 @@ class MyApp extends StatelessWidget {
               }
             case NewAccountPage.routeName:
               {
-                final args = settings.arguments as Account;
+                final args = settings.arguments as Account?;
 
                 return MaterialPageRoute(
                   builder: (context) {
@@ -92,7 +92,7 @@ class MyApp extends StatelessWidget {
               }
             case NewCategoryPage.routeName:
               {
-                final args = settings.arguments as Category;
+                final args = settings.arguments as Category?;
 
                 return MaterialPageRoute(
                   builder: (context) {
