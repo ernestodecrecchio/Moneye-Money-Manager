@@ -58,6 +58,7 @@ class _NewTransactionPageState extends State<NewTransactionPage> {
       dateInput.text = dateFormatter
           .format(widget.initialTransactionSettings!.date)
           .toString();
+      selectedDate = widget.initialTransactionSettings!.date;
 
       if (widget.initialTransactionSettings!.categoryId != null) {
         selectedCategory = Provider.of<CategoryProvider>(context, listen: false)
@@ -329,8 +330,13 @@ class _NewTransactionPageState extends State<NewTransactionPage> {
   }
 
   _editTransaction({required bool income}) {
-    final transactionValue =
-        income ? double.parse(valueInput.text) : -double.parse(valueInput.text);
+    final valueFromTextInput = double.parse(valueInput.text);
+
+    final transactionValue = income
+        ? valueFromTextInput.abs()
+        : valueFromTextInput > 0
+            ? -valueFromTextInput
+            : valueFromTextInput;
 
     Provider.of<TransactionProvider>(context, listen: false)
         .updateTransaction(
