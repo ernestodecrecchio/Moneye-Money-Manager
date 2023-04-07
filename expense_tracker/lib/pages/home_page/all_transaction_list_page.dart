@@ -15,6 +15,7 @@ class AllTransactionList extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Tutte le transazioni'),
         backgroundColor: CustomColors.blue,
+        elevation: 0,
       ),
       body: _buildList(context),
     );

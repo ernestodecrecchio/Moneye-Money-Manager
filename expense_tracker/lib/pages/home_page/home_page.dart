@@ -16,7 +16,6 @@ import 'package:collection/collection.dart';
 
 // todo:
 // Ingrandire in generale font, tasti e icone
-// fix scoll home (si vede il blu sotto)
 // Impostare date picker basato su piattaform
 // Se % è 0,  mettere un uguale o far scomparire
 // Verificare calcolo percentuale
@@ -39,6 +38,7 @@ class _HomePageState extends State<HomePage> {
       body: Container(
         color: CustomColors.blue,
         child: SingleChildScrollView(
+          physics: const ClampingScrollPhysics(),
           child: SafeArea(
             child: Column(children: [
               _buildTopSection(),

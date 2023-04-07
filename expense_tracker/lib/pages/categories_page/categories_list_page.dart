@@ -21,6 +21,7 @@ class _CategoriesListPageState extends State<CategoriesListPage> {
       appBar: AppBar(
         title: const Text('Categorie'),
         backgroundColor: CustomColors.blue,
+        elevation: 0,
       ),
       floatingActionButton: _buildFloatingActionButton(context),
       body: _buildList(),

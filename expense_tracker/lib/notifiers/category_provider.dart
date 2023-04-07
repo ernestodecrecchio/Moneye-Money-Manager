@@ -55,7 +55,7 @@ class CategoryProvider with ChangeNotifier {
     return false;
   }
 
-  Future<Category?> getCategoryFromId(int id) async {
-    return await DatabaseCategoryHelper.instance.getCategoryFromId(id);
+  Category? getCategoryFromId(int id) {
+    return categoryList.firstWhereOrNull((element) => element.id == id);
   }
 }

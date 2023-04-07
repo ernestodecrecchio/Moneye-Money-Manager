@@ -1,5 +1,6 @@
 import 'package:expense_tracker/models/account.dart';
 import 'package:expense_tracker/models/category.dart';
+import 'package:expense_tracker/models/transaction.dart';
 import 'package:expense_tracker/notifiers/account_provider.dart';
 import 'package:expense_tracker/notifiers/category_provider.dart';
 import 'package:expense_tracker/notifiers/central_provider.dart';
@@ -58,8 +59,6 @@ class MyApp extends StatelessWidget {
         initialRoute: '/',
         routes: {
           '/': (context) => const TabBarPage(),
-          NewCategoryPage.routeName: (context) => const NewCategoryPage(),
-          NewTransactionPage.routeName: (context) => const NewTransactionPage(),
           AllTransactionList.routeName: (context) => const AllTransactionList(),
           CategoriesListPage.routeName: (context) => const CategoriesListPage(),
           AccountsListPage.routeName: (context) => const AccountsListPage(),
@@ -74,6 +73,18 @@ class MyApp extends StatelessWidget {
                   builder: (context) {
                     return AccountDetailPage(
                       account: args,
+                    );
+                  },
+                );
+              }
+            case NewTransactionPage.routeName:
+              {
+                final args = settings.arguments as Transaction?;
+
+                return MaterialPageRoute(
+                  builder: (context) {
+                    return NewTransactionPage(
+                      initialTransactionSettings: args,
                     );
                   },
                 );

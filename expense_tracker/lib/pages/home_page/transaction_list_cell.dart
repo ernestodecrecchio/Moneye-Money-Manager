@@ -4,7 +4,9 @@ import 'package:expense_tracker/notifiers/account_provider.dart';
 
 import 'package:expense_tracker/notifiers/category_provider.dart';
 import 'package:expense_tracker/notifiers/transaction_provider.dart';
+import 'package:expense_tracker/pages/new_transaction_flow/new_transaction_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:provider/provider.dart';
@@ -22,23 +24,25 @@ class TransactionListCell extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Dismissible(
-      direction: DismissDirection.endToStart,
+    return Slidable(
       key: Key(transaction.id.toString()),
-      confirmDismiss: (_) {
-        return Provider.of<TransactionProvider>(context, listen: false)
-            .deleteTransaction(transaction);
-      },
-      background: Container(
-        padding: const EdgeInsets.only(right: 17),
-        color: Colors.red,
-        child: const Align(
-          alignment: Alignment.centerRight,
-          child: Icon(
-            Icons.delete,
-            color: Colors.white,
-          ),
-        ),
+      startActionPane: ActionPane(
+        motion: const ScrollMotion(),
+        dismissible: DismissiblePane(
+            onDismissed: () async => await _removeTransaction(context)),
+        children: [
+          _buildDeleteAction(),
+          _buildEditAction(),
+        ],
+      ),
+      endActionPane: ActionPane(
+        motion: const ScrollMotion(),
+        dismissible: DismissiblePane(
+            onDismissed: () async => await _removeTransaction(context)),
+        children: [
+          _buildEditAction(),
+          _buildDeleteAction(),
+        ],
       ),
       child: Container(
         height: 64,
@@ -70,6 +74,55 @@ class TransactionListCell extends StatelessWidget {
         ),
       ),
     );
+
+    // return Dismissible(
+    //   direction: DismissDirection.endToStart,
+    //   key: Key(transaction.id.toString()),
+    //   confirmDismiss: (_) {
+    //     return Provider.of<TransactionProvider>(context, listen: false)
+    //         .deleteTransaction(transaction);
+    //   },
+    //   background: Container(
+    //     padding: const EdgeInsets.only(right: 17),
+    //     color: Colors.red,
+    //     child: const Align(
+    //       alignment: Alignment.centerRight,
+    //       child: Icon(
+    //         Icons.delete,
+    //         color: Colors.white,
+    //       ),
+    //     ),
+    //   ),
+    //   child: Container(
+    //     height: 64,
+    //     padding:
+    //         EdgeInsets.symmetric(vertical: 8, horizontal: horizontalPadding),
+    //     child: Row(
+    //       children: [
+    //         _buildCategoryIcon(context),
+    //         const SizedBox(
+    //           width: 8,
+    //         ),
+    //         Column(
+    //           mainAxisAlignment: MainAxisAlignment.center,
+    //           crossAxisAlignment: CrossAxisAlignment.start,
+    //           children: [
+    //             Text(
+    //               transaction.title,
+    //               style: const TextStyle(
+    //                 fontSize: 14,
+    //                 fontWeight: FontWeight.bold,
+    //               ),
+    //             ),
+    //             _buildDate(),
+    //           ],
+    //         ),
+    //         const Spacer(),
+    //         _buildValue(context),
+    //       ],
+    //     ),
+    //   ),
+    // );
   }
 
   _buildCategoryIcon(BuildContext context) {
@@ -148,5 +201,33 @@ class TransactionListCell extends StatelessWidget {
           ),
       ],
     );
+  }
+
+  SlidableAction _buildDeleteAction() {
+    return SlidableAction(
+      onPressed: (context) async => await _removeTransaction(context),
+      backgroundColor: Color(0xFFFE4A49),
+      foregroundColor: Colors.white,
+      icon: Icons.delete,
+      label: 'Elimina',
+    );
+  }
+
+  SlidableAction _buildEditAction() {
+    return SlidableAction(
+      onPressed: (context) {
+        Navigator.of(context)
+            .pushNamed(NewTransactionPage.routeName, arguments: transaction);
+      },
+      backgroundColor: Color(0xFF21B7CA),
+      foregroundColor: Colors.white,
+      icon: Icons.edit,
+      label: 'Modifica',
+    );
+  }
+
+  _removeTransaction(BuildContext context) async {
+    await Provider.of<TransactionProvider>(context, listen: false)
+        .deleteTransaction(transaction);
   }
 }

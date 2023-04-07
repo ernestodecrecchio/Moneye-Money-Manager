@@ -1,5 +1,8 @@
 import 'package:expense_tracker/models/account.dart';
 import 'package:expense_tracker/models/category.dart';
+import 'package:expense_tracker/models/transaction.dart';
+import 'package:expense_tracker/notifiers/account_provider.dart';
+import 'package:expense_tracker/notifiers/category_provider.dart';
 import 'package:expense_tracker/notifiers/transaction_provider.dart';
 import 'package:expense_tracker/pages/new_transaction_flow/account_selector_dialog.dart';
 import 'package:expense_tracker/pages/common/custom_text_field.dart';
@@ -13,7 +16,12 @@ import 'package:provider/provider.dart';
 class NewTransactionPage extends StatefulWidget {
   static const routeName = '/newTransactionPage';
 
-  const NewTransactionPage({Key? key}) : super(key: key);
+  final Transaction? initialTransactionSettings;
+
+  const NewTransactionPage({
+    Key? key,
+    this.initialTransactionSettings,
+  }) : super(key: key);
 
   @override
   State<NewTransactionPage> createState() => _NewTransactionPageState();
@@ -35,11 +43,42 @@ class _NewTransactionPageState extends State<NewTransactionPage> {
 
   final dateFormatter = DateFormat('dd/MM/yyyy');
 
+  bool editMode = false;
+
   @override
   void initState() {
     super.initState();
 
-    dateInput.text = dateFormatter.format(selectedDate).toString();
+    if (widget.initialTransactionSettings != null) {
+      editMode = true;
+
+      titleInput.text = widget.initialTransactionSettings!.title;
+      //descriptionInput.text =widget.initialTransactionSettings!.description;
+      valueInput.text = widget.initialTransactionSettings!.value.toString();
+      dateInput.text = dateFormatter
+          .format(widget.initialTransactionSettings!.date)
+          .toString();
+
+      if (widget.initialTransactionSettings!.categoryId != null) {
+        selectedCategory = Provider.of<CategoryProvider>(context, listen: false)
+            .getCategoryFromId(widget.initialTransactionSettings!.categoryId!);
+
+        if (selectedCategory != null) {
+          categoryInput.text = selectedCategory!.name;
+        }
+      }
+
+      if (widget.initialTransactionSettings!.accountId != null) {
+        selectedAccount = Provider.of<AccountProvider>(context, listen: false)
+            .getAccountFromId(widget.initialTransactionSettings!.accountId!);
+
+        if (selectedAccount != null) {
+          accountInput.text = selectedAccount!.name;
+        }
+      }
+    } else {
+      dateInput.text = dateFormatter.format(selectedDate).toString();
+    }
   }
 
   @override
@@ -58,7 +97,7 @@ class _NewTransactionPageState extends State<NewTransactionPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Nuova transazione'),
+        title: Text(editMode ? 'Modifica transazione' : 'Nuova transazione'),
         backgroundColor: CustomColors.blue,
         elevation: 0,
       ),
@@ -226,7 +265,11 @@ class _NewTransactionPageState extends State<NewTransactionPage> {
             child: TextButton(
               onPressed: () {
                 if (_formKey.currentState!.validate()) {
-                  _saveNewTransaction(income: true);
+                  if (editMode) {
+                    _editTransaction(income: true);
+                  } else {
+                    _saveNewTransaction(income: true);
+                  }
                 }
               },
               child: const Text(
@@ -249,7 +292,11 @@ class _NewTransactionPageState extends State<NewTransactionPage> {
             child: TextButton(
               onPressed: () {
                 if (_formKey.currentState!.validate()) {
-                  _saveNewTransaction(income: false);
+                  if (editMode) {
+                    _editTransaction(income: false);
+                  } else {
+                    _saveNewTransaction(income: false);
+                  }
                 }
               },
               child: const Text(
@@ -278,6 +325,23 @@ class _NewTransactionPageState extends State<NewTransactionPage> {
             date: selectedDate,
             category: selectedCategory,
             account: selectedAccount)
+        .then((value) => Navigator.of(context).pop());
+  }
+
+  _editTransaction({required bool income}) {
+    final transactionValue =
+        income ? double.parse(valueInput.text) : -double.parse(valueInput.text);
+
+    Provider.of<TransactionProvider>(context, listen: false)
+        .updateTransaction(
+          transactionToEdit: widget.initialTransactionSettings!,
+          title: titleInput.text,
+          description: descriptionInput.text,
+          value: transactionValue,
+          date: selectedDate,
+          category: selectedCategory,
+          account: selectedAccount,
+        )
         .then((value) => Navigator.of(context).pop());
   }
 }

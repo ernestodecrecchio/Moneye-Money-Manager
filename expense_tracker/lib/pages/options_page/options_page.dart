@@ -12,6 +12,7 @@ class OptionsPage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Opzioni'),
         backgroundColor: CustomColors.blue,
+        elevation: 0,
       ),
       backgroundColor: Colors.white,
       body: SafeArea(

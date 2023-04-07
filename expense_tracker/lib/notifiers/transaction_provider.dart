@@ -78,6 +78,38 @@ class TransactionProvider with ChangeNotifier {
     return transactionList.last;
   }
 
+  Future updateTransaction({
+    required Transaction transactionToEdit,
+    required String title,
+    String? description,
+    required double value,
+    required DateTime date,
+    required Category? category,
+    required Account? account,
+  }) async {
+    final modifiedTransaction = Transaction(
+      id: transactionToEdit.id,
+      title: title,
+      value: value,
+      date: date,
+      categoryId: category?.id,
+      accountId: account?.id,
+    );
+
+    if (await DatabaseTransactionHelper.instance.updateTransaction(
+        transactionToEdit: transactionToEdit,
+        modifiedTransaction: modifiedTransaction)) {
+      final transactionIndexToModify = transactionList
+          .indexWhere((element) => element.id == transactionToEdit.id);
+
+      if (transactionIndexToModify != -1) {
+        transactionList[transactionIndexToModify] = modifiedTransaction;
+      }
+
+      notifyListeners();
+    }
+  }
+
   Future<bool> deleteTransaction(Transaction transaction) async {
     final removedTransactionCount = await DatabaseTransactionHelper.instance
         .deleteTransaction(transaction: transaction);

@@ -21,6 +21,7 @@ class _AccountsListPageState extends State<AccountsListPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Conti'),
+        elevation: 0,
         backgroundColor: CustomColors.blue,
       ),
       floatingActionButton: _buildFloatingActionButton(context),

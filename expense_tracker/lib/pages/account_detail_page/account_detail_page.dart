@@ -25,6 +25,7 @@ class AccountDetailPage extends StatelessWidget {
       appBar: AppBar(
         title: Text(referenceAccount?.name ?? account.name),
         backgroundColor: CustomColors.blue,
+        elevation: 0,
         actions: [if (account.id != null) _buildEditAction(context)],
       ),
       backgroundColor: Colors.white,

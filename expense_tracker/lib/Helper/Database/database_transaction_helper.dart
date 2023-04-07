@@ -42,6 +42,21 @@ class DatabaseTransactionHelper {
     return transaction.copy(id: id);
   }
 
+  Future<bool> updateTransaction(
+      {required trans.Transaction transactionToEdit,
+      required trans.Transaction modifiedTransaction}) async {
+    final db = await DatabaseHelper.instance.database;
+
+    if (await db.update(transactionsTable, modifiedTransaction.toJson(),
+            where: '${trans.TransactionFields.id} = ?',
+            whereArgs: [transactionToEdit.id]) >
+        0) {
+      return true;
+    }
+
+    return false;
+  }
+
   /// Returns the number of the row deleted
   Future<int> deleteTransaction(
       {required trans.Transaction transaction}) async {

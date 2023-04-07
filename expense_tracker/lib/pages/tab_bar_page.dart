@@ -39,6 +39,7 @@ class _TabBarPageState extends State<TabBarPage> {
     return Scaffold(
         bottomNavigationBar: SalomonBottomBar(
           currentIndex: index,
+          backgroundColor: Colors.white,
           selectedItemColor: CustomColors.blue,
           unselectedItemColor: Colors.grey,
           onTap: (newIndex) {
