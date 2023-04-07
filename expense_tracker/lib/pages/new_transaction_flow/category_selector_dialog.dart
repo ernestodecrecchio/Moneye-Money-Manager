@@ -9,8 +9,11 @@ import 'package:provider/provider.dart';
 Future<Category?> showCategoryBottomSheet(
     BuildContext context, Category? initialSelection) async {
   return await showModalBottomSheet(
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(34.0),
+    shape: const RoundedRectangleBorder(
+      borderRadius: BorderRadius.only(
+        topLeft: Radius.circular(34),
+        topRight: Radius.circular(34),
+      ),
     ),
     backgroundColor: Colors.white,
     clipBehavior: Clip.antiAlias,
@@ -125,10 +128,13 @@ class _CategorySelectorContentState extends State<CategorySelectorContent> {
           shape: BoxShape.circle,
           color: category.color,
         ),
-        child: SvgPicture.asset(
-          category.iconPath!,
-          colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn),
-        ),
+        child: category.iconPath != null
+            ? SvgPicture.asset(
+                category.iconPath!,
+                colorFilter:
+                    const ColorFilter.mode(Colors.white, BlendMode.srcIn),
+              )
+            : null,
       ),
       trailing: _selectedCategory == category ? const Icon(Icons.check) : null,
       title: Text(

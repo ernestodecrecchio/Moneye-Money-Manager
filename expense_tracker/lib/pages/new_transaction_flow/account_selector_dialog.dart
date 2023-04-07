@@ -9,8 +9,11 @@ import 'package:provider/provider.dart';
 Future<Account?> showAccountBottomSheet(
     BuildContext context, Account? initialSelection) async {
   return await showModalBottomSheet(
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(34.0),
+    shape: const RoundedRectangleBorder(
+      borderRadius: BorderRadius.only(
+        topLeft: Radius.circular(34),
+        topRight: Radius.circular(34),
+      ),
     ),
     backgroundColor: Colors.white,
     clipBehavior: Clip.antiAlias,
@@ -124,10 +127,13 @@ class _AccountSelectorContentState extends State<AccountSelectorContent> {
           shape: BoxShape.circle,
           color: account.color,
         ),
-        child: SvgPicture.asset(
-          account.iconPath!,
-          colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn),
-        ),
+        child: account.iconPath != null
+            ? SvgPicture.asset(
+                account.iconPath!,
+                colorFilter:
+                    const ColorFilter.mode(Colors.white, BlendMode.srcIn),
+              )
+            : null,
       ),
       trailing: _selectedAccount == account ? const Icon(Icons.check) : null,
       title: Text(
