@@ -355,9 +355,9 @@ class _HomePageState extends State<HomePage> {
     return accountMap;
   }
 
-  Future<Category?> getCategoryForTransaction(Transaction transaction) async {
+  Category? getCategoryForTransaction(Transaction transaction) {
     if (transaction.categoryId != null) {
-      return await Provider.of<CategoryProvider>(context, listen: false)
+      return Provider.of<CategoryProvider>(context, listen: false)
           .getCategoryFromId(transaction.categoryId!);
     }
 

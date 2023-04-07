@@ -125,7 +125,6 @@ class _InlineIconPickerState extends State<InlineIconPicker> {
 
     return InkWell(
       onTap: () {
-        print('cc');
         widget.onSelectedIcon(iconPath);
       },
       child: Container(
