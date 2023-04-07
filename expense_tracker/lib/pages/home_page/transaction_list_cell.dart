@@ -61,7 +61,7 @@ class TransactionListCell extends StatelessWidget {
                 Text(
                   transaction.title,
                   style: const TextStyle(
-                    fontSize: 14,
+                    fontSize: 16,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -92,8 +92,8 @@ class TransactionListCell extends StatelessWidget {
     }
 
     return Container(
-      width: 26,
-      height: 26,
+      width: 32,
+      height: 32,
       padding: const EdgeInsets.all(6),
       decoration: BoxDecoration(
           shape: BoxShape.circle,
@@ -120,7 +120,7 @@ class TransactionListCell extends StatelessWidget {
 
     return Text(
       dateString,
-      style: const TextStyle(fontSize: 10, color: Colors.black54),
+      style: const TextStyle(fontSize: 12, color: Colors.black54),
     );
   }
 
@@ -140,7 +140,7 @@ class TransactionListCell extends StatelessWidget {
           '${transaction.value.toString()}€',
           textAlign: TextAlign.center,
           style: TextStyle(
-            fontSize: 14,
+            fontSize: 16,
             fontWeight: FontWeight.bold,
             color: transaction.value >= 0 ? Colors.green : Colors.red,
           ),
@@ -148,7 +148,7 @@ class TransactionListCell extends StatelessWidget {
         if (account != null)
           Text(
             account.name,
-            style: const TextStyle(fontSize: 10, color: Colors.black54),
+            style: const TextStyle(fontSize: 12, color: Colors.black54),
           ),
       ],
     );

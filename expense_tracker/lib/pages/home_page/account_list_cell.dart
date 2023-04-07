@@ -65,7 +65,7 @@ class AccountListCell extends StatelessWidget {
                     style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       color: Colors.white,
-                      fontSize: 12,
+                      fontSize: 14,
                     ),
                   ),
                 ),
@@ -80,7 +80,7 @@ class AccountListCell extends StatelessWidget {
             Text(
               'Total',
               style: TextStyle(
-                fontSize: 8,
+                fontSize: 10,
                 color: Colors.white.withOpacity(0.5),
               ),
             ),
@@ -90,7 +90,7 @@ class AccountListCell extends StatelessWidget {
             Text(
               '${balance.toStringAsFixed(2)}€',
               style: const TextStyle(
-                fontSize: 16,
+                fontSize: 18,
                 color: Colors.white,
                 fontWeight: FontWeight.bold,
               ),

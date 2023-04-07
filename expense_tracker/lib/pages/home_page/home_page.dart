@@ -15,10 +15,8 @@ import 'package:provider/provider.dart';
 import 'package:collection/collection.dart';
 
 // todo:
-// Ingrandire in generale font, tasti e icone
 // Impostare date picker basato su piattaform
 // Se % è 0,  mettere un uguale o far scomparire
-// Verificare calcolo percentuale
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -106,7 +104,7 @@ class _HomePageState extends State<HomePage> {
             'Bilancio totale',
             style: TextStyle(
               color: Colors.white,
-              fontSize: 16,
+              fontSize: 18,
               fontWeight: FontWeight.w400,
             ),
           ),
@@ -151,7 +149,7 @@ class _HomePageState extends State<HomePage> {
                         'Uscite',
                         style: TextStyle(
                           color: Colors.white,
-                          fontSize: 14,
+                          fontSize: 16,
                           fontWeight: FontWeight.w300,
                         ),
                       ),
@@ -162,7 +160,7 @@ class _HomePageState extends State<HomePage> {
                         monthlyExpenses.toString(),
                         style: const TextStyle(
                           color: Colors.white,
-                          fontSize: 14,
+                          fontSize: 16,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -187,7 +185,7 @@ class _HomePageState extends State<HomePage> {
                         'Entrate',
                         style: TextStyle(
                           color: Colors.white,
-                          fontSize: 14,
+                          fontSize: 16,
                           fontWeight: FontWeight.w300,
                         ),
                       ),
@@ -198,7 +196,7 @@ class _HomePageState extends State<HomePage> {
                         monthlyIncome.toString(),
                         style: const TextStyle(
                           color: Colors.white,
-                          fontSize: 14,
+                          fontSize: 16,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -280,7 +278,7 @@ class _HomePageState extends State<HomePage> {
           child: Text(
             'I tuoi conti',
             style: TextStyle(
-              fontSize: 16,
+              fontSize: 18,
               fontWeight: FontWeight.bold,
             ),
           ),
@@ -384,7 +382,7 @@ class _HomePageState extends State<HomePage> {
                 const Text(
                   'Ultime transazioni',
                   style: TextStyle(
-                    fontSize: 16,
+                    fontSize: 18,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -398,9 +396,9 @@ class _HomePageState extends State<HomePage> {
                       tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                       alignment: Alignment.centerLeft),
                   child: const Text(
-                    'Visualizza tutte',
+                    'Vedi tutte',
                     style: TextStyle(
-                      fontSize: 16,
+                      fontSize: 18,
                     ),
                   ),
                 ),
