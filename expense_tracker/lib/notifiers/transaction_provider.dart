@@ -90,6 +90,7 @@ class TransactionProvider with ChangeNotifier {
     final modifiedTransaction = Transaction(
       id: transactionToEdit.id,
       title: title,
+      description: description,
       value: value,
       date: date,
       categoryId: category?.id,
