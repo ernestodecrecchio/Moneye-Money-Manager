@@ -4,6 +4,7 @@ import 'package:expense_tracker/models/transaction.dart';
 import 'package:expense_tracker/notifiers/account_provider.dart';
 import 'package:expense_tracker/notifiers/category_provider.dart';
 import 'package:expense_tracker/notifiers/transaction_provider.dart';
+import 'package:expense_tracker/pages/accounts_page/new_account_page.dart';
 import 'package:expense_tracker/pages/home_page/account_list_cell.dart';
 import 'package:expense_tracker/pages/home_page/all_transaction_list_page.dart';
 import 'package:expense_tracker/pages/home_page/transaction_list_cell.dart';
@@ -16,7 +17,14 @@ import 'package:collection/collection.dart';
 
 // todo:
 // Impostare date picker basato su piattaform
-// Se % è 0,  mettere un uguale o far scomparire
+// Onboarding
+// tasto entrata/uscita refactor
+// Allega foto
+// OCR Scontrino
+// Spesa condivisa
+// Widget esterno
+// Password/Face recognition
+// Export dei dati CVS
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -302,12 +310,28 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
               )
-            : const Align(
+            : Align(
                 alignment: Alignment.center,
-                child: Text(
-                  'Nessuna conto inserito',
-                  style: TextStyle(color: Colors.grey),
-                  textAlign: TextAlign.start,
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 8.0, bottom: 8),
+                  child: Column(
+                    children: [
+                      const Text(
+                        'Nessun conto inserito,',
+                        style: TextStyle(color: Colors.grey),
+                        textAlign: TextAlign.start,
+                      ),
+                      TextButton(
+                          style: TextButton.styleFrom(
+                              padding: EdgeInsets.zero,
+                              minimumSize: Size.zero,
+                              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                              alignment: Alignment.center),
+                          onPressed: () => Navigator.of(context)
+                              .pushNamed(NewAccountPage.routeName),
+                          child: const Text('aggiungine uno')),
+                    ],
+                  ),
                 ),
               ),
       ],
@@ -425,10 +449,13 @@ class _HomePageState extends State<HomePage> {
                 )
               : const Align(
                   alignment: Alignment.center,
-                  child: Text(
-                    'Nessuna transazione inserita',
-                    style: TextStyle(color: Colors.grey),
-                    textAlign: TextAlign.start,
+                  child: Padding(
+                    padding: EdgeInsets.only(top: 8.0),
+                    child: Text(
+                      'Nessuna transazione inserita',
+                      style: TextStyle(color: Colors.grey),
+                      textAlign: TextAlign.start,
+                    ),
                   ),
                 ),
         ],
