@@ -15,6 +15,7 @@ class DatabaseTransactionHelper {
   static Future inizializeTable(Database db) async {
     const idType = 'INTEGER PRIMARY KEY AUTOINCREMENT';
     const textType = 'TEXT NOT NULL';
+    const textTypeNullable = 'TEXT';
     const realType = 'REAL NOT NULL';
     const dateTimeType = 'DATETIME NOT NULL';
     const integerType = 'INTEGER';
@@ -23,6 +24,7 @@ class DatabaseTransactionHelper {
     CREATE TABLE $transactionsTable (
       ${TransactionFields.id} $idType,
       ${TransactionFields.title} $textType,
+      ${TransactionFields.description} $textTypeNullable,
       ${TransactionFields.value} $realType,
       ${TransactionFields.date} $dateTimeType,
       ${TransactionFields.categoryId} $integerType,

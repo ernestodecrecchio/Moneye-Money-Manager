@@ -40,7 +40,7 @@ class _NewCategoryPageState extends State<NewCategoryPage> {
       editMode = true;
 
       titleInput.text = widget.initialCategorySettings!.name;
-      //descriptionInput.text = widget.initialAccountSettings!.description;
+      descriptionInput.text = widget.initialCategorySettings!.description ?? '';
       selectedColor = widget.initialCategorySettings!.color;
       selectedIconPath = widget.initialCategorySettings!.iconPath;
     }
@@ -212,6 +212,7 @@ class _NewCategoryPageState extends State<NewCategoryPage> {
     Provider.of<CategoryProvider>(context, listen: false)
         .addNewCategory(
             name: titleInput.text,
+            description: descriptionInput.text,
             colorValue: selectedColor.value,
             iconPath: selectedIconPath)
         .then((value) => Navigator.of(context).pop());
@@ -222,6 +223,7 @@ class _NewCategoryPageState extends State<NewCategoryPage> {
         .updateCategory(
           categoryToEdit: widget.initialCategorySettings!,
           name: titleInput.text,
+          description: descriptionInput.text,
           colorValue: selectedColor.value,
           iconPath: selectedIconPath,
         )

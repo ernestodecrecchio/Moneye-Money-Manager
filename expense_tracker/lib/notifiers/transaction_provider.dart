@@ -55,6 +55,7 @@ class TransactionProvider with ChangeNotifier {
 
   Future<Transaction?> addNewTransaction({
     required String title,
+    String? description,
     required double value,
     required DateTime date,
     Category? category,
@@ -62,6 +63,7 @@ class TransactionProvider with ChangeNotifier {
   }) async {
     Transaction newTransaction = Transaction(
       title: title,
+      description: description,
       value: value,
       date: date,
       categoryId: category?.id,

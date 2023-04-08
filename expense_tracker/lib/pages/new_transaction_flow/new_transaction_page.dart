@@ -53,7 +53,8 @@ class _NewTransactionPageState extends State<NewTransactionPage> {
       editMode = true;
 
       titleInput.text = widget.initialTransactionSettings!.title;
-      //descriptionInput.text =widget.initialTransactionSettings!.description;
+      descriptionInput.text =
+          widget.initialTransactionSettings!.description ?? '';
       valueInput.text = widget.initialTransactionSettings!.value.toString();
       dateInput.text = dateFormatter
           .format(widget.initialTransactionSettings!.date)
@@ -326,6 +327,7 @@ class _NewTransactionPageState extends State<NewTransactionPage> {
     Provider.of<TransactionProvider>(context, listen: false)
         .addNewTransaction(
             title: titleInput.text,
+            description: descriptionInput.text,
             value: transactionValue,
             date: selectedDate,
             category: selectedCategory,

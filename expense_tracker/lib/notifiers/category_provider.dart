@@ -24,11 +24,13 @@ class CategoryProvider with ChangeNotifier {
 
   Future addNewCategory({
     required String name,
+    String? description,
     required int? colorValue,
     required String? iconPath,
   }) async {
     final newCategory = Category(
       name: name,
+      description: description,
       colorValue: colorValue,
       iconPath: iconPath,
     );
@@ -42,12 +44,14 @@ class CategoryProvider with ChangeNotifier {
   Future updateCategory({
     required Category categoryToEdit,
     required String name,
+    String? description,
     required int? colorValue,
     required String? iconPath,
   }) async {
     final modifiedCategory = Category(
       id: categoryToEdit.id,
       name: name,
+      description: description,
       colorValue: colorValue,
       iconPath: iconPath,
     );

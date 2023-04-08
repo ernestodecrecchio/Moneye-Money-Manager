@@ -18,6 +18,7 @@ import 'package:collection/collection.dart';
 /// Migliorie:
 // Impostare date picker basato su piattaform
 // tasto entrata/uscita refactor
+// Gestire campo descrizione
 
 /// Nuove feature
 // Grafici

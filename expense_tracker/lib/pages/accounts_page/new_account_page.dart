@@ -40,7 +40,7 @@ class _NewAccountPageState extends State<NewAccountPage> {
       editMode = true;
 
       titleInput.text = widget.initialAccountSettings!.name;
-      //descriptionInput.text = widget.initialAccountSettings!.description;
+      descriptionInput.text = widget.initialAccountSettings!.description ?? '';
       selectedColor = widget.initialAccountSettings!.color;
       selectedIconPath = widget.initialAccountSettings!.iconPath;
     }
@@ -214,6 +214,7 @@ class _NewAccountPageState extends State<NewAccountPage> {
     Provider.of<AccountProvider>(context, listen: false)
         .addNewAccount(
             name: titleInput.text,
+            description: descriptionInput.text,
             colorValue: selectedColor.value,
             iconPath: selectedIconPath)
         .then((value) => Navigator.of(context).pop());
@@ -224,6 +225,7 @@ class _NewAccountPageState extends State<NewAccountPage> {
         .updateAccount(
             accountToEdit: widget.initialAccountSettings!,
             name: titleInput.text,
+            description: descriptionInput.text,
             colorValue: selectedColor.value,
             iconPath: selectedIconPath)
         .then((value) => Navigator.of(context).pop());

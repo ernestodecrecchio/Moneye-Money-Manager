@@ -18,6 +18,7 @@ class DatabaseAccountHelper {
       CREATE TABLE $accountsTable ( 
       ${AccountFields.id} $idType, 
       ${AccountFields.name} $textType,
+      ${AccountFields.description} $textTypeNullable,
       ${AccountFields.colorValue} $integerTypeNullable,
       ${AccountFields.iconPath} $textTypeNullable
       )

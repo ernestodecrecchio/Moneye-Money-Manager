@@ -17,6 +17,7 @@ class DatabaseCategoryHelper {
       CREATE TABLE $categoriesTable ( 
       ${CategoryFields.id} $idType, 
       ${CategoryFields.name} $textType,
+      ${CategoryFields.description} $textTypeNullable,
       ${CategoryFields.colorValue} $integerTypeNullable,
       ${CategoryFields.iconPath} $textTypeNullable
       )
