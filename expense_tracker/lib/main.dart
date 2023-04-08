@@ -10,6 +10,7 @@ import 'package:expense_tracker/pages/accounts_page/accounts_list_page.dart';
 import 'package:expense_tracker/pages/categories_page/categories_list_page.dart';
 import 'package:expense_tracker/pages/categories_page/new_category_page.dart';
 import 'package:expense_tracker/pages/accounts_page/new_account_page.dart';
+import 'package:expense_tracker/pages/common/helper/dismiss_keyboard.dart';
 import 'package:expense_tracker/pages/home_page/all_transaction_list_page.dart';
 import 'package:expense_tracker/pages/new_transaction_flow/new_transaction_page.dart';
 import 'package:expense_tracker/pages/tab_bar_page.dart';
@@ -51,73 +52,77 @@ class MyApp extends StatelessWidget {
                 ..categoryProvider = categoryProvider,
         ),
       ],
-      child: MaterialApp(
-        title: 'Flutter Demo',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
+      child: DismissKeyboard(
+        child: MaterialApp(
+          title: 'Flutter Demo',
+          theme: ThemeData(
+            primarySwatch: Colors.blue,
+          ),
+          initialRoute: '/',
+          routes: {
+            '/': (context) => const TabBarPage(),
+            AllTransactionList.routeName: (context) =>
+                const AllTransactionList(),
+            CategoriesListPage.routeName: (context) =>
+                const CategoriesListPage(),
+            AccountsListPage.routeName: (context) => const AccountsListPage(),
+          },
+          onGenerateRoute: (settings) {
+            switch (settings.name) {
+              case AccountDetailPage.routeName:
+                {
+                  final args = settings.arguments as Account;
+
+                  return MaterialPageRoute(
+                    builder: (context) {
+                      return AccountDetailPage(
+                        account: args,
+                      );
+                    },
+                  );
+                }
+              case NewTransactionPage.routeName:
+                {
+                  final args = settings.arguments as Transaction?;
+
+                  return MaterialPageRoute(
+                    builder: (context) {
+                      return NewTransactionPage(
+                        initialTransactionSettings: args,
+                      );
+                    },
+                  );
+                }
+              case NewAccountPage.routeName:
+                {
+                  final args = settings.arguments as Account?;
+
+                  return MaterialPageRoute(
+                    builder: (context) {
+                      return NewAccountPage(
+                        initialAccountSettings: args,
+                      );
+                    },
+                  );
+                }
+              case NewCategoryPage.routeName:
+                {
+                  final args = settings.arguments as Category?;
+
+                  return MaterialPageRoute(
+                    builder: (context) {
+                      return NewCategoryPage(
+                        initialCategorySettings: args,
+                      );
+                    },
+                  );
+                }
+            }
+
+            assert(false, 'Need to implement ${settings.name}');
+            return null;
+          },
         ),
-        initialRoute: '/',
-        routes: {
-          '/': (context) => const TabBarPage(),
-          AllTransactionList.routeName: (context) => const AllTransactionList(),
-          CategoriesListPage.routeName: (context) => const CategoriesListPage(),
-          AccountsListPage.routeName: (context) => const AccountsListPage(),
-        },
-        onGenerateRoute: (settings) {
-          switch (settings.name) {
-            case AccountDetailPage.routeName:
-              {
-                final args = settings.arguments as Account;
-
-                return MaterialPageRoute(
-                  builder: (context) {
-                    return AccountDetailPage(
-                      account: args,
-                    );
-                  },
-                );
-              }
-            case NewTransactionPage.routeName:
-              {
-                final args = settings.arguments as Transaction?;
-
-                return MaterialPageRoute(
-                  builder: (context) {
-                    return NewTransactionPage(
-                      initialTransactionSettings: args,
-                    );
-                  },
-                );
-              }
-            case NewAccountPage.routeName:
-              {
-                final args = settings.arguments as Account?;
-
-                return MaterialPageRoute(
-                  builder: (context) {
-                    return NewAccountPage(
-                      initialAccountSettings: args,
-                    );
-                  },
-                );
-              }
-            case NewCategoryPage.routeName:
-              {
-                final args = settings.arguments as Category?;
-
-                return MaterialPageRoute(
-                  builder: (context) {
-                    return NewCategoryPage(
-                      initialCategorySettings: args,
-                    );
-                  },
-                );
-              }
-          }
-
-          assert(false, 'Need to implement ${settings.name}');
-          return null;
-        },
       ),
     );
   }
