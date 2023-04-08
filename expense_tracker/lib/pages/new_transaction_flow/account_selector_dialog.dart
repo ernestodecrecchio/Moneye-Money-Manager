@@ -135,7 +135,9 @@ class _AccountSelectorContentState extends State<AccountSelectorContent> {
               )
             : null,
       ),
-      trailing: _selectedAccount == account ? const Icon(Icons.check) : null,
+      trailing: _selectedAccount == account
+          ? SvgPicture.asset('assets/icons/checkmark.svg')
+          : null,
       title: Text(
         account.name,
         style: const TextStyle(fontSize: 18),

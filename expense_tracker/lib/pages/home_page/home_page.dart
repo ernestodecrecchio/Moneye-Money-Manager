@@ -17,13 +17,13 @@ import 'package:collection/collection.dart';
 
 /// Migliorie:
 // Impostare date picker basato su piattaform
+// tasto entrata/uscita refactor
 
 /// Nuove feature
 // Grafici
 // Possibilità di cambiare la lingua
 // Possibilità di cambiare la valuta
 // Onboarding
-// tasto entrata/uscita refactor
 // Allega foto
 // OCR Scontrino
 // Spesa condivisa

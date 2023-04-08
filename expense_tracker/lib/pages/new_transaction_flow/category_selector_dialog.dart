@@ -136,7 +136,9 @@ class _CategorySelectorContentState extends State<CategorySelectorContent> {
               )
             : null,
       ),
-      trailing: _selectedCategory == category ? const Icon(Icons.check) : null,
+      trailing: _selectedCategory == category
+          ? SvgPicture.asset('assets/icons/checkmark.svg')
+          : null,
       title: Text(
         category.name,
         style: const TextStyle(fontSize: 18),
