@@ -20,6 +20,7 @@ import 'package:collection/collection.dart';
 // tasto entrata/uscita refactor
 
 /// Nuove feature
+// Dettaglio conto
 // Grafici
 // Possibilità di cambiare la lingua
 // Possibilità di cambiare la valuta
@@ -30,6 +31,7 @@ import 'package:collection/collection.dart';
 // Widget esterno
 // Password/Face recognition
 // Export dei dati CVS
+// Aggiungi icone sensate
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
