@@ -5,18 +5,23 @@ import 'package:expense_tracker/notifiers/account_provider.dart';
 import 'package:expense_tracker/notifiers/category_provider.dart';
 import 'package:expense_tracker/notifiers/transaction_provider.dart';
 import 'package:expense_tracker/pages/accounts_page/new_account_page.dart';
-import 'package:expense_tracker/pages/home_page/account_list_cell.dart';
 import 'package:expense_tracker/pages/home_page/all_transaction_list_page.dart';
 import 'package:expense_tracker/pages/home_page/transaction_list_cell.dart';
 import 'package:expense_tracker/pages/new_transaction_flow/new_transaction_page.dart';
+import 'package:expense_tracker/pages/home_page/account_list_tile.dart';
 import 'package:expense_tracker/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:collection/collection.dart';
 
-// todo:
+/// Migliorie:
 // Impostare date picker basato su piattaform
+
+/// Nuove feature
+// Grafici
+// Possibilità di cambiare la lingua
+// Possibilità di cambiare la valuta
 // Onboarding
 // tasto entrata/uscita refactor
 // Allega foto
@@ -301,7 +306,7 @@ class _HomePageState extends State<HomePage> {
                   scrollDirection: Axis.horizontal,
                   itemCount: list.length,
                   itemBuilder: (context, index) {
-                    return AccountListCell(
+                    return AccountListTile(
                         account: list.keys.toList()[index],
                         balance: list.values.toList()[index]);
                   },
@@ -349,9 +354,9 @@ class _HomePageState extends State<HomePage> {
     final transactionList =
         Provider.of<TransactionProvider>(context, listen: true).transactionList;
 
-    accountList.forEach((account) {
+    for (var account in accountList) {
       accountMap[account] = 0;
-    });
+    }
 
     for (var transaction in transactionList) {
       Account? transactionAccount = accountList

@@ -27,13 +27,11 @@ class TransactionProvider with ChangeNotifier {
   double getTotalBanalceUntilDate(DateTime date) {
     double totalBalance = 0;
 
-    transactionList.forEach(
-      (transaction) {
-        if (transaction.date.isBefore(date)) {
-          totalBalance += transaction.value;
-        }
-      },
-    );
+    for (var transaction in transactionList) {
+      if (transaction.date.isBefore(date)) {
+        totalBalance += transaction.value;
+      }
+    }
 
     return totalBalance;
   }

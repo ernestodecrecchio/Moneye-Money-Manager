@@ -32,7 +32,7 @@ class TransactionListCell extends StatelessWidget {
             onDismissed: () async => await _removeTransaction(context)),
         children: [
           _buildDeleteAction(),
-          _buildEditAction(),
+          // _buildEditAction(),
         ],
       ),
       endActionPane: ActionPane(
@@ -40,37 +40,41 @@ class TransactionListCell extends StatelessWidget {
         dismissible: DismissiblePane(
             onDismissed: () async => await _removeTransaction(context)),
         children: [
-          _buildEditAction(),
+          // _buildEditAction(),
           _buildDeleteAction(),
         ],
       ),
-      child: Container(
-        height: 64,
-        padding:
-            EdgeInsets.symmetric(vertical: 8, horizontal: horizontalPadding),
-        child: Row(
-          children: [
-            _buildCategoryIcon(context),
-            const SizedBox(
-              width: 8,
-            ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  transaction.title,
-                  style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
+      child: InkWell(
+        onTap: () => Navigator.of(context)
+            .pushNamed(NewTransactionPage.routeName, arguments: transaction),
+        child: Container(
+          height: 64,
+          padding:
+              EdgeInsets.symmetric(vertical: 8, horizontal: horizontalPadding),
+          child: Row(
+            children: [
+              _buildCategoryIcon(context),
+              const SizedBox(
+                width: 8,
+              ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    transaction.title,
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                ),
-                _buildDate(),
-              ],
-            ),
-            const Spacer(),
-            _buildValue(context),
-          ],
+                  _buildDate(),
+                ],
+              ),
+              const Spacer(),
+              _buildValue(context),
+            ],
+          ),
         ),
       ),
     );
@@ -166,10 +170,8 @@ class TransactionListCell extends StatelessWidget {
 
   SlidableAction _buildEditAction() {
     return SlidableAction(
-      onPressed: (context) {
-        Navigator.of(context)
-            .pushNamed(NewTransactionPage.routeName, arguments: transaction);
-      },
+      onPressed: (context) => Navigator.of(context)
+          .pushNamed(NewTransactionPage.routeName, arguments: transaction),
       backgroundColor: const Color(0xFF21B7CA),
       foregroundColor: Colors.white,
       icon: Icons.edit,

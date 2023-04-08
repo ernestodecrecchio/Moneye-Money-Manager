@@ -39,6 +39,32 @@ class CategoryProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  Future updateCategory({
+    required Category categoryToEdit,
+    required String name,
+    required int? colorValue,
+    required String? iconPath,
+  }) async {
+    final modifiedCategory = Category(
+      id: categoryToEdit.id,
+      name: name,
+      colorValue: colorValue,
+      iconPath: iconPath,
+    );
+
+    if (await DatabaseCategoryHelper.instance.updateCategory(
+        categoryToEdit: categoryToEdit, modifiedCategory: modifiedCategory)) {
+      final categoryIndexToModify =
+          categoryList.indexWhere((element) => element.id == categoryToEdit.id);
+
+      if (categoryIndexToModify != -1) {
+        categoryList[categoryIndexToModify] = modifiedCategory;
+      }
+
+      notifyListeners();
+    }
+  }
+
   /// Deletes the category without affecting the transactions viewed in the current session
   Future<bool> deleteCategory(Category category) async {
     final removedCategoryCount = await DatabaseCategoryHelper.instance

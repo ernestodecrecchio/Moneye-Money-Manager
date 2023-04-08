@@ -1,9 +1,8 @@
 import 'package:expense_tracker/notifiers/account_provider.dart';
-import 'package:expense_tracker/notifiers/central_provider.dart';
+import 'package:expense_tracker/pages/accounts_page/account_list_cell.dart';
 import 'package:expense_tracker/pages/accounts_page/new_account_page.dart';
 import 'package:expense_tracker/style.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
 class AccountsListPage extends StatefulWidget {
@@ -40,31 +39,7 @@ class _AccountsListPageState extends State<AccountsListPage> {
           itemBuilder: (context, index) {
             final account = accountProvider.accountList[index];
 
-            return Dismissible(
-              key: Key(account.id.toString()),
-              confirmDismiss: (_) {
-                return Provider.of<CentralProvider>(context, listen: false)
-                    .deleteAccount(account);
-              },
-              background: Container(color: Colors.red),
-              child: ListTile(
-                title: Text(account.name),
-                leading: account.iconPath != null
-                    ? SizedBox(
-                        height: 20,
-                        width: 20,
-                        child: SvgPicture.asset(account.iconPath!),
-                      )
-                    : null,
-                trailing: account.colorValue != null
-                    ? Container(
-                        height: 20,
-                        width: 20,
-                        color: Color(account.colorValue!),
-                      )
-                    : null,
-              ),
-            );
+            return AccountListCell(account: account);
           },
         );
       })),

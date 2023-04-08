@@ -31,6 +31,20 @@ class DatabaseCategoryHelper {
     return category.copy(id: id);
   }
 
+  Future<bool> updateCategory(
+      {required Category categoryToEdit,
+      required Category modifiedCategory}) async {
+    final db = await DatabaseHelper.instance.database;
+
+    if (await db.update(categoriesTable, modifiedCategory.toJson(),
+            where: '${CategoryFields.id} = ?', whereArgs: [categoryToEdit.id]) >
+        0) {
+      return true;
+    }
+
+    return false;
+  }
+
   Future<int> deleteCategory({required Category category}) async {
     final db = await DatabaseHelper.instance.database;
 
@@ -65,17 +79,6 @@ class DatabaseCategoryHelper {
 
     final result = await db.query(categoriesTable, orderBy: orderBy);
     return result.map((json) => Category.fromJson(json)).toList();
-  }
-
-  static Future<int> updateCategory(Category category) async {
-    final db = await DatabaseHelper.instance.database;
-
-    return db.update(
-      categoriesTable,
-      category.toJson(),
-      where: '${CategoryFields.id} = ?',
-      whereArgs: [category.id],
-    );
   }
 
   Future<Category?> getCategoryFromId(int id) async {

@@ -1,8 +1,8 @@
 import 'package:expense_tracker/notifiers/category_provider.dart';
+import 'package:expense_tracker/pages/categories_page/category_list_cell.dart';
 import 'package:expense_tracker/pages/categories_page/new_category_page.dart';
 import 'package:expense_tracker/style.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
 class CategoriesListPage extends StatefulWidget {
@@ -37,32 +37,8 @@ class _CategoriesListPageState extends State<CategoriesListPage> {
         return ListView.builder(
           itemCount: categoryProvider.categoryList.length,
           itemBuilder: (context, index) {
-            final category = categoryProvider.categoryList[index];
-
-            return Dismissible(
-              key: Key(category.id.toString()),
-              confirmDismiss: (_) {
-                return categoryProvider.deleteCategory(category);
-              },
-              background: Container(color: Colors.red),
-              child: ListTile(
-                title: Text(category.name),
-                leading: category.iconPath != null
-                    ? SizedBox(
-                        height: 20,
-                        width: 20,
-                        child: SvgPicture.asset(category.iconPath!),
-                      )
-                    : null,
-                trailing: category.colorValue != null
-                    ? Container(
-                        height: 20,
-                        width: 20,
-                        color: Color(category.colorValue!),
-                      )
-                    : null,
-              ),
-            );
+            return CategoryListCell(
+                category: categoryProvider.categoryList[index]);
           },
         );
       })),

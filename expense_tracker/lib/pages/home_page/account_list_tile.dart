@@ -1,13 +1,14 @@
+
 import 'package:expense_tracker/models/account.dart';
 import 'package:expense_tracker/pages/account_detail_page/account_detail_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class AccountListCell extends StatelessWidget {
+class AccountListTile extends StatelessWidget {
   final Account account;
   final double balance;
 
-  const AccountListCell({
+  const AccountListTile({
     super.key,
     required this.account,
     required this.balance,

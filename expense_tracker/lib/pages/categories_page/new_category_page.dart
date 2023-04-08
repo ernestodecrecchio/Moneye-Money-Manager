@@ -183,7 +183,11 @@ class _NewCategoryPageState extends State<NewCategoryPage> {
       child: ElevatedButton(
         onPressed: () {
           if (_formKey.currentState!.validate()) {
-            _saveNewCategory();
+            if (editMode) {
+              _editCategory();
+            } else {
+              _saveNewCategory();
+            }
           }
         },
         style: ElevatedButton.styleFrom(
@@ -210,6 +214,17 @@ class _NewCategoryPageState extends State<NewCategoryPage> {
             name: titleInput.text,
             colorValue: selectedColor.value,
             iconPath: selectedIconPath)
+        .then((value) => Navigator.of(context).pop());
+  }
+
+  _editCategory() {
+    Provider.of<CategoryProvider>(context, listen: false)
+        .updateCategory(
+          categoryToEdit: widget.initialCategorySettings!,
+          name: titleInput.text,
+          colorValue: selectedColor.value,
+          iconPath: selectedIconPath,
+        )
         .then((value) => Navigator.of(context).pop());
   }
 }
