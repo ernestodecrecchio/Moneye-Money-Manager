@@ -53,6 +53,7 @@ class CustomTextField extends StatelessWidget {
             height: 5,
           ),
           TextFormField(
+            onEditingComplete: () => FocusScope.of(context).nextFocus(),
             readOnly: readOnly,
             controller: controller,
             validator: validator,
