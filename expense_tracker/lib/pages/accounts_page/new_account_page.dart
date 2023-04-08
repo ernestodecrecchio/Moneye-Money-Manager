@@ -69,7 +69,10 @@ class _NewAccountPageState extends State<NewAccountPage> {
           slivers: [
             SliverFillRemaining(
               hasScrollBody: false,
-              child: _buildForm(),
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 10),
+                child: _buildForm(),
+              ),
             )
           ],
         ),

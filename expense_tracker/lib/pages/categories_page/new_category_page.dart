@@ -69,7 +69,9 @@ class _NewCategoryPageState extends State<NewCategoryPage> {
           slivers: [
             SliverFillRemaining(
               hasScrollBody: false,
-              child: _buildForm(),
+              child: Padding(
+                  padding: const EdgeInsets.only(bottom: 10),
+                  child: _buildForm()),
             ),
           ],
         ),

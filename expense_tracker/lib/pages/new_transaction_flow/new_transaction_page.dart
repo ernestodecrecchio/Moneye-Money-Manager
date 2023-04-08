@@ -109,7 +109,10 @@ class _NewTransactionPageState extends State<NewTransactionPage> {
           slivers: [
             SliverFillRemaining(
               hasScrollBody: false,
-              child: _buildForm(),
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 10.0),
+                child: _buildForm(),
+              ),
             ),
           ],
         ),
