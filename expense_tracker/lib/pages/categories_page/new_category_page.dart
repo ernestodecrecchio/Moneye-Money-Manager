@@ -175,10 +175,11 @@ class _NewCategoryPageState extends State<NewCategoryPage> {
     );
   }
 
-  _buildSaveButton() {
-    return SizedBox(
+  Widget _buildSaveButton() {
+    return Container(
       height: 50,
       width: double.infinity,
+      margin: const EdgeInsets.only(top: 10),
       child: ElevatedButton(
         onPressed: () {
           if (_formKey.currentState!.validate()) {

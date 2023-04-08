@@ -258,6 +258,7 @@ class _NewTransactionPageState extends State<NewTransactionPage> {
       clipBehavior: Clip.antiAlias,
       height: 50,
       width: double.infinity,
+      margin: const EdgeInsets.only(top: 10),
       decoration: BoxDecoration(
         color: CustomColors.darkBlue,
         borderRadius: BorderRadius.circular(25),
