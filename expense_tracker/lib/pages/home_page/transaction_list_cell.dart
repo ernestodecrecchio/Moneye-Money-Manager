@@ -68,6 +68,9 @@ class TransactionListCell extends StatelessWidget {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
+                  const SizedBox(
+                    height: 2,
+                  ),
                   _buildDate(),
                 ],
               ),
@@ -117,9 +120,9 @@ class TransactionListCell extends StatelessWidget {
         transaction.date.year, transaction.date.month, transaction.date.day);
 
     if (dateToCheck == today) {
-      dateString = 'Oggi';
+      dateString = '$dateString (Oggi)';
     } else if (dateToCheck == yesterday) {
-      dateString = 'Ieri';
+      dateString = '$dateString (Ieri)';
     }
 
     return Text(
