@@ -15,11 +15,14 @@ class TransactionListCell extends StatelessWidget {
   final Transaction transaction;
   final double horizontalPadding;
 
+  final bool showAccountLabel;
+
   const TransactionListCell({
     Key? key,
     required this.transaction,
     bool? dismissible = true,
     this.horizontalPadding = 17,
+    this.showAccountLabel = true,
   }) : super(key: key);
 
   @override
@@ -134,7 +137,7 @@ class TransactionListCell extends StatelessWidget {
   Widget _buildValue(BuildContext context) {
     Account? account;
 
-    if (transaction.accountId != null) {
+    if (showAccountLabel && transaction.accountId != null) {
       account = Provider.of<AccountProvider>(context, listen: false)
           .getAccountFromId(transaction.accountId!);
     }
@@ -152,7 +155,7 @@ class TransactionListCell extends StatelessWidget {
             color: transaction.value >= 0 ? Colors.green : Colors.red,
           ),
         ),
-        if (account != null)
+        if (showAccountLabel && account != null)
           Text(
             account.name,
             style: const TextStyle(fontSize: 12, color: Colors.black54),

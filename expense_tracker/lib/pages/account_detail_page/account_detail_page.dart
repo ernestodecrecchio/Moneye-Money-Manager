@@ -42,7 +42,10 @@ class AccountDetailPage extends StatelessWidget {
       child: ListView.builder(
         itemCount: transactionList.length,
         itemBuilder: (context, index) {
-          return TransactionListCell(transaction: transactionList[index]);
+          return TransactionListCell(
+            transaction: transactionList[index],
+            showAccountLabel: false,
+          );
         },
       ),
     );
