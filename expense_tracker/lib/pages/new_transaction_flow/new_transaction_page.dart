@@ -31,6 +31,8 @@ class _NewTransactionPageState extends State<NewTransactionPage> {
   final _formKey = GlobalKey<FormState>();
 
   TextEditingController titleInput = TextEditingController();
+  final titleInputFocusNode = FocusNode();
+
   TextEditingController descriptionInput = TextEditingController();
   TextEditingController valueInput = TextEditingController();
   TextEditingController dateInput = TextEditingController();
@@ -79,6 +81,7 @@ class _NewTransactionPageState extends State<NewTransactionPage> {
         }
       }
     } else {
+      titleInputFocusNode.requestFocus();
       dateInput.text = dateFormatter.format(selectedDate).toString();
     }
   }
@@ -86,6 +89,8 @@ class _NewTransactionPageState extends State<NewTransactionPage> {
   @override
   void dispose() {
     titleInput.dispose();
+    titleInputFocusNode.dispose();
+
     descriptionInput.dispose();
     valueInput.dispose();
     dateInput.dispose();
@@ -138,6 +143,7 @@ class _NewTransactionPageState extends State<NewTransactionPage> {
                 }
                 return null;
               },
+              focusNode: titleInputFocusNode,
             ),
             const SizedBox(
               height: 14,

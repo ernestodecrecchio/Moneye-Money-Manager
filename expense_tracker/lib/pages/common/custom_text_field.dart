@@ -14,6 +14,7 @@ class CustomTextField extends StatelessWidget {
   final bool readOnly;
   final String? Function(String?)? validator;
   final int? maxLines;
+  final FocusNode? focusNode;
 
   final borderRadius = 40.0;
 
@@ -30,6 +31,7 @@ class CustomTextField extends StatelessWidget {
     this.readOnly = false,
     this.validator,
     this.maxLines = 1,
+    this.focusNode,
   });
 
   @override
@@ -53,6 +55,7 @@ class CustomTextField extends StatelessWidget {
             height: 5,
           ),
           TextFormField(
+            focusNode: focusNode,
             onEditingComplete: () => FocusScope.of(context).nextFocus(),
             readOnly: readOnly,
             controller: controller,
