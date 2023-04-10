@@ -55,6 +55,7 @@ class CustomTextField extends StatelessWidget {
             height: 5,
           ),
           TextFormField(
+            textCapitalization: TextCapitalization.sentences,
             focusNode: focusNode,
             onEditingComplete: () => FocusScope.of(context).nextFocus(),
             readOnly: readOnly,
