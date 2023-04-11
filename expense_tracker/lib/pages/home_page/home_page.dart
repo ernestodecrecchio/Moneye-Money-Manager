@@ -18,6 +18,7 @@ import 'package:collection/collection.dart';
 /// Migliorie:
 // Impostare date picker basato su piattaform
 // tasto entrata/uscita refactor
+// Aggiungere saldo nuovo account
 
 /// Nuove feature
 // Dettaglio conto
@@ -129,7 +130,7 @@ class _HomePageState extends State<HomePage> {
                 child: FittedBox(
                   fit: BoxFit.fitWidth,
                   child: Text(
-                    '${Provider.of<TransactionProvider>(context, listen: false).totalBalance} €',
+                    '${Provider.of<TransactionProvider>(context, listen: false).totalBalance.toStringAsFixed(2)} €',
                     style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 40,
@@ -313,7 +314,7 @@ class _HomePageState extends State<HomePage> {
                         balance: list.values.toList()[index]);
                   },
                   separatorBuilder: (context, index) => const SizedBox(
-                    width: 10,
+                    width: 12,
                   ),
                 ),
               )

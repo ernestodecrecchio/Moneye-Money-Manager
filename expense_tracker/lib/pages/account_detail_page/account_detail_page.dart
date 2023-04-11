@@ -2,6 +2,7 @@ import 'package:collection/collection.dart';
 import 'package:expense_tracker/models/account.dart';
 import 'package:expense_tracker/notifiers/account_provider.dart';
 import 'package:expense_tracker/notifiers/transaction_provider.dart';
+import 'package:expense_tracker/pages/account_detail_page/account_pie_chart.dart';
 import 'package:expense_tracker/pages/accounts_page/new_account_page.dart';
 import 'package:expense_tracker/pages/home_page/transaction_list_cell.dart';
 import 'package:expense_tracker/style.dart';
@@ -39,14 +40,25 @@ class AccountDetailPage extends StatelessWidget {
             .getTransactionListForAccount(account);
 
     return SafeArea(
-      child: ListView.builder(
-        itemCount: transactionList.length,
-        itemBuilder: (context, index) {
-          return TransactionListCell(
-            transaction: transactionList[index],
-            showAccountLabel: false,
-          );
-        },
+      child: Column(
+        children: [
+          AccountPieChart(
+            timeMode: AccountPieChartModeTime.all,
+            transactionType: AccountPieChartModeTransactionType.expense,
+            transactionList: transactionList,
+          ),
+          Expanded(
+            child: ListView.builder(
+              itemCount: transactionList.length,
+              itemBuilder: (context, index) {
+                return TransactionListCell(
+                  transaction: transactionList[index],
+                  showAccountLabel: false,
+                );
+              },
+            ),
+          ),
+        ],
       ),
     );
   }
