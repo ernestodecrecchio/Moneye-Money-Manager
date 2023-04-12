@@ -1,5 +1,6 @@
 import 'package:collection/collection.dart';
 import 'package:expense_tracker/models/account.dart';
+import 'package:expense_tracker/models/transaction.dart';
 import 'package:expense_tracker/notifiers/account_provider.dart';
 import 'package:expense_tracker/notifiers/transaction_provider.dart';
 import 'package:expense_tracker/pages/account_detail_page/account_pie_chart.dart';
@@ -9,7 +10,7 @@ import 'package:expense_tracker/style.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class AccountDetailPage extends StatelessWidget {
+class AccountDetailPage extends StatefulWidget {
   static const routeName = '/accountDetailPage';
 
   final Account account;
@@ -17,17 +18,39 @@ class AccountDetailPage extends StatelessWidget {
   const AccountDetailPage({super.key, required this.account});
 
   @override
+  State<AccountDetailPage> createState() => _AccountDetailPageState();
+}
+
+class _AccountDetailPageState extends State<AccountDetailPage>
+    with SingleTickerProviderStateMixin {
+  late final TabController _tabController;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _tabController = TabController(length: 3, vsync: this);
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final referenceAccount = Provider.of<AccountProvider>(context, listen: true)
         .accountList
-        .firstWhereOrNull((element) => element.id == account.id);
+        .firstWhereOrNull((element) => element.id == widget.account.id);
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(referenceAccount?.name ?? account.name),
+        title: Text(referenceAccount?.name ?? widget.account.name),
         backgroundColor: CustomColors.blue,
         elevation: 0,
-        actions: [if (account.id != null) _buildEditAction(context)],
+        actions: [if (widget.account.id != null) _buildEditAction(context)],
       ),
       backgroundColor: Colors.white,
       body: _buildBody(context),
@@ -35,31 +58,124 @@ class AccountDetailPage extends StatelessWidget {
   }
 
   Widget _buildBody(BuildContext context) {
-    final transactionList =
-        Provider.of<TransactionProvider>(context, listen: true)
-            .getTransactionListForAccount(account);
-
     return SafeArea(
       child: Column(
         children: [
-          AccountPieChart(
-            timeMode: AccountPieChartModeTime.all,
-            transactionType: AccountPieChartModeTransactionType.expense,
-            transactionList: transactionList,
-          ),
+          _buildTabBar(),
           Expanded(
-            child: ListView.builder(
-              itemCount: transactionList.length,
-              itemBuilder: (context, index) {
-                return TransactionListCell(
-                  transaction: transactionList[index],
-                  showAccountLabel: false,
-                );
-              },
-            ),
-          ),
+              child: TabBarView(
+            controller: _tabController,
+            children: [
+              _buildIncomePage(),
+              _buildOutcomePage(),
+              _buildTotalPage(),
+            ],
+          )),
         ],
       ),
+    );
+  }
+
+  Widget _buildTabBar() {
+    return Stack(
+      fit: StackFit.passthrough,
+      alignment: Alignment.bottomCenter,
+      children: [
+        Container(
+          decoration: BoxDecoration(
+            border: Border(
+              bottom: BorderSide(
+                  color: CustomColors.grey.withOpacity(0.25), width: 2.0),
+            ),
+          ),
+        ),
+        TabBar(
+          controller: _tabController,
+          indicatorColor: CustomColors.blue,
+          labelColor: CustomColors.darkBlue,
+          labelStyle: const TextStyle(fontSize: 16),
+          tabs: const [
+            Tab(
+              text: 'Entrate',
+            ),
+            Tab(
+              text: 'Uscite',
+            ),
+            Tab(
+              text: 'Totale',
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+
+  Widget _buildIncomePage() {
+    final List<Transaction> transactionList =
+        Provider.of<TransactionProvider>(context, listen: true)
+            .getTransactionListForAccount(widget.account)
+            .where((element) => element.value >= 0)
+            .toList();
+
+    return Column(
+      children: [
+        _buildPieChart(transactionList),
+        Expanded(
+          child: _buildTransactionListView(transactionList),
+        )
+      ],
+    );
+  }
+
+  Widget _buildOutcomePage() {
+    final List<Transaction> transactionList =
+        Provider.of<TransactionProvider>(context, listen: true)
+            .getTransactionListForAccount(widget.account)
+            .where((element) => element.value < 0)
+            .toList();
+
+    return Column(
+      children: [
+        _buildPieChart(transactionList),
+        Expanded(
+          child: _buildTransactionListView(transactionList),
+        )
+      ],
+    );
+  }
+
+  Widget _buildTotalPage() {
+    final List<Transaction> transactionList =
+        Provider.of<TransactionProvider>(context, listen: true)
+            .getTransactionListForAccount(widget.account);
+
+    return Column(
+      children: [
+        _buildPieChart(transactionList),
+        Expanded(
+          child: _buildTransactionListView(transactionList),
+        )
+      ],
+    );
+  }
+
+  AccountPieChart _buildPieChart(List<Transaction> transactionList) {
+    return AccountPieChart(
+      timeMode: AccountPieChartModeTime.all,
+      transactionType: AccountPieChartModeTransactionType.expense,
+      transactionList: transactionList,
+    );
+  }
+
+  Widget _buildTransactionListView(List<Transaction> transactionList) {
+    return ListView.builder(
+      itemCount: transactionList.length,
+      itemBuilder: (context, index) {
+        return TransactionListCell(
+          transaction: transactionList[index],
+          showAccountLabel: false,
+        );
+      },
     );
   }
 
@@ -71,7 +187,7 @@ class AccountDetailPage extends StatelessWidget {
       ),
       onPressed: () => Navigator.of(context).pushNamed(
         NewAccountPage.routeName,
-        arguments: account,
+        arguments: widget.account,
       ),
     );
   }

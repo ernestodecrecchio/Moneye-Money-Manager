@@ -153,14 +153,16 @@ class _AccountPieChartState extends State<AccountPieChart> {
             color: Colors.white,
             shadows: shadows,
           ),
-          badgeWidget: SizedBox(
-            height: 20,
-            width: 20,
-            child: SvgPicture.asset(
-                categoryTotalValuePairs[i].category.iconPath ?? '',
-                colorFilter:
-                    const ColorFilter.mode(Colors.white, BlendMode.srcIn)),
-          ));
+          badgeWidget: categoryTotalValuePairs[i].category.iconPath != null
+              ? SizedBox(
+                  height: 20,
+                  width: 20,
+                  child: SvgPicture.asset(
+                      categoryTotalValuePairs[i].category.iconPath!,
+                      colorFilter: const ColorFilter.mode(
+                          Colors.white, BlendMode.srcIn)),
+                )
+              : null);
     });
   }
 }
