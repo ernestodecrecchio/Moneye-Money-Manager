@@ -6,6 +6,7 @@ import 'package:expense_tracker/notifiers/transaction_provider.dart';
 import 'package:expense_tracker/pages/account_detail_page/account_pie_chart.dart';
 import 'package:expense_tracker/pages/accounts_page/new_account_page.dart';
 import 'package:expense_tracker/pages/home_page/transaction_list_cell.dart';
+import 'package:expense_tracker/pages/new_transaction_flow/new_transaction_page.dart';
 import 'package:expense_tracker/style.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -53,7 +54,17 @@ class _AccountDetailPageState extends State<AccountDetailPage>
         actions: [if (widget.account.id != null) _buildEditAction(context)],
       ),
       backgroundColor: Colors.white,
+      floatingActionButton: _buildFloatingActionButton(context),
       body: _buildBody(context),
+    );
+  }
+
+  Widget _buildFloatingActionButton(BuildContext context) {
+    return FloatingActionButton(
+      backgroundColor: CustomColors.darkBlue,
+      onPressed: () =>
+          Navigator.pushNamed(context, NewTransactionPage.routeName),
+      child: const Icon(Icons.add),
     );
   }
 
@@ -119,7 +130,8 @@ class _AccountDetailPageState extends State<AccountDetailPage>
 
     return Column(
       children: [
-        _buildPieChart(transactionList),
+        _buildPieChart(
+            transactionList, AccountPieChartModeTransactionType.income),
         Expanded(
           child: _buildTransactionListView(transactionList),
         )
@@ -137,7 +149,8 @@ class _AccountDetailPageState extends State<AccountDetailPage>
 
     return Column(
       children: [
-        _buildPieChart(transactionList),
+        _buildPieChart(
+            transactionList, AccountPieChartModeTransactionType.expense),
         Expanded(
           child: _buildTransactionListView(transactionList),
         )
@@ -152,7 +165,7 @@ class _AccountDetailPageState extends State<AccountDetailPage>
 
     return Column(
       children: [
-        _buildPieChart(transactionList),
+        _buildPieChart(transactionList, AccountPieChartModeTransactionType.all),
         Expanded(
           child: _buildTransactionListView(transactionList),
         )
@@ -160,11 +173,16 @@ class _AccountDetailPageState extends State<AccountDetailPage>
     );
   }
 
-  Widget _buildPieChart(List<Transaction> transactionList) {
+  Widget _buildPieChart(List<Transaction> transactionList,
+      AccountPieChartModeTransactionType mode) {
     return transactionList.isEmpty
-        ? const Expanded(child: Align(child: const Text('Nessuna transazione')))
-        : AccountPieChart(
-            transactionList: transactionList,
+        ? const Expanded(child: Align(child: Text('Nessuna transazione')))
+        : Container(
+            margin: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+            child: AccountPieChart(
+              transactionList: transactionList,
+              mode: mode,
+            ),
           );
   }
 

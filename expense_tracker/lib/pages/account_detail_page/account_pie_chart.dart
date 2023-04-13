@@ -12,10 +12,12 @@ enum AccountPieChartModeTransactionType { income, expense, all }
 
 class AccountPieChart extends StatefulWidget {
   final List<Transaction> transactionList;
+  final AccountPieChartModeTransactionType? mode;
 
   const AccountPieChart({
     super.key,
     required this.transactionList,
+    this.mode,
   });
 
   @override
@@ -27,6 +29,7 @@ class _AccountPieChartState extends State<AccountPieChart> {
 
   Map<int, double> categoryTotalValueMap = {};
   final List<CategoryTotalValue> categoryTotalValuePairs = [];
+  double totalValue = 0;
 
   @override
   void initState() {
@@ -44,62 +47,54 @@ class _AccountPieChartState extends State<AccountPieChart> {
 
   @override
   Widget build(BuildContext context) {
-    return AspectRatio(
-      aspectRatio: 1.3,
-      child: Row(
-        children: <Widget>[
-          const SizedBox(
-            height: 18,
-          ),
-          Expanded(
-            child: AspectRatio(
-              aspectRatio: 1,
-              child: PieChart(
-                PieChartData(
-                  pieTouchData: PieTouchData(
-                    touchCallback: (FlTouchEvent event, pieTouchResponse) {
-                      setState(() {
-                        if (!event.isInterestedForInteractions ||
-                            pieTouchResponse == null ||
-                            pieTouchResponse.touchedSection == null) {
-                          touchedIndex = -1;
-                          return;
-                        }
-                        touchedIndex = pieTouchResponse
-                            .touchedSection!.touchedSectionIndex;
-                      });
-                    },
-                  ),
-                  borderData: FlBorderData(
-                    show: false,
-                  ),
-                  sectionsSpace: 0,
-                  centerSpaceRadius: 40,
-                  sections: showingSections(),
+    return Row(
+      children: <Widget>[
+        Expanded(
+          child: AspectRatio(
+            aspectRatio: 1,
+            child: PieChart(
+              PieChartData(
+                pieTouchData: PieTouchData(
+                  touchCallback: (FlTouchEvent event, pieTouchResponse) {
+                    setState(() {
+                      if (!event.isInterestedForInteractions ||
+                          pieTouchResponse == null ||
+                          pieTouchResponse.touchedSection == null) {
+                        touchedIndex = -1;
+                        return;
+                      }
+                      touchedIndex =
+                          pieTouchResponse.touchedSection!.touchedSectionIndex;
+                    });
+                  },
                 ),
+                borderData: FlBorderData(
+                  show: false,
+                ),
+                sectionsSpace: 0,
+                sections: showingSections(),
               ),
             ),
           ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.end,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              ...categoryTotalValuePairs
-                  .map(
-                    (e) => Indicator(
-                      color: e.category.color,
-                      text: e.category.name,
-                      value: e.totalValue,
-                    ),
-                  )
-                  .toList()
-            ],
-          ),
-          const SizedBox(
-            width: 28,
-          ),
-        ],
-      ),
+        ),
+        const SizedBox(
+          width: 10,
+        ),
+        Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            ...categoryTotalValuePairs
+                .map(
+                  (e) => Indicator(
+                    color: e.category.color,
+                    text: e.category.name,
+                    value: (e.totalValue / totalValue) * 100,
+                  ),
+                )
+                .toList()
+          ],
+        ),
+      ],
     );
   }
 
@@ -109,7 +104,7 @@ class _AccountPieChartState extends State<AccountPieChart> {
       (i) {
         final isTouched = i == touchedIndex;
         final fontSize = isTouched ? 25.0 : 16.0;
-        final radius = isTouched ? 60.0 : 50.0;
+        final radius = isTouched ? 50.0 : 40.0;
         const shadows = [Shadow(color: Colors.black, blurRadius: 2)];
 
         return PieChartSectionData(
@@ -129,9 +124,10 @@ class _AccountPieChartState extends State<AccountPieChart> {
                     height: 20,
                     width: 20,
                     child: SvgPicture.asset(
-                        categoryTotalValuePairs[i].category.iconPath!,
-                        colorFilter: const ColorFilter.mode(
-                            Colors.white, BlendMode.srcIn)),
+                      categoryTotalValuePairs[i].category.iconPath!,
+                      colorFilter:
+                          const ColorFilter.mode(Colors.white, BlendMode.srcIn),
+                    ),
                   )
                 : null);
       },
@@ -139,42 +135,78 @@ class _AccountPieChartState extends State<AccountPieChart> {
   }
 
   _loadData() {
-    final categoryProvider =
-        Provider.of<CategoryProvider>(context, listen: false);
-
     categoryTotalValuePairs.clear();
+    totalValue = 0;
 
-    for (var transaction in widget.transactionList) {
-      if (transaction.categoryId != null) {
-        final category =
-            categoryProvider.getCategoryFromId(transaction.categoryId!);
+    if (widget.mode == AccountPieChartModeTransactionType.all) {
+      final incomeCategory = CategoryTotalValue(
+        category:
+            Category(id: -1, name: 'Entrate', colorValue: Colors.green.value),
+        totalValue: 0,
+      );
 
-        final indexFound = categoryTotalValuePairs
-            .indexWhere((element) => element.category == category);
+      final outcomeCategory = CategoryTotalValue(
+        category:
+            Category(id: -2, name: 'Uscite', colorValue: Colors.red.value),
+        totalValue: 0,
+      );
 
-        if (indexFound != -1) {
-          categoryTotalValuePairs[indexFound].totalValue += transaction.value;
+      categoryTotalValuePairs.add(incomeCategory);
+      categoryTotalValuePairs.add(outcomeCategory);
+
+      for (var transaction in widget.transactionList) {
+        totalValue += transaction.value.abs();
+
+        if (transaction.value >= 0) {
+          categoryTotalValuePairs[0].totalValue += transaction.value;
         } else {
-          final newEntry = CategoryTotalValue(
-            category: category!,
-            totalValue: transaction.value,
-          );
-
-          categoryTotalValuePairs.add(newEntry);
+          categoryTotalValuePairs[1].totalValue += transaction.value;
         }
-      } else {
-        final indexFound = categoryTotalValuePairs
-            .indexWhere((element) => element.category.id == -1);
+      }
 
-        if (indexFound != -1) {
-          categoryTotalValuePairs[indexFound].totalValue += transaction.value;
+      totalValue = totalValue.abs();
+      categoryTotalValuePairs[1].totalValue *= -1;
+    } else {
+      final categoryProvider =
+          Provider.of<CategoryProvider>(context, listen: false);
+
+      categoryTotalValuePairs.clear();
+      totalValue = 0;
+
+      for (var transaction in widget.transactionList) {
+        totalValue += transaction.value;
+
+        if (transaction.categoryId != null) {
+          final category =
+              categoryProvider.getCategoryFromId(transaction.categoryId!);
+
+          final indexFound = categoryTotalValuePairs
+              .indexWhere((element) => element.category == category);
+
+          if (indexFound != -1) {
+            categoryTotalValuePairs[indexFound].totalValue += transaction.value;
+          } else {
+            final newEntry = CategoryTotalValue(
+              category: category!,
+              totalValue: transaction.value,
+            );
+
+            categoryTotalValuePairs.add(newEntry);
+          }
         } else {
-          final otherEntry = CategoryTotalValue(
-              category: Category(
-                  id: -1, name: 'Altro', colorValue: Colors.grey.value),
-              totalValue: transaction.value);
+          final indexFound = categoryTotalValuePairs
+              .indexWhere((element) => element.category.id == -1);
 
-          categoryTotalValuePairs.add(otherEntry);
+          if (indexFound != -1) {
+            categoryTotalValuePairs[indexFound].totalValue += transaction.value;
+          } else {
+            final otherEntry = CategoryTotalValue(
+                category: Category(
+                    id: -1, name: 'Altro', colorValue: Colors.grey.value),
+                totalValue: transaction.value);
+
+            categoryTotalValuePairs.add(otherEntry);
+          }
         }
       }
     }
@@ -198,26 +230,34 @@ class Indicator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Container(
-          height: 10,
-          width: 10,
-          decoration: BoxDecoration(
-            color: color,
-            shape: BoxShape.circle,
+    return Container(
+      width: 200,
+      margin: const EdgeInsets.only(bottom: 10),
+      child: Row(
+        children: [
+          Container(
+            height: 10,
+            width: 10,
+            decoration: BoxDecoration(
+              color: color,
+              shape: BoxShape.circle,
+            ),
           ),
-        ),
-        const SizedBox(
-          width: 5,
-        ),
-        Text(text),
-        if (value != null)
-          Padding(
-            padding: const EdgeInsets.only(left: 10.0),
-            child: Text(value.toString()),
-          )
-      ],
+          const SizedBox(
+            width: 5,
+          ),
+          Flexible(
+            child: Text(
+              text,
+            ),
+          ),
+          if (value != null)
+            Padding(
+              padding: const EdgeInsets.only(left: 10.0),
+              child: Text('${value!.toStringAsFixed(2)}%'),
+            )
+        ],
+      ),
     );
   }
 }
