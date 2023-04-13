@@ -60,24 +60,26 @@ class TransactionListCell extends StatelessWidget {
               const SizedBox(
                 width: 8,
               ),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    transaction.title,
-                    style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
+              Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      transaction.title,
+                      maxLines: 1,
+                      style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          overflow: TextOverflow.ellipsis),
                     ),
-                  ),
-                  const SizedBox(
-                    height: 2,
-                  ),
-                  _buildDate(),
-                ],
+                    const SizedBox(
+                      height: 2,
+                    ),
+                    _buildDate(),
+                  ],
+                ),
               ),
-              const Spacer(),
               _buildValue(context),
             ],
           ),
