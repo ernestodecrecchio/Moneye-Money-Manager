@@ -185,7 +185,7 @@ class TransactionListCell extends StatelessWidget {
     );
   }
 
-  _removeTransaction(BuildContext context) async {
+  Future _removeTransaction(BuildContext context) async {
     await Provider.of<TransactionProvider>(context, listen: false)
         .deleteTransaction(transaction);
   }

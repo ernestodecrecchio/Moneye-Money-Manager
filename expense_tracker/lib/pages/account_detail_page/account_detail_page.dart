@@ -130,8 +130,9 @@ class _AccountDetailPageState extends State<AccountDetailPage>
   Widget _buildOutcomePage() {
     final List<Transaction> transactionList =
         Provider.of<TransactionProvider>(context, listen: true)
-            .getTransactionListForAccount(widget.account)
-            .where((element) => element.value < 0)
+            .transactionList
+            .where((element) =>
+                element.accountId == widget.account.id && element.value < 0)
             .toList();
 
     return Column(
@@ -159,23 +160,21 @@ class _AccountDetailPageState extends State<AccountDetailPage>
     );
   }
 
-  AccountPieChart _buildPieChart(List<Transaction> transactionList) {
-    return AccountPieChart(
-      timeMode: AccountPieChartModeTime.all,
-      transactionType: AccountPieChartModeTransactionType.expense,
-      transactionList: transactionList,
-    );
+  Widget _buildPieChart(List<Transaction> transactionList) {
+    return transactionList.isEmpty
+        ? const Expanded(child: Align(child: const Text('Nessuna transazione')))
+        : AccountPieChart(
+            transactionList: transactionList,
+          );
   }
 
   Widget _buildTransactionListView(List<Transaction> transactionList) {
     return ListView.builder(
       itemCount: transactionList.length,
-      itemBuilder: (context, index) {
-        return TransactionListCell(
-          transaction: transactionList[index],
-          showAccountLabel: false,
-        );
-      },
+      itemBuilder: (context, index) => TransactionListCell(
+        transaction: transactionList[index],
+        showAccountLabel: false,
+      ),
     );
   }
 

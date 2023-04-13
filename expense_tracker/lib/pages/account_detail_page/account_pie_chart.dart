@@ -1,4 +1,3 @@
-import 'package:collection/collection.dart';
 import 'package:expense_tracker/models/category.dart';
 import 'package:expense_tracker/models/transaction.dart';
 import 'package:expense_tracker/notifiers/category_provider.dart';
@@ -12,15 +11,10 @@ enum AccountPieChartModeTime { month, year, all }
 enum AccountPieChartModeTransactionType { income, expense, all }
 
 class AccountPieChart extends StatefulWidget {
-  final AccountPieChartModeTime timeMode;
-  final AccountPieChartModeTransactionType transactionType;
-
   final List<Transaction> transactionList;
 
   const AccountPieChart({
     super.key,
-    required this.timeMode,
-    required this.transactionType,
     required this.transactionList,
   });
 
@@ -35,10 +29,13 @@ class _AccountPieChartState extends State<AccountPieChart> {
   final List<CategoryTotalValue> categoryTotalValuePairs = [];
 
   @override
-  void initState() {
-    super.initState();
+  void didUpdateWidget(covariant AccountPieChart oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
     final categoryProvider =
         Provider.of<CategoryProvider>(context, listen: false);
+
+    categoryTotalValuePairs.clear();
 
     for (var transaction in widget.transactionList) {
       if (transaction.categoryId != null) {
@@ -121,7 +118,10 @@ class _AccountPieChartState extends State<AccountPieChart> {
               ...categoryTotalValuePairs
                   .map(
                     (e) => Indicator(
-                        color: e.category.color, text: e.category.name),
+                      color: e.category.color,
+                      text: e.category.name,
+                      value: e.totalValue,
+                    ),
                   )
                   .toList()
             ],
@@ -135,35 +135,38 @@ class _AccountPieChartState extends State<AccountPieChart> {
   }
 
   List<PieChartSectionData> showingSections() {
-    return List.generate(categoryTotalValuePairs.length, (i) {
-      final isTouched = i == touchedIndex;
-      final fontSize = isTouched ? 25.0 : 16.0;
-      final radius = isTouched ? 60.0 : 50.0;
-      const shadows = [Shadow(color: Colors.black, blurRadius: 2)];
+    return List.generate(
+      categoryTotalValuePairs.length,
+      (i) {
+        final isTouched = i == touchedIndex;
+        final fontSize = isTouched ? 25.0 : 16.0;
+        final radius = isTouched ? 60.0 : 50.0;
+        const shadows = [Shadow(color: Colors.black, blurRadius: 2)];
 
-      return PieChartSectionData(
-          color: categoryTotalValuePairs[i].category.color,
-          value: categoryTotalValuePairs[i].totalValue,
-          showTitle: false,
-          title: categoryTotalValuePairs[i].category.name,
-          radius: radius,
-          titleStyle: TextStyle(
-            fontSize: fontSize,
-            fontWeight: FontWeight.bold,
-            color: Colors.white,
-            shadows: shadows,
-          ),
-          badgeWidget: categoryTotalValuePairs[i].category.iconPath != null
-              ? SizedBox(
-                  height: 20,
-                  width: 20,
-                  child: SvgPicture.asset(
-                      categoryTotalValuePairs[i].category.iconPath!,
-                      colorFilter: const ColorFilter.mode(
-                          Colors.white, BlendMode.srcIn)),
-                )
-              : null);
-    });
+        return PieChartSectionData(
+            color: categoryTotalValuePairs[i].category.color,
+            value: categoryTotalValuePairs[i].totalValue,
+            showTitle: false,
+            title: categoryTotalValuePairs[i].category.name,
+            radius: radius,
+            titleStyle: TextStyle(
+              fontSize: fontSize,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+              shadows: shadows,
+            ),
+            badgeWidget: categoryTotalValuePairs[i].category.iconPath != null
+                ? SizedBox(
+                    height: 20,
+                    width: 20,
+                    child: SvgPicture.asset(
+                        categoryTotalValuePairs[i].category.iconPath!,
+                        colorFilter: const ColorFilter.mode(
+                            Colors.white, BlendMode.srcIn)),
+                  )
+                : null);
+      },
+    );
   }
 }
 
@@ -177,8 +180,10 @@ class CategoryTotalValue {
 class Indicator extends StatelessWidget {
   final Color color;
   final String text;
+  final double? value;
 
-  const Indicator({super.key, required this.color, required this.text});
+  const Indicator(
+      {super.key, required this.color, required this.text, this.value});
 
   @override
   Widget build(BuildContext context) {
@@ -195,7 +200,12 @@ class Indicator extends StatelessWidget {
         const SizedBox(
           width: 5,
         ),
-        Text(text)
+        Text(text),
+        if (value != null)
+          Padding(
+            padding: const EdgeInsets.only(left: 10.0),
+            child: Text(value.toString()),
+          )
       ],
     );
   }
