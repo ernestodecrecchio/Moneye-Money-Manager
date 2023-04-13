@@ -29,48 +29,17 @@ class _AccountPieChartState extends State<AccountPieChart> {
   final List<CategoryTotalValue> categoryTotalValuePairs = [];
 
   @override
+  void initState() {
+    super.initState();
+
+    _loadData();
+  }
+
+  @override
   void didUpdateWidget(covariant AccountPieChart oldWidget) {
     super.didUpdateWidget(oldWidget);
 
-    final categoryProvider =
-        Provider.of<CategoryProvider>(context, listen: false);
-
-    categoryTotalValuePairs.clear();
-
-    for (var transaction in widget.transactionList) {
-      if (transaction.categoryId != null) {
-        final category =
-            categoryProvider.getCategoryFromId(transaction.categoryId!);
-
-        final indexFound = categoryTotalValuePairs
-            .indexWhere((element) => element.category == category);
-
-        if (indexFound != -1) {
-          categoryTotalValuePairs[indexFound].totalValue += transaction.value;
-        } else {
-          final newEntry = CategoryTotalValue(
-            category: category!,
-            totalValue: transaction.value,
-          );
-
-          categoryTotalValuePairs.add(newEntry);
-        }
-      } else {
-        final indexFound = categoryTotalValuePairs
-            .indexWhere((element) => element.category.id == -1);
-
-        if (indexFound != -1) {
-          categoryTotalValuePairs[indexFound].totalValue += transaction.value;
-        } else {
-          final otherEntry = CategoryTotalValue(
-              category: Category(
-                  id: -1, name: 'Altro', colorValue: Colors.grey.value),
-              totalValue: transaction.value);
-
-          categoryTotalValuePairs.add(otherEntry);
-        }
-      }
-    }
+    _loadData();
   }
 
   @override
@@ -167,6 +136,48 @@ class _AccountPieChartState extends State<AccountPieChart> {
                 : null);
       },
     );
+  }
+
+  _loadData() {
+    final categoryProvider =
+        Provider.of<CategoryProvider>(context, listen: false);
+
+    categoryTotalValuePairs.clear();
+
+    for (var transaction in widget.transactionList) {
+      if (transaction.categoryId != null) {
+        final category =
+            categoryProvider.getCategoryFromId(transaction.categoryId!);
+
+        final indexFound = categoryTotalValuePairs
+            .indexWhere((element) => element.category == category);
+
+        if (indexFound != -1) {
+          categoryTotalValuePairs[indexFound].totalValue += transaction.value;
+        } else {
+          final newEntry = CategoryTotalValue(
+            category: category!,
+            totalValue: transaction.value,
+          );
+
+          categoryTotalValuePairs.add(newEntry);
+        }
+      } else {
+        final indexFound = categoryTotalValuePairs
+            .indexWhere((element) => element.category.id == -1);
+
+        if (indexFound != -1) {
+          categoryTotalValuePairs[indexFound].totalValue += transaction.value;
+        } else {
+          final otherEntry = CategoryTotalValue(
+              category: Category(
+                  id: -1, name: 'Altro', colorValue: Colors.grey.value),
+              totalValue: transaction.value);
+
+          categoryTotalValuePairs.add(otherEntry);
+        }
+      }
+    }
   }
 }
 
