@@ -267,6 +267,7 @@ class Indicator extends StatelessWidget {
               child: Text(
                 '${value!.toStringAsFixed(2)}%',
                 textAlign: TextAlign.end,
+                style: const TextStyle(fontWeight: FontWeight.bold),
               ),
             ),
         ],
