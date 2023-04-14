@@ -72,6 +72,7 @@ class _AccountDetailPageState extends State<AccountDetailPage>
     return SafeArea(
       child: Column(
         children: [
+          // _buildDateBar(),
           _buildTabBar(),
           Expanded(
               child: TabBarView(
@@ -82,6 +83,35 @@ class _AccountDetailPageState extends State<AccountDetailPage>
               _buildTotalPage(),
             ],
           )),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildDateBar() {
+    return Container(
+      color: CustomColors.blue,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          IconButton(
+              onPressed: () {},
+              icon: const Icon(
+                Icons.chevron_left,
+                color: Colors.white,
+              )),
+          const Spacer(),
+          Text(
+            DateTime.now().toIso8601String(),
+            style: const TextStyle(color: Colors.white),
+          ),
+          const Spacer(),
+          IconButton(
+              onPressed: () {},
+              icon: const Icon(
+                Icons.chevron_right,
+                color: Colors.white,
+              )),
         ],
       ),
     );

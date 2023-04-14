@@ -106,7 +106,7 @@ class TransactionListCell extends StatelessWidget {
     return Container(
       width: 32,
       height: 32,
-      padding: const EdgeInsets.all(6),
+      padding: const EdgeInsets.all(8),
       decoration: BoxDecoration(
           shape: BoxShape.circle,
           color: category != null ? category.color : Colors.grey),

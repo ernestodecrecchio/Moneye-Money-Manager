@@ -50,50 +50,61 @@ class _AccountPieChartState extends State<AccountPieChart> {
     return Row(
       children: <Widget>[
         Expanded(
-          child: AspectRatio(
-            aspectRatio: 1,
-            child: PieChart(
-              PieChartData(
-                pieTouchData: PieTouchData(
-                  touchCallback: (FlTouchEvent event, pieTouchResponse) {
-                    setState(() {
-                      if (!event.isInterestedForInteractions ||
-                          pieTouchResponse == null ||
-                          pieTouchResponse.touchedSection == null) {
-                        touchedIndex = -1;
-                        return;
-                      }
-                      touchedIndex =
-                          pieTouchResponse.touchedSection!.touchedSectionIndex;
-                    });
-                  },
-                ),
-                borderData: FlBorderData(
-                  show: false,
-                ),
-                sectionsSpace: 0,
-                sections: showingSections(),
-              ),
-            ),
-          ),
+          child: _buildGraph(),
         ),
         const SizedBox(
           width: 10,
         ),
-        Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            ...categoryTotalValuePairs
-                .map(
-                  (e) => Indicator(
-                    color: e.category.color,
-                    text: e.category.name,
-                    value: (e.totalValue / totalValue) * 100,
-                  ),
-                )
-                .toList()
-          ],
+        Expanded(
+          child: _buildIndicators(),
+        )
+      ],
+    );
+  }
+
+  _buildGraph() {
+    return AspectRatio(
+      aspectRatio: 1,
+      child: PieChart(
+        PieChartData(
+          pieTouchData: PieTouchData(
+            touchCallback: (FlTouchEvent event, pieTouchResponse) {
+              setState(() {
+                if (!event.isInterestedForInteractions ||
+                    pieTouchResponse == null ||
+                    pieTouchResponse.touchedSection == null) {
+                  touchedIndex = -1;
+                  return;
+                }
+                touchedIndex =
+                    pieTouchResponse.touchedSection!.touchedSectionIndex;
+              });
+            },
+          ),
+          borderData: FlBorderData(
+            show: false,
+          ),
+          sectionsSpace: 0,
+          centerSpaceRadius: 40,
+          sections: showingSections(),
         ),
+      ),
+    );
+  }
+
+  _buildIndicators() {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        ...categoryTotalValuePairs
+            .map(
+              (e) => Indicator(
+                color: e.category.color,
+                text: e.category.name,
+                value: (e.totalValue / totalValue) * 100,
+              ),
+            )
+            .toList()
       ],
     );
   }
@@ -231,7 +242,6 @@ class Indicator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 200,
       margin: const EdgeInsets.only(bottom: 10),
       child: Row(
         children: [
@@ -246,16 +256,19 @@ class Indicator extends StatelessWidget {
           const SizedBox(
             width: 5,
           ),
-          Flexible(
+          Expanded(
             child: Text(
               text,
             ),
           ),
           if (value != null)
             Padding(
-              padding: const EdgeInsets.only(left: 10.0),
-              child: Text('${value!.toStringAsFixed(2)}%'),
-            )
+              padding: const EdgeInsets.only(left: 6),
+              child: Text(
+                '${value!.toStringAsFixed(2)}%',
+                textAlign: TextAlign.end,
+              ),
+            ),
         ],
       ),
     );
