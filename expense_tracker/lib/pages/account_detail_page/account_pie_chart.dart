@@ -95,7 +95,9 @@ class _AccountPieChartState extends State<AccountPieChart> {
                   FittedBox(
                     fit: BoxFit.fitWidth,
                     child: Text(
-                      '${totalValue.toStringAsFixedRounded(2)}€',
+                      widget.mode == AccountPieChartModeTransactionType.all
+                          ? '${(categoryTotalValuePairs[0].totalValue - categoryTotalValuePairs[1].totalValue).toStringAsFixedRounded(2)}€'
+                          : '${totalValue.toStringAsFixedRounded(2)}€',
                       textAlign: TextAlign.center,
                       maxLines: 1,
                       style: const TextStyle(
