@@ -1,4 +1,4 @@
-
+import 'package:expense_tracker/Helper/Database/double_helper.dart';
 import 'package:expense_tracker/models/account.dart';
 import 'package:expense_tracker/pages/account_detail_page/account_detail_page.dart';
 import 'package:flutter/material.dart';
@@ -77,25 +77,35 @@ class AccountListTile extends StatelessWidget {
                 )
               ],
             ),
-            const Spacer(),
-            Text(
-              'Total',
-              style: TextStyle(
-                fontSize: 10,
-                color: Colors.white.withOpacity(0.5),
-              ),
-            ),
-            const SizedBox(
-              height: 2,
-            ),
-            Text(
-              '${balance.toStringAsFixed(2)}€',
-              style: const TextStyle(
-                fontSize: 18,
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
+            //   const Spacer(),
+            Expanded(
+              child: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Total',
+                      style: TextStyle(
+                        fontSize: 10,
+                        color: Colors.white.withOpacity(0.5),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 2,
+                    ),
+                    FittedBox(
+                      fit: BoxFit.fitHeight,
+                      child: Text(
+                        '${balance.toStringAsFixedRounded(2)}€',
+                        style: const TextStyle(
+                          fontSize: 18,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ]),
+            )
           ],
         ),
       ),

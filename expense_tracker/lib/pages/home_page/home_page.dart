@@ -1,3 +1,4 @@
+import 'package:expense_tracker/Helper/Database/double_helper.dart';
 import 'package:expense_tracker/models/account.dart';
 import 'package:expense_tracker/models/category.dart';
 import 'package:expense_tracker/models/transaction.dart';
@@ -19,6 +20,7 @@ import 'package:collection/collection.dart';
 // Impostare date picker basato su piattaform
 // tasto entrata/uscita refactor
 // Aggiungere saldo nuovo account
+// Disabilita orientamento landscape
 
 /// Nuove feature
 // Dettaglio conto
@@ -130,7 +132,7 @@ class _HomePageState extends State<HomePage> {
                 child: FittedBox(
                   fit: BoxFit.fitWidth,
                   child: Text(
-                    '${Provider.of<TransactionProvider>(context, listen: false).totalBalance.toStringAsFixed(2)} €',
+                    '${Provider.of<TransactionProvider>(context, listen: false).totalBalance.toStringAsFixedRounded(2)} €',
                     style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 40,
@@ -173,7 +175,7 @@ class _HomePageState extends State<HomePage> {
                         height: 6,
                       ),
                       Text(
-                        monthlyExpenses.toString(),
+                        monthlyExpenses.toStringAsFixedRounded(2),
                         style: const TextStyle(
                           color: Colors.white,
                           fontSize: 16,
@@ -209,7 +211,7 @@ class _HomePageState extends State<HomePage> {
                         height: 6,
                       ),
                       Text(
-                        monthlyIncome.toString(),
+                        monthlyIncome.toStringAsFixedRounded(2),
                         style: const TextStyle(
                           color: Colors.white,
                           fontSize: 16,
@@ -264,7 +266,7 @@ class _HomePageState extends State<HomePage> {
                     color: Colors.white,
                   ),
                   Text(
-                    '${diffPercentage.toStringAsFixed(2)}%',
+                    '${diffPercentage.toStringAsFixedRounded(2)}%',
                     style: const TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.bold,
