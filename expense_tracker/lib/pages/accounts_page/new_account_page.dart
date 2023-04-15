@@ -200,7 +200,7 @@ class _NewAccountPageState extends State<NewAccountPage> {
           ),
         ),
         child: Text(
-          editMode ? 'Modifica' : 'Salva',
+          editMode ? 'Applica modifiche' : 'Salva',
           style: const TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.w600,

@@ -197,9 +197,9 @@ class _NewCategoryPageState extends State<NewCategoryPage> {
             borderRadius: BorderRadius.circular(25),
           ),
         ),
-        child: const Text(
-          'Salva',
-          style: TextStyle(
+        child: Text(
+          editMode ? 'Applica modifiche' : 'Salva',
+          style: const TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.w600,
           ),
