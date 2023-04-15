@@ -23,15 +23,27 @@ class OptionsPage extends StatelessWidget {
 
   Widget _buildBody(BuildContext context) {
     return ListView(
+      padding: const EdgeInsets.only(top: 10),
       children: [
         ListTile(
+          leading: const Icon(
+            Icons.grid_view_rounded,
+            color: CustomColors.darkBlue,
+          ),
           title: const Text('Categorie'),
+          subtitle: const Text('Gestisci le categorie e creane di nuove'),
           trailing: const Icon(Icons.chevron_right_rounded),
           onTap: () =>
               Navigator.of(context).pushNamed(CategoriesListPage.routeName),
         ),
+        const Divider(),
         ListTile(
+          leading: const Icon(
+            Icons.account_balance_rounded,
+            color: CustomColors.darkBlue,
+          ),
           title: const Text('Conti'),
+          subtitle: const Text('Gestisci i tuoi conti e creane di nuovi'),
           trailing: const Icon(Icons.chevron_right_rounded),
           onTap: () =>
               Navigator.of(context).pushNamed(AccountsListPage.routeName),
