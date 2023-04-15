@@ -19,6 +19,7 @@ import 'package:collection/collection.dart';
 /// Migliorie:
 // Impostare date picker basato su piattaform
 // tasto entrata/uscita refactor
+// Disabilita orientamento landscape
 
 /// Nuove feature
 // Dettaglio conto
