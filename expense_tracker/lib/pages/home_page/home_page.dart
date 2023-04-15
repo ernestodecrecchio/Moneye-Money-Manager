@@ -20,7 +20,7 @@ import 'package:collection/collection.dart';
 // Impostare date picker basato su piattaform
 // tasto entrata/uscita refactor
 // Aggiungere saldo nuovo account
-// Disabilita orientamento landscape
+// Rivedere ombre account tile
 
 /// Nuove feature
 // Dettaglio conto

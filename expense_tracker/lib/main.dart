@@ -15,10 +15,14 @@ import 'package:expense_tracker/pages/home_page/all_transaction_list_page.dart';
 import 'package:expense_tracker/pages/new_transaction_flow/new_transaction_page.dart';
 import 'package:expense_tracker/pages/tab_bar_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 Future main() async {
-  WidgetsFlutterBinding.ensureInitialized;
+  WidgetsFlutterBinding.ensureInitialized();
+
+  SystemChrome.setPreferredOrientations(
+      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
 
   runApp(const MyApp());
 }
