@@ -1,3 +1,4 @@
+import 'package:expense_tracker/Helper/Database/double_helper.dart';
 import 'package:expense_tracker/models/account.dart';
 import 'package:expense_tracker/models/transaction.dart';
 import 'package:expense_tracker/notifiers/account_provider.dart';
@@ -130,9 +131,11 @@ class TransactionListCell extends StatelessWidget {
       dateString = '$dateString (Ieri)';
     }
 
-    return Text(
-      dateString,
-      style: const TextStyle(fontSize: 12, color: Colors.black54),
+    return Flexible(
+      child: Text(
+        dateString,
+        style: const TextStyle(fontSize: 12, color: Colors.black54),
+      ),
     );
   }
 
@@ -149,7 +152,7 @@ class TransactionListCell extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
         Text(
-          '${transaction.value.toString()}€',
+          '${transaction.value.toStringAsFixedRounded(2)}€',
           textAlign: TextAlign.center,
           style: TextStyle(
             fontSize: 16,
