@@ -1,6 +1,8 @@
+import 'package:expense_tracker/Helper/Database/double_helper.dart';
 import 'package:expense_tracker/models/category.dart';
 import 'package:expense_tracker/models/transaction.dart';
 import 'package:expense_tracker/notifiers/category_provider.dart';
+import 'package:expense_tracker/style.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -63,31 +65,74 @@ class _AccountPieChartState extends State<AccountPieChart> {
   }
 
   _buildGraph() {
+    const centerSpaceRadius = 50.0;
+
     return AspectRatio(
       aspectRatio: 1,
-      child: PieChart(
-        PieChartData(
-          pieTouchData: PieTouchData(
-            touchCallback: (FlTouchEvent event, pieTouchResponse) {
-              setState(() {
-                if (!event.isInterestedForInteractions ||
-                    pieTouchResponse == null ||
-                    pieTouchResponse.touchedSection == null) {
-                  touchedIndex = -1;
-                  return;
-                }
-                touchedIndex =
-                    pieTouchResponse.touchedSection!.touchedSectionIndex;
-              });
-            },
+      child: Stack(
+        children: [
+          Align(
+            alignment: Alignment.center,
+            child: Container(
+              height: (centerSpaceRadius) * 2,
+              width: (centerSpaceRadius) * 2,
+              padding: const EdgeInsets.all(4),
+              decoration: const BoxDecoration(
+                shape: BoxShape.circle,
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const Text(
+                    'Totale',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: CustomColors.grey,
+                    ),
+                  ),
+                  FittedBox(
+                    fit: BoxFit.fitWidth,
+                    child: Text(
+                      '${totalValue.toStringAsFixedRounded(2)}€',
+                      textAlign: TextAlign.center,
+                      maxLines: 1,
+                      style: const TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
           ),
-          borderData: FlBorderData(
-            show: false,
+          PieChart(
+            PieChartData(
+              pieTouchData: PieTouchData(
+                touchCallback: (FlTouchEvent event, pieTouchResponse) {
+                  setState(() {
+                    if (!event.isInterestedForInteractions ||
+                        pieTouchResponse == null ||
+                        pieTouchResponse.touchedSection == null) {
+                      touchedIndex = -1;
+                      return;
+                    }
+                    touchedIndex =
+                        pieTouchResponse.touchedSection!.touchedSectionIndex;
+                  });
+                },
+              ),
+              borderData: FlBorderData(
+                show: false,
+              ),
+              sectionsSpace: 0,
+              centerSpaceRadius: centerSpaceRadius,
+              sections: showingSections(),
+            ),
           ),
-          sectionsSpace: 0,
-          centerSpaceRadius: 40,
-          sections: showingSections(),
-        ),
+        ],
       ),
     );
   }
@@ -101,7 +146,8 @@ class _AccountPieChartState extends State<AccountPieChart> {
               (e) => Indicator(
                 color: e.category.color,
                 text: e.category.name,
-                value: (e.totalValue / totalValue) * 100,
+                // value: (e.totalValue / totalValue) * 100,
+                value: e.totalValue,
               ),
             )
             .toList()
@@ -113,16 +159,18 @@ class _AccountPieChartState extends State<AccountPieChart> {
     return List.generate(
       categoryTotalValuePairs.length,
       (i) {
+        final currentCategoryTotalValuePair = categoryTotalValuePairs[i];
+
         final isTouched = i == touchedIndex;
         final fontSize = isTouched ? 25.0 : 16.0;
         final radius = isTouched ? 50.0 : 40.0;
         const shadows = [Shadow(color: Colors.black, blurRadius: 2)];
 
         return PieChartSectionData(
-            color: categoryTotalValuePairs[i].category.color,
-            value: categoryTotalValuePairs[i].totalValue,
+            color: currentCategoryTotalValuePair.category.color,
+            value: currentCategoryTotalValuePair.totalValue,
             showTitle: false,
-            title: categoryTotalValuePairs[i].category.name,
+            title: currentCategoryTotalValuePair.category.name,
             radius: radius,
             titleStyle: TextStyle(
               fontSize: fontSize,
@@ -130,17 +178,23 @@ class _AccountPieChartState extends State<AccountPieChart> {
               color: Colors.white,
               shadows: shadows,
             ),
-            badgeWidget: categoryTotalValuePairs[i].category.iconPath != null
-                ? SizedBox(
-                    height: 20,
-                    width: 20,
-                    child: SvgPicture.asset(
-                      categoryTotalValuePairs[i].category.iconPath!,
-                      colorFilter:
-                          const ColorFilter.mode(Colors.white, BlendMode.srcIn),
-                    ),
+            badgeWidget: isTouched
+                ? Text(
+                    '${((currentCategoryTotalValuePair.totalValue / totalValue) * 100).toStringAsFixedRounded(2)}%',
+                    style: const TextStyle(
+                        color: Colors.white, fontWeight: FontWeight.bold),
                   )
-                : null);
+                : categoryTotalValuePairs[i].category.iconPath != null
+                    ? SizedBox(
+                        height: 20,
+                        width: 20,
+                        child: SvgPicture.asset(
+                          categoryTotalValuePairs[i].category.iconPath!,
+                          colorFilter: const ColorFilter.mode(
+                              Colors.white, BlendMode.srcIn),
+                        ),
+                      )
+                    : null);
       },
     );
   }
@@ -236,8 +290,12 @@ class Indicator extends StatelessWidget {
   final String text;
   final double? value;
 
-  const Indicator(
-      {super.key, required this.color, required this.text, this.value});
+  const Indicator({
+    super.key,
+    required this.color,
+    required this.text,
+    this.value,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -246,10 +304,11 @@ class Indicator extends StatelessWidget {
       child: Row(
         children: [
           Container(
-            height: 10,
-            width: 10,
+            height: 12,
+            width: 12,
             decoration: BoxDecoration(
-              color: color,
+              //  color: color,
+              border: Border.all(color: color, width: 3),
               shape: BoxShape.circle,
             ),
           ),
@@ -265,7 +324,7 @@ class Indicator extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(left: 6),
               child: Text(
-                '${value!.toStringAsFixed(2)}%',
+                '${value!.toStringAsFixedRounded(2)}€',
                 textAlign: TextAlign.end,
                 style: const TextStyle(fontWeight: FontWeight.bold),
               ),
