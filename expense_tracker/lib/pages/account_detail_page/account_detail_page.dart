@@ -1,4 +1,5 @@
 import 'package:collection/collection.dart';
+import 'package:expense_tracker/Helper/date_time_helper.dart';
 import 'package:expense_tracker/models/account.dart';
 import 'package:expense_tracker/models/transaction.dart';
 import 'package:expense_tracker/notifiers/account_provider.dart';
@@ -10,6 +11,14 @@ import 'package:expense_tracker/pages/new_transaction_flow/new_transaction_page.
 import 'package:expense_tracker/style.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+enum Sky { midnight, viridian, cerulean, alto }
+
+Map<Sky, Color> skyColors = <Sky, Color>{
+  Sky.midnight: const Color(0xff191970),
+  Sky.viridian: const Color(0xff40826d),
+  Sky.cerulean: const Color(0xff007ba7),
+};
 
 class AccountDetailPage extends StatefulWidget {
   static const routeName = '/accountDetailPage';
@@ -23,14 +32,18 @@ class AccountDetailPage extends StatefulWidget {
 }
 
 class _AccountDetailPageState extends State<AccountDetailPage>
-    with SingleTickerProviderStateMixin {
+    with TickerProviderStateMixin {
   late final TabController _tabController;
+  late final TabController _timeTabController;
+
+  int selectedTimeIndex = 0;
 
   @override
   void initState() {
     super.initState();
 
     _tabController = TabController(length: 3, vsync: this);
+    _timeTabController = TabController(length: 3, vsync: this);
   }
 
   @override
@@ -72,8 +85,8 @@ class _AccountDetailPageState extends State<AccountDetailPage>
     return SafeArea(
       child: Column(
         children: [
-          // _buildDateBar(),
           _buildTabBar(),
+          _buildDateBar(),
           Expanded(
               child: TabBarView(
             controller: _tabController,
@@ -83,35 +96,6 @@ class _AccountDetailPageState extends State<AccountDetailPage>
               _buildTotalPage(),
             ],
           )),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildDateBar() {
-    return Container(
-      color: CustomColors.blue,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          IconButton(
-              onPressed: () {},
-              icon: const Icon(
-                Icons.chevron_left,
-                color: Colors.white,
-              )),
-          const Spacer(),
-          Text(
-            DateTime.now().toIso8601String(),
-            style: const TextStyle(color: Colors.white),
-          ),
-          const Spacer(),
-          IconButton(
-              onPressed: () {},
-              icon: const Icon(
-                Icons.chevron_right,
-                color: Colors.white,
-              )),
         ],
       ),
     );
@@ -137,13 +121,28 @@ class _AccountDetailPageState extends State<AccountDetailPage>
           labelStyle: const TextStyle(fontSize: 16),
           tabs: const [
             Tab(
-              text: 'Entrate',
+              child: FittedBox(
+                fit: BoxFit.contain,
+                child: Text(
+                  'Entrate',
+                ),
+              ),
             ),
             Tab(
-              text: 'Uscite',
+              child: FittedBox(
+                fit: BoxFit.contain,
+                child: Text(
+                  'Uscite',
+                ),
+              ),
             ),
             Tab(
-              text: 'Totale',
+              child: FittedBox(
+                fit: BoxFit.contain,
+                child: Text(
+                  'Bilancio',
+                ),
+              ),
             ),
           ],
         ),
@@ -151,12 +150,94 @@ class _AccountDetailPageState extends State<AccountDetailPage>
     );
   }
 
+  Widget _buildDateBar() {
+    return Container(
+      height: 44,
+      width: double.infinity,
+      color: CustomColors.clearGrey,
+      child: TabBar(
+        controller: _timeTabController,
+        padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 5),
+        tabs: const [
+          Tab(
+            child: FittedBox(
+              fit: BoxFit.contain,
+              child: Text(
+                'Settimana',
+              ),
+            ),
+          ),
+          Tab(
+            child: FittedBox(
+              fit: BoxFit.contain,
+              child: Text(
+                'Mese',
+              ),
+            ),
+          ),
+          Tab(
+            child: FittedBox(
+              fit: BoxFit.contain,
+              child: Text(
+                'Anno',
+              ),
+            ),
+          ),
+        ],
+        unselectedLabelColor: CustomColors.clearGreyText,
+        labelColor: Colors.white,
+        indicator: BoxDecoration(
+            color: CustomColors.blue,
+            borderRadius: BorderRadius.circular(44 / 2)),
+        onTap: (selectedTabIndex) {
+          if (selectedTimeIndex != selectedTabIndex) {
+            selectedTimeIndex = selectedTabIndex;
+            setState(() {});
+          }
+        },
+      ),
+    );
+  }
+
   Widget _buildIncomePage() {
-    final List<Transaction> transactionList =
-        Provider.of<TransactionProvider>(context, listen: true)
-            .getTransactionListForAccount(widget.account)
-            .where((element) => element.value >= 0)
+    List<Transaction> transactionList = [];
+
+    final currentDate = DateTime.now();
+    final currentWeekNumber = weekNumber(currentDate);
+    final currentMonth = currentDate.month;
+    final currentYear = currentDate.year;
+
+    final transactionProvider =
+        Provider.of<TransactionProvider>(context, listen: true);
+
+    switch (selectedTimeIndex) {
+      case 0:
+        transactionList = transactionProvider.transactionList
+            .where((element) =>
+                element.accountId == widget.account.id &&
+                element.value >= 0 &&
+                weekNumber(element.date) == currentWeekNumber &&
+                element.date.year == currentYear)
             .toList();
+        break;
+      case 1:
+        transactionList = transactionProvider.transactionList
+            .where((element) =>
+                element.accountId == widget.account.id &&
+                element.value >= 0 &&
+                element.date.month == currentMonth &&
+                element.date.year == currentYear)
+            .toList();
+        break;
+      case 2:
+        transactionList = transactionProvider.transactionList
+            .where((element) =>
+                element.accountId == widget.account.id &&
+                element.value >= 0 &&
+                element.date.year == currentYear)
+            .toList();
+        break;
+    }
 
     return Column(
       children: [
@@ -170,12 +251,44 @@ class _AccountDetailPageState extends State<AccountDetailPage>
   }
 
   Widget _buildOutcomePage() {
-    final List<Transaction> transactionList =
-        Provider.of<TransactionProvider>(context, listen: true)
-            .transactionList
+    List<Transaction> transactionList = [];
+
+    final currentDate = DateTime.now();
+    final currentWeekNumber = weekNumber(currentDate);
+    final currentMonth = currentDate.month;
+    final currentYear = currentDate.year;
+
+    final transactionProvider =
+        Provider.of<TransactionProvider>(context, listen: true);
+
+    switch (selectedTimeIndex) {
+      case 0:
+        transactionList = transactionProvider.transactionList
             .where((element) =>
-                element.accountId == widget.account.id && element.value < 0)
+                element.accountId == widget.account.id &&
+                element.value < 0 &&
+                weekNumber(element.date) == currentWeekNumber &&
+                element.date.year == currentYear)
             .toList();
+        break;
+      case 1:
+        transactionList = transactionProvider.transactionList
+            .where((element) =>
+                element.accountId == widget.account.id &&
+                element.value < 0 &&
+                element.date.month == currentMonth &&
+                element.date.year == currentYear)
+            .toList();
+        break;
+      case 2:
+        transactionList = transactionProvider.transactionList
+            .where((element) =>
+                element.accountId == widget.account.id &&
+                element.value < 0 &&
+                element.date.year == currentYear)
+            .toList();
+        break;
+    }
 
     return Column(
       children: [
@@ -189,9 +302,41 @@ class _AccountDetailPageState extends State<AccountDetailPage>
   }
 
   Widget _buildTotalPage() {
-    final List<Transaction> transactionList =
-        Provider.of<TransactionProvider>(context, listen: true)
-            .getTransactionListForAccount(widget.account);
+    List<Transaction> transactionList = [];
+
+    final currentDate = DateTime.now();
+    final currentWeekNumber = weekNumber(currentDate);
+    final currentMonth = currentDate.month;
+    final currentYear = currentDate.year;
+
+    final transactionProvider =
+        Provider.of<TransactionProvider>(context, listen: true);
+
+    switch (selectedTimeIndex) {
+      case 0:
+        transactionList = transactionProvider.transactionList
+            .where((element) =>
+                element.accountId == widget.account.id &&
+                weekNumber(element.date) == currentWeekNumber &&
+                element.date.year == currentYear)
+            .toList();
+        break;
+      case 1:
+        transactionList = transactionProvider.transactionList
+            .where((element) =>
+                element.accountId == widget.account.id &&
+                element.date.month == currentMonth &&
+                element.date.year == currentYear)
+            .toList();
+        break;
+      case 2:
+        transactionList = transactionProvider.transactionList
+            .where((element) =>
+                element.accountId == widget.account.id &&
+                element.date.year == currentYear)
+            .toList();
+        break;
+    }
 
     return Column(
       children: [
@@ -208,7 +353,7 @@ class _AccountDetailPageState extends State<AccountDetailPage>
     return transactionList.isEmpty
         ? const Expanded(child: Align(child: Text('Nessuna transazione')))
         : Container(
-            margin: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+            margin: const EdgeInsets.symmetric(vertical: 20, horizontal: 18),
             child: AccountPieChart(
               transactionList: transactionList,
               mode: mode,

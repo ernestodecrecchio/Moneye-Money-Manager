@@ -13,6 +13,12 @@ class CustomColors {
   /// #020319
   static const lightBlack = Color.fromARGB(255, 2, 3, 25);
 
+  /// #F6F6F6
+  static const clearGrey = Color.fromARGB(255, 246, 246, 246);
+
+  ///
+  static const clearGreyText = Color.fromARGB(255, 132, 132, 132);
+
   // Picker Colors
   static const red1 = Color.fromARGB(255, 244, 67, 54);
   static const red2 = Color.fromARGB(255, 233, 30, 99);
