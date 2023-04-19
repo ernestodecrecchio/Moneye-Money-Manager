@@ -31,9 +31,9 @@ class AccountListTile extends StatelessWidget {
           borderRadius: BorderRadius.circular(10),
           boxShadow: const [
             BoxShadow(
-              blurRadius: 4,
-              offset: Offset(0, 1),
-              color: Colors.black54,
+              blurRadius: 8,
+              offset: Offset(0, 2),
+              color: Colors.black26,
             ),
           ],
         ),
