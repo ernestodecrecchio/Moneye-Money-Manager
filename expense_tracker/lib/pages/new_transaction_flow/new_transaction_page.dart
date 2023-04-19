@@ -145,15 +145,15 @@ class _NewTransactionPageState extends State<NewTransactionPage> {
               },
               focusNode: titleInputFocusNode,
             ),
-            const SizedBox(
-              height: 14,
-            ),
-            CustomTextField(
-              controller: descriptionInput,
-              label: 'Descrizione',
-              hintText: 'Inserisci una descrizione',
-              maxLines: null,
-            ),
+            // const SizedBox(
+            //   height: 14,
+            // ),
+            // CustomTextField(
+            //   controller: descriptionInput,
+            //   label: 'Descrizione',
+            //   hintText: 'Inserisci una descrizione',
+            //   maxLines: null,
+            // ),
             const SizedBox(
               height: 14,
             ),

@@ -20,11 +20,8 @@ import 'package:collection/collection.dart';
 // Impostare date picker basato su piattaform
 // tasto entrata/uscita refactor
 // Aggiungere saldo nuovo account
-// Rivedere ombre account tile
 
 /// Nuove feature
-// Dettaglio conto
-// Grafici
 // Possibilità di cambiare la lingua
 // Possibilità di cambiare la valuta
 // Onboarding

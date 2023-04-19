@@ -121,6 +121,7 @@ class _AccountPieChartState extends State<AccountPieChart> {
                       touchedIndex = -1;
                       return;
                     }
+
                     touchedIndex =
                         pieTouchResponse.touchedSection!.touchedSectionIndex;
                   });
