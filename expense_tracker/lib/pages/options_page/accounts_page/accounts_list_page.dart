@@ -1,6 +1,6 @@
 import 'package:expense_tracker/notifiers/account_provider.dart';
-import 'package:expense_tracker/pages/accounts_page/account_list_cell.dart';
-import 'package:expense_tracker/pages/accounts_page/new_account_page.dart';
+import 'package:expense_tracker/pages/options_page/accounts_page/account_list_cell.dart';
+import 'package:expense_tracker/pages/options_page/accounts_page/new_account_page.dart';
 import 'package:expense_tracker/style.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

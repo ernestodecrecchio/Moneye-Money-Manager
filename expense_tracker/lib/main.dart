@@ -4,15 +4,17 @@ import 'package:expense_tracker/models/transaction.dart';
 import 'package:expense_tracker/notifiers/account_provider.dart';
 import 'package:expense_tracker/notifiers/category_provider.dart';
 import 'package:expense_tracker/notifiers/central_provider.dart';
+import 'package:expense_tracker/notifiers/locale_provider.dart';
 import 'package:expense_tracker/notifiers/transaction_provider.dart';
 import 'package:expense_tracker/pages/account_detail_page/account_detail_page.dart';
-import 'package:expense_tracker/pages/accounts_page/accounts_list_page.dart';
-import 'package:expense_tracker/pages/categories_page/categories_list_page.dart';
-import 'package:expense_tracker/pages/categories_page/new_category_page.dart';
-import 'package:expense_tracker/pages/accounts_page/new_account_page.dart';
+import 'package:expense_tracker/pages/options_page/accounts_page/accounts_list_page.dart';
+import 'package:expense_tracker/pages/options_page/categories_page/categories_list_page.dart';
+import 'package:expense_tracker/pages/options_page/categories_page/new_category_page.dart';
+import 'package:expense_tracker/pages/options_page/accounts_page/new_account_page.dart';
 import 'package:expense_tracker/pages/common/helper/dismiss_keyboard.dart';
 import 'package:expense_tracker/pages/home_page/all_transaction_list_page.dart';
 import 'package:expense_tracker/pages/new_transaction_flow/new_transaction_page.dart';
+import 'package:expense_tracker/pages/options_page/language_page/languages_list_page.dart';
 import 'package:expense_tracker/pages/tab_bar_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -58,88 +60,96 @@ class MyApp extends StatelessWidget {
                 ..categoryProvider = categoryProvider,
         ),
       ],
-      child: DismissKeyboard(
-        child: MaterialApp(
-          title: 'Moneye',
-          theme: ThemeData(
-            primarySwatch: Colors.blue,
-          ),
-          supportedLocales: const [
-            Locale('en'),
-            Locale('it'),
-            Locale('es'),
-          ],
-          localizationsDelegates: const [
-            AppLocalizations.delegate,
-            GlobalMaterialLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-          ],
-          initialRoute: '/',
-          routes: {
-            '/': (context) => const TabBarPage(),
-            AllTransactionList.routeName: (context) =>
-                const AllTransactionList(),
-            CategoriesListPage.routeName: (context) =>
-                const CategoriesListPage(),
-            AccountsListPage.routeName: (context) => const AccountsListPage(),
-          },
-          onGenerateRoute: (settings) {
-            switch (settings.name) {
-              case AccountDetailPage.routeName:
-                {
-                  final args = settings.arguments as Account;
+      child: ChangeNotifierProvider(
+        create: (context) => LocaleProvider(),
+        builder: (context, child) {
+          return DismissKeyboard(
+            child: MaterialApp(
+              title: 'Moneye',
+              theme: ThemeData(
+                primarySwatch: Colors.blue,
+              ),
+              locale: Provider.of<LocaleProvider>(context).locale,
+              supportedLocales: const [
+                Locale('en'),
+                Locale('it'),
+              ],
+              localizationsDelegates: const [
+                AppLocalizations.delegate,
+                GlobalMaterialLocalizations.delegate,
+                GlobalCupertinoLocalizations.delegate,
+                GlobalWidgetsLocalizations.delegate,
+              ],
+              initialRoute: '/',
+              routes: {
+                '/': (context) => const TabBarPage(),
+                AllTransactionList.routeName: (context) =>
+                    const AllTransactionList(),
+                CategoriesListPage.routeName: (context) =>
+                    const CategoriesListPage(),
+                AccountsListPage.routeName: (context) =>
+                    const AccountsListPage(),
+                LanguagesListPage.routeName: (context) =>
+                    const LanguagesListPage(),
+              },
+              onGenerateRoute: (settings) {
+                switch (settings.name) {
+                  case AccountDetailPage.routeName:
+                    {
+                      final args = settings.arguments as Account;
 
-                  return MaterialPageRoute(
-                    builder: (context) {
-                      return AccountDetailPage(
-                        account: args,
+                      return MaterialPageRoute(
+                        builder: (context) {
+                          return AccountDetailPage(
+                            account: args,
+                          );
+                        },
                       );
-                    },
-                  );
-                }
-              case NewTransactionPage.routeName:
-                {
-                  final args = settings.arguments as Transaction?;
+                    }
+                  case NewTransactionPage.routeName:
+                    {
+                      final args = settings.arguments as Transaction?;
 
-                  return MaterialPageRoute(
-                    builder: (context) {
-                      return NewTransactionPage(
-                        initialTransactionSettings: args,
+                      return MaterialPageRoute(
+                        builder: (context) {
+                          return NewTransactionPage(
+                            initialTransactionSettings: args,
+                          );
+                        },
                       );
-                    },
-                  );
-                }
-              case NewAccountPage.routeName:
-                {
-                  final args = settings.arguments as Account?;
+                    }
+                  case NewAccountPage.routeName:
+                    {
+                      final args = settings.arguments as Account?;
 
-                  return MaterialPageRoute(
-                    builder: (context) {
-                      return NewAccountPage(
-                        initialAccountSettings: args,
+                      return MaterialPageRoute(
+                        builder: (context) {
+                          return NewAccountPage(
+                            initialAccountSettings: args,
+                          );
+                        },
                       );
-                    },
-                  );
-                }
-              case NewCategoryPage.routeName:
-                {
-                  final args = settings.arguments as Category?;
+                    }
+                  case NewCategoryPage.routeName:
+                    {
+                      final args = settings.arguments as Category?;
 
-                  return MaterialPageRoute(
-                    builder: (context) {
-                      return NewCategoryPage(
-                        initialCategorySettings: args,
+                      return MaterialPageRoute(
+                        builder: (context) {
+                          return NewCategoryPage(
+                            initialCategorySettings: args,
+                          );
+                        },
                       );
-                    },
-                  );
+                    }
                 }
-            }
 
-            assert(false, 'Need to implement ${settings.name}');
-            return null;
-          },
-        ),
+                assert(false, 'Need to implement ${settings.name}');
+                return null;
+              },
+            ),
+          );
+        },
       ),
     );
   }

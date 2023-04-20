@@ -1,26 +1,26 @@
-import 'package:expense_tracker/models/account.dart';
-import 'package:expense_tracker/notifiers/account_provider.dart';
-import 'package:expense_tracker/pages/accounts_page/new_account_page.dart';
+import 'package:expense_tracker/models/category.dart';
+import 'package:expense_tracker/notifiers/category_provider.dart';
+import 'package:expense_tracker/pages/options_page/categories_page/new_category_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
-class AccountListCell extends StatelessWidget {
-  final Account account;
+class CategoryListCell extends StatelessWidget {
+  final Category category;
 
-  const AccountListCell({super.key, required this.account});
+  const CategoryListCell({super.key, required this.category});
 
   @override
   Widget build(BuildContext context) {
     return Slidable(
-      key: Key(account.id.toString()),
+      key: Key(category.id.toString()),
       startActionPane: ActionPane(
         motion: const ScrollMotion(),
         dismissible: DismissiblePane(
           onDismissed: () async =>
-              await Provider.of<AccountProvider>(context, listen: false)
-                  .deleteAccount(account),
+              await Provider.of<CategoryProvider>(context, listen: false)
+                  .deleteCategory(category),
         ),
         children: [
           _buildDeleteAction(),
@@ -30,8 +30,8 @@ class AccountListCell extends StatelessWidget {
         motion: const ScrollMotion(),
         dismissible: DismissiblePane(
           onDismissed: () async =>
-              await Provider.of<AccountProvider>(context, listen: false)
-                  .deleteAccount(account),
+              await Provider.of<CategoryProvider>(context, listen: false)
+                  .deleteCategory(category),
         ),
         children: [
           _buildDeleteAction(),
@@ -39,22 +39,22 @@ class AccountListCell extends StatelessWidget {
       ),
       child: ListTile(
         onTap: () => Navigator.of(context)
-            .pushNamed(NewAccountPage.routeName, arguments: account),
+            .pushNamed(NewCategoryPage.routeName, arguments: category),
         title: Text(
-          account.name,
+          category.name,
           style: const TextStyle(fontSize: 16),
         ),
-        leading: _buildAccountIcon(account),
+        leading: _buildCategoryIcon(category),
         trailing: const Icon(Icons.chevron_right_rounded),
       ),
     );
   }
 
-  _buildAccountIcon(Account account) {
-    SvgPicture? accountIcon;
-    if (account.iconPath != null) {
-      accountIcon = SvgPicture.asset(
-        account.iconPath!,
+  _buildCategoryIcon(Category category) {
+    SvgPicture? categoryIcon;
+    if (category.iconPath != null) {
+      categoryIcon = SvgPicture.asset(
+        category.iconPath!,
         colorFilter: const ColorFilter.mode(
           Colors.white,
           BlendMode.srcIn,
@@ -66,16 +66,16 @@ class AccountListCell extends StatelessWidget {
       width: 32,
       height: 32,
       padding: const EdgeInsets.all(6),
-      decoration: BoxDecoration(shape: BoxShape.circle, color: account.color),
-      child: accountIcon,
+      decoration: BoxDecoration(shape: BoxShape.circle, color: category.color),
+      child: categoryIcon,
     );
   }
 
   SlidableAction _buildDeleteAction() {
     return SlidableAction(
       onPressed: (context) async =>
-          await Provider.of<AccountProvider>(context, listen: false)
-              .deleteAccount(account),
+          await Provider.of<CategoryProvider>(context, listen: false)
+              .deleteCategory(category),
       backgroundColor: const Color(0xFFFE4A49),
       foregroundColor: Colors.white,
       icon: Icons.delete,

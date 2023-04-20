@@ -5,7 +5,7 @@ import 'package:expense_tracker/models/transaction.dart';
 import 'package:expense_tracker/notifiers/account_provider.dart';
 import 'package:expense_tracker/notifiers/transaction_provider.dart';
 import 'package:expense_tracker/pages/account_detail_page/account_pie_chart.dart';
-import 'package:expense_tracker/pages/accounts_page/new_account_page.dart';
+import 'package:expense_tracker/pages/options_page/accounts_page/new_account_page.dart';
 import 'package:expense_tracker/pages/home_page/transaction_list_cell.dart';
 import 'package:expense_tracker/pages/new_transaction_flow/new_transaction_page.dart';
 import 'package:expense_tracker/style.dart';

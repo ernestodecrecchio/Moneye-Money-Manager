@@ -1,7 +1,9 @@
-import 'package:expense_tracker/pages/accounts_page/accounts_list_page.dart';
-import 'package:expense_tracker/pages/categories_page/categories_list_page.dart';
+import 'package:expense_tracker/pages/options_page/accounts_page/accounts_list_page.dart';
+import 'package:expense_tracker/pages/options_page/categories_page/categories_list_page.dart';
+import 'package:expense_tracker/pages/options_page/language_page/languages_list_page.dart';
 import 'package:expense_tracker/style.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class OptionsPage extends StatelessWidget {
   const OptionsPage({super.key});
@@ -10,7 +12,7 @@ class OptionsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Opzioni'),
+        title: Text(AppLocalizations.of(context)!.settings),
         backgroundColor: CustomColors.blue,
         elevation: 0,
       ),
@@ -30,8 +32,9 @@ class OptionsPage extends StatelessWidget {
             Icons.grid_view_rounded,
             color: CustomColors.darkBlue,
           ),
-          title: const Text('Categorie'),
-          subtitle: const Text('Gestisci le categorie e creane di nuove'),
+          title: Text(AppLocalizations.of(context)!.categories),
+          subtitle:
+              Text(AppLocalizations.of(context)!.categoriesOptionDescription),
           trailing: const Icon(Icons.chevron_right_rounded),
           onTap: () =>
               Navigator.of(context).pushNamed(CategoriesListPage.routeName),
@@ -42,11 +45,25 @@ class OptionsPage extends StatelessWidget {
             Icons.account_balance_rounded,
             color: CustomColors.darkBlue,
           ),
-          title: const Text('Conti'),
-          subtitle: const Text('Gestisci i tuoi conti e creane di nuovi'),
+          title: Text(AppLocalizations.of(context)!.accounts),
+          subtitle:
+              Text(AppLocalizations.of(context)!.accountsOptionDescription),
           trailing: const Icon(Icons.chevron_right_rounded),
           onTap: () =>
               Navigator.of(context).pushNamed(AccountsListPage.routeName),
+        ),
+        const Divider(),
+        ListTile(
+          leading: const Icon(
+            Icons.language_rounded,
+            color: CustomColors.darkBlue,
+          ),
+          title: Text(AppLocalizations.of(context)!.language),
+          subtitle:
+              Text(AppLocalizations.of(context)!.languageOptionDescription),
+          trailing: const Icon(Icons.chevron_right_rounded),
+          onTap: () =>
+              Navigator.of(context).pushNamed(LanguagesListPage.routeName),
         ),
       ],
     );

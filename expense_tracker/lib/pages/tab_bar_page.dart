@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class TabBarPage extends StatefulWidget {
   const TabBarPage({Key? key}) : super(key: key);
@@ -56,7 +57,7 @@ class _TabBarPageState extends State<TabBarPage> {
             ),
             SalomonBottomBarItem(
               icon: const Icon(CupertinoIcons.gear_solid),
-              title: const Text('Opzioni'),
+              title: Text(AppLocalizations.of(context)!.settings),
             ),
           ],
         ),

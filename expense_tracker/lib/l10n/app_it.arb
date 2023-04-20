@@ -1,3 +1,23 @@
 {
-    "language": "Italiano"
+    "financialOverviewForThisMonth": "Il resoconto finanziario di questo mese",
+    "totalBalance": "Bilancio totale",
+    "income": "Entrate",  
+    "outcome": "Uscite",
+    "yourAccounts": "I tuoi conti",  
+    "lastTransactions": "Ultime transazioni",
+    "viewAll": "Vedi tutte",
+   
+
+
+
+    "settings": "Opzioni",
+   
+    "categories": "Categorie",
+    "categoriesOptionDescription": "Gestisci le categorie e creane di nuove",
+    
+    "accounts": "Conti",
+    "accountsOptionDescription": "Gestisci i conti e creane di nuovi",
+   
+    "language": "Lingua",
+    "languageOptionDescription": "Seleziona la lingua usata in app"
 }

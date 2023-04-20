@@ -5,7 +5,7 @@ import 'package:expense_tracker/models/transaction.dart';
 import 'package:expense_tracker/notifiers/account_provider.dart';
 import 'package:expense_tracker/notifiers/category_provider.dart';
 import 'package:expense_tracker/notifiers/transaction_provider.dart';
-import 'package:expense_tracker/pages/accounts_page/new_account_page.dart';
+import 'package:expense_tracker/pages/options_page/accounts_page/new_account_page.dart';
 import 'package:expense_tracker/pages/home_page/all_transaction_list_page.dart';
 import 'package:expense_tracker/pages/home_page/transaction_list_cell.dart';
 import 'package:expense_tracker/pages/new_transaction_flow/new_transaction_page.dart';
@@ -105,10 +105,9 @@ class _HomePageState extends State<HomePage> {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(AppLocalizations.of(context)!.language),
-          const Text(
-            'Il resoconto finanziaro di questo mese',
-            style: TextStyle(
+          Text(
+            AppLocalizations.of(context)!.financialOverviewForThisMonth,
+            style: const TextStyle(
               color: Colors.white70,
               fontSize: 16,
               fontWeight: FontWeight.w700,
@@ -117,9 +116,9 @@ class _HomePageState extends State<HomePage> {
           const SizedBox(
             height: 20,
           ),
-          const Text(
-            'Bilancio totale',
-            style: TextStyle(
+          Text(
+            AppLocalizations.of(context)!.totalBalance,
+            style: const TextStyle(
               color: Colors.white,
               fontSize: 18,
               fontWeight: FontWeight.w400,
@@ -162,9 +161,9 @@ class _HomePageState extends State<HomePage> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text(
-                        'Uscite',
-                        style: TextStyle(
+                      Text(
+                        AppLocalizations.of(context)!.outcome,
+                        style: const TextStyle(
                           color: Colors.white,
                           fontSize: 16,
                           fontWeight: FontWeight.w300,
@@ -198,9 +197,9 @@ class _HomePageState extends State<HomePage> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text(
-                        'Entrate',
-                        style: TextStyle(
+                      Text(
+                        AppLocalizations.of(context)!.income,
+                        style: const TextStyle(
                           color: Colors.white,
                           fontSize: 16,
                           fontWeight: FontWeight.w300,
@@ -289,12 +288,12 @@ class _HomePageState extends State<HomePage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Padding(
-          padding:
-              EdgeInsets.symmetric(horizontal: horizontalPadding, vertical: 8),
+        Padding(
+          padding: const EdgeInsets.symmetric(
+              horizontal: horizontalPadding, vertical: 8),
           child: Text(
-            'I tuoi conti',
-            style: TextStyle(
+            AppLocalizations.of(context)!.yourAccounts,
+            style: const TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,
             ),
@@ -412,9 +411,9 @@ class _HomePageState extends State<HomePage> {
             padding: const EdgeInsets.symmetric(horizontal: horizontalPadding),
             child: Row(
               children: [
-                const Text(
-                  'Ultime transazioni',
-                  style: TextStyle(
+                Text(
+                  AppLocalizations.of(context)!.lastTransactions,
+                  style: const TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
                   ),
@@ -428,9 +427,9 @@ class _HomePageState extends State<HomePage> {
                       minimumSize: Size.zero,
                       tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                       alignment: Alignment.centerLeft),
-                  child: const Text(
-                    'Vedi tutte',
-                    style: TextStyle(
+                  child: Text(
+                    AppLocalizations.of(context)!.viewAll,
+                    style: const TextStyle(
                       fontSize: 18,
                     ),
                   ),

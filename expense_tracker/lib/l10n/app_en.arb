@@ -1,6 +1,73 @@
 {
-    "language": "English",
+    "financialOverviewForThisMonth": "The financial overview for this month",
+     "@financialOverviewForThisMonth": {
+        "description": "The financial overview for this month label"
+    },
+
+    "totalBalance": "Total balance",
+    "@totalBalance": {
+       "description": "Total balance label"
+    },
+
+    "income": "Income",
+    "@income": {
+       "description": "Income label"
+    },
+
+    "outcome": "Outcome",
+    "@outcome": {
+       "description": "Outcome label"
+    },
+
+    "yourAccounts": "Your accounts",
+    "@yourAccounts": {
+       "description": "Your accounts label"
+    },
+
+    "lastTransactions": "Last transactions",
+    "@lastTransactions": {
+       "description": "Last transactions label"
+    },
+
+    "viewAll": "View all",
+    "@viewAll": {
+       "description": "View all label"
+    },
+
+
+
+    "settings": "Settings",
+     "@settings": {
+        "description": "Settings label"
+    },
+
+    "categories": "Category",
+    "@categories": {
+       "description": "Category label"
+    },
+
+    "categoriesOptionDescription": "Manage the categories and create new ones",
+    "@categoriesOptionDescription": {
+        "description": "The description of the category option"
+    },
+
+    "accounts": "Account",
+    "@accounts": {
+       "description": "Account label"
+    },
+
+    "accountsOptionDescription": "Manage the accounts and create new ones",
+    "@accountsOptionDescription": {
+        "description": "The description of the account option"
+    },
+
+    "language": "Language",
     "@language": {
-        "description": "The current language"
+        "description": "Language label"
+    },
+
+    "languageOptionDescription": "Select the language used in the app",
+    "@languageOptionDescription": {
+        "description": "The description of the language option"
     }
 }
