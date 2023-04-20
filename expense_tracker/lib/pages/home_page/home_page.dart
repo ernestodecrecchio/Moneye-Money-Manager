@@ -15,6 +15,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:collection/collection.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 /// Migliorie:
 // Impostare date picker basato su piattaform
@@ -104,6 +105,7 @@ class _HomePageState extends State<HomePage> {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          Text(AppLocalizations.of(context)!.language),
           const Text(
             'Il resoconto finanziaro di questo mese',
             style: TextStyle(

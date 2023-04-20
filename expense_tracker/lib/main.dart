@@ -16,7 +16,9 @@ import 'package:expense_tracker/pages/new_transaction_flow/new_transaction_page.
 import 'package:expense_tracker/pages/tab_bar_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -58,10 +60,21 @@ class MyApp extends StatelessWidget {
       ],
       child: DismissKeyboard(
         child: MaterialApp(
-          title: 'Flutter Demo',
+          title: 'Moneye',
           theme: ThemeData(
             primarySwatch: Colors.blue,
           ),
+          supportedLocales: const [
+            Locale('en'),
+            Locale('it'),
+            Locale('es'),
+          ],
+          localizationsDelegates: const [
+            AppLocalizations.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+          ],
           initialRoute: '/',
           routes: {
             '/': (context) => const TabBarPage(),
