@@ -1,3 +1,4 @@
+import 'package:expense_tracker/l10n/l10n.dart';
 import 'package:expense_tracker/models/account.dart';
 import 'package:expense_tracker/models/category.dart';
 import 'package:expense_tracker/models/transaction.dart';
@@ -21,6 +22,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -28,11 +30,19 @@ Future main() async {
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
 
-  runApp(const MyApp());
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+
+  final localeString = prefs.getString('locale');
+
+  runApp(MyApp(
+    savedLocale: localeString != null ? Locale(localeString) : null,
+  ));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  final Locale? savedLocale;
+
+  const MyApp({Key? key, this.savedLocale}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +71,7 @@ class MyApp extends StatelessWidget {
         ),
       ],
       child: ChangeNotifierProvider(
-        create: (context) => LocaleProvider(),
+        create: (context) => LocaleProvider(savedLocale: savedLocale),
         builder: (context, child) {
           return DismissKeyboard(
             child: MaterialApp(
@@ -70,10 +80,7 @@ class MyApp extends StatelessWidget {
                 primarySwatch: Colors.blue,
               ),
               locale: Provider.of<LocaleProvider>(context).locale,
-              supportedLocales: const [
-                Locale('en'),
-                Locale('it'),
-              ],
+              supportedLocales: L10n.all,
               localizationsDelegates: const [
                 AppLocalizations.delegate,
                 GlobalMaterialLocalizations.delegate,

@@ -1,3 +1,4 @@
+import 'package:expense_tracker/l10n/l10n.dart';
 import 'package:expense_tracker/notifiers/locale_provider.dart';
 import 'package:expense_tracker/style.dart';
 import 'package:flutter/material.dart';
@@ -30,14 +31,14 @@ class _LanguagesListPageState extends State<LanguagesListPage> {
     return ListView(
       children: [
         ListTile(
-          title: const Text('Italiano'),
-          onTap: () => Provider.of<LocaleProvider>(context, listen: false)
-              .setLocale(const Locale('it')),
-        ),
-        ListTile(
           title: const Text('English'),
           onTap: () => Provider.of<LocaleProvider>(context, listen: false)
               .setLocale(const Locale('en')),
+        ),
+        ListTile(
+          title: const Text('Italiano'),
+          onTap: () => Provider.of<LocaleProvider>(context, listen: false)
+              .setLocale(const Locale('it')),
         ),
       ],
     );
