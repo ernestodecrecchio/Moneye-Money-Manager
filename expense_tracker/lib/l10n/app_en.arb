@@ -1,4 +1,14 @@
 {
+   "moneyValue": "{value}",
+   "@moneyValue": {
+      "placeholders": {
+         "value": {
+            "type": "double",
+            "format": "simpleCurrency"
+         }
+      }
+   },
+
     "financialOverviewForThisMonth": "The financial overview for this month",
      "@financialOverviewForThisMonth": {
         "description": "The financial overview for this month label"
