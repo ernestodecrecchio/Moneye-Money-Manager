@@ -12,6 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class NewTransactionPage extends StatefulWidget {
   static const routeName = '/newTransactionPage';
@@ -28,6 +29,8 @@ class NewTransactionPage extends StatefulWidget {
 }
 
 class _NewTransactionPageState extends State<NewTransactionPage> {
+  late final AppLocalizations appLocalizations;
+
   final _formKey = GlobalKey<FormState>();
 
   TextEditingController titleInput = TextEditingController();
@@ -87,6 +90,13 @@ class _NewTransactionPageState extends State<NewTransactionPage> {
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    appLocalizations = AppLocalizations.of(context)!;
+  }
+
+  @override
   void dispose() {
     titleInput.dispose();
     titleInputFocusNode.dispose();
@@ -104,7 +114,9 @@ class _NewTransactionPageState extends State<NewTransactionPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(editMode ? 'Modifica transazione' : 'Nuova transazione'),
+        title: Text(editMode
+            ? appLocalizations.editTransaction
+            : appLocalizations.newTransaction),
         backgroundColor: CustomColors.blue,
         elevation: 0,
       ),
@@ -135,11 +147,11 @@ class _NewTransactionPageState extends State<NewTransactionPage> {
           children: [
             CustomTextField(
               controller: titleInput,
-              label: 'Titolo*',
-              hintText: 'Inserisci il titolo della transazione',
+              label: '${appLocalizations.title}*',
+              hintText: appLocalizations.insertTheTitleOfTheTransaction,
               validator: (value) {
                 if (value == null || value.isEmpty) {
-                  return 'Il titolo è obbligatorio';
+                  return appLocalizations.titleIsMandatory;
                 }
                 return null;
               },
@@ -159,8 +171,8 @@ class _NewTransactionPageState extends State<NewTransactionPage> {
             ),
             CustomTextField(
               controller: valueInput,
-              label: 'Valore*',
-              hintText: 'Inserisci il valore della transazione',
+              label: '${appLocalizations.value}*',
+              hintText: appLocalizations.insertTheValueOfTheTransaction,
               textInputFormatters: <TextInputFormatter>[
                 FilteringTextInputFormatter.allow(RegExp(r'^\d+\.?\d*'))
               ],
@@ -168,7 +180,7 @@ class _NewTransactionPageState extends State<NewTransactionPage> {
                   signed: true, decimal: true),
               validator: (value) {
                 if (value == null || value.isEmpty) {
-                  return 'Il valore è obbligatorio';
+                  return appLocalizations.valueIsMandatory;
                 }
                 return null;
               },
@@ -178,8 +190,8 @@ class _NewTransactionPageState extends State<NewTransactionPage> {
             ),
             CustomTextField(
               controller: dateInput,
-              label: 'Data',
-              hintText: 'Seleziona la data',
+              label: appLocalizations.date,
+              hintText: appLocalizations.selectDate,
               icon: Icons.calendar_month_rounded,
               readOnly: true,
               onTap: () => _selectDate(context),
@@ -189,8 +201,8 @@ class _NewTransactionPageState extends State<NewTransactionPage> {
             ),
             CustomTextField(
               controller: categoryInput,
-              label: 'Categoria',
-              hintText: 'Seleziona la categoria',
+              label: appLocalizations.category,
+              hintText: appLocalizations.selectCategory,
               icon: Icons.chevron_right_rounded,
               readOnly: true,
               onTap: () async {
@@ -215,8 +227,8 @@ class _NewTransactionPageState extends State<NewTransactionPage> {
             ),
             CustomTextField(
               controller: accountInput,
-              label: 'Conto',
-              hintText: 'Seleziona il conto',
+              label: appLocalizations.account,
+              hintText: appLocalizations.selectAccount,
               icon: Icons.chevron_right_rounded,
               readOnly: true,
               onTap: () async {
@@ -247,6 +259,16 @@ class _NewTransactionPageState extends State<NewTransactionPage> {
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
         context: context,
+        builder: (context, child) {
+          return Theme(
+            data: Theme.of(context).copyWith(
+              colorScheme: const ColorScheme.light(
+                primary: CustomColors.blue,
+              ),
+            ),
+            child: child!,
+          );
+        },
         initialDate: selectedDate,
         firstDate: DateTime(2015, 8),
         lastDate: DateTime(2101));
@@ -284,9 +306,9 @@ class _NewTransactionPageState extends State<NewTransactionPage> {
                   }
                 }
               },
-              child: const Text(
-                'Entrata',
-                style: TextStyle(
+              child: Text(
+                appLocalizations.income,
+                style: const TextStyle(
                   color: Colors.white,
                   fontSize: 16,
                   fontWeight: FontWeight.w600,
@@ -311,9 +333,9 @@ class _NewTransactionPageState extends State<NewTransactionPage> {
                   }
                 }
               },
-              child: const Text(
-                'Uscita',
-                style: TextStyle(
+              child: Text(
+                appLocalizations.outcome,
+                style: const TextStyle(
                   color: Colors.white,
                   fontSize: 16,
                   fontWeight: FontWeight.w600,

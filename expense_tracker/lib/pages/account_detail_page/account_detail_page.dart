@@ -11,6 +11,7 @@ import 'package:expense_tracker/pages/new_transaction_flow/new_transaction_page.
 import 'package:expense_tracker/style.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 enum Sky { midnight, viridian, cerulean, alto }
 
@@ -33,6 +34,7 @@ class AccountDetailPage extends StatefulWidget {
 
 class _AccountDetailPageState extends State<AccountDetailPage>
     with TickerProviderStateMixin {
+  late final AppLocalizations appLocalizations;
   late final TabController _tabController;
   late final TabController _timeTabController;
 
@@ -44,6 +46,13 @@ class _AccountDetailPageState extends State<AccountDetailPage>
 
     _tabController = TabController(length: 3, vsync: this);
     _timeTabController = TabController(length: 3, vsync: this);
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    appLocalizations = AppLocalizations.of(context)!;
   }
 
   @override
@@ -119,12 +128,12 @@ class _AccountDetailPageState extends State<AccountDetailPage>
           indicatorColor: CustomColors.blue,
           labelColor: CustomColors.darkBlue,
           labelStyle: const TextStyle(fontSize: 16),
-          tabs: const [
+          tabs: [
             Tab(
               child: FittedBox(
                 fit: BoxFit.contain,
                 child: Text(
-                  'Entrate',
+                  appLocalizations.income,
                 ),
               ),
             ),
@@ -132,7 +141,7 @@ class _AccountDetailPageState extends State<AccountDetailPage>
               child: FittedBox(
                 fit: BoxFit.contain,
                 child: Text(
-                  'Uscite',
+                  appLocalizations.outcome,
                 ),
               ),
             ),
@@ -140,7 +149,7 @@ class _AccountDetailPageState extends State<AccountDetailPage>
               child: FittedBox(
                 fit: BoxFit.contain,
                 child: Text(
-                  'Bilancio',
+                  appLocalizations.balance,
                 ),
               ),
             ),
@@ -158,12 +167,12 @@ class _AccountDetailPageState extends State<AccountDetailPage>
       child: TabBar(
         controller: _timeTabController,
         padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 5),
-        tabs: const [
+        tabs: [
           Tab(
             child: FittedBox(
               fit: BoxFit.contain,
               child: Text(
-                'Settimana',
+                appLocalizations.week,
               ),
             ),
           ),
@@ -171,7 +180,7 @@ class _AccountDetailPageState extends State<AccountDetailPage>
             child: FittedBox(
               fit: BoxFit.contain,
               child: Text(
-                'Mese',
+                appLocalizations.month,
               ),
             ),
           ),
@@ -179,7 +188,7 @@ class _AccountDetailPageState extends State<AccountDetailPage>
             child: FittedBox(
               fit: BoxFit.contain,
               child: Text(
-                'Anno',
+                appLocalizations.year,
               ),
             ),
           ),
@@ -351,7 +360,7 @@ class _AccountDetailPageState extends State<AccountDetailPage>
   Widget _buildPieChart(List<Transaction> transactionList,
       AccountPieChartModeTransactionType mode) {
     return transactionList.isEmpty
-        ? const Expanded(child: Align(child: Text('Nessuna transazione')))
+        ? Expanded(child: Align(child: Text(appLocalizations.noTransactions)))
         : Container(
             margin: const EdgeInsets.symmetric(vertical: 20, horizontal: 18),
             child: AccountPieChart(
@@ -373,9 +382,9 @@ class _AccountDetailPageState extends State<AccountDetailPage>
 
   Widget _buildEditAction(BuildContext context) {
     return TextButton(
-      child: const Text(
-        'Modifica',
-        style: TextStyle(color: Colors.white),
+      child: Text(
+        appLocalizations.edit,
+        style: const TextStyle(color: Colors.white),
       ),
       onPressed: () => Navigator.of(context).pushNamed(
         NewAccountPage.routeName,

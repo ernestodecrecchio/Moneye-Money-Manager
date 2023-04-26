@@ -5,6 +5,7 @@ import 'package:expense_tracker/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 Future<Account?> showAccountBottomSheet(
     BuildContext context, Account? initialSelection) async {
@@ -37,6 +38,8 @@ class AccountSelectorContent extends StatefulWidget {
 }
 
 class _AccountSelectorContentState extends State<AccountSelectorContent> {
+  late final AppLocalizations appLocalizations;
+
   Account? _selectedAccount;
 
   @override
@@ -44,6 +47,13 @@ class _AccountSelectorContentState extends State<AccountSelectorContent> {
     super.initState();
 
     _selectedAccount = widget.currentSelection;
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    appLocalizations = AppLocalizations.of(context)!;
   }
 
   @override
@@ -57,9 +67,10 @@ class _AccountSelectorContentState extends State<AccountSelectorContent> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text(
-                  'Seleziona il conto',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                Text(
+                  appLocalizations.selectAccount,
+                  style: const TextStyle(
+                      fontSize: 18, fontWeight: FontWeight.w600),
                 ),
                 IconButton(
                   onPressed: () => Navigator.of(context).pop(),
@@ -105,9 +116,9 @@ class _AccountSelectorContentState extends State<AccountSelectorContent> {
           size: 20,
         ),
       ),
-      title: const Text(
-        'Nuovo conto',
-        style: TextStyle(fontSize: 18),
+      title: Text(
+        appLocalizations.newAccount,
+        style: const TextStyle(fontSize: 18),
       ),
       onTap: () {
         Navigator.of(context).pushNamed(NewAccountPage.routeName);

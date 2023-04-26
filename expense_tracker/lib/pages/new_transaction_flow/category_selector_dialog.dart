@@ -5,6 +5,7 @@ import 'package:expense_tracker/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 Future<Category?> showCategoryBottomSheet(
     BuildContext context, Category? initialSelection) async {
@@ -38,6 +39,8 @@ class CategorySelectorContent extends StatefulWidget {
 }
 
 class _CategorySelectorContentState extends State<CategorySelectorContent> {
+  late final AppLocalizations appLocalizations;
+
   Category? _selectedCategory;
 
   @override
@@ -45,6 +48,13 @@ class _CategorySelectorContentState extends State<CategorySelectorContent> {
     super.initState();
 
     _selectedCategory = widget.currentSelection;
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    appLocalizations = AppLocalizations.of(context)!;
   }
 
   @override
@@ -58,9 +68,10 @@ class _CategorySelectorContentState extends State<CategorySelectorContent> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text(
-                  'Seleziona la categoria',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                Text(
+                  appLocalizations.selectCategory,
+                  style: const TextStyle(
+                      fontSize: 18, fontWeight: FontWeight.w600),
                 ),
                 IconButton(
                   onPressed: () => Navigator.of(context).pop(),
@@ -106,9 +117,9 @@ class _CategorySelectorContentState extends State<CategorySelectorContent> {
           size: 20,
         ),
       ),
-      title: const Text(
-        'Nuova categoria',
-        style: TextStyle(fontSize: 18),
+      title: Text(
+        appLocalizations.newCategory,
+        style: const TextStyle(fontSize: 18),
       ),
       onTap: () {
         Navigator.of(context).pushNamed(NewCategoryPage.routeName);

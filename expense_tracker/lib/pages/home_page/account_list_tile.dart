@@ -3,6 +3,7 @@ import 'package:expense_tracker/models/account.dart';
 import 'package:expense_tracker/pages/account_detail_page/account_detail_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AccountListTile extends StatelessWidget {
   final Account account;
@@ -84,7 +85,7 @@ class AccountListTile extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Total',
+                      AppLocalizations.of(context)!.total,
                       style: TextStyle(
                         fontSize: 10,
                         color: Colors.white.withOpacity(0.5),

@@ -3,6 +3,7 @@ import 'package:expense_tracker/pages/home_page/transaction_list_cell.dart';
 import 'package:expense_tracker/style.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AllTransactionList extends StatelessWidget {
   static const routeName = '/allTransactionList';
@@ -13,7 +14,7 @@ class AllTransactionList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Tutte le transazioni'),
+        title: Text(AppLocalizations.of(context)!.allTransactions),
         backgroundColor: CustomColors.blue,
         elevation: 0,
       ),

@@ -7,6 +7,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 enum AccountPieChartModeTime { month, year, all }
 
@@ -27,6 +28,7 @@ class AccountPieChart extends StatefulWidget {
 }
 
 class _AccountPieChartState extends State<AccountPieChart> {
+  late final AppLocalizations appLocalizations;
   int touchedIndex = -1;
 
   Map<int, double> categoryTotalValueMap = {};
@@ -38,6 +40,13 @@ class _AccountPieChartState extends State<AccountPieChart> {
     super.initState();
 
     _loadData();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    appLocalizations = AppLocalizations.of(context)!;
   }
 
   @override
@@ -84,8 +93,8 @@ class _AccountPieChartState extends State<AccountPieChart> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  const Text(
-                    'Totale',
+                  Text(
+                    appLocalizations.total,
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: 14,
@@ -208,14 +217,18 @@ class _AccountPieChartState extends State<AccountPieChart> {
 
     if (widget.mode == AccountPieChartModeTransactionType.all) {
       final incomeCategory = CategoryTotalValue(
-        category:
-            Category(id: -1, name: 'Entrate', colorValue: Colors.green.value),
+        category: Category(
+            id: -1,
+            name: appLocalizations.incomes,
+            colorValue: Colors.green.value),
         totalValue: 0,
       );
 
       final outcomeCategory = CategoryTotalValue(
-        category:
-            Category(id: -2, name: 'Uscite', colorValue: Colors.red.value),
+        category: Category(
+            id: -2,
+            name: appLocalizations.outcomes,
+            colorValue: Colors.red.value),
         totalValue: 0,
       );
 

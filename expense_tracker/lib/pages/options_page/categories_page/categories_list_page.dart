@@ -4,6 +4,7 @@ import 'package:expense_tracker/pages/options_page/categories_page/new_category_
 import 'package:expense_tracker/style.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CategoriesListPage extends StatefulWidget {
   static const routeName = '/categoriesListPage';
@@ -19,7 +20,7 @@ class _CategoriesListPageState extends State<CategoriesListPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Categorie'),
+        title: Text(AppLocalizations.of(context)!.categories),
         backgroundColor: CustomColors.blue,
         elevation: 0,
       ),

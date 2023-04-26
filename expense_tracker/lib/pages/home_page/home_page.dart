@@ -18,12 +18,10 @@ import 'package:collection/collection.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 /// Migliorie:
-// Impostare date picker basato su piattaform
 // tasto entrata/uscita refactor
 // Aggiungere saldo nuovo account
 
 /// Nuove feature
-// Possibilità di cambiare la lingua
 // Possibilità di cambiare la valuta
 // Onboarding
 // Allega foto
@@ -162,7 +160,7 @@ class _HomePageState extends State<HomePage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        AppLocalizations.of(context)!.outcome,
+                        AppLocalizations.of(context)!.outcomes,
                         style: const TextStyle(
                           color: Colors.white,
                           fontSize: 16,
@@ -198,7 +196,7 @@ class _HomePageState extends State<HomePage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        AppLocalizations.of(context)!.income,
+                        AppLocalizations.of(context)!.incomes,
                         style: const TextStyle(
                           color: Colors.white,
                           fontSize: 16,

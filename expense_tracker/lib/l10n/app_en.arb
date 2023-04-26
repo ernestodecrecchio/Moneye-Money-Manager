@@ -1,83 +1,54 @@
 {
-   "moneyValue": "{value}",
-   "@moneyValue": {
-      "placeholders": {
-         "value": {
-            "type": "double",
-            "format": "simpleCurrency"
-         }
-      }
-   },
-
-    "financialOverviewForThisMonth": "The financial overview for this month",
-     "@financialOverviewForThisMonth": {
-        "description": "The financial overview for this month label"
-    },
-
-    "totalBalance": "Total balance",
-    "@totalBalance": {
-       "description": "Total balance label"
-    },
-
-    "income": "Income",
-    "@income": {
-       "description": "Income label"
-    },
-
-    "outcome": "Outcome",
-    "@outcome": {
-       "description": "Outcome label"
-    },
-
-    "yourAccounts": "Your accounts",
-    "@yourAccounts": {
-       "description": "Your accounts label"
-    },
-
-    "lastTransactions": "Last transactions",
-    "@lastTransactions": {
-       "description": "Last transactions label"
-    },
-
-    "viewAll": "View all",
-    "@viewAll": {
-       "description": "View all label"
-    },
-
-
-
-    "settings": "Settings",
-     "@settings": {
-        "description": "Settings label"
-    },
-
-    "categories": "Category",
-    "@categories": {
-       "description": "Category label"
-    },
-
-    "categoriesOptionDescription": "Manage the categories and create new ones",
-    "@categoriesOptionDescription": {
-        "description": "The description of the category option"
-    },
-
-    "accounts": "Account",
-    "@accounts": {
-       "description": "Account label"
-    },
-
-    "accountsOptionDescription": "Manage the accounts and create new ones",
-    "@accountsOptionDescription": {
-        "description": "The description of the account option"
-    },
-
-    "language": "Language",
-    "@language": {
-        "description": "Language label"
-    },
-
-    "languageOptionDescription": "Select the language used in the app",
-    "@languageOptionDescription": {
-        "description": "The description of the language option"
-    }
+   "yesterday": "Yesterday",
+   "today": "Today",
+   "financialOverviewForThisMonth": "The financial overview for this month",
+   "totalBalance": "Total balance",
+   "income": "Income",
+   "incomes": "Incomes",
+   "outcome": "Outcome",
+   "outcomes": "Outcomes",
+   "total": "Total",
+   "yourAccounts": "Your accounts",
+   "lastTransactions": "Last transactions",
+   "viewAll": "View all",
+   "settings": "Settings",
+   "categories": "Categories",
+   "categoriesOptionDescription": "Manage the categories and create new ones",
+   "accounts": "Accounts",
+   "accountsOptionDescription": "Manage the accounts and create new ones",
+   "language": "Language",
+   "languageOptionDescription": "Select the language used in the app",
+   "allTransactions": "All transactions",
+   "title": "Title",
+   "description": "Description",
+   "value": "Value",
+   "date": "Date",
+   "color": "Color",
+   "icon": "Icon",
+   "category": "Category",
+   "account": "Account",
+   "selectCategory": "Select the category",
+   "selectAccount": "Select account",
+   "selectDate": "Select the date",
+   "newTransaction": "New transaction",
+   "newCategory": "New category",
+   "newAccount": "New account",
+   "editTransaction": "Edit transaction",
+   "editCategory": "Edit category",
+   "editAccount": "Edit account",
+   "insertTheTitleOfTheTransaction": "Insert the title of the trasnaction",
+   "titleIsMandatory": "The title is mandatory",
+   "insertTheDescription": "Insert a description",
+   "insertTheValueOfTheTransaction": "Insert the value of the trasnaction",
+   "valueIsMandatory": "The value is mandatory",
+   "insertTheTitleOfTheCategory": "Insert the title of the category",
+   "insertTheAccountName": "Insert the account name",
+   "applyChanges": "Apply changes",
+   "save": "Save",
+   "edit": "Edit",
+   "balance": "Balance",
+   "week": "Week",
+   "month": "Month",
+   "year": "Year",
+   "noTransactions": "No transactions"
 }

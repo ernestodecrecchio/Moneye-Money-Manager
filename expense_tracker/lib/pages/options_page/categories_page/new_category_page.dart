@@ -6,6 +6,7 @@ import 'package:expense_tracker/pages/common/inline_icon_picker.dart';
 import 'package:expense_tracker/style.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class NewCategoryPage extends StatefulWidget {
   static const routeName = '/newCategoryPage';
@@ -22,6 +23,8 @@ class NewCategoryPage extends StatefulWidget {
 }
 
 class _NewCategoryPageState extends State<NewCategoryPage> {
+  late final AppLocalizations appLocalizations;
+
   final _formKey = GlobalKey<FormState>();
 
   TextEditingController titleInput = TextEditingController();
@@ -47,6 +50,13 @@ class _NewCategoryPageState extends State<NewCategoryPage> {
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    appLocalizations = AppLocalizations.of(context)!;
+  }
+
+  @override
   void dispose() {
     titleInput.dispose();
     descriptionInput.dispose();
@@ -58,7 +68,9 @@ class _NewCategoryPageState extends State<NewCategoryPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(editMode ? 'Modifica categoria' : 'Nuova categoria'),
+        title: Text(editMode
+            ? appLocalizations.editCategory
+            : appLocalizations.newCategory),
         backgroundColor: CustomColors.blue,
         elevation: 0,
       ),
@@ -88,11 +100,11 @@ class _NewCategoryPageState extends State<NewCategoryPage> {
           children: [
             CustomTextField(
               controller: titleInput,
-              label: 'Titolo*',
-              hintText: 'Iserisci il titolo della categoria',
+              label: '${appLocalizations.title}*',
+              hintText: appLocalizations.insertTheTitleOfTheCategory,
               validator: (value) {
                 if (value == null || value.isEmpty) {
-                  return 'Il titolo è obbligatorio';
+                  return appLocalizations.titleIsMandatory;
                 }
                 return null;
               },
@@ -102,8 +114,8 @@ class _NewCategoryPageState extends State<NewCategoryPage> {
             ),
             CustomTextField(
               controller: descriptionInput,
-              label: 'Descrizione',
-              hintText: 'Inserisci una descrizione',
+              label: appLocalizations.description,
+              hintText: appLocalizations.insertTheDescription,
               maxLines: null,
             ),
             const SizedBox(
@@ -126,9 +138,9 @@ class _NewCategoryPageState extends State<NewCategoryPage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
-          'Colore',
-          style: TextStyle(
+        Text(
+          appLocalizations.color,
+          style: const TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.w600,
             color: CustomColors.lightBlack,
@@ -152,9 +164,9 @@ class _NewCategoryPageState extends State<NewCategoryPage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
-          'Icona',
-          style: TextStyle(
+        Text(
+          appLocalizations.icon,
+          style: const TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.w600,
             color: CustomColors.lightBlack,
@@ -198,7 +210,7 @@ class _NewCategoryPageState extends State<NewCategoryPage> {
           ),
         ),
         child: Text(
-          editMode ? 'Applica modifiche' : 'Salva',
+          editMode ? appLocalizations.applyChanges : appLocalizations.save,
           style: const TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.w600,

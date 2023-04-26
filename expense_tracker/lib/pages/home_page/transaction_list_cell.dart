@@ -12,6 +12,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:provider/provider.dart';
 
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 class TransactionListCell extends StatelessWidget {
   final Transaction transaction;
   final double horizontalPadding;
@@ -77,7 +79,7 @@ class TransactionListCell extends StatelessWidget {
                     const SizedBox(
                       height: 2,
                     ),
-                    _buildDate(),
+                    _buildDate(context),
                   ],
                 ),
               ),
@@ -115,7 +117,7 @@ class TransactionListCell extends StatelessWidget {
     );
   }
 
-  Widget _buildDate() {
+  Widget _buildDate(BuildContext context) {
     final now = DateTime.now();
     final today = DateTime(now.year, now.month, now.day);
     final yesterday = DateTime(now.year, now.month, now.day - 1);
@@ -126,9 +128,9 @@ class TransactionListCell extends StatelessWidget {
         transaction.date.year, transaction.date.month, transaction.date.day);
 
     if (dateToCheck == today) {
-      dateString = '$dateString (Oggi)';
+      dateString = '$dateString (${AppLocalizations.of(context)!.today})';
     } else if (dateToCheck == yesterday) {
-      dateString = '$dateString (Ieri)';
+      dateString = '$dateString (${AppLocalizations.of(context)!.yesterday})';
     }
 
     return Flexible(

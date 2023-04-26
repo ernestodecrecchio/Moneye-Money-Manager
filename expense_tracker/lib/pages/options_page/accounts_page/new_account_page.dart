@@ -6,6 +6,7 @@ import 'package:expense_tracker/pages/common/inline_icon_picker.dart';
 import 'package:expense_tracker/style.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class NewAccountPage extends StatefulWidget {
   static const routeName = '/newAccountPage';
@@ -22,6 +23,7 @@ class NewAccountPage extends StatefulWidget {
 }
 
 class _NewAccountPageState extends State<NewAccountPage> {
+  late final AppLocalizations appLocalizations;
   final _formKey = GlobalKey<FormState>();
 
   TextEditingController titleInput = TextEditingController();
@@ -47,6 +49,13 @@ class _NewAccountPageState extends State<NewAccountPage> {
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    appLocalizations = AppLocalizations.of(context)!;
+  }
+
+  @override
   void dispose() {
     titleInput.dispose();
     descriptionInput.dispose();
@@ -58,7 +67,9 @@ class _NewAccountPageState extends State<NewAccountPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(editMode ? 'Modifica conto' : 'Nuovo conto'),
+        title: Text(editMode
+            ? appLocalizations.editAccount
+            : appLocalizations.newAccount),
         backgroundColor: CustomColors.blue,
         elevation: 0,
       ),
@@ -89,11 +100,11 @@ class _NewAccountPageState extends State<NewAccountPage> {
           children: [
             CustomTextField(
               controller: titleInput,
-              label: 'Titolo*',
-              hintText: 'Iserisci il titolo della categoria',
+              label: '${appLocalizations.title}*',
+              hintText: appLocalizations.insertTheAccountName,
               validator: (value) {
                 if (value == null || value.isEmpty) {
-                  return 'Il titolo è obbligatorio';
+                  return appLocalizations.titleIsMandatory;
                 }
                 return null;
               },
@@ -103,8 +114,8 @@ class _NewAccountPageState extends State<NewAccountPage> {
             ),
             CustomTextField(
               controller: descriptionInput,
-              label: 'Descrizione',
-              hintText: 'Inserisci una descrizione',
+              label: appLocalizations.description,
+              hintText: appLocalizations.insertTheDescription,
               maxLines: null,
             ),
             const SizedBox(
@@ -127,8 +138,8 @@ class _NewAccountPageState extends State<NewAccountPage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
-          'Colore',
+        Text(
+          appLocalizations.color,
           style: TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.w600,
@@ -153,8 +164,8 @@ class _NewAccountPageState extends State<NewAccountPage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
-          'Icona',
+        Text(
+          appLocalizations.icon,
           style: TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.w600,
@@ -200,7 +211,7 @@ class _NewAccountPageState extends State<NewAccountPage> {
           ),
         ),
         child: Text(
-          editMode ? 'Applica modifiche' : 'Salva',
+          editMode ? appLocalizations.applyChanges : appLocalizations.save,
           style: const TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.w600,
