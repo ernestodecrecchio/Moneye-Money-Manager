@@ -18,7 +18,6 @@ import 'package:collection/collection.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 /// Migliorie:
-// tasto entrata/uscita refactor
 // Aggiungere saldo nuovo account
 
 /// Nuove feature
