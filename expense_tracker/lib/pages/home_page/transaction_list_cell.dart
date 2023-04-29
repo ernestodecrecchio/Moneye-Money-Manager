@@ -96,7 +96,7 @@ class TransactionListCell extends StatelessWidget {
         .getCategoryForTransaction(transaction);
 
     SvgPicture? categoryIcon;
-    if (category != null) {
+    if (category != null && category.iconPath != null) {
       categoryIcon = SvgPicture.asset(
         category.iconPath!,
         colorFilter: const ColorFilter.mode(
