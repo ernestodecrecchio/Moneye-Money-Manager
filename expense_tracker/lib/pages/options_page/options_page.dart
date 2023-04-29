@@ -1,5 +1,6 @@
 import 'package:expense_tracker/pages/options_page/accounts_page/accounts_list_page.dart';
 import 'package:expense_tracker/pages/options_page/categories_page/categories_list_page.dart';
+import 'package:expense_tracker/pages/options_page/currency_page/currency_page.dart';
 import 'package:expense_tracker/pages/options_page/language_page/languages_list_page.dart';
 import 'package:expense_tracker/style.dart';
 import 'package:flutter/material.dart';
@@ -64,6 +65,17 @@ class OptionsPage extends StatelessWidget {
           trailing: const Icon(Icons.chevron_right_rounded),
           onTap: () =>
               Navigator.of(context).pushNamed(LanguagesListPage.routeName),
+        ),
+        const Divider(),
+        ListTile(
+          leading: const Icon(
+            Icons.currency_exchange_outlined,
+            color: CustomColors.darkBlue,
+          ),
+          title: const Text('Valuta'),
+          subtitle: const Text('Seleziona e personalizza la valuta utilizzata'),
+          trailing: const Icon(Icons.chevron_right_rounded),
+          onTap: () => Navigator.of(context).pushNamed(CurrencyPage.routeName),
         ),
       ],
     );

@@ -447,21 +447,11 @@ class _NewTransactionPageState extends State<NewTransactionPage>
         padding: const EdgeInsets.symmetric(horizontal: 3, vertical: 3),
         tabs: [
           Tab(
-            child: FittedBox(
-              fit: BoxFit.contain,
-              child: Text(
-                AppLocalizations.of(context)!.income,
-              ),
-            ),
+            text: AppLocalizations.of(context)!.income,
           ),
           Tab(
-            child: FittedBox(
-              fit: BoxFit.contain,
-              child: Text(
-                AppLocalizations.of(context)!.outcome,
-              ),
-            ),
-          ),
+            text: AppLocalizations.of(context)!.outcome,
+          )
         ],
         unselectedLabelColor: CustomColors.clearGreyText,
         labelColor: Colors.white,

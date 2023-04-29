@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class CustomTextField extends StatelessWidget {
-  final TextEditingController controller;
+  final TextEditingController? controller;
   final String? label;
-  final String hintText;
+  final String? hintText;
   final IconData? icon;
   final Function()? onTap;
   final Function(String newText)? onTextChanged;
@@ -20,9 +20,9 @@ class CustomTextField extends StatelessWidget {
 
   const CustomTextField({
     super.key,
-    required this.controller,
+    this.controller,
     this.label,
-    required this.hintText,
+    this.hintText,
     this.icon,
     this.onTap,
     this.onTextChanged,

@@ -15,6 +15,7 @@ import 'package:expense_tracker/pages/options_page/accounts_page/new_account_pag
 import 'package:expense_tracker/pages/common/helper/dismiss_keyboard.dart';
 import 'package:expense_tracker/pages/home_page/all_transaction_list_page.dart';
 import 'package:expense_tracker/pages/new_transaction_flow/new_transaction_page.dart';
+import 'package:expense_tracker/pages/options_page/currency_page/currency_page.dart';
 import 'package:expense_tracker/pages/options_page/language_page/languages_list_page.dart';
 import 'package:expense_tracker/pages/tab_bar_page.dart';
 import 'package:flutter/material.dart';
@@ -98,6 +99,7 @@ class MyApp extends StatelessWidget {
                     const AccountsListPage(),
                 LanguagesListPage.routeName: (context) =>
                     const LanguagesListPage(),
+                CurrencyPage.routeName: (context) => const CurrencyPage(),
               },
               onGenerateRoute: (settings) {
                 switch (settings.name) {
