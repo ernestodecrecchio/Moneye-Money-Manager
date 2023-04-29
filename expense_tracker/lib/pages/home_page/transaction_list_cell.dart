@@ -181,16 +181,16 @@ class TransactionListCell extends StatelessWidget {
     );
   }
 
-  SlidableAction _buildEditAction() {
-    return SlidableAction(
-      onPressed: (context) => Navigator.of(context)
-          .pushNamed(NewTransactionPage.routeName, arguments: transaction),
-      backgroundColor: const Color(0xFF21B7CA),
-      foregroundColor: Colors.white,
-      icon: Icons.edit,
-      label: 'Modifica',
-    );
-  }
+  // SlidableAction _buildEditAction() {
+  //   return SlidableAction(
+  //     onPressed: (context) => Navigator.of(context)
+  //         .pushNamed(NewTransactionPage.routeName, arguments: transaction),
+  //     backgroundColor: const Color(0xFF21B7CA),
+  //     foregroundColor: Colors.white,
+  //     icon: Icons.edit,
+  //     label: 'Modifica',
+  //   );
+  // }
 
   Future _removeTransaction(BuildContext context) async {
     await Provider.of<TransactionProvider>(context, listen: false)

@@ -40,7 +40,15 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  AppLocalizations? appLocalizations;
   static const double horizontalPadding = 18;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    appLocalizations = AppLocalizations.of(context)!;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -104,7 +112,7 @@ class _HomePageState extends State<HomePage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            AppLocalizations.of(context)!.financialOverviewForThisMonth,
+            appLocalizations!.financialOverviewForThisMonth,
             style: const TextStyle(
               color: Colors.white70,
               fontSize: 16,
@@ -115,7 +123,7 @@ class _HomePageState extends State<HomePage> {
             height: 20,
           ),
           Text(
-            AppLocalizations.of(context)!.totalBalance,
+            appLocalizations!.totalBalance,
             style: const TextStyle(
               color: Colors.white,
               fontSize: 18,
@@ -160,7 +168,7 @@ class _HomePageState extends State<HomePage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        AppLocalizations.of(context)!.outcomes,
+                        appLocalizations!.outcomes,
                         style: const TextStyle(
                           color: Colors.white,
                           fontSize: 16,
@@ -196,7 +204,7 @@ class _HomePageState extends State<HomePage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        AppLocalizations.of(context)!.incomes,
+                        appLocalizations!.incomes,
                         style: const TextStyle(
                           color: Colors.white,
                           fontSize: 16,
@@ -290,7 +298,7 @@ class _HomePageState extends State<HomePage> {
           padding: const EdgeInsets.symmetric(
               horizontal: horizontalPadding, vertical: 8),
           child: Text(
-            AppLocalizations.of(context)!.yourAccounts,
+            appLocalizations!.yourAccounts,
             style: const TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,
@@ -373,7 +381,7 @@ class _HomePageState extends State<HomePage> {
 
     if (balanceTransactionsWithoutAccount != 0) {
       Account otherAccount = Account(
-          name: 'Altro',
+          name: appLocalizations!.other,
           colorValue: Colors.grey.value,
           iconPath: 'assets/icons/box.svg');
 
@@ -410,7 +418,7 @@ class _HomePageState extends State<HomePage> {
             child: Row(
               children: [
                 Text(
-                  AppLocalizations.of(context)!.lastTransactions,
+                  appLocalizations!.lastTransactions,
                   style: const TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
@@ -426,7 +434,7 @@ class _HomePageState extends State<HomePage> {
                       tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                       alignment: Alignment.centerLeft),
                   child: Text(
-                    AppLocalizations.of(context)!.viewAll,
+                    appLocalizations!.viewAll,
                     style: const TextStyle(
                       fontSize: 18,
                     ),

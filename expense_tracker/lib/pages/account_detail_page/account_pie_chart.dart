@@ -28,7 +28,6 @@ class AccountPieChart extends StatefulWidget {
 }
 
 class _AccountPieChartState extends State<AccountPieChart> {
-  late final AppLocalizations appLocalizations;
   int touchedIndex = -1;
 
   Map<int, double> categoryTotalValueMap = {};
@@ -36,17 +35,10 @@ class _AccountPieChartState extends State<AccountPieChart> {
   double totalValue = 0;
 
   @override
-  void initState() {
-    super.initState();
-
-    _loadData();
-  }
-
-  @override
   void didChangeDependencies() {
     super.didChangeDependencies();
 
-    appLocalizations = AppLocalizations.of(context)!;
+    _loadData();
   }
 
   @override
@@ -94,7 +86,7 @@ class _AccountPieChartState extends State<AccountPieChart> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
-                    appLocalizations.total,
+                    AppLocalizations.of(context)!.total,
                     textAlign: TextAlign.center,
                     style: const TextStyle(
                       fontSize: 14,
@@ -219,7 +211,7 @@ class _AccountPieChartState extends State<AccountPieChart> {
       final incomeCategory = CategoryTotalValue(
         category: Category(
             id: -1,
-            name: appLocalizations.incomes,
+            name: AppLocalizations.of(context)!.incomes,
             colorValue: Colors.green.value),
         totalValue: 0,
       );
@@ -227,7 +219,7 @@ class _AccountPieChartState extends State<AccountPieChart> {
       final outcomeCategory = CategoryTotalValue(
         category: Category(
             id: -2,
-            name: appLocalizations.outcomes,
+            name: AppLocalizations.of(context)!.outcomes,
             colorValue: Colors.red.value),
         totalValue: 0,
       );
@@ -283,7 +275,9 @@ class _AccountPieChartState extends State<AccountPieChart> {
           } else {
             final otherEntry = CategoryTotalValue(
                 category: Category(
-                    id: -1, name: 'Altro', colorValue: Colors.grey.value),
+                    id: -1,
+                    name: AppLocalizations.of(context)!.other,
+                    colorValue: Colors.grey.value),
                 totalValue: transaction.value);
 
             categoryTotalValuePairs.add(otherEntry);

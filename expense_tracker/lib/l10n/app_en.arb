@@ -50,5 +50,6 @@
    "week": "Week",
    "month": "Month",
    "year": "Year",
-   "noTransactions": "No transactions"
+   "noTransactions": "No transactions",
+   "other": "Other"
 }

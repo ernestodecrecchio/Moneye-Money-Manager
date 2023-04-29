@@ -50,5 +50,6 @@
     "week": "Settimana",
     "month": "Mese",
     "year": "Anno",
-    "noTransactions": "Nessuna transazione"
+    "noTransactions": "Nessuna transazione",
+    "other": "Altro"
 }

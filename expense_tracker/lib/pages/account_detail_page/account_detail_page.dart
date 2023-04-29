@@ -34,7 +34,6 @@ class AccountDetailPage extends StatefulWidget {
 
 class _AccountDetailPageState extends State<AccountDetailPage>
     with TickerProviderStateMixin {
-  late final AppLocalizations appLocalizations;
   late final TabController _tabController;
   late final TabController _timeTabController;
 
@@ -46,13 +45,6 @@ class _AccountDetailPageState extends State<AccountDetailPage>
 
     _tabController = TabController(length: 3, vsync: this);
     _timeTabController = TabController(length: 3, vsync: this);
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-
-    appLocalizations = AppLocalizations.of(context)!;
   }
 
   @override
@@ -133,7 +125,7 @@ class _AccountDetailPageState extends State<AccountDetailPage>
               child: FittedBox(
                 fit: BoxFit.contain,
                 child: Text(
-                  appLocalizations.income,
+                  AppLocalizations.of(context)!.income,
                 ),
               ),
             ),
@@ -141,7 +133,7 @@ class _AccountDetailPageState extends State<AccountDetailPage>
               child: FittedBox(
                 fit: BoxFit.contain,
                 child: Text(
-                  appLocalizations.outcome,
+                  AppLocalizations.of(context)!.outcome,
                 ),
               ),
             ),
@@ -149,7 +141,7 @@ class _AccountDetailPageState extends State<AccountDetailPage>
               child: FittedBox(
                 fit: BoxFit.contain,
                 child: Text(
-                  appLocalizations.balance,
+                  AppLocalizations.of(context)!.balance,
                 ),
               ),
             ),
@@ -172,7 +164,7 @@ class _AccountDetailPageState extends State<AccountDetailPage>
             child: FittedBox(
               fit: BoxFit.contain,
               child: Text(
-                appLocalizations.week,
+                AppLocalizations.of(context)!.week,
               ),
             ),
           ),
@@ -180,7 +172,7 @@ class _AccountDetailPageState extends State<AccountDetailPage>
             child: FittedBox(
               fit: BoxFit.contain,
               child: Text(
-                appLocalizations.month,
+                AppLocalizations.of(context)!.month,
               ),
             ),
           ),
@@ -188,7 +180,7 @@ class _AccountDetailPageState extends State<AccountDetailPage>
             child: FittedBox(
               fit: BoxFit.contain,
               child: Text(
-                appLocalizations.year,
+                AppLocalizations.of(context)!.year,
               ),
             ),
           ),
@@ -360,7 +352,9 @@ class _AccountDetailPageState extends State<AccountDetailPage>
   Widget _buildPieChart(List<Transaction> transactionList,
       AccountPieChartModeTransactionType mode) {
     return transactionList.isEmpty
-        ? Expanded(child: Align(child: Text(appLocalizations.noTransactions)))
+        ? Expanded(
+            child: Align(
+                child: Text(AppLocalizations.of(context)!.noTransactions)))
         : Container(
             margin: const EdgeInsets.symmetric(vertical: 20, horizontal: 18),
             child: AccountPieChart(
@@ -383,7 +377,7 @@ class _AccountDetailPageState extends State<AccountDetailPage>
   Widget _buildEditAction(BuildContext context) {
     return TextButton(
       child: Text(
-        appLocalizations.edit,
+        AppLocalizations.of(context)!.edit,
         style: const TextStyle(color: Colors.white),
       ),
       onPressed: () => Navigator.of(context).pushNamed(
