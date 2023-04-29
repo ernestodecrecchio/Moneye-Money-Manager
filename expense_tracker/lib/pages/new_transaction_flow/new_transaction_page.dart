@@ -28,10 +28,13 @@ class NewTransactionPage extends StatefulWidget {
   State<NewTransactionPage> createState() => _NewTransactionPageState();
 }
 
-class _NewTransactionPageState extends State<NewTransactionPage> {
+class _NewTransactionPageState extends State<NewTransactionPage>
+    with SingleTickerProviderStateMixin {
   late final AppLocalizations appLocalizations;
 
   final _formKey = GlobalKey<FormState>();
+
+  late final TabController _transactionTypeTabController;
 
   TextEditingController titleInput = TextEditingController();
   final titleInputFocusNode = FocusNode();
@@ -54,17 +57,23 @@ class _NewTransactionPageState extends State<NewTransactionPage> {
   void initState() {
     super.initState();
 
+    _transactionTypeTabController = TabController(length: 2, vsync: this);
+
     if (widget.initialTransactionSettings != null) {
       editMode = true;
 
       titleInput.text = widget.initialTransactionSettings!.title;
       descriptionInput.text =
           widget.initialTransactionSettings!.description ?? '';
-      valueInput.text = widget.initialTransactionSettings!.value.toString();
+      valueInput.text =
+          widget.initialTransactionSettings!.value.abs().toString();
       dateInput.text = dateFormatter
           .format(widget.initialTransactionSettings!.date)
           .toString();
       selectedDate = widget.initialTransactionSettings!.date;
+
+      _transactionTypeTabController.index =
+          widget.initialTransactionSettings!.value >= 0 ? 0 : 1;
 
       if (widget.initialTransactionSettings!.categoryId != null) {
         selectedCategory = Provider.of<CategoryProvider>(context, listen: false)
@@ -166,9 +175,11 @@ class _NewTransactionPageState extends State<NewTransactionPage> {
             //   hintText: 'Inserisci una descrizione',
             //   maxLines: null,
             // ),
+
             const SizedBox(
               height: 14,
             ),
+
             CustomTextField(
               controller: valueInput,
               label: '${appLocalizations.value}*',
@@ -185,6 +196,10 @@ class _NewTransactionPageState extends State<NewTransactionPage> {
                 return null;
               },
             ),
+            const SizedBox(
+              height: 8,
+            ),
+            _buildSegmentedBar(),
             const SizedBox(
               height: 14,
             ),
@@ -283,67 +298,102 @@ class _NewTransactionPageState extends State<NewTransactionPage> {
   }
 
   Widget _buildSaveButton() {
+    // return Container(
+    //   clipBehavior: Clip.antiAlias,
+    //   height: 50,
+    //   width: double.infinity,
+    //   margin: const EdgeInsets.only(top: 10),
+    //   decoration: BoxDecoration(
+    //     color: CustomColors.darkBlue,
+    //     borderRadius: BorderRadius.circular(25),
+    //   ),
+    //   child: Row(
+    //     mainAxisAlignment: MainAxisAlignment.center,
+    //     children: [
+    //       Expanded(
+    //         child: TextButton(
+    //           onPressed: () {
+    //             if (_formKey.currentState!.validate()) {
+    //               if (editMode) {
+    //                 _editTransaction(income: true);
+    //               } else {
+    //                 _saveNewTransaction(income: true);
+    //               }
+    //             }
+    //           },
+    //           child: Text(
+    //             appLocalizations.income,
+    //             style: const TextStyle(
+    //               color: Colors.white,
+    //               fontSize: 16,
+    //               fontWeight: FontWeight.w600,
+    //             ),
+    //           ),
+    //         ),
+    //       ),
+    //       Container(
+    //         width: 2,
+    //         margin: const EdgeInsets.symmetric(vertical: 12),
+    //         height: double.infinity,
+    //         color: Colors.white,
+    //       ),
+    //       Expanded(
+    //         child: TextButton(
+    //           onPressed: () {
+    //             if (_formKey.currentState!.validate()) {
+    //               if (editMode) {
+    //                 _editTransaction(income: false);
+    //               } else {
+    //                 _saveNewTransaction(income: false);
+    //               }
+    //             }
+    //           },
+    //           child: Text(
+    //             appLocalizations.outcome,
+    //             style: const TextStyle(
+    //               color: Colors.white,
+    //               fontSize: 16,
+    //               fontWeight: FontWeight.w600,
+    //             ),
+    //           ),
+    //         ),
+    //       ),
+    //     ],
+    //   ),
+    // );
+
     return Container(
-      clipBehavior: Clip.antiAlias,
       height: 50,
       width: double.infinity,
       margin: const EdgeInsets.only(top: 10),
-      decoration: BoxDecoration(
-        color: CustomColors.darkBlue,
-        borderRadius: BorderRadius.circular(25),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Expanded(
-            child: TextButton(
-              onPressed: () {
-                if (_formKey.currentState!.validate()) {
-                  if (editMode) {
-                    _editTransaction(income: true);
-                  } else {
-                    _saveNewTransaction(income: true);
-                  }
-                }
-              },
-              child: Text(
-                appLocalizations.income,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-            ),
+      child: ElevatedButton(
+        onPressed: () {
+          if (_formKey.currentState!.validate()) {
+            if (editMode) {
+              _editTransaction(
+                  income:
+                      _transactionTypeTabController.index == 0 ? true : false);
+            } else {
+              _saveNewTransaction(
+                  income:
+                      _transactionTypeTabController.index == 0 ? true : false);
+            }
+          }
+        },
+        style: ElevatedButton.styleFrom(
+          elevation: 0,
+          backgroundColor: CustomColors.darkBlue,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(25),
           ),
-          Container(
-            width: 2,
-            margin: const EdgeInsets.symmetric(vertical: 12),
-            height: double.infinity,
-            color: Colors.white,
+        ),
+        child: Text(
+          editMode ? appLocalizations.applyChanges : appLocalizations.save,
+          style: const TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.w600,
           ),
-          Expanded(
-            child: TextButton(
-              onPressed: () {
-                if (_formKey.currentState!.validate()) {
-                  if (editMode) {
-                    _editTransaction(income: false);
-                  } else {
-                    _saveNewTransaction(income: false);
-                  }
-                }
-              },
-              child: Text(
-                appLocalizations.outcome,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-            ),
-          ),
-        ],
+        ),
       ),
     );
   }
@@ -383,5 +433,42 @@ class _NewTransactionPageState extends State<NewTransactionPage> {
           account: selectedAccount,
         )
         .then((value) => Navigator.of(context).pop());
+  }
+
+  _buildSegmentedBar() {
+    return Container(
+      height: 54,
+      decoration: BoxDecoration(
+        color: CustomColors.lightBlue,
+        borderRadius: BorderRadius.circular(54 / 2),
+      ),
+      child: TabBar(
+        controller: _transactionTypeTabController,
+        padding: const EdgeInsets.symmetric(horizontal: 3, vertical: 3),
+        tabs: [
+          Tab(
+            child: FittedBox(
+              fit: BoxFit.contain,
+              child: Text(
+                AppLocalizations.of(context)!.income,
+              ),
+            ),
+          ),
+          Tab(
+            child: FittedBox(
+              fit: BoxFit.contain,
+              child: Text(
+                AppLocalizations.of(context)!.outcome,
+              ),
+            ),
+          ),
+        ],
+        unselectedLabelColor: CustomColors.clearGreyText,
+        labelColor: Colors.white,
+        indicator: BoxDecoration(
+            color: CustomColors.blue,
+            borderRadius: BorderRadius.circular(54 / 2)),
+      ),
+    );
   }
 }
