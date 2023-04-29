@@ -4,6 +4,7 @@ import 'package:expense_tracker/pages/options_page/accounts_page/new_account_pag
 import 'package:expense_tracker/style.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AccountsListPage extends StatefulWidget {
   static const routeName = '/accountsListPage';
@@ -19,7 +20,7 @@ class _AccountsListPageState extends State<AccountsListPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Conti'),
+        title: Text(AppLocalizations.of(context)!.accounts),
         elevation: 0,
         backgroundColor: CustomColors.blue,
       ),

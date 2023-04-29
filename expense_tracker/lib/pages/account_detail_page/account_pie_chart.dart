@@ -96,7 +96,7 @@ class _AccountPieChartState extends State<AccountPieChart> {
                   Text(
                     appLocalizations.total,
                     textAlign: TextAlign.center,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 14,
                       color: CustomColors.grey,
                     ),

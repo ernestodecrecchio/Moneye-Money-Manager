@@ -140,7 +140,7 @@ class _NewAccountPageState extends State<NewAccountPage> {
       children: [
         Text(
           appLocalizations.color,
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.w600,
             color: CustomColors.lightBlack,
@@ -166,7 +166,7 @@ class _NewAccountPageState extends State<NewAccountPage> {
       children: [
         Text(
           appLocalizations.icon,
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.w600,
             color: CustomColors.lightBlack,
