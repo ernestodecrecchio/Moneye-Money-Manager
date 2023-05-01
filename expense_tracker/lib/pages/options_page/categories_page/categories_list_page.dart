@@ -48,6 +48,7 @@ class _CategoriesListPageState extends State<CategoriesListPage> {
 
   Widget _buildFloatingActionButton(BuildContext context) {
     return FloatingActionButton(
+      backgroundColor: CustomColors.darkBlue,
       child: const Icon(Icons.add),
       onPressed: () => Navigator.pushNamed(context, NewCategoryPage.routeName),
     );
