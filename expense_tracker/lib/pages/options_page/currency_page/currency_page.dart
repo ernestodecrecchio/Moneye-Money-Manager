@@ -5,6 +5,7 @@ import 'package:expense_tracker/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CurrencyPage extends StatefulWidget {
   static const routeName = '/currencyPage';
@@ -22,8 +23,16 @@ class _CurrencyPageState extends State<CurrencyPage> {
   final double exampleValue = 1234.567;
 
   @override
-  void initState() {
-    super.initState();
+  void dispose() {
+    super.dispose();
+
+    _currencySymbolPositionInput.dispose();
+    _currencySymbolInput.dispose();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
 
     final currencyProvider =
         Provider.of<CurrencyProvider>(context, listen: false);
@@ -40,19 +49,11 @@ class _CurrencyPageState extends State<CurrencyPage> {
   }
 
   @override
-  void dispose() {
-    super.dispose();
-
-    _currencySymbolPositionInput.dispose();
-    _currencySymbolInput.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: const Text('Valuta'),
+        title: Text(AppLocalizations.of(context)!.currency),
         backgroundColor: CustomColors.blue,
         elevation: 0,
       ),
@@ -82,6 +83,14 @@ class _CurrencyPageState extends State<CurrencyPage> {
               height: 14,
             ),
             _buildCurrencySymbolTextField(currencyProvider),
+            const SizedBox(
+              height: 4,
+            ),
+            Text(
+              AppLocalizations.of(context)!.currencyConversionDisclaimer,
+              style: const TextStyle(
+                  color: CustomColors.clearGreyText, fontSize: 12),
+            ),
             const SizedBox(
               height: 14,
             ),
@@ -124,7 +133,7 @@ class _CurrencyPageState extends State<CurrencyPage> {
   Widget _buildCurrencySymbolTextField(CurrencyProvider currencyProvider) {
     return CustomTextField(
       controller: _currencySymbolInput,
-      label: 'Valuta',
+      label: AppLocalizations.of(context)!.currency,
       readOnly: true,
       icon: Icons.chevron_right_rounded,
       onTap: () async {
@@ -140,10 +149,10 @@ class _CurrencyPageState extends State<CurrencyPage> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Flexible(
+                        Flexible(
                           child: Text(
-                            'Seleziona la valuta',
-                            style: TextStyle(
+                            AppLocalizations.of(context)!.selectCurrency,
+                            style: const TextStyle(
                                 fontSize: 18, fontWeight: FontWeight.w600),
                           ),
                         ),
@@ -238,7 +247,7 @@ class _CurrencyPageState extends State<CurrencyPage> {
       CurrencyProvider currencyProvider) {
     return CustomTextField(
       controller: _currencySymbolPositionInput,
-      label: 'Posizione del simbolo della valuta',
+      label: AppLocalizations.of(context)!.currencyPosition,
       readOnly: true,
       icon: Icons.chevron_right_rounded,
       onTap: () async {
@@ -254,10 +263,11 @@ class _CurrencyPageState extends State<CurrencyPage> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Flexible(
+                        Flexible(
                           child: Text(
-                            'Seleziona la posizione del simbolo della valuta',
-                            style: TextStyle(
+                            AppLocalizations.of(context)!
+                                .selectCurrencyPosition,
+                            style: const TextStyle(
                                 fontSize: 18, fontWeight: FontWeight.w600),
                           ),
                         ),
@@ -273,7 +283,7 @@ class _CurrencyPageState extends State<CurrencyPage> {
                       shrinkWrap: true,
                       children: [
                         ListTile(
-                          title: const Text('Nessuno'),
+                          title: Text(AppLocalizations.of(context)!.none),
                           trailing: currencyProvider
                                       .currentCurrencySymbolPosition ==
                                   CurrencySymbolPosition.none
@@ -283,7 +293,8 @@ class _CurrencyPageState extends State<CurrencyPage> {
                             currencyProvider.setCurrencySymbolPosition(
                                 CurrencySymbolPosition.none);
 
-                            _currencySymbolPositionInput.text = 'Nessuno';
+                            _currencySymbolPositionInput.text =
+                                AppLocalizations.of(context)!.none;
 
                             setState(() {});
 
@@ -291,7 +302,7 @@ class _CurrencyPageState extends State<CurrencyPage> {
                           },
                         ),
                         ListTile(
-                          title: const Text("All'inizio"),
+                          title: Text(AppLocalizations.of(context)!.atTheStart),
                           trailing: currencyProvider
                                       .currentCurrencySymbolPosition ==
                                   CurrencySymbolPosition.leading
@@ -301,14 +312,15 @@ class _CurrencyPageState extends State<CurrencyPage> {
                             currencyProvider.setCurrencySymbolPosition(
                                 CurrencySymbolPosition.leading);
 
-                            _currencySymbolPositionInput.text = "All'inizio";
+                            _currencySymbolPositionInput.text =
+                                AppLocalizations.of(context)!.atTheStart;
                             setState(() {});
 
                             Navigator.of(context).pop();
                           },
                         ),
                         ListTile(
-                          title: const Text('Alla fine'),
+                          title: Text(AppLocalizations.of(context)!.atTheEnd),
                           trailing: currencyProvider
                                       .currentCurrencySymbolPosition ==
                                   CurrencySymbolPosition.trailing
@@ -318,7 +330,8 @@ class _CurrencyPageState extends State<CurrencyPage> {
                             currencyProvider.setCurrencySymbolPosition(
                                 CurrencySymbolPosition.trailing);
 
-                            _currencySymbolPositionInput.text = 'Alla fine';
+                            _currencySymbolPositionInput.text =
+                                AppLocalizations.of(context)!.atTheEnd;
 
                             setState(() {});
 
@@ -353,11 +366,11 @@ class _CurrencyPageState extends State<CurrencyPage> {
   String getCurrencySymbolPositionDescription(CurrencySymbolPosition position) {
     switch (position) {
       case CurrencySymbolPosition.none:
-        return 'Nessuno';
+        return AppLocalizations.of(context)!.none;
       case CurrencySymbolPosition.leading:
-        return "All'inizio";
+        return AppLocalizations.of(context)!.atTheStart;
       case CurrencySymbolPosition.trailing:
-        return 'Alla fine';
+        return AppLocalizations.of(context)!.atTheEnd;
     }
   }
 }

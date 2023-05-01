@@ -51,5 +51,14 @@
    "month": "Month",
    "year": "Year",
    "noTransactions": "No transactions",
-   "other": "Other"
+   "other": "Other",
+   "currency": "Currency",
+   "selectCurrency":"Select the currency",
+   "currencyOptionDescription": "Select and customize the used currency",
+   "currencyPosition": "Position of the currency symbol",
+   "selectCurrencyPosition":"Select the currency symbol position",
+   "none": "None",
+   "atTheStart": "At the start",
+   "atTheEnd":"At the end",
+   "currencyConversionDisclaimer": "Note: Changing the currency displayed in the app will not result in transaction value conversions."
 }
