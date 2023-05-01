@@ -97,8 +97,11 @@ class _AccountPieChartState extends State<AccountPieChart> {
                     fit: BoxFit.fitWidth,
                     child: Text(
                       widget.mode == AccountPieChartModeTransactionType.all
-                          ? '${(categoryTotalValuePairs[0].totalValue - categoryTotalValuePairs[1].totalValue).toStringAsFixedRounded(2)}€'
-                          : '${totalValue.toStringAsFixedRounded(2)}€',
+                          ? (categoryTotalValuePairs[0].totalValue -
+                                  categoryTotalValuePairs[1].totalValue)
+                              .toStringAsFixedRoundedWithCurrency(context, 2)
+                          : totalValue.toStringAsFixedRoundedWithCurrency(
+                              context, 2),
                       textAlign: TextAlign.center,
                       maxLines: 1,
                       style: const TextStyle(
@@ -184,7 +187,7 @@ class _AccountPieChartState extends State<AccountPieChart> {
             ),
             badgeWidget: isTouched
                 ? Text(
-                    '${((currentCategoryTotalValuePair.totalValue / totalValue) * 100).toStringAsFixedRounded(2)}%',
+                    '${((currentCategoryTotalValuePair.totalValue / totalValue) * 100).toStringAsFixedRoundedWithCurrency(context, 2)}%',
                     style: const TextStyle(
                         color: Colors.white, fontWeight: FontWeight.bold),
                   )
@@ -334,7 +337,7 @@ class Indicator extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(left: 6),
               child: Text(
-                '${value!.toStringAsFixedRounded(2)}€',
+                value!.toStringAsFixedRoundedWithCurrency(context, 2),
                 textAlign: TextAlign.end,
                 style: const TextStyle(fontWeight: FontWeight.bold),
               ),

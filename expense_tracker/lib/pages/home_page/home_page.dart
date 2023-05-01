@@ -181,7 +181,8 @@ class _HomePageState extends State<HomePage> {
                         height: 6,
                       ),
                       Text(
-                        monthlyExpenses.toStringAsFixedRounded(2),
+                        monthlyExpenses.toStringAsFixedRoundedWithCurrency(
+                            context, 2),
                         style: const TextStyle(
                           color: Colors.white,
                           fontSize: 16,
@@ -217,7 +218,8 @@ class _HomePageState extends State<HomePage> {
                         height: 6,
                       ),
                       Text(
-                        monthlyIncome.toStringAsFixedRounded(2),
+                        monthlyIncome.toStringAsFixedRoundedWithCurrency(
+                            context, 2),
                         style: const TextStyle(
                           color: Colors.white,
                           fontSize: 16,

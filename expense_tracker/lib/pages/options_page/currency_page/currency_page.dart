@@ -1,4 +1,5 @@
 import 'package:expense_tracker/notifiers/locale_provider.dart';
+import 'package:expense_tracker/pages/common/custom_modal_bottom_sheet.dart';
 import 'package:expense_tracker/pages/common/custom_text_field.dart';
 import 'package:expense_tracker/style.dart';
 import 'package:flutter/material.dart';
@@ -77,7 +78,7 @@ class _CurrencyPageState extends State<CurrencyPage> {
             const SizedBox(
               height: 14,
             ),
-            _buildCurrencyTextField(localeProvider),
+            _buildCurrencySymbolTextField(localeProvider),
             const SizedBox(
               height: 14,
             ),
@@ -89,138 +90,42 @@ class _CurrencyPageState extends State<CurrencyPage> {
   }
 
   Widget _buildCurrencyPreview(LocaleProvider localeProvider) {
-    return Container(
-      height: 300,
-      color: CustomColors.clearGrey,
-      child: Center(
-          child: Text(
-              '${localeProvider.currentCurrencySymbolPosition == CurrencySymbolPosition.leading ? getSymbolForCurrency(localeProvider.currentCurrencySymbol!) : ''}${exampleValue.toString()}${localeProvider.currentCurrencySymbolPosition == CurrencySymbolPosition.trailing ? getSymbolForCurrency(localeProvider.currentCurrencySymbol!) : ''}')),
-    );
-  }
+    TextSpan currencySymbolTextSpan = TextSpan(
+        text: getSymbolForCurrency(localeProvider.currentCurrencySymbol!),
+        style: const TextStyle(fontWeight: FontWeight.bold));
 
-  Widget _buildCurrencyTextField(LocaleProvider localeProvider) {
-    return CustomTextField(
-      controller: _currencySymbolPositionInput,
-      label: 'Posizione del simbolo della valuta',
-      readOnly: true,
-      icon: Icons.chevron_right_rounded,
-      onTap: () async {
-        await showModalBottomSheet(
-          shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(34),
-              topRight: Radius.circular(34),
-            ),
-          ),
-          backgroundColor: Colors.white,
-          clipBehavior: Clip.antiAlias,
-          context: context,
-          builder: ((context) {
-            return Padding(
-              padding: const EdgeInsets.only(top: 10),
-              child: Column(
+    TextSpan exampleValueTextSpan = TextSpan(
+      text: exampleValue.toStringAsFixed(2),
+      style: const TextStyle(color: CustomColors.clearGreyText),
+    );
+
+    return Padding(
+        padding: const EdgeInsets.symmetric(vertical: 20),
+        child: RichText(
+            text: TextSpan(
+                style: const TextStyle(
+                  color: Colors.black,
+                  fontSize: 40,
+                ),
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 17),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const Flexible(
-                          child: Text(
-                            'Seleziona la posizione del simbolo della valuta',
-                            style: TextStyle(
-                                fontSize: 18, fontWeight: FontWeight.w600),
-                          ),
-                        ),
-                        IconButton(
-                          onPressed: () => Navigator.of(context).pop(),
-                          icon: const Icon(Icons.close),
-                        )
-                      ],
-                    ),
-                  ),
-                  Expanded(
-                    child: ListView(
-                      shrinkWrap: true,
-                      children: [
-                        ListTile(
-                            title: const Text('Leading'),
-                            trailing: localeProvider
-                                        .currentCurrencySymbolPosition ==
-                                    CurrencySymbolPosition.leading
-                                ? SvgPicture.asset('assets/icons/checkmark.svg')
-                                : null,
-                            onTap: () {
-                              localeProvider.setCurrencySymbolPosition(
-                                  CurrencySymbolPosition.leading);
-
-                              _currencySymbolPositionInput.text = 'Leading';
-                              setState(() {});
-
-                              Navigator.of(context).pop();
-                            }),
-                        ListTile(
-                            title: const Text('Trailing'),
-                            trailing: localeProvider
-                                        .currentCurrencySymbolPosition ==
-                                    CurrencySymbolPosition.trailing
-                                ? SvgPicture.asset('assets/icons/checkmark.svg')
-                                : null,
-                            onTap: () {
-                              localeProvider.setCurrencySymbolPosition(
-                                  CurrencySymbolPosition.trailing);
-
-                              _currencySymbolPositionInput.text = 'Trailing';
-
-                              setState(() {});
-
-                              Navigator.of(context).pop();
-                            }),
-                        ListTile(
-                            title: const Text('None'),
-                            trailing: localeProvider
-                                        .currentCurrencySymbolPosition ==
-                                    CurrencySymbolPosition.none
-                                ? SvgPicture.asset('assets/icons/checkmark.svg')
-                                : null,
-                            onTap: () {
-                              localeProvider.setCurrencySymbolPosition(
-                                  CurrencySymbolPosition.none);
-
-                              _currencySymbolPositionInput.text = 'None';
-
-                              setState(() {});
-
-                              Navigator.of(context).pop();
-                            }),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            );
-          }),
-        );
-      },
-    );
+              if (localeProvider.currentCurrencySymbolPosition ==
+                  CurrencySymbolPosition.leading)
+                currencySymbolTextSpan,
+              exampleValueTextSpan,
+              if (localeProvider.currentCurrencySymbolPosition ==
+                  CurrencySymbolPosition.trailing)
+                currencySymbolTextSpan,
+            ])));
   }
 
-  Widget _buildCurrencySymbolPositionTextField(LocaleProvider localeProvider) {
+  Widget _buildCurrencySymbolTextField(LocaleProvider localeProvider) {
     return CustomTextField(
       controller: _currencySymbolInput,
       label: 'Valuta',
       readOnly: true,
       icon: Icons.chevron_right_rounded,
       onTap: () async {
-        await showModalBottomSheet(
-          shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(34),
-              topRight: Radius.circular(34),
-            ),
-          ),
-          backgroundColor: Colors.white,
-          clipBehavior: Clip.antiAlias,
+        await showCustomModalBottomSheet(
           context: context,
           builder: ((context) {
             return Padding(
@@ -310,6 +215,105 @@ class _CurrencyPageState extends State<CurrencyPage> {
                             Navigator.of(context).pop();
                           },
                         ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            );
+          }),
+        );
+      },
+    );
+  }
+
+  Widget _buildCurrencySymbolPositionTextField(LocaleProvider localeProvider) {
+    return CustomTextField(
+      controller: _currencySymbolPositionInput,
+      label: 'Posizione del simbolo della valuta',
+      readOnly: true,
+      icon: Icons.chevron_right_rounded,
+      onTap: () async {
+        await showCustomModalBottomSheet(
+          context: context,
+          builder: ((context) {
+            return Padding(
+              padding: const EdgeInsets.only(top: 10),
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 17),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Flexible(
+                          child: Text(
+                            'Seleziona la posizione del simbolo della valuta',
+                            style: TextStyle(
+                                fontSize: 18, fontWeight: FontWeight.w600),
+                          ),
+                        ),
+                        IconButton(
+                          onPressed: () => Navigator.of(context).pop(),
+                          icon: const Icon(Icons.close),
+                        )
+                      ],
+                    ),
+                  ),
+                  Expanded(
+                    child: ListView(
+                      shrinkWrap: true,
+                      children: [
+                        ListTile(
+                            title: const Text('Leading'),
+                            trailing: localeProvider
+                                        .currentCurrencySymbolPosition ==
+                                    CurrencySymbolPosition.leading
+                                ? SvgPicture.asset('assets/icons/checkmark.svg')
+                                : null,
+                            onTap: () {
+                              localeProvider.setCurrencySymbolPosition(
+                                  CurrencySymbolPosition.leading);
+
+                              _currencySymbolPositionInput.text = 'Leading';
+                              setState(() {});
+
+                              Navigator.of(context).pop();
+                            }),
+                        ListTile(
+                            title: const Text('Trailing'),
+                            trailing: localeProvider
+                                        .currentCurrencySymbolPosition ==
+                                    CurrencySymbolPosition.trailing
+                                ? SvgPicture.asset('assets/icons/checkmark.svg')
+                                : null,
+                            onTap: () {
+                              localeProvider.setCurrencySymbolPosition(
+                                  CurrencySymbolPosition.trailing);
+
+                              _currencySymbolPositionInput.text = 'Trailing';
+
+                              setState(() {});
+
+                              Navigator.of(context).pop();
+                            }),
+                        ListTile(
+                            title: const Text('None'),
+                            trailing: localeProvider
+                                        .currentCurrencySymbolPosition ==
+                                    CurrencySymbolPosition.none
+                                ? SvgPicture.asset('assets/icons/checkmark.svg')
+                                : null,
+                            onTap: () {
+                              localeProvider.setCurrencySymbolPosition(
+                                  CurrencySymbolPosition.none);
+
+                              _currencySymbolPositionInput.text = 'None';
+
+                              setState(() {});
+
+                              Navigator.of(context).pop();
+                            }),
                       ],
                     ),
                   ),

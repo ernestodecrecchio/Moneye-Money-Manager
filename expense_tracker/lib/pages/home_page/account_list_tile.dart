@@ -97,7 +97,7 @@ class AccountListTile extends StatelessWidget {
                     FittedBox(
                       fit: BoxFit.fitHeight,
                       child: Text(
-                        '${balance.toStringAsFixedRounded(2)}€',
+                        balance.toStringAsFixedRoundedWithCurrency(context, 2),
                         style: const TextStyle(
                           fontSize: 18,
                           color: Colors.white,

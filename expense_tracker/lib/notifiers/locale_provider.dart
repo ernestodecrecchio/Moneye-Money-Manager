@@ -99,8 +99,6 @@ class LocaleProvider extends ChangeNotifier {
   void setCurrencySymbol(CurrencyEnum currency) async {
     _currentCurrencySymbol = currency;
 
-    print(currency);
-
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     prefs.setString('currency', _currentCurrencySymbol.toString());
@@ -110,8 +108,6 @@ class LocaleProvider extends ChangeNotifier {
 
   void setCurrencySymbolPosition(CurrencySymbolPosition position) async {
     _currentCurrencySymbolPosition = position;
-
-    print(position);
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
 

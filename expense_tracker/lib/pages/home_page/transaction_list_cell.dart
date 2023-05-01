@@ -154,7 +154,7 @@ class TransactionListCell extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
         Text(
-          '${transaction.value.toStringAsFixedRounded(2)}€',
+          transaction.value.toStringAsFixedRoundedWithCurrency(context, 2),
           textAlign: TextAlign.center,
           style: TextStyle(
             fontSize: 16,
