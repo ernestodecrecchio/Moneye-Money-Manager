@@ -136,7 +136,9 @@ class _HomePageState extends State<HomePage> {
                 child: FittedBox(
                   fit: BoxFit.fitWidth,
                   child: Text(
-                    '${Provider.of<TransactionProvider>(context, listen: false).totalBalance.toStringAsFixedRounded(2)} €',
+                    Provider.of<TransactionProvider>(context, listen: false)
+                        .totalBalance
+                        .toStringAsFixedRoundedWithCurrency(context, 2),
                     style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 40,

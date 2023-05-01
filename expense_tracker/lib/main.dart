@@ -34,16 +34,38 @@ Future main() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
 
   final localeString = prefs.getString('locale');
+  final currencySymbolString = prefs.getString('currency');
+  final currencySymbolPositionString =
+      prefs.getString('currencySymbolPosition');
 
+  CurrencyEnum? currencySymbol;
+  if (currencySymbolString != null) {
+    currencySymbol = getCurrencyEnumFromString(currencySymbolString);
+  }
+
+  CurrencySymbolPosition? currencySymbolPosition;
+  if (currencySymbolPositionString != null) {
+    currencySymbolPosition =
+        getCurrencySymbolPositionFromString(currencySymbolPositionString);
+  }
   runApp(MyApp(
     savedLocale: localeString != null ? Locale(localeString) : null,
+    currencyEnum: currencySymbol,
+    currencySymbolPosition: currencySymbolPosition,
   ));
 }
 
 class MyApp extends StatelessWidget {
   final Locale? savedLocale;
+  final CurrencyEnum? currencyEnum;
+  final CurrencySymbolPosition? currencySymbolPosition;
 
-  const MyApp({Key? key, this.savedLocale}) : super(key: key);
+  const MyApp({
+    Key? key,
+    this.savedLocale,
+    this.currencyEnum,
+    this.currencySymbolPosition,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -72,7 +94,11 @@ class MyApp extends StatelessWidget {
         ),
       ],
       child: ChangeNotifierProvider(
-        create: (context) => LocaleProvider(savedLocale: savedLocale),
+        create: (context) => LocaleProvider(
+          savedLocale: savedLocale,
+          savedCurrency: currencyEnum,
+          savedCurrencySymbolPosition: currencySymbolPosition,
+        ),
         builder: (context, child) {
           return DismissKeyboard(
             child: MaterialApp(
