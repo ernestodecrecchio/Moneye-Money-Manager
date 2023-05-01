@@ -1,4 +1,4 @@
-import 'package:expense_tracker/Helper/Database/double_helper.dart';
+import 'package:expense_tracker/Database/double_helper.dart';
 import 'package:expense_tracker/models/account.dart';
 import 'package:expense_tracker/models/transaction.dart';
 import 'package:expense_tracker/notifiers/account_provider.dart';

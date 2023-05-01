@@ -1,6 +1,6 @@
-import 'package:expense_tracker/Helper/Database/database_account_helper.dart';
-import 'package:expense_tracker/Helper/Database/database_category_helper.dart';
-import 'package:expense_tracker/Helper/Database/database_transaction_helper.dart';
+import 'package:expense_tracker/Database/database_account_helper.dart';
+import 'package:expense_tracker/Database/database_category_helper.dart';
+import 'package:expense_tracker/Database/database_transaction_helper.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 

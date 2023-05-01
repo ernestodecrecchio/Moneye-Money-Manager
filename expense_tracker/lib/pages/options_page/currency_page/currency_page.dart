@@ -1,4 +1,4 @@
-import 'package:expense_tracker/notifiers/locale_provider.dart';
+import 'package:expense_tracker/notifiers/currency_provider.dart';
 import 'package:expense_tracker/pages/common/custom_modal_bottom_sheet.dart';
 import 'package:expense_tracker/pages/common/custom_text_field.dart';
 import 'package:expense_tracker/style.dart';
@@ -26,12 +26,12 @@ class _CurrencyPageState extends State<CurrencyPage> {
     super.initState();
 
     _currencySymbolInput.text =
-        Provider.of<LocaleProvider>(context, listen: false)
+        Provider.of<CurrencyProvider>(context, listen: false)
             .currentCurrencySymbol!
             .name;
 
     _currencySymbolPositionInput.text =
-        Provider.of<LocaleProvider>(context, listen: false)
+        Provider.of<CurrencyProvider>(context, listen: false)
             .currentCurrencySymbolPosition!
             .name;
   }
@@ -70,28 +70,28 @@ class _CurrencyPageState extends State<CurrencyPage> {
   }
 
   _buildBody() {
-    return Consumer<LocaleProvider>(
-      builder: (context, localeProvider, child) {
+    return Consumer<CurrencyProvider>(
+      builder: (context, currencyProvider, child) {
         return Column(
           children: [
-            _buildCurrencyPreview(localeProvider),
+            _buildCurrencyPreview(currencyProvider),
             const SizedBox(
               height: 14,
             ),
-            _buildCurrencySymbolTextField(localeProvider),
+            _buildCurrencySymbolTextField(currencyProvider),
             const SizedBox(
               height: 14,
             ),
-            _buildCurrencySymbolPositionTextField(localeProvider),
+            _buildCurrencySymbolPositionTextField(currencyProvider),
           ],
         );
       },
     );
   }
 
-  Widget _buildCurrencyPreview(LocaleProvider localeProvider) {
+  Widget _buildCurrencyPreview(CurrencyProvider currencyProvider) {
     TextSpan currencySymbolTextSpan = TextSpan(
-        text: getSymbolForCurrency(localeProvider.currentCurrencySymbol!),
+        text: getSymbolForCurrency(currencyProvider.currentCurrencySymbol!),
         style: const TextStyle(fontWeight: FontWeight.bold));
 
     TextSpan exampleValueTextSpan = TextSpan(
@@ -108,17 +108,17 @@ class _CurrencyPageState extends State<CurrencyPage> {
                   fontSize: 40,
                 ),
                 children: [
-              if (localeProvider.currentCurrencySymbolPosition ==
+              if (currencyProvider.currentCurrencySymbolPosition ==
                   CurrencySymbolPosition.leading)
                 currencySymbolTextSpan,
               exampleValueTextSpan,
-              if (localeProvider.currentCurrencySymbolPosition ==
+              if (currencyProvider.currentCurrencySymbolPosition ==
                   CurrencySymbolPosition.trailing)
                 currencySymbolTextSpan,
             ])));
   }
 
-  Widget _buildCurrencySymbolTextField(LocaleProvider localeProvider) {
+  Widget _buildCurrencySymbolTextField(CurrencyProvider currencyProvider) {
     return CustomTextField(
       controller: _currencySymbolInput,
       label: 'Valuta',
@@ -157,12 +157,13 @@ class _CurrencyPageState extends State<CurrencyPage> {
                       children: [
                         ListTile(
                           title: const Text('EUR - €'),
-                          trailing: localeProvider.currentCurrencySymbol ==
-                                  CurrencyEnum.EUR
+                          trailing: currencyProvider.currentCurrencySymbol ==
+                                  CurrencyEnum.eur
                               ? SvgPicture.asset('assets/icons/checkmark.svg')
                               : null,
                           onTap: () {
-                            localeProvider.setCurrencySymbol(CurrencyEnum.EUR);
+                            currencyProvider
+                                .setCurrencySymbol(CurrencyEnum.eur);
 
                             _currencySymbolInput.text = 'EUR - €';
                             setState(() {});
@@ -172,12 +173,13 @@ class _CurrencyPageState extends State<CurrencyPage> {
                         ),
                         ListTile(
                           title: const Text('GBP - £'),
-                          trailing: localeProvider.currentCurrencySymbol ==
-                                  CurrencyEnum.GBP
+                          trailing: currencyProvider.currentCurrencySymbol ==
+                                  CurrencyEnum.gbp
                               ? SvgPicture.asset('assets/icons/checkmark.svg')
                               : null,
                           onTap: () {
-                            localeProvider.setCurrencySymbol(CurrencyEnum.GBP);
+                            currencyProvider
+                                .setCurrencySymbol(CurrencyEnum.gbp);
 
                             _currencySymbolInput.text = 'GBP - £';
                             setState(() {});
@@ -187,12 +189,13 @@ class _CurrencyPageState extends State<CurrencyPage> {
                         ),
                         ListTile(
                           title: const Text('JPY - ¥'),
-                          trailing: localeProvider.currentCurrencySymbol ==
-                                  CurrencyEnum.JPY
+                          trailing: currencyProvider.currentCurrencySymbol ==
+                                  CurrencyEnum.jpy
                               ? SvgPicture.asset('assets/icons/checkmark.svg')
                               : null,
                           onTap: () {
-                            localeProvider.setCurrencySymbol(CurrencyEnum.JPY);
+                            currencyProvider
+                                .setCurrencySymbol(CurrencyEnum.jpy);
 
                             _currencySymbolInput.text = 'JPY - ¥';
                             setState(() {});
@@ -202,12 +205,13 @@ class _CurrencyPageState extends State<CurrencyPage> {
                         ),
                         ListTile(
                           title: const Text('USD - \$'),
-                          trailing: localeProvider.currentCurrencySymbol ==
-                                  CurrencyEnum.USD
+                          trailing: currencyProvider.currentCurrencySymbol ==
+                                  CurrencyEnum.usd
                               ? SvgPicture.asset('assets/icons/checkmark.svg')
                               : null,
                           onTap: () {
-                            localeProvider.setCurrencySymbol(CurrencyEnum.USD);
+                            currencyProvider
+                                .setCurrencySymbol(CurrencyEnum.usd);
 
                             _currencySymbolInput.text = 'USD - \$';
                             setState(() {});
@@ -227,7 +231,8 @@ class _CurrencyPageState extends State<CurrencyPage> {
     );
   }
 
-  Widget _buildCurrencySymbolPositionTextField(LocaleProvider localeProvider) {
+  Widget _buildCurrencySymbolPositionTextField(
+      CurrencyProvider currencyProvider) {
     return CustomTextField(
       controller: _currencySymbolPositionInput,
       label: 'Posizione del simbolo della valuta',
@@ -266,13 +271,13 @@ class _CurrencyPageState extends State<CurrencyPage> {
                       children: [
                         ListTile(
                             title: const Text('Leading'),
-                            trailing: localeProvider
+                            trailing: currencyProvider
                                         .currentCurrencySymbolPosition ==
                                     CurrencySymbolPosition.leading
                                 ? SvgPicture.asset('assets/icons/checkmark.svg')
                                 : null,
                             onTap: () {
-                              localeProvider.setCurrencySymbolPosition(
+                              currencyProvider.setCurrencySymbolPosition(
                                   CurrencySymbolPosition.leading);
 
                               _currencySymbolPositionInput.text = 'Leading';
@@ -282,13 +287,13 @@ class _CurrencyPageState extends State<CurrencyPage> {
                             }),
                         ListTile(
                             title: const Text('Trailing'),
-                            trailing: localeProvider
+                            trailing: currencyProvider
                                         .currentCurrencySymbolPosition ==
                                     CurrencySymbolPosition.trailing
                                 ? SvgPicture.asset('assets/icons/checkmark.svg')
                                 : null,
                             onTap: () {
-                              localeProvider.setCurrencySymbolPosition(
+                              currencyProvider.setCurrencySymbolPosition(
                                   CurrencySymbolPosition.trailing);
 
                               _currencySymbolPositionInput.text = 'Trailing';
@@ -299,13 +304,13 @@ class _CurrencyPageState extends State<CurrencyPage> {
                             }),
                         ListTile(
                             title: const Text('None'),
-                            trailing: localeProvider
+                            trailing: currencyProvider
                                         .currentCurrencySymbolPosition ==
                                     CurrencySymbolPosition.none
                                 ? SvgPicture.asset('assets/icons/checkmark.svg')
                                 : null,
                             onTap: () {
-                              localeProvider.setCurrencySymbolPosition(
+                              currencyProvider.setCurrencySymbolPosition(
                                   CurrencySymbolPosition.none);
 
                               _currencySymbolPositionInput.text = 'None';

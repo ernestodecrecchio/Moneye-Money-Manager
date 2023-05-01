@@ -1,7 +1,6 @@
+import 'package:expense_tracker/notifiers/currency_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
-import '../../notifiers/locale_provider.dart';
 
 extension DoubleParsing on double {
   String toStringAsFixedRounded(int fractionDigits) {
@@ -10,8 +9,8 @@ extension DoubleParsing on double {
 
   String toStringAsFixedRoundedWithCurrency(
       BuildContext context, int fractionDigits) {
-    final localeProvider = Provider.of<LocaleProvider>(context);
+    final currencyProvider = Provider.of<CurrencyProvider>(context);
 
-    return '${localeProvider.currentCurrencySymbolPosition == CurrencySymbolPosition.leading ? getSymbolForCurrency(localeProvider.currentCurrencySymbol!) : ''}${toStringAsFixedRounded(fractionDigits)}${localeProvider.currentCurrencySymbolPosition == CurrencySymbolPosition.trailing ? getSymbolForCurrency(localeProvider.currentCurrencySymbol!) : ''}';
+    return '${currencyProvider.currentCurrencySymbolPosition == CurrencySymbolPosition.leading ? getSymbolForCurrency(currencyProvider.currentCurrencySymbol!) : ''}${toStringAsFixedRounded(fractionDigits)}${currencyProvider.currentCurrencySymbolPosition == CurrencySymbolPosition.trailing ? getSymbolForCurrency(currencyProvider.currentCurrencySymbol!) : ''}';
   }
 }

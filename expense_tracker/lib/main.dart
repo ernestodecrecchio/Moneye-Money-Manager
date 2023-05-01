@@ -5,6 +5,7 @@ import 'package:expense_tracker/models/transaction.dart';
 import 'package:expense_tracker/notifiers/account_provider.dart';
 import 'package:expense_tracker/notifiers/category_provider.dart';
 import 'package:expense_tracker/notifiers/central_provider.dart';
+import 'package:expense_tracker/notifiers/currency_provider.dart';
 import 'package:expense_tracker/notifiers/locale_provider.dart';
 import 'package:expense_tracker/notifiers/transaction_provider.dart';
 import 'package:expense_tracker/pages/account_detail_page/account_detail_page.dart';
@@ -71,6 +72,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
+        ChangeNotifierProvider(
+          create: (_) => CurrencyProvider(
+            savedCurrency: currencyEnum,
+            savedCurrencySymbolPosition: currencySymbolPosition,
+          ),
+        ),
         ChangeNotifierProvider(create: (_) => CategoryProvider()),
         ChangeNotifierProvider(create: (_) => AccountProvider()),
         ChangeNotifierProxyProvider<AccountProvider, TransactionProvider>(
@@ -96,8 +103,6 @@ class MyApp extends StatelessWidget {
       child: ChangeNotifierProvider(
         create: (context) => LocaleProvider(
           savedLocale: savedLocale,
-          savedCurrency: currencyEnum,
-          savedCurrencySymbolPosition: currencySymbolPosition,
         ),
         builder: (context, child) {
           return DismissKeyboard(
