@@ -70,7 +70,7 @@ class CurrencyProvider with ChangeNotifier {
       CurrencySymbolPosition? savedCurrencySymbolPosition}) {
     _currentCurrencySymbol = savedCurrency ?? CurrencyEnum.eur;
     _currentCurrencySymbolPosition =
-        savedCurrencySymbolPosition ?? CurrencySymbolPosition.none;
+        savedCurrencySymbolPosition ?? CurrencySymbolPosition.trailing;
   }
 
   void setCurrencySymbol(CurrencyEnum currency) async {
