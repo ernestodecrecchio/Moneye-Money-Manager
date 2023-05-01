@@ -25,15 +25,18 @@ class _CurrencyPageState extends State<CurrencyPage> {
   void initState() {
     super.initState();
 
-    _currencySymbolInput.text =
-        Provider.of<CurrencyProvider>(context, listen: false)
-            .currentCurrencySymbol!
-            .name;
+    final currencyProvider =
+        Provider.of<CurrencyProvider>(context, listen: false);
 
-    _currencySymbolPositionInput.text =
-        Provider.of<CurrencyProvider>(context, listen: false)
-            .currentCurrencySymbolPosition!
-            .name;
+    if (currencyProvider.currentCurrencySymbol != null) {
+      _currencySymbolInput.text =
+          getCurrencyDescription(currencyProvider.currentCurrencySymbol!);
+    }
+
+    if (currencyProvider.currentCurrencySymbolPosition != null) {
+      _currencySymbolPositionInput.text = getCurrencySymbolPositionDescription(
+          currencyProvider.currentCurrencySymbolPosition!);
+    }
   }
 
   @override
@@ -270,55 +273,58 @@ class _CurrencyPageState extends State<CurrencyPage> {
                       shrinkWrap: true,
                       children: [
                         ListTile(
-                            title: const Text('Leading'),
-                            trailing: currencyProvider
-                                        .currentCurrencySymbolPosition ==
-                                    CurrencySymbolPosition.leading
-                                ? SvgPicture.asset('assets/icons/checkmark.svg')
-                                : null,
-                            onTap: () {
-                              currencyProvider.setCurrencySymbolPosition(
-                                  CurrencySymbolPosition.leading);
+                          title: const Text('Nessuno'),
+                          trailing: currencyProvider
+                                      .currentCurrencySymbolPosition ==
+                                  CurrencySymbolPosition.none
+                              ? SvgPicture.asset('assets/icons/checkmark.svg')
+                              : null,
+                          onTap: () {
+                            currencyProvider.setCurrencySymbolPosition(
+                                CurrencySymbolPosition.none);
 
-                              _currencySymbolPositionInput.text = 'Leading';
-                              setState(() {});
+                            _currencySymbolPositionInput.text = 'Nessuno';
 
-                              Navigator.of(context).pop();
-                            }),
+                            setState(() {});
+
+                            Navigator.of(context).pop();
+                          },
+                        ),
                         ListTile(
-                            title: const Text('Trailing'),
-                            trailing: currencyProvider
-                                        .currentCurrencySymbolPosition ==
-                                    CurrencySymbolPosition.trailing
-                                ? SvgPicture.asset('assets/icons/checkmark.svg')
-                                : null,
-                            onTap: () {
-                              currencyProvider.setCurrencySymbolPosition(
-                                  CurrencySymbolPosition.trailing);
+                          title: const Text("All'inizio"),
+                          trailing: currencyProvider
+                                      .currentCurrencySymbolPosition ==
+                                  CurrencySymbolPosition.leading
+                              ? SvgPicture.asset('assets/icons/checkmark.svg')
+                              : null,
+                          onTap: () {
+                            currencyProvider.setCurrencySymbolPosition(
+                                CurrencySymbolPosition.leading);
 
-                              _currencySymbolPositionInput.text = 'Trailing';
+                            _currencySymbolPositionInput.text = "All'inizio";
+                            setState(() {});
 
-                              setState(() {});
-
-                              Navigator.of(context).pop();
-                            }),
+                            Navigator.of(context).pop();
+                          },
+                        ),
                         ListTile(
-                            title: const Text('None'),
-                            trailing: currencyProvider
-                                        .currentCurrencySymbolPosition ==
-                                    CurrencySymbolPosition.none
-                                ? SvgPicture.asset('assets/icons/checkmark.svg')
-                                : null,
-                            onTap: () {
-                              currencyProvider.setCurrencySymbolPosition(
-                                  CurrencySymbolPosition.none);
+                          title: const Text('Alla fine'),
+                          trailing: currencyProvider
+                                      .currentCurrencySymbolPosition ==
+                                  CurrencySymbolPosition.trailing
+                              ? SvgPicture.asset('assets/icons/checkmark.svg')
+                              : null,
+                          onTap: () {
+                            currencyProvider.setCurrencySymbolPosition(
+                                CurrencySymbolPosition.trailing);
 
-                              _currencySymbolPositionInput.text = 'None';
+                            _currencySymbolPositionInput.text = 'Alla fine';
 
-                              setState(() {});
+                            setState(() {});
 
-                              Navigator.of(context).pop();
-                            }),
+                            Navigator.of(context).pop();
+                          },
+                        ),
                       ],
                     ),
                   ),
@@ -329,5 +335,29 @@ class _CurrencyPageState extends State<CurrencyPage> {
         );
       },
     );
+  }
+
+  String getCurrencyDescription(CurrencyEnum currency) {
+    switch (currency) {
+      case CurrencyEnum.eur:
+        return 'EUR - €';
+      case CurrencyEnum.usd:
+        return 'USD - \$';
+      case CurrencyEnum.jpy:
+        return 'JPY - ¥';
+      case CurrencyEnum.gbp:
+        return 'GBP - £';
+    }
+  }
+
+  String getCurrencySymbolPositionDescription(CurrencySymbolPosition position) {
+    switch (position) {
+      case CurrencySymbolPosition.none:
+        return 'Nessuno';
+      case CurrencySymbolPosition.leading:
+        return "All'inizio";
+      case CurrencySymbolPosition.trailing:
+        return 'Alla fine';
+    }
   }
 }
