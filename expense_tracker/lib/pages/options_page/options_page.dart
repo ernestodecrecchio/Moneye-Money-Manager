@@ -1,3 +1,4 @@
+import 'package:expense_tracker/pages/options_page/about_page/about_page.dart';
 import 'package:expense_tracker/pages/options_page/accounts_page/accounts_list_page.dart';
 import 'package:expense_tracker/pages/options_page/categories_page/categories_list_page.dart';
 import 'package:expense_tracker/pages/options_page/currency_page/currency_page.dart';
@@ -76,6 +77,17 @@ class OptionsPage extends StatelessWidget {
           subtitle: Text(AppLocalizations.of(context)!.selectCurrency),
           trailing: const Icon(Icons.chevron_right_rounded),
           onTap: () => Navigator.of(context).pushNamed(CurrencyPage.routeName),
+        ),
+        const Divider(),
+        ListTile(
+          leading: const Icon(
+            Icons.info_outline,
+            color: CustomColors.darkBlue,
+          ),
+          title: Text('About'),
+          subtitle: Text('App credits and other info'),
+          trailing: const Icon(Icons.chevron_right_rounded),
+          onTap: () => Navigator.of(context).pushNamed(AboutPage.routeName),
         ),
       ],
     );
