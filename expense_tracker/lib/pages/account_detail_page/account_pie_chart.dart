@@ -253,40 +253,49 @@ class _AccountPieChartState extends State<AccountPieChart> {
         totalValue += transaction.value;
 
         if (transaction.categoryId != null) {
-          final category =
+          final Category? category =
               categoryProvider.getCategoryFromId(transaction.categoryId!);
 
-          final indexFound = categoryTotalValuePairs
-              .indexWhere((element) => element.category == category);
+          if (category != null) {
+            final indexFound = categoryTotalValuePairs
+                .indexWhere((element) => element.category == category);
 
-          if (indexFound != -1) {
-            categoryTotalValuePairs[indexFound].totalValue += transaction.value;
+            if (indexFound != -1) {
+              categoryTotalValuePairs[indexFound].totalValue +=
+                  transaction.value;
+            } else {
+              final newEntry = CategoryTotalValue(
+                category: category!,
+                totalValue: transaction.value,
+              );
+
+              categoryTotalValuePairs.add(newEntry);
+            }
           } else {
-            final newEntry = CategoryTotalValue(
-              category: category!,
-              totalValue: transaction.value,
-            );
-
-            categoryTotalValuePairs.add(newEntry);
+            _addToOtherCategoryIndicator(transaction);
           }
         } else {
-          final indexFound = categoryTotalValuePairs
-              .indexWhere((element) => element.category.id == -1);
-
-          if (indexFound != -1) {
-            categoryTotalValuePairs[indexFound].totalValue += transaction.value;
-          } else {
-            final otherEntry = CategoryTotalValue(
-                category: Category(
-                    id: -1,
-                    name: AppLocalizations.of(context)!.other,
-                    colorValue: Colors.grey.value),
-                totalValue: transaction.value);
-
-            categoryTotalValuePairs.add(otherEntry);
-          }
+          _addToOtherCategoryIndicator(transaction);
         }
       }
+    }
+  }
+
+  _addToOtherCategoryIndicator(Transaction transaction) {
+    final indexFound = categoryTotalValuePairs
+        .indexWhere((element) => element.category.id == -1);
+
+    if (indexFound != -1) {
+      categoryTotalValuePairs[indexFound].totalValue += transaction.value;
+    } else {
+      final otherEntry = CategoryTotalValue(
+          category: Category(
+              id: -1,
+              name: AppLocalizations.of(context)!.other,
+              colorValue: Colors.grey.value),
+          totalValue: transaction.value);
+
+      categoryTotalValuePairs.add(otherEntry);
     }
   }
 }
