@@ -34,16 +34,29 @@ class _AccountsListPageState extends State<AccountsListPage> {
       onRefresh: () =>
           Provider.of<AccountProvider>(context, listen: false).getAllAccounts(),
       child: Consumer<AccountProvider>(
-          builder: ((context, accountProvider, child) {
-        return ListView.builder(
-          itemCount: accountProvider.accountList.length,
-          itemBuilder: (context, index) {
-            final account = accountProvider.accountList[index];
+        builder: ((context, accountProvider, child) {
+          return accountProvider.accountList.isNotEmpty
+              ? ListView.builder(
+                  itemCount: accountProvider.accountList.length,
+                  itemBuilder: (context, index) {
+                    final account = accountProvider.accountList[index];
 
-            return AccountListCell(account: account);
-          },
-        );
-      })),
+                    return AccountListCell(account: account);
+                  },
+                )
+              : Align(
+                  alignment: Alignment.center,
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 8.0),
+                    child: Text(
+                      AppLocalizations.of(context)!.noAccounts,
+                      style: const TextStyle(color: Colors.grey),
+                      textAlign: TextAlign.start,
+                    ),
+                  ),
+                );
+        }),
+      ),
     );
   }
 

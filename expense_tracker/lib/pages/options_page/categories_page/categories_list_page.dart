@@ -34,15 +34,28 @@ class _CategoriesListPageState extends State<CategoriesListPage> {
       onRefresh: () => Provider.of<CategoryProvider>(context, listen: false)
           .getAllCategories(),
       child: Consumer<CategoryProvider>(
-          builder: ((context, categoryProvider, child) {
-        return ListView.builder(
-          itemCount: categoryProvider.categoryList.length,
-          itemBuilder: (context, index) {
-            return CategoryListCell(
-                category: categoryProvider.categoryList[index]);
-          },
-        );
-      })),
+        builder: ((context, categoryProvider, child) {
+          return categoryProvider.categoryList.isNotEmpty
+              ? ListView.builder(
+                  itemCount: categoryProvider.categoryList.length,
+                  itemBuilder: (context, index) {
+                    return CategoryListCell(
+                        category: categoryProvider.categoryList[index]);
+                  },
+                )
+              : Align(
+                  alignment: Alignment.center,
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 8.0),
+                    child: Text(
+                      AppLocalizations.of(context)!.noCategories,
+                      style: const TextStyle(color: Colors.grey),
+                      textAlign: TextAlign.start,
+                    ),
+                  ),
+                );
+        }),
+      ),
     );
   }
 
