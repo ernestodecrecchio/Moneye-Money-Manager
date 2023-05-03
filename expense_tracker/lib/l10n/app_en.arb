@@ -60,5 +60,6 @@
    "none": "None",
    "atTheStart": "At the start",
    "atTheEnd":"At the end",
-   "currencyConversionDisclaimer": "Note: Changing the currency displayed in the app will not result in transaction value conversions."
+   "currencyConversionDisclaimer": "Note: Changing the currency displayed in the app will not result in transaction value conversions.",
+   "aboutDescription": "Welcome to Moneye, an app developed by me, Ernesto De Crecchio, with the goal of providing an easy-to-use and effective tool for managing personal finances.\n\nMoneye enables you to effortlessly track your expenses, view insightful graphs, and gain a better understanding of your spending habits.\n\nAs the developer of the app, I am dedicated to constantly improving its features, and have planned new updates to be released in the future, ensuring that my users have access to the most up-to-date and comprehensive tools for managing their finances.\n\nMy aim is to provide an intuitive experience for all users, and I hope that you find Moneye helpful in achieving your financial goals.\n\n\nIf you have any feedback or suggestions for improvement, please do not hesitate to reach out to me at any time."
 }
