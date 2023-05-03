@@ -265,7 +265,7 @@ class _AccountPieChartState extends State<AccountPieChart> {
                   transaction.value;
             } else {
               final newEntry = CategoryTotalValue(
-                category: category!,
+                category: category,
                 totalValue: transaction.value,
               );
 

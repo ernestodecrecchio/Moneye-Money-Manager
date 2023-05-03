@@ -332,9 +332,9 @@ class _HomePageState extends State<HomePage> {
                   padding: const EdgeInsets.only(top: 8.0, bottom: 8),
                   child: Column(
                     children: [
-                      const Text(
-                        'Nessun conto inserito,',
-                        style: TextStyle(color: Colors.grey),
+                      Text(
+                        appLocalizations!.noAccountAdded,
+                        style: const TextStyle(color: Colors.grey),
                         textAlign: TextAlign.start,
                       ),
                       TextButton(
@@ -345,7 +345,7 @@ class _HomePageState extends State<HomePage> {
                               alignment: Alignment.center),
                           onPressed: () => Navigator.of(context)
                               .pushNamed(NewAccountPage.routeName),
-                          child: const Text('aggiungine uno')),
+                          child: Text(appLocalizations!.addOne)),
                     ],
                   ),
                 ),
@@ -463,13 +463,13 @@ class _HomePageState extends State<HomePage> {
                     height: 1,
                   ),
                 )
-              : const Align(
+              : Align(
                   alignment: Alignment.center,
                   child: Padding(
-                    padding: EdgeInsets.only(top: 8.0),
+                    padding: const EdgeInsets.only(top: 8.0),
                     child: Text(
-                      'Nessuna transazione inserita',
-                      style: TextStyle(color: Colors.grey),
+                      appLocalizations!.noTransactions,
+                      style: const TextStyle(color: Colors.grey),
                       textAlign: TextAlign.start,
                     ),
                   ),
