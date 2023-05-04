@@ -1,5 +1,6 @@
 import 'package:expense_tracker/models/account.dart';
 import 'package:expense_tracker/notifiers/account_provider.dart';
+import 'package:expense_tracker/notifiers/central_provider.dart';
 import 'package:expense_tracker/pages/options_page/accounts_page/new_account_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -19,7 +20,7 @@ class AccountListCell extends StatelessWidget {
         motion: const ScrollMotion(),
         dismissible: DismissiblePane(
           onDismissed: () async =>
-              await Provider.of<AccountProvider>(context, listen: false)
+              await Provider.of<CentralProvider>(context, listen: false)
                   .deleteAccount(account),
         ),
         children: [
@@ -30,7 +31,7 @@ class AccountListCell extends StatelessWidget {
         motion: const ScrollMotion(),
         dismissible: DismissiblePane(
           onDismissed: () async =>
-              await Provider.of<AccountProvider>(context, listen: false)
+              await Provider.of<CentralProvider>(context, listen: false)
                   .deleteAccount(account),
         ),
         children: [

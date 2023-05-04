@@ -1,5 +1,6 @@
 import 'package:expense_tracker/models/category.dart';
 import 'package:expense_tracker/notifiers/category_provider.dart';
+import 'package:expense_tracker/notifiers/central_provider.dart';
 import 'package:expense_tracker/pages/options_page/categories_page/new_category_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -19,7 +20,7 @@ class CategoryListCell extends StatelessWidget {
         motion: const ScrollMotion(),
         dismissible: DismissiblePane(
           onDismissed: () async =>
-              await Provider.of<CategoryProvider>(context, listen: false)
+              await Provider.of<CentralProvider>(context, listen: false)
                   .deleteCategory(category),
         ),
         children: [
@@ -30,7 +31,7 @@ class CategoryListCell extends StatelessWidget {
         motion: const ScrollMotion(),
         dismissible: DismissiblePane(
           onDismissed: () async =>
-              await Provider.of<CategoryProvider>(context, listen: false)
+              await Provider.of<CentralProvider>(context, listen: false)
                   .deleteCategory(category),
         ),
         children: [
