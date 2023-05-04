@@ -9,6 +9,7 @@ import 'package:expense_tracker/notifiers/currency_provider.dart';
 import 'package:expense_tracker/notifiers/locale_provider.dart';
 import 'package:expense_tracker/notifiers/transaction_provider.dart';
 import 'package:expense_tracker/pages/account_detail_page/account_detail_page.dart';
+import 'package:expense_tracker/pages/options_page/about_page/about_page.dart';
 import 'package:expense_tracker/pages/options_page/accounts_page/accounts_list_page.dart';
 import 'package:expense_tracker/pages/options_page/categories_page/categories_list_page.dart';
 import 'package:expense_tracker/pages/options_page/categories_page/new_category_page.dart';
@@ -131,6 +132,7 @@ class MyApp extends StatelessWidget {
                 LanguagesListPage.routeName: (context) =>
                     const LanguagesListPage(),
                 CurrencyPage.routeName: (context) => const CurrencyPage(),
+                AboutPage.routeName: (context) => const AboutPage(),
               },
               onGenerateRoute: (settings) {
                 switch (settings.name) {

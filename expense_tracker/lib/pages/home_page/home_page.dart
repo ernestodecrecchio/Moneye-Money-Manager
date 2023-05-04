@@ -18,7 +18,7 @@ import 'package:collection/collection.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 /// Migliorie:
-// Aggiungere saldo nuovo account
+// Aggiungi icone sensate
 
 /// Nuove feature
 // Onboarding
@@ -28,7 +28,6 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 // Widget esterno
 // Password/Face recognition
 // Export dei dati CVS
-// Aggiungi icone sensate
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);

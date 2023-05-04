@@ -1,3 +1,4 @@
+import 'package:expense_tracker/pages/options_page/about_page/about_page.dart';
 import 'package:expense_tracker/pages/options_page/accounts_page/accounts_list_page.dart';
 import 'package:expense_tracker/pages/options_page/categories_page/categories_list_page.dart';
 import 'package:expense_tracker/pages/options_page/currency_page/currency_page.dart';
@@ -29,9 +30,12 @@ class OptionsPage extends StatelessWidget {
       padding: const EdgeInsets.only(top: 10),
       children: [
         ListTile(
-          leading: const Icon(
-            Icons.grid_view_rounded,
-            color: CustomColors.darkBlue,
+          leading: const SizedBox(
+            height: double.infinity,
+            child: Icon(
+              Icons.grid_view_rounded,
+              color: CustomColors.darkBlue,
+            ),
           ),
           title: Text(AppLocalizations.of(context)!.categories),
           subtitle:
@@ -42,9 +46,12 @@ class OptionsPage extends StatelessWidget {
         ),
         const Divider(),
         ListTile(
-          leading: const Icon(
-            Icons.account_balance_rounded,
-            color: CustomColors.darkBlue,
+          leading: const SizedBox(
+            height: double.infinity,
+            child: Icon(
+              Icons.account_balance_rounded,
+              color: CustomColors.darkBlue,
+            ),
           ),
           title: Text(AppLocalizations.of(context)!.accounts),
           subtitle:
@@ -55,9 +62,12 @@ class OptionsPage extends StatelessWidget {
         ),
         const Divider(),
         ListTile(
-          leading: const Icon(
-            Icons.language_rounded,
-            color: CustomColors.darkBlue,
+          leading: const SizedBox(
+            height: double.infinity,
+            child: Icon(
+              Icons.language_rounded,
+              color: CustomColors.darkBlue,
+            ),
           ),
           title: Text(AppLocalizations.of(context)!.language),
           subtitle:
@@ -68,14 +78,31 @@ class OptionsPage extends StatelessWidget {
         ),
         const Divider(),
         ListTile(
-          leading: const Icon(
-            Icons.currency_exchange_outlined,
-            color: CustomColors.darkBlue,
+          leading: const SizedBox(
+            height: double.infinity,
+            child: Icon(
+              Icons.currency_exchange_outlined,
+              color: CustomColors.darkBlue,
+            ),
           ),
           title: Text(AppLocalizations.of(context)!.currency),
           subtitle: Text(AppLocalizations.of(context)!.selectCurrency),
           trailing: const Icon(Icons.chevron_right_rounded),
           onTap: () => Navigator.of(context).pushNamed(CurrencyPage.routeName),
+        ),
+        const Divider(),
+        ListTile(
+          leading: const SizedBox(
+            height: double.infinity,
+            child: Icon(
+              Icons.info_outline,
+              color: CustomColors.darkBlue,
+            ),
+          ),
+          title: Text(AppLocalizations.of(context)!.about),
+          subtitle: Text(AppLocalizations.of(context)!.aboutOptionDescription),
+          trailing: const Icon(Icons.chevron_right_rounded),
+          onTap: () => Navigator.of(context).pushNamed(AboutPage.routeName),
         ),
       ],
     );
