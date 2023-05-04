@@ -17,14 +17,17 @@ class AboutPage extends StatelessWidget {
         elevation: 0,
       ),
       body: SafeArea(
-        child: _buildBody(context),
+        child: SingleChildScrollView(child: _buildBody(context)),
       ),
     );
   }
 
   Widget _buildBody(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(left: 16, right: 16, top: 30),
+      padding: const EdgeInsets.symmetric(
+        horizontal: 16,
+        vertical: 20,
+      ),
       child: Column(
         children: [
           SvgPicture.asset('assets/logo/Moneye_typologo.svg'),

@@ -61,6 +61,8 @@
     "atTheStart": "All'inizio",
     "atTheEnd":"Alla fine",
     "currencyConversionDisclaimer": "Nota: Cambiare la valuta mostrata in app non apporterà conversioni del valore delle transazioni.",
+    "about": "About",
+    "aboutOptionDescription": "Crediti dell'app e altre informazioni",
     "aboutDescription": "Benvenuto in Moneye, un'app sviluppata da me, Ernesto De Crecchio, con l'obiettivo di fornire uno strumento facile da usare ed efficace per la gestione delle finanze personali.\n\nMoneye ti consente di monitorare facilmente le tue spese, visualizzare grafici approfonditi e ottenere una migliore comprensione delle tue abitudini di spesa.\n\nIn qualità di sviluppatore dell'app, mi dedico a migliorare costantemente le sue funzionalità e ho pianificato in futuro il rilascio di molti nuovi aggiornamenti, cercando di fornire ai miei utenti l'accesso agli strumenti più aggiornati e completi per la gestione delle proprie finanze.\n\nIl mio obiettivo è quello idi fornire un'esperienza quanto più intuitiva possibile a tutti gli utenti e spero che tu possa trovare Moneye utile per raggiungere i tuoi obiettivi finanziari.\n\n\nSe hai commenti o suggerimenti per migliorare Moneye, non esitare a contattarmi in qualsiasi momento."
 
 }
