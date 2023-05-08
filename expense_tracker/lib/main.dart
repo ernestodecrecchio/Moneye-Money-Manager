@@ -110,6 +110,7 @@ class MyApp extends StatelessWidget {
             child: MaterialApp(
               title: 'Moneye',
               theme: ThemeData(
+                fontFamily: 'Ubuntu',
                 primarySwatch: Colors.blue,
               ),
               locale: Provider.of<LocaleProvider>(context).locale,
