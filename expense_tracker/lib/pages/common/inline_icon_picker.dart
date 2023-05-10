@@ -98,7 +98,6 @@ class _InlineIconPickerState extends State<InlineIconPicker> {
           _buildIconItem('assets/icons/graduate.svg'),
           _buildIconItem('assets/icons/house.svg'),
           _buildIconItem('assets/icons/paw.svg'),
-          _buildIconItem('assets/icons/popcorn.svg'),
         ],
       ),
     );
@@ -112,6 +111,7 @@ class _InlineIconPickerState extends State<InlineIconPicker> {
         alignment: WrapAlignment.spaceEvenly,
         runSpacing: 14,
         children: [
+          _buildIconItem('assets/icons/popcorn.svg'),
           _buildIconItem('assets/icons/picker_icons/university.svg'),
           _buildIconItem('assets/icons/picker_icons/bag.svg'),
           _buildIconItem('assets/icons/picker_icons/hamburger.svg'),
@@ -119,6 +119,8 @@ class _InlineIconPickerState extends State<InlineIconPicker> {
           _buildIconItem('assets/icons/picker_icons/shirt.svg'),
           _buildIconItem('assets/icons/picker_icons/twitch-logo.svg'),
           _buildIconItem('assets/icons/picker_icons/visa.svg'),
+          _buildIconItem('assets/icons/cash.svg'),
+          _buildIconItem('assets/icons/healthcare.svg'),
         ],
       ),
     );
