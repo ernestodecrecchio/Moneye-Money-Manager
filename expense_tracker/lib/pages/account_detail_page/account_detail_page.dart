@@ -219,7 +219,8 @@ class _AccountDetailPageState extends State<AccountDetailPage>
                 element.value >= 0 &&
                 weekNumber(element.date) == currentWeekNumber &&
                 element.date.year == currentYear)
-            .toList();
+            .toList()
+            .sorted((a, b) => a.date.isBefore(b.date) ? 1 : 0);
         break;
       case 1:
         transactionList = transactionProvider.transactionList
@@ -228,7 +229,8 @@ class _AccountDetailPageState extends State<AccountDetailPage>
                 element.value >= 0 &&
                 element.date.month == currentMonth &&
                 element.date.year == currentYear)
-            .toList();
+            .toList()
+            .sorted((a, b) => a.date.isBefore(b.date) ? 1 : 0);
         break;
       case 2:
         transactionList = transactionProvider.transactionList
@@ -236,7 +238,8 @@ class _AccountDetailPageState extends State<AccountDetailPage>
                 element.accountId == widget.account.id &&
                 element.value >= 0 &&
                 element.date.year == currentYear)
-            .toList();
+            .toList()
+            .sorted((a, b) => a.date.isBefore(b.date) ? 1 : 0);
         break;
     }
 
@@ -270,7 +273,8 @@ class _AccountDetailPageState extends State<AccountDetailPage>
                 element.value < 0 &&
                 weekNumber(element.date) == currentWeekNumber &&
                 element.date.year == currentYear)
-            .toList();
+            .toList()
+            .sorted((a, b) => a.date.isBefore(b.date) ? 1 : 0);
         break;
       case 1:
         transactionList = transactionProvider.transactionList
@@ -279,7 +283,8 @@ class _AccountDetailPageState extends State<AccountDetailPage>
                 element.value < 0 &&
                 element.date.month == currentMonth &&
                 element.date.year == currentYear)
-            .toList();
+            .toList()
+            .sorted((a, b) => a.date.isBefore(b.date) ? 1 : 0);
         break;
       case 2:
         transactionList = transactionProvider.transactionList
@@ -287,7 +292,8 @@ class _AccountDetailPageState extends State<AccountDetailPage>
                 element.accountId == widget.account.id &&
                 element.value < 0 &&
                 element.date.year == currentYear)
-            .toList();
+            .toList()
+            .sorted((a, b) => a.date.isBefore(b.date) ? 1 : 0);
         break;
     }
 
@@ -303,6 +309,7 @@ class _AccountDetailPageState extends State<AccountDetailPage>
   }
 
   Widget _buildTotalPage() {
+    print('total');
     List<Transaction> transactionList = [];
 
     final currentDate = DateTime.now();
@@ -320,7 +327,8 @@ class _AccountDetailPageState extends State<AccountDetailPage>
                 element.accountId == widget.account.id &&
                 weekNumber(element.date) == currentWeekNumber &&
                 element.date.year == currentYear)
-            .toList();
+            .toList()
+            .sorted((a, b) => a.date.isBefore(b.date) ? 1 : 0);
         break;
       case 1:
         transactionList = transactionProvider.transactionList
@@ -328,14 +336,16 @@ class _AccountDetailPageState extends State<AccountDetailPage>
                 element.accountId == widget.account.id &&
                 element.date.month == currentMonth &&
                 element.date.year == currentYear)
-            .toList();
+            .toList()
+            .sorted((a, b) => a.date.isBefore(b.date) ? 1 : 0);
         break;
       case 2:
         transactionList = transactionProvider.transactionList
             .where((element) =>
                 element.accountId == widget.account.id &&
                 element.date.year == currentYear)
-            .toList();
+            .toList()
+            .sorted((a, b) => a.date.isBefore(b.date) ? 1 : 0);
         break;
     }
 
