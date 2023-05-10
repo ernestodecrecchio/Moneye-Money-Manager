@@ -35,7 +35,7 @@ class AboutPage extends StatelessWidget {
             height: 20,
           ),
           Text(
-            AppLocalizations.of(context)!.aboutDescription,
+            AppLocalizations.of(context)!.infoDescription,
             style: const TextStyle(
               fontSize: 18,
             ),

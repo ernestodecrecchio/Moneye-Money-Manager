@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AccountListCell extends StatelessWidget {
   final Account account;
@@ -24,7 +25,7 @@ class AccountListCell extends StatelessWidget {
                   .deleteAccount(account),
         ),
         children: [
-          _buildDeleteAction(),
+          _buildDeleteAction(context),
         ],
       ),
       endActionPane: ActionPane(
@@ -35,7 +36,7 @@ class AccountListCell extends StatelessWidget {
                   .deleteAccount(account),
         ),
         children: [
-          _buildDeleteAction(),
+          _buildDeleteAction(context),
         ],
       ),
       child: ListTile(
@@ -72,7 +73,7 @@ class AccountListCell extends StatelessWidget {
     );
   }
 
-  SlidableAction _buildDeleteAction() {
+  SlidableAction _buildDeleteAction(BuildContext context) {
     return SlidableAction(
       onPressed: (context) async =>
           await Provider.of<AccountProvider>(context, listen: false)
@@ -80,7 +81,7 @@ class AccountListCell extends StatelessWidget {
       backgroundColor: const Color(0xFFFE4A49),
       foregroundColor: Colors.white,
       icon: Icons.delete,
-      label: 'Elimina',
+      label: AppLocalizations.of(context)!.delete,
     );
   }
 }

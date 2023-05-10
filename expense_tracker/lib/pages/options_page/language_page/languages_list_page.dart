@@ -72,6 +72,27 @@ class _LanguagesListPageState extends State<LanguagesListPage> {
               ? const Icon(Icons.check)
               : null,
         ),
+        ListTile(
+          title: const Text('Español'),
+          onTap: () => Provider.of<LocaleProvider>(context, listen: false)
+              .setLocale(const Locale('es')),
+          leading: Container(
+            clipBehavior: Clip.antiAlias,
+            height: 30,
+            width: 30,
+            decoration: const BoxDecoration(shape: BoxShape.circle),
+            child: SvgPicture.asset(
+              'assets/flags/Spain.svg',
+              fit: BoxFit.cover,
+            ),
+          ),
+          trailing: Provider.of<LocaleProvider>(context, listen: true)
+                      .locale
+                      ?.languageCode ==
+                  'es'
+              ? const Icon(Icons.check)
+              : null,
+        ),
       ],
     );
   }

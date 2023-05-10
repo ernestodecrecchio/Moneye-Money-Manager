@@ -37,7 +37,7 @@ class TransactionListCell extends StatelessWidget {
         dismissible: DismissiblePane(
             onDismissed: () async => await _removeTransaction(context)),
         children: [
-          _buildDeleteAction(),
+          _buildDeleteAction(context),
           // _buildEditAction(),
         ],
       ),
@@ -47,7 +47,7 @@ class TransactionListCell extends StatelessWidget {
             onDismissed: () async => await _removeTransaction(context)),
         children: [
           // _buildEditAction(),
-          _buildDeleteAction(),
+          _buildDeleteAction(context),
         ],
       ),
       child: InkWell(
@@ -171,13 +171,13 @@ class TransactionListCell extends StatelessWidget {
     );
   }
 
-  SlidableAction _buildDeleteAction() {
+  SlidableAction _buildDeleteAction(BuildContext context) {
     return SlidableAction(
       onPressed: (context) async => await _removeTransaction(context),
       backgroundColor: const Color(0xFFFE4A49),
       foregroundColor: Colors.white,
       icon: Icons.delete,
-      label: 'Elimina',
+      label: AppLocalizations.of(context)!.delete,
     );
   }
 
