@@ -252,33 +252,34 @@ class _AccountPieChartState extends State<AccountPieChart> {
       for (var transaction in widget.transactionList) {
         totalValue += transaction.value;
 
+        Category? category;
+
         if (transaction.categoryId != null) {
-          final Category? category =
+          category =
               categoryProvider.getCategoryFromId(transaction.categoryId!);
+        }
 
-          if (category != null) {
-            final indexFound = categoryTotalValuePairs
-                .indexWhere((element) => element.category == category);
+        if (category != null) {
+          final indexFound = categoryTotalValuePairs
+              .indexWhere((element) => element.category == category);
 
-            if (indexFound != -1) {
-              categoryTotalValuePairs[indexFound].totalValue +=
-                  transaction.value;
-            } else {
-              final newEntry = CategoryTotalValue(
-                category: category,
-                totalValue: transaction.value,
-              );
-
-              categoryTotalValuePairs.add(newEntry);
-            }
+          if (indexFound != -1) {
+            categoryTotalValuePairs[indexFound].totalValue += transaction.value;
           } else {
-            _addToOtherCategoryIndicator(transaction);
+            final newEntry = CategoryTotalValue(
+              category: category,
+              totalValue: transaction.value,
+            );
+
+            categoryTotalValuePairs.add(newEntry);
           }
         } else {
           _addToOtherCategoryIndicator(transaction);
         }
       }
     }
+
+    // categoryTotalValuePairs.sort((a, b) => a.totalValue > b.totalValue ? 1 : 0);
   }
 
   _addToOtherCategoryIndicator(Transaction transaction) {

@@ -73,9 +73,10 @@ class TransactionListCell extends StatelessWidget {
                       transaction.title,
                       maxLines: 1,
                       style: const TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          overflow: TextOverflow.ellipsis),
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        overflow: TextOverflow.ellipsis,
+                      ),
                     ),
                     const SizedBox(
                       height: 2,

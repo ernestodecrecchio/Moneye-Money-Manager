@@ -15,7 +15,6 @@ import 'package:expense_tracker/pages/options_page/categories_page/categories_li
 import 'package:expense_tracker/pages/options_page/categories_page/new_edit_category_page.dart';
 import 'package:expense_tracker/pages/options_page/accounts_page/new_edit_account_page.dart';
 import 'package:expense_tracker/pages/common/helper/dismiss_keyboard.dart';
-import 'package:expense_tracker/pages/home_page/all_transaction_list_page.dart';
 import 'package:expense_tracker/pages/new_edit_transaction_flow/new_edit_transaction_page.dart';
 import 'package:expense_tracker/pages/options_page/currency_page/currency_page.dart';
 import 'package:expense_tracker/pages/options_page/language_page/languages_list_page.dart';
@@ -26,6 +25,8 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import 'pages/account_detail_page/transaction_list_page.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -125,8 +126,6 @@ class MyApp extends StatelessWidget {
               initialRoute: '/',
               routes: {
                 '/': (context) => const TabBarPage(),
-                AllTransactionList.routeName: (context) =>
-                    const AllTransactionList(),
                 CategoriesListPage.routeName: (context) =>
                     const CategoriesListPage(),
                 AccountsListPage.routeName: (context) =>
@@ -138,16 +137,23 @@ class MyApp extends StatelessWidget {
               },
               onGenerateRoute: (settings) {
                 switch (settings.name) {
+                  case TransactionList.routeName:
+                    {
+                      final args = settings.arguments as List<Transaction>;
+
+                      return MaterialPageRoute(
+                        builder: (context) =>
+                            TransactionList(transactionList: args),
+                      );
+                    }
                   case AccountDetailPage.routeName:
                     {
                       final args = settings.arguments as Account?;
 
                       return MaterialPageRoute(
-                        builder: (context) {
-                          return AccountDetailPage(
-                            account: args,
-                          );
-                        },
+                        builder: (context) => AccountDetailPage(
+                          account: args,
+                        ),
                       );
                     }
                   case NewEditTransactionPage.routeName:
@@ -155,11 +161,9 @@ class MyApp extends StatelessWidget {
                       final args = settings.arguments as Transaction?;
 
                       return MaterialPageRoute(
-                        builder: (context) {
-                          return NewEditTransactionPage(
-                            initialTransactionSettings: args,
-                          );
-                        },
+                        builder: (context) => NewEditTransactionPage(
+                          initialTransactionSettings: args,
+                        ),
                       );
                     }
                   case NewAccountPage.routeName:
@@ -167,11 +171,9 @@ class MyApp extends StatelessWidget {
                       final args = settings.arguments as Account?;
 
                       return MaterialPageRoute(
-                        builder: (context) {
-                          return NewAccountPage(
-                            initialAccountSettings: args,
-                          );
-                        },
+                        builder: (context) => NewAccountPage(
+                          initialAccountSettings: args,
+                        ),
                       );
                     }
                   case NewEditCategoryPage.routeName:
@@ -179,11 +181,9 @@ class MyApp extends StatelessWidget {
                       final args = settings.arguments as Category?;
 
                       return MaterialPageRoute(
-                        builder: (context) {
-                          return NewEditCategoryPage(
-                            initialCategorySettings: args,
-                          );
-                        },
+                        builder: (context) => NewEditCategoryPage(
+                          initialCategorySettings: args,
+                        ),
                       );
                     }
                 }

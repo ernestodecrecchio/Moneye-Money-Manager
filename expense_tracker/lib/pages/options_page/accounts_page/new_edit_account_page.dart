@@ -9,7 +9,7 @@ import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class NewAccountPage extends StatefulWidget {
-  static const routeName = '/newAccountPage';
+  static const routeName = '/newEditAccountPage';
 
   final Account? initialAccountSettings;
 

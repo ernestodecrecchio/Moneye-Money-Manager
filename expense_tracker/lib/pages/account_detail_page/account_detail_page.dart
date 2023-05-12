@@ -1,17 +1,26 @@
 import 'package:collection/collection.dart';
 import 'package:expense_tracker/Helper/date_time_helper.dart';
 import 'package:expense_tracker/models/account.dart';
+import 'package:expense_tracker/models/category.dart';
 import 'package:expense_tracker/models/transaction.dart';
 import 'package:expense_tracker/notifiers/account_provider.dart';
+import 'package:expense_tracker/notifiers/category_provider.dart';
 import 'package:expense_tracker/notifiers/transaction_provider.dart';
 import 'package:expense_tracker/pages/account_detail_page/account_pie_chart.dart';
+import 'package:expense_tracker/pages/account_detail_page/transaction_list_page.dart';
+import 'package:expense_tracker/pages/common/list_tiles/transaction_list_cell.dart';
 import 'package:expense_tracker/pages/options_page/accounts_page/new_edit_account_page.dart';
-import 'package:expense_tracker/pages/home_page/transaction_list_cell.dart';
 import 'package:expense_tracker/pages/new_edit_transaction_flow/new_edit_transaction_page.dart';
 import 'package:expense_tracker/style.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+enum AccountDetailTransactionListMode {
+  transactionList,
+  forCategory,
+}
 
 class AccountDetailPage extends StatefulWidget {
   static const routeName = '/accountDetailPage';
@@ -28,6 +37,9 @@ class _AccountDetailPageState extends State<AccountDetailPage>
     with TickerProviderStateMixin {
   late final TabController _tabController;
   late final TabController _timeTabController;
+
+  AccountDetailTransactionListMode transactionListMode =
+      AccountDetailTransactionListMode.transactionList;
 
   int selectedTimeIndex = 0;
 
@@ -56,8 +68,6 @@ class _AccountDetailPageState extends State<AccountDetailPage>
       referenceAccount = Provider.of<AccountProvider>(context, listen: true)
           .accountList
           .firstWhereOrNull((element) => element.id == widget.account!.id);
-    } else {
-      // Showing account transactions details
     }
 
     return Scaffold(
@@ -278,15 +288,19 @@ class _AccountDetailPageState extends State<AccountDetailPage>
         break;
     }
 
-    return Column(
-      children: [
-        _buildPieChart(
-            transactionList, AccountPieChartModeTransactionType.income),
-        Expanded(
-          child: _buildTransactionListView(transactionList),
-        )
-      ],
-    );
+    return transactionList.isEmpty
+        ? Align(
+            child: Text(AppLocalizations.of(context)!.noTransactions),
+          )
+        : Column(
+            children: [
+              _buildPieChart(
+                  transactionList, AccountPieChartModeTransactionType.income),
+              Expanded(
+                child: _buildTransactionListSection(transactionList),
+              )
+            ],
+          );
   }
 
   Widget _buildOutcomePage() {
@@ -362,15 +376,17 @@ class _AccountDetailPageState extends State<AccountDetailPage>
         break;
     }
 
-    return Column(
-      children: [
-        _buildPieChart(
-            transactionList, AccountPieChartModeTransactionType.expense),
-        Expanded(
-          child: _buildTransactionListView(transactionList),
-        )
-      ],
-    );
+    return transactionList.isEmpty
+        ? Align(child: Text(AppLocalizations.of(context)!.noTransactions))
+        : Column(
+            children: [
+              _buildPieChart(
+                  transactionList, AccountPieChartModeTransactionType.expense),
+              Expanded(
+                child: _buildTransactionListSection(transactionList),
+              )
+            ],
+          );
   }
 
   Widget _buildTotalPage() {
@@ -440,14 +456,17 @@ class _AccountDetailPageState extends State<AccountDetailPage>
         break;
     }
 
-    return Column(
-      children: [
-        _buildPieChart(transactionList, AccountPieChartModeTransactionType.all),
-        Expanded(
-          child: _buildTransactionListView(transactionList),
-        )
-      ],
-    );
+    return transactionList.isEmpty
+        ? Align(child: Text(AppLocalizations.of(context)!.noTransactions))
+        : Column(
+            children: [
+              _buildPieChart(
+                  transactionList, AccountPieChartModeTransactionType.all),
+              Expanded(
+                child: _buildTransactionListSection(transactionList),
+              )
+            ],
+          );
   }
 
   Widget _buildPieChart(List<Transaction> transactionList,
@@ -465,13 +484,156 @@ class _AccountDetailPageState extends State<AccountDetailPage>
           );
   }
 
-  Widget _buildTransactionListView(List<Transaction> transactionList) {
+  Widget _buildTransactionListSection(List<Transaction> transactionList) {
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10),
+          child:
+              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+            const Text(
+              'Transaction list',
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            TextButton.icon(
+              onPressed: () {
+                transactionListMode = transactionListMode ==
+                        AccountDetailTransactionListMode.transactionList
+                    ? AccountDetailTransactionListMode.forCategory
+                    : AccountDetailTransactionListMode.transactionList;
+
+                setState(() {});
+              },
+              icon: Text(transactionListMode ==
+                      AccountDetailTransactionListMode.transactionList
+                  ? 'Per elenco'
+                  : 'Per categoria'),
+              label: const Icon(Icons.arrow_drop_down_rounded),
+              style: TextButton.styleFrom(
+                  padding: EdgeInsets.zero,
+                  minimumSize: const Size(50, 30),
+                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                  alignment: Alignment.centerLeft),
+            ),
+          ]),
+        ),
+        Expanded(
+            child: transactionListMode ==
+                    AccountDetailTransactionListMode.transactionList
+                ? _buildTransactionList(transactionList)
+                : _buildCategoryList(transactionList))
+      ],
+    );
+  }
+
+  Widget _buildTransactionList(List<Transaction> transactionList) {
     return ListView.builder(
       itemCount: transactionList.length,
       itemBuilder: (context, index) => TransactionListCell(
         transaction: transactionList[index],
         showAccountLabel: false,
       ),
+    );
+  }
+
+  Widget _buildCategoryList(List<Transaction> transactionList) {
+    final categoryProvider =
+        Provider.of<CategoryProvider>(context, listen: false);
+
+    final List<CategoryTotalValue> categoryTotalValuePairs = [];
+
+    categoryTotalValuePairs.clear();
+
+    for (var transaction in transactionList) {
+      Category? category;
+
+      if (transaction.categoryId != null) {
+        category = categoryProvider.getCategoryFromId(transaction.categoryId!);
+      }
+
+      if (category != null) {
+        final indexFound = categoryTotalValuePairs
+            .indexWhere((element) => element.category == category);
+
+        if (indexFound != -1) {
+          categoryTotalValuePairs[indexFound].totalValue += transaction.value;
+        } else {
+          final newEntry = CategoryTotalValue(
+            category: category,
+            totalValue: transaction.value,
+          );
+
+          categoryTotalValuePairs.add(newEntry);
+        }
+      } else {
+        final indexFound = categoryTotalValuePairs
+            .indexWhere((element) => element.category.id == -1);
+
+        if (indexFound != -1) {
+          categoryTotalValuePairs[indexFound].totalValue += transaction.value;
+        } else {
+          final otherEntry = CategoryTotalValue(
+              category: Category(
+                  id: -1,
+                  name: AppLocalizations.of(context)!.other,
+                  colorValue: Colors.grey.value),
+              totalValue: transaction.value);
+
+          categoryTotalValuePairs.add(otherEntry);
+        }
+      }
+    }
+
+    return ListView.builder(
+      itemCount: categoryTotalValuePairs.length,
+      itemBuilder: (context, index) => ListTile(
+        leading: _buildCategoryIcon(
+            context, categoryTotalValuePairs[index].category),
+        trailing: const Icon(Icons.chevron_right_rounded),
+        title: Text(
+          categoryTotalValuePairs[index].category.name,
+          style: const TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+            overflow: TextOverflow.ellipsis,
+          ),
+        ),
+        subtitle: Text(
+          categoryTotalValuePairs[index].totalValue.toString(),
+        ),
+        onTap: () {
+          Navigator.of(context).pushNamed(TransactionList.routeName,
+              arguments: transactionList
+                  .where((transaction) =>
+                      transaction.categoryId ==
+                      categoryTotalValuePairs[index].category.id)
+                  .toList());
+        },
+      ),
+    );
+  }
+
+  _buildCategoryIcon(BuildContext context, Category category) {
+    SvgPicture? categoryIcon;
+    if (category.iconPath != null) {
+      categoryIcon = SvgPicture.asset(
+        category.iconPath!,
+        colorFilter: const ColorFilter.mode(
+          Colors.white,
+          BlendMode.srcIn,
+        ),
+      );
+    }
+
+    return Container(
+      width: 32,
+      height: 32,
+      padding: const EdgeInsets.all(8),
+      decoration: BoxDecoration(shape: BoxShape.circle, color: category.color),
+      child: categoryIcon,
     );
   }
 
