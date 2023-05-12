@@ -488,7 +488,7 @@ class _AccountDetailPageState extends State<AccountDetailPage>
     return Column(
       children: [
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10),
+          padding: const EdgeInsets.symmetric(horizontal: 18),
           child:
               Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
             const Text(
@@ -498,7 +498,7 @@ class _AccountDetailPageState extends State<AccountDetailPage>
                 fontWeight: FontWeight.bold,
               ),
             ),
-            TextButton.icon(
+            TextButton(
               onPressed: () {
                 transactionListMode = transactionListMode ==
                         AccountDetailTransactionListMode.transactionList
@@ -507,16 +507,20 @@ class _AccountDetailPageState extends State<AccountDetailPage>
 
                 setState(() {});
               },
-              icon: Text(transactionListMode ==
-                      AccountDetailTransactionListMode.transactionList
-                  ? 'Per elenco'
-                  : 'Per categoria'),
-              label: const Icon(Icons.arrow_drop_down_rounded),
               style: TextButton.styleFrom(
                   padding: EdgeInsets.zero,
-                  minimumSize: const Size(50, 30),
+                  minimumSize: Size.zero,
                   tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                   alignment: Alignment.centerLeft),
+              child: Text(
+                transactionListMode ==
+                        AccountDetailTransactionListMode.transactionList
+                    ? 'Per elenco'
+                    : 'Per categoria',
+                style: const TextStyle(
+                  fontSize: 14,
+                ),
+              ),
             ),
           ]),
         ),

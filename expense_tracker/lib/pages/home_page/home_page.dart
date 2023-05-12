@@ -437,7 +437,7 @@ class _HomePageState extends State<HomePage> {
                   child: Text(
                     appLocalizations!.viewAll,
                     style: const TextStyle(
-                      fontSize: 18,
+                      fontSize: 16,
                     ),
                   ),
                 ),
