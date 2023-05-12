@@ -1,7 +1,7 @@
 import 'package:expense_tracker/models/category.dart';
 import 'package:expense_tracker/notifiers/category_provider.dart';
 import 'package:expense_tracker/notifiers/central_provider.dart';
-import 'package:expense_tracker/pages/options_page/categories_page/new_category_page.dart';
+import 'package:expense_tracker/pages/options_page/categories_page/new_edit_category_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -41,7 +41,7 @@ class CategoryListCell extends StatelessWidget {
       ),
       child: ListTile(
         onTap: () => Navigator.of(context)
-            .pushNamed(NewCategoryPage.routeName, arguments: category),
+            .pushNamed(NewEditCategoryPage.routeName, arguments: category),
         title: Text(
           category.name,
           style: const TextStyle(fontSize: 16),

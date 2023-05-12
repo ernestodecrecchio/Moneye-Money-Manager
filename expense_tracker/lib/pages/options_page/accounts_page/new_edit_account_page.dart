@@ -32,15 +32,15 @@ class _NewAccountPageState extends State<NewAccountPage> {
   Color selectedColor = CustomColors.darkBlue;
   String? selectedIconPath;
 
-  bool editMode = false;
+  bool get editMode {
+    return widget.initialAccountSettings != null;
+  }
 
   @override
   void initState() {
     super.initState();
 
-    if (widget.initialAccountSettings != null) {
-      editMode = true;
-
+    if (editMode) {
       titleInput.text = widget.initialAccountSettings!.name;
       descriptionInput.text = widget.initialAccountSettings!.description ?? '';
       selectedColor = widget.initialAccountSettings!.color;

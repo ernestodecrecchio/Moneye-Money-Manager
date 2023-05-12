@@ -8,21 +8,21 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class NewCategoryPage extends StatefulWidget {
+class NewEditCategoryPage extends StatefulWidget {
   static const routeName = '/newCategoryPage';
 
   final Category? initialCategorySettings;
 
-  const NewCategoryPage({
+  const NewEditCategoryPage({
     Key? key,
     this.initialCategorySettings,
   }) : super(key: key);
 
   @override
-  State<NewCategoryPage> createState() => _NewCategoryPageState();
+  State<NewEditCategoryPage> createState() => _NewEditCategoryPageState();
 }
 
-class _NewCategoryPageState extends State<NewCategoryPage> {
+class _NewEditCategoryPageState extends State<NewEditCategoryPage> {
   late final AppLocalizations appLocalizations;
 
   final _formKey = GlobalKey<FormState>();
@@ -33,15 +33,15 @@ class _NewCategoryPageState extends State<NewCategoryPage> {
   Color selectedColor = CustomColors.darkBlue;
   String? selectedIconPath;
 
-  bool editMode = false;
+  bool get editMode {
+    return widget.initialCategorySettings != null;
+  }
 
   @override
   void initState() {
     super.initState();
 
-    if (widget.initialCategorySettings != null) {
-      editMode = true;
-
+    if (editMode) {
       titleInput.text = widget.initialCategorySettings!.name;
       descriptionInput.text = widget.initialCategorySettings!.description ?? '';
       selectedColor = widget.initialCategorySettings!.color;

@@ -12,11 +12,11 @@ import 'package:expense_tracker/pages/account_detail_page/account_detail_page.da
 import 'package:expense_tracker/pages/options_page/about_page/about_page.dart';
 import 'package:expense_tracker/pages/options_page/accounts_page/accounts_list_page.dart';
 import 'package:expense_tracker/pages/options_page/categories_page/categories_list_page.dart';
-import 'package:expense_tracker/pages/options_page/categories_page/new_category_page.dart';
+import 'package:expense_tracker/pages/options_page/categories_page/new_edit_category_page.dart';
 import 'package:expense_tracker/pages/options_page/accounts_page/new_account_page.dart';
 import 'package:expense_tracker/pages/common/helper/dismiss_keyboard.dart';
 import 'package:expense_tracker/pages/home_page/all_transaction_list_page.dart';
-import 'package:expense_tracker/pages/new_transaction_flow/new_transaction_page.dart';
+import 'package:expense_tracker/pages/new_edit_transaction_flow/new_transaction_page.dart';
 import 'package:expense_tracker/pages/options_page/currency_page/currency_page.dart';
 import 'package:expense_tracker/pages/options_page/language_page/languages_list_page.dart';
 import 'package:expense_tracker/pages/tab_bar_page.dart';
@@ -108,6 +108,7 @@ class MyApp extends StatelessWidget {
         builder: (context, child) {
           return DismissKeyboard(
             child: MaterialApp(
+              debugShowCheckedModeBanner: false,
               title: 'Moneye',
               theme: ThemeData(
                 fontFamily: 'Ubuntu',
@@ -149,13 +150,13 @@ class MyApp extends StatelessWidget {
                         },
                       );
                     }
-                  case NewTransactionPage.routeName:
+                  case NewEditTransactionPage.routeName:
                     {
                       final args = settings.arguments as Transaction?;
 
                       return MaterialPageRoute(
                         builder: (context) {
-                          return NewTransactionPage(
+                          return NewEditTransactionPage(
                             initialTransactionSettings: args,
                           );
                         },
@@ -173,13 +174,13 @@ class MyApp extends StatelessWidget {
                         },
                       );
                     }
-                  case NewCategoryPage.routeName:
+                  case NewEditCategoryPage.routeName:
                     {
                       final args = settings.arguments as Category?;
 
                       return MaterialPageRoute(
                         builder: (context) {
-                          return NewCategoryPage(
+                          return NewEditCategoryPage(
                             initialCategorySettings: args,
                           );
                         },

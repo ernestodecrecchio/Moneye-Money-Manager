@@ -1,6 +1,6 @@
 import 'package:expense_tracker/notifiers/category_provider.dart';
 import 'package:expense_tracker/pages/options_page/categories_page/category_list_cell.dart';
-import 'package:expense_tracker/pages/options_page/categories_page/new_category_page.dart';
+import 'package:expense_tracker/pages/options_page/categories_page/new_edit_category_page.dart';
 import 'package:expense_tracker/style.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -63,7 +63,8 @@ class _CategoriesListPageState extends State<CategoriesListPage> {
     return FloatingActionButton(
       backgroundColor: CustomColors.darkBlue,
       child: const Icon(Icons.add),
-      onPressed: () => Navigator.pushNamed(context, NewCategoryPage.routeName),
+      onPressed: () =>
+          Navigator.pushNamed(context, NewEditCategoryPage.routeName),
     );
   }
 }

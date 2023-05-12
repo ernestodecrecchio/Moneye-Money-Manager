@@ -8,7 +8,7 @@ import 'package:expense_tracker/notifiers/transaction_provider.dart';
 import 'package:expense_tracker/pages/options_page/accounts_page/new_account_page.dart';
 import 'package:expense_tracker/pages/home_page/all_transaction_list_page.dart';
 import 'package:expense_tracker/pages/home_page/transaction_list_cell.dart';
-import 'package:expense_tracker/pages/new_transaction_flow/new_transaction_page.dart';
+import 'package:expense_tracker/pages/new_edit_transaction_flow/new_transaction_page.dart';
 import 'package:expense_tracker/pages/home_page/account_list_tile.dart';
 import 'package:expense_tracker/style.dart';
 import 'package:flutter/material.dart';
@@ -482,7 +482,7 @@ class _HomePageState extends State<HomePage> {
     return FloatingActionButton(
       backgroundColor: CustomColors.darkBlue,
       onPressed: () =>
-          Navigator.pushNamed(context, NewTransactionPage.routeName),
+          Navigator.pushNamed(context, NewEditTransactionPage.routeName),
       child: const Icon(Icons.add),
     );
   }

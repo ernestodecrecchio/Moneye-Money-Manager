@@ -4,9 +4,9 @@ import 'package:expense_tracker/models/transaction.dart';
 import 'package:expense_tracker/notifiers/account_provider.dart';
 import 'package:expense_tracker/notifiers/category_provider.dart';
 import 'package:expense_tracker/notifiers/transaction_provider.dart';
-import 'package:expense_tracker/pages/new_transaction_flow/account_selector_dialog.dart';
+import 'package:expense_tracker/pages/new_edit_transaction_flow/account_selector_dialog.dart';
 import 'package:expense_tracker/pages/common/custom_text_field.dart';
-import 'package:expense_tracker/pages/new_transaction_flow/category_selector_dialog.dart';
+import 'package:expense_tracker/pages/new_edit_transaction_flow/category_selector_dialog.dart';
 import 'package:expense_tracker/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -14,23 +14,27 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class NewTransactionPage extends StatefulWidget {
+class NewEditTransactionPage extends StatefulWidget {
   static const routeName = '/newTransactionPage';
 
   final Transaction? initialTransactionSettings;
 
-  const NewTransactionPage({
+  const NewEditTransactionPage({
     Key? key,
     this.initialTransactionSettings,
   }) : super(key: key);
 
   @override
-  State<NewTransactionPage> createState() => _NewTransactionPageState();
+  State<NewEditTransactionPage> createState() => _NewEditTransactionPageState();
 }
 
-class _NewTransactionPageState extends State<NewTransactionPage>
+class _NewEditTransactionPageState extends State<NewEditTransactionPage>
     with SingleTickerProviderStateMixin {
   late final AppLocalizations appLocalizations;
+
+  bool get editMode {
+    return widget.initialTransactionSettings != null;
+  }
 
   final _formKey = GlobalKey<FormState>();
 
@@ -51,17 +55,13 @@ class _NewTransactionPageState extends State<NewTransactionPage>
 
   final dateFormatter = DateFormat('dd/MM/yyyy');
 
-  bool editMode = false;
-
   @override
   void initState() {
     super.initState();
 
     _transactionTypeTabController = TabController(length: 2, vsync: this);
 
-    if (widget.initialTransactionSettings != null) {
-      editMode = true;
-
+    if (editMode) {
       titleInput.text = widget.initialTransactionSettings!.title;
       descriptionInput.text =
           widget.initialTransactionSettings!.description ?? '';

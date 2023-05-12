@@ -7,7 +7,7 @@ import 'package:expense_tracker/notifiers/transaction_provider.dart';
 import 'package:expense_tracker/pages/account_detail_page/account_pie_chart.dart';
 import 'package:expense_tracker/pages/options_page/accounts_page/new_account_page.dart';
 import 'package:expense_tracker/pages/home_page/transaction_list_cell.dart';
-import 'package:expense_tracker/pages/new_transaction_flow/new_transaction_page.dart';
+import 'package:expense_tracker/pages/new_edit_transaction_flow/new_transaction_page.dart';
 import 'package:expense_tracker/style.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -77,7 +77,7 @@ class _AccountDetailPageState extends State<AccountDetailPage>
     return FloatingActionButton(
       backgroundColor: CustomColors.darkBlue,
       onPressed: () =>
-          Navigator.pushNamed(context, NewTransactionPage.routeName),
+          Navigator.pushNamed(context, NewEditTransactionPage.routeName),
       child: const Icon(Icons.add),
     );
   }
@@ -309,7 +309,6 @@ class _AccountDetailPageState extends State<AccountDetailPage>
   }
 
   Widget _buildTotalPage() {
-    print('total');
     List<Transaction> transactionList = [];
 
     final currentDate = DateTime.now();
