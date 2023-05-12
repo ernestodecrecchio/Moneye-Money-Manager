@@ -5,8 +5,8 @@ import 'package:expense_tracker/models/transaction.dart';
 import 'package:expense_tracker/notifiers/account_provider.dart';
 import 'package:expense_tracker/notifiers/category_provider.dart';
 import 'package:expense_tracker/notifiers/transaction_provider.dart';
+import 'package:expense_tracker/pages/account_detail_page/account_detail_page.dart';
 import 'package:expense_tracker/pages/options_page/accounts_page/new_edit_account_page.dart';
-import 'package:expense_tracker/pages/home_page/all_transaction_list_page.dart';
 import 'package:expense_tracker/pages/home_page/transaction_list_cell.dart';
 import 'package:expense_tracker/pages/new_edit_transaction_flow/new_edit_transaction_page.dart';
 import 'package:expense_tracker/pages/home_page/account_list_tile.dart';
@@ -428,7 +428,7 @@ class _HomePageState extends State<HomePage> {
                 const Spacer(),
                 TextButton(
                   onPressed: () => Navigator.of(context)
-                      .pushNamed(AllTransactionList.routeName),
+                      .pushNamed(AccountDetailPage.routeName),
                   style: TextButton.styleFrom(
                       padding: EdgeInsets.zero,
                       minimumSize: Size.zero,

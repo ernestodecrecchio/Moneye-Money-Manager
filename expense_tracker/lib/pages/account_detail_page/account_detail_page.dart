@@ -16,9 +16,9 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class AccountDetailPage extends StatefulWidget {
   static const routeName = '/accountDetailPage';
 
-  final Account account;
+  final Account? account;
 
-  const AccountDetailPage({super.key, required this.account});
+  const AccountDetailPage({super.key, this.account});
 
   @override
   State<AccountDetailPage> createState() => _AccountDetailPageState();
@@ -48,16 +48,29 @@ class _AccountDetailPageState extends State<AccountDetailPage>
 
   @override
   Widget build(BuildContext context) {
-    final referenceAccount = Provider.of<AccountProvider>(context, listen: true)
-        .accountList
-        .firstWhereOrNull((element) => element.id == widget.account.id);
+    Account? referenceAccount;
+
+    if (widget.account != null) {
+      // Showing all transactions details
+
+      referenceAccount = Provider.of<AccountProvider>(context, listen: true)
+          .accountList
+          .firstWhereOrNull((element) => element.id == widget.account!.id);
+    } else {
+      // Showing account transactions details
+    }
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(referenceAccount?.name ?? widget.account.name),
+        title: Text(widget.account != null
+            ? referenceAccount?.name ?? widget.account!.name
+            : AppLocalizations.of(context)!.allTransactions),
         backgroundColor: CustomColors.blue,
         elevation: 0,
-        actions: [if (widget.account.id != null) _buildEditAction(context)],
+        actions: [
+          if (widget.account != null && widget.account!.id != null)
+            _buildEditAction(context)
+        ],
       ),
       backgroundColor: Colors.white,
       floatingActionButton: _buildFloatingActionButton(context),
@@ -205,33 +218,63 @@ class _AccountDetailPageState extends State<AccountDetailPage>
 
     switch (selectedTimeIndex) {
       case 0:
-        transactionList = transactionProvider.transactionList
-            .where((element) =>
-                element.accountId == widget.account.id &&
-                element.value >= 0 &&
-                weekNumber(element.date) == currentWeekNumber &&
-                element.date.year == currentYear)
-            .toList()
-            .sorted((a, b) => a.date.isBefore(b.date) ? 1 : 0);
+        if (widget.account != null) {
+          transactionList = transactionProvider.transactionList
+              .where((element) =>
+                  element.accountId == widget.account!.id &&
+                  element.value >= 0 &&
+                  weekNumber(element.date) == currentWeekNumber &&
+                  element.date.month == currentMonth &&
+                  element.date.year == currentYear)
+              .toList()
+              .sorted((a, b) => a.date.isBefore(b.date) ? 1 : 0);
+        } else {
+          transactionList = transactionProvider.transactionList
+              .where((element) =>
+                  element.value >= 0 &&
+                  weekNumber(element.date) == currentWeekNumber &&
+                  element.date.month == currentMonth &&
+                  element.date.year == currentYear)
+              .toList()
+              .sorted((a, b) => a.date.isBefore(b.date) ? 1 : 0);
+        }
         break;
       case 1:
-        transactionList = transactionProvider.transactionList
-            .where((element) =>
-                element.accountId == widget.account.id &&
-                element.value >= 0 &&
-                element.date.month == currentMonth &&
-                element.date.year == currentYear)
-            .toList()
-            .sorted((a, b) => a.date.isBefore(b.date) ? 1 : 0);
+        if (widget.account != null) {
+          transactionList = transactionProvider.transactionList
+              .where((element) =>
+                  element.accountId == widget.account!.id &&
+                  element.value >= 0 &&
+                  element.date.month == currentMonth &&
+                  element.date.year == currentYear)
+              .toList()
+              .sorted((a, b) => a.date.isBefore(b.date) ? 1 : 0);
+        } else {
+          transactionList = transactionProvider.transactionList
+              .where((element) =>
+                  element.value >= 0 &&
+                  element.date.month == currentMonth &&
+                  element.date.year == currentYear)
+              .toList()
+              .sorted((a, b) => a.date.isBefore(b.date) ? 1 : 0);
+        }
         break;
       case 2:
-        transactionList = transactionProvider.transactionList
-            .where((element) =>
-                element.accountId == widget.account.id &&
-                element.value >= 0 &&
-                element.date.year == currentYear)
-            .toList()
-            .sorted((a, b) => a.date.isBefore(b.date) ? 1 : 0);
+        if (widget.account != null) {
+          transactionList = transactionProvider.transactionList
+              .where((element) =>
+                  element.accountId == widget.account!.id &&
+                  element.value >= 0 &&
+                  element.date.year == currentYear)
+              .toList()
+              .sorted((a, b) => a.date.isBefore(b.date) ? 1 : 0);
+        } else {
+          transactionList = transactionProvider.transactionList
+              .where((element) =>
+                  element.value >= 0 && element.date.year == currentYear)
+              .toList()
+              .sorted((a, b) => a.date.isBefore(b.date) ? 1 : 0);
+        }
         break;
     }
 
@@ -259,33 +302,63 @@ class _AccountDetailPageState extends State<AccountDetailPage>
 
     switch (selectedTimeIndex) {
       case 0:
-        transactionList = transactionProvider.transactionList
-            .where((element) =>
-                element.accountId == widget.account.id &&
-                element.value < 0 &&
-                weekNumber(element.date) == currentWeekNumber &&
-                element.date.year == currentYear)
-            .toList()
-            .sorted((a, b) => a.date.isBefore(b.date) ? 1 : 0);
+        if (widget.account != null) {
+          transactionList = transactionProvider.transactionList
+              .where((element) =>
+                  element.accountId == widget.account!.id &&
+                  element.value < 0 &&
+                  weekNumber(element.date) == currentWeekNumber &&
+                  element.date.month == currentMonth &&
+                  element.date.year == currentYear)
+              .toList()
+              .sorted((a, b) => a.date.isBefore(b.date) ? 1 : 0);
+        } else {
+          transactionList = transactionProvider.transactionList
+              .where((element) =>
+                  element.value < 0 &&
+                  weekNumber(element.date) == currentWeekNumber &&
+                  element.date.month == currentMonth &&
+                  element.date.year == currentYear)
+              .toList()
+              .sorted((a, b) => a.date.isBefore(b.date) ? 1 : 0);
+        }
         break;
       case 1:
-        transactionList = transactionProvider.transactionList
-            .where((element) =>
-                element.accountId == widget.account.id &&
-                element.value < 0 &&
-                element.date.month == currentMonth &&
-                element.date.year == currentYear)
-            .toList()
-            .sorted((a, b) => a.date.isBefore(b.date) ? 1 : 0);
+        if (widget.account != null) {
+          transactionList = transactionProvider.transactionList
+              .where((element) =>
+                  element.accountId == widget.account!.id &&
+                  element.value < 0 &&
+                  element.date.month == currentMonth &&
+                  element.date.year == currentYear)
+              .toList()
+              .sorted((a, b) => a.date.isBefore(b.date) ? 1 : 0);
+        } else {
+          transactionList = transactionProvider.transactionList
+              .where((element) =>
+                  element.value < 0 &&
+                  element.date.month == currentMonth &&
+                  element.date.year == currentYear)
+              .toList()
+              .sorted((a, b) => a.date.isBefore(b.date) ? 1 : 0);
+        }
         break;
       case 2:
-        transactionList = transactionProvider.transactionList
-            .where((element) =>
-                element.accountId == widget.account.id &&
-                element.value < 0 &&
-                element.date.year == currentYear)
-            .toList()
-            .sorted((a, b) => a.date.isBefore(b.date) ? 1 : 0);
+        if (widget.account != null) {
+          transactionList = transactionProvider.transactionList
+              .where((element) =>
+                  element.accountId == widget.account!.id &&
+                  element.value < 0 &&
+                  element.date.year == currentYear)
+              .toList()
+              .sorted((a, b) => a.date.isBefore(b.date) ? 1 : 0);
+        } else {
+          transactionList = transactionProvider.transactionList
+              .where((element) =>
+                  element.value < 0 && element.date.year == currentYear)
+              .toList()
+              .sorted((a, b) => a.date.isBefore(b.date) ? 1 : 0);
+        }
         break;
     }
 
@@ -313,30 +386,57 @@ class _AccountDetailPageState extends State<AccountDetailPage>
 
     switch (selectedTimeIndex) {
       case 0:
-        transactionList = transactionProvider.transactionList
-            .where((element) =>
-                element.accountId == widget.account.id &&
-                weekNumber(element.date) == currentWeekNumber &&
-                element.date.year == currentYear)
-            .toList()
-            .sorted((a, b) => a.date.isBefore(b.date) ? 1 : 0);
+        if (widget.account != null) {
+          transactionList = transactionProvider.transactionList
+              .where((element) =>
+                  element.accountId == widget.account!.id &&
+                  weekNumber(element.date) == currentWeekNumber &&
+                  element.date.month == currentMonth &&
+                  element.date.year == currentYear)
+              .toList()
+              .sorted((a, b) => a.date.isBefore(b.date) ? 1 : 0);
+        } else {
+          transactionList = transactionProvider.transactionList
+              .where((element) =>
+                  weekNumber(element.date) == currentWeekNumber &&
+                  element.date.month == currentMonth &&
+                  element.date.year == currentYear)
+              .toList()
+              .sorted((a, b) => a.date.isBefore(b.date) ? 1 : 0);
+        }
         break;
       case 1:
-        transactionList = transactionProvider.transactionList
-            .where((element) =>
-                element.accountId == widget.account.id &&
-                element.date.month == currentMonth &&
-                element.date.year == currentYear)
-            .toList()
-            .sorted((a, b) => a.date.isBefore(b.date) ? 1 : 0);
+        if (widget.account != null) {
+          transactionList = transactionProvider.transactionList
+              .where((element) =>
+                  element.accountId == widget.account!.id &&
+                  element.date.month == currentMonth &&
+                  element.date.year == currentYear)
+              .toList()
+              .sorted((a, b) => a.date.isBefore(b.date) ? 1 : 0);
+        } else {
+          transactionList = transactionProvider.transactionList
+              .where((element) =>
+                  element.date.month == currentMonth &&
+                  element.date.year == currentYear)
+              .toList()
+              .sorted((a, b) => a.date.isBefore(b.date) ? 1 : 0);
+        }
         break;
       case 2:
-        transactionList = transactionProvider.transactionList
-            .where((element) =>
-                element.accountId == widget.account.id &&
-                element.date.year == currentYear)
-            .toList()
-            .sorted((a, b) => a.date.isBefore(b.date) ? 1 : 0);
+        if (widget.account != null) {
+          transactionList = transactionProvider.transactionList
+              .where((element) =>
+                  element.accountId == widget.account!.id &&
+                  element.date.year == currentYear)
+              .toList()
+              .sorted((a, b) => a.date.isBefore(b.date) ? 1 : 0);
+        } else {
+          transactionList = transactionProvider.transactionList
+              .where((element) => element.date.year == currentYear)
+              .toList()
+              .sorted((a, b) => a.date.isBefore(b.date) ? 1 : 0);
+        }
         break;
     }
 

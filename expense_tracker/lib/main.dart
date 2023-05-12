@@ -140,7 +140,7 @@ class MyApp extends StatelessWidget {
                 switch (settings.name) {
                   case AccountDetailPage.routeName:
                     {
-                      final args = settings.arguments as Account;
+                      final args = settings.arguments as Account?;
 
                       return MaterialPageRoute(
                         builder: (context) {
