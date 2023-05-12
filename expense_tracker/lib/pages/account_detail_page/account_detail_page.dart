@@ -5,21 +5,13 @@ import 'package:expense_tracker/models/transaction.dart';
 import 'package:expense_tracker/notifiers/account_provider.dart';
 import 'package:expense_tracker/notifiers/transaction_provider.dart';
 import 'package:expense_tracker/pages/account_detail_page/account_pie_chart.dart';
-import 'package:expense_tracker/pages/options_page/accounts_page/new_account_page.dart';
+import 'package:expense_tracker/pages/options_page/accounts_page/new_edit_account_page.dart';
 import 'package:expense_tracker/pages/home_page/transaction_list_cell.dart';
-import 'package:expense_tracker/pages/new_edit_transaction_flow/new_transaction_page.dart';
+import 'package:expense_tracker/pages/new_edit_transaction_flow/new_edit_transaction_page.dart';
 import 'package:expense_tracker/style.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
-enum Sky { midnight, viridian, cerulean, alto }
-
-Map<Sky, Color> skyColors = <Sky, Color>{
-  Sky.midnight: const Color(0xff191970),
-  Sky.viridian: const Color(0xff40826d),
-  Sky.cerulean: const Color(0xff007ba7),
-};
 
 class AccountDetailPage extends StatefulWidget {
   static const routeName = '/accountDetailPage';
