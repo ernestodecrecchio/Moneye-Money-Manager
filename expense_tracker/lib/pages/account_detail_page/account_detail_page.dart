@@ -515,8 +515,8 @@ class _AccountDetailPageState extends State<AccountDetailPage>
               child: Text(
                 transactionListMode ==
                         AccountDetailTransactionListMode.transactionList
-                    ? 'Per elenco'
-                    : 'Per categoria',
+                    ? AppLocalizations.of(context)!.byList
+                    : AppLocalizations.of(context)!.byCategory,
                 style: const TextStyle(
                   fontSize: 14,
                 ),
@@ -594,6 +594,9 @@ class _AccountDetailPageState extends State<AccountDetailPage>
     return ListView.builder(
       itemCount: categoryTotalValuePairs.length,
       itemBuilder: (context, index) => ListTile(
+        dense: true,
+        minLeadingWidth: 8,
+        horizontalTitleGap: 8,
         leading: _buildCategoryIcon(
             context, categoryTotalValuePairs[index].category),
         trailing: const Icon(Icons.chevron_right_rounded),
