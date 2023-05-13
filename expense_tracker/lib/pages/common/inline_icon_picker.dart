@@ -98,6 +98,7 @@ class _InlineIconPickerState extends State<InlineIconPicker> {
           _buildIconItem('assets/icons/graduate.svg'),
           _buildIconItem('assets/icons/house.svg'),
           _buildIconItem('assets/icons/paw.svg'),
+          _buildIconItem('assets/icons/netflix.svg'),
         ],
       ),
     );
@@ -121,6 +122,7 @@ class _InlineIconPickerState extends State<InlineIconPicker> {
           _buildIconItem('assets/icons/picker_icons/visa.svg'),
           _buildIconItem('assets/icons/cash.svg'),
           _buildIconItem('assets/icons/healthcare.svg'),
+          _buildIconItem('assets/icons/travel.svg'),
         ],
       ),
     );
