@@ -42,6 +42,8 @@ class _LanguagesListPageState extends State<LanguagesListPage> {
             child: SvgPicture.asset(
               'assets/flags/World.svg',
               fit: BoxFit.fill,
+              colorFilter: const ColorFilter.mode(
+                  CustomColors.darkBlue, BlendMode.srcIn),
             ),
           ),
           trailing:

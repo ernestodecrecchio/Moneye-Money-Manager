@@ -65,7 +65,7 @@ class OptionsPage extends StatelessWidget {
           leading: const SizedBox(
             height: double.infinity,
             child: Icon(
-              Icons.language_rounded,
+              Icons.translate_rounded,
               color: CustomColors.darkBlue,
             ),
           ),
