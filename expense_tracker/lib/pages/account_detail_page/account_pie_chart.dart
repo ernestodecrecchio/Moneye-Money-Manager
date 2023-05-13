@@ -174,34 +174,35 @@ class _AccountPieChartState extends State<AccountPieChart> {
         const shadows = [Shadow(color: Colors.black, blurRadius: 2)];
 
         return PieChartSectionData(
-            color: currentCategoryTotalValuePair.category.color,
-            value: currentCategoryTotalValuePair.totalValue,
-            showTitle: false,
-            title: currentCategoryTotalValuePair.category.name,
-            radius: radius,
-            titleStyle: TextStyle(
-              fontSize: fontSize,
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
-              shadows: shadows,
-            ),
-            badgeWidget: isTouched
-                ? Text(
-                    '${((currentCategoryTotalValuePair.totalValue / totalValue) * 100).toStringAsFixedRoundedWithCurrency(context, 2)}%',
-                    style: const TextStyle(
-                        color: Colors.white, fontWeight: FontWeight.bold),
-                  )
-                : categoryTotalValuePairs[i].category.iconPath != null
-                    ? SizedBox(
-                        height: 20,
-                        width: 20,
-                        child: SvgPicture.asset(
-                          categoryTotalValuePairs[i].category.iconPath!,
-                          colorFilter: const ColorFilter.mode(
-                              Colors.white, BlendMode.srcIn),
-                        ),
-                      )
-                    : null);
+          color: currentCategoryTotalValuePair.category.color,
+          value: currentCategoryTotalValuePair.totalValue,
+          showTitle: false,
+          title: currentCategoryTotalValuePair.category.name,
+          radius: radius,
+          titleStyle: TextStyle(
+            fontSize: fontSize,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+            shadows: shadows,
+          ),
+          badgeWidget: isTouched
+              ? Text(
+                  '${((currentCategoryTotalValuePair.totalValue / totalValue) * 100).toStringAsFixedRoundedWithCurrency(context, 2)}%',
+                  style: const TextStyle(
+                      color: Colors.white, fontWeight: FontWeight.bold),
+                )
+              : categoryTotalValuePairs[i].category.iconPath != null
+                  ? SizedBox(
+                      height: 20,
+                      width: 20,
+                      child: SvgPicture.asset(
+                        categoryTotalValuePairs[i].category.iconPath!,
+                        colorFilter: const ColorFilter.mode(
+                            Colors.white, BlendMode.srcIn),
+                      ),
+                    )
+                  : null,
+        );
       },
     );
   }

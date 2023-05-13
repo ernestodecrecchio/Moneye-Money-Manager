@@ -593,32 +593,60 @@ class _AccountDetailPageState extends State<AccountDetailPage>
 
     return ListView.builder(
       itemCount: categoryTotalValuePairs.length,
-      itemBuilder: (context, index) => ListTile(
-        dense: true,
-        minLeadingWidth: 8,
-        horizontalTitleGap: 8,
-        leading: _buildCategoryIcon(
-            context, categoryTotalValuePairs[index].category),
-        trailing: const Icon(Icons.chevron_right_rounded),
-        title: Text(
-          categoryTotalValuePairs[index].category.name,
-          style: const TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
-            overflow: TextOverflow.ellipsis,
-          ),
+      itemBuilder: (context, index) => _buildCategoryListCell(
+        categoryTotalValuePair: categoryTotalValuePairs[index],
+        transactionList: transactionList
+            .where((transaction) =>
+                transaction.categoryId ==
+                categoryTotalValuePairs[index].category.id)
+            .toList(),
+      ),
+    );
+  }
+
+  _buildCategoryListCell(
+      {required CategoryTotalValue categoryTotalValuePair,
+      required List<Transaction> transactionList}) {
+    return InkWell(
+      onTap: () => Navigator.of(context)
+          .pushNamed(TransactionList.routeName, arguments: transactionList),
+      child: Container(
+        height: 64,
+        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 17),
+        child: Row(
+          children: [
+            _buildCategoryIcon(context, categoryTotalValuePair.category),
+            const SizedBox(
+              width: 8,
+            ),
+            Expanded(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    categoryTotalValuePair.category.name,
+                    maxLines: 1,
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 2,
+                  ),
+                  Text(
+                    categoryTotalValuePair.totalValue.toString(),
+                  ),
+                ],
+              ),
+            ),
+            const Icon(
+              Icons.chevron_right_rounded,
+            ),
+          ],
         ),
-        subtitle: Text(
-          categoryTotalValuePairs[index].totalValue.toString(),
-        ),
-        onTap: () {
-          Navigator.of(context).pushNamed(TransactionList.routeName,
-              arguments: transactionList
-                  .where((transaction) =>
-                      transaction.categoryId ==
-                      categoryTotalValuePairs[index].category.id)
-                  .toList());
-        },
       ),
     );
   }
