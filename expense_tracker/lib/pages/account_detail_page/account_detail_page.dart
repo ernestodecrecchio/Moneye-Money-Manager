@@ -99,6 +99,7 @@ class _AccountDetailPageState extends State<AccountDetailPage>
 
   Widget _buildBody(BuildContext context) {
     return SafeArea(
+      bottom: false,
       child: Column(
         children: [
           _buildTabBar(),
@@ -508,7 +509,8 @@ class _AccountDetailPageState extends State<AccountDetailPage>
                 setState(() {});
               },
               style: TextButton.styleFrom(
-                  padding: EdgeInsets.zero,
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 0, vertical: 10),
                   minimumSize: Size.zero,
                   tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                   alignment: Alignment.centerLeft),
