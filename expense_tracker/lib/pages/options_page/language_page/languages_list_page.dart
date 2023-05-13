@@ -31,6 +31,28 @@ class _LanguagesListPageState extends State<LanguagesListPage> {
     return ListView(
       children: [
         ListTile(
+          title: Text(AppLocalizations.of(context)!.systemLanguageOption),
+          onTap: () =>
+              Provider.of<LocaleProvider>(context, listen: false).resetLocale(),
+          leading: Container(
+            clipBehavior: Clip.antiAlias,
+            height: 30,
+            width: 30,
+            decoration: const BoxDecoration(shape: BoxShape.circle),
+            child: SvgPicture.asset(
+              'assets/flags/World.svg',
+              fit: BoxFit.fill,
+            ),
+          ),
+          trailing:
+              Provider.of<LocaleProvider>(context, listen: true).locale == null
+                  ? const Icon(Icons.check)
+                  : null,
+        ),
+        const Divider(
+          height: 1,
+        ),
+        ListTile(
           title: const Text('English (UK)'),
           onTap: () => Provider.of<LocaleProvider>(context, listen: false)
               .setLocale(const Locale('en')),
