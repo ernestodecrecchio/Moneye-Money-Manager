@@ -576,14 +576,13 @@ class _AccountDetailPageState extends State<AccountDetailPage>
         }
       } else {
         final indexFound = categoryTotalValuePairs
-            .indexWhere((element) => element.category.id == -1);
+            .indexWhere((element) => element.category.id == null);
 
         if (indexFound != -1) {
           categoryTotalValuePairs[indexFound].totalValue += transaction.value;
         } else {
           final otherEntry = CategoryTotalValue(
               category: Category(
-                  id: -1,
                   name: AppLocalizations.of(context)!.other,
                   colorValue: Colors.grey.value),
               totalValue: transaction.value);

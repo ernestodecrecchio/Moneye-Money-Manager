@@ -19,14 +19,13 @@ class CentralProvider with ChangeNotifier {
   /// Deletes the account affecting the transactions viewed in the current session
   Future<bool> deleteAccount(Account account) async {
     if (accountProvider != null &&
+        transactionProvider != null &&
         await accountProvider!.deleteAccount(account)) {
-      transactionProvider?.transactionList.forEach(
-        (transaction) {
-          if (transaction.accountId == account.id) {
-            transaction.accountId = null;
-          }
-        },
-      );
+      for (var transaction in transactionProvider!.transactionList) {
+        if (transaction.accountId == account.id) {
+          transaction.accountId = null;
+        }
+      }
 
       notifyListeners();
 
@@ -39,14 +38,13 @@ class CentralProvider with ChangeNotifier {
   /// Deletes the category affecting the transactions viewed in the current session
   Future<bool> deleteCategory(Category category) async {
     if (categoryProvider != null &&
+        transactionProvider != null &&
         await categoryProvider!.deleteCategory(category)) {
-      transactionProvider?.transactionList.forEach(
-        (transaction) {
-          if (transaction.categoryId == category.id) {
-            transaction.categoryId = null;
-          }
-        },
-      );
+      for (var transaction in transactionProvider!.transactionList) {
+        if (transaction.categoryId == category.id) {
+          transaction.categoryId = null;
+        }
+      }
 
       notifyListeners();
 
