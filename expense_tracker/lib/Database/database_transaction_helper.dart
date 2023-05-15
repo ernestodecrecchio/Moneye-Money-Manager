@@ -33,6 +33,73 @@ class DatabaseTransactionHelper {
       FOREIGN KEY (${TransactionFields.accountId}) REFERENCES $accountsTable (${AccountFields.id}) ON DELETE SET NULL ON UPDATE NO ACTION
       )
     ''');
+
+    await insertDemoData(db);
+  }
+
+  static Future insertDemoData(Database db) async {
+    final t1 = trans.Transaction(
+      id: 1,
+      title: 'Gas for car',
+      value: -20,
+      date: DateTime(2023, 5, 1),
+      categoryId: 5,
+      accountId: 1,
+    );
+    final t2 = trans.Transaction(
+      id: 2,
+      title: 'Balance',
+      value: 500,
+      date: DateTime(2023, 3, 1),
+      accountId: 1,
+    );
+    final t3 = trans.Transaction(
+      id: 3,
+      title: 'Balance',
+      value: 500,
+      date: DateTime(2023, 3, 1),
+      accountId: 3,
+    );
+    final t4 = trans.Transaction(
+      id: 4,
+      title: 'Movie tickets',
+      value: -15,
+      date: DateTime(2023, 5, 4),
+      categoryId: 7,
+      accountId: 3,
+    );
+    final t5 = trans.Transaction(
+      id: 5,
+      title: 'Electricity bill',
+      value: -75,
+      date: DateTime(2023, 5, 7),
+      categoryId: 1,
+      accountId: 3,
+    );
+    final t6 = trans.Transaction(
+      id: 6,
+      title: 'Gift for Mike',
+      value: -50,
+      date: DateTime(2023, 5, 2),
+      categoryId: 2,
+      accountId: 3,
+    );
+    final t7 = trans.Transaction(
+      id: 7,
+      title: 'Rome trip',
+      value: -100,
+      date: DateTime(2023, 5, 13),
+      categoryId: 3,
+      accountId: 3,
+    );
+
+    await db.insert(transactionsTable, t1.toJson());
+    await db.insert(transactionsTable, t2.toJson());
+    await db.insert(transactionsTable, t3.toJson());
+    await db.insert(transactionsTable, t4.toJson());
+    await db.insert(transactionsTable, t5.toJson());
+    await db.insert(transactionsTable, t6.toJson());
+    await db.insert(transactionsTable, t7.toJson());
   }
 
   Future<trans.Transaction> insertTransaction(

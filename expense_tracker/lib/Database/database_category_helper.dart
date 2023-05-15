@@ -7,6 +7,7 @@ class DatabaseCategoryHelper {
   DatabaseCategoryHelper._init();
 
   static Future inizializeTable(Database db) async {
+    print('init cat table');
     const idType = 'INTEGER PRIMARY KEY AUTOINCREMENT';
     const textType = 'TEXT NOT NULL';
     const textTypeNullable = 'TEXT';
@@ -22,6 +23,61 @@ class DatabaseCategoryHelper {
       ${CategoryFields.iconPath} $textTypeNullable
       )
     ''');
+
+    await insertDemoData(db);
+  }
+
+  static Future insertDemoData(Database db) async {
+    final c1 = Category(
+      id: 1,
+      name: 'Payments and taxes',
+      colorValue: 4278228616,
+      iconPath: 'assets/icons/picker_icons/university.svg',
+    );
+    final c2 = Category(
+      id: 2,
+      name: 'Gifts',
+      colorValue: 4280391411,
+      iconPath: 'assets/icons/box.svg',
+    );
+    final c3 = Category(
+      id: 3,
+      name: 'Travels',
+      colorValue: 4294940672,
+      iconPath: 'assets/icons/travel.svg',
+    );
+    final c4 = Category(
+      id: 4,
+      name: 'Clothing',
+      colorValue: 4294198070,
+      iconPath: 'assets/icons/picker_icons/shirt.svg',
+    );
+    final c5 = Category(
+      id: 5,
+      name: 'Transportation',
+      colorValue: 4282339765,
+      iconPath: 'assets/icons/car.svg',
+    );
+    final c6 = Category(
+      id: 6,
+      name: 'Housing',
+      colorValue: 4283215696,
+      iconPath: 'assets/icons/house.svg',
+    );
+    final c7 = Category(
+      id: 7,
+      name: 'Entertainment',
+      colorValue: 4293467747,
+      iconPath: 'assets/icons/popcorn.svg',
+    );
+
+    await db.insert(categoriesTable, c1.toJson());
+    await db.insert(categoriesTable, c2.toJson());
+    await db.insert(categoriesTable, c3.toJson());
+    await db.insert(categoriesTable, c4.toJson());
+    await db.insert(categoriesTable, c5.toJson());
+    await db.insert(categoriesTable, c6.toJson());
+    await db.insert(categoriesTable, c7.toJson());
   }
 
   Future<Category> insertCategory({required Category category}) async {
