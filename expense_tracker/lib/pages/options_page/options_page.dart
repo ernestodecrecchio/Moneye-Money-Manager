@@ -1,3 +1,5 @@
+import 'package:expense_tracker/notifiers/currency_provider.dart';
+import 'package:expense_tracker/notifiers/locale_provider.dart';
 import 'package:expense_tracker/pages/options_page/about_page/about_page.dart';
 import 'package:expense_tracker/pages/options_page/accounts_page/accounts_list_page.dart';
 import 'package:expense_tracker/pages/options_page/categories_page/categories_list_page.dart';
@@ -6,6 +8,7 @@ import 'package:expense_tracker/pages/options_page/language_page/languages_list_
 import 'package:expense_tracker/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:provider/provider.dart';
 
 class OptionsPage extends StatelessWidget {
   const OptionsPage({super.key});
@@ -72,7 +75,17 @@ class OptionsPage extends StatelessWidget {
           title: Text(AppLocalizations.of(context)!.language),
           subtitle:
               Text(AppLocalizations.of(context)!.languageOptionDescription),
-          trailing: const Icon(Icons.chevron_right_rounded),
+          trailing: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              if (Provider.of<LocaleProvider>(context, listen: true).locale !=
+                  null)
+                Text(Provider.of<LocaleProvider>(context, listen: true)
+                    .locale!
+                    .languageCode),
+              const Icon(Icons.chevron_right_rounded),
+            ],
+          ),
           onTap: () =>
               Navigator.of(context).pushNamed(LanguagesListPage.routeName),
         ),
@@ -87,7 +100,20 @@ class OptionsPage extends StatelessWidget {
           ),
           title: Text(AppLocalizations.of(context)!.currency),
           subtitle: Text(AppLocalizations.of(context)!.selectCurrency),
-          trailing: const Icon(Icons.chevron_right_rounded),
+          trailing: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              if (Provider.of<CurrencyProvider>(context, listen: true)
+                      .currentCurrencySymbol !=
+                  null)
+                Text(
+                  getSymbolForCurrency(
+                      Provider.of<CurrencyProvider>(context, listen: true)
+                          .currentCurrencySymbol!),
+                ),
+              const Icon(Icons.chevron_right_rounded),
+            ],
+          ),
           onTap: () => Navigator.of(context).pushNamed(CurrencyPage.routeName),
         ),
         const Divider(),
