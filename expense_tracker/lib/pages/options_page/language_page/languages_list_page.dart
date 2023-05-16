@@ -117,6 +117,27 @@ class _LanguagesListPageState extends State<LanguagesListPage> {
               ? const Icon(Icons.check)
               : null,
         ),
+        ListTile(
+          title: const Text('Deutsch'),
+          onTap: () => Provider.of<LocaleProvider>(context, listen: false)
+              .setLocale(const Locale('de')),
+          leading: Container(
+            clipBehavior: Clip.antiAlias,
+            height: 30,
+            width: 30,
+            decoration: const BoxDecoration(shape: BoxShape.circle),
+            child: SvgPicture.asset(
+              'assets/flags/Germany.svg',
+              fit: BoxFit.cover,
+            ),
+          ),
+          trailing: Provider.of<LocaleProvider>(context, listen: true)
+                      .locale
+                      ?.languageCode ==
+                  'de'
+              ? const Icon(Icons.check)
+              : null,
+        ),
       ],
     );
   }
