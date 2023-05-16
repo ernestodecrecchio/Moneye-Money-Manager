@@ -7,7 +7,6 @@ class DatabaseCategoryHelper {
   DatabaseCategoryHelper._init();
 
   static Future inizializeTable(Database db) async {
-    print('init cat table');
     const idType = 'INTEGER PRIMARY KEY AUTOINCREMENT';
     const textType = 'TEXT NOT NULL';
     const textTypeNullable = 'TEXT';
@@ -24,7 +23,7 @@ class DatabaseCategoryHelper {
       )
     ''');
 
-    await insertDemoData(db);
+    // await insertDemoData(db);
   }
 
   static Future insertDemoData(Database db) async {
