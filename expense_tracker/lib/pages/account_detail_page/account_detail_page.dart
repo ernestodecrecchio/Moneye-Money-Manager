@@ -8,14 +8,24 @@ import 'package:expense_tracker/notifiers/category_provider.dart';
 import 'package:expense_tracker/notifiers/transaction_provider.dart';
 import 'package:expense_tracker/pages/account_detail_page/account_pie_chart.dart';
 import 'package:expense_tracker/pages/account_detail_page/transaction_list_page.dart';
+import 'package:expense_tracker/pages/common/custom_modal_bottom_sheet.dart';
 import 'package:expense_tracker/pages/common/list_tiles/transaction_list_cell.dart';
 import 'package:expense_tracker/pages/options_page/accounts_page/new_edit_account_page.dart';
 import 'package:expense_tracker/pages/new_edit_transaction_flow/new_edit_transaction_page.dart';
 import 'package:expense_tracker/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+enum TransactionTimePeriod {
+  day,
+  week,
+  month,
+  year,
+  custom,
+}
 
 enum AccountDetailTransactionListMode {
   transactionList,
@@ -36,19 +46,23 @@ class AccountDetailPage extends StatefulWidget {
 class _AccountDetailPageState extends State<AccountDetailPage>
     with TickerProviderStateMixin {
   late final TabController _tabController;
-  late final TabController _timeTabController;
 
   AccountDetailTransactionListMode transactionListMode =
       AccountDetailTransactionListMode.transactionList;
 
   int selectedTimeIndex = 0;
 
+  TransactionTimePeriod selectedTransactionTimePeriod =
+      TransactionTimePeriod.month;
+
+  DateTime startDate = currentMonthFirstDay(DateTime.now());
+  DateTime endDate = currentMonthLastDay(DateTime.now());
+
   @override
   void initState() {
     super.initState();
 
     _tabController = TabController(length: 3, vsync: this);
-    _timeTabController = TabController(length: 3, vsync: this);
   }
 
   @override
@@ -167,49 +181,286 @@ class _AccountDetailPageState extends State<AccountDetailPage>
 
   Widget _buildDateBar() {
     return Container(
-      height: 44,
+      height: 50,
+      padding: const EdgeInsets.symmetric(horizontal: 14),
       width: double.infinity,
       color: CustomColors.clearGrey,
-      child: TabBar(
-        controller: _timeTabController,
-        padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 5),
-        tabs: [
-          Tab(
-            child: FittedBox(
-              fit: BoxFit.contain,
-              child: Text(
-                AppLocalizations.of(context)!.week,
+      child: Row(
+        children: [
+          ElevatedButton(
+            onPressed: () {
+              showCustomModalBottomSheet(
+                context: context,
+                builder: ((context) {
+                  return Padding(
+                    padding: const EdgeInsets.only(top: 10),
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 17),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              const Flexible(
+                                child: Text(
+                                  'Seleziona periodo',
+                                  style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w600),
+                                ),
+                              ),
+                              IconButton(
+                                onPressed: () => Navigator.of(context).pop(),
+                                icon: const Icon(Icons.close),
+                              )
+                            ],
+                          ),
+                        ),
+                        Expanded(
+                          child: ListView(
+                            shrinkWrap: true,
+                            children: [
+                              ListTile(
+                                title: Text(AppLocalizations.of(context)!.day),
+                                trailing: selectedTransactionTimePeriod ==
+                                        TransactionTimePeriod.day
+                                    ? SvgPicture.asset(
+                                        'assets/icons/checkmark.svg')
+                                    : null,
+                                onTap: () {
+                                  selectedTransactionTimePeriod =
+                                      TransactionTimePeriod.day;
+
+                                  final currentDate = DateTime.now();
+
+                                  startDate = DateTime(
+                                      currentDate.year,
+                                      currentDate.month,
+                                      currentDate.day,
+                                      0,
+                                      0,
+                                      0);
+
+                                  endDate = DateTime(
+                                      currentDate.year,
+                                      currentDate.month,
+                                      currentDate.day,
+                                      23,
+                                      59,
+                                      59);
+
+                                  print(startDate);
+                                  print(endDate);
+
+                                  setState(() {});
+                                  Navigator.of(context).pop();
+                                },
+                              ),
+                              ListTile(
+                                title: Text(AppLocalizations.of(context)!.week),
+                                trailing: selectedTransactionTimePeriod ==
+                                        TransactionTimePeriod.week
+                                    ? SvgPicture.asset(
+                                        'assets/icons/checkmark.svg')
+                                    : null,
+                                onTap: () {
+                                  selectedTransactionTimePeriod =
+                                      TransactionTimePeriod.week;
+
+                                  final currentDate = DateTime.now();
+
+                                  startDate = currentWeekFirstDay(currentDate);
+                                  endDate = currentWeekLastDay(currentDate);
+
+                                  print(startDate);
+                                  print(endDate);
+
+                                  setState(() {});
+                                  Navigator.of(context).pop();
+                                },
+                              ),
+                              ListTile(
+                                title:
+                                    Text(AppLocalizations.of(context)!.month),
+                                trailing: selectedTransactionTimePeriod ==
+                                        TransactionTimePeriod.month
+                                    ? SvgPicture.asset(
+                                        'assets/icons/checkmark.svg')
+                                    : null,
+                                onTap: () {
+                                  selectedTransactionTimePeriod =
+                                      TransactionTimePeriod.month;
+
+                                  final currentDate = DateTime.now();
+
+                                  startDate = currentMonthFirstDay(currentDate);
+                                  endDate = currentMonthLastDay(currentDate);
+
+                                  print(startDate);
+                                  print(endDate);
+
+                                  setState(() {});
+                                  Navigator.of(context).pop();
+                                },
+                              ),
+                              ListTile(
+                                title: Text(AppLocalizations.of(context)!.year),
+                                trailing: selectedTransactionTimePeriod ==
+                                        TransactionTimePeriod.year
+                                    ? SvgPicture.asset(
+                                        'assets/icons/checkmark.svg')
+                                    : null,
+                                onTap: () {
+                                  selectedTransactionTimePeriod =
+                                      TransactionTimePeriod.year;
+
+                                  final currentDate = DateTime.now();
+
+                                  startDate = currentYearFirstDay(currentDate);
+                                  endDate = currentYearLastDay(currentDate);
+
+                                  print(startDate);
+                                  print(endDate);
+
+                                  setState(() {});
+                                  Navigator.of(context).pop();
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                }),
+              );
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: CustomColors.blue,
+              elevation: 0,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(55 / 2),
+              ),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(selectedTransactionTimePeriod == TransactionTimePeriod.day
+                    ? AppLocalizations.of(context)!.day
+                    : selectedTransactionTimePeriod ==
+                            TransactionTimePeriod.week
+                        ? AppLocalizations.of(context)!.week
+                        : selectedTransactionTimePeriod ==
+                                TransactionTimePeriod.month
+                            ? AppLocalizations.of(context)!.month
+                            : selectedTransactionTimePeriod ==
+                                    TransactionTimePeriod.year
+                                ? AppLocalizations.of(context)!.year
+                                : 'Custom'),
+                const Icon(Icons.arrow_drop_down_rounded)
+              ],
+            ),
+          ),
+          Expanded(
+            child: Text(
+              selectedTransactionTimePeriod == TransactionTimePeriod.day
+                  ? DateFormat("dd MMM yyyy").format(startDate)
+                  : selectedTransactionTimePeriod == TransactionTimePeriod.week
+                      ? '${DateFormat("dd MMM yy").format(startDate)} - ${DateFormat("dd MMM yy").format(endDate)} '
+                      : selectedTransactionTimePeriod ==
+                              TransactionTimePeriod.month
+                          ? DateFormat("MMM yyyy").format(startDate)
+                          : selectedTransactionTimePeriod ==
+                                  TransactionTimePeriod.year
+                              ? DateFormat("yyyy").format(startDate)
+                              : '${startDate.day} ${startDate.month} - ${endDate.day} ${endDate.month}',
+              textAlign: TextAlign.end,
+              style: const TextStyle(
+                color: CustomColors.clearGreyText,
               ),
             ),
           ),
-          Tab(
-            child: FittedBox(
-              fit: BoxFit.contain,
-              child: Text(
-                AppLocalizations.of(context)!.month,
-              ),
+          ElevatedButton(
+            onPressed: () {
+              switch (selectedTransactionTimePeriod) {
+                case TransactionTimePeriod.day:
+                  startDate = previousDay(startDate);
+                  endDate = previousDay(endDate);
+
+                  break;
+                case TransactionTimePeriod.week:
+                  startDate = previousWeekFirstDay(startDate);
+                  endDate = previousWeekLastDay(endDate);
+
+                  break;
+                case TransactionTimePeriod.month:
+                  startDate = previousMonthFirstDay(startDate);
+                  endDate = previousMonthLastDay(endDate);
+
+                  break;
+                case TransactionTimePeriod.year:
+                  startDate = previousYearFirstDay(startDate);
+                  endDate = previousYearLastDay(endDate);
+
+                  break;
+                case TransactionTimePeriod.custom:
+                  break;
+              }
+
+              print('START: $startDate');
+              print('END: $endDate');
+
+              setState(() {});
+            },
+            style: ElevatedButton.styleFrom(
+              minimumSize: Size(40, 40),
+              elevation: 0,
+              backgroundColor: CustomColors.blue,
+              shape: const CircleBorder(),
             ),
+            child: const Icon(Icons.chevron_left_rounded),
           ),
-          Tab(
-            child: FittedBox(
-              fit: BoxFit.contain,
-              child: Text(
-                AppLocalizations.of(context)!.year,
-              ),
+          ElevatedButton(
+            onPressed: () {
+              switch (selectedTransactionTimePeriod) {
+                case TransactionTimePeriod.day:
+                  startDate = nextDay(startDate);
+                  endDate = nextDay(endDate);
+
+                  break;
+                case TransactionTimePeriod.week:
+                  startDate = nextWeekFirstDay(startDate);
+                  endDate = nextWeekLastDay(endDate);
+
+                  break;
+                case TransactionTimePeriod.month:
+                  startDate = nextMonthFirstDay(startDate);
+                  endDate = nextMonthLastDay(endDate);
+
+                  break;
+                case TransactionTimePeriod.year:
+                  startDate = nextYearFirstDay(startDate);
+                  endDate = nextYearLastDay(endDate);
+
+                  break;
+                case TransactionTimePeriod.custom:
+                  break;
+              }
+
+              print('START: $startDate');
+              print('END: $endDate');
+
+              setState(() {});
+            },
+            style: ElevatedButton.styleFrom(
+              minimumSize: Size(40, 40),
+              elevation: 0,
+              backgroundColor: CustomColors.blue,
+              shape: const CircleBorder(),
             ),
+            child: const Icon(Icons.chevron_right_rounded),
           ),
         ],
-        unselectedLabelColor: CustomColors.clearGreyText,
-        labelColor: Colors.white,
-        indicator: BoxDecoration(
-            color: CustomColors.blue,
-            borderRadius: BorderRadius.circular(44 / 2)),
-        onTap: (selectedTabIndex) {
-          if (selectedTimeIndex != selectedTabIndex) {
-            selectedTimeIndex = selectedTabIndex;
-            setState(() {});
-          }
-        },
       ),
     );
   }
@@ -217,74 +468,30 @@ class _AccountDetailPageState extends State<AccountDetailPage>
   Widget _buildIncomePage() {
     List<Transaction> transactionList = [];
 
-    final currentDate = DateTime.now();
-    final currentWeekNumber = weekNumber(currentDate);
-    final currentMonth = currentDate.month;
-    final currentYear = currentDate.year;
-
     final transactionProvider =
         Provider.of<TransactionProvider>(context, listen: true);
 
-    switch (selectedTimeIndex) {
-      case 0:
-        if (widget.account != null) {
-          transactionList = transactionProvider.transactionList
-              .where((element) =>
-                  element.accountId == widget.account!.id &&
-                  element.value >= 0 &&
-                  weekNumber(element.date) == currentWeekNumber &&
-                  element.date.month == currentMonth &&
-                  element.date.year == currentYear)
-              .toList()
-              .sorted((a, b) => a.date.isBefore(b.date) ? 1 : 0);
-        } else {
-          transactionList = transactionProvider.transactionList
-              .where((element) =>
-                  element.value >= 0 &&
-                  weekNumber(element.date) == currentWeekNumber &&
-                  element.date.month == currentMonth &&
-                  element.date.year == currentYear)
-              .toList()
-              .sorted((a, b) => a.date.isBefore(b.date) ? 1 : 0);
-        }
-        break;
-      case 1:
-        if (widget.account != null) {
-          transactionList = transactionProvider.transactionList
-              .where((element) =>
-                  element.accountId == widget.account!.id &&
-                  element.value >= 0 &&
-                  element.date.month == currentMonth &&
-                  element.date.year == currentYear)
-              .toList()
-              .sorted((a, b) => a.date.isBefore(b.date) ? 1 : 0);
-        } else {
-          transactionList = transactionProvider.transactionList
-              .where((element) =>
-                  element.value >= 0 &&
-                  element.date.month == currentMonth &&
-                  element.date.year == currentYear)
-              .toList()
-              .sorted((a, b) => a.date.isBefore(b.date) ? 1 : 0);
-        }
-        break;
-      case 2:
-        if (widget.account != null) {
-          transactionList = transactionProvider.transactionList
-              .where((element) =>
-                  element.accountId == widget.account!.id &&
-                  element.value >= 0 &&
-                  element.date.year == currentYear)
-              .toList()
-              .sorted((a, b) => a.date.isBefore(b.date) ? 1 : 0);
-        } else {
-          transactionList = transactionProvider.transactionList
-              .where((element) =>
-                  element.value >= 0 && element.date.year == currentYear)
-              .toList()
-              .sorted((a, b) => a.date.isBefore(b.date) ? 1 : 0);
-        }
-        break;
+    if (widget.account != null) {
+      transactionList = transactionProvider.transactionList
+          .where(
+            (element) =>
+                element.accountId == widget.account!.id &&
+                element.value >= 0 &&
+                element.date.isAfterIncludingZero(startDate) &&
+                element.date.isBeforeIncludingZero(endDate),
+          )
+          .toList()
+          .sorted((a, b) => a.date.isBefore(b.date) ? 1 : 0);
+    } else {
+      transactionList = transactionProvider.transactionList
+          .where(
+            (element) =>
+                element.value >= 0 &&
+                element.date.isAfterIncludingZero(startDate) &&
+                element.date.isBeforeIncludingZero(endDate),
+          )
+          .toList()
+          .sorted((a, b) => a.date.isBefore(b.date) ? 1 : 0);
     }
 
     return transactionList.isEmpty
@@ -305,155 +512,70 @@ class _AccountDetailPageState extends State<AccountDetailPage>
   Widget _buildOutcomePage() {
     List<Transaction> transactionList = [];
 
-    final currentDate = DateTime.now();
-    final currentWeekNumber = weekNumber(currentDate);
-    final currentMonth = currentDate.month;
-    final currentYear = currentDate.year;
-
     final transactionProvider =
         Provider.of<TransactionProvider>(context, listen: true);
 
-    switch (selectedTimeIndex) {
-      case 0:
-        if (widget.account != null) {
-          transactionList = transactionProvider.transactionList
-              .where((element) =>
-                  element.accountId == widget.account!.id &&
-                  element.value < 0 &&
-                  weekNumber(element.date) == currentWeekNumber &&
-                  element.date.month == currentMonth &&
-                  element.date.year == currentYear)
-              .toList()
-              .sorted((a, b) => a.date.isBefore(b.date) ? 1 : 0);
-        } else {
-          transactionList = transactionProvider.transactionList
-              .where((element) =>
-                  element.value < 0 &&
-                  weekNumber(element.date) == currentWeekNumber &&
-                  element.date.month == currentMonth &&
-                  element.date.year == currentYear)
-              .toList()
-              .sorted((a, b) => a.date.isBefore(b.date) ? 1 : 0);
-        }
-        break;
-      case 1:
-        if (widget.account != null) {
-          transactionList = transactionProvider.transactionList
-              .where((element) =>
-                  element.accountId == widget.account!.id &&
-                  element.value < 0 &&
-                  element.date.month == currentMonth &&
-                  element.date.year == currentYear)
-              .toList()
-              .sorted((a, b) => a.date.isBefore(b.date) ? 1 : 0);
-        } else {
-          transactionList = transactionProvider.transactionList
-              .where((element) =>
-                  element.value < 0 &&
-                  element.date.month == currentMonth &&
-                  element.date.year == currentYear)
-              .toList()
-              .sorted((a, b) => a.date.isBefore(b.date) ? 1 : 0);
-        }
-        break;
-      case 2:
-        if (widget.account != null) {
-          transactionList = transactionProvider.transactionList
-              .where((element) =>
-                  element.accountId == widget.account!.id &&
-                  element.value < 0 &&
-                  element.date.year == currentYear)
-              .toList()
-              .sorted((a, b) => a.date.isBefore(b.date) ? 1 : 0);
-        } else {
-          transactionList = transactionProvider.transactionList
-              .where((element) =>
-                  element.value < 0 && element.date.year == currentYear)
-              .toList()
-              .sorted((a, b) => a.date.isBefore(b.date) ? 1 : 0);
-        }
-        break;
+    if (widget.account != null) {
+      transactionList = transactionProvider.transactionList
+          .where(
+            (element) =>
+                element.accountId == widget.account!.id &&
+                element.value < 0 &&
+                element.date.isAfterIncludingZero(startDate) &&
+                element.date.isBeforeIncludingZero(endDate),
+          )
+          .toList()
+          .sorted((a, b) => a.date.isBefore(b.date) ? 1 : 0);
+    } else {
+      transactionList = transactionProvider.transactionList
+          .where(
+            (element) =>
+                element.value < 0 &&
+                element.date.isAfterIncludingZero(startDate) &&
+                element.date.isBeforeIncludingZero(endDate),
+          )
+          .toList()
+          .sorted((a, b) => a.date.isBefore(b.date) ? 1 : 0);
     }
 
     return transactionList.isEmpty
         ? Align(child: Text(AppLocalizations.of(context)!.noTransactions))
-        : SingleChildScrollView(
-            child: Column(
-              children: [
-                //_buildPieChart( transactionList, AccountPieChartModeTransactionType.expense),
-                Expanded(
-                  child: _buildTransactionListSection(transactionList),
-                )
-              ],
-            ),
+        : Column(
+            children: [
+              _buildPieChart(
+                  transactionList, AccountPieChartModeTransactionType.expense),
+              Expanded(
+                child: _buildTransactionListSection(transactionList),
+              )
+            ],
           );
   }
 
   Widget _buildTotalPage() {
     List<Transaction> transactionList = [];
 
-    final currentDate = DateTime.now();
-    final currentWeekNumber = weekNumber(currentDate);
-    final currentMonth = currentDate.month;
-    final currentYear = currentDate.year;
-
     final transactionProvider =
         Provider.of<TransactionProvider>(context, listen: true);
 
-    switch (selectedTimeIndex) {
-      case 0:
-        if (widget.account != null) {
-          transactionList = transactionProvider.transactionList
-              .where((element) =>
-                  element.accountId == widget.account!.id &&
-                  weekNumber(element.date) == currentWeekNumber &&
-                  element.date.month == currentMonth &&
-                  element.date.year == currentYear)
-              .toList()
-              .sorted((a, b) => a.date.isBefore(b.date) ? 1 : 0);
-        } else {
-          transactionList = transactionProvider.transactionList
-              .where((element) =>
-                  weekNumber(element.date) == currentWeekNumber &&
-                  element.date.month == currentMonth &&
-                  element.date.year == currentYear)
-              .toList()
-              .sorted((a, b) => a.date.isBefore(b.date) ? 1 : 0);
-        }
-        break;
-      case 1:
-        if (widget.account != null) {
-          transactionList = transactionProvider.transactionList
-              .where((element) =>
-                  element.accountId == widget.account!.id &&
-                  element.date.month == currentMonth &&
-                  element.date.year == currentYear)
-              .toList()
-              .sorted((a, b) => a.date.isBefore(b.date) ? 1 : 0);
-        } else {
-          transactionList = transactionProvider.transactionList
-              .where((element) =>
-                  element.date.month == currentMonth &&
-                  element.date.year == currentYear)
-              .toList()
-              .sorted((a, b) => a.date.isBefore(b.date) ? 1 : 0);
-        }
-        break;
-      case 2:
-        if (widget.account != null) {
-          transactionList = transactionProvider.transactionList
-              .where((element) =>
-                  element.accountId == widget.account!.id &&
-                  element.date.year == currentYear)
-              .toList()
-              .sorted((a, b) => a.date.isBefore(b.date) ? 1 : 0);
-        } else {
-          transactionList = transactionProvider.transactionList
-              .where((element) => element.date.year == currentYear)
-              .toList()
-              .sorted((a, b) => a.date.isBefore(b.date) ? 1 : 0);
-        }
-        break;
+    if (widget.account != null) {
+      transactionList = transactionProvider.transactionList
+          .where(
+            (element) =>
+                element.accountId == widget.account!.id &&
+                element.date.isAfterIncludingZero(startDate) &&
+                element.date.isBeforeIncludingZero(endDate),
+          )
+          .toList()
+          .sorted((a, b) => a.date.isBefore(b.date) ? 1 : 0);
+    } else {
+      transactionList = transactionProvider.transactionList
+          .where(
+            (element) =>
+                element.date.isAfterIncludingZero(startDate) &&
+                element.date.isBeforeIncludingZero(endDate),
+          )
+          .toList()
+          .sorted((a, b) => a.date.isBefore(b.date) ? 1 : 0);
     }
 
     return transactionList.isEmpty
@@ -526,10 +648,11 @@ class _AccountDetailPageState extends State<AccountDetailPage>
           ]),
         ),
         Expanded(
-            child: transactionListMode ==
-                    AccountDetailTransactionListMode.transactionList
-                ? _buildTransactionList(transactionList)
-                : _buildCategoryList(transactionList))
+          child: transactionListMode ==
+                  AccountDetailTransactionListMode.transactionList
+              ? _buildTransactionList(transactionList)
+              : _buildCategoryList(transactionList),
+        )
       ],
     );
   }
