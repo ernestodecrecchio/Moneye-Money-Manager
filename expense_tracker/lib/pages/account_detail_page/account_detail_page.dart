@@ -63,8 +63,6 @@ class _AccountDetailPageState extends State<AccountDetailPage>
     Account? referenceAccount;
 
     if (widget.account != null) {
-      // Showing all transactions details
-
       referenceAccount = Provider.of<AccountProvider>(context, listen: true)
           .accountList
           .firstWhereOrNull((element) => element.id == widget.account!.id);
@@ -141,7 +139,7 @@ class _AccountDetailPageState extends State<AccountDetailPage>
               child: FittedBox(
                 fit: BoxFit.contain,
                 child: Text(
-                  AppLocalizations.of(context)!.income,
+                  AppLocalizations.of(context)!.incomes,
                 ),
               ),
             ),
@@ -149,7 +147,7 @@ class _AccountDetailPageState extends State<AccountDetailPage>
               child: FittedBox(
                 fit: BoxFit.contain,
                 child: Text(
-                  AppLocalizations.of(context)!.outcome,
+                  AppLocalizations.of(context)!.outcomes,
                 ),
               ),
             ),
@@ -379,14 +377,15 @@ class _AccountDetailPageState extends State<AccountDetailPage>
 
     return transactionList.isEmpty
         ? Align(child: Text(AppLocalizations.of(context)!.noTransactions))
-        : Column(
-            children: [
-              _buildPieChart(
-                  transactionList, AccountPieChartModeTransactionType.expense),
-              Expanded(
-                child: _buildTransactionListSection(transactionList),
-              )
-            ],
+        : SingleChildScrollView(
+            child: Column(
+              children: [
+                //_buildPieChart( transactionList, AccountPieChartModeTransactionType.expense),
+                Expanded(
+                  child: _buildTransactionListSection(transactionList),
+                )
+              ],
+            ),
           );
   }
 
