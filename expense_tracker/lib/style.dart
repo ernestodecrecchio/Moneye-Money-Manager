@@ -19,6 +19,12 @@ class CustomColors {
   ///
   static const clearGreyText = Color.fromARGB(255, 132, 132, 132);
 
+  /// #6BBC98
+  static const income = Color.fromARGB(255, 107, 188, 152);
+
+  /// #FC5757
+  static const expense = Color.fromARGB(255, 252, 87, 87);
+
   // Picker Colors
   static const red1 = Color.fromARGB(255, 244, 67, 54);
   static const red2 = Color.fromARGB(255, 233, 30, 99);
