@@ -187,7 +187,7 @@ class _AccountPieChartState extends State<AccountPieChart> {
           ),
           badgeWidget: isTouched
               ? Text(
-                  '${((currentCategoryTotalValuePair.totalValue / totalValue) * 100).toStringAsFixedRoundedWithCurrency(context, 2)}%',
+                  '${((currentCategoryTotalValuePair.totalValue / totalValue) * 100).toStringAsFixedRounded(2)}%',
                   style: const TextStyle(
                       color: Colors.white, fontWeight: FontWeight.bold),
                 )
