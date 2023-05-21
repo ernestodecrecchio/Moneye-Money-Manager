@@ -55,10 +55,11 @@ DateTime currentWeekFirstDay(DateTime currentDate) {
 }
 
 DateTime currentWeekLastDay(DateTime currentDate) {
+  print(currentDate.weekday);
   return DateTime(
     currentDate.year,
     currentDate.month,
-    currentDate.day + currentDate.weekday % 7 + 1,
+    currentDate.day - currentDate.weekday + 7,
     23,
     59,
     59,
