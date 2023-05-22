@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:expense_tracker/l10n/l10n.dart';
 import 'package:expense_tracker/models/account.dart';
 import 'package:expense_tracker/models/category.dart';
@@ -42,7 +44,7 @@ Future main() async {
   final currencySymbolPositionString =
       prefs.getString('currencySymbolPosition');
 
-  Intl.defaultLocale = localeString;
+  Intl.defaultLocale = localeString ?? Platform.localeName;
 
   CurrencyEnum? currencySymbol;
   if (currencySymbolString != null) {
