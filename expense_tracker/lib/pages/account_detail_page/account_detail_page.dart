@@ -203,10 +203,11 @@ class _AccountDetailPageState extends State<AccountDetailPage>
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                const Flexible(
+                                Flexible(
                                   child: Text(
-                                    'Seleziona periodo',
-                                    style: TextStyle(
+                                    AppLocalizations.of(context)!
+                                        .selectTimeInterval,
+                                    style: const TextStyle(
                                         fontSize: 18,
                                         fontWeight: FontWeight.w600),
                                   ),

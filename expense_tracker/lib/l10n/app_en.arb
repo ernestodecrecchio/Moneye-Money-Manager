@@ -47,6 +47,7 @@
    "save": "Save",
    "edit": "Edit",
    "balance": "Balance",
+   "selectTimeInterval": "Select the time interval",
    "day": "Day",
    "week": "Week",
    "month": "Month",
