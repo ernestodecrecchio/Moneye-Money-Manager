@@ -340,6 +340,7 @@ class _AccountDetailPageState extends State<AccountDetailPage>
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Expanded(
                     child: FittedBox(
@@ -367,26 +368,38 @@ class _AccountDetailPageState extends State<AccountDetailPage>
               ),
             ),
           ),
+          const SizedBox(
+            width: 10,
+          ),
           Expanded(
-            child: Text(
-              selectedTransactionTimePeriod == TransactionTimePeriod.day
-                  ? DateFormat("dd MMM yyyy").format(startDate)
-                  : selectedTransactionTimePeriod == TransactionTimePeriod.week
-                      ? '${DateFormat("dd MMM yy").format(startDate)} - ${DateFormat("dd MMM yy").format(endDate)} '
+            child: Align(
+              alignment: Alignment.centerRight,
+              child: FittedBox(
+                fit: BoxFit.scaleDown,
+                child: Text(
+                  selectedTransactionTimePeriod == TransactionTimePeriod.day
+                      ? DateFormat("dd MMM yyyy").format(startDate)
                       : selectedTransactionTimePeriod ==
-                              TransactionTimePeriod.month
-                          ? DateFormat("MMM yyyy").format(startDate)
+                              TransactionTimePeriod.week
+                          ? '${DateFormat("dd MMM yy").format(startDate)} - ${DateFormat("dd MMM yy").format(endDate)}'
                           : selectedTransactionTimePeriod ==
-                                  TransactionTimePeriod.year
-                              ? DateFormat("yyyy").format(startDate)
-                              : '${startDate.day} ${startDate.month} - ${endDate.day} ${endDate.month}',
-              textAlign: TextAlign.end,
-              maxLines: 1,
-              style: const TextStyle(
-                fontSize: 12,
-                color: CustomColors.clearGreyText,
+                                  TransactionTimePeriod.month
+                              ? DateFormat("MMM yyyy").format(startDate)
+                              : selectedTransactionTimePeriod ==
+                                      TransactionTimePeriod.year
+                                  ? DateFormat("yyyy").format(startDate)
+                                  : '${startDate.day} ${startDate.month} - ${endDate.day} ${endDate.month}',
+                  textAlign: TextAlign.end,
+                  style: const TextStyle(
+                    fontSize: 14,
+                    color: CustomColors.clearGreyText,
+                  ),
+                ),
               ),
             ),
+          ),
+          const SizedBox(
+            width: 10,
           ),
           ElevatedButton(
             onPressed: () {
@@ -418,12 +431,17 @@ class _AccountDetailPageState extends State<AccountDetailPage>
               setState(() {});
             },
             style: ElevatedButton.styleFrom(
-              minimumSize: const Size(40, 40),
+              minimumSize: const Size(35, 35),
               elevation: 0,
               backgroundColor: CustomColors.blue,
               shape: const CircleBorder(),
+              padding: EdgeInsets.zero,
+              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
             ),
             child: const Icon(Icons.chevron_left_rounded),
+          ),
+          const SizedBox(
+            width: 8,
           ),
           ElevatedButton(
             onPressed: () {
@@ -454,10 +472,12 @@ class _AccountDetailPageState extends State<AccountDetailPage>
               setState(() {});
             },
             style: ElevatedButton.styleFrom(
-              minimumSize: const Size(40, 40),
+              minimumSize: const Size(35, 35),
               elevation: 0,
               backgroundColor: CustomColors.blue,
               shape: const CircleBorder(),
+              padding: EdgeInsets.zero,
+              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
             ),
             child: const Icon(Icons.chevron_right_rounded),
           ),
