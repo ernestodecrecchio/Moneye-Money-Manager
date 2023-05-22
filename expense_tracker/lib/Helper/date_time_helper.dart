@@ -55,7 +55,6 @@ DateTime currentWeekFirstDay(DateTime currentDate) {
 }
 
 DateTime currentWeekLastDay(DateTime currentDate) {
-  print(currentDate.weekday);
   return DateTime(
     currentDate.year,
     currentDate.month,

@@ -249,9 +249,6 @@ class _AccountDetailPageState extends State<AccountDetailPage>
                                       59,
                                       59);
 
-                                  print(startDate);
-                                  print(endDate);
-
                                   setState(() {});
                                   Navigator.of(context).pop();
                                 },
@@ -271,9 +268,6 @@ class _AccountDetailPageState extends State<AccountDetailPage>
 
                                   startDate = currentWeekFirstDay(currentDate);
                                   endDate = currentWeekLastDay(currentDate);
-
-                                  print(startDate);
-                                  print(endDate);
 
                                   setState(() {});
                                   Navigator.of(context).pop();
@@ -296,9 +290,6 @@ class _AccountDetailPageState extends State<AccountDetailPage>
                                   startDate = currentMonthFirstDay(currentDate);
                                   endDate = currentMonthLastDay(currentDate);
 
-                                  print(startDate);
-                                  print(endDate);
-
                                   setState(() {});
                                   Navigator.of(context).pop();
                                 },
@@ -318,9 +309,6 @@ class _AccountDetailPageState extends State<AccountDetailPage>
 
                                   startDate = currentYearFirstDay(currentDate);
                                   endDate = currentYearLastDay(currentDate);
-
-                                  print(startDate);
-                                  print(endDate);
 
                                   setState(() {});
                                   Navigator.of(context).pop();
@@ -407,13 +395,10 @@ class _AccountDetailPageState extends State<AccountDetailPage>
                   break;
               }
 
-              print('START: $startDate');
-              print('END: $endDate');
-
               setState(() {});
             },
             style: ElevatedButton.styleFrom(
-              minimumSize: Size(40, 40),
+              minimumSize: const Size(40, 40),
               elevation: 0,
               backgroundColor: CustomColors.blue,
               shape: const CircleBorder(),
@@ -446,14 +431,10 @@ class _AccountDetailPageState extends State<AccountDetailPage>
                 case TransactionTimePeriod.custom:
                   break;
               }
-
-              print('START: $startDate');
-              print('END: $endDate');
-
               setState(() {});
             },
             style: ElevatedButton.styleFrom(
-              minimumSize: Size(40, 40),
+              minimumSize: const Size(40, 40),
               elevation: 0,
               backgroundColor: CustomColors.blue,
               shape: const CircleBorder(),
