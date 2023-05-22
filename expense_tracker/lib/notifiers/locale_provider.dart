@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LocaleProvider extends ChangeNotifier {
@@ -18,6 +21,8 @@ class LocaleProvider extends ChangeNotifier {
 
     prefs.remove('locale');
 
+    Intl.defaultLocale = Platform.localeName;
+
     notifyListeners();
   }
 
@@ -27,6 +32,8 @@ class LocaleProvider extends ChangeNotifier {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     prefs.setString('locale', locale.languageCode);
+
+    Intl.defaultLocale = locale.languageCode;
 
     notifyListeners();
   }
