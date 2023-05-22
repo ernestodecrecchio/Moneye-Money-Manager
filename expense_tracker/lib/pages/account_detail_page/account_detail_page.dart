@@ -187,166 +187,184 @@ class _AccountDetailPageState extends State<AccountDetailPage>
       color: CustomColors.clearGrey,
       child: Row(
         children: [
-          ElevatedButton(
-            onPressed: () {
-              showCustomModalBottomSheet(
-                context: context,
-                builder: ((context) {
-                  return Padding(
-                    padding: const EdgeInsets.only(top: 10),
-                    child: Column(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 17),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              const Flexible(
-                                child: Text(
-                                  'Seleziona periodo',
-                                  style: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w600),
+          SizedBox(
+            width: (MediaQuery.of(context).size.width - 28) / 3,
+            child: ElevatedButton(
+              onPressed: () {
+                showCustomModalBottomSheet(
+                  context: context,
+                  builder: ((context) {
+                    return Padding(
+                      padding: const EdgeInsets.only(top: 10),
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 17),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                const Flexible(
+                                  child: Text(
+                                    'Seleziona periodo',
+                                    style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w600),
+                                  ),
                                 ),
-                              ),
-                              IconButton(
-                                onPressed: () => Navigator.of(context).pop(),
-                                icon: const Icon(Icons.close),
-                              )
-                            ],
+                                IconButton(
+                                  onPressed: () => Navigator.of(context).pop(),
+                                  icon: const Icon(Icons.close),
+                                )
+                              ],
+                            ),
                           ),
-                        ),
-                        Expanded(
-                          child: ListView(
-                            shrinkWrap: true,
-                            children: [
-                              ListTile(
-                                title: Text(AppLocalizations.of(context)!.day),
-                                trailing: selectedTransactionTimePeriod ==
-                                        TransactionTimePeriod.day
-                                    ? SvgPicture.asset(
-                                        'assets/icons/checkmark.svg')
-                                    : null,
-                                onTap: () {
-                                  selectedTransactionTimePeriod =
-                                      TransactionTimePeriod.day;
+                          Expanded(
+                            child: ListView(
+                              shrinkWrap: true,
+                              children: [
+                                ListTile(
+                                  title:
+                                      Text(AppLocalizations.of(context)!.day),
+                                  trailing: selectedTransactionTimePeriod ==
+                                          TransactionTimePeriod.day
+                                      ? SvgPicture.asset(
+                                          'assets/icons/checkmark.svg')
+                                      : null,
+                                  onTap: () {
+                                    selectedTransactionTimePeriod =
+                                        TransactionTimePeriod.day;
 
-                                  final currentDate = DateTime.now();
+                                    final currentDate = DateTime.now();
 
-                                  startDate = DateTime(
-                                      currentDate.year,
-                                      currentDate.month,
-                                      currentDate.day,
-                                      0,
-                                      0,
-                                      0);
+                                    startDate = DateTime(
+                                        currentDate.year,
+                                        currentDate.month,
+                                        currentDate.day,
+                                        0,
+                                        0,
+                                        0);
 
-                                  endDate = DateTime(
-                                      currentDate.year,
-                                      currentDate.month,
-                                      currentDate.day,
-                                      23,
-                                      59,
-                                      59);
+                                    endDate = DateTime(
+                                        currentDate.year,
+                                        currentDate.month,
+                                        currentDate.day,
+                                        23,
+                                        59,
+                                        59);
 
-                                  setState(() {});
-                                  Navigator.of(context).pop();
-                                },
-                              ),
-                              ListTile(
-                                title: Text(AppLocalizations.of(context)!.week),
-                                trailing: selectedTransactionTimePeriod ==
-                                        TransactionTimePeriod.week
-                                    ? SvgPicture.asset(
-                                        'assets/icons/checkmark.svg')
-                                    : null,
-                                onTap: () {
-                                  selectedTransactionTimePeriod =
-                                      TransactionTimePeriod.week;
+                                    setState(() {});
+                                    Navigator.of(context).pop();
+                                  },
+                                ),
+                                ListTile(
+                                  title:
+                                      Text(AppLocalizations.of(context)!.week),
+                                  trailing: selectedTransactionTimePeriod ==
+                                          TransactionTimePeriod.week
+                                      ? SvgPicture.asset(
+                                          'assets/icons/checkmark.svg')
+                                      : null,
+                                  onTap: () {
+                                    selectedTransactionTimePeriod =
+                                        TransactionTimePeriod.week;
 
-                                  final currentDate = DateTime.now();
+                                    final currentDate = DateTime.now();
 
-                                  startDate = currentWeekFirstDay(currentDate);
-                                  endDate = currentWeekLastDay(currentDate);
+                                    startDate =
+                                        currentWeekFirstDay(currentDate);
+                                    endDate = currentWeekLastDay(currentDate);
 
-                                  setState(() {});
-                                  Navigator.of(context).pop();
-                                },
-                              ),
-                              ListTile(
-                                title:
-                                    Text(AppLocalizations.of(context)!.month),
-                                trailing: selectedTransactionTimePeriod ==
-                                        TransactionTimePeriod.month
-                                    ? SvgPicture.asset(
-                                        'assets/icons/checkmark.svg')
-                                    : null,
-                                onTap: () {
-                                  selectedTransactionTimePeriod =
-                                      TransactionTimePeriod.month;
+                                    setState(() {});
+                                    Navigator.of(context).pop();
+                                  },
+                                ),
+                                ListTile(
+                                  title:
+                                      Text(AppLocalizations.of(context)!.month),
+                                  trailing: selectedTransactionTimePeriod ==
+                                          TransactionTimePeriod.month
+                                      ? SvgPicture.asset(
+                                          'assets/icons/checkmark.svg')
+                                      : null,
+                                  onTap: () {
+                                    selectedTransactionTimePeriod =
+                                        TransactionTimePeriod.month;
 
-                                  final currentDate = DateTime.now();
+                                    final currentDate = DateTime.now();
 
-                                  startDate = currentMonthFirstDay(currentDate);
-                                  endDate = currentMonthLastDay(currentDate);
+                                    startDate =
+                                        currentMonthFirstDay(currentDate);
+                                    endDate = currentMonthLastDay(currentDate);
 
-                                  setState(() {});
-                                  Navigator.of(context).pop();
-                                },
-                              ),
-                              ListTile(
-                                title: Text(AppLocalizations.of(context)!.year),
-                                trailing: selectedTransactionTimePeriod ==
-                                        TransactionTimePeriod.year
-                                    ? SvgPicture.asset(
-                                        'assets/icons/checkmark.svg')
-                                    : null,
-                                onTap: () {
-                                  selectedTransactionTimePeriod =
-                                      TransactionTimePeriod.year;
+                                    setState(() {});
+                                    Navigator.of(context).pop();
+                                  },
+                                ),
+                                ListTile(
+                                  title:
+                                      Text(AppLocalizations.of(context)!.year),
+                                  trailing: selectedTransactionTimePeriod ==
+                                          TransactionTimePeriod.year
+                                      ? SvgPicture.asset(
+                                          'assets/icons/checkmark.svg')
+                                      : null,
+                                  onTap: () {
+                                    selectedTransactionTimePeriod =
+                                        TransactionTimePeriod.year;
 
-                                  final currentDate = DateTime.now();
+                                    final currentDate = DateTime.now();
 
-                                  startDate = currentYearFirstDay(currentDate);
-                                  endDate = currentYearLastDay(currentDate);
+                                    startDate =
+                                        currentYearFirstDay(currentDate);
+                                    endDate = currentYearLastDay(currentDate);
 
-                                  setState(() {});
-                                  Navigator.of(context).pop();
-                                },
-                              ),
-                            ],
+                                    setState(() {});
+                                    Navigator.of(context).pop();
+                                  },
+                                ),
+                              ],
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
-                  );
-                }),
-              );
-            },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: CustomColors.blue,
-              elevation: 0,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(55 / 2),
+                        ],
+                      ),
+                    );
+                  }),
+                );
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: CustomColors.blue,
+                elevation: 0,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(55 / 2),
+                ),
               ),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(selectedTransactionTimePeriod == TransactionTimePeriod.day
-                    ? AppLocalizations.of(context)!.day
-                    : selectedTransactionTimePeriod ==
-                            TransactionTimePeriod.week
-                        ? AppLocalizations.of(context)!.week
-                        : selectedTransactionTimePeriod ==
-                                TransactionTimePeriod.month
-                            ? AppLocalizations.of(context)!.month
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Expanded(
+                    child: FittedBox(
+                      fit: BoxFit.scaleDown,
+                      child: Text(
+                        selectedTransactionTimePeriod ==
+                                TransactionTimePeriod.day
+                            ? AppLocalizations.of(context)!.day
                             : selectedTransactionTimePeriod ==
-                                    TransactionTimePeriod.year
-                                ? AppLocalizations.of(context)!.year
-                                : 'Custom'),
-                const Icon(Icons.arrow_drop_down_rounded)
-              ],
+                                    TransactionTimePeriod.week
+                                ? AppLocalizations.of(context)!.week
+                                : selectedTransactionTimePeriod ==
+                                        TransactionTimePeriod.month
+                                    ? AppLocalizations.of(context)!.month
+                                    : selectedTransactionTimePeriod ==
+                                            TransactionTimePeriod.year
+                                        ? AppLocalizations.of(context)!.year
+                                        : 'Custom',
+                        style: const TextStyle(fontSize: 14),
+                      ),
+                    ),
+                  ),
+                  const Icon(Icons.arrow_drop_down_rounded)
+                ],
+              ),
             ),
           ),
           Expanded(
@@ -363,7 +381,9 @@ class _AccountDetailPageState extends State<AccountDetailPage>
                               ? DateFormat("yyyy").format(startDate)
                               : '${startDate.day} ${startDate.month} - ${endDate.day} ${endDate.month}',
               textAlign: TextAlign.end,
+              maxLines: 1,
               style: const TextStyle(
+                fontSize: 12,
                 color: CustomColors.clearGreyText,
               ),
             ),
