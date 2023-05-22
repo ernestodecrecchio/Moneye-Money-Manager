@@ -187,7 +187,7 @@ class _AccountPieChartState extends State<AccountPieChart> {
           ),
           badgeWidget: isTouched
               ? Text(
-                  '${((currentCategoryTotalValuePair.totalValue / totalValue) * 100).toStringAsFixedRoundedWithCurrency(context, 2)}%',
+                  '${((currentCategoryTotalValuePair.totalValue / totalValue) * 100).toStringAsFixedRounded(2)}%',
                   style: const TextStyle(
                       color: Colors.white, fontWeight: FontWeight.bold),
                 )
@@ -216,7 +216,7 @@ class _AccountPieChartState extends State<AccountPieChart> {
         category: Category(
             id: -1,
             name: AppLocalizations.of(context)!.incomes,
-            colorValue: Colors.green.value),
+            colorValue: CustomColors.income.value),
         totalValue: 0,
       );
 
@@ -224,7 +224,7 @@ class _AccountPieChartState extends State<AccountPieChart> {
         category: Category(
             id: -2,
             name: AppLocalizations.of(context)!.outcomes,
-            colorValue: Colors.red.value),
+            colorValue: CustomColors.expense.value),
         totalValue: 0,
       );
 
