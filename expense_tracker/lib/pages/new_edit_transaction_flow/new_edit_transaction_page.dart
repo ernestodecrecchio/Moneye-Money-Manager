@@ -14,14 +14,23 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+class NewEditTransactionPageScreenArguments {
+  final Transaction? transaction;
+  final Account? account;
+
+  NewEditTransactionPageScreenArguments({this.transaction, this.account});
+}
+
 class NewEditTransactionPage extends StatefulWidget {
   static const routeName = '/newEditTransactionPage';
 
   final Transaction? initialTransactionSettings;
+  final Account? initialAccountSettings;
 
   const NewEditTransactionPage({
     Key? key,
     this.initialTransactionSettings,
+    this.initialAccountSettings,
   }) : super(key: key);
 
   @override
@@ -95,6 +104,15 @@ class _NewEditTransactionPageState extends State<NewEditTransactionPage>
     } else {
       titleInputFocusNode.requestFocus();
       dateInput.text = dateFormatter.format(selectedDate).toString();
+
+      if (widget.initialAccountSettings != null) {
+        selectedAccount = Provider.of<AccountProvider>(context, listen: false)
+            .getAccountFromId(widget.initialAccountSettings!.id!);
+
+        if (selectedAccount != null) {
+          accountInput.text = selectedAccount!.name;
+        }
+      }
     }
   }
 

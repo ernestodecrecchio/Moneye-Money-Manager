@@ -52,8 +52,10 @@ class TransactionListCell extends StatelessWidget {
       ),
       child: InkWell(
         onTap: () => Navigator.of(context).pushNamed(
-            NewEditTransactionPage.routeName,
-            arguments: transaction),
+          NewEditTransactionPage.routeName,
+          arguments:
+              NewEditTransactionPageScreenArguments(transaction: transaction),
+        ),
         child: Container(
           height: 64,
           padding:

@@ -103,8 +103,13 @@ class _AccountDetailPageState extends State<AccountDetailPage>
   Widget _buildFloatingActionButton(BuildContext context) {
     return FloatingActionButton(
       backgroundColor: CustomColors.darkBlue,
-      onPressed: () =>
-          Navigator.pushNamed(context, NewEditTransactionPage.routeName),
+      onPressed: () => Navigator.pushNamed(
+        context,
+        NewEditTransactionPage.routeName,
+        arguments: NewEditTransactionPageScreenArguments(
+          account: widget.account?.id != null ? widget.account : null,
+        ),
+      ),
       child: const Icon(Icons.add),
     );
   }

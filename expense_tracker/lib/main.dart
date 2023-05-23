@@ -163,11 +163,16 @@ class MyApp extends StatelessWidget {
                     }
                   case NewEditTransactionPage.routeName:
                     {
-                      final args = settings.arguments as Transaction?;
+                      final args = settings.arguments
+                          as NewEditTransactionPageScreenArguments?;
+
+                      final transaction = args?.transaction;
+                      final account = args?.account;
 
                       return MaterialPageRoute(
                         builder: (context) => NewEditTransactionPage(
-                          initialTransactionSettings: args,
+                          initialTransactionSettings: transaction,
+                          initialAccountSettings: account,
                         ),
                       );
                     }
