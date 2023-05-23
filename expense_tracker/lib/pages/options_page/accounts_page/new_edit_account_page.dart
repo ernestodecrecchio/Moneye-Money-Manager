@@ -116,7 +116,7 @@ class _NewAccountPageState extends State<NewAccountPage> {
               controller: descriptionInput,
               label: appLocalizations.description,
               hintText: appLocalizations.insertTheDescription,
-              maxLines: null,
+              //  maxLines: null,
             ),
             const SizedBox(
               height: 14,

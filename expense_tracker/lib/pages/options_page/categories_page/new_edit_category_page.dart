@@ -116,7 +116,7 @@ class _NewEditCategoryPageState extends State<NewEditCategoryPage> {
               controller: descriptionInput,
               label: appLocalizations.description,
               hintText: appLocalizations.insertTheDescription,
-              maxLines: null,
+              //   maxLines: null,
             ),
             const SizedBox(
               height: 14,
