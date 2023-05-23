@@ -20,7 +20,7 @@ class _AccountsListPageState extends State<AccountsListPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppLocalizations.of(context)!.accounts),
+        title: Text(AppLocalizations.of(context)!.yourAccounts),
         elevation: 0,
         backgroundColor: CustomColors.blue,
       ),

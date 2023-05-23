@@ -20,7 +20,7 @@ class _CategoriesListPageState extends State<CategoriesListPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppLocalizations.of(context)!.categories),
+        title: Text(AppLocalizations.of(context)!.yourCategories),
         backgroundColor: CustomColors.blue,
         elevation: 0,
       ),
