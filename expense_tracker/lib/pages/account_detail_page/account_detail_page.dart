@@ -6,6 +6,7 @@ import 'package:expense_tracker/models/transaction.dart';
 import 'package:expense_tracker/notifiers/account_provider.dart';
 import 'package:expense_tracker/notifiers/category_provider.dart';
 import 'package:expense_tracker/notifiers/transaction_provider.dart';
+import 'package:expense_tracker/pages/account_detail_page/account_line_chart.dart';
 import 'package:expense_tracker/pages/account_detail_page/account_pie_chart.dart';
 import 'package:expense_tracker/pages/account_detail_page/transaction_list_page.dart';
 import 'package:expense_tracker/pages/common/custom_modal_bottom_sheet.dart';
@@ -527,6 +528,8 @@ class _AccountDetailPageState extends State<AccountDetailPage>
           )
         : Column(
             children: [
+              _buildLineChart(
+                  transactionList, AccountPieChartModeTransactionType.income),
               _buildPieChart(
                   transactionList, AccountPieChartModeTransactionType.income),
               Expanded(
@@ -569,6 +572,8 @@ class _AccountDetailPageState extends State<AccountDetailPage>
         ? Align(child: Text(AppLocalizations.of(context)!.noTransactions))
         : Column(
             children: [
+              _buildLineChart(
+                  transactionList, AccountPieChartModeTransactionType.expense),
               _buildPieChart(
                   transactionList, AccountPieChartModeTransactionType.expense),
               Expanded(
@@ -609,12 +614,31 @@ class _AccountDetailPageState extends State<AccountDetailPage>
         ? Align(child: Text(AppLocalizations.of(context)!.noTransactions))
         : Column(
             children: [
+              _buildLineChart(
+                  transactionList, AccountPieChartModeTransactionType.all),
               _buildPieChart(
                   transactionList, AccountPieChartModeTransactionType.all),
               Expanded(
                 child: _buildTransactionListSection(transactionList),
               )
             ],
+          );
+  }
+
+  Widget _buildLineChart(List<Transaction> transactionList,
+      AccountPieChartModeTransactionType mode) {
+    return transactionList.isEmpty
+        ? Expanded(
+            child: Align(
+                child: Text(AppLocalizations.of(context)!.noTransactions)))
+        : Container(
+            margin: const EdgeInsets.symmetric(vertical: 20, horizontal: 18),
+            child: AccountLineChart(
+              mode: TimeMode.day,
+              startDate: startDate,
+              endDate: endDate,
+              transactionList: transactionList,
+            ),
           );
   }
 
