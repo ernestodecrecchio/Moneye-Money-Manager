@@ -34,72 +34,178 @@ class DatabaseTransactionHelper {
       )
     ''');
 
-    //await insertDemoData(db);
+    await insertDemoData(db);
   }
 
   static Future insertDemoData(Database db) async {
-    final t1 = trans.Transaction(
-      id: 1,
-      title: 'Gas for car',
-      value: -20,
-      date: DateTime(2023, 5, 1),
-      categoryId: 5,
-      accountId: 1,
-    );
-    final t2 = trans.Transaction(
-      id: 2,
-      title: 'Balance',
-      value: 500,
-      date: DateTime(2023, 3, 1),
-      accountId: 1,
-    );
-    final t3 = trans.Transaction(
-      id: 3,
-      title: 'Balance',
-      value: 500,
-      date: DateTime(2023, 3, 1),
-      accountId: 3,
-    );
-    final t4 = trans.Transaction(
-      id: 4,
-      title: 'Movie tickets',
-      value: -15,
-      date: DateTime(2023, 5, 4),
-      categoryId: 7,
-      accountId: 3,
-    );
-    final t5 = trans.Transaction(
-      id: 5,
-      title: 'Electricity bill',
-      value: -75,
-      date: DateTime(2023, 5, 7),
-      categoryId: 1,
-      accountId: 3,
-    );
-    final t6 = trans.Transaction(
-      id: 6,
-      title: 'Gift for Mike',
-      value: -50,
-      date: DateTime(2023, 5, 2),
-      categoryId: 2,
-      accountId: 3,
-    );
-    final t7 = trans.Transaction(
-      id: 7,
-      title: 'Rome trip',
-      value: -100,
-      date: DateTime(2023, 5, 13),
-      categoryId: 3,
-      accountId: 3,
-    );
+    List<trans.Transaction> transactionList = [
+      trans.Transaction(
+        id: 1,
+        title: 'Gas for car',
+        value: -20,
+        date: DateTime(2023, 5, 1),
+        categoryId: 5,
+        accountId: 1,
+      ),
+      trans.Transaction(
+        id: 2,
+        title: 'Balance',
+        value: 500,
+        date: DateTime(2023, 3, 1),
+        accountId: 1,
+      ),
+      trans.Transaction(
+        id: 3,
+        title: 'Balance',
+        value: 500,
+        date: DateTime(2023, 3, 1),
+        accountId: 3,
+      ),
+      trans.Transaction(
+        id: 4,
+        title: 'Movie tickets',
+        value: -15,
+        date: DateTime(2023, 5, 4),
+        categoryId: 7,
+        accountId: 3,
+      ),
+      trans.Transaction(
+        id: 5,
+        title: 'Electricity bill',
+        value: -75,
+        date: DateTime(2023, 5, 7),
+        categoryId: 1,
+        accountId: 3,
+      ),
+      trans.Transaction(
+        id: 6,
+        title: 'Gift for Mike',
+        value: -50,
+        date: DateTime(2023, 5, 2),
+        categoryId: 2,
+        accountId: 3,
+      ),
+      trans.Transaction(
+        id: 7,
+        title: 'Rome trip',
+        value: -100,
+        date: DateTime(2023, 5, 13),
+        categoryId: 3,
+        accountId: 3,
+      ),
+      trans.Transaction(
+        id: 8,
+        title: 'Gas for car',
+        value: -200,
+        date: DateTime(2023, 4, 11),
+        categoryId: 5,
+        accountId: 1,
+      ),
+      trans.Transaction(
+        id: 9,
+        title: 'Balance',
+        value: -234,
+        date: DateTime(2023, 3, 17),
+        accountId: 1,
+      ),
+      trans.Transaction(
+        id: 10,
+        title: 'Balance',
+        value: 100,
+        date: DateTime(2023, 2, 1),
+        accountId: 3,
+      ),
+      trans.Transaction(
+        id: 11,
+        title: 'Movie tickets',
+        value: -15,
+        date: DateTime(2023, 3, 4),
+        categoryId: 7,
+        accountId: 3,
+      ),
+      trans.Transaction(
+        id: 12,
+        title: 'Electricity bill',
+        value: -75,
+        date: DateTime(2023, 1, 13),
+        categoryId: 1,
+        accountId: 3,
+      ),
+      trans.Transaction(
+        id: 13,
+        title: 'Gift for Mike',
+        value: -50,
+        date: DateTime(2023, 4, 12),
+        categoryId: 2,
+        accountId: 3,
+      ),
+      trans.Transaction(
+        id: 14,
+        title: 'Rome trip',
+        value: -100,
+        date: DateTime(2023, 2, 13),
+        categoryId: 3,
+        accountId: 3,
+      ),
+      trans.Transaction(
+        id: 15,
+        title: 'Gas for car',
+        value: -200,
+        date: DateTime(2023, 5, 22),
+        categoryId: 5,
+        accountId: 3,
+      ),
+      trans.Transaction(
+        id: 16,
+        title: 'Balance',
+        value: -234,
+        date: DateTime(2023, 5, 23),
+        accountId: 3,
+      ),
+      trans.Transaction(
+        id: 17,
+        title: 'Balance',
+        value: 100,
+        date: DateTime(2023, 5, 24),
+        accountId: 3,
+      ),
+      trans.Transaction(
+        id: 18,
+        title: 'Movie tickets',
+        value: -15,
+        date: DateTime(2023, 5, 25),
+        categoryId: 7,
+        accountId: 3,
+      ),
+      trans.Transaction(
+        id: 19,
+        title: 'Electricity bill',
+        value: -75,
+        date: DateTime(2023, 5, 26),
+        categoryId: 1,
+        accountId: 3,
+      ),
+      trans.Transaction(
+        id: 20,
+        title: 'Gift for Mike',
+        value: -50,
+        date: DateTime(2023, 5, 27),
+        categoryId: 2,
+        accountId: 3,
+      ),
+      trans.Transaction(
+        id: 21,
+        title: 'Rome trip',
+        value: -100,
+        date: DateTime(2023, 5, 28),
+        categoryId: 3,
+        accountId: 3,
+      ),
+    ];
 
-    await db.insert(transactionsTable, t1.toJson());
-    await db.insert(transactionsTable, t2.toJson());
-    await db.insert(transactionsTable, t3.toJson());
-    await db.insert(transactionsTable, t4.toJson());
-    await db.insert(transactionsTable, t5.toJson());
-    await db.insert(transactionsTable, t6.toJson());
-    await db.insert(transactionsTable, t7.toJson());
+    transactionList.forEach((element) async {
+      await db.insert(transactionsTable, element.toJson());
+    });
   }
 
   Future<trans.Transaction> insertTransaction(
