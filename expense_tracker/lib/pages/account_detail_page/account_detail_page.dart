@@ -6,6 +6,7 @@ import 'package:expense_tracker/models/transaction.dart';
 import 'package:expense_tracker/notifiers/account_provider.dart';
 import 'package:expense_tracker/notifiers/category_provider.dart';
 import 'package:expense_tracker/notifiers/transaction_provider.dart';
+import 'package:expense_tracker/pages/account_detail_page/account_bar_chart.dart';
 import 'package:expense_tracker/pages/account_detail_page/account_line_chart.dart';
 import 'package:expense_tracker/pages/account_detail_page/account_pie_chart.dart';
 import 'package:expense_tracker/pages/account_detail_page/transaction_list_page.dart';
@@ -528,8 +529,8 @@ class _AccountDetailPageState extends State<AccountDetailPage>
           )
         : Column(
             children: [
-              _buildLineChart(
-                  transactionList, AccountPieChartModeTransactionType.income),
+              //  _buildLineChart(    transactionList, AccountPieChartModeTransactionType.income),
+              _buildBarChart(transactionList),
               _buildPieChart(
                   transactionList, AccountPieChartModeTransactionType.income),
               Expanded(
@@ -572,8 +573,8 @@ class _AccountDetailPageState extends State<AccountDetailPage>
         ? Align(child: Text(AppLocalizations.of(context)!.noTransactions))
         : Column(
             children: [
-              _buildLineChart(
-                  transactionList, AccountPieChartModeTransactionType.expense),
+              // _buildLineChart(   transactionList, AccountPieChartModeTransactionType.expense),
+              _buildBarChart(transactionList),
               _buildPieChart(
                   transactionList, AccountPieChartModeTransactionType.expense),
               Expanded(
@@ -614,8 +615,8 @@ class _AccountDetailPageState extends State<AccountDetailPage>
         ? Align(child: Text(AppLocalizations.of(context)!.noTransactions))
         : Column(
             children: [
-              _buildLineChart(
-                  transactionList, AccountPieChartModeTransactionType.all),
+              //_buildLineChart(  transactionList, AccountPieChartModeTransactionType.all),
+              _buildBarChart(transactionList),
               _buildPieChart(
                   transactionList, AccountPieChartModeTransactionType.all),
               Expanded(
@@ -642,19 +643,28 @@ class _AccountDetailPageState extends State<AccountDetailPage>
           );
   }
 
+  Widget _buildBarChart(List<Transaction> transactionList) {
+    return Container(
+      margin: const EdgeInsets.symmetric(vertical: 20, horizontal: 18),
+      height: 200,
+      child: AccountBarChart(
+        mode: TimeMode.day,
+        startDate: startDate,
+        endDate: endDate,
+        transactionList: transactionList,
+      ),
+    );
+  }
+
   Widget _buildPieChart(List<Transaction> transactionList,
       AccountPieChartModeTransactionType mode) {
-    return transactionList.isEmpty
-        ? Expanded(
-            child: Align(
-                child: Text(AppLocalizations.of(context)!.noTransactions)))
-        : Container(
-            margin: const EdgeInsets.symmetric(vertical: 20, horizontal: 18),
-            child: AccountPieChart(
-              transactionList: transactionList,
-              mode: mode,
-            ),
-          );
+    return Container(
+      margin: const EdgeInsets.symmetric(vertical: 20, horizontal: 18),
+      child: AccountPieChart(
+        transactionList: transactionList,
+        mode: mode,
+      ),
+    );
   }
 
   Widget _buildTransactionListSection(List<Transaction> transactionList) {
