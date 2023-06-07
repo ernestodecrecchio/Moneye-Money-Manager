@@ -7,7 +7,6 @@ import 'package:expense_tracker/notifiers/account_provider.dart';
 import 'package:expense_tracker/notifiers/category_provider.dart';
 import 'package:expense_tracker/notifiers/transaction_provider.dart';
 import 'package:expense_tracker/pages/account_detail_page/account_bar_chart.dart';
-import 'package:expense_tracker/pages/account_detail_page/account_line_chart.dart';
 import 'package:expense_tracker/pages/account_detail_page/account_pie_chart.dart';
 import 'package:expense_tracker/pages/account_detail_page/transaction_list_page.dart';
 import 'package:expense_tracker/pages/common/custom_modal_bottom_sheet.dart';
@@ -530,7 +529,11 @@ class _AccountDetailPageState extends State<AccountDetailPage>
         : Column(
             children: [
               //  _buildLineChart(    transactionList, AccountPieChartModeTransactionType.income),
-              _buildBarChart(transactionList),
+              _buildBarChart(
+                transactionList: transactionList,
+                transactionType: AccountBarChartModeTransactionType.income,
+                timeMode: selectedTransactionTimePeriod,
+              ),
               _buildPieChart(
                   transactionList, AccountPieChartModeTransactionType.income),
               Expanded(
@@ -574,7 +577,11 @@ class _AccountDetailPageState extends State<AccountDetailPage>
         : Column(
             children: [
               // _buildLineChart(   transactionList, AccountPieChartModeTransactionType.expense),
-              _buildBarChart(transactionList),
+              _buildBarChart(
+                transactionList: transactionList,
+                transactionType: AccountBarChartModeTransactionType.expense,
+                timeMode: selectedTransactionTimePeriod,
+              ),
               _buildPieChart(
                   transactionList, AccountPieChartModeTransactionType.expense),
               Expanded(
@@ -616,7 +623,11 @@ class _AccountDetailPageState extends State<AccountDetailPage>
         : Column(
             children: [
               //_buildLineChart(  transactionList, AccountPieChartModeTransactionType.all),
-              _buildBarChart(transactionList),
+              _buildBarChart(
+                transactionList: transactionList,
+                transactionType: AccountBarChartModeTransactionType.all,
+                timeMode: selectedTransactionTimePeriod,
+              ),
               _buildPieChart(
                   transactionList, AccountPieChartModeTransactionType.all),
               Expanded(
@@ -626,6 +637,7 @@ class _AccountDetailPageState extends State<AccountDetailPage>
           );
   }
 
+/*
   Widget _buildLineChart(List<Transaction> transactionList,
       AccountPieChartModeTransactionType mode) {
     return transactionList.isEmpty
@@ -642,13 +654,19 @@ class _AccountDetailPageState extends State<AccountDetailPage>
             ),
           );
   }
+  */
 
-  Widget _buildBarChart(List<Transaction> transactionList) {
+  Widget _buildBarChart({
+    required List<Transaction> transactionList,
+    required AccountBarChartModeTransactionType transactionType,
+    required TransactionTimePeriod timeMode,
+  }) {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 20, horizontal: 18),
       height: 200,
       child: AccountBarChart(
-        mode: TimeMode.day,
+        transactionType: transactionType,
+        timeMode: timeMode,
         startDate: startDate,
         endDate: endDate,
         transactionList: transactionList,

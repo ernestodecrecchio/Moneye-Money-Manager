@@ -1,21 +1,27 @@
 import 'package:expense_tracker/Helper/double_helper.dart';
 import 'package:expense_tracker/models/transaction.dart';
-import 'package:expense_tracker/pages/account_detail_page/account_line_chart.dart';
+import 'package:expense_tracker/pages/account_detail_page/account_detail_page.dart';
 import 'package:expense_tracker/style.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+enum AccountBarChartModeTime { month, year, all }
+
+enum AccountBarChartModeTransactionType { income, expense, all }
+
 class AccountBarChart extends StatefulWidget {
   final List<Transaction> transactionList;
-  final TimeMode mode;
+  final AccountBarChartModeTransactionType? transactionType;
+  final TransactionTimePeriod? timeMode;
   final DateTime? startDate;
   final DateTime? endDate;
 
   const AccountBarChart({
     super.key,
     required this.transactionList,
-    required this.mode,
+    this.transactionType,
+    this.timeMode,
     this.startDate,
     this.endDate,
   });
@@ -25,10 +31,10 @@ class AccountBarChart extends StatefulWidget {
 }
 
 class AccountBarChartState extends State<AccountBarChart> {
-  final Color barColor = CustomColors.expense;
+  late final Color barColor;
   final Color avgColor = CustomColors.blue;
 
-  final double width = 10;
+  final double barWidth = 10;
 
   late List<BarChartGroupData> rawBarGroups;
   late List<BarChartGroupData> showingBarGroups;
@@ -36,6 +42,23 @@ class AccountBarChartState extends State<AccountBarChart> {
   int touchedGroupIndex = -1;
 
   var minValue = 0.0;
+
+  @override
+  void initState() {
+    super.initState();
+
+    switch (widget.transactionType) {
+      case AccountBarChartModeTransactionType.income:
+        barColor = CustomColors.income;
+        break;
+      case AccountBarChartModeTransactionType.expense:
+        barColor = CustomColors.expense;
+        break;
+      default:
+        barColor = CustomColors.blue;
+        break;
+    }
+  }
 
   @override
   void didChangeDependencies() {
@@ -57,8 +80,9 @@ class AccountBarChartState extends State<AccountBarChart> {
         maxY: minValue,
         barTouchData: BarTouchData(
           touchTooltipData: BarTouchTooltipData(
-            tooltipBgColor: Colors.grey,
-            getTooltipItem: (a, b, c, d) => null,
+            tooltipBgColor: Colors.grey[200],
+            fitInsideVertically: true,
+            fitInsideHorizontally: true,
           ),
           touchCallback: (FlTouchEvent event, response) {
             if (response == null || response.spot == null) {
@@ -108,9 +132,7 @@ class AccountBarChartState extends State<AccountBarChart> {
           bottomTitles: AxisTitles(
             sideTitles: SideTitles(
               showTitles: true,
-              getTitlesWidget: (value, meta) => widget.mode == TimeMode.day
-                  ? _dailyBottomTitles(value, meta)
-                  : _monthlyBottomTitles(value, meta),
+              getTitlesWidget: _buildBottomTitles,
               reservedSize: 42,
             ),
           ),
@@ -159,36 +181,21 @@ class AccountBarChartState extends State<AccountBarChart> {
     );
   }
 
-  Widget _monthlyBottomTitles(double value, TitleMeta meta) {
-    final titles = <String>[
-      'Gen',
-      'Feb',
-      'Mar',
-      'Apr',
-      'Mag',
-      'Giu',
-      'Lug',
-      'Ago',
-      'Set',
-      'Ott',
-      'Nov',
-      'Dic'
-    ];
+  Widget _buildBottomTitles(double value, TitleMeta meta) {
+    switch (widget.timeMode) {
+      case TransactionTimePeriod.day:
+        return _dailyBottomTitles(value, meta);
+      case TransactionTimePeriod.week:
+        break;
+      case TransactionTimePeriod.month:
+        return _monthlyBottomTitles(value, meta);
+      case TransactionTimePeriod.year:
+        break;
+      default:
+        break;
+    }
 
-    final Widget text = Text(
-      titles[value.toInt()],
-      style: const TextStyle(
-        color: Color(0xff7589a2),
-        fontWeight: FontWeight.bold,
-        fontSize: 12,
-      ),
-    );
-
-    return SideTitleWidget(
-      axisSide: meta.axisSide,
-      space: value % 2 == 0 ? 10 : 25, //margin top
-      child: text,
-    );
+    return Container();
   }
 
   Widget _dailyBottomTitles(double value, TitleMeta meta) {
@@ -224,6 +231,38 @@ class AccountBarChartState extends State<AccountBarChart> {
     );
   }
 
+  Widget _monthlyBottomTitles(double value, TitleMeta meta) {
+    final titles = <String>[
+      'Gen',
+      'Feb',
+      'Mar',
+      'Apr',
+      'Mag',
+      'Giu',
+      'Lug',
+      'Ago',
+      'Set',
+      'Ott',
+      'Nov',
+      'Dic'
+    ];
+
+    final Widget text = Text(
+      titles[value.toInt()],
+      style: const TextStyle(
+        color: Color(0xff7589a2),
+        fontWeight: FontWeight.bold,
+        fontSize: 12,
+      ),
+    );
+
+    return SideTitleWidget(
+      axisSide: meta.axisSide,
+      space: value % 2 == 0 ? 10 : 25, //margin top
+      child: text,
+    );
+  }
+
   BarChartGroupData makeGroupData(int x, double value) {
     return BarChartGroupData(
       barsSpace: 4,
@@ -232,7 +271,7 @@ class AccountBarChartState extends State<AccountBarChart> {
         BarChartRodData(
           toY: value,
           color: barColor,
-          width: width,
+          width: barWidth,
         ),
       ],
     );
@@ -262,9 +301,7 @@ class AccountBarChartState extends State<AccountBarChart> {
   }
 
   _loadData() {
-    final items = _buildGroupData();
-
-    rawBarGroups = items;
+    rawBarGroups = _buildGroupData();
 
     showingBarGroups = rawBarGroups;
 

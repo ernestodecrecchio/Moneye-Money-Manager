@@ -9,8 +9,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-enum AccountPieChartModeTime { month, year, all }
-
 enum AccountPieChartModeTransactionType { income, expense, all }
 
 class AccountPieChart extends StatefulWidget {

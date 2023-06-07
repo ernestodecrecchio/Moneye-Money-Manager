@@ -41,8 +41,6 @@ class AccountLineChart extends StatelessWidget {
       if (value < minValue) minValue = value;
       if (value > maxValue) maxValue = value;
 
-      print('add spot with value ${value} with key ${key}');
-
       spotList.add(FlSpot(key.toDouble(), value));
     });
 
