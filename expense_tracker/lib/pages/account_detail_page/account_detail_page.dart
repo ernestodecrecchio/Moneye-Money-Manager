@@ -674,7 +674,6 @@ class _AccountDetailPageState extends State<AccountDetailPage>
 
   Widget _buildPieChart(List<Transaction> transactionList,
       AccountPieChartModeTransactionType mode) {
-    return Container();
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 20, horizontal: 18),
       child: AccountPieChart(

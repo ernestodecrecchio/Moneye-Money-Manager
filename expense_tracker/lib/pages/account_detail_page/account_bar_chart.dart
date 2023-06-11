@@ -46,6 +46,7 @@ class AccountBarChartState extends State<AccountBarChart> {
   int touchedGroupIndex = -1;
 
   var minValue = 0.0;
+  var maxValue = 0.0;
 
   @override
   void initState() {
@@ -78,11 +79,51 @@ class AccountBarChartState extends State<AccountBarChart> {
     _loadData();
   }
 
+  _loadData() {
+    bottomTitlesStrings = _getBottomTitlesString();
+
+    switch (widget.transactionTimePeriod) {
+      case TransactionTimePeriod.day:
+        valueMap = {};
+        break;
+      case TransactionTimePeriod.week:
+        valueMap = getDailyBalanceForWeek();
+        break;
+      case TransactionTimePeriod.month:
+        valueMap = getWeekBalanceForMonth();
+        break;
+      case TransactionTimePeriod.year:
+        valueMap = getMonthlyBalanceForYear();
+        break;
+      default:
+        valueMap = {};
+        break;
+    }
+
+    valueMap.forEach((key, value) {
+      if (value < minValue) minValue = value;
+      if (value > maxValue) maxValue = value;
+    });
+
+    minValue *= -1;
+
+    rawBarGroups = _buildGroupData();
+
+    showingBarGroups = rawBarGroups;
+  }
+
   @override
   Widget build(BuildContext context) {
     return BarChart(
       BarChartData(
-        maxY: minValue,
+        minY:
+            widget.transactionType == AccountBarChartModeTransactionType.income
+                ? 0
+                : null,
+        maxY:
+            widget.transactionType == AccountBarChartModeTransactionType.income
+                ? maxValue
+                : minValue,
         barTouchData: BarTouchData(
           touchTooltipData: BarTouchTooltipData(
             tooltipBgColor: Colors.grey[200],
@@ -137,7 +178,7 @@ class AccountBarChartState extends State<AccountBarChart> {
           bottomTitles: AxisTitles(
             sideTitles: SideTitles(
               showTitles: true,
-              getTitlesWidget: _buildBottomTitles,
+              getTitlesWidget: _buildBottomTitleWidget,
               reservedSize: 42,
             ),
           ),
@@ -161,38 +202,6 @@ class AccountBarChartState extends State<AccountBarChart> {
     );
   }
 
-  _loadData() {
-    bottomTitlesStrings = _getBottomTitlesString();
-
-    switch (widget.transactionTimePeriod) {
-      case TransactionTimePeriod.day:
-        valueMap = {};
-        break;
-      case TransactionTimePeriod.week:
-        valueMap = getDailyBalanceForWeek();
-        break;
-      case TransactionTimePeriod.month:
-        valueMap = getWeekBalanceForMonth();
-        break;
-      case TransactionTimePeriod.year:
-        valueMap = getMonthlyBalanceForYear();
-        break;
-      default:
-        valueMap = {};
-        break;
-    }
-
-    valueMap.forEach((key, value) {
-      if (value < minValue) minValue = value;
-    });
-
-    minValue *= -1;
-
-    rawBarGroups = _buildGroupData();
-
-    showingBarGroups = rawBarGroups;
-  }
-
   /// LEFT TITLE MANAGEMENT
 
   Widget leftTitles(double value, TitleMeta meta) {
@@ -205,12 +214,19 @@ class AccountBarChartState extends State<AccountBarChart> {
     String text;
     if (value == 0) {
       text = (0.0).toStringAsFixedRoundedWithCurrency(context, 2);
-    } else if (value == minValue) {
+    } else if (widget.transactionType ==
+            AccountBarChartModeTransactionType.expense &&
+        value == minValue) {
       text = minValue.toStringAsFixedRoundedWithCurrency(context, 2);
-    } else if (value == minValue / 2) {
-      text = (minValue / 2).toStringAsFixedRoundedWithCurrency(context, 2);
+    } else if (widget.transactionType ==
+            AccountBarChartModeTransactionType.income &&
+        value == maxValue) {
+      text = maxValue.toStringAsFixedRoundedWithCurrency(context, 2);
+    } else if (value == (minValue + maxValue) / 2) {
+      text = ((minValue + maxValue) / 2)
+          .toStringAsFixedRoundedWithCurrency(context, 2);
     } else {
-      return Container();
+      return const SizedBox.shrink();
     }
 
     return SideTitleWidget(
@@ -330,7 +346,7 @@ class AccountBarChartState extends State<AccountBarChart> {
     }
   }
 
-  Widget _weekdayBottomTitles(double value, TitleMeta meta) {
+  Widget _weekdayBottomTitleWidget(double value, TitleMeta meta) {
     final Widget text = Text(
       bottomTitlesStrings[value.toInt()],
       style: const TextStyle(
@@ -364,7 +380,7 @@ class AccountBarChartState extends State<AccountBarChart> {
     );
   }
 
-  Widget _monthBottomTitles(double value, TitleMeta meta) {
+  Widget _monthBottomTitleWidget(double value, TitleMeta meta) {
     final Widget text = Text(
       bottomTitlesStrings[value.toInt()],
       style: const TextStyle(
@@ -381,16 +397,16 @@ class AccountBarChartState extends State<AccountBarChart> {
     );
   }
 
-  Widget _buildBottomTitles(double value, TitleMeta meta) {
+  Widget _buildBottomTitleWidget(double value, TitleMeta meta) {
     switch (widget.transactionTimePeriod) {
       case TransactionTimePeriod.day:
         break;
       case TransactionTimePeriod.week:
-        return _weekdayBottomTitles(value, meta);
+        return _weekdayBottomTitleWidget(value, meta);
       case TransactionTimePeriod.month:
         return _weekIntervalBottomTitleWidget(value, meta);
       case TransactionTimePeriod.year:
-        return _monthBottomTitles(value, meta);
+        return _monthBottomTitleWidget(value, meta);
       default:
         break;
     }
@@ -442,7 +458,14 @@ class AccountBarChartState extends State<AccountBarChart> {
     final List<BarChartGroupData> barChartGroupDataList = [];
 
     for (int i = 0; i < bottomTitlesStrings.length; i++) {
-      barChartGroupDataList.add(makeGroupData(i, (valueMap[i] ?? 0) * -1));
+      double valueToAdd = valueMap[i] ?? 0;
+
+      if (widget.transactionType ==
+          AccountBarChartModeTransactionType.expense) {
+        valueToAdd *= -1;
+      }
+
+      barChartGroupDataList.add(makeGroupData(i, valueToAdd));
     }
 
     return barChartGroupDataList;
