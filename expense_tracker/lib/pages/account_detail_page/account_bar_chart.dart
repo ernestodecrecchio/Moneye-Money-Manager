@@ -1,3 +1,4 @@
+import 'package:expense_tracker/Helper/date_time_helper.dart';
 import 'package:expense_tracker/Helper/double_helper.dart';
 import 'package:expense_tracker/models/transaction.dart';
 import 'package:expense_tracker/pages/account_detail_page/account_detail_page.dart';
@@ -13,7 +14,7 @@ enum AccountBarChartModeTransactionType { income, expense, all }
 class AccountBarChart extends StatefulWidget {
   final List<Transaction> transactionList;
   final AccountBarChartModeTransactionType? transactionType;
-  final TransactionTimePeriod? timeMode;
+  final TransactionTimePeriod? transactionTimePeriod;
   final DateTime? startDate;
   final DateTime? endDate;
 
@@ -21,7 +22,7 @@ class AccountBarChart extends StatefulWidget {
     super.key,
     required this.transactionList,
     this.transactionType,
-    this.timeMode,
+    this.transactionTimePeriod,
     this.startDate,
     this.endDate,
   });
@@ -36,8 +37,11 @@ class AccountBarChartState extends State<AccountBarChart> {
 
   final double barWidth = 10;
 
+  late Map<int, double> valueMap;
   late List<BarChartGroupData> rawBarGroups;
   late List<BarChartGroupData> showingBarGroups;
+
+  late List<String> bottomTitlesStrings;
 
   int touchedGroupIndex = -1;
 
@@ -70,6 +74,7 @@ class AccountBarChartState extends State<AccountBarChart> {
   @override
   void didUpdateWidget(covariant AccountBarChart oldWidget) {
     super.didUpdateWidget(oldWidget);
+
     _loadData();
   }
 
@@ -156,6 +161,40 @@ class AccountBarChartState extends State<AccountBarChart> {
     );
   }
 
+  _loadData() {
+    bottomTitlesStrings = _getBottomTitlesString();
+
+    switch (widget.transactionTimePeriod) {
+      case TransactionTimePeriod.day:
+        valueMap = {};
+        break;
+      case TransactionTimePeriod.week:
+        valueMap = getDailyBalanceForWeek();
+        break;
+      case TransactionTimePeriod.month:
+        valueMap = getWeekBalanceForMonth();
+        break;
+      case TransactionTimePeriod.year:
+        valueMap = getMonthlyBalanceForYear();
+        break;
+      default:
+        valueMap = {};
+        break;
+    }
+
+    valueMap.forEach((key, value) {
+      if (value < minValue) minValue = value;
+    });
+
+    minValue *= -1;
+
+    rawBarGroups = _buildGroupData();
+
+    showingBarGroups = rawBarGroups;
+  }
+
+  /// LEFT TITLE MANAGEMENT
+
   Widget leftTitles(double value, TitleMeta meta) {
     const style = TextStyle(
       color: Color(0xff7589a2),
@@ -181,16 +220,185 @@ class AccountBarChartState extends State<AccountBarChart> {
     );
   }
 
-  Widget _buildBottomTitles(double value, TitleMeta meta) {
-    switch (widget.timeMode) {
+  /// BOTTOM TITLE MANAGEMENT
+
+  List<String> _getWeekdayBottomTitlesString() {
+    return [
+      DateFormat("dd/MM").format(widget.startDate!),
+      DateFormat("dd/MM").format(DateTime(widget.startDate!.year,
+          widget.startDate!.month, widget.startDate!.day + 1)),
+      DateFormat("dd/MM").format(DateTime(widget.startDate!.year,
+          widget.startDate!.month, widget.startDate!.day + 2)),
+      DateFormat("dd/MM").format(DateTime(widget.startDate!.year,
+          widget.startDate!.month, widget.startDate!.day + 3)),
+      DateFormat("dd/MM").format(DateTime(widget.startDate!.year,
+          widget.startDate!.month, widget.startDate!.day + 4)),
+      DateFormat("dd/MM").format(DateTime(widget.startDate!.year,
+          widget.startDate!.month, widget.startDate!.day + 5)),
+      DateFormat("dd/MM").format(DateTime(widget.startDate!.year,
+          widget.startDate!.month, widget.startDate!.day + 6)),
+    ];
+  }
+
+  List<String> _getWeekIntervalBottomTitlesString() {
+    final List<String> weekDatesList = [];
+
+    final DateTime currentMonthFirstDayDate =
+        currentMonthFirstDay(widget.startDate!);
+
+    final DateTime nextMonthFirstDayDate = nextMonthFirstDay(widget.startDate!);
+
+    DateTime currentWeekFirstDayDate =
+        currentWeekFirstDay(currentMonthFirstDayDate);
+    DateTime currentWeekLastDayDate =
+        currentWeekLastDay(currentMonthFirstDayDate);
+
+    weekDatesList.add(
+        '${DateFormat("dd").format(currentWeekFirstDayDate)} - ${DateFormat("dd").format(currentWeekLastDayDate)}');
+
+    while (currentWeekLastDayDate.isBefore(nextMonthFirstDayDate)) {
+      currentWeekFirstDayDate = nextWeekFirstDay(currentWeekFirstDayDate);
+      currentWeekLastDayDate = nextWeekLastDay(currentWeekLastDayDate);
+
+      weekDatesList.add(
+          '${DateFormat("dd").format(currentWeekFirstDayDate)} - ${DateFormat("dd").format(currentWeekLastDayDate)}');
+    }
+
+    return weekDatesList;
+  }
+
+  List<String> _getMonthBottomTitlesString() {
+    return [
+      DateFormat("MMM").format(widget.startDate!),
+      DateFormat("MMM").format(
+          DateTime(widget.startDate!.year, widget.startDate!.month + 1)),
+      DateFormat("MMM").format(
+          DateTime(widget.startDate!.year, widget.startDate!.month + 2)),
+      DateFormat("MMM").format(
+          DateTime(widget.startDate!.year, widget.startDate!.month + 3)),
+      DateFormat("MMM").format(
+          DateTime(widget.startDate!.year, widget.startDate!.month + 4)),
+      DateFormat("MMM").format(
+          DateTime(widget.startDate!.year, widget.startDate!.month + 5)),
+      DateFormat("MMM").format(
+          DateTime(widget.startDate!.year, widget.startDate!.month + 6)),
+      DateFormat("MMM").format(
+          DateTime(widget.startDate!.year, widget.startDate!.month + 7)),
+      DateFormat("MMM").format(
+          DateTime(widget.startDate!.year, widget.startDate!.month + 8)),
+      DateFormat("MMM").format(
+          DateTime(widget.startDate!.year, widget.startDate!.month + 9)),
+      DateFormat("MMM").format(
+          DateTime(widget.startDate!.year, widget.startDate!.month + 10)),
+      DateFormat("MMM").format(
+          DateTime(widget.startDate!.year, widget.startDate!.month + 11)),
+    ];
+  }
+
+  List<String> _getBottomTitlesString() {
+    switch (widget.transactionTimePeriod) {
       case TransactionTimePeriod.day:
-        return _dailyBottomTitles(value, meta);
+        return [];
+
       case TransactionTimePeriod.week:
-        break;
+        return _getWeekdayBottomTitlesString();
       case TransactionTimePeriod.month:
-        return _monthlyBottomTitles(value, meta);
+        return _getWeekIntervalBottomTitlesString();
       case TransactionTimePeriod.year:
+        return _getMonthBottomTitlesString();
+      default:
+        return [];
+    }
+  }
+
+  Widget _weekdayBottomTitles(double value, TitleMeta meta) {
+    final Widget text = Text(
+      bottomTitlesStrings[value.toInt()],
+      style: const TextStyle(
+        color: Color(0xff7589a2),
+        fontWeight: FontWeight.bold,
+        fontSize: 12,
+      ),
+    );
+
+    return SideTitleWidget(
+      axisSide: meta.axisSide,
+      space: 10, //margin top
+      child: text,
+    );
+  }
+
+  Widget _weekIntervalBottomTitles(double value, TitleMeta meta) {
+    final List<Map<String, DateTime>> weekDatesList = [];
+
+    final DateTime currentMonthFirstDayDate =
+        currentMonthFirstDay(widget.startDate!);
+
+    final DateTime nextMonthFirstDayDate = nextMonthFirstDay(widget.startDate!);
+
+    DateTime currentWeekFirstDayDate =
+        currentWeekFirstDay(currentMonthFirstDayDate);
+    DateTime currentWeekLastDayDate =
+        currentWeekLastDay(currentMonthFirstDayDate);
+
+    weekDatesList.add({
+      'firstWeekDay': currentWeekFirstDayDate,
+      'lastWeekDay': currentWeekLastDayDate
+    });
+
+    while (currentWeekLastDayDate.isBefore(nextMonthFirstDayDate)) {
+      currentWeekFirstDayDate = nextWeekFirstDay(currentWeekFirstDayDate);
+      currentWeekLastDayDate = nextWeekLastDay(currentWeekLastDayDate);
+
+      weekDatesList.add({
+        'firstWeekDay': currentWeekFirstDayDate,
+        'lastWeekDay': currentWeekLastDayDate
+      });
+    }
+
+    final Widget text = Text(
+      bottomTitlesStrings[value.toInt()],
+      style: const TextStyle(
+        color: Color(0xff7589a2),
+        fontWeight: FontWeight.bold,
+        fontSize: 12,
+      ),
+    );
+
+    return SideTitleWidget(
+      axisSide: meta.axisSide,
+      space: 10, //margin top
+      child: text,
+    );
+  }
+
+  Widget _monthBottomTitles(double value, TitleMeta meta) {
+    final Widget text = Text(
+      bottomTitlesStrings[value.toInt()],
+      style: const TextStyle(
+        color: Color(0xff7589a2),
+        fontWeight: FontWeight.bold,
+        fontSize: 12,
+      ),
+    );
+
+    return SideTitleWidget(
+      axisSide: meta.axisSide,
+      space: 10, //margin top
+      child: text,
+    );
+  }
+
+  Widget _buildBottomTitles(double value, TitleMeta meta) {
+    switch (widget.transactionTimePeriod) {
+      case TransactionTimePeriod.day:
         break;
+      case TransactionTimePeriod.week:
+        return _weekdayBottomTitles(value, meta);
+      case TransactionTimePeriod.month:
+        return _weekIntervalBottomTitles(value, meta);
+      case TransactionTimePeriod.year:
+        return _monthBottomTitles(value, meta);
       default:
         break;
     }
@@ -198,69 +406,54 @@ class AccountBarChartState extends State<AccountBarChart> {
     return Container();
   }
 
-  Widget _dailyBottomTitles(double value, TitleMeta meta) {
-    final titles = <String>[
-      DateFormat("dd MMM").format(widget.startDate!),
-      DateFormat("dd MMM").format(DateTime(widget.startDate!.year,
-          widget.startDate!.month, widget.startDate!.day + 1)),
-      DateFormat("dd MMM").format(DateTime(widget.startDate!.year,
-          widget.startDate!.month, widget.startDate!.day + 2)),
-      DateFormat("dd MMM").format(DateTime(widget.startDate!.year,
-          widget.startDate!.month, widget.startDate!.day + 3)),
-      DateFormat("dd MMM").format(DateTime(widget.startDate!.year,
-          widget.startDate!.month, widget.startDate!.day + 4)),
-      DateFormat("dd MMM").format(DateTime(widget.startDate!.year,
-          widget.startDate!.month, widget.startDate!.day + 5)),
-      DateFormat("dd MMM").format(DateTime(widget.startDate!.year,
-          widget.startDate!.month, widget.startDate!.day + 6)),
-    ];
+  /// BALANCE MANAGEMENT
 
-    final Widget text = Text(
-      titles[value.toInt()],
-      style: const TextStyle(
-        color: Color(0xff7589a2),
-        fontWeight: FontWeight.bold,
-        fontSize: 12,
-      ),
-    );
+  Map<int, double> getDailyBalanceForWeek() {
+    final Map<int, double> balanceMap = {};
 
-    return SideTitleWidget(
-      axisSide: meta.axisSide,
-      space: value % 2 == 0 ? 10 : 25, //margin top
-      child: text,
-    );
+    for (var transaction in widget.transactionList) {
+      balanceMap[transaction.date.weekday - 1] =
+          (balanceMap[transaction.date.weekday - 1] ?? 0) + transaction.value;
+    }
+
+    return balanceMap;
   }
 
-  Widget _monthlyBottomTitles(double value, TitleMeta meta) {
-    final titles = <String>[
-      'Gen',
-      'Feb',
-      'Mar',
-      'Apr',
-      'Mag',
-      'Giu',
-      'Lug',
-      'Ago',
-      'Set',
-      'Ott',
-      'Nov',
-      'Dic'
-    ];
+  Map<int, double> getWeekBalanceForMonth() {
+    final Map<int, double> balanceMap = {};
 
-    final Widget text = Text(
-      titles[value.toInt()],
-      style: const TextStyle(
-        color: Color(0xff7589a2),
-        fontWeight: FontWeight.bold,
-        fontSize: 12,
-      ),
-    );
+    final firstWeeknumberOfMonth = weekNumber(widget.startDate!);
 
-    return SideTitleWidget(
-      axisSide: meta.axisSide,
-      space: value % 2 == 0 ? 10 : 25, //margin top
-      child: text,
-    );
+    for (var transaction in widget.transactionList) {
+      final transactionWeeknumber = weekNumber(transaction.date);
+
+      balanceMap[transactionWeeknumber - firstWeeknumberOfMonth - 1] =
+          (balanceMap[transactionWeeknumber - firstWeeknumberOfMonth] ?? 0) +
+              transaction.value;
+    }
+
+    return balanceMap;
+  }
+
+  Map<int, double> getMonthlyBalanceForYear() {
+    final Map<int, double> balanceMap = {};
+
+    for (var transaction in widget.transactionList) {
+      balanceMap[transaction.date.month - 1] =
+          (balanceMap[transaction.date.month - 1] ?? 0) + transaction.value;
+    }
+
+    return balanceMap;
+  }
+
+  List<BarChartGroupData> _buildGroupData() {
+    final List<BarChartGroupData> barChartGroupDataList = [];
+
+    for (int i = 0; i < bottomTitlesStrings.length; i++) {
+      barChartGroupDataList.add(makeGroupData(i, (valueMap[i] ?? 0) * -1));
+    }
+
+    return barChartGroupDataList;
   }
 
   BarChartGroupData makeGroupData(int x, double value) {
@@ -275,41 +468,5 @@ class AccountBarChartState extends State<AccountBarChart> {
         ),
       ],
     );
-  }
-
-  Map<int, double> getDailyBalanceForWeek() {
-    final Map<int, double> balanceMap = {};
-
-    for (var transaction in widget.transactionList) {
-      balanceMap[transaction.date.weekday - 1] =
-          (balanceMap[transaction.date.weekday - 1] ?? 0) + transaction.value;
-    }
-
-    return balanceMap;
-  }
-
-  List<BarChartGroupData> _buildGroupData() {
-    final List<BarChartGroupData> barChartGroupDataList = [];
-
-    final valueMap = getDailyBalanceForWeek();
-
-    for (int i = 0; i < 7; i++) {
-      barChartGroupDataList.add(makeGroupData(i, (valueMap[i] ?? 0) * -1));
-    }
-
-    return barChartGroupDataList;
-  }
-
-  _loadData() {
-    rawBarGroups = _buildGroupData();
-
-    showingBarGroups = rawBarGroups;
-
-    final Map<int, double> result = getDailyBalanceForWeek();
-    result.forEach((key, value) {
-      if (value < minValue) minValue = value;
-    });
-
-    minValue *= -1;
   }
 }

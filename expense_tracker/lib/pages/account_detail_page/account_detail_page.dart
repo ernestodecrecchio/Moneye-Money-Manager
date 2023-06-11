@@ -551,13 +551,11 @@ class _AccountDetailPageState extends State<AccountDetailPage>
 
     if (widget.account != null) {
       transactionList = transactionProvider.transactionList
-          .where(
-            (element) =>
-                element.accountId == widget.account!.id &&
-                element.value < 0 &&
-                element.date.isAfterIncludingZero(startDate) &&
-                element.date.isBeforeIncludingZero(endDate),
-          )
+          .where((element) =>
+              element.accountId == widget.account!.id &&
+              element.value < 0 &&
+              element.date.isAfterIncludingZero(startDate) &&
+              element.date.isBeforeIncludingZero(endDate))
           .toList()
           .sorted((a, b) => a.date.isBefore(b.date) ? 1 : 0);
     } else {
@@ -666,7 +664,7 @@ class _AccountDetailPageState extends State<AccountDetailPage>
       height: 200,
       child: AccountBarChart(
         transactionType: transactionType,
-        timeMode: timeMode,
+        transactionTimePeriod: timeMode,
         startDate: startDate,
         endDate: endDate,
         transactionList: transactionList,
@@ -676,6 +674,7 @@ class _AccountDetailPageState extends State<AccountDetailPage>
 
   Widget _buildPieChart(List<Transaction> transactionList,
       AccountPieChartModeTransactionType mode) {
+    return Container();
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 20, horizontal: 18),
       child: AccountPieChart(
