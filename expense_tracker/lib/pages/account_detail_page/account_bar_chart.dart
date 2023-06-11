@@ -241,10 +241,14 @@ class AccountBarChartState extends State<AccountBarChart> {
   }
 
   List<String> _getWeekIntervalBottomTitlesString() {
+    final ddDateFormat = DateFormat("dd");
+
     final List<String> weekDatesList = [];
 
     final DateTime currentMonthFirstDayDate =
         currentMonthFirstDay(widget.startDate!);
+    final DateTime currentMonthLastDayDate =
+        currentMonthLastDay(widget.startDate!);
 
     final DateTime nextMonthFirstDayDate = nextMonthFirstDay(widget.startDate!);
 
@@ -253,15 +257,30 @@ class AccountBarChartState extends State<AccountBarChart> {
     DateTime currentWeekLastDayDate =
         currentWeekLastDay(currentMonthFirstDayDate);
 
-    weekDatesList.add(
-        '${DateFormat("dd").format(currentWeekFirstDayDate)} - ${DateFormat("dd").format(currentWeekLastDayDate)}');
+    if (currentMonthFirstDayDate.day != currentWeekLastDayDate.day) {
+      weekDatesList.add(
+          '${ddDateFormat.format(currentMonthFirstDayDate)} - ${ddDateFormat.format(currentWeekLastDayDate)}');
+    } else {
+      weekDatesList.add(ddDateFormat.format(currentMonthFirstDayDate));
+    }
+    currentWeekFirstDayDate = nextWeekFirstDay(currentWeekFirstDayDate);
+    currentWeekLastDayDate = nextWeekLastDay(currentWeekLastDayDate);
 
     while (currentWeekLastDayDate.isBefore(nextMonthFirstDayDate)) {
+      weekDatesList.add(
+          '${ddDateFormat.format(currentWeekFirstDayDate)} - ${ddDateFormat.format(currentWeekLastDayDate)}');
+
       currentWeekFirstDayDate = nextWeekFirstDay(currentWeekFirstDayDate);
       currentWeekLastDayDate = nextWeekLastDay(currentWeekLastDayDate);
+    }
 
-      weekDatesList.add(
-          '${DateFormat("dd").format(currentWeekFirstDayDate)} - ${DateFormat("dd").format(currentWeekLastDayDate)}');
+    if (currentWeekFirstDayDate.month == currentMonthFirstDayDate.month) {
+      if (currentWeekFirstDayDate.day != currentMonthLastDayDate.day) {
+        weekDatesList.add(
+            '${ddDateFormat.format(currentWeekFirstDayDate)} - ${ddDateFormat.format(currentMonthLastDayDate)}');
+      } else {
+        weekDatesList.add(ddDateFormat.format(currentWeekFirstDayDate));
+      }
     }
 
     return weekDatesList;
@@ -328,34 +347,7 @@ class AccountBarChartState extends State<AccountBarChart> {
     );
   }
 
-  Widget _weekIntervalBottomTitles(double value, TitleMeta meta) {
-    final List<Map<String, DateTime>> weekDatesList = [];
-
-    final DateTime currentMonthFirstDayDate =
-        currentMonthFirstDay(widget.startDate!);
-
-    final DateTime nextMonthFirstDayDate = nextMonthFirstDay(widget.startDate!);
-
-    DateTime currentWeekFirstDayDate =
-        currentWeekFirstDay(currentMonthFirstDayDate);
-    DateTime currentWeekLastDayDate =
-        currentWeekLastDay(currentMonthFirstDayDate);
-
-    weekDatesList.add({
-      'firstWeekDay': currentWeekFirstDayDate,
-      'lastWeekDay': currentWeekLastDayDate
-    });
-
-    while (currentWeekLastDayDate.isBefore(nextMonthFirstDayDate)) {
-      currentWeekFirstDayDate = nextWeekFirstDay(currentWeekFirstDayDate);
-      currentWeekLastDayDate = nextWeekLastDay(currentWeekLastDayDate);
-
-      weekDatesList.add({
-        'firstWeekDay': currentWeekFirstDayDate,
-        'lastWeekDay': currentWeekLastDayDate
-      });
-    }
-
+  Widget _weekIntervalBottomTitleWidget(double value, TitleMeta meta) {
     final Widget text = Text(
       bottomTitlesStrings[value.toInt()],
       style: const TextStyle(
@@ -396,7 +388,7 @@ class AccountBarChartState extends State<AccountBarChart> {
       case TransactionTimePeriod.week:
         return _weekdayBottomTitles(value, meta);
       case TransactionTimePeriod.month:
-        return _weekIntervalBottomTitles(value, meta);
+        return _weekIntervalBottomTitleWidget(value, meta);
       case TransactionTimePeriod.year:
         return _monthBottomTitles(value, meta);
       default:
@@ -427,7 +419,7 @@ class AccountBarChartState extends State<AccountBarChart> {
     for (var transaction in widget.transactionList) {
       final transactionWeeknumber = weekNumber(transaction.date);
 
-      balanceMap[transactionWeeknumber - firstWeeknumberOfMonth - 1] =
+      balanceMap[transactionWeeknumber - firstWeeknumberOfMonth] =
           (balanceMap[transactionWeeknumber - firstWeeknumberOfMonth] ?? 0) +
               transaction.value;
     }
