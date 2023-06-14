@@ -33,11 +33,15 @@ class AccountBarChart extends StatefulWidget {
 
 class AccountBarChartState extends State<AccountBarChart> {
   late final Color barColor;
+
+  final Color incomeBarColor = CustomColors.income;
+  final Color expenseBarColor = CustomColors.expense;
   final Color avgColor = CustomColors.blue;
 
   final double barWidth = 10;
 
-  late Map<int, double> valueMap;
+  late Map<int, List<double>> valueMap;
+
   late List<BarChartGroupData> rawBarGroups;
   late List<BarChartGroupData> showingBarGroups;
 
@@ -80,6 +84,7 @@ class AccountBarChartState extends State<AccountBarChart> {
   }
 
   _loadData() {
+    print('load');
     bottomTitlesStrings = _getBottomTitlesString();
 
     switch (widget.transactionTimePeriod) {
@@ -101,11 +106,29 @@ class AccountBarChartState extends State<AccountBarChart> {
     }
 
     valueMap.forEach((key, value) {
-      if (value < minValue) minValue = value;
-      if (value > maxValue) maxValue = value;
+      switch (widget.transactionType) {
+        case AccountBarChartModeTransactionType.income:
+          if (value[0] < minValue) minValue = value[0];
+          if (value[0] > maxValue) maxValue = value[0];
+          break;
+        case AccountBarChartModeTransactionType.expense:
+          if (value[1] < minValue) minValue = value[1];
+          if (value[1] > maxValue) maxValue = value[1];
+          break;
+        case AccountBarChartModeTransactionType.all:
+          if (value[0] < minValue) minValue = value[0];
+          if (value[0] > maxValue) maxValue = value[0];
+          if (value[1] < minValue) minValue = value[1];
+          if (value[1] > maxValue) maxValue = value[1];
+          break;
+        default:
+          break;
+      }
     });
 
+    //if (widget.transactionType != AccountBarChartModeTransactionType.all) {
     minValue *= -1;
+    //}
 
     rawBarGroups = _buildGroupData();
 
@@ -222,6 +245,14 @@ class AccountBarChartState extends State<AccountBarChart> {
             AccountBarChartModeTransactionType.income &&
         value == maxValue) {
       text = maxValue.toStringAsFixedRoundedWithCurrency(context, 2);
+    } else if (widget.transactionType ==
+            AccountBarChartModeTransactionType.all &&
+        value == maxValue) {
+      text = maxValue.toStringAsFixedRoundedWithCurrency(context, 2);
+    } else if (widget.transactionType ==
+            AccountBarChartModeTransactionType.all &&
+        value == minValue) {
+      text = minValue.toStringAsFixedRoundedWithCurrency(context, 2);
     } else if (value == (minValue + maxValue) / 2) {
       text = ((minValue + maxValue) / 2)
           .toStringAsFixedRoundedWithCurrency(context, 2);
@@ -416,39 +447,134 @@ class AccountBarChartState extends State<AccountBarChart> {
 
   /// BALANCE MANAGEMENT
 
-  Map<int, double> getDailyBalanceForWeek() {
-    final Map<int, double> balanceMap = {};
+  //Map<int, double> getDailyBalanceForWeek() {
+  // valore x , valore soldi
+  // final Map<int, double> balanceMap = {};
+
+  // for (var transaction in widget.transactionList) {
+  //   balanceMap[transaction.date.weekday - 1] =
+  //       (balanceMap[transaction.date.weekday - 1] ?? 0) + transaction.value;
+  // }
+
+  Map<int, List<double>> getDailyBalanceForWeek() {
+    final Map<int, List<double>> balanceMap2 = {};
 
     for (var transaction in widget.transactionList) {
-      balanceMap[transaction.date.weekday - 1] =
-          (balanceMap[transaction.date.weekday - 1] ?? 0) + transaction.value;
+      if (balanceMap2[transaction.date.weekday - 1] == null) {
+        if (transaction.value >= 0) {
+          balanceMap2[transaction.date.weekday - 1] = [transaction.value, 0];
+        } else {
+          balanceMap2[transaction.date.weekday - 1] = [0, transaction.value];
+        }
+      } else {
+        final List<double> currValueArray =
+            balanceMap2[transaction.date.weekday - 1]!;
+
+        if (transaction.value >= 0) {
+          balanceMap2[transaction.date.weekday - 1] = [
+            currValueArray[0] + transaction.value,
+            currValueArray[1]
+          ];
+        } else {
+          balanceMap2[transaction.date.weekday - 1] = [
+            currValueArray[0],
+            currValueArray[1] + transaction.value,
+          ];
+        }
+      }
     }
 
-    return balanceMap;
+    return balanceMap2;
   }
 
-  Map<int, double> getWeekBalanceForMonth() {
-    final Map<int, double> balanceMap = {};
+  Map<int, List<double>> getWeekBalanceForMonth() {
+    // final Map<int, double> balanceMap = {};
 
+    // final firstWeeknumberOfMonth = weekNumber(widget.startDate!);
+
+    // for (var transaction in widget.transactionList) {
+    //   final transactionWeeknumber = weekNumber(transaction.date);
+
+    //   balanceMap[transactionWeeknumber - firstWeeknumberOfMonth] =
+    //       (balanceMap[transactionWeeknumber - firstWeeknumberOfMonth] ?? 0) +
+    //           transaction.value;
+    // }
+
+    // return balanceMap;
+
+    final Map<int, List<double>> balanceMap = {};
     final firstWeeknumberOfMonth = weekNumber(widget.startDate!);
 
     for (var transaction in widget.transactionList) {
       final transactionWeeknumber = weekNumber(transaction.date);
 
-      balanceMap[transactionWeeknumber - firstWeeknumberOfMonth] =
-          (balanceMap[transactionWeeknumber - firstWeeknumberOfMonth] ?? 0) +
-              transaction.value;
+      if (balanceMap[transactionWeeknumber - firstWeeknumberOfMonth] == null) {
+        if (transaction.value >= 0) {
+          balanceMap[transactionWeeknumber - firstWeeknumberOfMonth] = [
+            transaction.value,
+            0
+          ];
+        } else {
+          balanceMap[transactionWeeknumber - firstWeeknumberOfMonth] = [
+            0,
+            transaction.value
+          ];
+        }
+      } else {
+        final List<double> currValueArray =
+            balanceMap[transactionWeeknumber - firstWeeknumberOfMonth]!;
+
+        if (transaction.value >= 0) {
+          balanceMap[transactionWeeknumber - firstWeeknumberOfMonth] = [
+            currValueArray[0] + transaction.value,
+            currValueArray[1]
+          ];
+        } else {
+          balanceMap[transaction.date.weekday - 1] = [
+            currValueArray[0],
+            currValueArray[1] + transaction.value,
+          ];
+        }
+      }
     }
 
     return balanceMap;
   }
 
-  Map<int, double> getMonthlyBalanceForYear() {
-    final Map<int, double> balanceMap = {};
+  Map<int, List<double>> getMonthlyBalanceForYear() {
+    // final Map<int, double> balanceMap = {};
+
+    // for (var transaction in widget.transactionList) {
+    //   balanceMap[transaction.date.month - 1] =
+    //       (balanceMap[transaction.date.month - 1] ?? 0) + transaction.value;
+    // }
+
+    // return balanceMap;
+    final Map<int, List<double>> balanceMap = {};
 
     for (var transaction in widget.transactionList) {
-      balanceMap[transaction.date.month - 1] =
-          (balanceMap[transaction.date.month - 1] ?? 0) + transaction.value;
+      if (balanceMap[transaction.date.month - 1] == null) {
+        if (transaction.value >= 0) {
+          balanceMap[transaction.date.month - 1] = [transaction.value, 0];
+        } else {
+          balanceMap[transaction.date.month - 1] = [0, transaction.value];
+        }
+      } else {
+        final List<double> currValueArray =
+            balanceMap[transaction.date.month - 1]!;
+
+        if (transaction.value >= 0) {
+          balanceMap[transaction.date.month - 1] = [
+            currValueArray[0] + transaction.value,
+            currValueArray[1]
+          ];
+        } else {
+          balanceMap[transaction.date.month - 1] = [
+            currValueArray[0],
+            currValueArray[1] + transaction.value,
+          ];
+        }
+      }
     }
 
     return balanceMap;
@@ -458,29 +584,42 @@ class AccountBarChartState extends State<AccountBarChart> {
     final List<BarChartGroupData> barChartGroupDataList = [];
 
     for (int i = 0; i < bottomTitlesStrings.length; i++) {
-      double valueToAdd = valueMap[i] ?? 0;
+      List<double> barValue = valueMap[i] ?? [0, 0];
 
       if (widget.transactionType ==
-          AccountBarChartModeTransactionType.expense) {
-        valueToAdd *= -1;
+              AccountBarChartModeTransactionType.expense ||
+          widget.transactionType == AccountBarChartModeTransactionType.all) {
+        barValue[1] *= -1;
       }
 
-      barChartGroupDataList.add(makeGroupData(i, valueToAdd));
+      barChartGroupDataList
+          .add(makeGroupData(x: i, y1: barValue[0], y2: barValue[1]));
     }
 
     return barChartGroupDataList;
   }
 
-  BarChartGroupData makeGroupData(int x, double value) {
+  BarChartGroupData makeGroupData(
+      {required int x, required double y1, double? y2}) {
     return BarChartGroupData(
       barsSpace: 4,
       x: x,
       barRods: [
         BarChartRodData(
-          toY: value,
-          color: barColor,
+          toY: y1,
+          color:
+              widget.transactionType == AccountBarChartModeTransactionType.all
+                  ? incomeBarColor
+                  : barColor,
           width: barWidth,
         ),
+        if (widget.transactionType == AccountBarChartModeTransactionType.all &&
+            y2 != null)
+          BarChartRodData(
+            toY: y2,
+            color: expenseBarColor,
+            width: barWidth,
+          ),
       ],
     );
   }

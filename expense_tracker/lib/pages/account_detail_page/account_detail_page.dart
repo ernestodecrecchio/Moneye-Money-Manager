@@ -574,14 +574,21 @@ class _AccountDetailPageState extends State<AccountDetailPage>
         ? Align(child: Text(AppLocalizations.of(context)!.noTransactions))
         : Column(
             children: [
-              // _buildLineChart(   transactionList, AccountPieChartModeTransactionType.expense),
-              _buildBarChart(
-                transactionList: transactionList,
-                transactionType: AccountBarChartModeTransactionType.expense,
-                timeMode: selectedTransactionTimePeriod,
+              Expanded(
+                child: PageView(
+                  children: [
+                    // _buildLineChart(   transactionList, AccountPieChartModeTransactionType.expense),
+                    _buildBarChart(
+                      transactionList: transactionList,
+                      transactionType:
+                          AccountBarChartModeTransactionType.expense,
+                      timeMode: selectedTransactionTimePeriod,
+                    ),
+                    _buildPieChart(transactionList,
+                        AccountPieChartModeTransactionType.expense),
+                  ],
+                ),
               ),
-              _buildPieChart(
-                  transactionList, AccountPieChartModeTransactionType.expense),
               Expanded(
                 child: _buildTransactionListSection(transactionList),
               )
