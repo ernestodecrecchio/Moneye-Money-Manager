@@ -1,15 +1,13 @@
 import 'package:collection/collection.dart';
 import 'package:expense_tracker/Helper/date_time_helper.dart';
 import 'package:expense_tracker/models/account.dart';
-import 'package:expense_tracker/models/category.dart';
 import 'package:expense_tracker/models/transaction.dart';
 import 'package:expense_tracker/notifiers/account_provider.dart';
-import 'package:expense_tracker/notifiers/category_provider.dart';
 import 'package:expense_tracker/notifiers/transaction_provider.dart';
+import 'package:expense_tracker/pages/account_detail_page/account_bar_chart.dart';
 import 'package:expense_tracker/pages/account_detail_page/account_pie_chart.dart';
-import 'package:expense_tracker/pages/account_detail_page/transaction_list_page.dart';
+import 'package:expense_tracker/pages/account_detail_page/transaction_list/transaction_list.dart';
 import 'package:expense_tracker/pages/common/custom_modal_bottom_sheet.dart';
-import 'package:expense_tracker/pages/common/list_tiles/transaction_list_cell.dart';
 import 'package:expense_tracker/pages/options_page/accounts_page/new_edit_account_page.dart';
 import 'package:expense_tracker/pages/new_edit_transaction_flow/new_edit_transaction_page.dart';
 import 'package:expense_tracker/style.dart';
@@ -18,6 +16,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+enum AccountDetailTransactionTypeMode { income, expense, all }
 
 enum TransactionTimePeriod {
   day,
@@ -49,6 +49,9 @@ class _AccountDetailPageState extends State<AccountDetailPage>
 
   AccountDetailTransactionListMode transactionListMode =
       AccountDetailTransactionListMode.transactionList;
+
+  AccountDetailTransactionTypeMode transactionTypeMode =
+      AccountDetailTransactionTypeMode.income;
 
   int selectedTimeIndex = 0;
 
@@ -125,9 +128,12 @@ class _AccountDetailPageState extends State<AccountDetailPage>
               child: TabBarView(
             controller: _tabController,
             children: [
-              _buildIncomePage(),
-              _buildOutcomePage(),
-              _buildTotalPage(),
+              _buildContentPage(
+                  transactionType: AccountDetailTransactionTypeMode.income),
+              _buildContentPage(
+                  transactionType: AccountDetailTransactionTypeMode.expense),
+              _buildContentPage(
+                  transactionType: AccountDetailTransactionTypeMode.all),
             ],
           )),
         ],
@@ -153,6 +159,19 @@ class _AccountDetailPageState extends State<AccountDetailPage>
           indicatorColor: CustomColors.blue,
           labelColor: CustomColors.darkBlue,
           labelStyle: const TextStyle(fontSize: 16),
+          onTap: (value) {
+            switch (value) {
+              case 0:
+                transactionTypeMode = AccountDetailTransactionTypeMode.income;
+                break;
+              case 1:
+                transactionTypeMode = AccountDetailTransactionTypeMode.expense;
+                break;
+              case 2:
+                transactionTypeMode = AccountDetailTransactionTypeMode.all;
+                break;
+            }
+          },
           tabs: [
             Tab(
               child: FittedBox(
@@ -492,7 +511,7 @@ class _AccountDetailPageState extends State<AccountDetailPage>
     );
   }
 
-  Widget _buildIncomePage() {
+  List<Transaction> _getIncomeTransactionList() {
     List<Transaction> transactionList = [];
 
     final transactionProvider =
@@ -521,22 +540,10 @@ class _AccountDetailPageState extends State<AccountDetailPage>
           .sorted((a, b) => a.date.isBefore(b.date) ? 1 : 0);
     }
 
-    return transactionList.isEmpty
-        ? Align(
-            child: Text(AppLocalizations.of(context)!.noTransactions),
-          )
-        : Column(
-            children: [
-              _buildPieChart(
-                  transactionList, AccountPieChartModeTransactionType.income),
-              Expanded(
-                child: _buildTransactionListSection(transactionList),
-              )
-            ],
-          );
+    return transactionList;
   }
 
-  Widget _buildOutcomePage() {
+  List<Transaction> _getOutcomeTransactionList() {
     List<Transaction> transactionList = [];
 
     final transactionProvider =
@@ -544,13 +551,11 @@ class _AccountDetailPageState extends State<AccountDetailPage>
 
     if (widget.account != null) {
       transactionList = transactionProvider.transactionList
-          .where(
-            (element) =>
-                element.accountId == widget.account!.id &&
-                element.value < 0 &&
-                element.date.isAfterIncludingZero(startDate) &&
-                element.date.isBeforeIncludingZero(endDate),
-          )
+          .where((element) =>
+              element.accountId == widget.account!.id &&
+              element.value < 0 &&
+              element.date.isAfterIncludingZero(startDate) &&
+              element.date.isBeforeIncludingZero(endDate))
           .toList()
           .sorted((a, b) => a.date.isBefore(b.date) ? 1 : 0);
     } else {
@@ -565,20 +570,10 @@ class _AccountDetailPageState extends State<AccountDetailPage>
           .sorted((a, b) => a.date.isBefore(b.date) ? 1 : 0);
     }
 
-    return transactionList.isEmpty
-        ? Align(child: Text(AppLocalizations.of(context)!.noTransactions))
-        : Column(
-            children: [
-              _buildPieChart(
-                  transactionList, AccountPieChartModeTransactionType.expense),
-              Expanded(
-                child: _buildTransactionListSection(transactionList),
-              )
-            ],
-          );
+    return transactionList;
   }
 
-  Widget _buildTotalPage() {
+  List<Transaction> _getTotalTransactionList() {
     List<Transaction> transactionList = [];
 
     final transactionProvider =
@@ -605,221 +600,83 @@ class _AccountDetailPageState extends State<AccountDetailPage>
           .sorted((a, b) => a.date.isBefore(b.date) ? 1 : 0);
     }
 
+    return transactionList;
+  }
+
+  Widget _buildContentPage(
+      {required AccountDetailTransactionTypeMode transactionType}) {
+    List<Transaction> transactionList = [];
+    AccountBarChartModeTransactionType barChartTransactionType;
+    AccountPieChartModeTransactionType pieChartTransactionType;
+
+    switch (transactionType) {
+      case AccountDetailTransactionTypeMode.income:
+        transactionList = _getIncomeTransactionList();
+        barChartTransactionType = AccountBarChartModeTransactionType.income;
+        pieChartTransactionType = AccountPieChartModeTransactionType.income;
+        break;
+      case AccountDetailTransactionTypeMode.expense:
+        transactionList = _getOutcomeTransactionList();
+        barChartTransactionType = AccountBarChartModeTransactionType.expense;
+        pieChartTransactionType = AccountPieChartModeTransactionType.expense;
+        break;
+      case AccountDetailTransactionTypeMode.all:
+        transactionList = _getTotalTransactionList();
+        barChartTransactionType = AccountBarChartModeTransactionType.all;
+        pieChartTransactionType = AccountPieChartModeTransactionType.all;
+        break;
+    }
+
     return transactionList.isEmpty
         ? Align(child: Text(AppLocalizations.of(context)!.noTransactions))
         : Column(
             children: [
-              _buildPieChart(
-                  transactionList, AccountPieChartModeTransactionType.all),
+              Container(
+                height: 200,
+                margin: const EdgeInsets.only(
+                    top: 10, bottom: 0, left: 18, right: 18),
+                child: PageView(
+                  children: [
+                    _buildBarChart(
+                      transactionList: transactionList,
+                      transactionType: barChartTransactionType,
+                      timeMode: selectedTransactionTimePeriod,
+                    ),
+                    _buildPieChart(transactionList, pieChartTransactionType),
+                  ],
+                ),
+              ),
               Expanded(
                 child: _buildTransactionListSection(transactionList),
               )
             ],
           );
+  }
+
+  Widget _buildBarChart({
+    required List<Transaction> transactionList,
+    required AccountBarChartModeTransactionType transactionType,
+    required TransactionTimePeriod timeMode,
+  }) {
+    return AccountBarChart(
+      transactionType: transactionType,
+      transactionTimePeriod: timeMode,
+      startDate: startDate,
+      endDate: endDate,
+      transactionList: transactionList,
+    );
   }
 
   Widget _buildPieChart(List<Transaction> transactionList,
       AccountPieChartModeTransactionType mode) {
-    return transactionList.isEmpty
-        ? Expanded(
-            child: Align(
-                child: Text(AppLocalizations.of(context)!.noTransactions)))
-        : Container(
-            margin: const EdgeInsets.symmetric(vertical: 20, horizontal: 18),
-            child: AccountPieChart(
-              transactionList: transactionList,
-              mode: mode,
-            ),
-          );
+    return AccountPieChart(
+      transactionList: transactionList,
+      mode: mode,
+    );
   }
 
   Widget _buildTransactionListSection(List<Transaction> transactionList) {
-    return Column(
-      children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 18),
-          child:
-              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-            const Text(
-              'Transaction list',
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            TextButton(
-              onPressed: () {
-                transactionListMode = transactionListMode ==
-                        AccountDetailTransactionListMode.transactionList
-                    ? AccountDetailTransactionListMode.forCategory
-                    : AccountDetailTransactionListMode.transactionList;
-
-                setState(() {});
-              },
-              style: TextButton.styleFrom(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 0, vertical: 10),
-                  minimumSize: Size.zero,
-                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                  alignment: Alignment.centerLeft),
-              child: Text(
-                transactionListMode ==
-                        AccountDetailTransactionListMode.transactionList
-                    ? AppLocalizations.of(context)!.byList
-                    : AppLocalizations.of(context)!.byCategory,
-                style: const TextStyle(
-                  fontSize: 14,
-                ),
-              ),
-            ),
-          ]),
-        ),
-        Expanded(
-          child: transactionListMode ==
-                  AccountDetailTransactionListMode.transactionList
-              ? _buildTransactionList(transactionList)
-              : _buildCategoryList(transactionList),
-        )
-      ],
-    );
-  }
-
-  Widget _buildTransactionList(List<Transaction> transactionList) {
-    return ListView.builder(
-      itemCount: transactionList.length,
-      itemBuilder: (context, index) => TransactionListCell(
-        transaction: transactionList[index],
-        showAccountLabel: false,
-      ),
-    );
-  }
-
-  Widget _buildCategoryList(List<Transaction> transactionList) {
-    final categoryProvider =
-        Provider.of<CategoryProvider>(context, listen: false);
-
-    final List<CategoryTotalValue> categoryTotalValuePairs = [];
-
-    categoryTotalValuePairs.clear();
-
-    for (var transaction in transactionList) {
-      Category? category;
-
-      if (transaction.categoryId != null) {
-        category = categoryProvider.getCategoryFromId(transaction.categoryId!);
-      }
-
-      if (category != null) {
-        final indexFound = categoryTotalValuePairs
-            .indexWhere((element) => element.category == category);
-
-        if (indexFound != -1) {
-          categoryTotalValuePairs[indexFound].totalValue += transaction.value;
-        } else {
-          final newEntry = CategoryTotalValue(
-            category: category,
-            totalValue: transaction.value,
-          );
-
-          categoryTotalValuePairs.add(newEntry);
-        }
-      } else {
-        final indexFound = categoryTotalValuePairs
-            .indexWhere((element) => element.category.id == null);
-
-        if (indexFound != -1) {
-          categoryTotalValuePairs[indexFound].totalValue += transaction.value;
-        } else {
-          final otherEntry = CategoryTotalValue(
-              category: Category(
-                  name: AppLocalizations.of(context)!.other,
-                  colorValue: Colors.grey.value),
-              totalValue: transaction.value);
-
-          categoryTotalValuePairs.add(otherEntry);
-        }
-      }
-    }
-
-    return ListView.builder(
-      itemCount: categoryTotalValuePairs.length,
-      itemBuilder: (context, index) => _buildCategoryListCell(
-        categoryTotalValuePair: categoryTotalValuePairs[index],
-        transactionList: transactionList
-            .where((transaction) =>
-                transaction.categoryId ==
-                categoryTotalValuePairs[index].category.id)
-            .toList(),
-      ),
-    );
-  }
-
-  _buildCategoryListCell(
-      {required CategoryTotalValue categoryTotalValuePair,
-      required List<Transaction> transactionList}) {
-    return InkWell(
-      onTap: () => Navigator.of(context)
-          .pushNamed(TransactionList.routeName, arguments: transactionList),
-      child: Container(
-        height: 64,
-        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 17),
-        child: Row(
-          children: [
-            _buildCategoryIcon(context, categoryTotalValuePair.category),
-            const SizedBox(
-              width: 8,
-            ),
-            Expanded(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    categoryTotalValuePair.category.name,
-                    maxLines: 1,
-                    style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 2,
-                  ),
-                  Text(
-                    categoryTotalValuePair.totalValue.toString(),
-                  ),
-                ],
-              ),
-            ),
-            const Icon(
-              Icons.chevron_right_rounded,
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  _buildCategoryIcon(BuildContext context, Category category) {
-    SvgPicture? categoryIcon;
-    if (category.iconPath != null) {
-      categoryIcon = SvgPicture.asset(
-        category.iconPath!,
-        colorFilter: const ColorFilter.mode(
-          Colors.white,
-          BlendMode.srcIn,
-        ),
-      );
-    }
-
-    return Container(
-      width: 32,
-      height: 32,
-      padding: const EdgeInsets.all(8),
-      decoration: BoxDecoration(shape: BoxShape.circle, color: category.color),
-      child: categoryIcon,
-    );
+    return TransactionList(transactionList: transactionList);
   }
 
   Widget _buildEditAction(BuildContext context) {
