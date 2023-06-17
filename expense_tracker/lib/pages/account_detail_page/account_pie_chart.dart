@@ -66,8 +66,8 @@ class _AccountPieChartState extends State<AccountPieChart> {
   _buildGraph() {
     const centerSpaceRadius = 50.0;
 
-    return AspectRatio(
-      aspectRatio: 1,
+    return Padding(
+      padding: const EdgeInsets.only(left: 15.0),
       child: Stack(
         children: [
           Align(

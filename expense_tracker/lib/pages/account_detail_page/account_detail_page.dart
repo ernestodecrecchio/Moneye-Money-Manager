@@ -528,14 +528,23 @@ class _AccountDetailPageState extends State<AccountDetailPage>
           )
         : Column(
             children: [
-              //  _buildLineChart(    transactionList, AccountPieChartModeTransactionType.income),
-              _buildBarChart(
-                transactionList: transactionList,
-                transactionType: AccountBarChartModeTransactionType.income,
-                timeMode: selectedTransactionTimePeriod,
+              Container(
+                height: 200,
+                margin: const EdgeInsets.only(
+                    top: 10, bottom: 0, left: 18, right: 18),
+                child: PageView(
+                  children: [
+                    _buildBarChart(
+                      transactionList: transactionList,
+                      transactionType:
+                          AccountBarChartModeTransactionType.income,
+                      timeMode: selectedTransactionTimePeriod,
+                    ),
+                    _buildPieChart(transactionList,
+                        AccountPieChartModeTransactionType.income),
+                  ],
+                ),
               ),
-              _buildPieChart(
-                  transactionList, AccountPieChartModeTransactionType.income),
               Expanded(
                 child: _buildTransactionListSection(transactionList),
               )
@@ -574,10 +583,12 @@ class _AccountDetailPageState extends State<AccountDetailPage>
         ? Align(child: Text(AppLocalizations.of(context)!.noTransactions))
         : Column(
             children: [
-              Expanded(
+              Container(
+                height: 200,
+                margin: const EdgeInsets.only(
+                    top: 10, bottom: 0, left: 18, right: 18),
                 child: PageView(
                   children: [
-                    // _buildLineChart(   transactionList, AccountPieChartModeTransactionType.expense),
                     _buildBarChart(
                       transactionList: transactionList,
                       transactionType:
@@ -627,14 +638,22 @@ class _AccountDetailPageState extends State<AccountDetailPage>
         ? Align(child: Text(AppLocalizations.of(context)!.noTransactions))
         : Column(
             children: [
-              //_buildLineChart(  transactionList, AccountPieChartModeTransactionType.all),
-              _buildBarChart(
-                transactionList: transactionList,
-                transactionType: AccountBarChartModeTransactionType.all,
-                timeMode: selectedTransactionTimePeriod,
+              Container(
+                height: 200,
+                margin: const EdgeInsets.only(
+                    top: 10, bottom: 0, left: 18, right: 18),
+                child: PageView(
+                  children: [
+                    _buildBarChart(
+                      transactionList: transactionList,
+                      transactionType: AccountBarChartModeTransactionType.all,
+                      timeMode: selectedTransactionTimePeriod,
+                    ),
+                    _buildPieChart(transactionList,
+                        AccountPieChartModeTransactionType.all),
+                  ],
+                ),
               ),
-              _buildPieChart(
-                  transactionList, AccountPieChartModeTransactionType.all),
               Expanded(
                 child: _buildTransactionListSection(transactionList),
               )
@@ -642,51 +661,25 @@ class _AccountDetailPageState extends State<AccountDetailPage>
           );
   }
 
-/*
-  Widget _buildLineChart(List<Transaction> transactionList,
-      AccountPieChartModeTransactionType mode) {
-    return transactionList.isEmpty
-        ? Expanded(
-            child: Align(
-                child: Text(AppLocalizations.of(context)!.noTransactions)))
-        : Container(
-            margin: const EdgeInsets.symmetric(vertical: 20, horizontal: 18),
-            child: AccountLineChart(
-              mode: TimeMode.day,
-              startDate: startDate,
-              endDate: endDate,
-              transactionList: transactionList,
-            ),
-          );
-  }
-  */
-
   Widget _buildBarChart({
     required List<Transaction> transactionList,
     required AccountBarChartModeTransactionType transactionType,
     required TransactionTimePeriod timeMode,
   }) {
-    return Container(
-      margin: const EdgeInsets.symmetric(vertical: 20, horizontal: 18),
-      height: 200,
-      child: AccountBarChart(
-        transactionType: transactionType,
-        transactionTimePeriod: timeMode,
-        startDate: startDate,
-        endDate: endDate,
-        transactionList: transactionList,
-      ),
+    return AccountBarChart(
+      transactionType: transactionType,
+      transactionTimePeriod: timeMode,
+      startDate: startDate,
+      endDate: endDate,
+      transactionList: transactionList,
     );
   }
 
   Widget _buildPieChart(List<Transaction> transactionList,
       AccountPieChartModeTransactionType mode) {
-    return Container(
-      margin: const EdgeInsets.symmetric(vertical: 20, horizontal: 18),
-      child: AccountPieChart(
-        transactionList: transactionList,
-        mode: mode,
-      ),
+    return AccountPieChart(
+      transactionList: transactionList,
+      mode: mode,
     );
   }
 

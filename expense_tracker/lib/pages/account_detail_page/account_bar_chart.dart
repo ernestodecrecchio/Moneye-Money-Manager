@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:expense_tracker/Helper/date_time_helper.dart';
 import 'package:expense_tracker/Helper/double_helper.dart';
 import 'package:expense_tracker/models/transaction.dart';
@@ -32,8 +34,6 @@ class AccountBarChart extends StatefulWidget {
 }
 
 class AccountBarChartState extends State<AccountBarChart> {
-  late final Color barColor;
-
   final Color incomeBarColor = CustomColors.income;
   final Color expenseBarColor = CustomColors.expense;
   final Color avgColor = CustomColors.blue;
@@ -55,23 +55,6 @@ class AccountBarChartState extends State<AccountBarChart> {
   double? maxY;
 
   @override
-  void initState() {
-    super.initState();
-
-    switch (widget.transactionType) {
-      case AccountBarChartModeTransactionType.income:
-        barColor = CustomColors.income;
-        break;
-      case AccountBarChartModeTransactionType.expense:
-        barColor = CustomColors.expense;
-        break;
-      default:
-        barColor = CustomColors.blue;
-        break;
-    }
-  }
-
-  @override
   void didChangeDependencies() {
     super.didChangeDependencies();
 
@@ -86,7 +69,6 @@ class AccountBarChartState extends State<AccountBarChart> {
   }
 
   _loadData() {
-    print('load');
     bottomTitlesStrings = _getBottomTitlesString();
 
     switch (widget.transactionTimePeriod) {
@@ -128,64 +110,67 @@ class AccountBarChartState extends State<AccountBarChart> {
       }
     });
 
-    //if (widget.transactionType != AccountBarChartModeTransactionType.all) {
     minValue *= -1;
-    //}
 
-    minY = widget.transactionType == AccountBarChartModeTransactionType.income
-        ? 0
-        : null;
+    minY = 0;
 
     maxY = widget.transactionType == AccountBarChartModeTransactionType.income
         ? maxValue
-        : minValue;
+        : widget.transactionType == AccountBarChartModeTransactionType.expense
+            ? minValue
+            : max(minValue, maxValue);
 
     showingBarGroups = _buildGroupData();
   }
 
   @override
   Widget build(BuildContext context) {
-    return BarChart(
-      BarChartData(
-        minY: minY,
-        maxY: maxY,
-        barTouchData: BarTouchData(
-          touchTooltipData: BarTouchTooltipData(
-            tooltipBgColor: Colors.grey[200],
-            fitInsideVertically: true,
-            fitInsideHorizontally: true,
-          ),
-        ),
-        titlesData: FlTitlesData(
-          show: true,
-          rightTitles: AxisTitles(
-            sideTitles: SideTitles(showTitles: false),
-          ),
-          topTitles: AxisTitles(
-            sideTitles: SideTitles(showTitles: false),
-          ),
-          bottomTitles: AxisTitles(
-            sideTitles: SideTitles(
-              showTitles: true,
-              getTitlesWidget: _buildBottomTitleWidget,
-              reservedSize: 42,
+    return Padding(
+      padding: const EdgeInsets.only(
+        top: 8.0,
+      ),
+      child: BarChart(
+        BarChartData(
+          minY: minY,
+          maxY: maxY,
+          barTouchData: BarTouchData(
+            touchTooltipData: BarTouchTooltipData(
+              tooltipBgColor: Colors.grey[200],
+              fitInsideVertically: true,
+              fitInsideHorizontally: true,
             ),
           ),
-          leftTitles: AxisTitles(
-            sideTitles: SideTitles(
-              showTitles: true,
-              reservedSize: 35,
-              interval: 1,
-              getTitlesWidget: leftTitles,
+          titlesData: FlTitlesData(
+            show: true,
+            rightTitles: AxisTitles(
+              sideTitles: SideTitles(showTitles: false),
+            ),
+            topTitles: AxisTitles(
+              sideTitles: SideTitles(showTitles: false),
+            ),
+            bottomTitles: AxisTitles(
+              sideTitles: SideTitles(
+                showTitles: true,
+                getTitlesWidget: _buildBottomTitleWidget,
+                // reservedSize: 0,
+              ),
+            ),
+            leftTitles: AxisTitles(
+              sideTitles: SideTitles(
+                showTitles: true,
+                reservedSize: 35,
+                interval: 1,
+                getTitlesWidget: leftTitles,
+              ),
             ),
           ),
-        ),
-        borderData: FlBorderData(
-          show: false,
-        ),
-        barGroups: showingBarGroups,
-        gridData: FlGridData(
-          show: false,
+          borderData: FlBorderData(
+            show: false,
+          ),
+          barGroups: showingBarGroups,
+          gridData: FlGridData(
+            show: false,
+          ),
         ),
       ),
     );
@@ -356,6 +341,7 @@ class AccountBarChartState extends State<AccountBarChart> {
     return SideTitleWidget(
       axisSide: meta.axisSide,
       space: 10, //margin top
+
       child: text,
     );
   }
@@ -413,15 +399,6 @@ class AccountBarChartState extends State<AccountBarChart> {
 
   /// BALANCE MANAGEMENT
 
-  //Map<int, double> getDailyBalanceForWeek() {
-  // valore x , valore soldi
-  // final Map<int, double> balanceMap = {};
-
-  // for (var transaction in widget.transactionList) {
-  //   balanceMap[transaction.date.weekday - 1] =
-  //       (balanceMap[transaction.date.weekday - 1] ?? 0) + transaction.value;
-  // }
-
   Map<int, List<double>> getDailyBalanceForWeek() {
     final Map<int, List<double>> balanceMap2 = {};
 
@@ -454,20 +431,6 @@ class AccountBarChartState extends State<AccountBarChart> {
   }
 
   Map<int, List<double>> getWeekBalanceForMonth() {
-    // final Map<int, double> balanceMap = {};
-
-    // final firstWeeknumberOfMonth = weekNumber(widget.startDate!);
-
-    // for (var transaction in widget.transactionList) {
-    //   final transactionWeeknumber = weekNumber(transaction.date);
-
-    //   balanceMap[transactionWeeknumber - firstWeeknumberOfMonth] =
-    //       (balanceMap[transactionWeeknumber - firstWeeknumberOfMonth] ?? 0) +
-    //           transaction.value;
-    // }
-
-    // return balanceMap;
-
     final Map<int, List<double>> balanceMap = {};
     final firstWeeknumberOfMonth = weekNumber(widget.startDate!);
 
@@ -508,14 +471,6 @@ class AccountBarChartState extends State<AccountBarChart> {
   }
 
   Map<int, List<double>> getMonthlyBalanceForYear() {
-    // final Map<int, double> balanceMap = {};
-
-    // for (var transaction in widget.transactionList) {
-    //   balanceMap[transaction.date.month - 1] =
-    //       (balanceMap[transaction.date.month - 1] ?? 0) + transaction.value;
-    // }
-
-    // return balanceMap;
     final Map<int, List<double>> balanceMap = {};
 
     for (var transaction in widget.transactionList) {
@@ -566,21 +521,26 @@ class AccountBarChartState extends State<AccountBarChart> {
   }
 
   BarChartGroupData makeGroupData(
-      {required int x, required double y1, double? y2}) {
+      {required int x, required double? y1, double? y2}) {
     return BarChartGroupData(
       barsSpace: 4,
       x: x,
       barRods: [
-        BarChartRodData(
-          toY: y1,
-          color:
-              widget.transactionType == AccountBarChartModeTransactionType.all
-                  ? incomeBarColor
-                  : barColor,
-          width: barWidth,
-        ),
-        if (widget.transactionType == AccountBarChartModeTransactionType.all &&
-            y2 != null)
+        if (y1 != null &&
+            (widget.transactionType ==
+                    AccountBarChartModeTransactionType.income ||
+                widget.transactionType ==
+                    AccountBarChartModeTransactionType.all))
+          BarChartRodData(
+            toY: y1,
+            color: incomeBarColor,
+            width: barWidth,
+          ),
+        if (y2 != null &&
+            (widget.transactionType ==
+                    AccountBarChartModeTransactionType.expense ||
+                widget.transactionType ==
+                    AccountBarChartModeTransactionType.all))
           BarChartRodData(
             toY: y2,
             color: expenseBarColor,
