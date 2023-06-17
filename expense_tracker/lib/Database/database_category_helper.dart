@@ -23,7 +23,7 @@ class DatabaseCategoryHelper {
       )
     ''');
 
-    // await insertDemoData(db);
+    await insertDemoData(db);
   }
 
   static Future insertDemoData(Database db) async {
