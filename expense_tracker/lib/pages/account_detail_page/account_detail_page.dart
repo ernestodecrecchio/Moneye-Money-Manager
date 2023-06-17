@@ -20,6 +20,8 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+enum AccountDetailTransactionTypeMode { income, expense, all }
+
 enum TransactionTimePeriod {
   day,
   week,
@@ -50,6 +52,9 @@ class _AccountDetailPageState extends State<AccountDetailPage>
 
   AccountDetailTransactionListMode transactionListMode =
       AccountDetailTransactionListMode.transactionList;
+
+  AccountDetailTransactionTypeMode transactionTypeMode =
+      AccountDetailTransactionTypeMode.income;
 
   int selectedTimeIndex = 0;
 
@@ -126,9 +131,12 @@ class _AccountDetailPageState extends State<AccountDetailPage>
               child: TabBarView(
             controller: _tabController,
             children: [
-              _buildIncomePage(),
-              _buildOutcomePage(),
-              _buildTotalPage(),
+              _buildContentPage(
+                  transactionType: AccountDetailTransactionTypeMode.income),
+              _buildContentPage(
+                  transactionType: AccountDetailTransactionTypeMode.expense),
+              _buildContentPage(
+                  transactionType: AccountDetailTransactionTypeMode.all),
             ],
           )),
         ],
@@ -154,6 +162,19 @@ class _AccountDetailPageState extends State<AccountDetailPage>
           indicatorColor: CustomColors.blue,
           labelColor: CustomColors.darkBlue,
           labelStyle: const TextStyle(fontSize: 16),
+          onTap: (value) {
+            switch (value) {
+              case 0:
+                transactionTypeMode = AccountDetailTransactionTypeMode.income;
+                break;
+              case 1:
+                transactionTypeMode = AccountDetailTransactionTypeMode.expense;
+                break;
+              case 2:
+                transactionTypeMode = AccountDetailTransactionTypeMode.all;
+                break;
+            }
+          },
           tabs: [
             Tab(
               child: FittedBox(
@@ -493,7 +514,7 @@ class _AccountDetailPageState extends State<AccountDetailPage>
     );
   }
 
-  Widget _buildIncomePage() {
+  List<Transaction> _getIncomeTransactionList() {
     List<Transaction> transactionList = [];
 
     final transactionProvider =
@@ -522,37 +543,10 @@ class _AccountDetailPageState extends State<AccountDetailPage>
           .sorted((a, b) => a.date.isBefore(b.date) ? 1 : 0);
     }
 
-    return transactionList.isEmpty
-        ? Align(
-            child: Text(AppLocalizations.of(context)!.noTransactions),
-          )
-        : Column(
-            children: [
-              Container(
-                height: 200,
-                margin: const EdgeInsets.only(
-                    top: 10, bottom: 0, left: 18, right: 18),
-                child: PageView(
-                  children: [
-                    _buildBarChart(
-                      transactionList: transactionList,
-                      transactionType:
-                          AccountBarChartModeTransactionType.income,
-                      timeMode: selectedTransactionTimePeriod,
-                    ),
-                    _buildPieChart(transactionList,
-                        AccountPieChartModeTransactionType.income),
-                  ],
-                ),
-              ),
-              Expanded(
-                child: _buildTransactionListSection(transactionList),
-              )
-            ],
-          );
+    return transactionList;
   }
 
-  Widget _buildOutcomePage() {
+  List<Transaction> _getOutcomeTransactionList() {
     List<Transaction> transactionList = [];
 
     final transactionProvider =
@@ -579,35 +573,10 @@ class _AccountDetailPageState extends State<AccountDetailPage>
           .sorted((a, b) => a.date.isBefore(b.date) ? 1 : 0);
     }
 
-    return transactionList.isEmpty
-        ? Align(child: Text(AppLocalizations.of(context)!.noTransactions))
-        : Column(
-            children: [
-              Container(
-                height: 200,
-                margin: const EdgeInsets.only(
-                    top: 10, bottom: 0, left: 18, right: 18),
-                child: PageView(
-                  children: [
-                    _buildBarChart(
-                      transactionList: transactionList,
-                      transactionType:
-                          AccountBarChartModeTransactionType.expense,
-                      timeMode: selectedTransactionTimePeriod,
-                    ),
-                    _buildPieChart(transactionList,
-                        AccountPieChartModeTransactionType.expense),
-                  ],
-                ),
-              ),
-              Expanded(
-                child: _buildTransactionListSection(transactionList),
-              )
-            ],
-          );
+    return transactionList;
   }
 
-  Widget _buildTotalPage() {
+  List<Transaction> _getTotalTransactionList() {
     List<Transaction> transactionList = [];
 
     final transactionProvider =
@@ -634,6 +603,33 @@ class _AccountDetailPageState extends State<AccountDetailPage>
           .sorted((a, b) => a.date.isBefore(b.date) ? 1 : 0);
     }
 
+    return transactionList;
+  }
+
+  Widget _buildContentPage(
+      {required AccountDetailTransactionTypeMode transactionType}) {
+    List<Transaction> transactionList = [];
+    AccountBarChartModeTransactionType barChartTransactionType;
+    AccountPieChartModeTransactionType pieChartTransactionType;
+
+    switch (transactionType) {
+      case AccountDetailTransactionTypeMode.income:
+        transactionList = _getIncomeTransactionList();
+        barChartTransactionType = AccountBarChartModeTransactionType.income;
+        pieChartTransactionType = AccountPieChartModeTransactionType.income;
+        break;
+      case AccountDetailTransactionTypeMode.expense:
+        transactionList = _getOutcomeTransactionList();
+        barChartTransactionType = AccountBarChartModeTransactionType.expense;
+        pieChartTransactionType = AccountPieChartModeTransactionType.expense;
+        break;
+      case AccountDetailTransactionTypeMode.all:
+        transactionList = _getTotalTransactionList();
+        barChartTransactionType = AccountBarChartModeTransactionType.all;
+        pieChartTransactionType = AccountPieChartModeTransactionType.all;
+        break;
+    }
+
     return transactionList.isEmpty
         ? Align(child: Text(AppLocalizations.of(context)!.noTransactions))
         : Column(
@@ -646,11 +642,10 @@ class _AccountDetailPageState extends State<AccountDetailPage>
                   children: [
                     _buildBarChart(
                       transactionList: transactionList,
-                      transactionType: AccountBarChartModeTransactionType.all,
+                      transactionType: barChartTransactionType,
                       timeMode: selectedTransactionTimePeriod,
                     ),
-                    _buildPieChart(transactionList,
-                        AccountPieChartModeTransactionType.all),
+                    _buildPieChart(transactionList, pieChartTransactionType),
                   ],
                 ),
               ),

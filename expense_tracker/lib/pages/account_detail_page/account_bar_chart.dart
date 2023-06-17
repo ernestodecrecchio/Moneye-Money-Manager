@@ -340,8 +340,7 @@ class AccountBarChartState extends State<AccountBarChart> {
 
     return SideTitleWidget(
       axisSide: meta.axisSide,
-      space: 10, //margin top
-
+      space: 5, //margin top
       child: text,
     );
   }
@@ -358,7 +357,7 @@ class AccountBarChartState extends State<AccountBarChart> {
 
     return SideTitleWidget(
       axisSide: meta.axisSide,
-      space: 10, //margin top
+      space: 5, //margin top
       child: text,
     );
   }
@@ -375,7 +374,7 @@ class AccountBarChartState extends State<AccountBarChart> {
 
     return SideTitleWidget(
       axisSide: meta.axisSide,
-      space: 10, //margin top
+      space: 5, //margin top
       child: text,
     );
   }
