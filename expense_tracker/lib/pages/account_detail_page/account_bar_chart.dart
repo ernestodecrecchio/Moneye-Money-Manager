@@ -42,7 +42,6 @@ class AccountBarChartState extends State<AccountBarChart> {
 
   late Map<int, List<double>> valueMap;
 
-  late List<BarChartGroupData> rawBarGroups;
   late List<BarChartGroupData> showingBarGroups;
 
   late List<String> bottomTitlesStrings;
@@ -51,6 +50,9 @@ class AccountBarChartState extends State<AccountBarChart> {
 
   var minValue = 0.0;
   var maxValue = 0.0;
+
+  double? minY;
+  double? maxY;
 
   @override
   void initState() {
@@ -130,65 +132,29 @@ class AccountBarChartState extends State<AccountBarChart> {
     minValue *= -1;
     //}
 
-    rawBarGroups = _buildGroupData();
+    minY = widget.transactionType == AccountBarChartModeTransactionType.income
+        ? 0
+        : null;
 
-    showingBarGroups = rawBarGroups;
+    maxY = widget.transactionType == AccountBarChartModeTransactionType.income
+        ? maxValue
+        : minValue;
+
+    showingBarGroups = _buildGroupData();
   }
 
   @override
   Widget build(BuildContext context) {
     return BarChart(
       BarChartData(
-        minY:
-            widget.transactionType == AccountBarChartModeTransactionType.income
-                ? 0
-                : null,
-        maxY:
-            widget.transactionType == AccountBarChartModeTransactionType.income
-                ? maxValue
-                : minValue,
+        minY: minY,
+        maxY: maxY,
         barTouchData: BarTouchData(
           touchTooltipData: BarTouchTooltipData(
             tooltipBgColor: Colors.grey[200],
             fitInsideVertically: true,
             fitInsideHorizontally: true,
           ),
-          touchCallback: (FlTouchEvent event, response) {
-            if (response == null || response.spot == null) {
-              setState(() {
-                touchedGroupIndex = -1;
-                showingBarGroups = List.of(rawBarGroups);
-              });
-              return;
-            }
-
-            touchedGroupIndex = response.spot!.touchedBarGroupIndex;
-
-            setState(() {
-              if (!event.isInterestedForInteractions) {
-                touchedGroupIndex = -1;
-                showingBarGroups = List.of(rawBarGroups);
-                return;
-              }
-              showingBarGroups = List.of(rawBarGroups);
-              if (touchedGroupIndex != -1) {
-                var sum = 0.0;
-                for (final rod in showingBarGroups[touchedGroupIndex].barRods) {
-                  sum += rod.toY;
-                }
-                final avg =
-                    sum / showingBarGroups[touchedGroupIndex].barRods.length;
-
-                showingBarGroups[touchedGroupIndex] =
-                    showingBarGroups[touchedGroupIndex].copyWith(
-                  barRods:
-                      showingBarGroups[touchedGroupIndex].barRods.map((rod) {
-                    return rod.copyWith(toY: avg, color: avgColor);
-                  }).toList(),
-                );
-              }
-            });
-          },
         ),
         titlesData: FlTitlesData(
           show: true,
