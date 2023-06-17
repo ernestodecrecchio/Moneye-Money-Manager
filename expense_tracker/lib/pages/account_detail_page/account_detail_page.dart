@@ -27,11 +27,6 @@ enum TransactionTimePeriod {
   custom,
 }
 
-enum AccountDetailTransactionListMode {
-  transactionList,
-  forCategory,
-}
-
 class AccountDetailPage extends StatefulWidget {
   static const routeName = '/accountDetailPage';
 
