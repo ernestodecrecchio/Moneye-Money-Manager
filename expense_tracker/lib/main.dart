@@ -142,13 +142,13 @@ class MyApp extends StatelessWidget {
               },
               onGenerateRoute: (settings) {
                 switch (settings.name) {
-                  case TransactionList.routeName:
+                  case TransactionListPage.routeName:
                     {
                       final args = settings.arguments as List<Transaction>;
 
                       return MaterialPageRoute(
                         builder: (context) =>
-                            TransactionList(transactionList: args),
+                            TransactionListPage(transactionList: args),
                       );
                     }
                   case AccountDetailPage.routeName:

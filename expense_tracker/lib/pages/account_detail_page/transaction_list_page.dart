@@ -4,12 +4,12 @@ import 'package:expense_tracker/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class TransactionList extends StatelessWidget {
-  static const routeName = '/transactionList';
+class TransactionListPage extends StatelessWidget {
+  static const routeName = '/transactionListPage';
 
   final List<Transaction> transactionList;
 
-  const TransactionList({super.key, required this.transactionList});
+  const TransactionListPage({super.key, required this.transactionList});
 
   @override
   Widget build(BuildContext context) {

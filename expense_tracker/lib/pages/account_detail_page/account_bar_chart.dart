@@ -168,6 +168,7 @@ class AccountBarChartState extends State<AccountBarChart> {
             show: false,
           ),
           barGroups: showingBarGroups,
+          //   groupsSpace: ,
           gridData: FlGridData(
             show: false,
           ),
@@ -214,7 +215,7 @@ class AccountBarChartState extends State<AccountBarChart> {
     return SideTitleWidget(
       axisSide: meta.axisSide,
       space: 0,
-      child: Text(text, style: style),
+      child: FittedBox(child: Text(text, style: style)),
     );
   }
 
