@@ -54,7 +54,7 @@ class _AccountPieChartState extends State<AccountPieChart> {
           child: _buildGraph(),
         ),
         const SizedBox(
-          width: 20,
+          width: 30,
         ),
         Expanded(
           child: _buildIndicators(),
