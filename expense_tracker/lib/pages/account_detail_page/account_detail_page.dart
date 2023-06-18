@@ -631,6 +631,7 @@ class _AccountDetailPageState extends State<AccountDetailPage>
                 margin: const EdgeInsets.only(
                     top: 10, bottom: 0, left: 18, right: 18),
                 child: PageView(
+                  clipBehavior: Clip.none,
                   children: [
                     _buildBarChart(
                       transactionList: transactionList,
