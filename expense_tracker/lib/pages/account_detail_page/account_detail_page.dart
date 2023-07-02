@@ -8,6 +8,7 @@ import 'package:expense_tracker/pages/account_detail_page/account_bar_chart.dart
 import 'package:expense_tracker/pages/account_detail_page/account_pie_chart.dart';
 import 'package:expense_tracker/pages/account_detail_page/transaction_list/transaction_list.dart';
 import 'package:expense_tracker/pages/common/custom_modal_bottom_sheet.dart';
+import 'package:expense_tracker/pages/common/page_view_with_indicators.dart';
 import 'package:expense_tracker/pages/options_page/accounts_page/new_edit_account_page.dart';
 import 'package:expense_tracker/pages/new_edit_transaction_flow/new_edit_transaction_page.dart';
 import 'package:expense_tracker/style.dart';
@@ -627,21 +628,19 @@ class _AccountDetailPageState extends State<AccountDetailPage>
         : Column(
             children: [
               Container(
-                height: 200,
-                margin: const EdgeInsets.only(
-                    top: 10, bottom: 0, left: 18, right: 18),
-                child: PageView(
-                  clipBehavior: Clip.none,
-                  children: [
-                    _buildBarChart(
-                      transactionList: transactionList,
-                      transactionType: barChartTransactionType,
-                      timeMode: selectedTransactionTimePeriod,
-                    ),
-                    _buildPieChart(transactionList, pieChartTransactionType),
-                  ],
-                ),
-              ),
+                  height: 200,
+                  margin: const EdgeInsets.only(
+                      top: 10, bottom: 0, left: 18, right: 18),
+                  child: PageViewWithIndicators(
+                    widgetList: [
+                      _buildBarChart(
+                        transactionList: transactionList,
+                        transactionType: barChartTransactionType,
+                        timeMode: selectedTransactionTimePeriod,
+                      ),
+                      _buildPieChart(transactionList, pieChartTransactionType),
+                    ],
+                  )),
               Expanded(
                 child: _buildTransactionListSection(transactionList),
               )
