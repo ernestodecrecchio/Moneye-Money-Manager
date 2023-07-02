@@ -29,10 +29,11 @@ class _PageViewWithIndicatorsState extends State<PageViewWithIndicators> {
             }),
           ),
         ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [..._buildPageIndicator()],
-        )
+        if (widget.widgetList.length > 1)
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [..._buildPageIndicator()],
+          )
       ],
     );
   }

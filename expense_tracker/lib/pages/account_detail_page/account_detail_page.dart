@@ -633,12 +633,14 @@ class _AccountDetailPageState extends State<AccountDetailPage>
                       top: 10, bottom: 0, left: 18, right: 18),
                   child: PageViewWithIndicators(
                     widgetList: [
-                      _buildBarChart(
-                        transactionList: transactionList,
-                        transactionType: barChartTransactionType,
-                        timeMode: selectedTransactionTimePeriod,
-                      ),
                       _buildPieChart(transactionList, pieChartTransactionType),
+                      if (selectedTransactionTimePeriod !=
+                          TransactionTimePeriod.day)
+                        _buildBarChart(
+                          transactionList: transactionList,
+                          transactionType: barChartTransactionType,
+                          timeMode: selectedTransactionTimePeriod,
+                        ),
                     ],
                   )),
               Expanded(
