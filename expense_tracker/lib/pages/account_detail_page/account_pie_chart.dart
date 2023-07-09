@@ -143,21 +143,18 @@ class _AccountPieChartState extends State<AccountPieChart> {
   }
 
   _buildIndicators() {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-        ...categoryTotalValuePairs
-            .map(
-              (e) => Indicator(
-                color: e.category.color,
-                text: e.category.name,
-                // value: (e.totalValue / totalValue) * 100,
-                value: e.totalValue,
-              ),
-            )
-            .toList()
-      ],
-    );
+    return ListView.builder(
+        itemCount: categoryTotalValuePairs.length,
+        itemBuilder: (context, index) {
+          final currentPair = categoryTotalValuePairs[index];
+
+          return Indicator(
+            color: currentPair.category.color,
+            text: currentPair.category.name,
+            // value: (e.totalValue / totalValue) * 100,
+            value: currentPair.totalValue,
+          );
+        });
   }
 
   List<PieChartSectionData> showingSections() {

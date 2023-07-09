@@ -34,7 +34,7 @@ class DatabaseTransactionHelper {
       )
     ''');
 
-    //  await insertDemoData(db);
+    // await insertDemoData(db);
   }
 
   static Future insertDemoData(Database db) async {
@@ -199,6 +199,84 @@ class DatabaseTransactionHelper {
         value: -100,
         date: DateTime(2023, 5, 28),
         categoryId: 3,
+        accountId: 3,
+      ),
+      trans.Transaction(
+        id: 22,
+        title: 'TEST',
+        value: -45,
+        date: DateTime(2023, 7, 1),
+        categoryId: 3,
+        accountId: 3,
+      ),
+      trans.Transaction(
+        id: 23,
+        title: 'TEST',
+        value: -67,
+        date: DateTime(2023, 7, 2),
+        categoryId: 4,
+        accountId: 3,
+      ),
+      trans.Transaction(
+        id: 24,
+        title: 'TEST',
+        value: -11,
+        date: DateTime(2023, 7, 3),
+        categoryId: 5,
+        accountId: 3,
+      ),
+      trans.Transaction(
+        id: 25,
+        title: 'TEST',
+        value: -32,
+        date: DateTime(2023, 7, 4),
+        categoryId: 6,
+        accountId: 3,
+      ),
+      trans.Transaction(
+        id: 26,
+        title: 'TEST',
+        value: -76,
+        date: DateTime(2023, 7, 5),
+        categoryId: 7,
+        accountId: 3,
+      ),
+      trans.Transaction(
+        id: 27,
+        title: 'TEST',
+        value: -345,
+        date: DateTime(2023, 7, 6),
+        categoryId: 8,
+        accountId: 3,
+      ),
+      trans.Transaction(
+        id: 28,
+        title: 'TEST',
+        value: -87,
+        date: DateTime(2023, 7, 7),
+        categoryId: 9,
+        accountId: 3,
+      ),
+      trans.Transaction(
+        id: 29,
+        title: 'TEST',
+        value: -22,
+        date: DateTime(2023, 7, 3),
+        categoryId: 10,
+        accountId: 3,
+      ),
+      trans.Transaction(
+        title: 'TEST',
+        value: -44,
+        date: DateTime(2023, 7, 4),
+        categoryId: 11,
+        accountId: 3,
+      ),
+      trans.Transaction(
+        title: 'TEST',
+        value: -87,
+        date: DateTime(2023, 7, 5),
+        categoryId: 12,
         accountId: 3,
       ),
     ];
