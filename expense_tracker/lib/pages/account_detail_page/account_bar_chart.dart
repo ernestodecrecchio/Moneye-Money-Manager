@@ -162,7 +162,7 @@ class AccountBarChartState extends State<AccountBarChart> {
               sideTitles: SideTitles(
                   showTitles: true,
                   reservedSize: 35,
-                  interval: 1,
+                  //interval: 1,
                   getTitlesWidget: leftTitles),
             ),
           ),
@@ -210,31 +210,6 @@ class AccountBarChartState extends State<AccountBarChart> {
     } else {
       return const SizedBox.shrink();
     }
-
-    // if (value == 0) {
-    //   text = (0.0).toStringAsFixedRoundedWithCurrency(context, 2);
-    // } else if (widget.transactionType ==
-    //         AccountBarChartModeTransactionType.expense &&
-    //     value == minValue) {
-    //   text = minValue.toStringAsFixedRoundedWithCurrency(context, 2);
-    // } else if (widget.transactionType ==
-    //         AccountBarChartModeTransactionType.income &&
-    //     value == maxValue) {
-    //   text = maxValue.toStringAsFixedRoundedWithCurrency(context, 2);
-    // } else if (widget.transactionType ==
-    //         AccountBarChartModeTransactionType.all &&
-    //     value == maxValue) {
-    //   text = maxValue.toStringAsFixedRoundedWithCurrency(context, 2);
-    // } else if (widget.transactionType ==
-    //         AccountBarChartModeTransactionType.all &&
-    //     value == minValue) {
-    //   text = minValue.toStringAsFixedRoundedWithCurrency(context, 2);
-    // } else if (value == (minValue + maxValue) / 2) {
-    //   text = ((minValue + maxValue) / 2)
-    //       .toStringAsFixedRoundedWithCurrency(context, 2);
-    // } else {
-    //   return const SizedBox.shrink();
-    // }
 
     return SideTitleWidget(
       axisSide: meta.axisSide,
