@@ -34,7 +34,7 @@ class DatabaseTransactionHelper {
       )
     ''');
 
-    // await insertDemoData(db);
+    await insertDemoData(db);
   }
 
   static Future insertDemoData(Database db) async {
@@ -203,15 +203,15 @@ class DatabaseTransactionHelper {
       ),
       trans.Transaction(
         id: 22,
-        title: 'TEST',
+        title: 'Dog bath',
         value: -45,
         date: DateTime(2023, 7, 1),
-        categoryId: 3,
+        categoryId: 9,
         accountId: 3,
       ),
       trans.Transaction(
         id: 23,
-        title: 'TEST',
+        title: 'New jeans',
         value: -67,
         date: DateTime(2023, 7, 2),
         categoryId: 4,
@@ -219,15 +219,15 @@ class DatabaseTransactionHelper {
       ),
       trans.Transaction(
         id: 24,
-        title: 'TEST',
-        value: -11,
+        title: 'Bus ticket',
+        value: -4.5,
         date: DateTime(2023, 7, 3),
         categoryId: 5,
         accountId: 3,
       ),
       trans.Transaction(
         id: 25,
-        title: 'TEST',
+        title: 'New towel',
         value: -32,
         date: DateTime(2023, 7, 4),
         categoryId: 6,
@@ -235,48 +235,62 @@ class DatabaseTransactionHelper {
       ),
       trans.Transaction(
         id: 26,
-        title: 'TEST',
-        value: -76,
+        title: 'Lasertag match',
+        value: -8,
         date: DateTime(2023, 7, 5),
         categoryId: 7,
         accountId: 3,
       ),
       trans.Transaction(
         id: 27,
-        title: 'TEST',
-        value: -345,
-        date: DateTime(2023, 7, 6),
+        title: 'Pub',
+        value: -34,
+        date: DateTime(2023, 7, 12),
         categoryId: 8,
         accountId: 3,
       ),
       trans.Transaction(
         id: 28,
-        title: 'TEST',
+        title: 'Food for Yaki',
         value: -87,
-        date: DateTime(2023, 7, 7),
+        date: DateTime(2023, 6, 12),
         categoryId: 9,
         accountId: 3,
       ),
       trans.Transaction(
         id: 29,
-        title: 'TEST',
+        title: 'Gym membership',
         value: -22,
         date: DateTime(2023, 7, 3),
         categoryId: 10,
         accountId: 3,
       ),
       trans.Transaction(
-        title: 'TEST',
+        title: 'Water bill',
         value: -44,
         date: DateTime(2023, 7, 4),
-        categoryId: 11,
+        categoryId: 1,
         accountId: 3,
       ),
       trans.Transaction(
-        title: 'TEST',
-        value: -87,
+        title: 'Gift for Erika',
+        value: -25,
         date: DateTime(2023, 7, 5),
-        categoryId: 12,
+        categoryId: 2,
+        accountId: 3,
+      ),
+      trans.Transaction(
+        title: 'Refound online purchase',
+        value: 125,
+        date: DateTime(2023, 7, 12),
+        categoryId: 6,
+        accountId: 3,
+      ),
+      trans.Transaction(
+        title: 'Videogame sold',
+        value: 37,
+        date: DateTime(2023, 7, 27),
+        categoryId: 7,
         accountId: 3,
       ),
     ];

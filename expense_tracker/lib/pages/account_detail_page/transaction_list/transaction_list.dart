@@ -69,18 +69,17 @@ class _TransactionListState extends State<TransactionList> {
             ),
           ]),
         ),
-        Expanded(
-          child: transactionListMode ==
-                  AccountDetailTransactionListMode.transactionList
-              ? _buildTransactionList(widget.transactionList)
-              : _buildCategoryList(widget.transactionList),
-        )
+        transactionListMode == AccountDetailTransactionListMode.transactionList
+            ? _buildTransactionList(widget.transactionList)
+            : _buildCategoryList(widget.transactionList)
       ],
     );
   }
 
   Widget _buildTransactionList(List<Transaction> transactionList) {
     return ListView.builder(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
       itemCount: transactionList.length,
       itemBuilder: (context, index) => TransactionListCell(
         transaction: transactionList[index],
@@ -137,6 +136,8 @@ class _TransactionListState extends State<TransactionList> {
     }
 
     return ListView.builder(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
       itemCount: categoryTotalValuePairs.length,
       itemBuilder: (context, index) => _buildCategoryListCell(
         categoryTotalValuePair: categoryTotalValuePairs[index],

@@ -9,8 +9,8 @@ import 'package:expense_tracker/pages/account_detail_page/account_pie_chart.dart
 import 'package:expense_tracker/pages/account_detail_page/transaction_list/transaction_list.dart';
 import 'package:expense_tracker/pages/common/custom_modal_bottom_sheet.dart';
 import 'package:expense_tracker/pages/common/page_view_with_indicators.dart';
-import 'package:expense_tracker/pages/options_page/accounts_page/new_edit_account_page.dart';
 import 'package:expense_tracker/pages/new_edit_transaction_flow/new_edit_transaction_page.dart';
+import 'package:expense_tracker/pages/options_page/accounts_page/new_edit_account_page.dart';
 import 'package:expense_tracker/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -40,8 +40,8 @@ class AccountDetailPage extends StatefulWidget {
 }
 
 class _AccountDetailPageState extends State<AccountDetailPage>
-    with TickerProviderStateMixin {
-  late final TabController _tabController;
+    with SingleTickerProviderStateMixin {
+  late TabController _tabController;
 
   AccountDetailTransactionListMode transactionListMode =
       AccountDetailTransactionListMode.transactionList;
@@ -57,17 +57,17 @@ class _AccountDetailPageState extends State<AccountDetailPage>
   DateTime startDate = currentMonthFirstDay(DateTime.now());
   DateTime endDate = currentMonthLastDay(DateTime.now());
 
+  List<Transaction> transactionList = [];
+
   @override
   void initState() {
     super.initState();
-
     _tabController = TabController(length: 3, vsync: this);
   }
 
   @override
   void dispose() {
     _tabController.dispose();
-
     super.dispose();
   }
 
@@ -80,6 +80,9 @@ class _AccountDetailPageState extends State<AccountDetailPage>
           .accountList
           .firstWhereOrNull((element) => element.id == widget.account!.id);
     }
+
+    final transactionListProvider =
+        Provider.of<TransactionProvider>(context, listen: true).transactionList;
 
     return Scaffold(
       appBar: AppBar(
@@ -95,7 +98,53 @@ class _AccountDetailPageState extends State<AccountDetailPage>
       ),
       backgroundColor: Colors.white,
       floatingActionButton: _buildFloatingActionButton(context),
-      body: _buildBody(context),
+      body: Column(
+        children: [
+          _buildTabBar(),
+          _buildDateBar(transactionListProvider),
+          Expanded(
+            child: TabBarView(
+              controller: _tabController,
+              children: [
+                ScrollableTabView(
+                  transactionType: AccountDetailTransactionTypeMode.income,
+                  selectedTransactionTimePeriod: selectedTransactionTimePeriod,
+                  startDate: startDate,
+                  endDate: endDate,
+                  account: widget.account,
+                ),
+                ScrollableTabView(
+                  transactionType: AccountDetailTransactionTypeMode.expense,
+                  selectedTransactionTimePeriod: selectedTransactionTimePeriod,
+                  startDate: startDate,
+                  endDate: endDate,
+                  account: widget.account,
+                ),
+                ScrollableTabView(
+                  transactionType: AccountDetailTransactionTypeMode.all,
+                  selectedTransactionTimePeriod: selectedTransactionTimePeriod,
+                  startDate: startDate,
+                  endDate: endDate,
+                  account: widget.account,
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildEditAction(BuildContext context) {
+    return TextButton(
+      child: Text(
+        AppLocalizations.of(context)!.edit,
+        style: const TextStyle(color: Colors.white),
+      ),
+      onPressed: () => Navigator.of(context).pushNamed(
+        NewAccountPage.routeName,
+        arguments: widget.account,
+      ),
     );
   }
 
@@ -110,30 +159,6 @@ class _AccountDetailPageState extends State<AccountDetailPage>
         ),
       ),
       child: const Icon(Icons.add),
-    );
-  }
-
-  Widget _buildBody(BuildContext context) {
-    return SafeArea(
-      bottom: false,
-      child: Column(
-        children: [
-          _buildTabBar(),
-          _buildDateBar(),
-          Expanded(
-              child: TabBarView(
-            controller: _tabController,
-            children: [
-              _buildContentPage(
-                  transactionType: AccountDetailTransactionTypeMode.income),
-              _buildContentPage(
-                  transactionType: AccountDetailTransactionTypeMode.expense),
-              _buildContentPage(
-                  transactionType: AccountDetailTransactionTypeMode.all),
-            ],
-          )),
-        ],
-      ),
     );
   }
 
@@ -199,7 +224,7 @@ class _AccountDetailPageState extends State<AccountDetailPage>
     );
   }
 
-  Widget _buildDateBar() {
+  Widget _buildDateBar(List<Transaction> transactionListProvider) {
     return Container(
       height: 50,
       padding: const EdgeInsets.symmetric(horizontal: 14),
@@ -490,6 +515,7 @@ class _AccountDetailPageState extends State<AccountDetailPage>
                 case TransactionTimePeriod.custom:
                   break;
               }
+
               setState(() {});
             },
             style: ElevatedButton.styleFrom(
@@ -506,106 +532,38 @@ class _AccountDetailPageState extends State<AccountDetailPage>
       ),
     );
   }
+}
 
-  List<Transaction> _getIncomeTransactionList() {
+class ScrollableTabView extends StatefulWidget {
+  final Account? account;
+  final AccountDetailTransactionTypeMode transactionType;
+
+  final DateTime startDate;
+  final DateTime endDate;
+
+  final TransactionTimePeriod selectedTransactionTimePeriod;
+
+  const ScrollableTabView({
+    super.key,
+    required this.transactionType,
+    required this.startDate,
+    required this.endDate,
+    required this.selectedTransactionTimePeriod,
+    required this.account,
+  });
+
+  @override
+  State<ScrollableTabView> createState() => _ScrollableTabViewState();
+}
+
+class _ScrollableTabViewState extends State<ScrollableTabView> {
+  @override
+  Widget build(BuildContext context) {
     List<Transaction> transactionList = [];
+    late AccountBarChartModeTransactionType barChartTransactionType;
+    late AccountPieChartModeTransactionType pieChartTransactionType;
 
-    final transactionProvider =
-        Provider.of<TransactionProvider>(context, listen: true);
-
-    if (widget.account != null) {
-      transactionList = transactionProvider.transactionList
-          .where(
-            (element) =>
-                element.accountId == widget.account!.id &&
-                element.value >= 0 &&
-                element.date.isAfterIncludingZero(startDate) &&
-                element.date.isBeforeIncludingZero(endDate),
-          )
-          .toList()
-          .sorted((a, b) => a.date.isBefore(b.date) ? 1 : 0);
-    } else {
-      transactionList = transactionProvider.transactionList
-          .where(
-            (element) =>
-                element.value >= 0 &&
-                element.date.isAfterIncludingZero(startDate) &&
-                element.date.isBeforeIncludingZero(endDate),
-          )
-          .toList()
-          .sorted((a, b) => a.date.isBefore(b.date) ? 1 : 0);
-    }
-
-    return transactionList;
-  }
-
-  List<Transaction> _getOutcomeTransactionList() {
-    List<Transaction> transactionList = [];
-
-    final transactionProvider =
-        Provider.of<TransactionProvider>(context, listen: true);
-
-    if (widget.account != null) {
-      transactionList = transactionProvider.transactionList
-          .where((element) =>
-              element.accountId == widget.account!.id &&
-              element.value < 0 &&
-              element.date.isAfterIncludingZero(startDate) &&
-              element.date.isBeforeIncludingZero(endDate))
-          .toList()
-          .sorted((a, b) => a.date.isBefore(b.date) ? 1 : 0);
-    } else {
-      transactionList = transactionProvider.transactionList
-          .where(
-            (element) =>
-                element.value < 0 &&
-                element.date.isAfterIncludingZero(startDate) &&
-                element.date.isBeforeIncludingZero(endDate),
-          )
-          .toList()
-          .sorted((a, b) => a.date.isBefore(b.date) ? 1 : 0);
-    }
-
-    return transactionList;
-  }
-
-  List<Transaction> _getTotalTransactionList() {
-    List<Transaction> transactionList = [];
-
-    final transactionProvider =
-        Provider.of<TransactionProvider>(context, listen: true);
-
-    if (widget.account != null) {
-      transactionList = transactionProvider.transactionList
-          .where(
-            (element) =>
-                element.accountId == widget.account!.id &&
-                element.date.isAfterIncludingZero(startDate) &&
-                element.date.isBeforeIncludingZero(endDate),
-          )
-          .toList()
-          .sorted((a, b) => a.date.isBefore(b.date) ? 1 : 0);
-    } else {
-      transactionList = transactionProvider.transactionList
-          .where(
-            (element) =>
-                element.date.isAfterIncludingZero(startDate) &&
-                element.date.isBeforeIncludingZero(endDate),
-          )
-          .toList()
-          .sorted((a, b) => a.date.isBefore(b.date) ? 1 : 0);
-    }
-
-    return transactionList;
-  }
-
-  Widget _buildContentPage(
-      {required AccountDetailTransactionTypeMode transactionType}) {
-    List<Transaction> transactionList = [];
-    AccountBarChartModeTransactionType barChartTransactionType;
-    AccountPieChartModeTransactionType pieChartTransactionType;
-
-    switch (transactionType) {
+    switch (widget.transactionType) {
       case AccountDetailTransactionTypeMode.income:
         transactionList = _getIncomeTransactionList();
         barChartTransactionType = AccountBarChartModeTransactionType.income;
@@ -625,29 +583,122 @@ class _AccountDetailPageState extends State<AccountDetailPage>
 
     return transactionList.isEmpty
         ? Align(child: Text(AppLocalizations.of(context)!.noTransactions))
-        : Column(
-            children: [
-              Container(
+        : SingleChildScrollView(
+            child: Column(
+              children: [
+                Container(
                   height: 200,
                   margin: const EdgeInsets.only(
                       top: 10, bottom: 0, left: 18, right: 18),
                   child: PageViewWithIndicators(
                     widgetList: [
                       _buildPieChart(transactionList, pieChartTransactionType),
-                      if (selectedTransactionTimePeriod !=
+                      if (widget.selectedTransactionTimePeriod !=
                           TransactionTimePeriod.day)
                         _buildBarChart(
                           transactionList: transactionList,
                           transactionType: barChartTransactionType,
-                          timeMode: selectedTransactionTimePeriod,
+                          timeMode: widget.selectedTransactionTimePeriod,
                         ),
                     ],
-                  )),
-              Expanded(
-                child: _buildTransactionListSection(transactionList),
-              )
-            ],
+                  ),
+                ),
+                _buildTransactionListSection(transactionList),
+              ],
+            ),
           );
+  }
+
+  List<Transaction> _getIncomeTransactionList() {
+    List<Transaction> transactionList = [];
+
+    final transactionProvider =
+        Provider.of<TransactionProvider>(context, listen: true);
+
+    if (widget.account != null) {
+      transactionList = transactionProvider.transactionList
+          .where(
+            (element) =>
+                element.accountId == widget.account!.id &&
+                element.value >= 0 &&
+                element.date.isAfterIncludingZero(widget.startDate) &&
+                element.date.isBeforeIncludingZero(widget.endDate),
+          )
+          .toList()
+          .sorted((a, b) => a.date.isBefore(b.date) ? 1 : 0);
+    } else {
+      transactionList = transactionProvider.transactionList
+          .where(
+            (element) =>
+                element.value >= 0 &&
+                element.date.isAfterIncludingZero(widget.startDate) &&
+                element.date.isBeforeIncludingZero(widget.endDate),
+          )
+          .toList()
+          .sorted((a, b) => a.date.isBefore(b.date) ? 1 : 0);
+    }
+
+    return transactionList;
+  }
+
+  List<Transaction> _getOutcomeTransactionList() {
+    List<Transaction> transactionList = [];
+
+    final transactionProvider =
+        Provider.of<TransactionProvider>(context, listen: true);
+
+    if (widget.account != null) {
+      transactionList = transactionProvider.transactionList
+          .where((element) =>
+              element.accountId == widget.account!.id &&
+              element.value < 0 &&
+              element.date.isAfterIncludingZero(widget.startDate) &&
+              element.date.isBeforeIncludingZero(widget.endDate))
+          .toList()
+          .sorted((a, b) => a.date.isBefore(b.date) ? 1 : 0);
+    } else {
+      transactionList = transactionProvider.transactionList
+          .where(
+            (element) =>
+                element.value < 0 &&
+                element.date.isAfterIncludingZero(widget.startDate) &&
+                element.date.isBeforeIncludingZero(widget.endDate),
+          )
+          .toList()
+          .sorted((a, b) => a.date.isBefore(b.date) ? 1 : 0);
+    }
+
+    return transactionList;
+  }
+
+  List<Transaction> _getTotalTransactionList() {
+    List<Transaction> transactionList = [];
+
+    final transactionProvider =
+        Provider.of<TransactionProvider>(context, listen: true);
+
+    if (widget.account != null) {
+      transactionList = transactionProvider.transactionList
+          .where(
+            (element) =>
+                element.accountId == widget.account!.id &&
+                element.date.isAfterIncludingZero(widget.startDate) &&
+                element.date.isBeforeIncludingZero(widget.endDate),
+          )
+          .toList()
+          .sorted((a, b) => a.date.isBefore(b.date) ? 1 : 0);
+    } else {
+      transactionList = transactionProvider.transactionList
+          .where(
+            (element) =>
+                element.date.isAfterIncludingZero(widget.startDate) &&
+                element.date.isBeforeIncludingZero(widget.endDate),
+          )
+          .toList()
+          .sorted((a, b) => a.date.isBefore(b.date) ? 1 : 0);
+    }
+
+    return transactionList;
   }
 
   Widget _buildBarChart({
@@ -658,8 +709,8 @@ class _AccountDetailPageState extends State<AccountDetailPage>
     return AccountBarChart(
       transactionType: transactionType,
       transactionTimePeriod: timeMode,
-      startDate: startDate,
-      endDate: endDate,
+      startDate: widget.startDate,
+      endDate: widget.endDate,
       transactionList: transactionList,
     );
   }
@@ -674,18 +725,5 @@ class _AccountDetailPageState extends State<AccountDetailPage>
 
   Widget _buildTransactionListSection(List<Transaction> transactionList) {
     return TransactionList(transactionList: transactionList);
-  }
-
-  Widget _buildEditAction(BuildContext context) {
-    return TextButton(
-      child: Text(
-        AppLocalizations.of(context)!.edit,
-        style: const TextStyle(color: Colors.white),
-      ),
-      onPressed: () => Navigator.of(context).pushNamed(
-        NewAccountPage.routeName,
-        arguments: widget.account,
-      ),
-    );
   }
 }

@@ -23,7 +23,7 @@ class DatabaseCategoryHelper {
       )
     ''');
 
-    //  await insertDemoData(db);
+    await insertDemoData(db);
   }
 
   static Future insertDemoData(Database db) async {
@@ -61,44 +61,32 @@ class DatabaseCategoryHelper {
       Category(
         id: 6,
         name: 'Housing',
-        colorValue: 4283215696,
+        colorValue: 4287215696,
         iconPath: 'assets/icons/house.svg',
       ),
       Category(
         id: 7,
         name: 'Entertainment',
-        colorValue: 4293467747,
+        colorValue: 4197192770,
         iconPath: 'assets/icons/popcorn.svg',
       ),
       Category(
         id: 8,
-        name: 'School',
-        colorValue: 4293467747,
-        iconPath: 'assets/icons/popcorn.svg',
+        name: 'Food',
+        colorValue: 4291467747,
+        iconPath: 'assets/icons/food.svg',
       ),
       Category(
         id: 9,
-        name: 'Dot',
-        colorValue: 4293467747,
-        iconPath: 'assets/icons/popcorn.svg',
+        name: 'Dog',
+        colorValue: 42923467747,
+        iconPath: 'assets/icons/paw.svg',
       ),
       Category(
         id: 10,
-        name: 'Jim',
-        colorValue: 4293467747,
-        iconPath: 'assets/icons/popcorn.svg',
-      ),
-      Category(
-        id: 11,
-        name: 'Car',
-        colorValue: 4293467747,
-        iconPath: 'assets/icons/popcorn.svg',
-      ),
-      Category(
-        id: 12,
-        name: 'Cat',
-        colorValue: 4293467747,
-        iconPath: 'assets/icons/popcorn.svg',
+        name: 'Gym',
+        colorValue: 4292467747,
+        iconPath: 'assets/icons/gym.svg',
       ),
     ];
 

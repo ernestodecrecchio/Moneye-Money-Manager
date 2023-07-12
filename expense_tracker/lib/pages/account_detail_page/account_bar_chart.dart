@@ -53,6 +53,9 @@ class AccountBarChartState extends State<AccountBarChart> {
 
   double? minY;
   double? maxY;
+  double leftMinValue = 0;
+  double leftMaxValue = 0;
+  double leftAvgValue = 0;
 
   @override
   void didChangeDependencies() {
@@ -157,11 +160,10 @@ class AccountBarChartState extends State<AccountBarChart> {
             ),
             leftTitles: AxisTitles(
               sideTitles: SideTitles(
-                showTitles: true,
-                reservedSize: 35,
-                interval: 1,
-                getTitlesWidget: leftTitles,
-              ),
+                  showTitles: true,
+                  reservedSize: 35,
+                  interval: 1,
+                  getTitlesWidget: leftTitles),
             ),
           ),
           borderData: FlBorderData(
@@ -187,30 +189,52 @@ class AccountBarChartState extends State<AccountBarChart> {
     );
 
     String text;
-    if (value == 0) {
-      text = (0.0).toStringAsFixedRoundedWithCurrency(context, 2);
+
+    if (widget.transactionType == AccountBarChartModeTransactionType.income) {
+      leftMaxValue = maxValue;
     } else if (widget.transactionType ==
-            AccountBarChartModeTransactionType.expense &&
-        value == minValue) {
-      text = minValue.toStringAsFixedRoundedWithCurrency(context, 2);
+        AccountBarChartModeTransactionType.expense) {
+      leftMaxValue = minValue;
     } else if (widget.transactionType ==
-            AccountBarChartModeTransactionType.income &&
-        value == maxValue) {
-      text = maxValue.toStringAsFixedRoundedWithCurrency(context, 2);
-    } else if (widget.transactionType ==
-            AccountBarChartModeTransactionType.all &&
-        value == maxValue) {
-      text = maxValue.toStringAsFixedRoundedWithCurrency(context, 2);
-    } else if (widget.transactionType ==
-            AccountBarChartModeTransactionType.all &&
-        value == minValue) {
-      text = minValue.toStringAsFixedRoundedWithCurrency(context, 2);
-    } else if (value == (minValue + maxValue) / 2) {
-      text = ((minValue + maxValue) / 2)
-          .toStringAsFixedRoundedWithCurrency(context, 2);
+        AccountBarChartModeTransactionType.all) {
+      leftMaxValue = max(minValue, maxValue);
+    }
+    leftAvgValue = (leftMaxValue / 2).roundToDouble();
+
+    if (value == leftMinValue) {
+      text = leftMinValue.toStringAsFixedRoundedWithCurrency(context, 2);
+    } else if (value == leftMaxValue) {
+      text = leftMaxValue.toStringAsFixedRoundedWithCurrency(context, 2);
+    } else if (value == leftAvgValue) {
+      text = leftAvgValue.toStringAsFixedRoundedWithCurrency(context, 2);
     } else {
       return const SizedBox.shrink();
     }
+
+    // if (value == 0) {
+    //   text = (0.0).toStringAsFixedRoundedWithCurrency(context, 2);
+    // } else if (widget.transactionType ==
+    //         AccountBarChartModeTransactionType.expense &&
+    //     value == minValue) {
+    //   text = minValue.toStringAsFixedRoundedWithCurrency(context, 2);
+    // } else if (widget.transactionType ==
+    //         AccountBarChartModeTransactionType.income &&
+    //     value == maxValue) {
+    //   text = maxValue.toStringAsFixedRoundedWithCurrency(context, 2);
+    // } else if (widget.transactionType ==
+    //         AccountBarChartModeTransactionType.all &&
+    //     value == maxValue) {
+    //   text = maxValue.toStringAsFixedRoundedWithCurrency(context, 2);
+    // } else if (widget.transactionType ==
+    //         AccountBarChartModeTransactionType.all &&
+    //     value == minValue) {
+    //   text = minValue.toStringAsFixedRoundedWithCurrency(context, 2);
+    // } else if (value == (minValue + maxValue) / 2) {
+    //   text = ((minValue + maxValue) / 2)
+    //       .toStringAsFixedRoundedWithCurrency(context, 2);
+    // } else {
+    //   return const SizedBox.shrink();
+    // }
 
     return SideTitleWidget(
       axisSide: meta.axisSide,
@@ -459,7 +483,7 @@ class AccountBarChartState extends State<AccountBarChart> {
             currValueArray[1]
           ];
         } else {
-          balanceMap[transaction.date.weekday - 1] = [
+          balanceMap[transactionWeeknumber - firstWeeknumberOfMonth] = [
             currValueArray[0],
             currValueArray[1] + transaction.value,
           ];
