@@ -139,6 +139,7 @@ class _NewEditTransactionPageState extends State<NewEditTransactionPage>
 
   @override
   Widget build(BuildContext context) {
+    print('build');
     return Scaffold(
       appBar: AppBar(
         title: Text(editMode

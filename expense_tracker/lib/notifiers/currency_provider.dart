@@ -26,6 +26,7 @@ enum CurrencyEnum {
   usd,
   gbp,
   jpy,
+  chf,
 }
 
 CurrencyEnum? getCurrencyEnumFromString(String currencyString) {
@@ -38,6 +39,8 @@ CurrencyEnum? getCurrencyEnumFromString(String currencyString) {
       return CurrencyEnum.gbp;
     case 'CurrencyEnum.jpy':
       return CurrencyEnum.jpy;
+    case 'CurrencyEnum.chf':
+      return CurrencyEnum.chf;
     default:
       return null;
   }
@@ -53,6 +56,8 @@ String getSymbolForCurrency(CurrencyEnum currency) {
       return '¥';
     case CurrencyEnum.gbp:
       return '£';
+    case CurrencyEnum.chf:
+      return '₣';
   }
 }
 

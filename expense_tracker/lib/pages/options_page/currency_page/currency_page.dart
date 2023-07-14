@@ -231,6 +231,22 @@ class _CurrencyPageState extends State<CurrencyPage> {
                             Navigator.of(context).pop();
                           },
                         ),
+                        ListTile(
+                          title: const Text('CHF - ₣'),
+                          trailing: currencyProvider.currentCurrencySymbol ==
+                                  CurrencyEnum.chf
+                              ? SvgPicture.asset('assets/icons/checkmark.svg')
+                              : null,
+                          onTap: () {
+                            currencyProvider
+                                .setCurrencySymbol(CurrencyEnum.chf);
+
+                            _currencySymbolInput.text = 'CHF - ₣';
+                            setState(() {});
+
+                            Navigator.of(context).pop();
+                          },
+                        ),
                       ],
                     ),
                   ),
@@ -360,6 +376,8 @@ class _CurrencyPageState extends State<CurrencyPage> {
         return 'JPY - ¥';
       case CurrencyEnum.gbp:
         return 'GBP - £';
+      case CurrencyEnum.chf:
+        return 'CHF - ₣';
     }
   }
 
