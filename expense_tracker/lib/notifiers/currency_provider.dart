@@ -57,7 +57,7 @@ String getSymbolForCurrency(CurrencyEnum currency) {
     case CurrencyEnum.gbp:
       return '£';
     case CurrencyEnum.chf:
-      return '₣';
+      return 'CHF';
   }
 }
 

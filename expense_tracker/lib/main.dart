@@ -56,6 +56,7 @@ Future main() async {
     currencySymbolPosition =
         getCurrencySymbolPositionFromString(currencySymbolPositionString);
   }
+
   runApp(MyApp(
     savedLocale: localeString != null ? Locale(localeString) : null,
     currencyEnum: currencySymbol,
