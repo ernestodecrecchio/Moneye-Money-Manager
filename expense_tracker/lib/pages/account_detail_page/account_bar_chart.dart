@@ -3,17 +3,19 @@ import 'dart:math';
 import 'package:expense_tracker/Helper/date_time_helper.dart';
 import 'package:expense_tracker/Helper/double_helper.dart';
 import 'package:expense_tracker/models/transaction.dart';
+import 'package:expense_tracker/notifiers/currency_riverpod.dart';
 import 'package:expense_tracker/pages/account_detail_page/account_detail_page.dart';
 import 'package:expense_tracker/style.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 
 enum AccountBarChartModeTime { month, year, all }
 
 enum AccountBarChartModeTransactionType { income, expense, all }
 
-class AccountBarChart extends StatefulWidget {
+class AccountBarChart extends ConsumerStatefulWidget {
   final List<Transaction> transactionList;
   final AccountBarChartModeTransactionType? transactionType;
   final TransactionTimePeriod? transactionTimePeriod;
@@ -30,10 +32,10 @@ class AccountBarChart extends StatefulWidget {
   });
 
   @override
-  State<StatefulWidget> createState() => AccountBarChartState();
+  ConsumerState<AccountBarChart> createState() => AccountBarChartState();
 }
 
-class AccountBarChartState extends State<AccountBarChart> {
+class AccountBarChartState extends ConsumerState<AccountBarChart> {
   final Color incomeBarColor = CustomColors.income;
   final Color expenseBarColor = CustomColors.expense;
   final Color avgColor = CustomColors.blue;
@@ -182,6 +184,10 @@ class AccountBarChartState extends State<AccountBarChart> {
   /// LEFT TITLE MANAGEMENT
 
   Widget leftTitles(double value, TitleMeta meta) {
+    final currentCurrency = ref.watch(currentCurrencyProvider);
+    final currentCurrencyPosition =
+        ref.watch(currentCurrencySymbolPositionProvider);
+
     const style = TextStyle(
       color: Color(0xff7589a2),
       fontWeight: FontWeight.bold,
@@ -202,11 +208,14 @@ class AccountBarChartState extends State<AccountBarChart> {
     leftAvgValue = (leftMaxValue / 2).roundToDouble();
 
     if (value == leftMinValue) {
-      text = leftMinValue.toStringAsFixedRoundedWithCurrency(context, 2);
+      text = leftMinValue.toStringAsFixedRoundedWithCurrency(
+          2, currentCurrency, currentCurrencyPosition);
     } else if (value == leftMaxValue) {
-      text = leftMaxValue.toStringAsFixedRoundedWithCurrency(context, 2);
+      text = leftMaxValue.toStringAsFixedRoundedWithCurrency(
+          2, currentCurrency, currentCurrencyPosition);
     } else if (value == leftAvgValue) {
-      text = leftAvgValue.toStringAsFixedRoundedWithCurrency(context, 2);
+      text = leftAvgValue.toStringAsFixedRoundedWithCurrency(
+          2, currentCurrency, currentCurrencyPosition);
     } else {
       return const SizedBox.shrink();
     }

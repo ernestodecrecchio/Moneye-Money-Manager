@@ -1,11 +1,13 @@
 import 'package:expense_tracker/Helper/double_helper.dart';
 import 'package:expense_tracker/models/account.dart';
+import 'package:expense_tracker/notifiers/currency_riverpod.dart';
 import 'package:expense_tracker/pages/account_detail_page/account_detail_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class AccountListTile extends StatelessWidget {
+class AccountListTile extends ConsumerWidget {
   final Account account;
   final double balance;
 
@@ -16,7 +18,11 @@ class AccountListTile extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final currentCurrency = ref.watch(currentCurrencyProvider);
+    final currentCurrencyPosition =
+        ref.watch(currentCurrencySymbolPositionProvider);
+
     return InkWell(
       onTap: () => Navigator.pushNamed(
         context,
@@ -97,7 +103,8 @@ class AccountListTile extends StatelessWidget {
                     FittedBox(
                       fit: BoxFit.fitHeight,
                       child: Text(
-                        balance.toStringAsFixedRoundedWithCurrency(context, 2),
+                        balance.toStringAsFixedRoundedWithCurrency(
+                            2, currentCurrency, currentCurrencyPosition),
                         style: const TextStyle(
                           fontSize: 18,
                           color: Colors.white,

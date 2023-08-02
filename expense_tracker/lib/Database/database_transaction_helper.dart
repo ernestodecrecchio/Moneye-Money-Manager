@@ -295,9 +295,9 @@ class DatabaseTransactionHelper {
       ),
     ];
 
-    transactionList.forEach((element) async {
-      await db.insert(transactionsTable, element.toJson());
-    });
+    for (final transaction in transactionList) {
+      await db.insert(transactionsTable, transaction.toJson());
+    }
   }
 
   Future<trans.Transaction> insertTransaction(

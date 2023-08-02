@@ -1,4 +1,4 @@
-import 'package:expense_tracker/notifiers/currency_provider.dart';
+import 'package:expense_tracker/notifiers/currency_riverpod.dart';
 import 'package:expense_tracker/notifiers/locale_provider.dart';
 import 'package:expense_tracker/pages/options_page/about_page/about_page.dart';
 import 'package:expense_tracker/pages/options_page/accounts_page/accounts_list_page.dart';
@@ -8,13 +8,14 @@ import 'package:expense_tracker/pages/options_page/language_page/languages_list_
 import 'package:expense_tracker/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:provider/provider.dart' as p;
 
-class OptionsPage extends StatelessWidget {
+class OptionsPage extends ConsumerWidget {
   const OptionsPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
         title: Text(AppLocalizations.of(context)!.settings),
@@ -23,12 +24,14 @@ class OptionsPage extends StatelessWidget {
       ),
       backgroundColor: Colors.white,
       body: SafeArea(
-        child: _buildBody(context),
+        child: _buildBody(context, ref),
       ),
     );
   }
 
-  Widget _buildBody(BuildContext context) {
+  Widget _buildBody(BuildContext context, WidgetRef ref) {
+    final currentCurrency = ref.watch(currentCurrencyProvider);
+
     return ListView(
       padding: const EdgeInsets.only(top: 10),
       children: [
@@ -78,9 +81,9 @@ class OptionsPage extends StatelessWidget {
           trailing: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              if (Provider.of<LocaleProvider>(context, listen: true).locale !=
+              if (p.Provider.of<LocaleProvider>(context, listen: true).locale !=
                   null)
-                Text(Provider.of<LocaleProvider>(context, listen: true)
+                Text(p.Provider.of<LocaleProvider>(context, listen: true)
                     .locale!
                     .languageCode),
               const Icon(Icons.chevron_right_rounded),
@@ -103,14 +106,7 @@ class OptionsPage extends StatelessWidget {
           trailing: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              if (Provider.of<CurrencyProvider>(context, listen: true)
-                      .currentCurrencySymbol !=
-                  null)
-                Text(
-                  getSymbolForCurrency(
-                      Provider.of<CurrencyProvider>(context, listen: true)
-                          .currentCurrencySymbol!),
-                ),
+              if (currentCurrency != null) Text(currentCurrency.symbolNative),
               const Icon(Icons.chevron_right_rounded),
             ],
           ),

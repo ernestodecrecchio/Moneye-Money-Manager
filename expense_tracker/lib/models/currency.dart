@@ -2,12 +2,12 @@ class Currency {
   final String symbol;
   final String name;
   final String symbolNative;
-  final double decimalDigits;
-  final int rounding;
+  final int decimalDigits;
+  final double rounding;
   final String code;
   final String namePlural;
 
-  Currency({
+  const Currency({
     required this.symbol,
     required this.name,
     required this.symbolNative,
@@ -22,8 +22,8 @@ class Currency {
       symbol: json['symbol'],
       name: json['name'],
       symbolNative: json['symbol_native'],
-      decimalDigits: json['decimal_digits'],
-      rounding: json['rounding'],
+      decimalDigits: json['decimal_digits'] as int,
+      rounding: double.parse(json['rounding'].toString()),
       code: json['code'],
       namePlural: json['name_plural'],
     );
@@ -35,6 +35,7 @@ class Currency {
       "name": name,
       "symbol_native": symbolNative,
       "decimal_digits": decimalDigits,
+      "rounding": rounding,
       "code": code,
       "name_plural": namePlural,
     };

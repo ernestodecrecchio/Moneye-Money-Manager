@@ -4,6 +4,7 @@ import 'package:expense_tracker/models/category.dart';
 import 'package:expense_tracker/models/transaction.dart';
 import 'package:expense_tracker/notifiers/account_provider.dart';
 import 'package:expense_tracker/notifiers/category_provider.dart';
+import 'package:expense_tracker/notifiers/currency_riverpod.dart';
 import 'package:expense_tracker/notifiers/transaction_provider.dart';
 import 'package:expense_tracker/pages/account_detail_page/account_detail_page.dart';
 import 'package:expense_tracker/pages/common/list_tiles/transaction_list_cell.dart';
@@ -12,8 +13,9 @@ import 'package:expense_tracker/pages/new_edit_transaction_flow/new_edit_transac
 import 'package:expense_tracker/pages/common/list_tiles/account_list_tile.dart';
 import 'package:expense_tracker/style.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:provider/provider.dart';
+import 'package:provider/provider.dart' as p;
 import 'package:collection/collection.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -29,14 +31,14 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 // Password/Face recognition
 // Export dei dati CVS
 
-class HomePage extends StatefulWidget {
+class HomePage extends ConsumerStatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  ConsumerState<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends ConsumerState<HomePage> {
   AppLocalizations? appLocalizations;
   static const double horizontalPadding = 18;
 
@@ -89,8 +91,12 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _buildMonthlyBalanceSection() {
+    final currentCurrency = ref.watch(currentCurrencyProvider);
+    final currentCurrencyPosition =
+        ref.watch(currentCurrencySymbolPositionProvider);
+
     final List<Transaction> currentMonthTransactions =
-        Provider.of<TransactionProvider>(context, listen: true)
+        p.Provider.of<TransactionProvider>(context, listen: true)
             .currentMonthTransactionList;
 
     double monthlyIncome = 0;
@@ -133,9 +139,10 @@ class _HomePageState extends State<HomePage> {
                 child: FittedBox(
                   fit: BoxFit.fitWidth,
                   child: Text(
-                    Provider.of<TransactionProvider>(context, listen: false)
+                    p.Provider.of<TransactionProvider>(context, listen: false)
                         .totalBalance
-                        .toStringAsFixedRoundedWithCurrency(context, 2),
+                        .toStringAsFixedRoundedWithCurrency(
+                            2, currentCurrency, currentCurrencyPosition),
                     style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 40,
@@ -179,7 +186,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                       Text(
                         monthlyExpenses.toStringAsFixedRoundedWithCurrency(
-                            context, 2),
+                            2, currentCurrency, currentCurrencyPosition),
                         style: const TextStyle(
                           color: Colors.white,
                           fontSize: 16,
@@ -216,7 +223,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                       Text(
                         monthlyIncome.toStringAsFixedRoundedWithCurrency(
-                            context, 2),
+                            2, currentCurrency, currentCurrencyPosition),
                         style: const TextStyle(
                           color: Colors.white,
                           fontSize: 16,
@@ -235,7 +242,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _buildPercentageDifference() {
-    return Consumer<TransactionProvider>(
+    return p.Consumer<TransactionProvider>(
       builder: (context, transactionProvider, child) {
         final currMonthDate = DateTime.now();
         final prevMonthDate =
@@ -360,9 +367,10 @@ class _HomePageState extends State<HomePage> {
     double balanceTransactionsWithoutAccount = 0;
 
     final accountList =
-        Provider.of<AccountProvider>(context, listen: true).accountList;
+        p.Provider.of<AccountProvider>(context, listen: true).accountList;
     final transactionList =
-        Provider.of<TransactionProvider>(context, listen: true).transactionList;
+        p.Provider.of<TransactionProvider>(context, listen: true)
+            .transactionList;
 
     for (var account in accountList) {
       accountMap[account] = 0;
@@ -394,7 +402,7 @@ class _HomePageState extends State<HomePage> {
 
   Category? getCategoryForTransaction(Transaction transaction) {
     if (transaction.categoryId != null) {
-      return Provider.of<CategoryProvider>(context, listen: false)
+      return p.Provider.of<CategoryProvider>(context, listen: false)
           .getCategoryFromId(transaction.categoryId!);
     }
 
@@ -403,7 +411,7 @@ class _HomePageState extends State<HomePage> {
 
   Widget _buildLastTransactionList() {
     final List<Transaction> lastTransactionList =
-        Provider.of<TransactionProvider>(context, listen: true)
+        p.Provider.of<TransactionProvider>(context, listen: true)
             .transactionList
             .sorted((a, b) => b.date.compareTo(a.date))
             .take(5)

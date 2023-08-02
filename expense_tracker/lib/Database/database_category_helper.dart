@@ -90,9 +90,9 @@ class DatabaseCategoryHelper {
       ),
     ];
 
-    categoryList.forEach((element) async {
-      await db.insert(categoriesTable, element.toJson());
-    });
+    for (final category in categoryList) {
+      await db.insert(categoriesTable, category.toJson());
+    }
   }
 
   Future<Category> insertCategory({required Category category}) async {

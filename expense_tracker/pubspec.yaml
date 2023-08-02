@@ -15,6 +15,7 @@ dependencies:
     sdk: flutter
   intl: ^0.18.0
   provider: ^6.0.3
+  flutter_riverpod: ^2.3.6
   table_calendar: ^3.0.6
   sqflite: ^2.0.3
   path: ^1.6.4
@@ -48,6 +49,7 @@ flutter:
     - assets/icons/picker_icons/
     - assets/flags/
     - assets/logo/
+    - configuration/
 
   fonts:
     - family: Ubuntu

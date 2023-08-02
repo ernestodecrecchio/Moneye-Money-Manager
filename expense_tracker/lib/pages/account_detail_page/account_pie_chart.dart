@@ -2,16 +2,18 @@ import 'package:expense_tracker/Helper/double_helper.dart';
 import 'package:expense_tracker/models/category.dart';
 import 'package:expense_tracker/models/transaction.dart';
 import 'package:expense_tracker/notifiers/category_provider.dart';
+import 'package:expense_tracker/notifiers/currency_riverpod.dart';
 import 'package:expense_tracker/style.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:provider/provider.dart' as p;
 
 enum AccountPieChartModeTransactionType { income, expense, all }
 
-class AccountPieChart extends StatefulWidget {
+class AccountPieChart extends ConsumerStatefulWidget {
   final List<Transaction> transactionList;
   final AccountPieChartModeTransactionType? mode;
 
@@ -22,10 +24,10 @@ class AccountPieChart extends StatefulWidget {
   });
 
   @override
-  State<AccountPieChart> createState() => _AccountPieChartState();
+  ConsumerState<AccountPieChart> createState() => _AccountPieChartState();
 }
 
-class _AccountPieChartState extends State<AccountPieChart> {
+class _AccountPieChartState extends ConsumerState<AccountPieChart> {
   int touchedIndex = -1;
 
   Map<int, double> categoryTotalValueMap = {};
@@ -64,6 +66,9 @@ class _AccountPieChartState extends State<AccountPieChart> {
   }
 
   _buildGraph() {
+    final currentCurrency = ref.watch(currentCurrencyProvider);
+    final currentCurrencyPosition =
+        ref.watch(currentCurrencySymbolPositionProvider);
     const centerSpaceRadius = 50.0;
 
     return Padding(
@@ -97,9 +102,10 @@ class _AccountPieChartState extends State<AccountPieChart> {
                       widget.mode == AccountPieChartModeTransactionType.all
                           ? (categoryTotalValuePairs[0].totalValue -
                                   categoryTotalValuePairs[1].totalValue)
-                              .toStringAsFixedRoundedWithCurrency(context, 2)
+                              .toStringAsFixedRoundedWithCurrency(
+                                  2, currentCurrency, currentCurrencyPosition)
                           : totalValue.toStringAsFixedRoundedWithCurrency(
-                              context, 2),
+                              2, currentCurrency, currentCurrencyPosition),
                       textAlign: TextAlign.center,
                       maxLines: 1,
                       style: const TextStyle(
@@ -240,7 +246,7 @@ class _AccountPieChartState extends State<AccountPieChart> {
       categoryTotalValuePairs[1].totalValue *= -1;
     } else {
       final categoryProvider =
-          Provider.of<CategoryProvider>(context, listen: false);
+          p.Provider.of<CategoryProvider>(context, listen: false);
 
       categoryTotalValuePairs.clear();
       totalValue = 0;
@@ -303,7 +309,7 @@ class CategoryTotalValue {
   CategoryTotalValue({required this.category, required this.totalValue});
 }
 
-class Indicator extends StatelessWidget {
+class Indicator extends ConsumerWidget {
   final Color color;
   final String text;
   final double? value;
@@ -316,7 +322,11 @@ class Indicator extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final currentCurrency = ref.watch(currentCurrencyProvider);
+    final currentCurrencyPosition =
+        ref.watch(currentCurrencySymbolPositionProvider);
+
     return Container(
       margin: const EdgeInsets.only(bottom: 10),
       child: Row(
@@ -342,7 +352,11 @@ class Indicator extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(left: 6),
               child: Text(
-                value!.toStringAsFixedRoundedWithCurrency(context, 2),
+                value!.toStringAsFixedRoundedWithCurrency(
+                  2,
+                  currentCurrency,
+                  currentCurrencyPosition,
+                ),
                 textAlign: TextAlign.end,
                 style: const TextStyle(fontWeight: FontWeight.bold),
               ),

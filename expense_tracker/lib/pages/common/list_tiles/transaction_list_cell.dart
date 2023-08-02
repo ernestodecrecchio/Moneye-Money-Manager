@@ -4,17 +4,19 @@ import 'package:expense_tracker/models/transaction.dart';
 import 'package:expense_tracker/notifiers/account_provider.dart';
 
 import 'package:expense_tracker/notifiers/category_provider.dart';
+import 'package:expense_tracker/notifiers/currency_riverpod.dart';
 import 'package:expense_tracker/notifiers/transaction_provider.dart';
 import 'package:expense_tracker/pages/new_edit_transaction_flow/new_edit_transaction_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import 'package:provider/provider.dart';
+import 'package:provider/provider.dart' as p;
 
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class TransactionListCell extends StatelessWidget {
+class TransactionListCell extends ConsumerWidget {
   final Transaction transaction;
   final double horizontalPadding;
 
@@ -29,7 +31,7 @@ class TransactionListCell extends StatelessWidget {
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Slidable(
       key: Key(transaction.id.toString()),
       startActionPane: ActionPane(
@@ -87,7 +89,7 @@ class TransactionListCell extends StatelessWidget {
                   ],
                 ),
               ),
-              _buildValue(context),
+              _buildValue(context, ref),
             ],
           ),
         ),
@@ -96,7 +98,7 @@ class TransactionListCell extends StatelessWidget {
   }
 
   _buildCategoryIcon(BuildContext context) {
-    final category = Provider.of<CategoryProvider>(context, listen: false)
+    final category = p.Provider.of<CategoryProvider>(context, listen: false)
         .getCategoryForTransaction(transaction);
 
     SvgPicture? categoryIcon;
@@ -145,11 +147,15 @@ class TransactionListCell extends StatelessWidget {
     );
   }
 
-  Widget _buildValue(BuildContext context) {
+  Widget _buildValue(BuildContext context, WidgetRef ref) {
+    final currentCurrency = ref.watch(currentCurrencyProvider);
+    final currentCurrencyPosition =
+        ref.watch(currentCurrencySymbolPositionProvider);
+
     Account? account;
 
     if (showAccountLabel && transaction.accountId != null) {
-      account = Provider.of<AccountProvider>(context, listen: false)
+      account = p.Provider.of<AccountProvider>(context, listen: false)
           .getAccountFromId(transaction.accountId!);
     }
 
@@ -158,7 +164,8 @@ class TransactionListCell extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
         Text(
-          transaction.value.toStringAsFixedRoundedWithCurrency(context, 2),
+          transaction.value.toStringAsFixedRoundedWithCurrency(
+              2, currentCurrency, currentCurrencyPosition),
           textAlign: TextAlign.center,
           style: TextStyle(
             fontSize: 16,
@@ -197,7 +204,7 @@ class TransactionListCell extends StatelessWidget {
   // }
 
   Future _removeTransaction(BuildContext context) async {
-    await Provider.of<TransactionProvider>(context, listen: false)
+    await p.Provider.of<TransactionProvider>(context, listen: false)
         .deleteTransaction(transaction);
   }
 }
