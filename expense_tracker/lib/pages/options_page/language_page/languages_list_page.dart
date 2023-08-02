@@ -1,20 +1,20 @@
 import 'package:expense_tracker/notifiers/locale_provider.dart';
 import 'package:expense_tracker/style.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class LanguagesListPage extends StatefulWidget {
+class LanguagesListPage extends ConsumerStatefulWidget {
   static const routeName = '/languagesListPage';
 
   const LanguagesListPage({Key? key}) : super(key: key);
 
   @override
-  State<LanguagesListPage> createState() => _LanguagesListPageState();
+  ConsumerState<LanguagesListPage> createState() => _LanguagesListPageState();
 }
 
-class _LanguagesListPageState extends State<LanguagesListPage> {
+class _LanguagesListPageState extends ConsumerState<LanguagesListPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,17 +23,18 @@ class _LanguagesListPageState extends State<LanguagesListPage> {
         backgroundColor: CustomColors.blue,
         elevation: 0,
       ),
-      body: _buildList(),
+      body: _buildList(context),
     );
   }
 
-  Widget _buildList() {
+  Widget _buildList(BuildContext context) {
+    final currentLocale = ref.watch(localeProvider);
+
     return ListView(
       children: [
         ListTile(
           title: Text(AppLocalizations.of(context)!.systemLanguageOption),
-          onTap: () =>
-              Provider.of<LocaleProvider>(context, listen: false).resetLocale(),
+          onTap: () => ref.read(localeProvider.notifier).resetLocale(),
           leading: Container(
             clipBehavior: Clip.antiAlias,
             height: 30,
@@ -46,18 +47,16 @@ class _LanguagesListPageState extends State<LanguagesListPage> {
                   CustomColors.darkBlue, BlendMode.srcIn),
             ),
           ),
-          trailing:
-              Provider.of<LocaleProvider>(context, listen: true).locale == null
-                  ? const Icon(Icons.check)
-                  : null,
+          trailing: currentLocale == null ? const Icon(Icons.check) : null,
         ),
         const Divider(
           height: 1,
         ),
         ListTile(
           title: const Text('English (UK)'),
-          onTap: () => Provider.of<LocaleProvider>(context, listen: false)
-              .setLocale(const Locale('en')),
+          onTap: () => ref
+              .read(localeProvider.notifier)
+              .updateLocale(const Locale('en')),
           leading: Container(
             clipBehavior: Clip.antiAlias,
             height: 30,
@@ -68,17 +67,15 @@ class _LanguagesListPageState extends State<LanguagesListPage> {
               fit: BoxFit.cover,
             ),
           ),
-          trailing: Provider.of<LocaleProvider>(context, listen: true)
-                      .locale
-                      ?.languageCode ==
-                  'en'
+          trailing: currentLocale?.languageCode == 'en'
               ? const Icon(Icons.check)
               : null,
         ),
         ListTile(
           title: const Text('Italiano'),
-          onTap: () => Provider.of<LocaleProvider>(context, listen: false)
-              .setLocale(const Locale('it')),
+          onTap: () => ref
+              .read(localeProvider.notifier)
+              .updateLocale(const Locale('it')),
           leading: Container(
             clipBehavior: Clip.antiAlias,
             height: 30,
@@ -89,17 +86,15 @@ class _LanguagesListPageState extends State<LanguagesListPage> {
               fit: BoxFit.cover,
             ),
           ),
-          trailing: Provider.of<LocaleProvider>(context, listen: true)
-                      .locale
-                      ?.languageCode ==
-                  'it'
+          trailing: currentLocale?.languageCode == 'it'
               ? const Icon(Icons.check)
               : null,
         ),
         ListTile(
           title: const Text('Español'),
-          onTap: () => Provider.of<LocaleProvider>(context, listen: false)
-              .setLocale(const Locale('es')),
+          onTap: () => ref
+              .read(localeProvider.notifier)
+              .updateLocale(const Locale('es')),
           leading: Container(
             clipBehavior: Clip.antiAlias,
             height: 30,
@@ -110,17 +105,15 @@ class _LanguagesListPageState extends State<LanguagesListPage> {
               fit: BoxFit.cover,
             ),
           ),
-          trailing: Provider.of<LocaleProvider>(context, listen: true)
-                      .locale
-                      ?.languageCode ==
-                  'es'
+          trailing: currentLocale?.languageCode == 'es'
               ? const Icon(Icons.check)
               : null,
         ),
         ListTile(
           title: const Text('Deutsch'),
-          onTap: () => Provider.of<LocaleProvider>(context, listen: false)
-              .setLocale(const Locale('de')),
+          onTap: () => ref
+              .read(localeProvider.notifier)
+              .updateLocale(const Locale('de')),
           leading: Container(
             clipBehavior: Clip.antiAlias,
             height: 30,
@@ -131,10 +124,7 @@ class _LanguagesListPageState extends State<LanguagesListPage> {
               fit: BoxFit.cover,
             ),
           ),
-          trailing: Provider.of<LocaleProvider>(context, listen: true)
-                      .locale
-                      ?.languageCode ==
-                  'de'
+          trailing: currentLocale?.languageCode == 'de'
               ? const Icon(Icons.check)
               : null,
         ),

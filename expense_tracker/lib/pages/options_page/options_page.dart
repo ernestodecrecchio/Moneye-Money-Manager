@@ -9,7 +9,6 @@ import 'package:expense_tracker/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:provider/provider.dart' as p;
 
 class OptionsPage extends ConsumerWidget {
   const OptionsPage({super.key});
@@ -31,6 +30,7 @@ class OptionsPage extends ConsumerWidget {
 
   Widget _buildBody(BuildContext context, WidgetRef ref) {
     final currentCurrency = ref.watch(currentCurrencyProvider);
+    final currentLocale = ref.watch(localeProvider);
 
     return ListView(
       padding: const EdgeInsets.only(top: 10),
@@ -81,11 +81,7 @@ class OptionsPage extends ConsumerWidget {
           trailing: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              if (p.Provider.of<LocaleProvider>(context, listen: true).locale !=
-                  null)
-                Text(p.Provider.of<LocaleProvider>(context, listen: true)
-                    .locale!
-                    .languageCode),
+              if (currentLocale != null) Text(currentLocale.languageCode),
               const Icon(Icons.chevron_right_rounded),
             ],
           ),
