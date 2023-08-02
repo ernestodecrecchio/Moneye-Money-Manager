@@ -2,7 +2,7 @@ import 'package:expense_tracker/Helper/double_helper.dart';
 import 'package:expense_tracker/models/category.dart';
 import 'package:expense_tracker/models/transaction.dart';
 import 'package:expense_tracker/notifiers/category_provider.dart';
-import 'package:expense_tracker/notifiers/currency_riverpod.dart';
+import 'package:expense_tracker/notifiers/currency_provider.dart';
 import 'package:expense_tracker/style.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';

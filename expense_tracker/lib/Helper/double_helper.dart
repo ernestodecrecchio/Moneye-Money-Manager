@@ -1,5 +1,5 @@
 import 'package:expense_tracker/models/currency.dart';
-import 'package:expense_tracker/notifiers/currency_riverpod.dart';
+import 'package:expense_tracker/notifiers/currency_provider.dart';
 
 extension DoubleParsing on double {
   String toStringAsFixedRounded(int fractionDigits) {

@@ -1,4 +1,4 @@
-import 'package:expense_tracker/notifiers/currency_riverpod.dart';
+import 'package:expense_tracker/notifiers/currency_provider.dart';
 import 'package:expense_tracker/pages/common/custom_modal_bottom_sheet.dart';
 import 'package:expense_tracker/pages/common/custom_text_field.dart';
 import 'package:expense_tracker/style.dart';
