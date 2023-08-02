@@ -3,20 +3,20 @@ import 'package:expense_tracker/pages/common/custom_modal_bottom_sheet.dart';
 import 'package:expense_tracker/pages/common/custom_text_field.dart';
 import 'package:expense_tracker/style.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart' as r;
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class CurrencyPage extends r.ConsumerStatefulWidget {
+class CurrencyPage extends ConsumerStatefulWidget {
   static const routeName = '/currencyPage';
 
   const CurrencyPage({super.key});
 
   @override
-  r.ConsumerState<CurrencyPage> createState() => _CurrencyPageState();
+  ConsumerState<CurrencyPage> createState() => _CurrencyPageState();
 }
 
-class _CurrencyPageState extends r.ConsumerState<CurrencyPage> {
+class _CurrencyPageState extends ConsumerState<CurrencyPage> {
   final _currencySymbolPositionInput = TextEditingController();
   final _currencySymbolInput = TextEditingController();
 
@@ -97,10 +97,6 @@ class _CurrencyPageState extends r.ConsumerState<CurrencyPage> {
   }
 
   Widget _buildCurrencyPreview() {
-    // TextSpan currencySymbolTextSpan = TextSpan(
-    //     text: getSymbolForCurrency(currencyProvider.currentCurrencySymbol!),
-    //     style: const TextStyle(fontWeight: FontWeight.bold));
-
     final currentCurrency = ref.watch(currentCurrencyProvider);
     final currentCurrencyPosition =
         ref.watch(currentCurrencySymbolPositionProvider);
@@ -146,7 +142,7 @@ class _CurrencyPageState extends r.ConsumerState<CurrencyPage> {
         await showCustomModalBottomSheet(
           context: context,
           builder: ((context) {
-            return r.Consumer(
+            return Consumer(
               builder: (context, ref, child) {
                 final currencyList = ref.watch(currencyListProvider);
 
@@ -180,33 +176,36 @@ class _CurrencyPageState extends r.ConsumerState<CurrencyPage> {
                           ),
                         ),
                         Expanded(
-                          child: ListView.builder(
-                              shrinkWrap: true,
-                              itemCount: currencyList.length,
-                              itemBuilder: (context, index) {
-                                final currency = currencyList[index];
+                          child: Scrollbar(
+                            child: ListView.builder(
+                                shrinkWrap: true,
+                                itemCount: currencyList.length,
+                                itemBuilder: (context, index) {
+                                  final currency = currencyList[index];
 
-                                return ListTile(
-                                  title: Text(
-                                      '${currency.name} - ${currency.symbolNative}'),
-                                  trailing:
-                                      ref.watch(currentCurrencyProvider) ==
-                                              currency
-                                          ? SvgPicture.asset(
-                                              'assets/icons/checkmark.svg')
-                                          : null,
-                                  onTap: () {
-                                    ref
-                                        .read(currentCurrencyProvider.notifier)
-                                        .updateCurrency(currency);
+                                  return ListTile(
+                                    title: Text(
+                                        '${currency.name} - ${currency.symbolNative}'),
+                                    trailing:
+                                        ref.watch(currentCurrencyProvider) ==
+                                                currency
+                                            ? SvgPicture.asset(
+                                                'assets/icons/checkmark.svg')
+                                            : null,
+                                    onTap: () {
+                                      ref
+                                          .read(
+                                              currentCurrencyProvider.notifier)
+                                          .updateCurrency(currency);
 
-                                    _currencySymbolInput.text =
-                                        '${currency.name} - ${currency.symbolNative}';
+                                      _currencySymbolInput.text =
+                                          '${currency.name} - ${currency.symbolNative}';
 
-                                    Navigator.of(context).pop();
-                                  },
-                                );
-                              }),
+                                      Navigator.of(context).pop();
+                                    },
+                                  );
+                                }),
+                          ),
                         ),
                       ],
                     ),

@@ -40,4 +40,27 @@ class Currency {
       "name_plural": namePlural,
     };
   }
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is Currency &&
+          runtimeType == other.runtimeType &&
+          symbol == other.symbol &&
+          name == other.name &&
+          symbolNative == other.symbolNative &&
+          decimalDigits == other.decimalDigits &&
+          rounding == other.rounding &&
+          code == other.code &&
+          namePlural == other.namePlural;
+
+  @override
+  int get hashCode =>
+      symbol.hashCode ^
+      name.hashCode ^
+      symbolNative.hashCode ^
+      decimalDigits.hashCode ^
+      rounding.hashCode ^
+      code.hashCode ^
+      namePlural.hashCode;
 }
