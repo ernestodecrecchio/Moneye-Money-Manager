@@ -7,7 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 final currencyListProvider = FutureProvider<List<Currency>>((ref) async {
   String jsonString =
-      await rootBundle.loadString('configuration/currencies.json');
+      await rootBundle.loadString('Configuration/currencies.json');
 
   final Map<String, dynamic> jsonData = json.decode(jsonString);
 
