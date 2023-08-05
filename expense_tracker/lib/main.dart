@@ -1,12 +1,16 @@
+import 'dart:async';
+import 'dart:io';
+import 'package:expense_tracker/Configuration/notification_manager.dart';
 import 'package:expense_tracker/l10n/l10n.dart';
 import 'package:expense_tracker/models/account.dart';
-import 'package:expense_tracker/models/category.dart';
+import 'package:expense_tracker/models/category.dart' as c;
 import 'package:expense_tracker/models/transaction.dart';
 import 'package:expense_tracker/notifiers/account_provider.dart';
 import 'package:expense_tracker/notifiers/category_provider.dart';
 import 'package:expense_tracker/notifiers/central_provider.dart';
 import 'package:expense_tracker/notifiers/currency_provider.dart';
 import 'package:expense_tracker/notifiers/locale_provider.dart';
+import 'package:expense_tracker/notifiers/notification_provider.dart';
 import 'package:expense_tracker/notifiers/transaction_provider.dart';
 import 'package:expense_tracker/pages/account_detail_page/account_detail_page.dart';
 import 'package:expense_tracker/pages/options_page/about_page/about_page.dart';
@@ -18,7 +22,9 @@ import 'package:expense_tracker/pages/common/helper/dismiss_keyboard.dart';
 import 'package:expense_tracker/pages/new_edit_transaction_flow/new_edit_transaction_page.dart';
 import 'package:expense_tracker/pages/options_page/currency_page/currency_page.dart';
 import 'package:expense_tracker/pages/options_page/language_page/languages_list_page.dart';
+import 'package:expense_tracker/pages/options_page/notification_page/notification_page.dart';
 import 'package:expense_tracker/pages/tab_bar_page.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -26,14 +32,18 @@ import 'package:flutter_riverpod/flutter_riverpod.dart' as r;
 import 'package:provider/provider.dart' as p;
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
+import 'package:timezone/data/latest_all.dart';
+import 'package:timezone/timezone.dart';
 import 'pages/account_detail_page/transaction_list_page.dart';
+import 'package:flutter_timezone/flutter_timezone.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+
+  await _configureLocalTimeZone();
 
   SharedPreferences prefs = await SharedPreferences.getInstance();
 
@@ -72,6 +82,31 @@ Future main() async {
         .setFromLocalStorage(currencySymbolPositionString);
   }
 
+  // SETTING UP NOTIFICATIONS
+  final notificationEnabledLocalStorageValue =
+      prefs.getBool('notifications_enabled');
+
+  if (notificationEnabledLocalStorageValue != null) {
+    final notificiationProviderNotifier =
+        container.read(notificationsEnabledProvider.notifier);
+
+    notificiationProviderNotifier
+        .setFromLocalStorage(notificationEnabledLocalStorageValue);
+  }
+
+  final notificationTimeEnablednLocalStorageValue =
+      prefs.getString('notification_time');
+
+  if (notificationTimeEnablednLocalStorageValue != null) {
+    final notificiationTrimeProviderNotifier =
+        container.read(notificationTimeProvider.notifier);
+
+    notificiationTrimeProviderNotifier
+        .setFromLocalStorage(notificationTimeEnablednLocalStorageValue);
+  }
+
+  await NotificationManager.initNotificationManager();
+
   runApp(
     r.UncontrolledProviderScope(
       container: container,
@@ -80,6 +115,15 @@ Future main() async {
       ),
     ),
   );
+}
+
+Future<void> _configureLocalTimeZone() async {
+  if (kIsWeb || Platform.isLinux) {
+    return;
+  }
+  initializeTimeZones();
+  final String timeZoneName = await FlutterTimezone.getLocalTimezone();
+  setLocalLocation(getLocation(timeZoneName));
 }
 
 class MyApp extends r.ConsumerWidget {
@@ -142,6 +186,7 @@ class MyApp extends r.ConsumerWidget {
               LanguagesListPage.routeName: (context) =>
                   const LanguagesListPage(),
               CurrencyPage.routeName: (context) => const CurrencyPage(),
+              ReminderPage.routeName: (context) => const ReminderPage(),
               AboutPage.routeName: (context) => const AboutPage(),
             },
             onGenerateRoute: (settings) {
@@ -192,7 +237,7 @@ class MyApp extends r.ConsumerWidget {
                   }
                 case NewEditCategoryPage.routeName:
                   {
-                    final args = settings.arguments as Category?;
+                    final args = settings.arguments as c.Category?;
 
                     return MaterialPageRoute(
                       builder: (context) => NewEditCategoryPage(

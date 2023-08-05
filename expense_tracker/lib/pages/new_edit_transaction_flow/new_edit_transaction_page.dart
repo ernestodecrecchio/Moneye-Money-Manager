@@ -10,6 +10,7 @@ import 'package:expense_tracker/pages/new_edit_transaction_flow/category_selecto
 import 'package:expense_tracker/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:in_app_review/in_app_review.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -428,7 +429,14 @@ class _NewEditTransactionPageState extends State<NewEditTransactionPage>
             date: selectedDate,
             category: selectedCategory,
             account: selectedAccount)
-        .then((value) => Navigator.of(context).pop());
+        .then((value) async {
+      final InAppReview inAppReview = InAppReview.instance;
+
+      if (await inAppReview.isAvailable()) {
+        inAppReview.requestReview();
+      }
+      Navigator.of(context).pop();
+    });
   }
 
   _editTransaction({required bool income}) {

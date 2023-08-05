@@ -44,8 +44,6 @@ class CurrentCurrencyNotifier extends Notifier<Currency?> {
   }
 
   Future<bool> updateCurrency(Currency newCurrency) async {
-    print('UPDATE');
-
     state = newCurrency;
 
     final prefs = await SharedPreferences.getInstance();
@@ -94,8 +92,6 @@ class CurrencySymbolPositionNotifier extends Notifier<CurrencySymbolPosition> {
 
   Future updateCurrencyPosition(
       CurrencySymbolPosition newCurrencySymbolPosition) async {
-    print('UPDATE');
-
     state = newCurrencySymbolPosition;
 
     final prefs = await SharedPreferences.getInstance();

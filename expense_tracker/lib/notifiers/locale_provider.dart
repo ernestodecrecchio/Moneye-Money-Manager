@@ -13,11 +13,11 @@ class LocaleNotifier extends Notifier<Locale?> {
 
   setFromLocalStorage(String? localStorageValue) {
     Intl.defaultLocale = localStorageValue ?? Platform.localeName;
+
+    state = Locale(localStorageValue ?? Platform.localeName);
   }
 
   Future<bool> updateLocale(Locale newLocale) async {
-    print('UPDATE');
-
     state = newLocale;
 
     Intl.defaultLocale = newLocale.languageCode;

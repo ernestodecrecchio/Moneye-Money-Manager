@@ -1,14 +1,17 @@
 import 'package:expense_tracker/notifiers/currency_provider.dart';
 import 'package:expense_tracker/notifiers/locale_provider.dart';
+import 'package:expense_tracker/notifiers/notification_provider.dart';
 import 'package:expense_tracker/pages/options_page/about_page/about_page.dart';
 import 'package:expense_tracker/pages/options_page/accounts_page/accounts_list_page.dart';
 import 'package:expense_tracker/pages/options_page/categories_page/categories_list_page.dart';
 import 'package:expense_tracker/pages/options_page/currency_page/currency_page.dart';
 import 'package:expense_tracker/pages/options_page/language_page/languages_list_page.dart';
+import 'package:expense_tracker/pages/options_page/notification_page/notification_page.dart';
 import 'package:expense_tracker/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:in_app_review/in_app_review.dart';
 
 class OptionsPage extends ConsumerWidget {
   const OptionsPage({super.key});
@@ -107,6 +110,49 @@ class OptionsPage extends ConsumerWidget {
             ],
           ),
           onTap: () => Navigator.of(context).pushNamed(CurrencyPage.routeName),
+        ),
+        const Divider(),
+        ListTile(
+          leading: const SizedBox(
+            height: double.infinity,
+            child: Icon(
+              Icons.notifications_active_rounded,
+              color: CustomColors.darkBlue,
+            ),
+          ),
+          title: const Text('Promemoria'),
+          subtitle: const Text(
+              'Imposta un promemoria per ricordarti di inserire nuove transazioni'),
+          trailing: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(ref.watch(notificationsEnabledProvider) != null &&
+                      ref.watch(notificationsEnabledProvider) == true
+                  ? 'Si'
+                  : 'No'),
+              const Icon(Icons.chevron_right_rounded),
+            ],
+          ),
+          onTap: () => Navigator.of(context).pushNamed(ReminderPage.routeName),
+        ),
+        const Divider(),
+        ListTile(
+          leading: const SizedBox(
+            height: double.infinity,
+            child: Icon(
+              Icons.star_rounded,
+              color: CustomColors.darkBlue,
+            ),
+          ),
+          title: const Text('Feedback e valutazione'),
+          subtitle: const Text('Ti piace Moneye? Faccelo sapere!'),
+          onTap: () {
+            final InAppReview inAppReview = InAppReview.instance;
+
+            inAppReview.openStoreListing(
+              appStoreId: '6447369037',
+            );
+          },
         ),
         const Divider(),
         ListTile(
