@@ -13,6 +13,7 @@ import 'package:expense_tracker/notifiers/locale_provider.dart';
 import 'package:expense_tracker/notifiers/notification_provider.dart';
 import 'package:expense_tracker/notifiers/transaction_provider.dart';
 import 'package:expense_tracker/pages/account_detail_page/account_detail_page.dart';
+import 'package:expense_tracker/pages/initial_configuration_page/initial_configuration_page.dart';
 import 'package:expense_tracker/pages/options_page/about_page/about_page.dart';
 import 'package:expense_tracker/pages/options_page/accounts_page/accounts_list_page.dart';
 import 'package:expense_tracker/pages/options_page/categories_page/categories_list_page.dart';
@@ -40,8 +41,16 @@ import 'package:flutter_timezone/flutter_timezone.dart';
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  SystemChrome.setPreferredOrientations(
-      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
+
+  SystemChrome.setSystemUIOverlayStyle(
+    const SystemUiOverlayStyle(
+      statusBarColor: Colors.red,
+    ),
+  );
 
   await _configureLocalTimeZone();
 
@@ -107,11 +116,13 @@ Future main() async {
 
   await NotificationManager.initNotificationManager();
 
+  //N SETTING UP NEEDS CONFIGURATIO
+
   runApp(
     r.UncontrolledProviderScope(
       container: container,
       child: MyApp(
-        savedLocale: localeString != null ? Locale(localeString) : null,
+        needsConfiguration: prefs.getBool('needs_configuration') ?? true,
       ),
     ),
   );
@@ -127,11 +138,11 @@ Future<void> _configureLocalTimeZone() async {
 }
 
 class MyApp extends r.ConsumerWidget {
-  final Locale? savedLocale;
+  final bool needsConfiguration;
 
   const MyApp({
     Key? key,
-    this.savedLocale,
+    required this.needsConfiguration,
   }) : super(key: key);
 
   @override
@@ -179,7 +190,10 @@ class MyApp extends r.ConsumerWidget {
             ],
             initialRoute: '/',
             routes: {
-              '/': (context) => const TabBarPage(),
+              '/': (context) => needsConfiguration
+                  ? const InitialConfigurationPage()
+                  : const TabBarPage(),
+              TabBarPage.routeName: (context) => const TabBarPage(),
               CategoriesListPage.routeName: (context) =>
                   const CategoriesListPage(),
               AccountsListPage.routeName: (context) => const AccountsListPage(),

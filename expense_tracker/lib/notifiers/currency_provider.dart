@@ -6,18 +6,22 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 final currencyListProvider = FutureProvider<List<Currency>>((ref) async {
-  String jsonString =
-      await rootBundle.loadString('Configuration/currencies.json');
+  try {
+    String jsonString =
+        await rootBundle.loadString('lib/Configuration/currencies.json');
 
-  final Map<String, dynamic> jsonData = json.decode(jsonString);
+    final Map<String, dynamic> jsonData = json.decode(jsonString);
 
-  final List<Currency> arr = [];
+    final List<Currency> arr = [];
 
-  jsonData.forEach((key, value) {
-    arr.add(Currency.fromJosn(value));
-  });
+    jsonData.forEach((key, value) {
+      arr.add(Currency.fromJosn(value));
+    });
 
-  return arr;
+    return arr;
+  } catch (error) {
+    return [];
+  }
 });
 
 class CurrentCurrencyNotifier extends Notifier<Currency?> {

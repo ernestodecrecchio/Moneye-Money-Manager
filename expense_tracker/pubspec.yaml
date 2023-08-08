@@ -54,7 +54,8 @@ flutter:
     - assets/icons/picker_icons/
     - assets/flags/
     - assets/logo/
-    - configuration/
+    - assets/icon/
+    - lib/Configuration/
 
   fonts:
     - family: Ubuntu
