@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class Welcome extends ConsumerStatefulWidget {
   const Welcome({Key? key}) : super(key: key);
@@ -29,7 +30,19 @@ class _WelcomeState extends ConsumerState<Welcome> {
               fontWeight: FontWeight.w700,
             ),
           ),
-          Image.asset('assets/icon/AppIcon.png'),
+          const SizedBox(
+            height: 40,
+          ),
+          SizedBox(
+            height: 105,
+            width: 105,
+            child: SvgPicture.asset(
+              'assets/logo/Moneye_logo.svg',
+            ),
+          ),
+          const SizedBox(
+            height: 40,
+          ),
           Text(
             AppLocalizations.of(context)!.welcomePageMsg2,
             textAlign: TextAlign.center,

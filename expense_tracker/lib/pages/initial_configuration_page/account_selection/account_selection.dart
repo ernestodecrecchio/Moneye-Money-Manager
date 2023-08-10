@@ -58,7 +58,6 @@ class _AccountSelectionState extends ConsumerState<AccountSelectionPage> {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 28),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
             AppLocalizations.of(context)!.selectAccountMsg1,
@@ -70,7 +69,7 @@ class _AccountSelectionState extends ConsumerState<AccountSelectionPage> {
             ),
           ),
           const SizedBox(
-            height: 5,
+            height: 20,
           ),
           Text(
             AppLocalizations.of(context)!.selectAccountMsg2,
@@ -81,28 +80,34 @@ class _AccountSelectionState extends ConsumerState<AccountSelectionPage> {
               fontWeight: FontWeight.w500,
             ),
           ),
-          ListView(
-            padding: const EdgeInsets.only(top: 10),
-            shrinkWrap: true,
-            children: accountList
-                .map(
-                  (account) => AccountListTile(
-                    account: account,
-                    selected: selectedAccountList.contains(account),
-                    onTap: (selected) {
-                      if (selected) {
-                        selectedAccountList.add(account);
-                      } else {
-                        selectedAccountList.remove(account);
-                      }
+          const SizedBox(
+            height: 10,
+          ),
+          Expanded(
+            child: ListView(
+              padding: const EdgeInsets.only(top: 10),
+              shrinkWrap: true,
+              children: accountList
+                  .map(
+                    (account) => AccountListTile(
+                      account: account,
+                      selected: selectedAccountList.contains(account),
+                      onTap: (selected) {
+                        if (selected) {
+                          selectedAccountList.add(account);
+                        } else {
+                          selectedAccountList.remove(account);
+                        }
 
-                      widget.onSelectedAccountListChanged(selectedAccountList);
+                        widget
+                            .onSelectedAccountListChanged(selectedAccountList);
 
-                      setState(() {});
-                    },
-                  ),
-                )
-                .toList(),
+                        setState(() {});
+                      },
+                    ),
+                  )
+                  .toList(),
+            ),
           ),
         ],
       ),

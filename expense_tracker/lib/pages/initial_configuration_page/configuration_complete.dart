@@ -28,7 +28,7 @@ class _ConfigurationCompleteState extends ConsumerState<ConfigurationComplete> {
             ),
           ),
           const SizedBox(
-            height: 5,
+            height: 20,
           ),
           Text(
             AppLocalizations.of(context)!.endConfigurationMsg2,

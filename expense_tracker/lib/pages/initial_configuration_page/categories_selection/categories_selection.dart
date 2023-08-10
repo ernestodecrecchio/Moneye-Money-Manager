@@ -69,7 +69,6 @@ class _CategoriesSelectionState extends ConsumerState<CategoriesSelection> {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 28),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
             AppLocalizations.of(context)!.selectCategoryMsg1,
@@ -81,7 +80,7 @@ class _CategoriesSelectionState extends ConsumerState<CategoriesSelection> {
             ),
           ),
           const SizedBox(
-            height: 5,
+            height: 20,
           ),
           Text(
             AppLocalizations.of(context)!.selectCategoryMsg2,
@@ -92,29 +91,34 @@ class _CategoriesSelectionState extends ConsumerState<CategoriesSelection> {
               fontWeight: FontWeight.w500,
             ),
           ),
-          ListView(
-            padding: const EdgeInsets.only(top: 10),
-            shrinkWrap: true,
-            children: categoryList
-                .map(
-                  (category) => CategoryListTile(
-                    category: category,
-                    selected: selectedCategoryList.contains(category),
-                    onTap: (selected) {
-                      if (selected) {
-                        selectedCategoryList.add(category);
-                      } else {
-                        selectedCategoryList.remove(category);
-                      }
+          const SizedBox(
+            height: 10,
+          ),
+          Expanded(
+            child: ListView(
+              padding: const EdgeInsets.only(top: 10),
+              shrinkWrap: true,
+              children: categoryList
+                  .map(
+                    (category) => CategoryListTile(
+                      category: category,
+                      selected: selectedCategoryList.contains(category),
+                      onTap: (selected) {
+                        if (selected) {
+                          selectedCategoryList.add(category);
+                        } else {
+                          selectedCategoryList.remove(category);
+                        }
 
-                      widget
-                          .onSelectedCategoryListChanged(selectedCategoryList);
+                        widget.onSelectedCategoryListChanged(
+                            selectedCategoryList);
 
-                      setState(() {});
-                    },
-                  ),
-                )
-                .toList(),
+                        setState(() {});
+                      },
+                    ),
+                  )
+                  .toList(),
+            ),
           ),
         ],
       ),

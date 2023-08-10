@@ -27,7 +27,6 @@ class _CurrencySelectionState extends ConsumerState<CurrencySelectionPage> {
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 28),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
                 AppLocalizations.of(context)!.selectCurrencyMsg1,
@@ -53,8 +52,7 @@ class _CurrencySelectionState extends ConsumerState<CurrencySelectionPage> {
               const SizedBox(
                 height: 10,
               ),
-              SizedBox(
-                height: MediaQuery.of(context).size.height / 3,
+              Expanded(
                 child: CupertinoPicker(
                   diameterRatio: 2,
                   itemExtent: 40,

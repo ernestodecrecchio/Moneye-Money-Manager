@@ -97,7 +97,7 @@ class _InitialConfigurationPageState
       ),
       body: Stack(
         children: [
-          // ..._buildFloatingElements(),
+          ..._buildFloatingElements(),
           SafeArea(
             child: Column(
               children: [
@@ -229,7 +229,7 @@ class _InitialConfigurationPageState
                   fontWeight: FontWeight.w700),
             ),
             coordinateX: MediaQuery.of(context).size.width * 0.6,
-            coordinateY: MediaQuery.of(context).size.height * 0.8,
+            coordinateY: MediaQuery.of(context).size.height * 0.7,
           ),
           FloatingElement(
             widget: Text(
@@ -265,7 +265,7 @@ class _InitialConfigurationPageState
               height: 100,
               width: 100,
               child: SvgPicture.asset(
-                'assets/icons/picker_icons/visa.svg',
+                'assets/icons/credit_card.svg',
                 colorFilter: ColorFilter.mode(
                     Colors.white.withOpacity(0.05), BlendMode.srcIn),
               ),
@@ -278,26 +278,13 @@ class _InitialConfigurationPageState
               height: 150,
               width: 150,
               child: SvgPicture.asset(
-                'assets/icons/food.svg',
+                'assets/icons/savings.svg',
                 colorFilter: ColorFilter.mode(
                     Colors.white.withOpacity(0.05), BlendMode.srcIn),
               ),
             ),
             coordinateX: MediaQuery.of(context).size.width * 0.6,
-            coordinateY: MediaQuery.of(context).size.height * 0.8,
-          ),
-          FloatingElement(
-            widget: SizedBox(
-              height: 150,
-              width: 250,
-              child: SvgPicture.asset(
-                'assets/icons/food.svg',
-                colorFilter: ColorFilter.mode(
-                    Colors.white.withOpacity(0.05), BlendMode.srcIn),
-              ),
-            ),
-            coordinateX: MediaQuery.of(context).size.width * 0.8,
-            coordinateY: MediaQuery.of(context).size.height * 0.2,
+            coordinateY: MediaQuery.of(context).size.height * 0.5,
           ),
         ];
       case 3:
