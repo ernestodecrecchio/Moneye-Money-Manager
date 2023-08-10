@@ -4,11 +4,13 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 class AccountListTile extends StatefulWidget {
   final Account account;
+  final bool selected;
   final Function(bool)? onTap;
 
   const AccountListTile({
     super.key,
     required this.account,
+    required this.selected,
     this.onTap,
   });
 
@@ -17,19 +19,15 @@ class AccountListTile extends StatefulWidget {
 }
 
 class _AccountListTileState extends State<AccountListTile> {
-  bool isSelected = true;
-
   @override
   Widget build(BuildContext context) {
     return Opacity(
-      opacity: isSelected ? 1 : 0.3,
+      opacity: widget.selected ? 1 : 0.3,
       child: ListTile(
         onTap: () {
-          isSelected = !isSelected;
-
           setState(() {});
           if (widget.onTap != null) {
-            widget.onTap!(isSelected);
+            widget.onTap!(!widget.selected);
           }
         },
         title: Text(

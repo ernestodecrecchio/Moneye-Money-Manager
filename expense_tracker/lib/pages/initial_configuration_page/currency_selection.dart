@@ -1,17 +1,25 @@
+import 'package:expense_tracker/models/currency.dart';
 import 'package:expense_tracker/notifiers/currency_provider.dart';
-import 'package:expense_tracker/pages/initial_configuration_page/floating_element.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class CurrencySelection extends ConsumerStatefulWidget {
-  const CurrencySelection({Key? key}) : super(key: key);
+class CurrencySelectionPage extends ConsumerStatefulWidget {
+  final Function(Currency) onCurrencySelected;
+  const CurrencySelectionPage({
+    Key? key,
+    required this.onCurrencySelected,
+  }) : super(key: key);
 
   @override
-  ConsumerState<CurrencySelection> createState() => _CurrencySelectionState();
+  ConsumerState<CurrencySelectionPage> createState() =>
+      _CurrencySelectionState();
 }
 
-class _CurrencySelectionState extends ConsumerState<CurrencySelection> {
+class _CurrencySelectionState extends ConsumerState<CurrencySelectionPage> {
+  List<Currency> currencyList = [];
+
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
@@ -21,10 +29,10 @@ class _CurrencySelectionState extends ConsumerState<CurrencySelection> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Text(
-                'Select your preferred currency',
+              Text(
+                AppLocalizations.of(context)!.selectCurrencyMsg1,
                 textAlign: TextAlign.center,
-                style: TextStyle(
+                style: const TextStyle(
                   color: Colors.white,
                   fontSize: 34,
                   fontWeight: FontWeight.w700,
@@ -33,10 +41,10 @@ class _CurrencySelectionState extends ConsumerState<CurrencySelection> {
               const SizedBox(
                 height: 20,
               ),
-              const Text(
-                "Don't worry, you can always change it later to match your needs.",
+              Text(
+                AppLocalizations.of(context)!.selectCurrencyMsg2,
                 textAlign: TextAlign.center,
-                style: TextStyle(
+                style: const TextStyle(
                   color: Colors.white,
                   fontSize: 20,
                   fontWeight: FontWeight.w600,
@@ -52,8 +60,10 @@ class _CurrencySelectionState extends ConsumerState<CurrencySelection> {
                   itemExtent: 40,
                   looping: true,
                   magnification: 1.2,
-                  onSelectedItemChanged: (item) {
+                  onSelectedItemChanged: (index) {
                     print('tap');
+
+                    widget.onCurrencySelected(currencyList[index]);
                   },
                   children: getCurrencyList(),
                 ),
@@ -69,6 +79,9 @@ class _CurrencySelectionState extends ConsumerState<CurrencySelection> {
     List<Widget> widgetList = [];
     ref.watch(currencyListProvider).when(
           data: (data) {
+            currencyList = data;
+            widget.onCurrencySelected(currencyList[0]);
+
             for (var element in data) {
               widgetList.add(Align(
                 alignment: Alignment.center,

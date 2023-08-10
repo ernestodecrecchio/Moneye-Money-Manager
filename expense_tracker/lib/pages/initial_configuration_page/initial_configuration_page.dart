@@ -1,8 +1,11 @@
 import 'package:expense_tracker/models/account.dart';
 import 'package:expense_tracker/models/category.dart';
 import 'package:expense_tracker/models/currency.dart';
+import 'package:expense_tracker/notifiers/account_provider.dart';
+import 'package:expense_tracker/notifiers/category_provider.dart';
+import 'package:expense_tracker/notifiers/currency_provider.dart';
 import 'package:expense_tracker/pages/initial_configuration_page/account_selection/account_selection.dart';
-import 'package:expense_tracker/pages/initial_configuration_page/categories_selection.dart';
+import 'package:expense_tracker/pages/initial_configuration_page/categories_selection/categories_selection.dart';
 import 'package:expense_tracker/pages/initial_configuration_page/configuration_complete.dart';
 import 'package:expense_tracker/pages/initial_configuration_page/currency_selection.dart';
 import 'package:expense_tracker/pages/initial_configuration_page/floating_element.dart';
@@ -12,7 +15,9 @@ import 'package:expense_tracker/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart' as p;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class InitialConfigurationPage extends ConsumerStatefulWidget {
   static const routeName = '/initialConfigurationPage';
@@ -31,17 +36,36 @@ class _InitialConfigurationPageState
   final PageController pageController = PageController();
   int currentIndex = 0;
 
-  final List<Widget> pages = const [
-    Welcome(),
-    CurrencySelection(),
-    AccountSelectionPage(),
-    CategoriesSelection(),
-    ConfigurationComplete(),
-  ];
-
   Currency? selectedCurrency;
   List<Account> selectedAccounts = [];
   List<Category> selectedCategory = [];
+
+  late final List<Widget> pages;
+
+  @override
+  void initState() {
+    super.initState();
+
+    pages = [
+      const Welcome(),
+      CurrencySelectionPage(
+        onCurrencySelected: (newCurrency) {
+          selectedCurrency = newCurrency;
+        },
+      ),
+      AccountSelectionPage(
+        onSelectedAccountListChanged: (newList) {
+          selectedAccounts = newList;
+        },
+      ),
+      CategoriesSelection(
+        onSelectedCategoryListChanged: (newList) {
+          selectedCategory = newList;
+        },
+      ),
+      const ConfigurationComplete(),
+    ];
+  }
 
   @override
   void dispose() {
@@ -60,17 +84,13 @@ class _InitialConfigurationPageState
           if (currentIndex != pages.length - 1)
             TextButton(
               onPressed: () async {
-                SharedPreferences prefs = await SharedPreferences.getInstance();
-
-                await prefs.setBool('needs_configuration', false);
-
                 if (mounted) {
                   Navigator.pushReplacementNamed(context, TabBarPage.routeName);
                 }
               },
-              child: const Text(
-                'Skip',
-                style: TextStyle(color: Colors.white),
+              child: Text(
+                AppLocalizations.of(context)!.skip,
+                style: const TextStyle(color: Colors.white),
               ),
             ),
         ],
@@ -118,10 +138,7 @@ class _InitialConfigurationPageState
                             duration: const Duration(milliseconds: 500),
                             curve: Curves.easeOut);
                       } else {
-                        SharedPreferences prefs =
-                            await SharedPreferences.getInstance();
-
-                        await prefs.setBool('needs_configuration', false);
+                        await onConfigurationEnd();
 
                         if (mounted) {
                           Navigator.pushReplacementNamed(
@@ -137,7 +154,9 @@ class _InitialConfigurationPageState
                       ),
                     ),
                     child: Text(
-                      currentIndex == pages.length - 1 ? 'Done' : 'Continue',
+                      currentIndex == pages.length - 1
+                          ? AppLocalizations.of(context)!.done
+                          : AppLocalizations.of(context)!.toContinue,
                       style: const TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.w600,
@@ -286,5 +305,29 @@ class _InitialConfigurationPageState
       default:
         return [];
     }
+  }
+
+  onConfigurationEnd() async {
+    if (selectedCurrency != null) {
+      ref
+          .read(currentCurrencyProvider.notifier)
+          .updateCurrency(selectedCurrency!);
+    }
+
+    await Future.forEach(
+        selectedAccounts,
+        (account) async =>
+            await p.Provider.of<AccountProvider>(context, listen: false)
+                .addNewAccount(account: account));
+
+    await Future.forEach(
+        selectedCategory,
+        (category) async =>
+            await p.Provider.of<CategoryProvider>(context, listen: false)
+                .addNewCategory(category: category));
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    await prefs.setBool('needs_configuration', false);
   }
 }

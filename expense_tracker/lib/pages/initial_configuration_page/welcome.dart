@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Welcome extends ConsumerStatefulWidget {
   const Welcome({Key? key}) : super(key: key);
@@ -19,20 +20,20 @@ class _WelcomeState extends ConsumerState<Welcome> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Text(
-            'Welcome to Moneye!',
+          Text(
+            AppLocalizations.of(context)!.welcomePageMsg1,
             textAlign: TextAlign.center,
-            style: TextStyle(
+            style: const TextStyle(
               color: Colors.white,
               fontSize: 34,
               fontWeight: FontWeight.w700,
             ),
           ),
           Image.asset('assets/icon/AppIcon.png'),
-          const Text(
-            "Let's get you started on your journey towards financial control.\nI’ll help you configure the app in just a few steps.",
+          Text(
+            AppLocalizations.of(context)!.welcomePageMsg2,
             textAlign: TextAlign.center,
-            style: TextStyle(
+            style: const TextStyle(
               color: Colors.white,
               fontSize: 20,
               fontWeight: FontWeight.w600,

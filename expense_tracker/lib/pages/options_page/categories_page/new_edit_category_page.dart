@@ -222,7 +222,7 @@ class _NewEditCategoryPageState extends State<NewEditCategoryPage> {
 
   _saveNewCategory() {
     Provider.of<CategoryProvider>(context, listen: false)
-        .addNewCategory(
+        .addNewCategoryByParameters(
             name: titleInput.text,
             description: descriptionInput.text,
             colorValue: selectedColor.value,

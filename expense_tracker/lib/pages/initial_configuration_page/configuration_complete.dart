@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ConfigurationComplete extends ConsumerStatefulWidget {
   const ConfigurationComplete({Key? key}) : super(key: key);
@@ -12,27 +13,27 @@ class ConfigurationComplete extends ConsumerStatefulWidget {
 class _ConfigurationCompleteState extends ConsumerState<ConfigurationComplete> {
   @override
   Widget build(BuildContext context) {
-    return const Padding(
-      padding: EdgeInsets.symmetric(horizontal: 28),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 28),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
-            'Congratulations! Moneye is now configured and ready to help you manage your expenses efficiently.',
+            AppLocalizations.of(context)!.endConfigurationMsg1,
             textAlign: TextAlign.center,
-            style: TextStyle(
+            style: const TextStyle(
               color: Colors.white,
               fontSize: 28,
               fontWeight: FontWeight.w700,
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 5,
           ),
           Text(
-            "Don't forget to explore other exciting features to optimize your financial journey.",
+            AppLocalizations.of(context)!.endConfigurationMsg2,
             textAlign: TextAlign.center,
-            style: TextStyle(
+            style: const TextStyle(
               color: Colors.white,
               fontSize: 20,
               fontWeight: FontWeight.w500,

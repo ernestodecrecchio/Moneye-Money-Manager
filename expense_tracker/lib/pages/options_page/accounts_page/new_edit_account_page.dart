@@ -223,7 +223,7 @@ class _NewAccountPageState extends State<NewAccountPage> {
 
   _saveNewAccount() {
     Provider.of<AccountProvider>(context, listen: false)
-        .addNewAccount(
+        .addNewAccountByParameters(
             name: titleInput.text,
             description: descriptionInput.text,
             colorValue: selectedColor.value,

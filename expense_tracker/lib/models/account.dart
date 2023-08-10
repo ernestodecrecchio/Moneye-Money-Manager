@@ -70,7 +70,15 @@ class Account {
       };
 
   @override
-  operator ==(other) => other is Account && other.id == id;
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is Account &&
+          runtimeType == other.runtimeType &&
+          id == other.id &&
+          name == other.name &&
+          description == other.description &&
+          colorValue == other.colorValue &&
+          iconPath == other.iconPath;
 
   @override
   int get hashCode => Object.hash(id, name, description, colorValue, iconPath);

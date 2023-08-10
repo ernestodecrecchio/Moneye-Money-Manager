@@ -22,7 +22,7 @@ class CategoryProvider with ChangeNotifier {
         .firstWhereOrNull((element) => element.id == transaction.categoryId);
   }
 
-  Future addNewCategory({
+  Future addNewCategoryByParameters({
     required String name,
     String? description,
     required int? colorValue,
@@ -37,6 +37,13 @@ class CategoryProvider with ChangeNotifier {
 
     categoryList.add(await DatabaseCategoryHelper.instance
         .insertCategory(category: newCategory));
+
+    notifyListeners();
+  }
+
+  Future addNewCategory({required Category category}) async {
+    categoryList.add(await DatabaseCategoryHelper.instance
+        .insertCategory(category: category));
 
     notifyListeners();
   }

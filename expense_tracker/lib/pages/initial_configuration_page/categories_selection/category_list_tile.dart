@@ -4,11 +4,13 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 class CategoryListTile extends StatefulWidget {
   final Category category;
+  final bool selected;
   final Function(bool)? onTap;
 
   const CategoryListTile({
     super.key,
     required this.category,
+    required this.selected,
     this.onTap,
   });
 
@@ -22,14 +24,12 @@ class _CategoryListTileState extends State<CategoryListTile> {
   @override
   Widget build(BuildContext context) {
     return Opacity(
-      opacity: isSelected ? 1 : 0.3,
+      opacity: widget.selected ? 1 : 0.3,
       child: ListTile(
         onTap: () {
-          isSelected = !isSelected;
-
           setState(() {});
           if (widget.onTap != null) {
-            widget.onTap!(isSelected);
+            widget.onTap!(!widget.selected);
           }
         },
         title: Text(
