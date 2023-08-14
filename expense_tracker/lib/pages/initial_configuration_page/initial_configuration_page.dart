@@ -77,6 +77,7 @@ class _InitialConfigurationPageState
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: CustomColors.darkBlue,
+      extendBodyBehindAppBar: true,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -202,12 +203,23 @@ class _InitialConfigurationPageState
             widget: Text(
               '\$',
               style: TextStyle(
-                  fontSize: 150,
+                  fontSize: 170,
                   color: Colors.white.withOpacity(0.05),
                   fontWeight: FontWeight.w700),
             ),
             coordinateX: -10,
             coordinateY: 0,
+          ),
+          FloatingElement(
+            widget: Text(
+              '£',
+              style: TextStyle(
+                  fontSize: 150,
+                  color: Colors.white.withOpacity(0.05),
+                  fontWeight: FontWeight.w700),
+            ),
+            coordinateX: MediaQuery.of(context).size.width * 0.8,
+            coordinateY: MediaQuery.of(context).size.height * 0.2,
           ),
           FloatingElement(
             widget: Text(
@@ -224,71 +236,143 @@ class _InitialConfigurationPageState
             widget: Text(
               '¥',
               style: TextStyle(
-                  fontSize: 120,
+                  fontSize: 200,
                   color: Colors.white.withOpacity(0.05),
                   fontWeight: FontWeight.w700),
             ),
-            coordinateX: MediaQuery.of(context).size.width * 0.6,
-            coordinateY: MediaQuery.of(context).size.height * 0.7,
+            coordinateX: MediaQuery.of(context).size.width * 0.7,
+            coordinateY: MediaQuery.of(context).size.height * 0.6,
           ),
           FloatingElement(
             widget: Text(
-              '£',
+              '₹',
               style: TextStyle(
-                  fontSize: 150,
+                  fontSize: 180,
                   color: Colors.white.withOpacity(0.05),
                   fontWeight: FontWeight.w700),
             ),
-            coordinateX: MediaQuery.of(context).size.width * 0.8,
-            coordinateY: MediaQuery.of(context).size.height * 0.2,
+            coordinateX: MediaQuery.of(context).size.width * 0,
+            coordinateY: MediaQuery.of(context).size.height * 0.75,
           ),
         ];
       case 2:
         return [
           FloatingElement(
-            widget: SizedBox(
-              height: 150,
-              width: 150,
-              child: SvgPicture.asset(
-                'assets/icons/cash.svg',
-                colorFilter: ColorFilter.mode(
-                  Colors.white.withOpacity(0.05),
-                  BlendMode.srcIn,
-                ),
+            widget: SvgPicture.asset(
+              'assets/icons/cash.svg',
+              height: 170,
+              colorFilter: ColorFilter.mode(
+                Colors.white.withOpacity(0.05),
+                BlendMode.srcIn,
               ),
             ),
             coordinateX: -10,
             coordinateY: 0,
           ),
           FloatingElement(
-            widget: SizedBox(
+            widget: SvgPicture.asset(
+              'assets/icons/credit_card.svg',
+              height: 150,
+              colorFilter: ColorFilter.mode(
+                  Colors.white.withOpacity(0.05), BlendMode.srcIn),
+            ),
+            coordinateX: MediaQuery.of(context).size.width * 0.8,
+            coordinateY: MediaQuery.of(context).size.height * 0.2,
+          ),
+          FloatingElement(
+            widget: SvgPicture.asset(
+              'assets/icons/savings.svg',
               height: 100,
-              width: 100,
-              child: SvgPicture.asset(
-                'assets/icons/credit_card.svg',
-                colorFilter: ColorFilter.mode(
-                    Colors.white.withOpacity(0.05), BlendMode.srcIn),
+              colorFilter: ColorFilter.mode(
+                  Colors.white.withOpacity(0.05), BlendMode.srcIn),
+            ),
+            coordinateX: MediaQuery.of(context).size.width * 0.14,
+            coordinateY: MediaQuery.of(context).size.height * 0.40,
+          ),
+          FloatingElement(
+            widget: SvgPicture.asset(
+              'assets/icons/savings.svg',
+              height: 200,
+              colorFilter: ColorFilter.mode(
+                  Colors.white.withOpacity(0.05), BlendMode.srcIn),
+            ),
+            coordinateX: MediaQuery.of(context).size.width * 0.7,
+            coordinateY: MediaQuery.of(context).size.height * 0.6,
+          ),
+          FloatingElement(
+            widget: SvgPicture.asset(
+              'assets/icons/wallet.svg',
+              height: 180,
+              colorFilter: ColorFilter.mode(
+                  Colors.white.withOpacity(0.05), BlendMode.srcIn),
+            ),
+            coordinateX: MediaQuery.of(context).size.width * 0,
+            coordinateY: MediaQuery.of(context).size.height * 0.75,
+          ),
+        ];
+      case 3:
+        return [
+          FloatingElement(
+            widget: SvgPicture.asset(
+              'assets/icons/food.svg',
+              height: 170,
+              colorFilter: ColorFilter.mode(
+                Colors.white.withOpacity(0.05),
+                BlendMode.srcIn,
+              ),
+            ),
+            coordinateX: -10,
+            coordinateY: 0,
+          ),
+          FloatingElement(
+            widget: SvgPicture.asset(
+              'assets/icons/popcorn.svg',
+              height: 150,
+              colorFilter: ColorFilter.mode(
+                Colors.white.withOpacity(0.05),
+                BlendMode.srcIn,
+              ),
+            ),
+            coordinateX: MediaQuery.of(context).size.width * 0.8,
+            coordinateY: MediaQuery.of(context).size.height * 0.2,
+          ),
+          FloatingElement(
+            widget: SvgPicture.asset(
+              'assets/icons/bill.svg',
+              height: 100,
+              colorFilter: ColorFilter.mode(
+                Colors.white.withOpacity(0.05),
+                BlendMode.srcIn,
               ),
             ),
             coordinateX: MediaQuery.of(context).size.width * 0.15,
             coordinateY: MediaQuery.of(context).size.height * 0.40,
           ),
           FloatingElement(
-            widget: SizedBox(
-              height: 150,
-              width: 150,
-              child: SvgPicture.asset(
-                'assets/icons/savings.svg',
-                colorFilter: ColorFilter.mode(
-                    Colors.white.withOpacity(0.05), BlendMode.srcIn),
+            widget: SvgPicture.asset(
+              'assets/icons/bus.svg',
+              height: 200,
+              colorFilter: ColorFilter.mode(
+                Colors.white.withOpacity(0.05),
+                BlendMode.srcIn,
               ),
             ),
-            coordinateX: MediaQuery.of(context).size.width * 0.6,
-            coordinateY: MediaQuery.of(context).size.height * 0.5,
+            coordinateX: MediaQuery.of(context).size.width * 0.7,
+            coordinateY: MediaQuery.of(context).size.height * 0.6,
+          ),
+          FloatingElement(
+            widget: SvgPicture.asset(
+              'assets/icons/paw.svg',
+              height: 180,
+              colorFilter: ColorFilter.mode(
+                Colors.white.withOpacity(0.05),
+                BlendMode.srcIn,
+              ),
+            ),
+            coordinateX: MediaQuery.of(context).size.width * 0,
+            coordinateY: MediaQuery.of(context).size.height * 0.75,
           ),
         ];
-      case 3:
-        return [];
       default:
         return [];
     }

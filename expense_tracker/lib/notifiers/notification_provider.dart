@@ -44,6 +44,7 @@ class NotificationTimeProvider extends Notifier<DateTime> {
 
   Future<bool> updateNotificationsTimeValue(DateTime newTimeValue) async {
     await NotificationManager.clearAllNotifications();
+
     await NotificationManager.scheduleDailyNotification(
         atTime: TimeOfDay.fromDateTime(newTimeValue));
 

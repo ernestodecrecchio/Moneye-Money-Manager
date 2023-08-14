@@ -4,7 +4,7 @@ import 'package:expense_tracker/style.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../../Configuration/notification_manager.dart';
 
 class ReminderPage extends ConsumerWidget {
@@ -30,18 +30,18 @@ class ReminderPage extends ConsumerWidget {
               child: Padding(
                   padding: const EdgeInsets.only(bottom: 10.0, top: 30),
                   child: Column(children: [
-                    const Text(
-                      'Moneye ti ricorderà ogni giorno, ad un orario stabilito,  di inserire nuove transazioni.\n\nNon dimenticherai più di tenere aggiornati i tuoi dati!',
-                      style: TextStyle(
+                    Text(
+                      AppLocalizations.of(context)!.reminderDescription,
+                      style: const TextStyle(
                           color: CustomColors.clearGreyText, fontSize: 16),
                     ),
                     const SizedBox(height: 14),
                     Row(
                       children: [
-                        const Expanded(
+                        Expanded(
                           child: Text(
-                            'Promemoria giornaliero',
-                            style: TextStyle(
+                            AppLocalizations.of(context)!.dailyReminder,
+                            style: const TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.w600,
                               color: CustomColors.lightBlack,

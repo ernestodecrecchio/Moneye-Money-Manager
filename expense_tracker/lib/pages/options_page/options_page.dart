@@ -120,16 +120,16 @@ class OptionsPage extends ConsumerWidget {
               color: CustomColors.darkBlue,
             ),
           ),
-          title: const Text('Promemoria'),
-          subtitle: const Text(
-              'Imposta un promemoria per ricordarti di inserire nuove transazioni'),
+          title: Text(AppLocalizations.of(context)!.reminder),
+          subtitle:
+              Text(AppLocalizations.of(context)!.reminderOptionDescription),
           trailing: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(ref.watch(notificationsEnabledProvider) != null &&
                       ref.watch(notificationsEnabledProvider) == true
-                  ? 'Si'
-                  : 'No'),
+                  ? AppLocalizations.of(context)!.yes
+                  : AppLocalizations.of(context)!.no),
               const Icon(Icons.chevron_right_rounded),
             ],
           ),
@@ -144,8 +144,9 @@ class OptionsPage extends ConsumerWidget {
               color: CustomColors.darkBlue,
             ),
           ),
-          title: const Text('Feedback e valutazione'),
-          subtitle: const Text('Ti piace Moneye? Faccelo sapere!'),
+          title: Text(AppLocalizations.of(context)!.feedback),
+          subtitle: Text(
+              AppLocalizations.of(context)!.feedbackAndReviewOptionDescription),
           onTap: () {
             final InAppReview inAppReview = InAppReview.instance;
 

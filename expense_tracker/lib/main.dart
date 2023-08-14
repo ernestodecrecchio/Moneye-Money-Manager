@@ -116,7 +116,7 @@ Future main() async {
 
   await NotificationManager.initNotificationManager();
 
-  //N SETTING UP NEEDS CONFIGURATIO
+  // SETTING UP NEEDS CONFIGURATION
 
   runApp(
     r.UncontrolledProviderScope(

@@ -59,7 +59,7 @@ class _CategoriesSelectionState extends ConsumerState<CategoriesSelection> {
       ),
     ];
 
-    selectedCategoryList = categoryList;
+    selectedCategoryList = List.from(categoryList);
 
     widget.onSelectedCategoryListChanged(selectedCategoryList);
   }

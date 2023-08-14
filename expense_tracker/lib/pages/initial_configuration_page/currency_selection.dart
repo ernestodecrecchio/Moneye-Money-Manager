@@ -59,8 +59,6 @@ class _CurrencySelectionState extends ConsumerState<CurrencySelectionPage> {
                   looping: true,
                   magnification: 1.2,
                   onSelectedItemChanged: (index) {
-                    print('tap');
-
                     widget.onCurrencySelected(currencyList[index]);
                   },
                   children: getCurrencyList(),

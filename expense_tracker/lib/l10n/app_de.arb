@@ -97,5 +97,15 @@
 "selectCategoryMsg1": "Nutze Moneye optimal, indem du deine Transaktionen kategorisierst",
 "selectCategoryMsg2": "Wähle aus unserer vorkonfigurierten Liste oder erstelle später deine eigenen benutzerdefinierten Kategorien.",
 "endConfigurationMsg1": "Herzlichen Glückwunsch! Moneye ist jetzt konfiguriert und bereit, dir bei der effizienten Ausgabenverwaltung zu helfen.",
-"endConfigurationMsg2": "Vergiss nicht, andere spannende Funktionen zu erkunden, um deine finanzielle Reise zu optimieren."
+"endConfigurationMsg2": "Vergiss nicht, andere spannende Funktionen zu erkunden, um deine finanzielle Reise zu optimieren.",
+"notificationTitle": "Hast du etwas zu melden?",
+"notificationSubtitle": "Denke daran, deine täglichen Transaktionen einzutragen!",
+"reminder": "Erinnerung",
+"reminderOptionDescription": "Stellen Sie eine Erinnerung ein, um sich an das Einfügen neuer Transaktionen zu erinnern",
+"reminderDescription": "Moneye erinnert Sie jeden Tag zu einer festgelegten Zeit daran, neue Transaktionen einzugeben.\n\nSie werden nie vergessen, Ihre Daten auf dem neuesten Stand zu halten!",
+"dailyReminder": "Tägliche Erinnerung",
+"yes": "ja",
+"no": "nein",
+"feedback": "Rückmeldung",
+"feedbackAndReviewOptionDescription": "Magst du Moneye? Lass es uns wissen!"
 }

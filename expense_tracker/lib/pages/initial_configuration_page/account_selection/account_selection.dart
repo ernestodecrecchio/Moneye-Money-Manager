@@ -17,9 +17,8 @@ class AccountSelectionPage extends ConsumerStatefulWidget {
 }
 
 class _AccountSelectionState extends ConsumerState<AccountSelectionPage> {
-  List<Account> selectedAccountList = [];
-
   List<Account> accountList = [];
+  List<Account> selectedAccountList = [];
 
   @override
   void didChangeDependencies() {
@@ -48,7 +47,7 @@ class _AccountSelectionState extends ConsumerState<AccountSelectionPage> {
       ),
     ];
 
-    selectedAccountList = accountList;
+    selectedAccountList = List.from(accountList);
 
     widget.onSelectedAccountListChanged(selectedAccountList);
   }

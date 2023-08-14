@@ -44,7 +44,7 @@ class _FloatingElementState extends ConsumerState<FloatingElement>
   @override
   void dispose() {
     _animationController.dispose();
-    print('dispose');
+
     super.dispose();
   }
 

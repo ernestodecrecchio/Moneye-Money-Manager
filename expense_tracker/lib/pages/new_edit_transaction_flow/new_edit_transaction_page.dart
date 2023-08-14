@@ -435,7 +435,10 @@ class _NewEditTransactionPageState extends State<NewEditTransactionPage>
       if (await inAppReview.isAvailable()) {
         inAppReview.requestReview();
       }
-      Navigator.of(context).pop();
+
+      if (mounted) {
+        Navigator.of(context).pop();
+      }
     });
   }
 

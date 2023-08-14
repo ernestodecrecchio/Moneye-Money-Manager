@@ -1,11 +1,12 @@
 import 'dart:async';
 import 'dart:io';
-
 import 'package:expense_tracker/models/recieved_notification.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:intl/intl.dart';
 import 'package:timezone/timezone.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class NotificationManager {
   static final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
@@ -150,14 +151,17 @@ class NotificationManager {
     await flutterLocalNotificationsPlugin.cancelAll();
   }
 
-  static Future<void> scheduleDailyNotification(
-      {required TimeOfDay atTime}) async {
-    print('programma alle ${atTime.hour}:${atTime.minute}');
+  static Future<void> scheduleDailyNotification({
+    required TimeOfDay atTime,
+  }) async {
+    AppLocalizations localizations = await AppLocalizations.delegate.load(
+      Locale(Intl.shortLocale(Intl.getCurrentLocale().toString())),
+    );
 
     await flutterLocalNotificationsPlugin.zonedSchedule(
         0,
-        'Hai qualcosa da segnalare?',
-        'Ricorda di inserire le tue transazioni  quotidiane!',
+        localizations.notificationTitle,
+        localizations.notificationSubtitle,
         _nextInstanceOfTwelveAM(time: atTime),
         const NotificationDetails(
           android: AndroidNotificationDetails(
@@ -177,13 +181,8 @@ class NotificationManager {
     TZDateTime scheduledDate =
         TZDateTime(local, now.year, now.month, now.day, time.hour, time.minute);
 
-    print(scheduledDate);
-
     if (scheduledDate.isBefore(now)) {
       scheduledDate = scheduledDate.add(const Duration(days: 1));
-      print(scheduledDate);
-    } else {
-      print('no');
     }
     return scheduledDate;
   }
