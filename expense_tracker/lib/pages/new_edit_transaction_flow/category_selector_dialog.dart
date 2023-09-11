@@ -3,8 +3,8 @@ import 'package:expense_tracker/notifiers/category_provider.dart';
 import 'package:expense_tracker/pages/options_page/categories_page/new_edit_category_page.dart';
 import 'package:expense_tracker/style.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 Future<Category?> showCategoryBottomSheet(
@@ -25,7 +25,7 @@ Future<Category?> showCategoryBottomSheet(
   );
 }
 
-class CategorySelectorContent extends StatefulWidget {
+class CategorySelectorContent extends ConsumerStatefulWidget {
   final Category? currentSelection;
 
   const CategorySelectorContent({
@@ -34,11 +34,12 @@ class CategorySelectorContent extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<CategorySelectorContent> createState() =>
+  ConsumerState<CategorySelectorContent> createState() =>
       _CategorySelectorContentState();
 }
 
-class _CategorySelectorContentState extends State<CategorySelectorContent> {
+class _CategorySelectorContentState
+    extends ConsumerState<CategorySelectorContent> {
   late final AppLocalizations appLocalizations;
 
   Category? _selectedCategory;
@@ -81,9 +82,10 @@ class _CategorySelectorContentState extends State<CategorySelectorContent> {
             ),
           ),
           Expanded(
-            child: Consumer<CategoryProvider>(
-              builder: (context, categoryProvider, child) {
-                final categoriesList = categoryProvider.categoryList;
+            child: Consumer(
+              builder: (context, ref, child) {
+                final categoriesList = ref.watch(categoryProvider);
+
                 return ListView.builder(
                     shrinkWrap: true,
                     itemCount: categoriesList.length + 1,

@@ -3,19 +3,19 @@ import 'package:expense_tracker/pages/options_page/accounts_page/account_list_ce
 import 'package:expense_tracker/pages/options_page/accounts_page/new_edit_account_page.dart';
 import 'package:expense_tracker/style.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class AccountsListPage extends StatefulWidget {
+class AccountsListPage extends ConsumerStatefulWidget {
   static const routeName = '/accountsListPage';
 
   const AccountsListPage({Key? key}) : super(key: key);
 
   @override
-  State<AccountsListPage> createState() => _AccountsListPageState();
+  ConsumerState<AccountsListPage> createState() => _AccountsListPageState();
 }
 
-class _AccountsListPageState extends State<AccountsListPage> {
+class _AccountsListPageState extends ConsumerState<AccountsListPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,15 +31,14 @@ class _AccountsListPageState extends State<AccountsListPage> {
 
   Widget _buildList() {
     return RefreshIndicator(
-      onRefresh: () =>
-          Provider.of<AccountProvider>(context, listen: false).getAllAccounts(),
-      child: Consumer<AccountProvider>(
-        builder: ((context, accountProvider, child) {
-          return accountProvider.accountList.isNotEmpty
+      onRefresh: () => ref.read(accountProvider.notifier).getAccountsFromDb(),
+      child: Consumer(
+        builder: ((context, ref, child) {
+          return ref.watch(accountProvider).isNotEmpty
               ? ListView.builder(
-                  itemCount: accountProvider.accountList.length,
+                  itemCount: ref.watch(accountProvider).length,
                   itemBuilder: (context, index) {
-                    final account = accountProvider.accountList[index];
+                    final account = ref.watch(accountProvider)[index];
 
                     return AccountListCell(account: account);
                   },

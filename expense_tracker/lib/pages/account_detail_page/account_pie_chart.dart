@@ -9,7 +9,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:provider/provider.dart' as p;
 
 enum AccountPieChartModeTransactionType { income, expense, all }
 
@@ -245,9 +244,6 @@ class _AccountPieChartState extends ConsumerState<AccountPieChart> {
       totalValue = totalValue.abs();
       categoryTotalValuePairs[1].totalValue *= -1;
     } else {
-      final categoryProvider =
-          p.Provider.of<CategoryProvider>(context, listen: false);
-
       categoryTotalValuePairs.clear();
       totalValue = 0;
 
@@ -257,8 +253,9 @@ class _AccountPieChartState extends ConsumerState<AccountPieChart> {
         Category? category;
 
         if (transaction.categoryId != null) {
-          category =
-              categoryProvider.getCategoryFromId(transaction.categoryId!);
+          category = ref
+              .read(categoryProvider.notifier)
+              .getCategoryFromId(transaction.categoryId!);
         }
 
         if (category != null) {

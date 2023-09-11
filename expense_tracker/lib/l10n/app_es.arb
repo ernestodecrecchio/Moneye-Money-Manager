@@ -107,5 +107,11 @@
 "yes": "sí",
 "no": "no",
 "feedback": "Comentarios",
-"feedbackAndReviewOptionDescription": "¿Te gusta Moneye? ¡Háganoslo saber!"
+"feedbackAndReviewOptionDescription": "¿Te gusta Moneye? ¡Háganoslo saber!",
+"cancel": "Cancelar",
+"areYouSure": "¿Estás seguro?",
+"deleteAccountAlertBody": "Eliminar una cuenta no eliminará las transacciones asociadas a ella.",
+"deleteCategoryAlertBody": "Eliminar una categoría no eliminará las transacciones asociadas a ella.",
+ "transactionDeleted": "Transacción eliminada",
+"transactionList": "Lista de transacciones"
 }

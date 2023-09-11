@@ -2,17 +2,18 @@ import 'package:expense_tracker/Database/database_transaction_helper.dart';
 import 'package:expense_tracker/models/account.dart';
 import 'package:expense_tracker/models/category.dart';
 import 'package:expense_tracker/models/transaction.dart';
-import 'package:expense_tracker/notifiers/account_provider.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class TransactionProvider with ChangeNotifier {
-  AccountProvider? accountProvider;
+class TransactionNotifier extends Notifier<List<Transaction>> {
+  @override
+  List<Transaction> build() {
+    return [];
+  }
 
-  List<Transaction> transactionList = [];
   List<Transaction> get currentMonthTransactionList {
     final todayDate = DateTime.now();
 
-    return transactionList
+    return state
         .where((element) =>
             element.date.month == todayDate.month &&
             element.date.year == todayDate.year)
@@ -20,14 +21,14 @@ class TransactionProvider with ChangeNotifier {
   }
 
   double get totalBalance {
-    return transactionList.fold(
+    return state.fold(
         0, (previousValue, element) => previousValue + element.value);
   }
 
   double getTotalBanalceUntilDate(DateTime date) {
     double totalBalance = 0;
 
-    for (var transaction in transactionList) {
+    for (var transaction in state) {
       if (transaction.date.isBefore(date)) {
         totalBalance += transaction.value;
       }
@@ -36,21 +37,12 @@ class TransactionProvider with ChangeNotifier {
     return totalBalance;
   }
 
-  TransactionProvider({this.accountProvider}) {
-    //getAllTransactions();
-  }
-
   List<Transaction> getTransactionListForAccount(Account account) {
-    return transactionList
-        .where((element) => element.accountId == account.id)
-        .toList();
+    return state.where((element) => element.accountId == account.id).toList();
   }
 
-  Future getAllTransactions() async {
-    transactionList =
-        await DatabaseTransactionHelper.instance.getAllTransactions();
-
-    notifyListeners();
+  Future getTransactionsFromDb() async {
+    state = await DatabaseTransactionHelper.instance.getAllTransactions();
   }
 
   Future<Transaction?> addNewTransaction({
@@ -70,12 +62,31 @@ class TransactionProvider with ChangeNotifier {
       accountId: account?.id,
     );
 
-    transactionList.add(await DatabaseTransactionHelper.instance
-        .insertTransaction(transaction: newTransaction));
+    final addedTransaction = await DatabaseTransactionHelper.instance
+        .insertTransaction(transaction: newTransaction);
 
-    notifyListeners();
+    state = [...state, addedTransaction];
 
-    return transactionList.last;
+    return addedTransaction;
+  }
+
+  Future<Transaction?> addTransaction({
+    required Transaction transaction,
+    int? index,
+  }) async {
+    final addedTransaction = await DatabaseTransactionHelper.instance
+        .insertTransaction(transaction: transaction);
+
+    if (index != null) {
+      final tempArray = List<Transaction>.of(state);
+      tempArray.insert(index, addedTransaction);
+
+      state = tempArray;
+    } else {
+      state = [...state, addedTransaction];
+    }
+
+    return addedTransaction;
   }
 
   Future updateTransaction({
@@ -100,30 +111,36 @@ class TransactionProvider with ChangeNotifier {
     if (await DatabaseTransactionHelper.instance.updateTransaction(
         transactionToEdit: transactionToEdit,
         modifiedTransaction: modifiedTransaction)) {
-      final transactionIndexToModify = transactionList
-          .indexWhere((element) => element.id == transactionToEdit.id);
+      final transactionIndexToModify =
+          state.indexWhere((element) => element.id == transactionToEdit.id);
 
       if (transactionIndexToModify != -1) {
-        transactionList[transactionIndexToModify] = modifiedTransaction;
-      }
+        final tempList = List<Transaction>.of(state);
+        tempList[transactionIndexToModify] = modifiedTransaction;
 
-      notifyListeners();
+        state = tempList;
+      }
     }
   }
 
-  Future<bool> deleteTransaction(Transaction transaction) async {
+  /// Removes a transaction and returns the index of the old position
+  Future<(bool, int)> deleteTransaction(Transaction transaction) async {
     final removedTransactionCount = await DatabaseTransactionHelper.instance
         .deleteTransaction(transaction: transaction);
 
     if (removedTransactionCount > 0) {
-      transactionList.removeWhere((element) => element.id == transaction.id);
+      final tempList = List<Transaction>.of(state);
+      final index =
+          tempList.indexWhere((element) => element.id == transaction.id);
 
-      notifyListeners();
+      tempList.removeAt(index);
 
-      return true;
+      state = tempList;
+
+      return (true, index);
     }
 
-    return false;
+    return (false, -1);
   }
 
   /// Returns a Map where for each month of the year, there is a sum of all the transactions value
@@ -131,7 +148,7 @@ class TransactionProvider with ChangeNotifier {
     final Map<int, double> balanceMap = {};
 
     final currentYearTransactions =
-        transactionList.where((element) => element.date.year == year);
+        state.where((element) => element.date.year == year);
 
     for (var transaction in currentYearTransactions) {
       balanceMap[transaction.date.month] =
@@ -141,3 +158,8 @@ class TransactionProvider with ChangeNotifier {
     return balanceMap;
   }
 }
+
+final transactionProvider =
+    NotifierProvider<TransactionNotifier, List<Transaction>>(() {
+  return TransactionNotifier();
+});

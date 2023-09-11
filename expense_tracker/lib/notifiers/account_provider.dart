@@ -2,27 +2,25 @@ import 'package:collection/collection.dart';
 import 'package:expense_tracker/Database/database_account_helper.dart';
 import 'package:expense_tracker/models/account.dart';
 import 'package:expense_tracker/models/transaction.dart';
-import 'package:flutter/material.dart';
+import 'package:expense_tracker/notifiers/transaction_provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class AccountProvider with ChangeNotifier {
-  List<Account> accountList = [];
-
-  AccountProvider() {
-    // getAllAccounts();
+class AccountNotifier extends Notifier<List<Account>> {
+  @override
+  List<Account> build() {
+    return [];
   }
 
-  Future getAllAccounts() async {
-    accountList = await DatabaseAccountHelper.instance.getAllAccounts();
-
-    notifyListeners();
+  Future getAccountsFromDb() async {
+    state = await DatabaseAccountHelper.instance.getAllAccounts();
   }
 
   Account? getAccountFromId(int id) {
-    return accountList.firstWhereOrNull((element) => element.id == id);
+    return state.firstWhereOrNull((element) => element.id == id);
   }
 
   Account? getAccountForTransaction(Transaction transaction) {
-    return accountList
+    return state
         .firstWhereOrNull((element) => element.id == transaction.accountId);
   }
 
@@ -38,18 +36,17 @@ class AccountProvider with ChangeNotifier {
       colorValue: colorValue,
       iconPath: iconPath,
     );
+    final addedAccount =
+        await DatabaseAccountHelper.instance.insertAccount(account: newAccount);
 
-    accountList.add(await DatabaseAccountHelper.instance
-        .insertAccount(account: newAccount));
-
-    notifyListeners();
+    state = [...state, addedAccount];
   }
 
   Future addNewAccount({required Account account}) async {
-    accountList.add(
-        await DatabaseAccountHelper.instance.insertAccount(account: account));
+    final addedAccount =
+        await DatabaseAccountHelper.instance.insertAccount(account: account);
 
-    notifyListeners();
+    state = [...state, addedAccount];
   }
 
   Future updateAccount({
@@ -70,13 +67,14 @@ class AccountProvider with ChangeNotifier {
     if (await DatabaseAccountHelper.instance.updateAccount(
         accountToEdit: accountToEdit, modifiedAccount: modifiedAccount)) {
       final accountIndexToModify =
-          accountList.indexWhere((element) => element.id == accountToEdit.id);
+          state.indexWhere((element) => element.id == accountToEdit.id);
 
       if (accountIndexToModify != -1) {
-        accountList[accountIndexToModify] = modifiedAccount;
-      }
+        final tempList = List<Account>.of(state);
+        tempList[accountIndexToModify] = modifiedAccount;
 
-      notifyListeners();
+        state = tempList;
+      }
     }
   }
 
@@ -86,9 +84,29 @@ class AccountProvider with ChangeNotifier {
         await DatabaseAccountHelper.instance.deleteAccount(account: account);
 
     if (removedAccountCount > 0) {
-      accountList.removeWhere((element) => element.id == account.id);
+      final tempList = List<Account>.of(state);
+      tempList.removeWhere((element) => element.id == account.id);
 
-      notifyListeners();
+      state = tempList;
+
+      return true;
+    }
+
+    return false;
+  }
+
+  /// Deletes the account affecting the transactions viewed in the current session
+  Future<bool> deleteAccountCentral(Account account) async {
+    final isAccountDeleted = await deleteAccount(account);
+
+    if (isAccountDeleted) {
+      final transactionList = ref.read(transactionProvider);
+
+      for (var transaction in transactionList) {
+        if (transaction.accountId == account.id) {
+          transaction.accountId = null;
+        }
+      }
 
       return true;
     }
@@ -96,3 +114,7 @@ class AccountProvider with ChangeNotifier {
     return false;
   }
 }
+
+final accountProvider = NotifierProvider<AccountNotifier, List<Account>>(() {
+  return AccountNotifier();
+});

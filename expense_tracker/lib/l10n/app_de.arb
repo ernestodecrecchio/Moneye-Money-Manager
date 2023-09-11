@@ -107,5 +107,11 @@
 "yes": "ja",
 "no": "nein",
 "feedback": "Rückmeldung",
-"feedbackAndReviewOptionDescription": "Magst du Moneye? Lass es uns wissen!"
+"feedbackAndReviewOptionDescription": "Magst du Moneye? Lass es uns wissen!",
+"cancel": "Abbrechen",
+"areYouSure": "Bist du sicher?",
+"deleteAccountAlertBody": "Das Löschen eines Kontos entfernt die damit verbundenen Transaktionen nicht.",
+"deleteCategoryAlertBody": "Das Löschen einer Kategorie entfernt die damit verbundenen Transaktionen nicht.",
+"transactionDeleted": "Transaktion gelöscht",
+"transactionList": "Transaktionsliste"
 }

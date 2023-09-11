@@ -2,7 +2,6 @@ import 'package:expense_tracker/Helper/double_helper.dart';
 import 'package:expense_tracker/models/account.dart';
 import 'package:expense_tracker/models/transaction.dart';
 import 'package:expense_tracker/notifiers/account_provider.dart';
-
 import 'package:expense_tracker/notifiers/category_provider.dart';
 import 'package:expense_tracker/notifiers/currency_provider.dart';
 import 'package:expense_tracker/notifiers/transaction_provider.dart';
@@ -11,16 +10,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
-import 'package:provider/provider.dart' as p;
-
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class TransactionListCell extends ConsumerWidget {
   final Transaction transaction;
   final double horizontalPadding;
-
   final bool showAccountLabel;
+
+  final Function(Transaction transactionDeleted, int index) onTransactionDelete;
 
   const TransactionListCell({
     Key? key,
@@ -28,30 +25,15 @@ class TransactionListCell extends ConsumerWidget {
     bool? dismissible = true,
     this.horizontalPadding = 17,
     this.showAccountLabel = true,
+    required this.onTransactionDelete,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Slidable(
-      key: Key(transaction.id.toString()),
-      startActionPane: ActionPane(
-        motion: const ScrollMotion(),
-        dismissible: DismissiblePane(
-            onDismissed: () async => await _removeTransaction(context)),
-        children: [
-          _buildDeleteAction(context),
-          // _buildEditAction(),
-        ],
-      ),
-      endActionPane: ActionPane(
-        motion: const ScrollMotion(),
-        dismissible: DismissiblePane(
-            onDismissed: () async => await _removeTransaction(context)),
-        children: [
-          // _buildEditAction(),
-          _buildDeleteAction(context),
-        ],
-      ),
+      key: UniqueKey(), // Key(transaction.id.toString()),
+      startActionPane: _buildDeleteActionPane(context, ref),
+      endActionPane: _buildDeleteActionPane(context, ref),
       child: InkWell(
         onTap: () => Navigator.of(context).pushNamed(
           NewEditTransactionPage.routeName,
@@ -64,7 +46,7 @@ class TransactionListCell extends ConsumerWidget {
               EdgeInsets.symmetric(vertical: 8, horizontal: horizontalPadding),
           child: Row(
             children: [
-              _buildCategoryIcon(context),
+              _buildCategoryIcon(context, ref),
               const SizedBox(
                 width: 8,
               ),
@@ -97,8 +79,55 @@ class TransactionListCell extends ConsumerWidget {
     );
   }
 
-  _buildCategoryIcon(BuildContext context) {
-    final category = p.Provider.of<CategoryProvider>(context, listen: false)
+  ActionPane _buildDeleteActionPane(BuildContext context, WidgetRef ref) {
+    return ActionPane(
+      motion: const ScrollMotion(),
+      dismissible: DismissiblePane(
+          onDismissed: () async => await _removeTransaction(context, ref)),
+      children: [
+        _buildDeleteAction(context, ref),
+        // _buildEditAction(),
+      ],
+    );
+  }
+
+  SlidableAction _buildDeleteAction(BuildContext context, WidgetRef ref) {
+    return SlidableAction(
+      onPressed: (_) async => await _removeTransaction(context, ref),
+      backgroundColor: const Color(0xFFFE4A49),
+      foregroundColor: Colors.white,
+      icon: Icons.delete,
+      label: AppLocalizations.of(context)!.delete,
+    );
+  }
+
+  // SlidableAction _buildEditAction() {
+  //   return SlidableAction(
+  //     onPressed: (context) => Navigator.of(context)
+  //         .pushNamed(NewTransactionPage.routeName, arguments: transaction),
+  //     backgroundColor: const Color(0xFF21B7CA),
+  //     foregroundColor: Colors.white,
+  //     icon: Icons.edit,
+  //     label: 'Modifica',
+  //   );
+  // }
+
+  Future _removeTransaction(BuildContext context, WidgetRef ref) async {
+    await ref
+        .read(transactionProvider.notifier)
+        .deleteTransaction(transaction)
+        .then(
+      (result) {
+        if (result.$1) {
+          onTransactionDelete(transaction, result.$2);
+        }
+      },
+    );
+  }
+
+  _buildCategoryIcon(BuildContext context, WidgetRef ref) {
+    final category = ref
+        .read(categoryProvider.notifier)
         .getCategoryForTransaction(transaction);
 
     SvgPicture? categoryIcon;
@@ -155,7 +184,8 @@ class TransactionListCell extends ConsumerWidget {
     Account? account;
 
     if (showAccountLabel && transaction.accountId != null) {
-      account = p.Provider.of<AccountProvider>(context, listen: false)
+      account = ref
+          .read(accountProvider.notifier)
           .getAccountFromId(transaction.accountId!);
     }
 
@@ -180,31 +210,5 @@ class TransactionListCell extends ConsumerWidget {
           ),
       ],
     );
-  }
-
-  SlidableAction _buildDeleteAction(BuildContext context) {
-    return SlidableAction(
-      onPressed: (context) async => await _removeTransaction(context),
-      backgroundColor: const Color(0xFFFE4A49),
-      foregroundColor: Colors.white,
-      icon: Icons.delete,
-      label: AppLocalizations.of(context)!.delete,
-    );
-  }
-
-  // SlidableAction _buildEditAction() {
-  //   return SlidableAction(
-  //     onPressed: (context) => Navigator.of(context)
-  //         .pushNamed(NewTransactionPage.routeName, arguments: transaction),
-  //     backgroundColor: const Color(0xFF21B7CA),
-  //     foregroundColor: Colors.white,
-  //     icon: Icons.edit,
-  //     label: 'Modifica',
-  //   );
-  // }
-
-  Future _removeTransaction(BuildContext context) async {
-    await p.Provider.of<TransactionProvider>(context, listen: false)
-        .deleteTransaction(transaction);
   }
 }

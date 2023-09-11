@@ -13,9 +13,9 @@ import 'package:expense_tracker/pages/new_edit_transaction_flow/new_edit_transac
 import 'package:expense_tracker/pages/options_page/accounts_page/new_edit_account_page.dart';
 import 'package:expense_tracker/style.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
-import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 enum AccountDetailTransactionTypeMode { income, expense, all }
@@ -28,7 +28,7 @@ enum TransactionTimePeriod {
   custom,
 }
 
-class AccountDetailPage extends StatefulWidget {
+class AccountDetailPage extends ConsumerStatefulWidget {
   static const routeName = '/accountDetailPage';
 
   final Account? account;
@@ -36,10 +36,10 @@ class AccountDetailPage extends StatefulWidget {
   const AccountDetailPage({super.key, this.account});
 
   @override
-  State<AccountDetailPage> createState() => _AccountDetailPageState();
+  ConsumerState<AccountDetailPage> createState() => _AccountDetailPageState();
 }
 
-class _AccountDetailPageState extends State<AccountDetailPage>
+class _AccountDetailPageState extends ConsumerState<AccountDetailPage>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
 
@@ -76,13 +76,10 @@ class _AccountDetailPageState extends State<AccountDetailPage>
     Account? referenceAccount;
 
     if (widget.account != null) {
-      referenceAccount = Provider.of<AccountProvider>(context, listen: true)
-          .accountList
+      referenceAccount = ref
+          .watch(accountProvider)
           .firstWhereOrNull((element) => element.id == widget.account!.id);
     }
-
-    final transactionListProvider =
-        Provider.of<TransactionProvider>(context, listen: true).transactionList;
 
     return Scaffold(
       appBar: AppBar(
@@ -101,7 +98,7 @@ class _AccountDetailPageState extends State<AccountDetailPage>
       body: Column(
         children: [
           _buildTabBar(),
-          _buildDateBar(transactionListProvider),
+          _buildDateBar(ref.watch(transactionProvider)),
           Expanded(
             child: TabBarView(
               controller: _tabController,
@@ -534,7 +531,7 @@ class _AccountDetailPageState extends State<AccountDetailPage>
   }
 }
 
-class ScrollableTabView extends StatefulWidget {
+class ScrollableTabView extends ConsumerStatefulWidget {
   final Account? account;
   final AccountDetailTransactionTypeMode transactionType;
 
@@ -553,10 +550,10 @@ class ScrollableTabView extends StatefulWidget {
   });
 
   @override
-  State<ScrollableTabView> createState() => _ScrollableTabViewState();
+  ConsumerState<ScrollableTabView> createState() => _ScrollableTabViewState();
 }
 
-class _ScrollableTabViewState extends State<ScrollableTabView> {
+class _ScrollableTabViewState extends ConsumerState<ScrollableTabView> {
   @override
   Widget build(BuildContext context) {
     List<Transaction> transactionList = [];
@@ -610,13 +607,12 @@ class _ScrollableTabViewState extends State<ScrollableTabView> {
   }
 
   List<Transaction> _getIncomeTransactionList() {
-    List<Transaction> transactionList = [];
+    List<Transaction> filteredTransactionList = [];
 
-    final transactionProvider =
-        Provider.of<TransactionProvider>(context, listen: true);
+    final fullTransactionList = ref.watch(transactionProvider);
 
     if (widget.account != null) {
-      transactionList = transactionProvider.transactionList
+      filteredTransactionList = fullTransactionList
           .where(
             (element) =>
                 element.accountId == widget.account!.id &&
@@ -627,7 +623,7 @@ class _ScrollableTabViewState extends State<ScrollableTabView> {
           .toList()
           .sorted((a, b) => a.date.isBefore(b.date) ? 1 : 0);
     } else {
-      transactionList = transactionProvider.transactionList
+      filteredTransactionList = fullTransactionList
           .where(
             (element) =>
                 element.value >= 0 &&
@@ -638,17 +634,16 @@ class _ScrollableTabViewState extends State<ScrollableTabView> {
           .sorted((a, b) => a.date.isBefore(b.date) ? 1 : 0);
     }
 
-    return transactionList;
+    return filteredTransactionList;
   }
 
   List<Transaction> _getOutcomeTransactionList() {
-    List<Transaction> transactionList = [];
+    List<Transaction> filteredTransactionList = [];
 
-    final transactionProvider =
-        Provider.of<TransactionProvider>(context, listen: true);
+    final fullTransactionList = ref.watch(transactionProvider);
 
     if (widget.account != null) {
-      transactionList = transactionProvider.transactionList
+      filteredTransactionList = fullTransactionList
           .where((element) =>
               element.accountId == widget.account!.id &&
               element.value < 0 &&
@@ -657,7 +652,7 @@ class _ScrollableTabViewState extends State<ScrollableTabView> {
           .toList()
           .sorted((a, b) => a.date.isBefore(b.date) ? 1 : 0);
     } else {
-      transactionList = transactionProvider.transactionList
+      filteredTransactionList = fullTransactionList
           .where(
             (element) =>
                 element.value < 0 &&
@@ -668,17 +663,16 @@ class _ScrollableTabViewState extends State<ScrollableTabView> {
           .sorted((a, b) => a.date.isBefore(b.date) ? 1 : 0);
     }
 
-    return transactionList;
+    return filteredTransactionList;
   }
 
   List<Transaction> _getTotalTransactionList() {
-    List<Transaction> transactionList = [];
+    List<Transaction> filteredTransactionList = [];
 
-    final transactionProvider =
-        Provider.of<TransactionProvider>(context, listen: true);
+    final fullTransactionList = ref.watch(transactionProvider);
 
     if (widget.account != null) {
-      transactionList = transactionProvider.transactionList
+      filteredTransactionList = fullTransactionList
           .where(
             (element) =>
                 element.accountId == widget.account!.id &&
@@ -688,7 +682,7 @@ class _ScrollableTabViewState extends State<ScrollableTabView> {
           .toList()
           .sorted((a, b) => a.date.isBefore(b.date) ? 1 : 0);
     } else {
-      transactionList = transactionProvider.transactionList
+      filteredTransactionList = fullTransactionList
           .where(
             (element) =>
                 element.date.isAfterIncludingZero(widget.startDate) &&
@@ -698,7 +692,7 @@ class _ScrollableTabViewState extends State<ScrollableTabView> {
           .sorted((a, b) => a.date.isBefore(b.date) ? 1 : 0);
     }
 
-    return transactionList;
+    return filteredTransactionList;
   }
 
   Widget _buildBarChart({
@@ -724,6 +718,9 @@ class _ScrollableTabViewState extends State<ScrollableTabView> {
   }
 
   Widget _buildTransactionListSection(List<Transaction> transactionList) {
-    return TransactionList(transactionList: transactionList);
+    return TransactionList(
+      transactionList: transactionList,
+      topWidgetRef: ref,
+    );
   }
 }

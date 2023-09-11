@@ -5,10 +5,10 @@ import 'package:expense_tracker/pages/common/inline_color_picker.dart';
 import 'package:expense_tracker/pages/common/inline_icon_picker.dart';
 import 'package:expense_tracker/style.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class NewEditCategoryPage extends StatefulWidget {
+class NewEditCategoryPage extends ConsumerStatefulWidget {
   static const routeName = '/newEditCategoryPage';
 
   final Category? initialCategorySettings;
@@ -19,10 +19,11 @@ class NewEditCategoryPage extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<NewEditCategoryPage> createState() => _NewEditCategoryPageState();
+  ConsumerState<NewEditCategoryPage> createState() =>
+      _NewEditCategoryPageState();
 }
 
-class _NewEditCategoryPageState extends State<NewEditCategoryPage> {
+class _NewEditCategoryPageState extends ConsumerState<NewEditCategoryPage> {
   late final AppLocalizations appLocalizations;
 
   final _formKey = GlobalKey<FormState>();
@@ -221,7 +222,8 @@ class _NewEditCategoryPageState extends State<NewEditCategoryPage> {
   }
 
   _saveNewCategory() {
-    Provider.of<CategoryProvider>(context, listen: false)
+    ref
+        .read(categoryProvider.notifier)
         .addNewCategoryByParameters(
             name: titleInput.text,
             description: descriptionInput.text,
@@ -231,7 +233,8 @@ class _NewEditCategoryPageState extends State<NewEditCategoryPage> {
   }
 
   _editCategory() {
-    Provider.of<CategoryProvider>(context, listen: false)
+    ref
+        .read(categoryProvider.notifier)
         .updateCategory(
           categoryToEdit: widget.initialCategorySettings!,
           name: titleInput.text,

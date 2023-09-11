@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:expense_tracker/Helper/double_helper.dart';
 import 'package:expense_tracker/models/account.dart';
 import 'package:expense_tracker/models/category.dart';
@@ -7,6 +8,7 @@ import 'package:expense_tracker/notifiers/category_provider.dart';
 import 'package:expense_tracker/notifiers/currency_provider.dart';
 import 'package:expense_tracker/notifiers/transaction_provider.dart';
 import 'package:expense_tracker/pages/account_detail_page/account_detail_page.dart';
+import 'package:expense_tracker/pages/common/delete_transaction_snackbar.dart';
 import 'package:expense_tracker/pages/common/list_tiles/transaction_list_cell.dart';
 import 'package:expense_tracker/pages/options_page/accounts_page/new_edit_account_page.dart';
 import 'package:expense_tracker/pages/new_edit_transaction_flow/new_edit_transaction_page.dart';
@@ -15,21 +17,7 @@ import 'package:expense_tracker/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:provider/provider.dart' as p;
-import 'package:collection/collection.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
-/// Migliorie:
-// Aggiungi icone sensate
-
-/// Nuove feature
-// Onboarding
-// Allega foto
-// OCR Scontrino
-// Spesa condivisa
-// Widget esterno
-// Password/Face recognition
-// Export dei dati CVS
 
 class HomePage extends ConsumerStatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -96,8 +84,7 @@ class _HomePageState extends ConsumerState<HomePage> {
         ref.watch(currentCurrencySymbolPositionProvider);
 
     final List<Transaction> currentMonthTransactions =
-        p.Provider.of<TransactionProvider>(context, listen: true)
-            .currentMonthTransactionList;
+        ref.read(transactionProvider.notifier).currentMonthTransactionList;
 
     double monthlyIncome = 0;
     double monthlyExpenses = 0;
@@ -139,7 +126,8 @@ class _HomePageState extends ConsumerState<HomePage> {
                 child: FittedBox(
                   fit: BoxFit.fitWidth,
                   child: Text(
-                    p.Provider.of<TransactionProvider>(context, listen: false)
+                    ref
+                        .read(transactionProvider.notifier)
                         .totalBalance
                         .toStringAsFixedRoundedWithCurrency(
                             2, currentCurrency, currentCurrencyPosition),
@@ -242,16 +230,18 @@ class _HomePageState extends ConsumerState<HomePage> {
   }
 
   Widget _buildPercentageDifference() {
-    return p.Consumer<TransactionProvider>(
-      builder: (context, transactionProvider, child) {
+    return Consumer(
+      builder: (context, ref, child) {
         final currMonthDate = DateTime.now();
         final prevMonthDate =
             DateTime(currMonthDate.year, currMonthDate.month, 1);
 
-        double currMonthBalance =
-            transactionProvider.getTotalBanalceUntilDate(currMonthDate);
-        double prevMonthBalance =
-            transactionProvider.getTotalBanalceUntilDate(prevMonthDate);
+        double currMonthBalance = ref
+            .watch(transactionProvider.notifier)
+            .getTotalBanalceUntilDate(currMonthDate);
+        double prevMonthBalance = ref
+            .watch(transactionProvider.notifier)
+            .getTotalBanalceUntilDate(prevMonthDate);
 
         if (prevMonthBalance != 0) {
           final diffPercentage =
@@ -366,11 +356,8 @@ class _HomePageState extends ConsumerState<HomePage> {
 
     double balanceTransactionsWithoutAccount = 0;
 
-    final accountList =
-        p.Provider.of<AccountProvider>(context, listen: true).accountList;
-    final transactionList =
-        p.Provider.of<TransactionProvider>(context, listen: true)
-            .transactionList;
+    final accountList = ref.watch(accountProvider);
+    final transactionList = ref.watch(transactionProvider);
 
     for (var account in accountList) {
       accountMap[account] = 0;
@@ -402,7 +389,8 @@ class _HomePageState extends ConsumerState<HomePage> {
 
   Category? getCategoryForTransaction(Transaction transaction) {
     if (transaction.categoryId != null) {
-      return p.Provider.of<CategoryProvider>(context, listen: false)
+      return ref
+          .read(categoryProvider.notifier)
           .getCategoryFromId(transaction.categoryId!);
     }
 
@@ -410,12 +398,11 @@ class _HomePageState extends ConsumerState<HomePage> {
   }
 
   Widget _buildLastTransactionList() {
-    final List<Transaction> lastTransactionList =
-        p.Provider.of<TransactionProvider>(context, listen: true)
-            .transactionList
-            .sorted((a, b) => b.date.compareTo(a.date))
-            .take(5)
-            .toList();
+    final List<Transaction> lastTransactionList = ref
+        .watch(transactionProvider)
+        .sorted((a, b) => b.date.compareTo(a.date))
+        .take(5)
+        .toList();
 
     return SizedBox(
       width: double.infinity,
@@ -460,10 +447,18 @@ class _HomePageState extends ConsumerState<HomePage> {
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
                   itemCount: lastTransactionList.length,
-                  itemBuilder: (context, index) {
+                  itemBuilder: (_, index) {
                     return TransactionListCell(
                       transaction: lastTransactionList[index],
                       horizontalPadding: horizontalPadding,
+                      onTransactionDelete: (transaction, index) {
+                        showDeleteTransactionSnackbar(
+                          context,
+                          ref,
+                          transaction,
+                          index,
+                        );
+                      },
                     );
                   },
                   separatorBuilder: (context, index) => const Divider(

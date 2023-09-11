@@ -6,21 +6,21 @@ import 'package:expense_tracker/pages/options_page/options_page.dart';
 import 'package:expense_tracker/style.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:provider/provider.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class TabBarPage extends StatefulWidget {
+class TabBarPage extends ConsumerStatefulWidget {
   static const routeName = '/TabBarPage';
 
-  const TabBarPage({Key? key}) : super(key: key);
+  const TabBarPage({super.key});
 
   @override
-  State<TabBarPage> createState() => _TabBarPageState();
+  ConsumerState<TabBarPage> createState() => _TabBarPageState();
 }
 
-class _TabBarPageState extends State<TabBarPage> {
+class _TabBarPageState extends ConsumerState<TabBarPage> {
   int index = 0;
 
   final screen = [
@@ -32,10 +32,9 @@ class _TabBarPageState extends State<TabBarPage> {
   void initState() {
     super.initState();
 
-    Provider.of<CategoryProvider>(context, listen: false).getAllCategories();
-    Provider.of<AccountProvider>(context, listen: false).getAllAccounts();
-    Provider.of<TransactionProvider>(context, listen: false)
-        .getAllTransactions();
+    ref.read(categoryProvider.notifier).getCategoriesFromDb();
+    ref.read(accountProvider.notifier).getAccountsFromDb();
+    ref.read(transactionProvider.notifier).getTransactionsFromDb();
   }
 
   @override

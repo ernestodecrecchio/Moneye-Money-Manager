@@ -1,14 +1,15 @@
 import 'package:expense_tracker/notifiers/transaction_provider.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class MonthlyBalanceGraph extends StatelessWidget {
+class MonthlyBalanceGraph extends ConsumerWidget {
   const MonthlyBalanceGraph({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final result = Provider.of<TransactionProvider>(context, listen: true)
+  Widget build(BuildContext context, WidgetRef ref) {
+    final result = ref
+        .watch(transactionProvider.notifier)
         .getMonthlyBalanceForYear(DateTime.now().year);
 
     List<FlSpot> spotList = [];

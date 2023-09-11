@@ -15,7 +15,6 @@ import 'package:expense_tracker/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:provider/provider.dart' as p;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -100,6 +99,7 @@ class _InitialConfigurationPageState
         children: [
           ..._buildFloatingElements(),
           SafeArea(
+            minimum: const EdgeInsets.symmetric(vertical: 20),
             child: Column(
               children: [
                 Expanded(
@@ -387,15 +387,15 @@ class _InitialConfigurationPageState
 
     await Future.forEach(
         selectedAccounts,
-        (account) async =>
-            await p.Provider.of<AccountProvider>(context, listen: false)
-                .addNewAccount(account: account));
+        (account) async => await ref
+            .read(accountProvider.notifier)
+            .addNewAccount(account: account));
 
     await Future.forEach(
         selectedCategory,
-        (category) async =>
-            await p.Provider.of<CategoryProvider>(context, listen: false)
-                .addNewCategory(category: category));
+        (category) async => await ref
+            .read(categoryProvider.notifier)
+            .addNewCategory(category: category));
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
 

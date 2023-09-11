@@ -5,10 +5,10 @@ import 'package:expense_tracker/pages/common/inline_color_picker.dart';
 import 'package:expense_tracker/pages/common/inline_icon_picker.dart';
 import 'package:expense_tracker/style.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class NewAccountPage extends StatefulWidget {
+class NewAccountPage extends ConsumerStatefulWidget {
   static const routeName = '/newEditAccountPage';
 
   final Account? initialAccountSettings;
@@ -19,10 +19,10 @@ class NewAccountPage extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<NewAccountPage> createState() => _NewAccountPageState();
+  ConsumerState<NewAccountPage> createState() => _NewAccountPageState();
 }
 
-class _NewAccountPageState extends State<NewAccountPage> {
+class _NewAccountPageState extends ConsumerState<NewAccountPage> {
   late final AppLocalizations appLocalizations;
   final _formKey = GlobalKey<FormState>();
 
@@ -222,7 +222,8 @@ class _NewAccountPageState extends State<NewAccountPage> {
   }
 
   _saveNewAccount() {
-    Provider.of<AccountProvider>(context, listen: false)
+    ref
+        .read(accountProvider.notifier)
         .addNewAccountByParameters(
             name: titleInput.text,
             description: descriptionInput.text,
@@ -232,7 +233,8 @@ class _NewAccountPageState extends State<NewAccountPage> {
   }
 
   _editAccount() {
-    Provider.of<AccountProvider>(context, listen: false)
+    ref
+        .read(accountProvider.notifier)
         .updateAccount(
             accountToEdit: widget.initialAccountSettings!,
             name: titleInput.text,

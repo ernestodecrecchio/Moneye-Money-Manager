@@ -20,7 +20,7 @@ class DatabaseHelper {
 
   Future<Database> _initDB() async {
     final dbPath = await getDatabasesPath();
-    final path = join(dbPath, 'app_db.db');
+    final path = join(dbPath, 'moneye_db.db');
 
     return await openDatabase(
       path,

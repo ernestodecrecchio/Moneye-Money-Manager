@@ -10,9 +10,9 @@ import 'package:expense_tracker/pages/new_edit_transaction_flow/category_selecto
 import 'package:expense_tracker/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:in_app_review/in_app_review.dart';
 import 'package:intl/intl.dart';
-import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class NewEditTransactionPageScreenArguments {
@@ -22,7 +22,7 @@ class NewEditTransactionPageScreenArguments {
   NewEditTransactionPageScreenArguments({this.transaction, this.account});
 }
 
-class NewEditTransactionPage extends StatefulWidget {
+class NewEditTransactionPage extends ConsumerStatefulWidget {
   static const routeName = '/newEditTransactionPage';
 
   final Transaction? initialTransactionSettings;
@@ -35,10 +35,11 @@ class NewEditTransactionPage extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<NewEditTransactionPage> createState() => _NewEditTransactionPageState();
+  ConsumerState<NewEditTransactionPage> createState() =>
+      _NewEditTransactionPageState();
 }
 
-class _NewEditTransactionPageState extends State<NewEditTransactionPage>
+class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
     with SingleTickerProviderStateMixin {
   late final AppLocalizations appLocalizations;
 
@@ -86,7 +87,8 @@ class _NewEditTransactionPageState extends State<NewEditTransactionPage>
           widget.initialTransactionSettings!.value >= 0 ? 0 : 1;
 
       if (widget.initialTransactionSettings!.categoryId != null) {
-        selectedCategory = Provider.of<CategoryProvider>(context, listen: false)
+        selectedCategory = ref
+            .read(categoryProvider.notifier)
             .getCategoryFromId(widget.initialTransactionSettings!.categoryId!);
 
         if (selectedCategory != null) {
@@ -95,7 +97,8 @@ class _NewEditTransactionPageState extends State<NewEditTransactionPage>
       }
 
       if (widget.initialTransactionSettings!.accountId != null) {
-        selectedAccount = Provider.of<AccountProvider>(context, listen: false)
+        selectedAccount = ref
+            .read(accountProvider.notifier)
             .getAccountFromId(widget.initialTransactionSettings!.accountId!);
 
         if (selectedAccount != null) {
@@ -107,7 +110,8 @@ class _NewEditTransactionPageState extends State<NewEditTransactionPage>
       dateInput.text = dateFormatter.format(selectedDate).toString();
 
       if (widget.initialAccountSettings != null) {
-        selectedAccount = Provider.of<AccountProvider>(context, listen: false)
+        selectedAccount = ref
+            .read(accountProvider.notifier)
             .getAccountFromId(widget.initialAccountSettings!.id!);
 
         if (selectedAccount != null) {
@@ -421,7 +425,8 @@ class _NewEditTransactionPageState extends State<NewEditTransactionPage>
     final transactionValue =
         income ? double.parse(valueInput.text) : -double.parse(valueInput.text);
 
-    Provider.of<TransactionProvider>(context, listen: false)
+    ref
+        .read(transactionProvider.notifier)
         .addNewTransaction(
             title: titleInput.text,
             description: descriptionInput.text,
@@ -451,7 +456,8 @@ class _NewEditTransactionPageState extends State<NewEditTransactionPage>
             ? -valueFromTextInput
             : valueFromTextInput;
 
-    Provider.of<TransactionProvider>(context, listen: false)
+    ref
+        .read(transactionProvider.notifier)
         .updateTransaction(
           transactionToEdit: widget.initialTransactionSettings!,
           title: titleInput.text,

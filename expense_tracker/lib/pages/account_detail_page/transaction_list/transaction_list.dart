@@ -3,10 +3,11 @@ import 'package:expense_tracker/models/transaction.dart';
 import 'package:expense_tracker/notifiers/category_provider.dart';
 import 'package:expense_tracker/pages/account_detail_page/account_pie_chart.dart';
 import 'package:expense_tracker/pages/account_detail_page/transaction_list_page.dart';
+import 'package:expense_tracker/pages/common/delete_transaction_snackbar.dart';
 import 'package:expense_tracker/pages/common/list_tiles/transaction_list_cell.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 enum AccountDetailTransactionListMode {
@@ -14,16 +15,21 @@ enum AccountDetailTransactionListMode {
   forCategory,
 }
 
-class TransactionList extends StatefulWidget {
+class TransactionList extends ConsumerStatefulWidget {
   final List<Transaction> transactionList;
+  final WidgetRef topWidgetRef;
 
-  const TransactionList({super.key, required this.transactionList});
+  const TransactionList({
+    super.key,
+    required this.transactionList,
+    required this.topWidgetRef,
+  });
 
   @override
-  State<TransactionList> createState() => _TransactionListState();
+  ConsumerState<TransactionList> createState() => _TransactionListState();
 }
 
-class _TransactionListState extends State<TransactionList> {
+class _TransactionListState extends ConsumerState<TransactionList> {
   AccountDetailTransactionListMode transactionListMode =
       AccountDetailTransactionListMode.transactionList;
 
@@ -35,9 +41,9 @@ class _TransactionListState extends State<TransactionList> {
           padding: const EdgeInsets.symmetric(horizontal: 18),
           child:
               Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-            const Text(
-              'Transaction list',
-              style: TextStyle(
+            Text(
+              AppLocalizations.of(context)!.transactionList,
+              style: const TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
               ),
@@ -70,28 +76,35 @@ class _TransactionListState extends State<TransactionList> {
           ]),
         ),
         transactionListMode == AccountDetailTransactionListMode.transactionList
-            ? _buildTransactionList(widget.transactionList)
+            ? _buildTransactionList(context, widget.transactionList)
             : _buildCategoryList(widget.transactionList)
       ],
     );
   }
 
-  Widget _buildTransactionList(List<Transaction> transactionList) {
+  Widget _buildTransactionList(
+      BuildContext topContext, List<Transaction> transactionList) {
     return ListView.builder(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       itemCount: transactionList.length,
-      itemBuilder: (context, index) => TransactionListCell(
+      itemBuilder: (_, index) => TransactionListCell(
         transaction: transactionList[index],
         showAccountLabel: false,
+        onTransactionDelete: (transaction, index) {
+          showDeleteTransactionSnackbar(
+            super
+                .context, // Passing the super.context because, if the transaction list becomes empty,the widget itself will be disposed and the snackbar action will not work with the transaction list context.
+            widget.topWidgetRef,
+            transaction,
+            index,
+          );
+        },
       ),
     );
   }
 
   Widget _buildCategoryList(List<Transaction> transactionList) {
-    final categoryProvider =
-        Provider.of<CategoryProvider>(context, listen: false);
-
     final List<CategoryTotalValue> categoryTotalValuePairs = [];
 
     categoryTotalValuePairs.clear();
@@ -100,7 +113,9 @@ class _TransactionListState extends State<TransactionList> {
       Category? category;
 
       if (transaction.categoryId != null) {
-        category = categoryProvider.getCategoryFromId(transaction.categoryId!);
+        category = ref
+            .read(categoryProvider.notifier)
+            .getCategoryFromId(transaction.categoryId!);
       }
 
       if (category != null) {

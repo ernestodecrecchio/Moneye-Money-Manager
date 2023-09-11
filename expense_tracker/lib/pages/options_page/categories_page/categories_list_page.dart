@@ -3,19 +3,19 @@ import 'package:expense_tracker/pages/options_page/categories_page/category_list
 import 'package:expense_tracker/pages/options_page/categories_page/new_edit_category_page.dart';
 import 'package:expense_tracker/style.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class CategoriesListPage extends StatefulWidget {
+class CategoriesListPage extends ConsumerStatefulWidget {
   static const routeName = '/categoriesListPage';
 
   const CategoriesListPage({Key? key}) : super(key: key);
 
   @override
-  State<CategoriesListPage> createState() => _CategoriesListPageState();
+  ConsumerState<CategoriesListPage> createState() => _CategoriesListPageState();
 }
 
-class _CategoriesListPageState extends State<CategoriesListPage> {
+class _CategoriesListPageState extends ConsumerState<CategoriesListPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,16 +31,16 @@ class _CategoriesListPageState extends State<CategoriesListPage> {
 
   Widget _buildList() {
     return RefreshIndicator(
-      onRefresh: () => Provider.of<CategoryProvider>(context, listen: false)
-          .getAllCategories(),
-      child: Consumer<CategoryProvider>(
-        builder: ((context, categoryProvider, child) {
-          return categoryProvider.categoryList.isNotEmpty
+      onRefresh: () =>
+          ref.read(categoryProvider.notifier).getCategoriesFromDb(),
+      child: Consumer(
+        builder: ((context, ref, child) {
+          return ref.watch(categoryProvider).isNotEmpty
               ? ListView.builder(
-                  itemCount: categoryProvider.categoryList.length,
+                  itemCount: ref.watch(categoryProvider).length,
                   itemBuilder: (context, index) {
                     return CategoryListCell(
-                        category: categoryProvider.categoryList[index]);
+                        category: ref.read(categoryProvider)[index]);
                   },
                 )
               : Align(

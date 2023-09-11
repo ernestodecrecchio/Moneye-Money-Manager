@@ -3,8 +3,8 @@ import 'package:expense_tracker/notifiers/account_provider.dart';
 import 'package:expense_tracker/pages/options_page/accounts_page/new_edit_account_page.dart';
 import 'package:expense_tracker/style.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 Future<Account?> showAccountBottomSheet(
@@ -25,7 +25,7 @@ Future<Account?> showAccountBottomSheet(
   );
 }
 
-class AccountSelectorContent extends StatefulWidget {
+class AccountSelectorContent extends ConsumerStatefulWidget {
   final Account? currentSelection;
 
   const AccountSelectorContent({
@@ -34,10 +34,12 @@ class AccountSelectorContent extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<AccountSelectorContent> createState() => _AccountSelectorContentState();
+  ConsumerState<AccountSelectorContent> createState() =>
+      _AccountSelectorContentState();
 }
 
-class _AccountSelectorContentState extends State<AccountSelectorContent> {
+class _AccountSelectorContentState
+    extends ConsumerState<AccountSelectorContent> {
   late final AppLocalizations appLocalizations;
 
   Account? _selectedAccount;
@@ -80,9 +82,10 @@ class _AccountSelectorContentState extends State<AccountSelectorContent> {
             ),
           ),
           Expanded(
-            child: Consumer<AccountProvider>(
-              builder: (context, accountProvider, child) {
-                final accountsList = accountProvider.accountList;
+            child: Consumer(
+              builder: (context, ref, child) {
+                final accountsList = ref.watch(accountProvider);
+
                 return ListView.builder(
                     shrinkWrap: true,
                     itemCount: accountsList.length + 1,
