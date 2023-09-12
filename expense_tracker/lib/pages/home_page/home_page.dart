@@ -95,134 +95,146 @@ class _HomePageState extends ConsumerState<HomePage> {
     }
 
     return Padding(
-      padding: const EdgeInsets.symmetric(
-          horizontal: horizontalPadding, vertical: 18),
+      padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 18),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            appLocalizations!.financialOverviewForThisMonth,
-            style: const TextStyle(
-              color: Colors.white70,
-              fontSize: 16,
-              fontWeight: FontWeight.w700,
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: horizontalPadding),
+            child: Text(
+              appLocalizations!.financialOverviewForThisMonth,
+              style: const TextStyle(
+                color: Colors.white70,
+                fontSize: 16,
+                fontWeight: FontWeight.w700,
+              ),
             ),
           ),
           const SizedBox(
             height: 20,
           ),
-          Text(
-            appLocalizations!.totalBalance,
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 18,
-              fontWeight: FontWeight.w400,
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: horizontalPadding),
+            child: Text(
+              appLocalizations!.totalBalance,
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 18,
+                fontWeight: FontWeight.w400,
+              ),
             ),
           ),
-          Row(
-            children: [
-              Flexible(
-                child: FittedBox(
-                  fit: BoxFit.fitWidth,
-                  child: Text(
-                    ref
-                        .read(transactionProvider.notifier)
-                        .totalBalance
-                        .toStringAsFixedRoundedWithCurrency(
-                            2, currentCurrency, currentCurrencyPosition),
-                    style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 40,
-                      overflow: TextOverflow.clip,
-                      color: Colors.white,
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: horizontalPadding),
+            child: Row(
+              children: [
+                Flexible(
+                  child: FittedBox(
+                    fit: BoxFit.fitWidth,
+                    child: Text(
+                      ref
+                          .read(transactionProvider.notifier)
+                          .totalBalance
+                          .toStringAsFixedRoundedWithCurrency(
+                              2, currentCurrency, currentCurrencyPosition),
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 40,
+                        overflow: TextOverflow.clip,
+                        color: Colors.white,
+                      ),
                     ),
                   ),
                 ),
-              ),
-              const SizedBox(
-                width: 28,
-              ),
-              _buildPercentageDifference()
-            ],
+                const SizedBox(
+                  width: 28,
+                ),
+                _buildPercentageDifference()
+              ],
+            ),
           ),
           const SizedBox(
             height: 14,
           ),
-          Row(
-            children: [
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  SvgPicture.asset('assets/icons/pocket_out.svg'),
-                  const SizedBox(
-                    width: 8,
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        appLocalizations!.outcomes,
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w300,
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            padding: const EdgeInsets.symmetric(horizontal: horizontalPadding),
+            child: Row(
+              children: [
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    SvgPicture.asset('assets/icons/pocket_out.svg'),
+                    const SizedBox(
+                      width: 8,
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          appLocalizations!.outcomes,
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w300,
+                          ),
                         ),
-                      ),
-                      const SizedBox(
-                        height: 6,
-                      ),
-                      Text(
-                        monthlyExpenses.toStringAsFixedRoundedWithCurrency(
-                            2, currentCurrency, currentCurrencyPosition),
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
+                        const SizedBox(
+                          height: 6,
                         ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-              const SizedBox(
-                width: 30,
-              ),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  SvgPicture.asset('assets/icons/pocket_in.svg'),
-                  const SizedBox(
-                    width: 8,
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        appLocalizations!.incomes,
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w300,
+                        Text(
+                          monthlyExpenses.toStringAsFixedRoundedWithCurrency(
+                              2, currentCurrency, currentCurrencyPosition),
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
-                      ),
-                      const SizedBox(
-                        height: 6,
-                      ),
-                      Text(
-                        monthlyIncome.toStringAsFixedRoundedWithCurrency(
-                            2, currentCurrency, currentCurrencyPosition),
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
+                      ],
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  width: 30,
+                ),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    SvgPicture.asset('assets/icons/pocket_in.svg'),
+                    const SizedBox(
+                      width: 8,
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          appLocalizations!.incomes,
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w300,
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                ],
-              )
-            ],
+                        const SizedBox(
+                          height: 6,
+                        ),
+                        Text(
+                          monthlyIncome.toStringAsFixedRoundedWithCurrency(
+                              2, currentCurrency, currentCurrencyPosition),
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                )
+              ],
+            ),
           ),
         ],
       ),
