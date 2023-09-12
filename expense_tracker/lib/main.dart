@@ -41,12 +41,6 @@ Future main() async {
     DeviceOrientation.portraitDown,
   ]);
 
-  SystemChrome.setSystemUIOverlayStyle(
-    const SystemUiOverlayStyle(
-      statusBarColor: Colors.red,
-    ),
-  );
-
   await _configureLocalTimeZone();
 
   SharedPreferences prefs = await SharedPreferences.getInstance();
