@@ -78,7 +78,7 @@ class AccountListTile extends ConsumerWidget {
                   ),
                 ),
                 Icon(
-                  Icons.more_vert_rounded,
+                  Icons.chevron_right_rounded,
                   color: Colors.white.withOpacity(0.5),
                   size: 15,
                 )
