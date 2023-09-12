@@ -82,13 +82,19 @@ class CategoryListCell extends ConsumerWidget {
             ),
             actions: [
               TextButton(
-                onPressed: () => isDeleteConfirmed = false,
+                onPressed: () {
+                  isDeleteConfirmed = false;
+                  Navigator.pop(context);
+                },
                 child: Text(
                   AppLocalizations.of(context)!.cancel,
                 ),
               ),
               TextButton(
-                onPressed: () => isDeleteConfirmed = true,
+                onPressed: () {
+                  isDeleteConfirmed = true;
+                  Navigator.pop(context);
+                },
                 child: Text(
                   AppLocalizations.of(context)!.delete,
                 ),

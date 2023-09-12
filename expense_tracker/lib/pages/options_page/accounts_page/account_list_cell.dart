@@ -82,13 +82,19 @@ class AccountListCell extends ConsumerWidget {
             ),
             actions: [
               TextButton(
-                onPressed: () => isDeleteConfirmed = false,
+                onPressed: () {
+                  isDeleteConfirmed = false;
+                  Navigator.of(context).pop();
+                },
                 child: Text(
                   AppLocalizations.of(context)!.cancel,
                 ),
               ),
               TextButton(
-                onPressed: () => isDeleteConfirmed = true,
+                onPressed: () {
+                  isDeleteConfirmed = true;
+                  Navigator.of(context).pop();
+                },
                 child: Text(
                   AppLocalizations.of(context)!.delete,
                 ),
