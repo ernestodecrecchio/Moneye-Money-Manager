@@ -171,7 +171,10 @@ class TransactionListCell extends ConsumerWidget {
     return Flexible(
       child: Text(
         dateString,
-        style: const TextStyle(fontSize: 12, color: Colors.black54),
+        style: const TextStyle(
+          fontSize: 12,
+          color: Colors.black54,
+        ),
       ),
     );
   }
