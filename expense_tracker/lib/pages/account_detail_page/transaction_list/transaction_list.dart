@@ -1,6 +1,8 @@
+import 'package:expense_tracker/Helper/double_helper.dart';
 import 'package:expense_tracker/models/category.dart';
 import 'package:expense_tracker/models/transaction.dart';
 import 'package:expense_tracker/notifiers/category_provider.dart';
+import 'package:expense_tracker/notifiers/currency_provider.dart';
 import 'package:expense_tracker/pages/account_detail_page/account_pie_chart.dart';
 import 'package:expense_tracker/pages/account_detail_page/transaction_list_page.dart';
 import 'package:expense_tracker/pages/common/delete_transaction_snackbar.dart';
@@ -168,6 +170,10 @@ class _TransactionListState extends ConsumerState<TransactionList> {
   _buildCategoryListCell(
       {required CategoryTotalValue categoryTotalValuePair,
       required List<Transaction> transactionList}) {
+    final currentCurrency = ref.watch(currentCurrencyProvider);
+    final currentCurrencyPosition =
+        ref.watch(currentCurrencySymbolPositionProvider);
+
     return InkWell(
       onTap: () => Navigator.of(context)
           .pushNamed(TransactionListPage.routeName, arguments: transactionList),
@@ -198,7 +204,12 @@ class _TransactionListState extends ConsumerState<TransactionList> {
                     height: 2,
                   ),
                   Text(
-                    categoryTotalValuePair.totalValue.toString(),
+                    categoryTotalValuePair.totalValue
+                        .toStringAsFixedRoundedWithCurrency(
+                      2,
+                      currentCurrency,
+                      currentCurrencyPosition,
+                    ),
                   ),
                 ],
               ),
