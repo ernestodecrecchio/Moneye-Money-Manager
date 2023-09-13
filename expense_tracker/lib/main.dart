@@ -49,12 +49,8 @@ Future main() async {
 
   // SETTING UP LOCALE
   final localeString = prefs.getString('locale');
-
-  if (localeString != null) {
-    final localeProviderNotifier = container.read(localeProvider.notifier);
-
-    localeProviderNotifier.setFromLocalStorage(localeString);
-  }
+  final localeProviderNotifier = container.read(localeProvider.notifier);
+  localeProviderNotifier.setFromLocalStorage(localeString);
 
   // SETTING UP CURRENCY SYMBOL
 
@@ -222,7 +218,6 @@ class MyApp extends r.ConsumerWidget {
                 );
               }
           }
-
           assert(false, 'Need to implement ${settings.name}');
           return null;
         },

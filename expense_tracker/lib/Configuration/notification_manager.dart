@@ -154,6 +154,10 @@ class NotificationManager {
   static Future<void> scheduleDailyNotification({
     required TimeOfDay atTime,
   }) async {
+    // AppLocalizations localizations = await AppLocalizations.delegate.load(
+    //   Locale(Intl.shortLocale(Intl.getCurrentLocale().toString())),
+    // );
+
     AppLocalizations localizations = await AppLocalizations.delegate.load(
       Locale(Intl.shortLocale(Intl.getCurrentLocale().toString())),
     );
@@ -168,7 +172,10 @@ class NotificationManager {
             'daily notification channel id',
             'daily notification channel name',
             channelDescription: 'daily notification description',
-            icon: '@drawable/ic_stat_logo_transparent',
+            importance: Importance.max,
+            priority: Priority.high,
+            icon:
+                '@drawable/ic_stat_logo_transparent', // Icon for the notification in android status bar
           ),
         ),
         androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
