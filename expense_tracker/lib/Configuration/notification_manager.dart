@@ -168,6 +168,7 @@ class NotificationManager {
             'daily notification channel id',
             'daily notification channel name',
             channelDescription: 'daily notification description',
+            icon: '@drawable/ic_stat_logo_transparent',
           ),
         ),
         androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
