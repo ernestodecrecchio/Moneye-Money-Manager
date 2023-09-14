@@ -44,7 +44,9 @@ class _LanguagesListPageState extends ConsumerState<LanguagesListPage> {
               'assets/flags/World.svg',
               fit: BoxFit.fill,
               colorFilter: const ColorFilter.mode(
-                  CustomColors.darkBlue, BlendMode.srcIn),
+                CustomColors.darkBlue,
+                BlendMode.srcIn,
+              ),
             ),
           ),
           trailing: currentLocale == null ? const Icon(Icons.check) : null,

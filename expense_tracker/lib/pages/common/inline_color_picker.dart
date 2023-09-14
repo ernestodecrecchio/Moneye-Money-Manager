@@ -18,15 +18,31 @@ class InlineColorPicker extends StatefulWidget {
 class _InlineColorPickerState extends State<InlineColorPicker> {
   final _controller = PageController();
 
+  List<Color> colorList = [
+    CustomColors.red1,
+    CustomColors.red2,
+    CustomColors.blue1,
+    CustomColors.blue2,
+    CustomColors.green1,
+    CustomColors.green2,
+    CustomColors.orange1,
+    CustomColors.yellow1,
+    CustomColors.brown1,
+    CustomColors.brown2,
+    CustomColors.black,
+    CustomColors.grey,
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 116,
-      padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 15),
+      height: 114,
+      clipBehavior: Clip.antiAlias,
+      padding: const EdgeInsets.only(top: 10, bottom: 10),
       decoration: BoxDecoration(
           color: CustomColors.lightBlue,
           borderRadius: BorderRadius.circular(25)),
-      child: _buildPageView(),
+      child: _buildGridView(), //_buildPageView(),
     );
   }
 
@@ -37,34 +53,19 @@ class _InlineColorPickerState extends State<InlineColorPicker> {
     super.dispose();
   }
 
-  Widget _buildPageView() {
-    return PageView(
-      controller: _controller,
-      children: [
-        _buildPage1(),
-      ],
-    );
-  }
-
-  _buildPage1() {
-    return Wrap(
-      spacing: 18,
-      alignment: WrapAlignment.spaceEvenly,
-      runSpacing: 14,
-      children: [
-        _buildColorItem(CustomColors.red1),
-        _buildColorItem(CustomColors.blue1),
-        _buildColorItem(CustomColors.green1),
-        _buildColorItem(CustomColors.orange1),
-        _buildColorItem(CustomColors.brown1),
-        _buildColorItem(CustomColors.black),
-        _buildColorItem(CustomColors.red2),
-        _buildColorItem(CustomColors.blue2),
-        _buildColorItem(CustomColors.green2),
-        _buildColorItem(CustomColors.yellow1),
-        _buildColorItem(CustomColors.brown2),
-        _buildColorItem(CustomColors.grey),
-      ],
+  Widget _buildGridView() {
+    return GridView.builder(
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        crossAxisSpacing: 14,
+        mainAxisSpacing: 14,
+      ),
+      padding: const EdgeInsets.symmetric(horizontal: 22),
+      scrollDirection: Axis.horizontal,
+      itemCount: colorList.length,
+      itemBuilder: (context, index) {
+        return _buildColorItem(colorList[index]);
+      },
     );
   }
 
@@ -89,4 +90,35 @@ class _InlineColorPickerState extends State<InlineColorPicker> {
       ),
     );
   }
+
+  // Widget _buildPageView() {
+  //   return PageView(
+  //     controller: _controller,
+  //     children: [
+  //       _buildPage1(),
+  //     ],
+  //   );
+  // }
+
+  // _buildPage1() {
+  //   return Wrap(
+  //     spacing: 18,
+  //     alignment: WrapAlignment.spaceEvenly,
+  //     runSpacing: 14,
+  //     children: [
+  //       _buildColorItem(CustomColors.red1),
+  //       _buildColorItem(CustomColors.blue1),
+  //       _buildColorItem(CustomColors.green1),
+  //       _buildColorItem(CustomColors.orange1),
+  //       _buildColorItem(CustomColors.brown1),
+  //       _buildColorItem(CustomColors.black),
+  //       _buildColorItem(CustomColors.red2),
+  //       _buildColorItem(CustomColors.blue2),
+  //       _buildColorItem(CustomColors.green2),
+  //       _buildColorItem(CustomColors.yellow1),
+  //       _buildColorItem(CustomColors.brown2),
+  //       _buildColorItem(CustomColors.grey),
+  //     ],
+  //   );
+  // }
 }
