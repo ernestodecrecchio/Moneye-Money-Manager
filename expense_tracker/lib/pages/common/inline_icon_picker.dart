@@ -31,6 +31,7 @@ class _InlineIconPickerState extends State<InlineIconPicker> {
     'assets/icons/cow.svg',
     'assets/icons/paw.svg',
     'assets/icons/car.svg',
+    'assets/icons/bus.svg',
     'assets/icons/cinema.svg',
     'assets/icons/food.svg',
     'assets/icons/graduate.svg',
@@ -50,6 +51,8 @@ class _InlineIconPickerState extends State<InlineIconPicker> {
     'assets/icons/book.svg',
     'assets/icons/present.svg',
     'assets/icons/doctor.svg',
+    'assets/icons/bill.svg',
+    'assets/icons/calendar.svg'
   ];
 
   @override

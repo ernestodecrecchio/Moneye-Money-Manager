@@ -143,8 +143,10 @@ class _TransactionListState extends ConsumerState<TransactionList> {
         } else {
           final otherEntry = CategoryTotalValue(
               category: Category(
-                  name: AppLocalizations.of(context)!.other,
-                  colorValue: Colors.grey.value),
+                name: AppLocalizations.of(context)!.other,
+                colorValue: Colors.grey.value,
+                iconPath: 'assets/icons/box.svg',
+              ),
               totalValue: transaction.value);
 
           categoryTotalValuePairs.add(otherEntry);
