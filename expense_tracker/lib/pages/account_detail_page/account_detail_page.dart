@@ -598,7 +598,14 @@ class _ScrollableTabViewState extends ConsumerState<ScrollableTabView> {
                           timeMode: widget.selectedTransactionTimePeriod,
                         ),
                     ],
+                    indicatorIconPathList: const [
+                      'assets/icons/pie-chart.svg',
+                      'assets/icons/bar-chart.svg',
+                    ],
                   ),
+                ),
+                const SizedBox(
+                  height: 4,
                 ),
                 _buildTransactionListSection(transactionList),
               ],

@@ -139,6 +139,14 @@ class TransactionListCell extends ConsumerWidget {
           BlendMode.srcIn,
         ),
       );
+    } else {
+      categoryIcon = SvgPicture.asset(
+        'assets/icons/box.svg',
+        colorFilter: const ColorFilter.mode(
+          Colors.white,
+          BlendMode.srcIn,
+        ),
+      );
     }
 
     return Container(
