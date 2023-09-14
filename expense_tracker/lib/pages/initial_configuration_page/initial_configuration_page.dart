@@ -84,6 +84,8 @@ class _InitialConfigurationPageState
           if (currentIndex != pages.length - 1)
             TextButton(
               onPressed: () async {
+                await onConfigurationEnd();
+
                 if (mounted) {
                   Navigator.pushReplacementNamed(context, TabBarPage.routeName);
                 }
