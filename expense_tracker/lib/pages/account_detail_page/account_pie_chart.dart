@@ -278,7 +278,13 @@ class _AccountPieChartState extends ConsumerState<AccountPieChart> {
       }
     }
 
-    // categoryTotalValuePairs.sort((a, b) => a.totalValue > b.totalValue ? 1 : 0);
+    if (widget.mode == AccountPieChartModeTransactionType.income) {
+      categoryTotalValuePairs
+          .sort((a, b) => a.totalValue < b.totalValue ? 1 : 0);
+    } else if (widget.mode == AccountPieChartModeTransactionType.expense) {
+      categoryTotalValuePairs
+          .sort((a, b) => a.totalValue > b.totalValue ? 1 : 0);
+    }
   }
 
   _addToOtherCategoryIndicator(Transaction transaction) {
