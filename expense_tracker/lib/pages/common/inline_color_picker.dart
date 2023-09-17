@@ -21,6 +21,8 @@ class _InlineColorPickerState extends State<InlineColorPicker> {
   List<Color> colorList = [
     CustomColors.red1,
     CustomColors.red2,
+    CustomColors.pink1,
+    CustomColors.pink2,
     CustomColors.blue1,
     CustomColors.blue2,
     CustomColors.green1,

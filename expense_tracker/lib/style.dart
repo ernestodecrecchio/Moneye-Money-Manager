@@ -28,6 +28,8 @@ class CustomColors {
   // Picker Colors
   static const red1 = Color.fromARGB(255, 244, 67, 54);
   static const red2 = Color.fromARGB(255, 233, 30, 99);
+  static const pink1 = Color.fromARGB(255, 255, 153, 187);
+  static const pink2 = Color.fromARGB(255, 236, 87, 137);
   static const blue1 = Color.fromARGB(255, 63, 81, 181);
   static const blue2 = Color.fromARGB(255, 33, 150, 243);
   static const green1 = Color.fromARGB(255, 0, 150, 136);
