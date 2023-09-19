@@ -488,6 +488,13 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
             text: AppLocalizations.of(context)!.outcome,
           )
         ],
+        overlayColor: MaterialStateProperty.resolveWith<Color?>(
+          (Set<MaterialState> states) {
+            return states.contains(MaterialState.focused)
+                ? null
+                : Colors.transparent;
+          },
+        ),
         unselectedLabelColor: CustomColors.clearGreyText,
         labelColor: Colors.white,
         indicator: BoxDecoration(
