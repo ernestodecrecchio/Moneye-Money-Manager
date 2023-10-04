@@ -30,7 +30,7 @@ class AccountListTile extends ConsumerWidget {
         arguments: account,
       ),
       child: Container(
-        width: 145,
+        width: MediaQuery.of(context).size.height * 0.18, // 145,
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
         margin: const EdgeInsets.symmetric(vertical: 5),
         decoration: BoxDecoration(

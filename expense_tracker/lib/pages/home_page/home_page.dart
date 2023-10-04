@@ -47,13 +47,15 @@ class _HomePageState extends ConsumerState<HomePage> {
         child: SingleChildScrollView(
           physics: const ClampingScrollPhysics(),
           child: SafeArea(
-            child: Column(children: [
-              _buildTopSection(),
-              const SizedBox(
-                height: 20,
-              ),
-              _buildBottomSection(),
-            ]),
+            child: Column(
+              children: [
+                _buildTopSection(),
+                const SizedBox(
+                  height: 20,
+                ),
+                _buildBottomSection(),
+              ],
+            ),
           ),
         ),
       ),
@@ -317,7 +319,7 @@ class _HomePageState extends ConsumerState<HomePage> {
         ),
         list.isNotEmpty
             ? SizedBox(
-                height: 90,
+                height: MediaQuery.of(context).size.height * 0.12, //90,
                 child: ListView.separated(
                   clipBehavior: Clip.none,
                   padding:
@@ -480,7 +482,9 @@ class _HomePageState extends ConsumerState<HomePage> {
               : Align(
                   alignment: Alignment.center,
                   child: Padding(
-                    padding: const EdgeInsets.only(top: 8.0),
+                    padding: const EdgeInsets.only(
+                      top: 8.0,
+                    ),
                     child: Text(
                       appLocalizations!.noTransactions,
                       style: const TextStyle(color: Colors.grey),
