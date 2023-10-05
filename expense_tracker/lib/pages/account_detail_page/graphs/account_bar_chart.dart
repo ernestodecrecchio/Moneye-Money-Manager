@@ -536,7 +536,7 @@ class AccountBarChartState extends ConsumerState<AccountBarChart> {
   BarChartGroupData makeGroupData(
       {required int x, required double? y1, double? y2}) {
     return BarChartGroupData(
-      barsSpace: 4,
+      barsSpace: 1,
       x: x,
       barRods: [
         if (y1 != null &&
@@ -548,7 +548,6 @@ class AccountBarChartState extends ConsumerState<AccountBarChart> {
             toY: y1,
             color: incomeBarColor,
             width: barWidth,
-         
           ),
         if (y2 != null &&
             (widget.transactionType ==
