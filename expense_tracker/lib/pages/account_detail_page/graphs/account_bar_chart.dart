@@ -135,9 +135,11 @@ class AccountBarChartState extends ConsumerState<AccountBarChart> {
         top: 8.0,
       ),
       child: BarChart(
+        
         BarChartData(
           minY: minY,
           maxY: maxY,
+          
           barTouchData: BarTouchData(
             touchTooltipData: BarTouchTooltipData(
               tooltipBgColor: Colors.grey[200],
@@ -171,12 +173,15 @@ class AccountBarChartState extends ConsumerState<AccountBarChart> {
           borderData: FlBorderData(
             show: false,
           ),
+          
           barGroups: showingBarGroups,
           //   groupsSpace: ,
           gridData: FlGridData(
             show: false,
           ),
         ),
+
+      
       ),
     );
   }
@@ -543,6 +548,7 @@ class AccountBarChartState extends ConsumerState<AccountBarChart> {
             toY: y1,
             color: incomeBarColor,
             width: barWidth,
+         
           ),
         if (y2 != null &&
             (widget.transactionType ==
