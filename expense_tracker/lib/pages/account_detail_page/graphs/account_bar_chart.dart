@@ -135,8 +135,7 @@ class AccountBarChartState extends ConsumerState<AccountBarChart> {
       padding: const EdgeInsets.only(
         top: 8.0,
       ),
-      child: BarChart(
-        
+      child: BarChart(  
         BarChartData(
           minY: minY,
           maxY: maxY,    
@@ -427,13 +426,13 @@ class AccountBarChartState extends ConsumerState<AccountBarChart> {
 
         if (transaction.value >= 0) {
           balanceMap2[transaction.date.weekday - 1] = [
-            currValueArray[0] + transaction.value,
+             (currValueArray[0] + transaction.value).withPrecision(2),
             currValueArray[1]
           ];
         } else {
           balanceMap2[transaction.date.weekday - 1] = [
             currValueArray[0],
-            currValueArray[1] + transaction.value,
+           (currValueArray[1] + transaction.value).withPrecision(2),
           ];
         }
       }
@@ -467,13 +466,13 @@ class AccountBarChartState extends ConsumerState<AccountBarChart> {
 
         if (transaction.value >= 0) {
           balanceMap[transactionWeeknumber - firstWeeknumberOfMonth] = [
-            currValueArray[0] + transaction.value,
+           (currValueArray[0] + transaction.value).withPrecision(2),
             currValueArray[1]
           ];
         } else {
           balanceMap[transactionWeeknumber - firstWeeknumberOfMonth] = [
             currValueArray[0],
-            currValueArray[1] + transaction.value,
+           (currValueArray[1] + transaction.value).withPrecision(2),
           ];
         }
       }
@@ -498,13 +497,13 @@ class AccountBarChartState extends ConsumerState<AccountBarChart> {
 
         if (transaction.value >= 0) {
           balanceMap[transaction.date.month - 1] = [
-            currValueArray[0] + transaction.value,
+            (currValueArray[0] + transaction.value).withPrecision(2),
             currValueArray[1]
           ];
         } else {
           balanceMap[transaction.date.month - 1] = [
             currValueArray[0],
-            currValueArray[1] + transaction.value,
+             (currValueArray[1] + transaction.value).withPrecision(2),
           ];
         }
       }

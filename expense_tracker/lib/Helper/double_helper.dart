@@ -18,4 +18,8 @@ extension DoubleParsing on double {
       return '${currencySymbolPosition == CurrencySymbolPosition.leading ? currencyCurrency?.symbolNative : ''}${toStringAsFixedRounded(fractionDigits)}${currencySymbolPosition == CurrencySymbolPosition.trailing ? currencyCurrency?.symbolNative : ''}';
     }
   }
+
+  double withPrecision(int precision) {
+    return double.parse(toStringAsFixed(precision));
+  }
 }
