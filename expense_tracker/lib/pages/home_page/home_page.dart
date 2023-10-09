@@ -40,26 +40,61 @@ class _HomePageState extends ConsumerState<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: _buildFloatingActionButton(context),
-      backgroundColor: Colors.white,
-      body: Container(
-        color: CustomColors.blue,
-        child: SingleChildScrollView(
-          physics: const ClampingScrollPhysics(),
-          child: SafeArea(
-            child: Column(
+        floatingActionButton: _buildFloatingActionButton(context),
+        backgroundColor: Colors.white,
+        body: Stack(
+          children: [
+            Column(
               children: [
-                _buildTopSection(),
-                const SizedBox(
-                  height: 20,
+                Container(
+                  color: CustomColors.blue,
+                  height: MediaQuery.of(context).size.height * 0.3,
                 ),
-                _buildBottomSection(),
+                Expanded(
+                  child: Container(
+                    color: Colors.white,
+                  ),
+                ),
               ],
             ),
-          ),
-        ),
-      ),
-    );
+            SingleChildScrollView(
+              child: SafeArea(
+                child: Column(
+                  children: [
+                    Container(
+                      color: CustomColors.blue,
+                      child: _buildTopSection(),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    _buildBottomSection(),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        )
+
+        // body: Container(
+        //   color: CustomColors.blue,
+
+        //   child: SingleChildScrollView(
+        //   //  physics: const ClampingScrollPhysics(),
+        //     child: SafeArea(
+        //       child: Column(
+        //         children: [
+        //           _buildTopSection(),
+        //           const SizedBox(
+        //             height: 20,
+        //           ),
+        //           _buildBottomSection(),
+        //         ],
+        //       ),
+        //     ),
+        //   ),
+        // ),
+        );
   }
 
   _buildTopSection() {
@@ -97,7 +132,7 @@ class _HomePageState extends ConsumerState<HomePage> {
     }
 
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 18),
+      padding: const EdgeInsets.symmetric(vertical: 18),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -435,21 +470,35 @@ class _HomePageState extends ConsumerState<HomePage> {
                   ),
                 ),
                 const Spacer(),
-                TextButton(
-                  onPressed: () => Navigator.of(context)
-                      .pushNamed(AccountDetailPage.routeName),
-                  style: TextButton.styleFrom(
-                      padding: EdgeInsets.zero,
-                      minimumSize: Size.zero,
-                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                      alignment: Alignment.centerLeft),
-                  child: Text(
-                    appLocalizations!.viewAll,
-                    style: const TextStyle(
-                      fontSize: 16,
+                Wrap(
+                  children: [
+                    TextButton(
+                      onPressed: () => Navigator.of(context)
+                          .pushNamed(AccountDetailPage.routeName),
+                      style: TextButton.styleFrom(
+                        padding: EdgeInsets.zero,
+                        minimumSize: Size.zero,
+                        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                      ),
+                      child: Row(
+                        mainAxisSize:
+                            MainAxisSize.min, // Make the row take minimum space
+                        children: [
+                          Text(
+                            appLocalizations!.viewAll,
+                            style: const TextStyle(
+                              fontSize: 16,
+                            ),
+                            textAlign: TextAlign.left,
+                          ),
+                          const Icon(
+                            Icons.chevron_right_rounded,
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                ),
+                  ],
+                )
               ],
             ),
           ),
