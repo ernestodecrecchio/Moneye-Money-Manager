@@ -41,6 +41,7 @@ class AccountBarChartState extends ConsumerState<AccountBarChart> {
   final Color avgColor = CustomColors.blue;
 
   final double barWidth = 10;
+  final double barsSpace = 1; // Space between bars of the same group
 
   late Map<int, List<double>> valueMap;
 
@@ -138,9 +139,8 @@ class AccountBarChartState extends ConsumerState<AccountBarChart> {
         
         BarChartData(
           minY: minY,
-          maxY: maxY,
-          
-          barTouchData: BarTouchData(
+          maxY: maxY,    
+         barTouchData: BarTouchData(
             touchTooltipData: BarTouchTooltipData(
               tooltipBgColor: Colors.grey[200],
               fitInsideVertically: true,
@@ -166,14 +166,13 @@ class AccountBarChartState extends ConsumerState<AccountBarChart> {
               sideTitles: SideTitles(
                   showTitles: true,
                   reservedSize: 35,
-                  //interval: 1,
+                //  interval: getInterval(),
                   getTitlesWidget: leftTitles),
             ),
           ),
           borderData: FlBorderData(
             show: false,
-          ),
-          
+          ),         
           barGroups: showingBarGroups,
           //   groupsSpace: ,
           gridData: FlGridData(
@@ -536,7 +535,7 @@ class AccountBarChartState extends ConsumerState<AccountBarChart> {
   BarChartGroupData makeGroupData(
       {required int x, required double? y1, double? y2}) {
     return BarChartGroupData(
-      barsSpace: 1,
+      barsSpace: barsSpace,
       x: x,
       barRods: [
         if (y1 != null &&
