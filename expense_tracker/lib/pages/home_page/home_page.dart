@@ -1,22 +1,21 @@
 import 'package:collection/collection.dart';
-import 'package:expense_tracker/Helper/double_helper.dart';
 import 'package:expense_tracker/models/account.dart';
 import 'package:expense_tracker/models/category.dart';
 import 'package:expense_tracker/models/transaction.dart';
 import 'package:expense_tracker/notifiers/account_provider.dart';
 import 'package:expense_tracker/notifiers/category_provider.dart';
-import 'package:expense_tracker/notifiers/currency_provider.dart';
 import 'package:expense_tracker/notifiers/transaction_provider.dart';
 import 'package:expense_tracker/pages/account_detail_page/account_detail_page.dart';
 import 'package:expense_tracker/pages/common/delete_transaction_snackbar.dart';
 import 'package:expense_tracker/pages/common/list_tiles/transaction_list_cell.dart';
+import 'package:expense_tracker/pages/home_page/home_flexible_app_bar.dart';
+import 'package:expense_tracker/pages/home_page/home_app_bar.dart';
 import 'package:expense_tracker/pages/options_page/accounts_page/new_edit_account_page.dart';
 import 'package:expense_tracker/pages/new_edit_transaction_flow/new_edit_transaction_page.dart';
 import 'package:expense_tracker/pages/common/list_tiles/account_list_tile.dart';
 import 'package:expense_tracker/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class HomePage extends ConsumerStatefulWidget {
@@ -40,263 +39,42 @@ class _HomePageState extends ConsumerState<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: _buildFloatingActionButton(context),
-      backgroundColor: Colors.white,
-      body: Container(
-        color: CustomColors.blue,
-        child: SingleChildScrollView(
-          physics: const ClampingScrollPhysics(),
-          child: SafeArea(
-            child: Column(
-              children: [
-                _buildTopSection(),
-                const SizedBox(
-                  height: 20,
-                ),
-                _buildBottomSection(),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  _buildTopSection() {
-    return _buildMonthlyBalanceSection();
-  }
-
-  Widget _buildBottomSection() {
-    return Container(
-      padding: const EdgeInsets.only(top: 8),
-      color: Colors.white,
-      child: Column(children: [
-        _buildAccountSection(),
-        const SizedBox(
-          height: 14,
-        ),
-        _buildLastTransactionList(),
-      ]),
-    );
-  }
-
-  Widget _buildMonthlyBalanceSection() {
-    final currentCurrency = ref.watch(currentCurrencyProvider);
-    final currentCurrencyPosition =
-        ref.watch(currentCurrencySymbolPositionProvider);
-
-    final List<Transaction> currentMonthTransactions =
-        ref.read(transactionProvider.notifier).currentMonthTransactionList;
-
-    double monthlyIncome = 0;
-    double monthlyExpenses = 0;
-    for (var transaction in currentMonthTransactions) {
-      transaction.value >= 0
-          ? monthlyIncome += transaction.value
-          : monthlyExpenses += transaction.value;
-    }
-
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 18),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: horizontalPadding),
-            child: Text(
-              appLocalizations!.financialOverviewForThisMonth,
-              style: const TextStyle(
-                color: Colors.white70,
-                fontSize: 16,
-                fontWeight: FontWeight.w700,
-              ),
-            ),
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: horizontalPadding),
-            child: Text(
-              appLocalizations!.totalBalance,
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 18,
-                fontWeight: FontWeight.w400,
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: horizontalPadding),
-            child: Row(
-              children: [
-                Flexible(
-                  child: FittedBox(
-                    fit: BoxFit.fitWidth,
-                    child: Text(
-                      ref
-                          .read(transactionProvider.notifier)
-                          .totalBalance
-                          .toStringAsFixedRoundedWithCurrency(
-                              2, currentCurrency, currentCurrencyPosition),
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 40,
-                        overflow: TextOverflow.clip,
-                        color: Colors.white,
-                      ),
-                    ),
+      floatingActionButton: _buildFloatingActionButton(),
+      body: CustomScrollView(
+        slivers: <Widget>[
+          SliverAppBar(
+            backgroundColor: CustomColors.blue,
+            pinned: true,
+            expandedHeight: 200,
+            flexibleSpace: LayoutBuilder(
+              builder: (BuildContext context, BoxConstraints constraints) {
+                return FlexibleSpaceBar(
+                  title: AnimatedOpacity(
+                    duration: const Duration(milliseconds: 300),
+                    opacity: constraints.biggest.height ==
+                            MediaQuery.of(context).padding.top + kToolbarHeight
+                        ? 1.0
+                        : 0.0,
+                    child: const HomeAppBar(),
                   ),
-                ),
-                const SizedBox(
-                  width: 28,
-                ),
-                _buildPercentageDifference()
-              ],
+                  background: const HomeFlexibleSpaceBar(),
+                );
+              },
             ),
           ),
-          const SizedBox(
-            height: 14,
-          ),
-          SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            padding: const EdgeInsets.symmetric(horizontal: horizontalPadding),
-            child: Row(
-              children: [
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    SvgPicture.asset('assets/icons/pocket_out.svg'),
-                    const SizedBox(
-                      width: 8,
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          appLocalizations!.outcomes,
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w300,
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 6,
-                        ),
-                        Text(
-                          monthlyExpenses.toStringAsFixedRoundedWithCurrency(
-                              2, currentCurrency, currentCurrencyPosition),
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
+          SliverList(
+            delegate: SliverChildListDelegate(
+              <Widget>[
+                _buildAccountSection(),
                 const SizedBox(
-                  width: 30,
+                  height: 14,
                 ),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    SvgPicture.asset('assets/icons/pocket_in.svg'),
-                    const SizedBox(
-                      width: 8,
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          appLocalizations!.incomes,
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w300,
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 6,
-                        ),
-                        Text(
-                          monthlyIncome.toStringAsFixedRoundedWithCurrency(
-                              2, currentCurrency, currentCurrencyPosition),
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                )
+                _buildLastTransactionList(),
               ],
             ),
           ),
         ],
       ),
-    );
-  }
-
-  Widget _buildPercentageDifference() {
-    return Consumer(
-      builder: (context, ref, child) {
-        final currMonthDate = DateTime.now();
-        final prevMonthDate =
-            DateTime(currMonthDate.year, currMonthDate.month, 1);
-
-        double currMonthBalance = ref
-            .watch(transactionProvider.notifier)
-            .getTotalBanalceUntilDate(currMonthDate);
-        double prevMonthBalance = ref
-            .watch(transactionProvider.notifier)
-            .getTotalBanalceUntilDate(prevMonthDate);
-
-        if (prevMonthBalance != 0) {
-          final diffPercentage =
-              ((currMonthBalance - prevMonthBalance) / prevMonthBalance) * 100;
-
-          return Container(
-            decoration: BoxDecoration(
-              color: Colors.white24,
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.only(
-                left: 10,
-                right: 20,
-                top: 8,
-                bottom: 8,
-              ),
-              child: Row(
-                children: [
-                  Icon(
-                    diffPercentage >= 0
-                        ? Icons.arrow_drop_up_rounded
-                        : Icons.arrow_drop_down_rounded,
-                    color: Colors.white,
-                  ),
-                  Text(
-                    '${diffPercentage.toStringAsFixedRounded(2)}%',
-                    style: const TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          );
-        }
-
-        return const SizedBox.shrink();
-      },
     );
   }
 
@@ -418,100 +196,97 @@ class _HomePageState extends ConsumerState<HomePage> {
         .take(5)
         .toList();
 
-    return SizedBox(
-      width: double.infinity,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: horizontalPadding),
-            child: Row(
-              children: [
-                Text(
-                  appLocalizations!.lastTransactions,
-                  style: const TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: horizontalPadding),
+          child: Row(
+            children: [
+              Text(
+                appLocalizations!.lastTransactions,
+                style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const Spacer(),
+              Wrap(
+                children: [
+                  TextButton(
+                    onPressed: () => Navigator.of(context)
+                        .pushNamed(AccountDetailPage.routeName),
+                    style: TextButton.styleFrom(
+                      padding: EdgeInsets.zero,
+                      minimumSize: Size.zero,
+                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                    ),
+                    child: Row(
+                      mainAxisSize:
+                          MainAxisSize.min, // Make the row take minimum space
+                      children: [
+                        Text(
+                          appLocalizations!.viewAll,
+                          style: const TextStyle(
+                            fontSize: 16,
+                          ),
+                          textAlign: TextAlign.left,
+                        ),
+                        const Icon(
+                          Icons.chevron_right_rounded,
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              )
+            ],
+          ),
+        ),
+        const SizedBox(
+          height: 8,
+        ),
+        lastTransactionList.isNotEmpty
+            ? ListView.separated(
+                padding: EdgeInsets.zero,
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: lastTransactionList.length,
+                itemBuilder: (_, index) {
+                  return TransactionListCell(
+                    transaction: lastTransactionList[index],
+                    horizontalPadding: horizontalPadding,
+                    onTransactionDelete: (transaction, index) {
+                      showDeleteTransactionSnackbar(
+                        context,
+                        ref,
+                        transaction,
+                        index,
+                      );
+                    },
+                  );
+                },
+                separatorBuilder: (context, index) => const Divider(
+                  height: 1,
+                ),
+              )
+            : Align(
+                alignment: Alignment.center,
+                child: Padding(
+                  padding: const EdgeInsets.only(
+                    top: 8.0,
+                  ),
+                  child: Text(
+                    appLocalizations!.noTransactions,
+                    style: const TextStyle(color: Colors.grey),
+                    textAlign: TextAlign.start,
                   ),
                 ),
-                const Spacer(),
-                Wrap(
-                  children: [
-                    TextButton(
-                      onPressed: () => Navigator.of(context)
-                          .pushNamed(AccountDetailPage.routeName),
-                      style: TextButton.styleFrom(
-                        padding: EdgeInsets.zero,
-                        minimumSize: Size.zero,
-                        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                      ),
-                      child: Row(
-                        mainAxisSize:
-                            MainAxisSize.min, // Make the row take minimum space
-                        children: [
-                          Text(
-                            appLocalizations!.viewAll,
-                            style: const TextStyle(
-                              fontSize: 16,
-                            ),
-                            textAlign: TextAlign.left,
-                          ),
-                          const Icon(
-                            Icons.chevron_right_rounded,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                )
-              ],
-            ),
-          ),
-          const SizedBox(
-            height: 8,
-          ),
-          lastTransactionList.isNotEmpty
-              ? ListView.separated(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemCount: lastTransactionList.length,
-                  itemBuilder: (_, index) {
-                    return TransactionListCell(
-                      transaction: lastTransactionList[index],
-                      horizontalPadding: horizontalPadding,
-                      onTransactionDelete: (transaction, index) {
-                        showDeleteTransactionSnackbar(
-                          context,
-                          ref,
-                          transaction,
-                          index,
-                        );
-                      },
-                    );
-                  },
-                  separatorBuilder: (context, index) => const Divider(
-                    height: 1,
-                  ),
-                )
-              : Align(
-                  alignment: Alignment.center,
-                  child: Padding(
-                    padding: const EdgeInsets.only(
-                      top: 8.0,
-                    ),
-                    child: Text(
-                      appLocalizations!.noTransactions,
-                      style: const TextStyle(color: Colors.grey),
-                      textAlign: TextAlign.start,
-                    ),
-                  ),
-                ),
-        ],
-      ),
+              ),
+      ],
     );
   }
 
-  Widget _buildFloatingActionButton(BuildContext context) {
+  Widget _buildFloatingActionButton() {
     return FloatingActionButton(
       backgroundColor: CustomColors.darkBlue,
       onPressed: () =>
