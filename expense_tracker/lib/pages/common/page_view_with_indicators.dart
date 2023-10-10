@@ -20,6 +20,7 @@ class PageViewWithIndicators extends StatefulWidget {
 
 class _PageViewWithIndicatorsState extends State<PageViewWithIndicators> {
   int _selectedIndex = 0;
+  PageController _pageController = PageController();
 
   @override
   Widget build(BuildContext context) {
@@ -27,6 +28,7 @@ class _PageViewWithIndicatorsState extends State<PageViewWithIndicators> {
       children: [
         Expanded(
           child: PageView.builder(
+            controller: _pageController,
             clipBehavior: Clip.none,
             itemCount: widget.widgetList.length,
             itemBuilder: (context, index) {
@@ -40,7 +42,9 @@ class _PageViewWithIndicatorsState extends State<PageViewWithIndicators> {
         if (widget.widgetList.length > 1)
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: [..._buildPageIndicator()],
+            children: [
+              ..._buildPageIndicator(),
+            ],
           )
       ],
     );
@@ -48,15 +52,18 @@ class _PageViewWithIndicatorsState extends State<PageViewWithIndicators> {
 
   List<Widget> _buildPageIndicator() {
     List<Widget> list = [];
+
     for (int i = 0; i < widget.widgetList.length; i++) {
       list.add(i == _selectedIndex
           ? _indicator(
               isActive: true,
+              index: i,
               iconPath: widget.indicatorIconPathList != null
                   ? widget.indicatorIconPathList![i]
                   : null)
           : _indicator(
               isActive: false,
+              index: i,
               iconPath: widget.indicatorIconPathList != null
                   ? widget.indicatorIconPathList![i]
                   : null));
@@ -64,37 +71,35 @@ class _PageViewWithIndicatorsState extends State<PageViewWithIndicators> {
     return list;
   }
 
-  Widget _indicator({required bool isActive, String? iconPath}) {
-    if (iconPath != null) {
-      return SizedBox(
-        child: AnimatedContainer(
-          height: isActive ? 18 : 14,
-          width: isActive ? 18 : 14,
-          duration: const Duration(milliseconds: 150),
-          margin: const EdgeInsets.symmetric(horizontal: 4.0),
-          child: SvgPicture.asset(
-            iconPath,
-            colorFilter: ColorFilter.mode(
-              isActive ? CustomColors.blue : CustomColors.grey,
-              BlendMode.srcIn,
-            ),
-          ),
-        ),
-      );
-    } else {
-      return SizedBox(
-        height: 10,
-        child: AnimatedContainer(
-          duration: const Duration(milliseconds: 150),
-          margin: const EdgeInsets.symmetric(horizontal: 4.0),
-          height: isActive ? 8 : 4,
-          width: isActive ? 8 : 4,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            color: isActive ? CustomColors.blue : CustomColors.grey,
-          ),
-        ),
-      );
-    }
+  Widget _indicator({
+    required bool isActive,
+    required int index,
+    String? iconPath,
+  }) {
+    return GestureDetector(
+      onTap: () {
+        _pageController.animateToPage(
+          index,
+          duration: const Duration(milliseconds: 500),
+          curve: Curves.ease,
+        );
+        _selectedIndex = index;
+      },
+      child: AnimatedContainer(
+        height: isActive ? 18 : 14,
+        width: isActive ? 18 : 14,
+        duration: const Duration(milliseconds: 150),
+        margin: const EdgeInsets.symmetric(horizontal: 4.0),
+        child: iconPath != null
+            ? SvgPicture.asset(
+                iconPath,
+                colorFilter: ColorFilter.mode(
+                  isActive ? CustomColors.blue : CustomColors.grey,
+                  BlendMode.srcIn,
+                ),
+              )
+            : null,
+      ),
+    );
   }
 }

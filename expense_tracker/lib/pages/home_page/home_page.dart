@@ -40,61 +40,26 @@ class _HomePageState extends ConsumerState<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        floatingActionButton: _buildFloatingActionButton(context),
-        backgroundColor: Colors.white,
-        body: Stack(
-          children: [
-            Column(
+      floatingActionButton: _buildFloatingActionButton(context),
+      backgroundColor: Colors.white,
+      body: Container(
+        color: CustomColors.blue,
+        child: SingleChildScrollView(
+          physics: const ClampingScrollPhysics(),
+          child: SafeArea(
+            child: Column(
               children: [
-                Container(
-                  color: CustomColors.blue,
-                  height: MediaQuery.of(context).size.height * 0.3,
+                _buildTopSection(),
+                const SizedBox(
+                  height: 20,
                 ),
-                Expanded(
-                  child: Container(
-                    color: Colors.white,
-                  ),
-                ),
+                _buildBottomSection(),
               ],
             ),
-            SingleChildScrollView(
-              child: SafeArea(
-                child: Column(
-                  children: [
-                    Container(
-                      color: CustomColors.blue,
-                      child: _buildTopSection(),
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    _buildBottomSection(),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        )
-
-        // body: Container(
-        //   color: CustomColors.blue,
-
-        //   child: SingleChildScrollView(
-        //   //  physics: const ClampingScrollPhysics(),
-        //     child: SafeArea(
-        //       child: Column(
-        //         children: [
-        //           _buildTopSection(),
-        //           const SizedBox(
-        //             height: 20,
-        //           ),
-        //           _buildBottomSection(),
-        //         ],
-        //       ),
-        //     ),
-        //   ),
-        // ),
-        );
+          ),
+        ),
+      ),
+    );
   }
 
   _buildTopSection() {
