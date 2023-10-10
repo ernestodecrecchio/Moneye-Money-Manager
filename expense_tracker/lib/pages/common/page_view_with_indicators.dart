@@ -20,7 +20,7 @@ class PageViewWithIndicators extends StatefulWidget {
 
 class _PageViewWithIndicatorsState extends State<PageViewWithIndicators> {
   int _selectedIndex = 0;
-  PageController _pageController = PageController();
+  final PageController _pageController = PageController();
 
   @override
   Widget build(BuildContext context) {
