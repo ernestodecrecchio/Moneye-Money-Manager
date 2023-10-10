@@ -319,7 +319,7 @@ class _HomePageState extends ConsumerState<HomePage> {
         ),
         list.isNotEmpty
             ? SizedBox(
-                height: MediaQuery.of(context).size.height * 0.12, //90,
+                height: 100,
                 child: ListView.separated(
                   clipBehavior: Clip.none,
                   padding:

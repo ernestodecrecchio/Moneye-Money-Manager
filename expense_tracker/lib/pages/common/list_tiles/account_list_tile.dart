@@ -23,14 +23,14 @@ class AccountListTile extends ConsumerWidget {
     final currentCurrencyPosition =
         ref.watch(currentCurrencySymbolPositionProvider);
 
-    return InkWell(
+    return GestureDetector(
       onTap: () => Navigator.pushNamed(
         context,
         AccountDetailPage.routeName,
         arguments: account,
       ),
       child: Container(
-        width: MediaQuery.of(context).size.height * 0.18, // 145,
+        width: 145,
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
         margin: const EdgeInsets.symmetric(vertical: 5),
         decoration: BoxDecoration(
@@ -67,13 +67,19 @@ class AccountListTile extends ConsumerWidget {
                   width: 4,
                 ),
                 Expanded(
-                  child: Text(
-                    account.name,
-                    overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                      fontSize: 14,
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: FittedBox(
+                      fit: BoxFit.scaleDown,
+                      child: Text(
+                        account.name,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                          fontSize: 14,
+                        ),
+                      ),
                     ),
                   ),
                 ),
@@ -93,7 +99,7 @@ class AccountListTile extends ConsumerWidget {
                     Text(
                       AppLocalizations.of(context)!.total,
                       style: TextStyle(
-                        fontSize: 10,
+                        fontSize: 12,
                         color: Colors.white.withOpacity(0.5),
                       ),
                     ),
