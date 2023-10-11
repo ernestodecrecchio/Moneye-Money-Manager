@@ -36,13 +36,7 @@ class _HomeFlexibleSpaceBarState extends ConsumerState<HomeFlexibleSpaceBar> {
       padding: EdgeInsets.only(top: statusBarHeight),
       height: statusBarHeight + appBarHeight,
       color: CustomColors.blue,
-      child: Center(
-          child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          _buildMonthlyBalanceSection(),
-        ],
-      )),
+      child: _buildMonthlyBalanceSection(),
     );
   }
 
@@ -52,7 +46,7 @@ class _HomeFlexibleSpaceBarState extends ConsumerState<HomeFlexibleSpaceBar> {
         ref.watch(currentCurrencySymbolPositionProvider);
 
     final List<Transaction> currentMonthTransactions =
-        ref.read(transactionProvider.notifier).currentMonthTransactionList;
+        getCurrentMonthTransactionList();
 
     double monthlyIncome = 0;
     double monthlyExpenses = 0;
@@ -264,5 +258,16 @@ class _HomeFlexibleSpaceBarState extends ConsumerState<HomeFlexibleSpaceBar> {
         return const SizedBox.shrink();
       },
     );
+  }
+
+  List<Transaction> getCurrentMonthTransactionList() {
+    final todayDate = DateTime.now();
+
+    return ref
+        .watch(transactionProvider)
+        .where((element) =>
+            element.date.month == todayDate.month &&
+            element.date.year == todayDate.year)
+        .toList();
   }
 }

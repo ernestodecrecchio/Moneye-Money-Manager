@@ -10,16 +10,6 @@ class TransactionNotifier extends Notifier<List<Transaction>> {
     return [];
   }
 
-  List<Transaction> get currentMonthTransactionList {
-    final todayDate = DateTime.now();
-
-    return state
-        .where((element) =>
-            element.date.month == todayDate.month &&
-            element.date.year == todayDate.year)
-        .toList();
-  }
-
   double get totalBalance {
     return state.fold(
         0, (previousValue, element) => previousValue + element.value);
