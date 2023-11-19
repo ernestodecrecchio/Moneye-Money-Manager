@@ -4,6 +4,7 @@ import 'package:expense_tracker/models/transaction.dart';
 import 'package:expense_tracker/notifiers/account_provider.dart';
 import 'package:expense_tracker/notifiers/category_provider.dart';
 import 'package:expense_tracker/notifiers/transaction_provider.dart';
+import 'package:expense_tracker/pages/common/custom_elevated_button.dart';
 import 'package:expense_tracker/pages/new_edit_transaction_flow/account_selector_dialog.dart';
 import 'package:expense_tracker/pages/common/custom_text_field.dart';
 import 'package:expense_tracker/pages/new_edit_transaction_flow/category_selector_dialog.dart';
@@ -29,10 +30,10 @@ class NewEditTransactionPage extends ConsumerStatefulWidget {
   final Account? initialAccountSettings;
 
   const NewEditTransactionPage({
-    Key? key,
+    super.key,
     this.initialTransactionSettings,
     this.initialAccountSettings,
-  }) : super(key: key);
+  });
 
   @override
   ConsumerState<NewEditTransactionPage> createState() =>
@@ -146,13 +147,12 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(editMode
-            ? appLocalizations.editTransaction
-            : appLocalizations.newTransaction),
-        backgroundColor: CustomColors.blue,
-        elevation: 0,
+        title: Text(
+          editMode
+              ? appLocalizations.editTransaction
+              : appLocalizations.newTransaction,
+        ),
       ),
-      backgroundColor: Colors.white,
       body: SafeArea(
         minimum: const EdgeInsets.symmetric(horizontal: 17),
         child: CustomScrollView(
@@ -232,7 +232,7 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
               hintText: appLocalizations.selectDate,
               icon: Icons.calendar_month_rounded,
               readOnly: true,
-              onTap: () => _selectDate(context),
+              onTap: () => _selectDate(),
             ),
             const SizedBox(
               height: 14,
@@ -294,14 +294,34 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
     );
   }
 
-  Future<void> _selectDate(BuildContext context) async {
+  Future<void> _selectDate() async {
     final DateTime? picked = await showDatePicker(
         context: context,
         builder: (context, child) {
           return Theme(
             data: Theme.of(context).copyWith(
-              colorScheme: const ColorScheme.light(
-                primary: CustomColors.blue,
+              datePickerTheme: DatePickerThemeData(
+                headerBackgroundColor: CustomColors.blue,
+                headerForegroundColor: Colors.white,
+                backgroundColor: Colors.white,
+                todayBackgroundColor: MaterialStateProperty.resolveWith(
+                  (states) {
+                    if (states.contains(MaterialState.selected)) {
+                      return CustomColors.blue; // OK
+                    }
+
+                    return Colors.transparent; //OK
+                  },
+                ),
+                dayBackgroundColor: MaterialStateProperty.resolveWith(
+                  (states) {
+                    if (states.contains(MaterialState.selected)) {
+                      return CustomColors.blue; // OK
+                    }
+
+                    return Colors.transparent; //OK
+                  },
+                ),
               ),
             ),
             child: child!,
@@ -321,103 +341,21 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
   }
 
   Widget _buildSaveButton() {
-    // return Container(
-    //   clipBehavior: Clip.antiAlias,
-    //   height: 50,
-    //   width: double.infinity,
-    //   margin: const EdgeInsets.only(top: 10),
-    //   decoration: BoxDecoration(
-    //     color: CustomColors.darkBlue,
-    //     borderRadius: BorderRadius.circular(25),
-    //   ),
-    //   child: Row(
-    //     mainAxisAlignment: MainAxisAlignment.center,
-    //     children: [
-    //       Expanded(
-    //         child: TextButton(
-    //           onPressed: () {
-    //             if (_formKey.currentState!.validate()) {
-    //               if (editMode) {
-    //                 _editTransaction(income: true);
-    //               } else {
-    //                 _saveNewTransaction(income: true);
-    //               }
-    //             }
-    //           },
-    //           child: Text(
-    //             appLocalizations.income,
-    //             style: const TextStyle(
-    //               color: Colors.white,
-    //               fontSize: 16,
-    //               fontWeight: FontWeight.w600,
-    //             ),
-    //           ),
-    //         ),
-    //       ),
-    //       Container(
-    //         width: 2,
-    //         margin: const EdgeInsets.symmetric(vertical: 12),
-    //         height: double.infinity,
-    //         color: Colors.white,
-    //       ),
-    //       Expanded(
-    //         child: TextButton(
-    //           onPressed: () {
-    //             if (_formKey.currentState!.validate()) {
-    //               if (editMode) {
-    //                 _editTransaction(income: false);
-    //               } else {
-    //                 _saveNewTransaction(income: false);
-    //               }
-    //             }
-    //           },
-    //           child: Text(
-    //             appLocalizations.outcome,
-    //             style: const TextStyle(
-    //               color: Colors.white,
-    //               fontSize: 16,
-    //               fontWeight: FontWeight.w600,
-    //             ),
-    //           ),
-    //         ),
-    //       ),
-    //     ],
-    //   ),
-    // );
-
-    return Container(
-      height: 50,
-      width: double.infinity,
-      margin: const EdgeInsets.only(top: 10),
-      child: ElevatedButton(
-        onPressed: () {
-          if (_formKey.currentState!.validate()) {
-            if (editMode) {
-              _editTransaction(
-                  income:
-                      _transactionTypeTabController.index == 0 ? true : false);
-            } else {
-              _saveNewTransaction(
-                  income:
-                      _transactionTypeTabController.index == 0 ? true : false);
-            }
+    return CustomElevatedButton(
+      onPressed: () {
+        if (_formKey.currentState!.validate()) {
+          if (editMode) {
+            _editTransaction(
+                income:
+                    _transactionTypeTabController.index == 0 ? true : false);
+          } else {
+            _saveNewTransaction(
+                income:
+                    _transactionTypeTabController.index == 0 ? true : false);
           }
-        },
-        style: ElevatedButton.styleFrom(
-          elevation: 0,
-          backgroundColor: CustomColors.darkBlue,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(25),
-          ),
-        ),
-        child: Text(
-          editMode ? appLocalizations.applyChanges : appLocalizations.save,
-          style: const TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-      ),
+        }
+      },
+      text: editMode ? appLocalizations.applyChanges : appLocalizations.save,
     );
   }
 
@@ -479,6 +417,8 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
       ),
       child: TabBar(
         controller: _transactionTypeTabController,
+        indicatorSize: TabBarIndicatorSize.tab,
+        dividerHeight: 0,
         padding: const EdgeInsets.symmetric(horizontal: 3, vertical: 3),
         tabs: [
           Tab(

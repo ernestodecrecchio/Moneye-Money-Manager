@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ConfigurationComplete extends ConsumerStatefulWidget {
-  const ConfigurationComplete({Key? key}) : super(key: key);
+  const ConfigurationComplete({super.key});
 
   @override
   ConsumerState<ConfigurationComplete> createState() =>

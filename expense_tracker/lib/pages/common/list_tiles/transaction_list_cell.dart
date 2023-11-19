@@ -20,13 +20,13 @@ class TransactionListCell extends ConsumerWidget {
   final Function(Transaction transactionDeleted, int index) onTransactionDelete;
 
   const TransactionListCell({
-    Key? key,
+    super.key,
     required this.transaction,
     bool? dismissible = true,
     this.horizontalPadding = 17,
     this.showAccountLabel = true,
     required this.onTransactionDelete,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

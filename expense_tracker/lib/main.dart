@@ -21,6 +21,7 @@ import 'package:expense_tracker/pages/options_page/currency_page/currency_page.d
 import 'package:expense_tracker/pages/options_page/language_page/languages_list_page.dart';
 import 'package:expense_tracker/pages/options_page/notification_page/notification_page.dart';
 import 'package:expense_tracker/pages/tab_bar_page.dart';
+import 'package:expense_tracker/style.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -126,9 +127,9 @@ class MyApp extends r.ConsumerWidget {
   final bool needsConfiguration;
 
   const MyApp({
-    Key? key,
+    super.key,
     required this.needsConfiguration,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context, r.WidgetRef ref) {
@@ -138,7 +139,33 @@ class MyApp extends r.ConsumerWidget {
         title: 'Moneye',
         theme: ThemeData(
           fontFamily: 'Ubuntu',
-          primarySwatch: Colors.blue,
+          scaffoldBackgroundColor: Colors.white,
+          textButtonTheme: TextButtonThemeData(
+            style: TextButton.styleFrom(
+              foregroundColor: CustomColors.blue,
+            ),
+          ),
+          dividerTheme: const DividerThemeData(
+            color: CustomColors.clearGrey,
+            thickness: 1,
+            space: 0,
+          ),
+          appBarTheme: const AppBarTheme(
+            backgroundColor: CustomColors.blue,
+            foregroundColor: Colors.white,
+            titleTextStyle: TextStyle(
+              fontWeight: FontWeight.w500,
+              fontSize: 20,
+              fontFamily: 'Ubuntu',
+            ),
+          ),
+          tabBarTheme: const TabBarTheme(
+            labelStyle: TextStyle(fontFamily: 'Ubuntu'),
+          ),
+          floatingActionButtonTheme: const FloatingActionButtonThemeData(
+            backgroundColor: CustomColors.darkBlue,
+            foregroundColor: Colors.white,
+          ),
         ),
         locale: ref.watch(localeProvider),
         supportedLocales: L10n.all,

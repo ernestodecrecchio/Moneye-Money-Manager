@@ -1,5 +1,6 @@
 import 'package:expense_tracker/models/account.dart';
 import 'package:expense_tracker/notifiers/account_provider.dart';
+import 'package:expense_tracker/pages/common/custom_elevated_button.dart';
 import 'package:expense_tracker/pages/common/custom_text_field.dart';
 import 'package:expense_tracker/pages/common/inline_color_picker.dart';
 import 'package:expense_tracker/pages/common/inline_icon_picker.dart';
@@ -14,9 +15,9 @@ class NewAccountPage extends ConsumerStatefulWidget {
   final Account? initialAccountSettings;
 
   const NewAccountPage({
-    Key? key,
+    super.key,
     this.initialAccountSettings,
-  }) : super(key: key);
+  });
 
   @override
   ConsumerState<NewAccountPage> createState() => _NewAccountPageState();
@@ -71,9 +72,7 @@ class _NewAccountPageState extends ConsumerState<NewAccountPage> {
             ? appLocalizations.editAccount
             : appLocalizations.newAccount),
         backgroundColor: CustomColors.blue,
-        elevation: 0,
       ),
-      backgroundColor: Colors.white,
       body: SafeArea(
         minimum: const EdgeInsets.symmetric(horizontal: 17),
         child: CustomScrollView(
@@ -189,35 +188,17 @@ class _NewAccountPageState extends ConsumerState<NewAccountPage> {
   }
 
   Widget _buildSaveButton() {
-    return Container(
-      height: 50,
-      width: double.infinity,
-      margin: const EdgeInsets.only(top: 10),
-      child: ElevatedButton(
-        onPressed: () {
-          if (_formKey.currentState!.validate()) {
-            if (editMode) {
-              _editAccount();
-            } else {
-              _saveNewAccount();
-            }
+    return CustomElevatedButton(
+      onPressed: () {
+        if (_formKey.currentState!.validate()) {
+          if (editMode) {
+            _editAccount();
+          } else {
+            _saveNewAccount();
           }
-        },
-        style: ElevatedButton.styleFrom(
-          elevation: 0,
-          backgroundColor: CustomColors.darkBlue,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(25),
-          ),
-        ),
-        child: Text(
-          editMode ? appLocalizations.applyChanges : appLocalizations.save,
-          style: const TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-      ),
+        }
+      },
+      text: editMode ? appLocalizations.applyChanges : appLocalizations.save,
     );
   }
 

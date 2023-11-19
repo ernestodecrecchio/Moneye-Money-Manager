@@ -2,7 +2,6 @@ import 'package:expense_tracker/Helper/double_helper.dart';
 import 'package:expense_tracker/models/transaction.dart';
 import 'package:expense_tracker/notifiers/currency_provider.dart';
 import 'package:expense_tracker/notifiers/transaction_provider.dart';
-import 'package:expense_tracker/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -19,7 +18,7 @@ class HomeFlexibleSpaceBar extends ConsumerStatefulWidget {
 class _HomeFlexibleSpaceBarState extends ConsumerState<HomeFlexibleSpaceBar> {
   AppLocalizations? appLocalizations;
   static const double horizontalPadding = 18;
-  final double appBarHeight = 66.0;
+  static const double appBarHeight = 66.0;
 
   @override
   void didChangeDependencies() {
@@ -32,10 +31,8 @@ class _HomeFlexibleSpaceBarState extends ConsumerState<HomeFlexibleSpaceBar> {
   Widget build(BuildContext context) {
     final double statusBarHeight = MediaQuery.of(context).padding.top;
 
-    return Container(
-      padding: EdgeInsets.only(top: statusBarHeight),
+    return SizedBox(
       height: statusBarHeight + appBarHeight,
-      color: CustomColors.blue,
       child: _buildMonthlyBalanceSection(),
     );
   }
@@ -56,72 +53,61 @@ class _HomeFlexibleSpaceBarState extends ConsumerState<HomeFlexibleSpaceBar> {
           : monthlyExpenses += transaction.value;
     }
 
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 18),
+    return SafeArea(
+      minimum: const EdgeInsets.symmetric(horizontal: horizontalPadding),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: horizontalPadding),
-            child: Text(
-              appLocalizations!.financialOverviewForThisMonth,
-              style: const TextStyle(
-                color: Colors.white70,
-                fontSize: 16,
-                fontWeight: FontWeight.w700,
-              ),
+          Text(
+            appLocalizations!.financialOverviewForThisMonth,
+            style: const TextStyle(
+              color: Colors.white70,
+              fontSize: 16,
+              fontWeight: FontWeight.w700,
             ),
           ),
           const SizedBox(
-            height: 20,
+            height: 18,
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: horizontalPadding),
-            child: Text(
-              appLocalizations!.totalBalance,
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 18,
-                fontWeight: FontWeight.w400,
-              ),
+          Text(
+            appLocalizations!.totalBalance,
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 18,
+              fontWeight: FontWeight.w400,
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: horizontalPadding),
-            child: Row(
-              children: [
-                Flexible(
-                  child: FittedBox(
-                    fit: BoxFit.fitWidth,
-                    child: Text(
-                      ref
-                          .read(transactionProvider.notifier)
-                          .totalBalance
-                          .toStringAsFixedRoundedWithCurrency(
-                              2, currentCurrency, currentCurrencyPosition),
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 40,
-                        overflow: TextOverflow.clip,
-                        color: Colors.white,
-                      ),
+          Row(
+            children: [
+              Flexible(
+                child: FittedBox(
+                  fit: BoxFit.fitWidth,
+                  child: Text(
+                    ref
+                        .read(transactionProvider.notifier)
+                        .totalBalance
+                        .toStringAsFixedRoundedWithCurrency(
+                            2, currentCurrency, currentCurrencyPosition),
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 40,
+                      overflow: TextOverflow.clip,
+                      color: Colors.white,
                     ),
                   ),
                 ),
-                const SizedBox(
-                  width: 28,
-                ),
-                _buildPercentageDifference()
-              ],
-            ),
+              ),
+              const SizedBox(
+                width: 28,
+              ),
+              _buildPercentageDifference()
+            ],
           ),
           const SizedBox(
             height: 14,
           ),
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,
-            padding: const EdgeInsets.symmetric(horizontal: horizontalPadding),
             child: Row(
               children: [
                 Row(

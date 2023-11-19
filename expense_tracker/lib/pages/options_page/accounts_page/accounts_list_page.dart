@@ -9,7 +9,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class AccountsListPage extends ConsumerStatefulWidget {
   static const routeName = '/accountsListPage';
 
-  const AccountsListPage({Key? key}) : super(key: key);
+  const AccountsListPage({super.key});
 
   @override
   ConsumerState<AccountsListPage> createState() => _AccountsListPageState();
@@ -21,7 +21,6 @@ class _AccountsListPageState extends ConsumerState<AccountsListPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(AppLocalizations.of(context)!.yourAccounts),
-        elevation: 0,
         backgroundColor: CustomColors.blue,
       ),
       floatingActionButton: _buildFloatingActionButton(context),

@@ -87,13 +87,11 @@ class _AccountDetailPageState extends ConsumerState<AccountDetailPage>
             ? referenceAccount?.name ?? widget.account!.name
             : AppLocalizations.of(context)!.allTransactions),
         backgroundColor: CustomColors.blue,
-        elevation: 0,
         actions: [
           if (widget.account != null && widget.account!.id != null)
             _buildEditAction(context)
         ],
       ),
-      backgroundColor: Colors.white,
       floatingActionButton: _buildFloatingActionButton(context),
       body: Column(
         children: [
@@ -175,6 +173,7 @@ class _AccountDetailPageState extends ConsumerState<AccountDetailPage>
         TabBar(
           controller: _tabController,
           indicatorColor: CustomColors.blue,
+          indicatorSize: TabBarIndicatorSize.tab,
           labelColor: CustomColors.darkBlue,
           labelStyle: const TextStyle(fontSize: 16),
           onTap: (value) {
@@ -231,7 +230,7 @@ class _AccountDetailPageState extends ConsumerState<AccountDetailPage>
         children: [
           SizedBox(
             width: (MediaQuery.of(context).size.width - 28) / 3,
-            child: ElevatedButton(
+            child: FilledButton(
               onPressed: () {
                 showCustomModalBottomSheet(
                   context: context,
@@ -374,12 +373,8 @@ class _AccountDetailPageState extends ConsumerState<AccountDetailPage>
                   }),
                 );
               },
-              style: ElevatedButton.styleFrom(
+              style: FilledButton.styleFrom(
                 backgroundColor: CustomColors.blue,
-                elevation: 0,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(55 / 2),
-                ),
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -444,7 +439,7 @@ class _AccountDetailPageState extends ConsumerState<AccountDetailPage>
           const SizedBox(
             width: 10,
           ),
-          ElevatedButton(
+          FilledButton(
             onPressed: () {
               switch (selectedTransactionTimePeriod) {
                 case TransactionTimePeriod.day:
@@ -473,11 +468,10 @@ class _AccountDetailPageState extends ConsumerState<AccountDetailPage>
 
               setState(() {});
             },
-            style: ElevatedButton.styleFrom(
+            style: FilledButton.styleFrom(
               minimumSize: const Size(35, 35),
               elevation: 0,
               backgroundColor: CustomColors.blue,
-              shape: const CircleBorder(),
               padding: EdgeInsets.zero,
               tapTargetSize: MaterialTapTargetSize.shrinkWrap,
             ),
@@ -486,7 +480,7 @@ class _AccountDetailPageState extends ConsumerState<AccountDetailPage>
           const SizedBox(
             width: 8,
           ),
-          ElevatedButton(
+          FilledButton(
             onPressed: () {
               switch (selectedTransactionTimePeriod) {
                 case TransactionTimePeriod.day:
@@ -515,11 +509,10 @@ class _AccountDetailPageState extends ConsumerState<AccountDetailPage>
 
               setState(() {});
             },
-            style: ElevatedButton.styleFrom(
+            style: FilledButton.styleFrom(
               minimumSize: const Size(35, 35),
               elevation: 0,
               backgroundColor: CustomColors.blue,
-              shape: const CircleBorder(),
               padding: EdgeInsets.zero,
               tapTargetSize: MaterialTapTargetSize.shrinkWrap,
             ),
@@ -598,11 +591,14 @@ class _ScrollableTabViewState extends ConsumerState<ScrollableTabView> {
                           timeMode: widget.selectedTransactionTimePeriod,
                         ),
                     ],
-                    indicatorIconPathList:  widget.selectedTransactionTimePeriod !=
-                          TransactionTimePeriod.day ? const [
-                      'assets/icons/pie-chart.svg',
-                      'assets/icons/bar-chart.svg',
-                    ] : null,
+                    indicatorIconPathList:
+                        widget.selectedTransactionTimePeriod !=
+                                TransactionTimePeriod.day
+                            ? const [
+                                'assets/icons/pie-chart.svg',
+                                'assets/icons/bar-chart.svg',
+                              ]
+                            : null,
                   ),
                 ),
                 const SizedBox(

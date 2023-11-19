@@ -50,11 +50,9 @@ class _CurrencyPageState extends ConsumerState<CurrencyPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
       appBar: AppBar(
         title: Text(AppLocalizations.of(context)!.currency),
         backgroundColor: CustomColors.blue,
-        elevation: 0,
       ),
       body: SafeArea(
         minimum: const EdgeInsets.symmetric(horizontal: 17),

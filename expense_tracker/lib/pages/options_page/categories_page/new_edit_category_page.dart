@@ -1,5 +1,6 @@
 import 'package:expense_tracker/models/category.dart';
 import 'package:expense_tracker/notifiers/category_provider.dart';
+import 'package:expense_tracker/pages/common/custom_elevated_button.dart';
 import 'package:expense_tracker/pages/common/custom_text_field.dart';
 import 'package:expense_tracker/pages/common/inline_color_picker.dart';
 import 'package:expense_tracker/pages/common/inline_icon_picker.dart';
@@ -14,9 +15,9 @@ class NewEditCategoryPage extends ConsumerStatefulWidget {
   final Category? initialCategorySettings;
 
   const NewEditCategoryPage({
-    Key? key,
+    super.key,
     this.initialCategorySettings,
-  }) : super(key: key);
+  });
 
   @override
   ConsumerState<NewEditCategoryPage> createState() =>
@@ -73,9 +74,7 @@ class _NewEditCategoryPageState extends ConsumerState<NewEditCategoryPage> {
             ? appLocalizations.editCategory
             : appLocalizations.newCategory),
         backgroundColor: CustomColors.blue,
-        elevation: 0,
       ),
-      backgroundColor: Colors.white,
       body: SafeArea(
         minimum: const EdgeInsets.symmetric(horizontal: 17),
         child: CustomScrollView(
@@ -189,35 +188,17 @@ class _NewEditCategoryPageState extends ConsumerState<NewEditCategoryPage> {
   }
 
   Widget _buildSaveButton() {
-    return Container(
-      height: 50,
-      width: double.infinity,
-      margin: const EdgeInsets.only(top: 10),
-      child: ElevatedButton(
-        onPressed: () {
-          if (_formKey.currentState!.validate()) {
-            if (editMode) {
-              _editCategory();
-            } else {
-              _saveNewCategory();
-            }
+    return CustomElevatedButton(
+      onPressed: () {
+        if (_formKey.currentState!.validate()) {
+          if (editMode) {
+            _editCategory();
+          } else {
+            _saveNewCategory();
           }
-        },
-        style: ElevatedButton.styleFrom(
-          elevation: 0,
-          backgroundColor: CustomColors.darkBlue,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(25),
-          ),
-        ),
-        child: Text(
-          editMode ? appLocalizations.applyChanges : appLocalizations.save,
-          style: const TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-      ),
+        }
+      },
+      text: editMode ? appLocalizations.applyChanges : appLocalizations.save,
     );
   }
 

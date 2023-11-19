@@ -42,7 +42,6 @@ class _TabBarPageState extends ConsumerState<TabBarPage> {
     return Scaffold(
         bottomNavigationBar: SalomonBottomBar(
           currentIndex: index,
-          backgroundColor: Colors.white,
           selectedItemColor: CustomColors.blue,
           unselectedItemColor: Colors.grey,
           onTap: (newIndex) {
@@ -54,11 +53,17 @@ class _TabBarPageState extends ConsumerState<TabBarPage> {
                   colorFilter: ColorFilter.mode(
                       index == 0 ? CustomColors.blue : Colors.grey,
                       BlendMode.srcIn)),
-              title: const Text('Dashboard'),
+              title: const Text(
+                'Dashboard',
+                style: TextStyle(fontFamily: 'Ubuntu'),
+              ),
             ),
             SalomonBottomBarItem(
               icon: const Icon(CupertinoIcons.gear_solid),
-              title: Text(AppLocalizations.of(context)!.settings),
+              title: Text(
+                AppLocalizations.of(context)!.settings,
+                style: const TextStyle(fontFamily: 'Ubuntu'),
+              ),
             ),
           ],
         ),

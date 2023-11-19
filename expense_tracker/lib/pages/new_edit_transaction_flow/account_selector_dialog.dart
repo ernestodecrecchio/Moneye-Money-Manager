@@ -29,9 +29,9 @@ class AccountSelectorContent extends ConsumerStatefulWidget {
   final Account? currentSelection;
 
   const AccountSelectorContent({
-    Key? key,
+    super.key,
     this.currentSelection,
-  }) : super(key: key);
+  });
 
   @override
   ConsumerState<AccountSelectorContent> createState() =>
@@ -60,7 +60,8 @@ class _AccountSelectorContentState
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
+    return Container(
+      color: Colors.white,
       padding: const EdgeInsets.only(top: 10),
       child: Column(
         children: [
@@ -85,7 +86,6 @@ class _AccountSelectorContentState
             child: Consumer(
               builder: (context, ref, child) {
                 final accountsList = ref.watch(accountProvider);
-
                 return ListView.builder(
                     shrinkWrap: true,
                     itemCount: accountsList.length + 1,
@@ -105,7 +105,6 @@ class _AccountSelectorContentState
 
   _buildAddAccountTile() {
     return ListTile(
-      tileColor: Colors.white,
       leading: Container(
         height: 32,
         width: 32,
@@ -131,8 +130,6 @@ class _AccountSelectorContentState
 
   _buildAccountTile(Account account) {
     return ListTile(
-      tileColor:
-          _selectedAccount == account ? CustomColors.lightBlue : Colors.white,
       leading: Container(
         height: 32,
         width: 32,
@@ -144,8 +141,10 @@ class _AccountSelectorContentState
         child: account.iconPath != null
             ? SvgPicture.asset(
                 account.iconPath!,
-                colorFilter:
-                    const ColorFilter.mode(Colors.white, BlendMode.srcIn),
+                colorFilter: const ColorFilter.mode(
+                  Colors.white,
+                  BlendMode.srcIn,
+                ),
               )
             : null,
       ),

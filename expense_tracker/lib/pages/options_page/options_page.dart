@@ -22,9 +22,7 @@ class OptionsPage extends ConsumerWidget {
       appBar: AppBar(
         title: Text(AppLocalizations.of(context)!.settings),
         backgroundColor: CustomColors.blue,
-        elevation: 0,
       ),
-      backgroundColor: Colors.white,
       body: SafeArea(
         child: _buildBody(context, ref),
       ),
@@ -36,7 +34,6 @@ class OptionsPage extends ConsumerWidget {
     final currentLocale = ref.watch(localeProvider);
 
     return ListView(
-      padding: const EdgeInsets.only(top: 10),
       children: [
         ListTile(
           leading: const SizedBox(

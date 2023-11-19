@@ -8,9 +8,9 @@ class CategoriesSelection extends ConsumerStatefulWidget {
   final Function(List<Category>) onSelectedCategoryListChanged;
 
   const CategoriesSelection({
-    Key? key,
+    super.key,
     required this.onSelectedCategoryListChanged,
-  }) : super(key: key);
+  });
 
   @override
   ConsumerState<CategoriesSelection> createState() =>

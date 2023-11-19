@@ -141,7 +141,7 @@ class NotificationManager {
               .resolvePlatformSpecificImplementation<
                   AndroidFlutterLocalNotificationsPlugin>();
 
-      return await androidImplementation?.requestPermission();
+      return await androidImplementation?.requestNotificationsPermission();
     }
 
     return false;

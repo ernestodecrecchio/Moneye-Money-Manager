@@ -8,9 +8,9 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class CurrencySelectionPage extends ConsumerStatefulWidget {
   final Function(Currency) onCurrencySelected;
   const CurrencySelectionPage({
-    Key? key,
+    super.key,
     required this.onCurrencySelected,
-  }) : super(key: key);
+  });
 
   @override
   ConsumerState<CurrencySelectionPage> createState() =>

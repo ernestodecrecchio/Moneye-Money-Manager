@@ -19,7 +19,6 @@ class TransactionListPage extends ConsumerWidget {
       appBar: AppBar(
         title: Text(AppLocalizations.of(context)!.allTransactions),
         backgroundColor: CustomColors.blue,
-        elevation: 0,
       ),
       body: _buildList(context, ref),
     );

@@ -15,11 +15,9 @@ class ReminderPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
-      backgroundColor: Colors.white,
       appBar: AppBar(
         title: const Text('Promemoria'),
         backgroundColor: CustomColors.blue,
-        elevation: 0,
       ),
       body: SafeArea(
         minimum: const EdgeInsets.symmetric(horizontal: 17),

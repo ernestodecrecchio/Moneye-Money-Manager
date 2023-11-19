@@ -9,7 +9,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class CategoriesListPage extends ConsumerStatefulWidget {
   static const routeName = '/categoriesListPage';
 
-  const CategoriesListPage({Key? key}) : super(key: key);
+  const CategoriesListPage({super.key});
 
   @override
   ConsumerState<CategoriesListPage> createState() => _CategoriesListPageState();
@@ -22,7 +22,6 @@ class _CategoriesListPageState extends ConsumerState<CategoriesListPage> {
       appBar: AppBar(
         title: Text(AppLocalizations.of(context)!.yourCategories),
         backgroundColor: CustomColors.blue,
-        elevation: 0,
       ),
       floatingActionButton: _buildFloatingActionButton(context),
       body: _buildList(),

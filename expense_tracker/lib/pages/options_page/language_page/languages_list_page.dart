@@ -8,7 +8,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class LanguagesListPage extends ConsumerStatefulWidget {
   static const routeName = '/languagesListPage';
 
-  const LanguagesListPage({Key? key}) : super(key: key);
+  const LanguagesListPage({super.key});
 
   @override
   ConsumerState<LanguagesListPage> createState() => _LanguagesListPageState();
@@ -21,7 +21,6 @@ class _LanguagesListPageState extends ConsumerState<LanguagesListPage> {
       appBar: AppBar(
         title: Text(AppLocalizations.of(context)!.language),
         backgroundColor: CustomColors.blue,
-        elevation: 0,
       ),
       body: _buildList(context),
     );

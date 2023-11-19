@@ -19,7 +19,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class HomePage extends ConsumerStatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+  const HomePage({super.key});
 
   @override
   ConsumerState<HomePage> createState() => _HomePageState();
@@ -40,12 +40,12 @@ class _HomePageState extends ConsumerState<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: _buildFloatingActionButton(),
-      backgroundColor: Colors.white,
       body: CustomScrollView(
         slivers: <Widget>[
           SliverAppBar(
             backgroundColor: CustomColors.blue,
             pinned: true,
+            automaticallyImplyLeading: false,
             expandedHeight: 200,
             flexibleSpace: LayoutBuilder(
               builder: (BuildContext context, BoxConstraints constraints) {
@@ -266,9 +266,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                     },
                   );
                 },
-                separatorBuilder: (context, index) => const Divider(
-                  height: 1,
-                ),
+                separatorBuilder: (context, index) => const Divider(),
               )
             : Align(
                 alignment: Alignment.center,
@@ -289,7 +287,6 @@ class _HomePageState extends ConsumerState<HomePage> {
 
   Widget _buildFloatingActionButton() {
     return FloatingActionButton(
-      backgroundColor: CustomColors.darkBlue,
       onPressed: () =>
           Navigator.pushNamed(context, NewEditTransactionPage.routeName),
       child: const Icon(Icons.add),

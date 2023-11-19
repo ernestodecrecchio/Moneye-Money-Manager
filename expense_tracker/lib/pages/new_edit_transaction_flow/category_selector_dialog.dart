@@ -29,9 +29,9 @@ class CategorySelectorContent extends ConsumerStatefulWidget {
   final Category? currentSelection;
 
   const CategorySelectorContent({
-    Key? key,
+    super.key,
     this.currentSelection,
-  }) : super(key: key);
+  });
 
   @override
   ConsumerState<CategorySelectorContent> createState() =>
@@ -60,7 +60,8 @@ class _CategorySelectorContentState
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
+    return Container(
+      color: Colors.white,
       padding: const EdgeInsets.only(top: 10),
       child: Column(
         children: [
@@ -105,7 +106,6 @@ class _CategorySelectorContentState
 
   _buildAddCategoryTile() {
     return ListTile(
-      tileColor: Colors.white,
       leading: Container(
         height: 32,
         width: 32,
@@ -131,8 +131,6 @@ class _CategorySelectorContentState
 
   _buildCategoryTile(Category category) {
     return ListTile(
-      tileColor:
-          _selectedCategory == category ? CustomColors.lightBlue : Colors.white,
       leading: Container(
         height: 32,
         width: 32,
@@ -144,8 +142,10 @@ class _CategorySelectorContentState
         child: category.iconPath != null
             ? SvgPicture.asset(
                 category.iconPath!,
-                colorFilter:
-                    const ColorFilter.mode(Colors.white, BlendMode.srcIn),
+                colorFilter: const ColorFilter.mode(
+                  Colors.white,
+                  BlendMode.srcIn,
+                ),
               )
             : null,
       ),

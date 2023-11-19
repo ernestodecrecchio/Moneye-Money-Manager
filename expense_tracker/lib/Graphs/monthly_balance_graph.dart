@@ -38,7 +38,7 @@ class MonthlyBalanceGraph extends ConsumerWidget {
           maxX: 12,
           minY: minValue - 200,
           maxY: maxValue + 200,
-          titlesData: FlTitlesData(
+          titlesData: const FlTitlesData(
             rightTitles: AxisTitles(
               sideTitles: SideTitles(
                 showTitles: false,

@@ -6,6 +6,9 @@ class HomeAppBar extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return const Text('Dashboard');
+    return const Text(
+      'Dashboard',
+      textAlign: TextAlign.center,
+    );
   }
 }

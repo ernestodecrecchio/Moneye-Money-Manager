@@ -21,7 +21,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class InitialConfigurationPage extends ConsumerStatefulWidget {
   static const routeName = '/initialConfigurationPage';
 
-  const InitialConfigurationPage({Key? key}) : super(key: key);
+  const InitialConfigurationPage({super.key});
 
   @override
   ConsumerState<InitialConfigurationPage> createState() =>
@@ -79,7 +79,6 @@ class _InitialConfigurationPageState
       extendBodyBehindAppBar: true,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
-        elevation: 0,
         actions: [
           if (currentIndex != pages.length - 1)
             TextButton(
@@ -134,7 +133,7 @@ class _InitialConfigurationPageState
                   height: 50,
                   width: double.infinity,
                   margin: const EdgeInsets.only(top: 10),
-                  child: ElevatedButton(
+                  child: FilledButton(
                     onPressed: () async {
                       if (currentIndex != pages.length - 1) {
                         pageController.nextPage(
@@ -149,12 +148,8 @@ class _InitialConfigurationPageState
                         }
                       }
                     },
-                    style: ElevatedButton.styleFrom(
-                      elevation: 0,
+                    style: FilledButton.styleFrom(
                       backgroundColor: Colors.white,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(25),
-                      ),
                     ),
                     child: Text(
                       currentIndex == pages.length - 1

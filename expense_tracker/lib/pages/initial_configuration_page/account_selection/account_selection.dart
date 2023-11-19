@@ -8,9 +8,9 @@ class AccountSelectionPage extends ConsumerStatefulWidget {
   final Function(List<Account>) onSelectedAccountListChanged;
 
   const AccountSelectionPage({
-    Key? key,
+    super.key,
     required this.onSelectedAccountListChanged,
-  }) : super(key: key);
+  });
 
   @override
   ConsumerState<AccountSelectionPage> createState() => _AccountSelectionState();

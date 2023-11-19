@@ -7,11 +7,11 @@ class FloatingElement extends ConsumerStatefulWidget {
   final double coordinateY;
 
   const FloatingElement({
-    Key? key,
+    super.key,
     required this.widget,
     required this.coordinateX,
     required this.coordinateY,
-  }) : super(key: key);
+  });
 
   @override
   ConsumerState<FloatingElement> createState() => _FloatingElementState();
