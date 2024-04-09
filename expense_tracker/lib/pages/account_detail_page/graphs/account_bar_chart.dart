@@ -141,7 +141,8 @@ class AccountBarChartState extends ConsumerState<AccountBarChart> {
           maxY: maxY,
           barTouchData: BarTouchData(
             touchTooltipData: BarTouchTooltipData(
-              tooltipBgColor: Colors.grey[200],
+              getTooltipColor: (BarChartGroupData group) =>
+                  Colors.grey.shade200,
               fitInsideVertically: true,
               fitInsideHorizontally: true,
             ),
