@@ -6,6 +6,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:home_widget/home_widget.dart';
+
+const String appGroupId = 'group.moneyewidget';
+const String iOSWidgetName = 'MonthlySummaryWidget';
+const String androidWidgetName = 'MonthlySummaryWidget';
 
 class HomeFlexibleSpaceBar extends ConsumerStatefulWidget {
   const HomeFlexibleSpaceBar({super.key});
@@ -19,6 +24,13 @@ class _HomeFlexibleSpaceBarState extends ConsumerState<HomeFlexibleSpaceBar> {
   AppLocalizations? appLocalizations;
   static const double horizontalPadding = 18;
   static const double appBarHeight = 66.0;
+
+  @override
+  void initState() {
+    super.initState();
+
+    HomeWidget.setAppGroupId(appGroupId);
+  }
 
   @override
   void didChangeDependencies() {
@@ -52,6 +64,19 @@ class _HomeFlexibleSpaceBarState extends ConsumerState<HomeFlexibleSpaceBar> {
           ? monthlyIncome += transaction.value
           : monthlyExpenses += transaction.value;
     }
+
+    HomeWidget.saveWidgetData<String>(
+        'incomeValue',
+        monthlyIncome.toStringAsFixedRoundedWithCurrency(
+            2, currentCurrency, currentCurrencyPosition));
+    HomeWidget.saveWidgetData<String>(
+        'outcomeValue',
+        monthlyExpenses.toStringAsFixedRoundedWithCurrency(
+            2, currentCurrency, currentCurrencyPosition));
+    HomeWidget.updateWidget(
+      iOSName: iOSWidgetName,
+      androidName: androidWidgetName,
+    );
 
     return SafeArea(
       minimum: const EdgeInsets.symmetric(horizontal: horizontalPadding),
