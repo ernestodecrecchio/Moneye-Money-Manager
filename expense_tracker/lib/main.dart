@@ -28,6 +28,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart' as r;
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:home_widget/home_widget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:timezone/data/latest_all.dart';
 import 'package:timezone/timezone.dart';
@@ -54,7 +55,6 @@ Future main() async {
   localeProviderNotifier.setFromLocalStorage(localeString);
 
   // SETTING UP CURRENCY SYMBOL
-
   final currencySymbolString = prefs.getString('selected_currency');
 
   if (currencySymbolString != null) {
@@ -65,7 +65,6 @@ Future main() async {
   }
 
   // SETTING UP CURRENCY SYMBOL POSITION
-
   final currencySymbolPositionString =
       prefs.getString('selected_currency_position');
 
@@ -103,7 +102,6 @@ Future main() async {
   await NotificationManager.initNotificationManager();
 
   // SETTING UP NEEDS CONFIGURATION
-
   runApp(
     r.UncontrolledProviderScope(
       container: container,

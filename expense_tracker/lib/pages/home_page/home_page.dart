@@ -17,6 +17,9 @@ import 'package:expense_tracker/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:home_widget/home_widget.dart';
+
+const String appGroupId = 'group.moneyewidget';
 
 class HomePage extends ConsumerStatefulWidget {
   const HomePage({super.key});
@@ -30,10 +33,36 @@ class _HomePageState extends ConsumerState<HomePage> {
   static const double horizontalPadding = 18;
 
   @override
+  void initState() {
+    super.initState();
+    HomeWidget.setAppGroupId(appGroupId);
+  }
+
+  @override
   void didChangeDependencies() {
     super.didChangeDependencies();
 
     appLocalizations = AppLocalizations.of(context)!;
+
+    _checkForWidgetLaunch();
+    HomeWidget.widgetClicked.listen(_launchedFromWidget);
+  }
+
+  void _checkForWidgetLaunch() {
+    HomeWidget.initiallyLaunchedFromHomeWidget().then(_launchedFromWidget);
+  }
+
+  void _launchedFromWidget(Uri? uri) {
+    if (uri != null) {
+      Navigator.pushNamed(context, NewEditTransactionPage.routeName);
+      /*showDialog(
+        context: context,
+        builder: (buildContext) => AlertDialog(
+          title: const Text('App started from HomeScreenWidget'),
+          content: Text('Here is the URI: $uri'),
+        ),
+      );*/
+    }
   }
 
   @override

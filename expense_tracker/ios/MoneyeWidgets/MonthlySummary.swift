@@ -61,7 +61,8 @@ struct MonthlySummaryEntryView : View {
     
     init(entry: Provider.Entry) {
         self.entry = entry
-        CTFontManagerRegisterFontsForURL(bundle.appending(path: "/fonts/Ubuntu-B.ttf") as CFURL, CTFontManagerScope.process, nil)
+        CTFontManagerRegisterFontsForURL(bundle.appending(path: "/assets/fonts/Ubuntu-R.ttf") as CFURL, CTFontManagerScope.process, nil)
+        CTFontManagerRegisterFontsForURL(bundle.appending(path: "/assets/fonts/Ubuntu-B.ttf") as CFURL, CTFontManagerScope.process, nil)
     }
     
     @Environment(\.widgetFamily) var family
@@ -81,14 +82,14 @@ struct MonthlySummaryEntryView : View {
     
     func systemSmallWidget() -> some View {
         return VStack(
-            alignment: .center, spacing: 18.0,
+            alignment: .center, spacing: 18,
             content: {
                 HStack(
                     content: {
                         Image("PocketIn")
                         Spacer()
                         Text(entry.incomeValue)
-                            .font(Font.custom("Ubuntu-B", size: 20))
+                            .font(Font.custom("Ubuntu", size: 20))
                             .foregroundStyle(.white)
                     })
                 
@@ -97,37 +98,49 @@ struct MonthlySummaryEntryView : View {
                         Image("PocketOut")
                         Spacer()
                         Text(entry.outcomeValue)
-                            .font(Font.custom("Ubuntu-B", size: 20))
+                            .font(Font.custom("Ubuntu", size: 20))
                             .foregroundStyle(.white)
                     })
             }
         )
+        .widgetURL(URL(string: "homeWidgetExample://message?message=\("TEST REDIRECT")&homeWidget"))
         .padding(.all)
     }
     
     func systemMediumWidget() -> some View {
-        return HStack(
-            alignment: .center, spacing: 28.0,
+        return VStack(
+            alignment: .leading,
+            spacing: 18,
             content: {
-                HStack(
-                    spacing: 12,
-                    content: {
-                        Image("PocketIn")
-                        Text(entry.incomeValue)
-                            .font(Font.custom("Ubuntu-B", size: 20))
-                            .foregroundStyle(.white)
-                    })
-                
-                HStack(
-                    spacing: 12,
-                    content: {
-                        Image("PocketOut")
-                        Text(entry.outcomeValue)
-                            .font(Font.custom("Ubuntu-B", size: 20))
-                            .foregroundStyle(.white)
-                    })
-            }
-        )
+            Text("Monthly transactions")
+                    .font(Font.custom("Ubuntu", size: 18))
+                    .fontWeight(.bold)
+                    .foregroundStyle(.white)
+            
+            HStack(
+                alignment: .center, spacing: 28,
+                content: {
+                    HStack(
+                        spacing: 12,
+                        content: {
+                            Image("PocketIn")
+                            Text(entry.incomeValue)
+                                .font(Font.custom("Ubuntu", size: 20))
+                                .foregroundStyle(.white)
+                        })
+                    
+                    HStack(
+                        spacing: 12,
+                        content: {
+                            Image("PocketOut")
+                            Text(entry.outcomeValue)
+                                .font(Font.custom("Ubuntu", size: 20))
+                                .foregroundStyle(.white)
+                        })
+                }
+            )
+        })
+        .widgetURL(URL(string: "homeWidgetExample://message?message=\("TEST REDIRECT")&homeWidget"))
         .padding(.all)
     }
 }

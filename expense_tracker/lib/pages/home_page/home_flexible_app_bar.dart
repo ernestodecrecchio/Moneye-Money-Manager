@@ -8,7 +8,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:home_widget/home_widget.dart';
 
-const String appGroupId = 'group.moneyewidget';
 const String iOSWidgetName = 'MonthlySummaryWidget';
 const String androidWidgetName = 'MonthlySummaryWidget';
 
@@ -24,13 +23,6 @@ class _HomeFlexibleSpaceBarState extends ConsumerState<HomeFlexibleSpaceBar> {
   AppLocalizations? appLocalizations;
   static const double horizontalPadding = 18;
   static const double appBarHeight = 66.0;
-
-  @override
-  void initState() {
-    super.initState();
-
-    HomeWidget.setAppGroupId(appGroupId);
-  }
 
   @override
   void didChangeDependencies() {
