@@ -58,6 +58,8 @@ class _HomeFlexibleSpaceBarState extends ConsumerState<HomeFlexibleSpaceBar> {
     }
 
     HomeWidget.saveWidgetData<String>(
+        'title', appLocalizations!.monthlyTransactions);
+    HomeWidget.saveWidgetData<String>(
         'incomeValue',
         monthlyIncome.toStringAsFixedRoundedWithCurrency(
             2, currentCurrency, currentCurrencyPosition));

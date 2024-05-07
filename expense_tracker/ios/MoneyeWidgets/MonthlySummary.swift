@@ -10,7 +10,7 @@ import SwiftUI
 
 struct Provider: TimelineProvider {
     func placeholder(in context: Context) -> Summary {
-        Summary(date: Date(), incomeValue: "1234€", outcomeValue: "-289€")
+        Summary(date: Date(), title: "Monthly transactions", incomeValue: "1234€", outcomeValue: "-289€")
     }
 
     func getSnapshot(in context: Context, completion: @escaping (Summary) -> ()) {
@@ -21,11 +21,11 @@ struct Provider: TimelineProvider {
         } else {
             let userDefaults = UserDefaults(suiteName: "group.moneyewidget")
             
-            
+            let title = userDefaults?.string(forKey: "title") ?? "Monthly transactions"
             let incomeValue = userDefaults?.string(forKey: "incomeValue") ?? "0"
             let outcomeValue = userDefaults?.string(forKey: "outcomeValue") ?? "0"
             
-            entry = Summary(date: Date(), incomeValue: incomeValue, outcomeValue: outcomeValue)
+            entry = Summary(date: Date(), title: title, incomeValue: incomeValue, outcomeValue: outcomeValue)
         }
         
         completion(entry)
@@ -42,6 +42,7 @@ struct Provider: TimelineProvider {
 struct Summary: TimelineEntry {
     let date: Date
     
+    let title: String?
     let incomeValue: String
     let outcomeValue: String
 }
@@ -109,39 +110,41 @@ struct MonthlySummaryEntryView : View {
     
     func systemMediumWidget() -> some View {
         return VStack(
-            alignment: .leading,
+            alignment: .center,
             spacing: 18,
             content: {
-            Text("Monthly transactions")
-                    .font(Font.custom("Ubuntu", size: 18))
-                    .fontWeight(.bold)
-                    .foregroundStyle(.white)
-            
-            HStack(
-                alignment: .center, spacing: 28,
-                content: {
-                    HStack(
-                        spacing: 12,
-                        content: {
-                            Image("PocketIn")
-                            Text(entry.incomeValue)
-                                .font(Font.custom("Ubuntu", size: 20))
-                                .foregroundStyle(.white)
-                        })
-                    
-                    HStack(
-                        spacing: 12,
-                        content: {
-                            Image("PocketOut")
-                            Text(entry.outcomeValue)
-                                .font(Font.custom("Ubuntu", size: 20))
-                                .foregroundStyle(.white)
-                        })
+                if let title = entry.title {
+                    Text(title)
+                        .font(Font.custom("Ubuntu", size: 18))
+                        .fontWeight(.bold)
+                        .foregroundStyle(.white)
                 }
-            )
-        })
-        .widgetURL(URL(string: "homeWidgetExample://message?message=\("TEST REDIRECT")&homeWidget"))
-        .padding(.all)
+                
+                HStack(
+                    alignment: .center, spacing: 28,
+                    content: {
+                        HStack(
+                            spacing: 12,
+                            content: {
+                                Image("PocketIn")
+                                Text(entry.incomeValue)
+                                    .font(Font.custom("Ubuntu", size: 20))
+                                    .foregroundStyle(.white)
+                            })
+                        
+                        HStack(
+                            spacing: 12,
+                            content: {
+                                Image("PocketOut")
+                                Text(entry.outcomeValue)
+                                    .font(Font.custom("Ubuntu", size: 20))
+                                    .foregroundStyle(.white)
+                            })
+                    }
+                )
+            })
+            .widgetURL(URL(string: "homeWidgetExample://message?message=\("TEST REDIRECT")&homeWidget"))
+            .padding(.all)
     }
 }
 
@@ -174,5 +177,5 @@ struct MonthlySummaryWidget: Widget {
 #Preview(as: .systemSmall) {
     MonthlySummaryWidget()
 } timeline: {
-    Summary(date: .now, incomeValue: "123€", outcomeValue: "-556€")
+    Summary(date: .now, title: "Monthly transactions", incomeValue: "123€", outcomeValue: "-556€")
 }

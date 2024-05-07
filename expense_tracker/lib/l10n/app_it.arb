@@ -113,5 +113,6 @@
   "deleteAccountAlertBody": "Eliminare un conto non rimuoverà le transazioni ad esso associate",
   "deleteCategoryAlertBody":  "Eliminare una categoria non rimuoverà le transazioni ad essa associate",
   "transactionDeleted": "Transazione eliminata",
-  "transactionList": "Lista transazioni"
+  "transactionList": "Lista transazioni",
+  "monthlyTransactions": "Transazioni mensili"
 }
