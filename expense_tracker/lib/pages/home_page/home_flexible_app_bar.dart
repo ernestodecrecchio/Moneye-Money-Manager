@@ -1,4 +1,5 @@
 import 'package:expense_tracker/Helper/double_helper.dart';
+import 'package:expense_tracker/Services/widget_extension_service.dart';
 import 'package:expense_tracker/models/transaction.dart';
 import 'package:expense_tracker/notifiers/currency_provider.dart';
 import 'package:expense_tracker/notifiers/transaction_provider.dart';
@@ -6,10 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:home_widget/home_widget.dart';
-
-const String iOSWidgetName = 'MonthlySummaryWidget';
-const String androidWidgetName = 'MonthlySummaryWidget';
 
 class HomeFlexibleSpaceBar extends ConsumerStatefulWidget {
   const HomeFlexibleSpaceBar({super.key});
@@ -57,20 +54,8 @@ class _HomeFlexibleSpaceBarState extends ConsumerState<HomeFlexibleSpaceBar> {
           : monthlyExpenses += transaction.value;
     }
 
-    HomeWidget.saveWidgetData<String>(
-        'title', appLocalizations!.monthlyTransactions);
-    HomeWidget.saveWidgetData<String>(
-        'incomeValue',
-        monthlyIncome.toStringAsFixedRoundedWithCurrency(
-            2, currentCurrency, currentCurrencyPosition));
-    HomeWidget.saveWidgetData<String>(
-        'outcomeValue',
-        monthlyExpenses.toStringAsFixedRoundedWithCurrency(
-            2, currentCurrency, currentCurrencyPosition));
-    HomeWidget.updateWidget(
-      iOSName: iOSWidgetName,
-      androidName: androidWidgetName,
-    );
+    WidgetExtensionService.updateWidgetData(context, monthlyIncome,
+        monthlyExpenses, currentCurrency, currentCurrencyPosition);
 
     return SafeArea(
       minimum: const EdgeInsets.symmetric(horizontal: horizontalPadding),

@@ -114,5 +114,5 @@
   "deleteCategoryAlertBody": "Deleting a category will not remove the transactions associated with it.",
   "transactionDeleted": "Transaction deleted",
   "transactionList": "Transaction list",
-  "monthlyTransactions": "Monthly transactions"
+  "thisMonth": "This month"
 }

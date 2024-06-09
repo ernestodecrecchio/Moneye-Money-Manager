@@ -85,6 +85,11 @@ struct MonthlySummaryEntryView : View {
         return VStack(
             alignment: .center, spacing: 18,
             content: {
+                if let title = entry.title {
+                    Text(title)
+                        .font(Font.custom("Ubuntu", size: 20))
+                        .foregroundStyle(.white)
+                }
                 HStack(
                     content: {
                         Image("PocketIn")
@@ -115,7 +120,7 @@ struct MonthlySummaryEntryView : View {
             content: {
                 if let title = entry.title {
                     Text(title)
-                        .font(Font.custom("Ubuntu", size: 18))
+                        .font(Font.custom("Ubuntu", size: 14))
                         .fontWeight(.bold)
                         .foregroundStyle(.white)
                 }

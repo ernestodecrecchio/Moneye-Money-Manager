@@ -112,7 +112,7 @@
 "areYouSure": "¿Estás seguro?",
 "deleteAccountAlertBody": "Eliminar una cuenta no eliminará las transacciones asociadas a ella.",
 "deleteCategoryAlertBody": "Eliminar una categoría no eliminará las transacciones asociadas a ella.",
- "transactionDeleted": "Transacción eliminada",
+"transactionDeleted": "Transacción eliminada",
 "transactionList": "Lista de transacciones",
-  "monthlyTransactions": "Transacciones mensuales"
+"thisMonth": "Este mes"
 }
