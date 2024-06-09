@@ -54,6 +54,7 @@ class _HomeFlexibleSpaceBarState extends ConsumerState<HomeFlexibleSpaceBar> {
           : monthlyExpenses += transaction.value;
     }
 
+    print("UPDATE");
     WidgetExtensionService.updateWidgetData(context, monthlyIncome,
         monthlyExpenses, currentCurrency, currentCurrencyPosition);
 

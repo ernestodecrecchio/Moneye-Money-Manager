@@ -87,7 +87,7 @@ struct MonthlySummaryEntryView : View {
             content: {
                 if let title = entry.title {
                     Text(title)
-                        .font(Font.custom("Ubuntu", size: 20))
+                        .font(Font.custom("Ubuntu", size: 14))
                         .foregroundStyle(.white)
                 }
                 HStack(
@@ -109,7 +109,7 @@ struct MonthlySummaryEntryView : View {
                     })
             }
         )
-        .widgetURL(URL(string: "homeWidgetExample://message?message=\("TEST REDIRECT")&homeWidget"))
+        .widgetURL(URL(string: "moneye://openNewTransactionPage"))
         .padding(.all)
     }
     

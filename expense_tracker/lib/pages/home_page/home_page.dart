@@ -1,4 +1,5 @@
 import 'package:collection/collection.dart';
+import 'package:expense_tracker/Services/widget_extension_service.dart';
 import 'package:expense_tracker/models/account.dart';
 import 'package:expense_tracker/models/category.dart';
 import 'package:expense_tracker/models/transaction.dart';
@@ -17,9 +18,6 @@ import 'package:expense_tracker/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:home_widget/home_widget.dart';
-
-const String appGroupId = 'group.moneyewidget';
 
 class HomePage extends ConsumerStatefulWidget {
   const HomePage({super.key});
@@ -33,36 +31,16 @@ class _HomePageState extends ConsumerState<HomePage> {
   static const double horizontalPadding = 18;
 
   @override
-  void initState() {
-    super.initState();
-    HomeWidget.setAppGroupId(appGroupId);
-  }
-
-  @override
   void didChangeDependencies() {
     super.didChangeDependencies();
 
     appLocalizations = AppLocalizations.of(context)!;
 
-    _checkForWidgetLaunch();
-    HomeWidget.widgetClicked.listen(_launchedFromWidget);
-  }
+    // Opens new transaction page when app is in background
+    WidgetExtensionService().listenWidgetClick();
 
-  void _checkForWidgetLaunch() {
-    HomeWidget.initiallyLaunchedFromHomeWidget().then(_launchedFromWidget);
-  }
-
-  void _launchedFromWidget(Uri? uri) {
-    if (uri != null) {
-      Navigator.pushNamed(context, NewEditTransactionPage.routeName);
-      /*showDialog(
-        context: context,
-        builder: (buildContext) => AlertDialog(
-          title: const Text('App started from HomeScreenWidget'),
-          content: Text('Here is the URI: $uri'),
-        ),
-      );*/
-    }
+    // Opens new transaction page when app is closed
+    WidgetExtensionService().checkForWidgetLaunch();
   }
 
   @override
