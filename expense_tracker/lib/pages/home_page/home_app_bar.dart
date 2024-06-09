@@ -9,6 +9,7 @@ class HomeAppBar extends ConsumerWidget {
     return const Text(
       'Dashboard',
       textAlign: TextAlign.center,
+      style: TextStyle(color: Colors.white),
     );
   }
 }
