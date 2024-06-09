@@ -34,6 +34,8 @@ import 'package:flutter_timezone/flutter_timezone.dart';
 import 'package:timezone/data/latest_all.dart';
 import 'package:timezone/timezone.dart';
 
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -245,6 +247,7 @@ class MyApp extends r.ConsumerWidget {
           assert(false, 'Need to implement ${settings.name}');
           return null;
         },
+        navigatorKey: navigatorKey,
       ),
     );
   }
