@@ -29,10 +29,10 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart' as r;
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:timezone/data/latest_all.dart';
-import 'package:timezone/timezone.dart';
 import 'pages/account_detail_page/transaction_list_page.dart';
 import 'package:flutter_timezone/flutter_timezone.dart';
+import 'package:timezone/data/latest_all.dart';
+import 'package:timezone/timezone.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();

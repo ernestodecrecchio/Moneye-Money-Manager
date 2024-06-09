@@ -85,7 +85,7 @@ class _InitialConfigurationPageState
               onPressed: () async {
                 await onConfigurationEnd();
 
-                if (mounted) {
+                if (context.mounted) {
                   Navigator.pushReplacementNamed(context, TabBarPage.routeName);
                 }
               },
@@ -142,7 +142,7 @@ class _InitialConfigurationPageState
                       } else {
                         await onConfigurationEnd();
 
-                        if (mounted) {
+                        if (context.mounted) {
                           Navigator.pushReplacementNamed(
                               context, TabBarPage.routeName);
                         }

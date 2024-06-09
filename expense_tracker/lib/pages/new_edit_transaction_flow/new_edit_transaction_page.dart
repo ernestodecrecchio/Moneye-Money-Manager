@@ -304,18 +304,18 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
                 headerBackgroundColor: CustomColors.blue,
                 headerForegroundColor: Colors.white,
                 backgroundColor: Colors.white,
-                todayBackgroundColor: MaterialStateProperty.resolveWith(
+                todayBackgroundColor: WidgetStateProperty.resolveWith(
                   (states) {
-                    if (states.contains(MaterialState.selected)) {
+                    if (states.contains(WidgetState.selected)) {
                       return CustomColors.blue; // OK
                     }
 
                     return Colors.transparent; //OK
                   },
                 ),
-                dayBackgroundColor: MaterialStateProperty.resolveWith(
+                dayBackgroundColor: WidgetStateProperty.resolveWith(
                   (states) {
-                    if (states.contains(MaterialState.selected)) {
+                    if (states.contains(WidgetState.selected)) {
                       return CustomColors.blue; // OK
                     }
 
@@ -428,9 +428,9 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
             text: AppLocalizations.of(context)!.outcome,
           )
         ],
-        overlayColor: MaterialStateProperty.resolveWith<Color?>(
-          (Set<MaterialState> states) {
-            return states.contains(MaterialState.focused)
+        overlayColor: WidgetStateProperty.resolveWith<Color?>(
+          (Set<WidgetState> states) {
+            return states.contains(WidgetState.focused)
                 ? null
                 : Colors.transparent;
           },
