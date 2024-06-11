@@ -120,7 +120,7 @@ class _HomeFlexibleSpaceBarState extends ConsumerState<HomeFlexibleSpaceBar> {
                   children: [
                     SvgPicture.asset('assets/icons/pocket_out.svg'),
                     const SizedBox(
-                      width: 8,
+                      width: 12,
                     ),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -132,9 +132,6 @@ class _HomeFlexibleSpaceBarState extends ConsumerState<HomeFlexibleSpaceBar> {
                             fontSize: 16,
                             fontWeight: FontWeight.w300,
                           ),
-                        ),
-                        const SizedBox(
-                          height: 6,
                         ),
                         Text(
                           monthlyExpenses.toStringAsFixedRoundedWithCurrency(
@@ -157,7 +154,7 @@ class _HomeFlexibleSpaceBarState extends ConsumerState<HomeFlexibleSpaceBar> {
                   children: [
                     SvgPicture.asset('assets/icons/pocket_in.svg'),
                     const SizedBox(
-                      width: 8,
+                      width: 12,
                     ),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -169,9 +166,6 @@ class _HomeFlexibleSpaceBarState extends ConsumerState<HomeFlexibleSpaceBar> {
                             fontSize: 16,
                             fontWeight: FontWeight.w300,
                           ),
-                        ),
-                        const SizedBox(
-                          height: 6,
                         ),
                         Text(
                           monthlyIncome.toStringAsFixedRoundedWithCurrency(
