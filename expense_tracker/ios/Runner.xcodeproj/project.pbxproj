@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		1498D2341E8E89220040F4C2 /* GeneratedPluginRegistrant.m in Sources */ = {isa = PBXBuildFile; fileRef = 1498D2331E8E89220040F4C2 /* GeneratedPluginRegistrant.m */; };
+		250C37B32C18E26700D61193 /* MonthlyOutcomeSummary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 250C37B12C18E18800D61193 /* MonthlyOutcomeSummary.swift */; };
+		250C37B72C18E9CD00D61193 /* Summary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 250C37B52C18E8AC00D61193 /* Summary.swift */; };
 		25B85FF82BC5EA4B00787107 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 25B85FF72BC5EA4B00787107 /* WidgetKit.framework */; };
 		25B85FFA2BC5EA4B00787107 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 25B85FF92BC5EA4B00787107 /* SwiftUI.framework */; };
 		25B85FFD2BC5EA4B00787107 /* MoneyeWidgetsBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25B85FFC2BC5EA4B00787107 /* MoneyeWidgetsBundle.swift */; };
@@ -59,6 +61,8 @@
 /* Begin PBXFileReference section */
 		1498D2321E8E86230040F4C2 /* GeneratedPluginRegistrant.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GeneratedPluginRegistrant.h; sourceTree = "<group>"; };
 		1498D2331E8E89220040F4C2 /* GeneratedPluginRegistrant.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GeneratedPluginRegistrant.m; sourceTree = "<group>"; };
+		250C37B12C18E18800D61193 /* MonthlyOutcomeSummary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthlyOutcomeSummary.swift; sourceTree = "<group>"; };
+		250C37B52C18E8AC00D61193 /* Summary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Summary.swift; sourceTree = "<group>"; };
 		256AD1012BC9B4B0005739BF /* MoneyeWidgetsExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MoneyeWidgetsExtension.entitlements; sourceTree = "<group>"; };
 		256AD1022BC9B4BF005739BF /* Runner.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Runner.entitlements; sourceTree = "<group>"; };
 		25B85FF62BC5EA4B00787107 /* MoneyeWidgetsExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = MoneyeWidgetsExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -112,13 +116,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		250C37B42C18E8A100D61193 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				250C37B52C18E8AC00D61193 /* Summary.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 		25B85FFB2BC5EA4B00787107 /* MoneyeWidgets */ = {
 			isa = PBXGroup;
 			children = (
+				250C37B42C18E8A100D61193 /* Models */,
+				25B860022BC5EA4E00787107 /* Info.plist */,
 				25B85FFC2BC5EA4B00787107 /* MoneyeWidgetsBundle.swift */,
+				250C37B12C18E18800D61193 /* MonthlyOutcomeSummary.swift */,
 				25B85FFE2BC5EA4B00787107 /* MonthlySummary.swift */,
 				25B860002BC5EA4E00787107 /* Assets.xcassets */,
-				25B860022BC5EA4E00787107 /* Info.plist */,
 			);
 			path = MoneyeWidgets;
 			sourceTree = "<group>";
@@ -379,6 +393,8 @@
 			files = (
 				25B85FFF2BC5EA4B00787107 /* MonthlySummary.swift in Sources */,
 				25B85FFD2BC5EA4B00787107 /* MoneyeWidgetsBundle.swift in Sources */,
+				250C37B72C18E9CD00D61193 /* Summary.swift in Sources */,
+				250C37B32C18E26700D61193 /* MonthlyOutcomeSummary.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

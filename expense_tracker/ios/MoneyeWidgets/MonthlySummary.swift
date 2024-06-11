@@ -8,9 +8,11 @@
 import WidgetKit
 import SwiftUI
 
-struct Provider: TimelineProvider {
+struct MonthlhySummaryProvider: TimelineProvider {
     func placeholder(in context: Context) -> Summary {
-        Summary(date: Date(), title: "This month", incomeValue: "123.45€", outcomeValue: "-123.45€")
+        Summary(date: Date(), title: "This month", 
+                incomeValue: "123.45€",
+                outcomeValue: "-123.45€")
     }
 
     func getSnapshot(in context: Context, completion: @escaping (Summary) -> ()) {
@@ -39,16 +41,9 @@ struct Provider: TimelineProvider {
     }
 }
 
-struct Summary: TimelineEntry {
-    let date: Date
-    
-    let title: String?
-    let incomeValue: String
-    let outcomeValue: String
-}
 
 struct MonthlySummaryEntryView : View {
-    var entry: Provider.Entry
+    var entry: MonthlhySummaryProvider.Entry
 
     var bundle: URL {
         let bundle = Bundle.main
@@ -60,7 +55,7 @@ struct MonthlySummaryEntryView : View {
         return bundle.bundleURL
     }
     
-    init(entry: Provider.Entry) {
+    init(entry: MonthlhySummaryProvider.Entry) {
         self.entry = entry
         CTFontManagerRegisterFontsForURL(bundle.appending(path: "/assets/fonts/Ubuntu-R.ttf") as CFURL, CTFontManagerScope.process, nil)
         CTFontManagerRegisterFontsForURL(bundle.appending(path: "/assets/fonts/Ubuntu-B.ttf") as CFURL, CTFontManagerScope.process, nil)
@@ -94,25 +89,29 @@ struct MonthlySummaryEntryView : View {
                         .lineLimit(1)
                 }
                 
-                HStack(
-                    content: {
-                        Image("PocketIn")
-                        Spacer()
-                        Text(entry.incomeValue)
-                            .font(Font.custom("Ubuntu", size: 20))
-                            .foregroundStyle(.white)
-                            .minimumScaleFactor(0.2)
-                    })
+                if let incomeValue = entry.incomeValue {
+                    HStack(
+                        content: {
+                            Image("PocketIn")
+                            Spacer()
+                            Text(incomeValue)
+                                .font(Font.custom("Ubuntu", size: 20))
+                                .foregroundStyle(.white)
+                                .minimumScaleFactor(0.2)
+                        })
+                }
                 
-                HStack(
-                    content: {
-                        Image("PocketOut")
-                        Spacer()
-                        Text(entry.outcomeValue)
-                            .font(Font.custom("Ubuntu", size: 20))
-                            .foregroundStyle(.white)
-                            .minimumScaleFactor(0.2)
-                    })
+                if let outcomeValue = entry.outcomeValue {
+                    HStack(
+                        content: {
+                            Image("PocketOut")
+                            Spacer()
+                            Text(outcomeValue)
+                                .font(Font.custom("Ubuntu", size: 20))
+                                .foregroundStyle(.white)
+                                .minimumScaleFactor(0.2)
+                        })
+                }
             }
         )
         .widgetURL(URL(string: "moneye://openNewTransactionPage?homeWidget"))
@@ -121,7 +120,7 @@ struct MonthlySummaryEntryView : View {
     func systemMediumWidget() -> some View {
         return VStack(
             alignment: .leading,
-            spacing: 18,
+            spacing: 24,
             content: {
                 if let title = entry.title {
                     Text(title)
@@ -130,30 +129,39 @@ struct MonthlySummaryEntryView : View {
                         .foregroundStyle(.white)
                         .minimumScaleFactor(0.2)
                         .lineLimit(1)
+                        .frame(maxWidth: .infinity, alignment: .leading)
                 }
                 
                 HStack(
                     alignment: .center, spacing: 28,
                     content: {
-                        HStack(
-                            spacing: 12,
-                            content: {
-                                Image("PocketIn")
-                                Text(entry.incomeValue)
-                                    .font(Font.custom("Ubuntu", size: 20))
-                                    .foregroundStyle(.white)
-                                    .minimumScaleFactor(0.2)
-                            })
+                        if let incomeValue = entry.incomeValue {
+                            HStack(
+                                spacing: 12,
+                                content: {
+                                    Image("PocketIn")
+                                    Text(incomeValue)
+                                        .font(Font.custom("Ubuntu", size: 20))
+                                        .foregroundStyle(.white)
+                                        .minimumScaleFactor(0.2)
+                                        
+                                })
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                        }
                         
-                        HStack(
-                            spacing: 12,
-                            content: {
-                                Image("PocketOut")
-                                Text(entry.outcomeValue)
-                                    .font(Font.custom("Ubuntu", size: 20))
-                                    .foregroundStyle(.white)
-                                    .minimumScaleFactor(0.2)
-                            })
+                        if let outcomeValue = entry.outcomeValue {
+                            HStack(
+                                spacing: 12,
+                                content: {
+                                    Image("PocketOut")
+                                    Text(outcomeValue)
+                                        .font(Font.custom("Ubuntu", size: 20))
+                                        .foregroundStyle(.white)
+                                        .minimumScaleFactor(0.2)
+                                      
+                                })
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                        }
                     }
                 )
             })
@@ -166,7 +174,7 @@ struct MonthlySummaryWidget: Widget {
     let kind: String = "MonthlySummaryWidget"
 
     var body: some WidgetConfiguration {
-        StaticConfiguration(kind: kind, provider: Provider()) { entry in
+        StaticConfiguration(kind: kind, provider: MonthlhySummaryProvider()) { entry in
             if #available(iOS 17.0, *) {
                 MonthlySummaryEntryView(entry: entry)
                     .containerBackground(.fill.tertiary, for: .widget)
@@ -191,5 +199,5 @@ struct MonthlySummaryWidget: Widget {
 #Preview(as: .systemMedium) {
     MonthlySummaryWidget()
 } timeline: {
-    Summary(date: .now, title: "This month", incomeValue: "123.45€", outcomeValue: "-123.45€")
+    Summary(date: .now, title: "This month", incomeValue: "123.45", outcomeValue: "-123.45")
 }
