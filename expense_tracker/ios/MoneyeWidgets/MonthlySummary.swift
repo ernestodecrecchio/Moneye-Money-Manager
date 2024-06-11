@@ -10,7 +10,7 @@ import SwiftUI
 
 struct Provider: TimelineProvider {
     func placeholder(in context: Context) -> Summary {
-        Summary(date: Date(), title: "Monthly transactions", incomeValue: "1234€", outcomeValue: "-289€")
+        Summary(date: Date(), title: "This month", incomeValue: "123.45€", outcomeValue: "-123.45€")
     }
 
     func getSnapshot(in context: Context, completion: @escaping (Summary) -> ()) {
@@ -83,13 +83,17 @@ struct MonthlySummaryEntryView : View {
     
     func systemSmallWidget() -> some View {
         return VStack(
-            alignment: .center, spacing: 18,
+            alignment: .leading, spacing: 18,
             content: {
                 if let title = entry.title {
                     Text(title)
                         .font(Font.custom("Ubuntu", size: 14))
+                        .fontWeight(.bold)
                         .foregroundStyle(.white)
+                        .minimumScaleFactor(0.2)
+                        .lineLimit(1)
                 }
+                
                 HStack(
                     content: {
                         Image("PocketIn")
@@ -97,6 +101,7 @@ struct MonthlySummaryEntryView : View {
                         Text(entry.incomeValue)
                             .font(Font.custom("Ubuntu", size: 20))
                             .foregroundStyle(.white)
+                            .minimumScaleFactor(0.2)
                     })
                 
                 HStack(
@@ -106,16 +111,16 @@ struct MonthlySummaryEntryView : View {
                         Text(entry.outcomeValue)
                             .font(Font.custom("Ubuntu", size: 20))
                             .foregroundStyle(.white)
+                            .minimumScaleFactor(0.2)
                     })
             }
         )
-        .widgetURL(URL(string: "moneye://openNewTransactionPage"))
-        .padding(.all)
+        .widgetURL(URL(string: "moneye://openNewTransactionPage?homeWidget"))
     }
     
     func systemMediumWidget() -> some View {
         return VStack(
-            alignment: .center,
+            alignment: .leading,
             spacing: 18,
             content: {
                 if let title = entry.title {
@@ -123,6 +128,8 @@ struct MonthlySummaryEntryView : View {
                         .font(Font.custom("Ubuntu", size: 14))
                         .fontWeight(.bold)
                         .foregroundStyle(.white)
+                        .minimumScaleFactor(0.2)
+                        .lineLimit(1)
                 }
                 
                 HStack(
@@ -135,6 +142,7 @@ struct MonthlySummaryEntryView : View {
                                 Text(entry.incomeValue)
                                     .font(Font.custom("Ubuntu", size: 20))
                                     .foregroundStyle(.white)
+                                    .minimumScaleFactor(0.2)
                             })
                         
                         HStack(
@@ -144,11 +152,12 @@ struct MonthlySummaryEntryView : View {
                                 Text(entry.outcomeValue)
                                     .font(Font.custom("Ubuntu", size: 20))
                                     .foregroundStyle(.white)
+                                    .minimumScaleFactor(0.2)
                             })
                     }
                 )
             })
-            .widgetURL(URL(string: "homeWidgetExample://message?message=\("TEST REDIRECT")&homeWidget"))
+            .widgetURL(URL(string: "moneye://openNewTransactionPage?homeWidget"))
             .padding(.all)
     }
 }
@@ -172,15 +181,15 @@ struct MonthlySummaryWidget: Widget {
                     }
             }
         }
-        .configurationDisplayName("Monthly summary")
+        .configurationDisplayName("This month summary")
         .description("The fastest way to keep track of your monthly status")
         .supportedFamilies([.systemSmall, .systemMedium])
     }
 }
 
 
-#Preview(as: .systemSmall) {
+#Preview(as: .systemMedium) {
     MonthlySummaryWidget()
 } timeline: {
-    Summary(date: .now, title: "Monthly transactions", incomeValue: "123€", outcomeValue: "-556€")
+    Summary(date: .now, title: "This month", incomeValue: "123.45€", outcomeValue: "-123.45€")
 }
