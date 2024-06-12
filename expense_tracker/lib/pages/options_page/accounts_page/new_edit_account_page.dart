@@ -6,6 +6,7 @@ import 'package:expense_tracker/pages/common/inline_color_picker.dart';
 import 'package:expense_tracker/pages/common/inline_icon_picker.dart';
 import 'package:expense_tracker/style.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -29,6 +30,7 @@ class _NewAccountPageState extends ConsumerState<NewAccountPage> {
 
   TextEditingController titleInput = TextEditingController();
   TextEditingController descriptionInput = TextEditingController();
+  TextEditingController initialAmountInput = TextEditingController();
 
   Color selectedColor = CustomColors.darkBlue;
   String? selectedIconPath;
@@ -46,6 +48,7 @@ class _NewAccountPageState extends ConsumerState<NewAccountPage> {
       descriptionInput.text = widget.initialAccountSettings!.description ?? '';
       selectedColor = widget.initialAccountSettings!.color;
       selectedIconPath = widget.initialAccountSettings!.iconPath;
+      //initialAmountInput.text = widget.initialAccountSettings.valie
     }
   }
 
@@ -125,6 +128,25 @@ class _NewAccountPageState extends ConsumerState<NewAccountPage> {
               height: 14,
             ),
             _buildIconPicker(),
+            const SizedBox(
+              height: 14,
+            ),
+            CustomTextField(
+              controller: initialAmountInput,
+              label: '${appLocalizations.value}*',
+              hintText: appLocalizations.insertTheValueOfTheTransaction,
+              textInputFormatters: <TextInputFormatter>[
+                FilteringTextInputFormatter.allow(RegExp(r'^\d+\.?\d*'))
+              ],
+              keyboardType: const TextInputType.numberWithOptions(
+                  signed: true, decimal: true),
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return appLocalizations.valueIsMandatory;
+                }
+                return null;
+              },
+            ),
             const Spacer(),
             _buildSaveButton(),
           ],
