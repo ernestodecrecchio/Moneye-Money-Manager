@@ -1,4 +1,5 @@
 import 'package:expense_tracker/Database/database_helper.dart';
+import 'package:expense_tracker/Database/database_types.dart';
 import 'package:expense_tracker/models/account.dart';
 import 'package:expense_tracker/models/category.dart';
 import 'package:expense_tracker/models/transaction.dart';
@@ -13,28 +14,29 @@ class DatabaseTransactionHelper {
   DatabaseTransactionHelper._init();
 
   static Future inizializeTable(Database db) async {
-    const idType = 'INTEGER PRIMARY KEY AUTOINCREMENT';
-    const textType = 'TEXT NOT NULL';
-    const textTypeNullable = 'TEXT';
-    const realType = 'REAL NOT NULL';
-    const dateTimeType = 'DATETIME NOT NULL';
-    const integerType = 'INTEGER';
-
     await db.execute('''
     CREATE TABLE $transactionsTable (
-      ${TransactionFields.id} $idType,
-      ${TransactionFields.title} $textType,
-      ${TransactionFields.description} $textTypeNullable,
-      ${TransactionFields.value} $realType,
-      ${TransactionFields.date} $dateTimeType,
-      ${TransactionFields.categoryId} $integerType,
-      ${TransactionFields.accountId} $integerType,
+      ${TransactionFields.id} ${DatabaseTypes.idType},
+      ${TransactionFields.title} ${DatabaseTypes.textType},
+      ${TransactionFields.description} ${DatabaseTypes.textTypeNullable},
+      ${TransactionFields.value} ${DatabaseTypes.realType},
+      ${TransactionFields.date} ${DatabaseTypes.dateTimeType},
+      ${TransactionFields.categoryId} ${DatabaseTypes.integerType},
+      ${TransactionFields.accountId} ${DatabaseTypes.integerType},
       FOREIGN KEY (${TransactionFields.categoryId}) REFERENCES $categoriesTable (${CategoryFields.id}) ON DELETE SET NULL ON UPDATE NO ACTION,
       FOREIGN KEY (${TransactionFields.accountId}) REFERENCES $accountsTable (${AccountFields.id}) ON DELETE SET NULL ON UPDATE NO ACTION
       )
     ''');
 
     // await insertDemoData(db);
+  }
+
+  // Update DB functions
+  static void updateTransactionTableV1toV2(Batch batch) {
+    const realType = 'REAL NOT NULL';
+
+    batch.execute(
+        '''ALTER TABLE $accountsTable ADD ${AccountFields.initialAmount} $realType''');
   }
 
   static Future insertDemoData(Database db) async {

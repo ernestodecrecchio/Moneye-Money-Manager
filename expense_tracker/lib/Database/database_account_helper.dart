@@ -1,4 +1,5 @@
 import 'package:expense_tracker/Database/database_helper.dart';
+import 'package:expense_tracker/Database/database_types.dart';
 import 'package:expense_tracker/models/account.dart';
 import 'package:expense_tracker/models/transaction.dart';
 import 'package:sqflite/sqlite_api.dart';
@@ -8,19 +9,13 @@ class DatabaseAccountHelper {
   DatabaseAccountHelper._init();
 
   static Future inizializeTable(Database db) async {
-    const idType = 'INTEGER PRIMARY KEY AUTOINCREMENT';
-    const textType = 'TEXT NOT NULL';
-    const textTypeNullable = 'TEXT';
-    //const integerType = 'INTEGER NOT NULL';
-    const integerTypeNullable = 'INTEGER';
-
     await db.execute('''
       CREATE TABLE $accountsTable ( 
-      ${AccountFields.id} $idType, 
-      ${AccountFields.name} $textType,
-      ${AccountFields.description} $textTypeNullable,
-      ${AccountFields.colorValue} $integerTypeNullable,
-      ${AccountFields.iconPath} $textTypeNullable
+      ${AccountFields.id} ${DatabaseTypes.idType}, 
+      ${AccountFields.name} ${DatabaseTypes.textType},
+      ${AccountFields.description} ${DatabaseTypes.textTypeNullable},
+      ${AccountFields.colorValue} ${DatabaseTypes.integerTypeNullable},
+      ${AccountFields.iconPath} ${DatabaseTypes.textTypeNullable}
       )
     ''');
 
