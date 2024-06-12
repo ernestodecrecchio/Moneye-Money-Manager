@@ -9,6 +9,7 @@ class TransactionFields {
     date,
     categoryId,
     accountId,
+    includeInReports,
   ];
 
   static const String id = '_id'; // Default id column
@@ -18,6 +19,7 @@ class TransactionFields {
   static const String date = 'date';
   static const String categoryId = 'categoryId';
   static const String accountId = 'accountId';
+  static const String includeInReports = 'includeInReports';
 }
 
 class Transaction {
@@ -28,16 +30,17 @@ class Transaction {
   DateTime date;
   int? categoryId;
   int? accountId;
+  bool includeInReports;
 
-  Transaction({
-    this.id,
-    required this.title,
-    this.description,
-    required this.value,
-    required this.date,
-    this.categoryId,
-    this.accountId,
-  });
+  Transaction(
+      {this.id,
+      required this.title,
+      this.description,
+      required this.value,
+      required this.date,
+      this.categoryId,
+      this.accountId,
+      this.includeInReports = true});
 
   Transaction copy({
     int? id,
@@ -47,6 +50,7 @@ class Transaction {
     DateTime? date,
     int? categoryId,
     int? accountId,
+    bool? includeInReports,
   }) =>
       Transaction(
         id: id ?? this.id,
@@ -56,6 +60,7 @@ class Transaction {
         date: date ?? this.date,
         categoryId: categoryId ?? this.categoryId,
         accountId: accountId ?? this.accountId,
+        includeInReports: includeInReports ?? this.includeInReports,
       );
 
   static Transaction fromJson(Map<String, Object?> json) => Transaction(
@@ -66,6 +71,7 @@ class Transaction {
         date: DateTime.parse(json[TransactionFields.date] as String),
         categoryId: json[TransactionFields.categoryId] as int?,
         accountId: json[TransactionFields.accountId] as int?,
+        includeInReports: json[TransactionFields.includeInReports] as bool,
       );
 
   Map<String, Object?> toJson() => {
@@ -76,14 +82,15 @@ class Transaction {
         TransactionFields.date: date.toIso8601String(),
         TransactionFields.categoryId: categoryId,
         TransactionFields.accountId: accountId,
+        TransactionFields.includeInReports: includeInReports
       };
 
   @override
   operator ==(other) => other is Transaction && other.id == id;
 
   @override
-  int get hashCode =>
-      Object.hash(id, title, description, value, date, categoryId, accountId);
+  int get hashCode => Object.hash(id, title, description, value, date,
+      categoryId, accountId, includeInReports);
 
   @override
   String toString() {

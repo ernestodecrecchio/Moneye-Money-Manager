@@ -23,6 +23,7 @@ class DatabaseTransactionHelper {
       ${TransactionFields.date} ${DatabaseTypes.dateTimeType},
       ${TransactionFields.categoryId} ${DatabaseTypes.integerType},
       ${TransactionFields.accountId} ${DatabaseTypes.integerType},
+      ${TransactionFields.includeInReports} ${DatabaseTypes.integerType} DEFAULT 1,
       FOREIGN KEY (${TransactionFields.categoryId}) REFERENCES $categoriesTable (${CategoryFields.id}) ON DELETE SET NULL ON UPDATE NO ACTION,
       FOREIGN KEY (${TransactionFields.accountId}) REFERENCES $accountsTable (${AccountFields.id}) ON DELETE SET NULL ON UPDATE NO ACTION
       )
@@ -33,10 +34,8 @@ class DatabaseTransactionHelper {
 
   // Update DB functions
   static void updateTransactionTableV1toV2(Batch batch) {
-    const realType = 'REAL NOT NULL';
-
     batch.execute(
-        '''ALTER TABLE $accountsTable ADD ${AccountFields.initialAmount} $realType''');
+        '''ALTER TABLE $transactionsTable ADD ${TransactionFields.includeInReports} ${DatabaseTypes.integerType}''');
   }
 
   static Future insertDemoData(Database db) async {
