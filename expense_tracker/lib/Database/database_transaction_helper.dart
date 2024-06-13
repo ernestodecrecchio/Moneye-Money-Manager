@@ -21,8 +21,8 @@ class DatabaseTransactionHelper {
       ${TransactionFields.description} ${DatabaseTypes.textTypeNullable},
       ${TransactionFields.value} ${DatabaseTypes.realType},
       ${TransactionFields.date} ${DatabaseTypes.dateTimeType},
-      ${TransactionFields.categoryId} ${DatabaseTypes.integerType},
-      ${TransactionFields.accountId} ${DatabaseTypes.integerType},
+      ${TransactionFields.categoryId} ${DatabaseTypes.integerTypeNullable},
+      ${TransactionFields.accountId} ${DatabaseTypes.integerTypeNullable},
       ${TransactionFields.includeInReports} ${DatabaseTypes.integerType} DEFAULT 1,
       FOREIGN KEY (${TransactionFields.categoryId}) REFERENCES $categoriesTable (${CategoryFields.id}) ON DELETE SET NULL ON UPDATE NO ACTION,
       FOREIGN KEY (${TransactionFields.accountId}) REFERENCES $accountsTable (${AccountFields.id}) ON DELETE SET NULL ON UPDATE NO ACTION
