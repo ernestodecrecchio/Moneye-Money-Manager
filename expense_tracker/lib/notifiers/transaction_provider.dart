@@ -12,7 +12,7 @@ class TransactionNotifier extends Notifier<List<Transaction>> {
 
   double get totalBalance {
     return state.fold(
-        0, (previousValue, element) => previousValue + element.value);
+        0, (previousAmount, element) => previousAmount + element.amount);
   }
 
   double getTotalBanalceUntilDate(DateTime date) {
@@ -20,7 +20,7 @@ class TransactionNotifier extends Notifier<List<Transaction>> {
 
     for (var transaction in state) {
       if (transaction.date.isBefore(date)) {
-        totalBalance += transaction.value;
+        totalBalance += transaction.amount;
       }
     }
 
@@ -38,7 +38,7 @@ class TransactionNotifier extends Notifier<List<Transaction>> {
   Future<Transaction?> addNewTransaction({
     required String title,
     String? description,
-    required double value,
+    required double amount,
     required DateTime date,
     Category? category,
     Account? account,
@@ -46,7 +46,7 @@ class TransactionNotifier extends Notifier<List<Transaction>> {
     Transaction newTransaction = Transaction(
       title: title,
       description: description,
-      value: value,
+      amount: amount,
       date: date,
       categoryId: category?.id,
       accountId: account?.id,
@@ -83,7 +83,7 @@ class TransactionNotifier extends Notifier<List<Transaction>> {
     required Transaction transactionToEdit,
     required String title,
     String? description,
-    required double value,
+    required double amount,
     required DateTime date,
     required Category? category,
     required Account? account,
@@ -92,7 +92,7 @@ class TransactionNotifier extends Notifier<List<Transaction>> {
       id: transactionToEdit.id,
       title: title,
       description: description,
-      value: value,
+      amount: amount,
       date: date,
       categoryId: category?.id,
       accountId: account?.id,
@@ -133,7 +133,7 @@ class TransactionNotifier extends Notifier<List<Transaction>> {
     return (false, -1);
   }
 
-  /// Returns a Map where for each month of the year, there is a sum of all the transactions value
+  /// Returns a Map where for each month of the year, there is a sum of all the transactions amount
   Map<int, double> getMonthlyBalanceForYear(int year) {
     final Map<int, double> balanceMap = {};
 
@@ -142,7 +142,7 @@ class TransactionNotifier extends Notifier<List<Transaction>> {
 
     for (var transaction in currentYearTransactions) {
       balanceMap[transaction.date.month] =
-          (balanceMap[transaction.date.month] ?? 0) + transaction.value;
+          (balanceMap[transaction.date.month] ?? 0) + transaction.amount;
     }
 
     return balanceMap;

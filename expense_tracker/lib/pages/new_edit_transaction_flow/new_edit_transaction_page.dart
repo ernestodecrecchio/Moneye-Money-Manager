@@ -78,14 +78,14 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
       descriptionInput.text =
           widget.initialTransactionSettings!.description ?? '';
       valueInput.text =
-          widget.initialTransactionSettings!.value.abs().toString();
+          widget.initialTransactionSettings!.amount.abs().toString();
       dateInput.text = dateFormatter
           .format(widget.initialTransactionSettings!.date)
           .toString();
       selectedDate = widget.initialTransactionSettings!.date;
 
       _transactionTypeTabController.index =
-          widget.initialTransactionSettings!.value >= 0 ? 0 : 1;
+          widget.initialTransactionSettings!.amount >= 0 ? 0 : 1;
 
       if (widget.initialTransactionSettings!.categoryId != null) {
         selectedCategory = ref
@@ -368,7 +368,7 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
         .addNewTransaction(
             title: titleInput.text,
             description: descriptionInput.text,
-            value: transactionValue,
+            amount: transactionValue,
             date: selectedDate,
             category: selectedCategory,
             account: selectedAccount)
@@ -400,7 +400,7 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
           transactionToEdit: widget.initialTransactionSettings!,
           title: titleInput.text,
           description: descriptionInput.text,
-          value: transactionValue,
+          amount: transactionValue,
           date: selectedDate,
           category: selectedCategory,
           account: selectedAccount,

@@ -169,9 +169,9 @@ class _HomePageState extends ConsumerState<HomePage> {
 
       if (transactionAccount != null) {
         accountMap[transactionAccount] =
-            accountMap[transactionAccount]! + transaction.value;
+            accountMap[transactionAccount]! + transaction.amount;
       } else {
-        balanceTransactionsWithoutAccount += transaction.value;
+        balanceTransactionsWithoutAccount += transaction.amount;
       }
     }
 

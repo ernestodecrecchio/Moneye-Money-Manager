@@ -19,7 +19,7 @@ class DatabaseTransactionHelper {
       ${TransactionFields.id} ${DatabaseTypes.idType},
       ${TransactionFields.title} ${DatabaseTypes.textType},
       ${TransactionFields.description} ${DatabaseTypes.textTypeNullable},
-      ${TransactionFields.value} ${DatabaseTypes.realType},
+      ${TransactionFields.amount} ${DatabaseTypes.realType},
       ${TransactionFields.date} ${DatabaseTypes.dateTimeType},
       ${TransactionFields.categoryId} ${DatabaseTypes.integerTypeNullable},
       ${TransactionFields.accountId} ${DatabaseTypes.integerTypeNullable},
@@ -35,8 +35,9 @@ class DatabaseTransactionHelper {
   // Update DB functions
   static void updateTransactionTableV1toV2(Batch batch) {
     print("UPDATE FROM V1 TO V2");
-    batch.execute(
-        '''ALTER TABLE $transactionsTable ADD ${TransactionFields.includeInReports} ${DatabaseTypes.integerType}''');
+    batch.execute('''ALTER TABLE $transactionsTable 
+        RENAME value TO ${TransactionFields.amount}
+        ADD ${TransactionFields.includeInReports} ${DatabaseTypes.integerType}''');
   }
 
   static Future insertDemoData(Database db) async {
@@ -44,7 +45,7 @@ class DatabaseTransactionHelper {
       trans.Transaction(
         id: 1,
         title: 'Gas for car',
-        value: -20,
+        amount: -20,
         date: DateTime(2023, 5, 1),
         categoryId: 5,
         accountId: 1,
@@ -52,21 +53,21 @@ class DatabaseTransactionHelper {
       trans.Transaction(
         id: 2,
         title: 'Balance',
-        value: 500,
+        amount: 500,
         date: DateTime(2023, 3, 1),
         accountId: 1,
       ),
       trans.Transaction(
         id: 3,
         title: 'Balance',
-        value: 500,
+        amount: 500,
         date: DateTime(2023, 3, 1),
         accountId: 3,
       ),
       trans.Transaction(
         id: 4,
         title: 'Movie tickets',
-        value: -15,
+        amount: -15,
         date: DateTime(2023, 5, 4),
         categoryId: 7,
         accountId: 3,
@@ -74,7 +75,7 @@ class DatabaseTransactionHelper {
       trans.Transaction(
         id: 5,
         title: 'Electricity bill',
-        value: -75,
+        amount: -75,
         date: DateTime(2023, 5, 7),
         categoryId: 1,
         accountId: 3,
@@ -82,7 +83,7 @@ class DatabaseTransactionHelper {
       trans.Transaction(
         id: 6,
         title: 'Gift for Mike',
-        value: -50,
+        amount: -50,
         date: DateTime(2023, 5, 2),
         categoryId: 2,
         accountId: 3,
@@ -90,7 +91,7 @@ class DatabaseTransactionHelper {
       trans.Transaction(
         id: 7,
         title: 'Rome trip',
-        value: -100,
+        amount: -100,
         date: DateTime(2023, 5, 13),
         categoryId: 3,
         accountId: 3,
@@ -98,7 +99,7 @@ class DatabaseTransactionHelper {
       trans.Transaction(
         id: 8,
         title: 'Gas for car',
-        value: -200,
+        amount: -200,
         date: DateTime(2023, 4, 11),
         categoryId: 5,
         accountId: 1,
@@ -106,21 +107,21 @@ class DatabaseTransactionHelper {
       trans.Transaction(
         id: 9,
         title: 'Balance',
-        value: -234,
+        amount: -234,
         date: DateTime(2023, 3, 17),
         accountId: 1,
       ),
       trans.Transaction(
         id: 10,
         title: 'Balance',
-        value: 100,
+        amount: 100,
         date: DateTime(2023, 2, 1),
         accountId: 3,
       ),
       trans.Transaction(
         id: 11,
         title: 'Movie tickets',
-        value: -15,
+        amount: -15,
         date: DateTime(2023, 3, 4),
         categoryId: 7,
         accountId: 3,
@@ -128,7 +129,7 @@ class DatabaseTransactionHelper {
       trans.Transaction(
         id: 12,
         title: 'Electricity bill',
-        value: -75,
+        amount: -75,
         date: DateTime(2023, 1, 13),
         categoryId: 1,
         accountId: 3,
@@ -136,7 +137,7 @@ class DatabaseTransactionHelper {
       trans.Transaction(
         id: 13,
         title: 'Gift for Mike',
-        value: -50,
+        amount: -50,
         date: DateTime(2023, 4, 12),
         categoryId: 2,
         accountId: 3,
@@ -144,7 +145,7 @@ class DatabaseTransactionHelper {
       trans.Transaction(
         id: 14,
         title: 'Rome trip',
-        value: -100,
+        amount: -100,
         date: DateTime(2023, 2, 13),
         categoryId: 3,
         accountId: 3,
@@ -152,7 +153,7 @@ class DatabaseTransactionHelper {
       trans.Transaction(
         id: 15,
         title: 'Gas for car',
-        value: -200,
+        amount: -200,
         date: DateTime(2023, 5, 22),
         categoryId: 5,
         accountId: 3,
@@ -160,21 +161,21 @@ class DatabaseTransactionHelper {
       trans.Transaction(
         id: 16,
         title: 'Balance',
-        value: -234,
+        amount: -234,
         date: DateTime(2023, 5, 23),
         accountId: 3,
       ),
       trans.Transaction(
         id: 17,
         title: 'Balance',
-        value: 100,
+        amount: 100,
         date: DateTime(2023, 5, 24),
         accountId: 3,
       ),
       trans.Transaction(
         id: 18,
         title: 'Movie tickets',
-        value: -15,
+        amount: -15,
         date: DateTime(2023, 5, 25),
         categoryId: 7,
         accountId: 3,
@@ -182,7 +183,7 @@ class DatabaseTransactionHelper {
       trans.Transaction(
         id: 19,
         title: 'Electricity bill',
-        value: -75,
+        amount: -75,
         date: DateTime(2023, 5, 26),
         categoryId: 1,
         accountId: 3,
@@ -190,7 +191,7 @@ class DatabaseTransactionHelper {
       trans.Transaction(
         id: 20,
         title: 'Gift for Mike',
-        value: -50,
+        amount: -50,
         date: DateTime(2023, 5, 27),
         categoryId: 2,
         accountId: 3,
@@ -198,7 +199,7 @@ class DatabaseTransactionHelper {
       trans.Transaction(
         id: 21,
         title: 'Rome trip',
-        value: -100,
+        amount: -100,
         date: DateTime(2023, 5, 28),
         categoryId: 3,
         accountId: 3,
@@ -206,7 +207,7 @@ class DatabaseTransactionHelper {
       trans.Transaction(
         id: 22,
         title: 'Dog bath',
-        value: -45,
+        amount: -45,
         date: DateTime(2023, 7, 1),
         categoryId: 9,
         accountId: 3,
@@ -214,7 +215,7 @@ class DatabaseTransactionHelper {
       trans.Transaction(
         id: 23,
         title: 'New jeans',
-        value: -67,
+        amount: -67,
         date: DateTime(2023, 7, 2),
         categoryId: 4,
         accountId: 3,
@@ -222,7 +223,7 @@ class DatabaseTransactionHelper {
       trans.Transaction(
         id: 24,
         title: 'Bus ticket',
-        value: -4.5,
+        amount: -4.5,
         date: DateTime(2023, 7, 3),
         categoryId: 5,
         accountId: 3,
@@ -230,7 +231,7 @@ class DatabaseTransactionHelper {
       trans.Transaction(
         id: 25,
         title: 'New towel',
-        value: -32,
+        amount: -32,
         date: DateTime(2023, 7, 4),
         categoryId: 6,
         accountId: 3,
@@ -238,7 +239,7 @@ class DatabaseTransactionHelper {
       trans.Transaction(
         id: 26,
         title: 'Lasertag match',
-        value: -8,
+        amount: -8,
         date: DateTime(2023, 7, 5),
         categoryId: 7,
         accountId: 3,
@@ -246,7 +247,7 @@ class DatabaseTransactionHelper {
       trans.Transaction(
         id: 27,
         title: 'Pub',
-        value: -34,
+        amount: -34,
         date: DateTime(2023, 7, 12),
         categoryId: 8,
         accountId: 3,
@@ -254,7 +255,7 @@ class DatabaseTransactionHelper {
       trans.Transaction(
         id: 28,
         title: 'Food for Yaki',
-        value: -87,
+        amount: -87,
         date: DateTime(2023, 6, 12),
         categoryId: 9,
         accountId: 3,
@@ -262,35 +263,35 @@ class DatabaseTransactionHelper {
       trans.Transaction(
         id: 29,
         title: 'Gym membership',
-        value: -22,
+        amount: -22,
         date: DateTime(2023, 7, 3),
         categoryId: 10,
         accountId: 3,
       ),
       trans.Transaction(
         title: 'Water bill',
-        value: -44,
+        amount: -44,
         date: DateTime(2023, 7, 4),
         categoryId: 1,
         accountId: 3,
       ),
       trans.Transaction(
         title: 'Gift for Erika',
-        value: -25,
+        amount: -25,
         date: DateTime(2023, 7, 5),
         categoryId: 2,
         accountId: 3,
       ),
       trans.Transaction(
         title: 'Refound online purchase',
-        value: 125,
+        amount: 125,
         date: DateTime(2023, 7, 12),
         categoryId: 6,
         accountId: 3,
       ),
       trans.Transaction(
         title: 'Videogame sold',
-        value: 37,
+        amount: 37,
         date: DateTime(2023, 7, 27),
         categoryId: 7,
         accountId: 3,

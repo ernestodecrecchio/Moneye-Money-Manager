@@ -205,13 +205,13 @@ class TransactionListCell extends ConsumerWidget {
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
         Text(
-          transaction.value.toStringAsFixedRoundedWithCurrency(
+          transaction.amount.toStringAsFixedRoundedWithCurrency(
               2, currentCurrency, currentCurrencyPosition),
           textAlign: TextAlign.center,
           style: TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.bold,
-            color: transaction.value >= 0 ? Colors.green : Colors.red,
+            color: transaction.amount >= 0 ? Colors.green : Colors.red,
           ),
         ),
         if (showAccountLabel && account != null)

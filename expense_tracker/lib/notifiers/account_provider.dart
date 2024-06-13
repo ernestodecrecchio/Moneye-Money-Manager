@@ -45,7 +45,7 @@ class AccountNotifier extends Notifier<List<Account>> {
       final newTransaction = Transaction(
         accountId: addedAccount.id,
         title: "Initial amount",
-        value: initialAmount,
+        amount: initialAmount,
         date: DateTime.now(),
         includeInReports: false,
       );

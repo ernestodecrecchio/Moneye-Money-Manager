@@ -232,12 +232,12 @@ class _AccountPieChartState extends ConsumerState<AccountPieChart> {
       categoryTotalValuePairs.add(outcomeCategory);
 
       for (var transaction in widget.transactionList) {
-        totalValue += transaction.value.abs();
+        totalValue += transaction.amount.abs();
 
-        if (transaction.value >= 0) {
-          categoryTotalValuePairs[0].totalValue += transaction.value;
+        if (transaction.amount >= 0) {
+          categoryTotalValuePairs[0].totalValue += transaction.amount;
         } else {
-          categoryTotalValuePairs[1].totalValue += transaction.value;
+          categoryTotalValuePairs[1].totalValue += transaction.amount;
         }
       }
 
@@ -248,7 +248,7 @@ class _AccountPieChartState extends ConsumerState<AccountPieChart> {
       totalValue = 0;
 
       for (var transaction in widget.transactionList) {
-        totalValue += transaction.value;
+        totalValue += transaction.amount;
 
         Category? category;
 
@@ -263,11 +263,12 @@ class _AccountPieChartState extends ConsumerState<AccountPieChart> {
               .indexWhere((element) => element.category == category);
 
           if (indexFound != -1) {
-            categoryTotalValuePairs[indexFound].totalValue += transaction.value;
+            categoryTotalValuePairs[indexFound].totalValue +=
+                transaction.amount;
           } else {
             final newEntry = CategoryTotalValue(
               category: category,
-              totalValue: transaction.value,
+              totalValue: transaction.amount,
             );
 
             categoryTotalValuePairs.add(newEntry);
@@ -292,13 +293,13 @@ class _AccountPieChartState extends ConsumerState<AccountPieChart> {
         .indexWhere((element) => element.category.id == null);
 
     if (indexFound != -1) {
-      categoryTotalValuePairs[indexFound].totalValue += transaction.value;
+      categoryTotalValuePairs[indexFound].totalValue += transaction.amount;
     } else {
       final otherEntry = CategoryTotalValue(
           category: Category(
               name: AppLocalizations.of(context)!.other,
               colorValue: Colors.grey.value),
-          totalValue: transaction.value);
+          totalValue: transaction.amount);
 
       categoryTotalValuePairs.add(otherEntry);
     }

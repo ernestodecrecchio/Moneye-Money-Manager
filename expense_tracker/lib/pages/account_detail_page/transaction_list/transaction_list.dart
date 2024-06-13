@@ -125,11 +125,11 @@ class _TransactionListState extends ConsumerState<TransactionList> {
             .indexWhere((element) => element.category == category);
 
         if (indexFound != -1) {
-          categoryTotalValuePairs[indexFound].totalValue += transaction.value;
+          categoryTotalValuePairs[indexFound].totalValue += transaction.amount;
         } else {
           final newEntry = CategoryTotalValue(
             category: category,
-            totalValue: transaction.value,
+            totalValue: transaction.amount,
           );
 
           categoryTotalValuePairs.add(newEntry);
@@ -139,7 +139,7 @@ class _TransactionListState extends ConsumerState<TransactionList> {
             .indexWhere((element) => element.category.id == null);
 
         if (indexFound != -1) {
-          categoryTotalValuePairs[indexFound].totalValue += transaction.value;
+          categoryTotalValuePairs[indexFound].totalValue += transaction.amount;
         } else {
           final otherEntry = CategoryTotalValue(
               category: Category(
@@ -147,7 +147,7 @@ class _TransactionListState extends ConsumerState<TransactionList> {
                 colorValue: Colors.grey.value,
                 iconPath: 'assets/icons/box.svg',
               ),
-              totalValue: transaction.value);
+              totalValue: transaction.amount);
 
           categoryTotalValuePairs.add(otherEntry);
         }

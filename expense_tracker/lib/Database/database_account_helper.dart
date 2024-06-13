@@ -85,7 +85,7 @@ class DatabaseAccountHelper {
     final db = await DatabaseHelper.instance.database;
 
     final result = await db.rawQuery('''
-      SELECT a.${AccountFields.id}, a.${AccountFields.name}, COALESCE(SUM(${TransactionFields.value}), 0.0) AS balance
+      SELECT a.${AccountFields.id}, a.${AccountFields.name}, COALESCE(SUM(${TransactionFields.amount}), 0.0) AS balance
       FROM $accountsTable a LEFT JOIN $transactionsTable t ON  a.${AccountFields.id} = t.${TransactionFields.accountId}
       GROUP BY a.${AccountFields.id}''');
 

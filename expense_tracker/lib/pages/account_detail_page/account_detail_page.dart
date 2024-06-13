@@ -621,7 +621,7 @@ class _ScrollableTabViewState extends ConsumerState<ScrollableTabView> {
             (element) =>
                 element.includeInReports &&
                 element.accountId == widget.account!.id &&
-                element.value >= 0 &&
+                element.amount >= 0 &&
                 element.date.isAfterIncludingZero(widget.startDate) &&
                 element.date.isBeforeIncludingZero(widget.endDate),
           )
@@ -632,7 +632,7 @@ class _ScrollableTabViewState extends ConsumerState<ScrollableTabView> {
           .where(
             (element) =>
                 element.includeInReports &&
-                element.value >= 0 &&
+                element.amount >= 0 &&
                 element.date.isAfterIncludingZero(widget.startDate) &&
                 element.date.isBeforeIncludingZero(widget.endDate),
           )
@@ -653,7 +653,7 @@ class _ScrollableTabViewState extends ConsumerState<ScrollableTabView> {
           .where((element) =>
               element.includeInReports &&
               element.accountId == widget.account!.id &&
-              element.value < 0 &&
+              element.amount < 0 &&
               element.date.isAfterIncludingZero(widget.startDate) &&
               element.date.isBeforeIncludingZero(widget.endDate))
           .toList()
@@ -663,7 +663,7 @@ class _ScrollableTabViewState extends ConsumerState<ScrollableTabView> {
           .where(
             (element) =>
                 element.includeInReports &&
-                element.value < 0 &&
+                element.amount < 0 &&
                 element.date.isAfterIncludingZero(widget.startDate) &&
                 element.date.isBeforeIncludingZero(widget.endDate),
           )
