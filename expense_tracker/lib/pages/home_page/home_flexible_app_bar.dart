@@ -49,9 +49,11 @@ class _HomeFlexibleSpaceBarState extends ConsumerState<HomeFlexibleSpaceBar> {
     double monthlyIncome = 0;
     double monthlyExpenses = 0;
     for (var transaction in currentMonthTransactions) {
-      transaction.value >= 0
-          ? monthlyIncome += transaction.value
-          : monthlyExpenses += transaction.value;
+      if (transaction.includeInReports) {
+        transaction.value >= 0
+            ? monthlyIncome += transaction.value
+            : monthlyExpenses += transaction.value;
+      }
     }
 
     print("UPDATE");
@@ -59,7 +61,9 @@ class _HomeFlexibleSpaceBarState extends ConsumerState<HomeFlexibleSpaceBar> {
         monthlyExpenses, currentCurrency, currentCurrencyPosition);
 
     return SafeArea(
-      minimum: const EdgeInsets.symmetric(horizontal: horizontalPadding),
+      minimum: const EdgeInsets.symmetric(
+        horizontal: horizontalPadding,
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

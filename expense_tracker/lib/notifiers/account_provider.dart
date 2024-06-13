@@ -47,6 +47,7 @@ class AccountNotifier extends Notifier<List<Account>> {
         title: "Initial amount",
         value: initialAmount,
         date: DateTime.now(),
+        includeInReports: false,
       );
 
       ref
