@@ -35,9 +35,10 @@ class DatabaseTransactionHelper {
   // Update DB functions
   static void updateTransactionTableV1toV2(Batch batch) {
     print("UPDATE FROM V1 TO V2");
-    batch.execute('''ALTER TABLE $transactionsTable 
-        RENAME value TO ${TransactionFields.amount}
-        ADD ${TransactionFields.includeInReports} ${DatabaseTypes.integerType}''');
+    batch.execute(
+        '''ALTER TABLE $transactionsTable RENAME value TO ${TransactionFields.amount}''');
+    batch.execute(
+        '''ALTER TABLE $transactionsTable ADD ${TransactionFields.includeInReports} ${DatabaseTypes.integerType}''');
   }
 
   static Future insertDemoData(Database db) async {
