@@ -71,7 +71,8 @@ class Transaction {
         date: DateTime.parse(json[TransactionFields.date] as String),
         categoryId: json[TransactionFields.categoryId] as int?,
         accountId: json[TransactionFields.accountId] as int?,
-        includeInReports: json[TransactionFields.includeInReports] as bool,
+        includeInReports: (json[TransactionFields.includeInReports] as int) ==
+            1, // cast to bool
       );
 
   Map<String, Object?> toJson() => {
