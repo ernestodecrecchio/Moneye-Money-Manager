@@ -83,7 +83,7 @@ class Transaction {
         TransactionFields.date: date.toIso8601String(),
         TransactionFields.categoryId: categoryId,
         TransactionFields.accountId: accountId,
-        TransactionFields.includeInReports: includeInReports
+        TransactionFields.includeInReports: includeInReports ? 1 : 0
       };
 
   @override

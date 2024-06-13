@@ -1,5 +1,6 @@
 import 'package:collection/collection.dart';
 import 'package:expense_tracker/Database/database_account_helper.dart';
+import 'package:expense_tracker/Database/database_transaction_helper.dart';
 import 'package:expense_tracker/models/account.dart';
 import 'package:expense_tracker/models/transaction.dart';
 import 'package:expense_tracker/notifiers/transaction_provider.dart';
@@ -29,6 +30,7 @@ class AccountNotifier extends Notifier<List<Account>> {
     String? description,
     required int? colorValue,
     required String? iconPath,
+    double? initialAmount,
   }) async {
     final newAccount = Account(
       name: name,
@@ -38,6 +40,19 @@ class AccountNotifier extends Notifier<List<Account>> {
     );
     final addedAccount =
         await DatabaseAccountHelper.instance.insertAccount(account: newAccount);
+
+    if (initialAmount != null) {
+      final newTransaction = Transaction(
+        accountId: addedAccount.id,
+        title: "Initial amount",
+        value: initialAmount,
+        date: DateTime.now(),
+      );
+
+      ref
+          .read(transactionProvider.notifier)
+          .addTransaction(transaction: newTransaction);
+    }
 
     state = [...state, addedAccount];
   }

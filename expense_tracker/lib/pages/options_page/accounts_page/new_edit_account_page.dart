@@ -225,13 +225,16 @@ class _NewAccountPageState extends ConsumerState<NewAccountPage> {
   }
 
   _saveNewAccount() {
+    final double? initialAmountValue = double.tryParse(initialAmountInput.text);
+
     ref
         .read(accountProvider.notifier)
         .addNewAccountByParameters(
             name: titleInput.text,
             description: descriptionInput.text,
             colorValue: selectedColor.value,
-            iconPath: selectedIconPath)
+            iconPath: selectedIconPath,
+            initialAmount: initialAmountValue)
         .then((value) => Navigator.of(context).pop());
   }
 
