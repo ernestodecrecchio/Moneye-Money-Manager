@@ -38,7 +38,7 @@ class DatabaseTransactionHelper {
     batch.execute(
         '''ALTER TABLE $transactionsTable RENAME value TO ${TransactionFields.amount}''');
     batch.execute(
-        '''ALTER TABLE $transactionsTable ADD ${TransactionFields.includeInReports} ${DatabaseTypes.integerType}''');
+        '''ALTER TABLE $transactionsTable ADD ${TransactionFields.includeInReports} ${DatabaseTypes.integerType} DEFAULT 1''');
   }
 
   static Future insertDemoData(Database db) async {
