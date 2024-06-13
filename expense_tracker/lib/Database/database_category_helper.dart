@@ -10,7 +10,7 @@ class DatabaseCategoryHelper {
   static Future inizializeTable(Database db) async {
     await db.execute('''
       CREATE TABLE $categoriesTable ( 
-      ${CategoryFields.id} ${DatabaseTypes.idType} 
+      ${CategoryFields.id} ${DatabaseTypes.idType},
       ${CategoryFields.name} ${DatabaseTypes.textType}, 
       ${CategoryFields.description} ${DatabaseTypes.textTypeNullable}, 
       ${CategoryFields.colorValue} ${DatabaseTypes.integerTypeNullable}, 
