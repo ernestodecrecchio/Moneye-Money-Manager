@@ -114,5 +114,7 @@
     "deleteCategoryAlertBody": "Das Löschen einer Kategorie entfernt die damit verbundenen Transaktionen nicht.",
     "transactionDeleted": "Transaktion gelöscht",
     "transactionList": "Transaktionsliste",
-    "thisMonth": "Deze maand"
+    "thisMonth": "Deze maand",
+    "initialBalance": "Startguthaben",
+    "initialBalance": "Geben Sie den Anfangssaldo des Kontos ein"
 }

@@ -114,5 +114,7 @@
   "deleteCategoryAlertBody":  "Eliminare una categoria non rimuoverà le transazioni ad essa associate",
   "transactionDeleted": "Transazione eliminata",
   "transactionList": "Lista transazioni",
-  "thisMonth": "Questo mese"
+  "thisMonth": "Questo mese",
+  "initialBalance": "Saldo iniziale",
+  "initialBalancePlaceholder": "Inserisci il saldo iniziale del conto"
 }

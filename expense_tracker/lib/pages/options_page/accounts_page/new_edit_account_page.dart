@@ -30,7 +30,7 @@ class _NewAccountPageState extends ConsumerState<NewAccountPage> {
 
   TextEditingController titleInput = TextEditingController();
   TextEditingController descriptionInput = TextEditingController();
-  TextEditingController initialAmountInput = TextEditingController();
+  TextEditingController initialBalanceInput = TextEditingController();
 
   Color selectedColor = CustomColors.darkBlue;
   String? selectedIconPath;
@@ -124,9 +124,9 @@ class _NewAccountPageState extends ConsumerState<NewAccountPage> {
               height: 14,
             ),
             CustomTextField(
-              controller: initialAmountInput,
-              label: '${appLocalizations.amount}*',
-              hintText: appLocalizations.insertTheAmountOfTheTransaction,
+              controller: initialBalanceInput,
+              label: '${appLocalizations.initialBalance}*',
+              hintText: appLocalizations.initialBalancePlaceholder,
               textInputFormatters: <TextInputFormatter>[
                 FilteringTextInputFormatter.allow(RegExp(r'^\d+\.?\d*'))
               ],
@@ -222,7 +222,8 @@ class _NewAccountPageState extends ConsumerState<NewAccountPage> {
   }
 
   _saveNewAccount() {
-    final double? initialAmountValue = double.tryParse(initialAmountInput.text);
+    final double? initialAmountValue =
+        double.tryParse(initialBalanceInput.text);
 
     ref
         .read(accountProvider.notifier)

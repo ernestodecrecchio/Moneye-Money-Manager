@@ -114,5 +114,7 @@
   "deleteCategoryAlertBody": "Deleting a category will not remove the transactions associated with it.",
   "transactionDeleted": "Transaction deleted",
   "transactionList": "Transaction list",
-  "thisMonth": "This month"
+  "thisMonth": "This month",
+  "initialBalance": "Initial balance",
+  "initialBalancePlaceholder": "Insert the initial balance of the account"
 }
