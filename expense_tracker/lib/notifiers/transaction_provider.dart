@@ -12,7 +12,9 @@ class TransactionNotifier extends Notifier<List<Transaction>> {
 
   double get totalBalance {
     return state.fold(
-        0, (previousAmount, element) => previousAmount + element.amount);
+        0,
+        (previousAmount, element) =>
+            previousAmount + (element.includeInReports ? element.amount : 0));
   }
 
   double getTotalBanalceUntilDate(DateTime date) {
@@ -42,6 +44,7 @@ class TransactionNotifier extends Notifier<List<Transaction>> {
     required DateTime date,
     Category? category,
     Account? account,
+    bool includeInReports = true,
   }) async {
     Transaction newTransaction = Transaction(
       title: title,
@@ -50,6 +53,7 @@ class TransactionNotifier extends Notifier<List<Transaction>> {
       date: date,
       categoryId: category?.id,
       accountId: account?.id,
+      includeInReports: includeInReports,
     );
 
     final addedTransaction = await DatabaseTransactionHelper.instance
@@ -87,6 +91,7 @@ class TransactionNotifier extends Notifier<List<Transaction>> {
     required DateTime date,
     required Category? category,
     required Account? account,
+    required bool includeInReports,
   }) async {
     final modifiedTransaction = Transaction(
       id: transactionToEdit.id,
@@ -96,6 +101,7 @@ class TransactionNotifier extends Notifier<List<Transaction>> {
       date: date,
       categoryId: category?.id,
       accountId: account?.id,
+      includeInReports: includeInReports,
     );
 
     if (await DatabaseTransactionHelper.instance.updateTransaction(

@@ -64,6 +64,7 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
   Category? selectedCategory;
   Account? selectedAccount;
   DateTime selectedDate = DateTime.now();
+  bool includeInReportCheckboxValue = true;
 
   final dateFormatter = DateFormat('dd/MM/yyyy');
 
@@ -74,38 +75,38 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
     _transactionTypeTabController = TabController(length: 2, vsync: this);
 
     if (editMode) {
-      titleInput.text = widget.initialTransactionSettings!.title;
-      descriptionInput.text =
-          widget.initialTransactionSettings!.description ?? '';
-      valueInput.text =
-          widget.initialTransactionSettings!.amount.abs().toString();
-      dateInput.text = dateFormatter
-          .format(widget.initialTransactionSettings!.date)
-          .toString();
-      selectedDate = widget.initialTransactionSettings!.date;
+      final initialTransaction = widget.initialTransactionSettings!;
+
+      titleInput.text = initialTransaction.title;
+      descriptionInput.text = initialTransaction.description ?? '';
+      valueInput.text = initialTransaction.amount.abs().toString();
+      dateInput.text = dateFormatter.format(initialTransaction.date).toString();
+      selectedDate = initialTransaction.date;
 
       _transactionTypeTabController.index =
-          widget.initialTransactionSettings!.amount >= 0 ? 0 : 1;
+          initialTransaction.amount >= 0 ? 0 : 1;
 
-      if (widget.initialTransactionSettings!.categoryId != null) {
+      if (initialTransaction.categoryId != null) {
         selectedCategory = ref
             .read(categoryProvider.notifier)
-            .getCategoryFromId(widget.initialTransactionSettings!.categoryId!);
+            .getCategoryFromId(initialTransaction.categoryId!);
 
         if (selectedCategory != null) {
           categoryInput.text = selectedCategory!.name;
         }
       }
 
-      if (widget.initialTransactionSettings!.accountId != null) {
+      if (initialTransaction.accountId != null) {
         selectedAccount = ref
             .read(accountProvider.notifier)
-            .getAccountFromId(widget.initialTransactionSettings!.accountId!);
+            .getAccountFromId(initialTransaction.accountId!);
 
         if (selectedAccount != null) {
           accountInput.text = selectedAccount!.name;
         }
       }
+
+      includeInReportCheckboxValue = initialTransaction.includeInReports;
     } else {
       titleInputFocusNode.requestFocus();
       dateInput.text = dateFormatter.format(selectedDate).toString();
@@ -198,11 +199,9 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
             //   hintText: 'Inserisci una descrizione',
             //   maxLines: null,
             // ),
-
             const SizedBox(
               height: 14,
             ),
-
             CustomTextField(
               controller: valueInput,
               label: '${appLocalizations.amount}*',
@@ -286,6 +285,32 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
                 }
               },
             ),
+            const SizedBox(
+              height: 14,
+            ),
+            Row(
+              children: [
+                const Text(
+                  'Includi nei report',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
+                    color: CustomColors.lightBlack,
+                  ),
+                ),
+                const Spacer(),
+                Checkbox(
+                  value: includeInReportCheckboxValue,
+                  activeColor: CustomColors.blue,
+                  onChanged: (_) {
+                    includeInReportCheckboxValue =
+                        !includeInReportCheckboxValue;
+
+                    setState(() {});
+                  },
+                )
+              ],
+            ),
             const Spacer(),
             _buildSaveButton(),
           ],
@@ -366,12 +391,14 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
     ref
         .read(transactionProvider.notifier)
         .addNewTransaction(
-            title: titleInput.text,
-            description: descriptionInput.text,
-            amount: transactionValue,
-            date: selectedDate,
-            category: selectedCategory,
-            account: selectedAccount)
+          title: titleInput.text,
+          description: descriptionInput.text,
+          amount: transactionValue,
+          date: selectedDate,
+          category: selectedCategory,
+          account: selectedAccount,
+          includeInReports: includeInReportCheckboxValue,
+        )
         .then((value) async {
       final InAppReview inAppReview = InAppReview.instance;
 
@@ -404,6 +431,7 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
           date: selectedDate,
           category: selectedCategory,
           account: selectedAccount,
+          includeInReports: includeInReportCheckboxValue,
         )
         .then((value) => Navigator.of(context).pop());
   }
