@@ -123,18 +123,10 @@ class _NewAccountPageState extends ConsumerState<NewAccountPage> {
             const SizedBox(
               height: 14,
             ),
-            _buildColorPicker(),
-            const SizedBox(
-              height: 14,
-            ),
-            _buildIconPicker(),
-            const SizedBox(
-              height: 14,
-            ),
             CustomTextField(
               controller: initialAmountInput,
-              label: '${appLocalizations.value}*',
-              hintText: appLocalizations.insertTheValueOfTheTransaction,
+              label: '${appLocalizations.amount}*',
+              hintText: appLocalizations.insertTheAmountOfTheTransaction,
               textInputFormatters: <TextInputFormatter>[
                 FilteringTextInputFormatter.allow(RegExp(r'^\d+\.?\d*'))
               ],
@@ -142,11 +134,16 @@ class _NewAccountPageState extends ConsumerState<NewAccountPage> {
                   signed: true, decimal: true),
               validator: (value) {
                 if (value == null || value.isEmpty) {
-                  return appLocalizations.valueIsMandatory;
+                  return appLocalizations.amountIsMandatory;
                 }
                 return null;
               },
             ),
+            _buildColorPicker(),
+            const SizedBox(
+              height: 14,
+            ),
+            _buildIconPicker(),
             const Spacer(),
             _buildSaveButton(),
           ],

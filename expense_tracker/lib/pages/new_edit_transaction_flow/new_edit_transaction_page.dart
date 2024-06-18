@@ -205,8 +205,8 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
 
             CustomTextField(
               controller: valueInput,
-              label: '${appLocalizations.value}*',
-              hintText: appLocalizations.insertTheValueOfTheTransaction,
+              label: '${appLocalizations.amount}*',
+              hintText: appLocalizations.insertTheAmountOfTheTransaction,
               textInputFormatters: <TextInputFormatter>[
                 FilteringTextInputFormatter.allow(RegExp(r'^\d+\.?\d*'))
               ],
@@ -214,7 +214,7 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
                   signed: true, decimal: true),
               validator: (value) {
                 if (value == null || value.isEmpty) {
-                  return appLocalizations.valueIsMandatory;
+                  return appLocalizations.amountIsMandatory;
                 }
                 return null;
               },
