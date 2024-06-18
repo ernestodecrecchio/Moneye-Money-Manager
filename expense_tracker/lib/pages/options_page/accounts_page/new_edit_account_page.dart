@@ -125,7 +125,7 @@ class _NewAccountPageState extends ConsumerState<NewAccountPage> {
             ),
             CustomTextField(
               controller: initialBalanceInput,
-              label: '${appLocalizations.initialBalance}*',
+              label: appLocalizations.initialBalance,
               hintText: appLocalizations.initialBalancePlaceholder,
               textInputFormatters: <TextInputFormatter>[
                 FilteringTextInputFormatter.allow(RegExp(r'^\d+\.?\d*'))
