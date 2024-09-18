@@ -386,26 +386,28 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
   }
 
   _editTransaction({required bool income}) {
-    final valueFromTextInput = double.parse(valueInput.text);
+    if (context.mounted) {
+      final valueFromTextInput = double.parse(valueInput.text);
 
-    final transactionValue = income
-        ? valueFromTextInput.abs()
-        : valueFromTextInput > 0
-            ? -valueFromTextInput
-            : valueFromTextInput;
+      final transactionValue = income
+          ? valueFromTextInput.abs()
+          : valueFromTextInput > 0
+              ? -valueFromTextInput
+              : valueFromTextInput;
 
-    ref
-        .read(transactionProvider.notifier)
-        .updateTransaction(
-          transactionToEdit: widget.initialTransactionSettings!,
-          title: titleInput.text,
-          description: descriptionInput.text,
-          value: transactionValue,
-          date: selectedDate,
-          category: selectedCategory,
-          account: selectedAccount,
-        )
-        .then((value) => Navigator.of(context).pop());
+      ref
+          .read(transactionProvider.notifier)
+          .updateTransaction(
+            transactionToEdit: widget.initialTransactionSettings!,
+            title: titleInput.text,
+            description: descriptionInput.text,
+            value: transactionValue,
+            date: selectedDate,
+            category: selectedCategory,
+            account: selectedAccount,
+          )
+          .then((value) => {if (mounted) Navigator.of(context).pop()});
+    }
   }
 
   _buildSegmentedBar() {

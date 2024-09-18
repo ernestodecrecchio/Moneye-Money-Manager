@@ -210,7 +210,7 @@ class _NewEditCategoryPageState extends ConsumerState<NewEditCategoryPage> {
             description: descriptionInput.text,
             colorValue: selectedColor.value,
             iconPath: selectedIconPath)
-        .then((value) => Navigator.of(context).pop());
+        .then((value) => {if (mounted) Navigator.of(context).pop()});
   }
 
   _editCategory() {
@@ -223,6 +223,6 @@ class _NewEditCategoryPageState extends ConsumerState<NewEditCategoryPage> {
           colorValue: selectedColor.value,
           iconPath: selectedIconPath,
         )
-        .then((value) => Navigator.of(context).pop());
+        .then((value) => {if (mounted) Navigator.of(context).pop()});
   }
 }

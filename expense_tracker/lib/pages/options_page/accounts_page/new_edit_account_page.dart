@@ -210,7 +210,7 @@ class _NewAccountPageState extends ConsumerState<NewAccountPage> {
             description: descriptionInput.text,
             colorValue: selectedColor.value,
             iconPath: selectedIconPath)
-        .then((value) => Navigator.of(context).pop());
+        .then((value) => {if (mounted) Navigator.of(context).pop()});
   }
 
   _editAccount() {
@@ -222,6 +222,6 @@ class _NewAccountPageState extends ConsumerState<NewAccountPage> {
             description: descriptionInput.text,
             colorValue: selectedColor.value,
             iconPath: selectedIconPath)
-        .then((value) => Navigator.of(context).pop());
+        .then((value) => {if (mounted) Navigator.of(context).pop()});
   }
 }
