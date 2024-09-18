@@ -72,7 +72,7 @@ class Transaction {
         categoryId: json[TransactionFields.categoryId] as int?,
         accountId: json[TransactionFields.accountId] as int?,
         isHidden:
-            (json[TransactionFields.isHidden] as int) == 0, // cast to bool
+            (json[TransactionFields.isHidden] as int) == 1, // cast to bool
       );
 
   Map<String, Object?> toJson() => {
