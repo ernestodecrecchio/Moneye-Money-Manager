@@ -22,7 +22,7 @@
 "allTransactions": "Todas las transacciones",
 "title": "Título",
 "description": "Descripción",
-"value": "Valor",
+"amount": "Monto",
 "date": "Fecha",
 "color": "Color",
 "icon": "Icono",
@@ -40,8 +40,8 @@
 "insertTheTitleOfTheTransaction": "Inserta el título de la transacción",
 "titleIsMandatory": "El título es obligatorio",
 "insertTheDescription": "Inserta una descripción",
-"insertTheValueOfTheTransaction": "Inserta el valor de la transacción",
-"valueIsMandatory": "El valor es obligatorio",
+"insertTheAmountOfTheTransaction": "Inserte el monto de la transacción",
+"amountIsMandatory": "El monto es obligatorio",
 "insertTheTitleOfTheCategory": "Inserta el título de la categoría",
 "insertTheAccountName": "Inserta el nombre de la cuenta",
 "applyChanges": "Aplicar cambios",
@@ -67,7 +67,7 @@
 "none": "Ninguno",
 "atTheStart": "Al inicio",
 "atTheEnd":"Al final",
-"currencyConversionDisclaimer": "Nota: Cambiar la moneda mostrada en la aplicación no resultará en conversiones de valor de transacción.",
+"currencyConversionDisclaimer": "Nota: Cambiar la moneda mostrada en la aplicación no resultará en conversiones de montos de transacciones.",
 "info": "Información",
 "infoOptionDescription": "App credits and other info",
 "infoDescription": "Bienvenido a Moneye, una aplicación desarrollada por mí, Ernesto De Crecchio, con el objetivo de proporcionar una herramienta fácil de usar y efectiva para administrar las finanzas personales.Moneye te permite realizar un seguimiento de tus gastos sin esfuerzo, ver gráficos informativos y obtener una mejor comprensión de tus hábitos de gasto.Como desarrollador de la aplicación, estoy dedicado a mejorar constantemente sus características y tengo planeadas nuevas actualizaciones que serán lanzadas en el futuro, asegurando que mis usuarios tengan acceso a las herramientas más actualizadas y completas para administrar sus finanzas.Mi objetivo es brindar una experiencia intuitiva para todos los usuarios, y espero que encuentres útil a Moneye para alcanzar tus metas financieras",
@@ -114,5 +114,7 @@
 "deleteCategoryAlertBody": "Eliminar una categoría no eliminará las transacciones asociadas a ella.",
 "transactionDeleted": "Transacción eliminada",
 "transactionList": "Lista de transacciones",
-"thisMonth": "Este mes"
+"thisMonth": "Este mes",
+"initialBalance": "Saldo Inicial",
+"initialBalancePlaceholder": "Inserte el saldo inicial de la cuenta"
 }

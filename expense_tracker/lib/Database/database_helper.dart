@@ -14,7 +14,6 @@ class DatabaseHelper {
     if (_database != null) return _database!;
 
     _database = await _initDB();
-
     return _database!;
   }
 
@@ -22,12 +21,16 @@ class DatabaseHelper {
     final dbPath = await getDatabasesPath();
     final path = join(dbPath, 'moneye_db.db');
 
-    return await openDatabase(
-      path,
-      version: 1,
-      onCreate: _createDB,
-      onConfigure: _configureDB,
-    );
+    print(path);
+    return await openDatabase(path,
+        version: 2,
+        onConfigure: _configureDB,
+        onCreate: _createDB,
+        onUpgrade: _upgradeDB);
+  }
+
+  Future _configureDB(Database db) async {
+    await db.execute('PRAGMA foreign_keys = ON');
   }
 
   Future _createDB(Database db, int version) async {
@@ -36,7 +39,16 @@ class DatabaseHelper {
     await DatabaseTransactionHelper.inizializeTable(db);
   }
 
-  Future _configureDB(Database db) async {
-    await db.execute('PRAGMA foreign_keys = ON');
+  Future _upgradeDB(Database db, int oldVersion, int newVersion) async {
+    var batch = db.batch();
+
+    if (oldVersion == 1) {
+      _updateDBV1toV2(batch);
+      await batch.commit();
+    }
+  }
+
+  _updateDBV1toV2(Batch batch) {
+    DatabaseTransactionHelper.updateTransactionTableV1toV2(batch);
   }
 }

@@ -169,9 +169,9 @@ class _HomePageState extends ConsumerState<HomePage> {
 
       if (transactionAccount != null) {
         accountMap[transactionAccount] =
-            accountMap[transactionAccount]! + transaction.value;
+            accountMap[transactionAccount]! + transaction.amount;
       } else {
-        balanceTransactionsWithoutAccount += transaction.value;
+        balanceTransactionsWithoutAccount += transaction.amount;
       }
     }
 
@@ -200,6 +200,7 @@ class _HomePageState extends ConsumerState<HomePage> {
   Widget _buildLastTransactionList() {
     final List<Transaction> lastTransactionList = ref
         .watch(transactionProvider)
+        .where((transaction) => !transaction.isHidden)
         .sorted((a, b) => b.date.compareTo(a.date))
         .take(5)
         .toList();

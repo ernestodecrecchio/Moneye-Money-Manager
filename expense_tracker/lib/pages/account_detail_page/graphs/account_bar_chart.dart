@@ -414,24 +414,24 @@ class AccountBarChartState extends ConsumerState<AccountBarChart> {
 
     for (var transaction in widget.transactionList) {
       if (balanceMap2[transaction.date.weekday - 1] == null) {
-        if (transaction.value >= 0) {
-          balanceMap2[transaction.date.weekday - 1] = [transaction.value, 0];
+        if (transaction.amount >= 0) {
+          balanceMap2[transaction.date.weekday - 1] = [transaction.amount, 0];
         } else {
-          balanceMap2[transaction.date.weekday - 1] = [0, transaction.value];
+          balanceMap2[transaction.date.weekday - 1] = [0, transaction.amount];
         }
       } else {
         final List<double> currValueArray =
             balanceMap2[transaction.date.weekday - 1]!;
 
-        if (transaction.value >= 0) {
+        if (transaction.amount >= 0) {
           balanceMap2[transaction.date.weekday - 1] = [
-            (currValueArray[0] + transaction.value).withPrecision(2),
+            (currValueArray[0] + transaction.amount).withPrecision(2),
             currValueArray[1]
           ];
         } else {
           balanceMap2[transaction.date.weekday - 1] = [
             currValueArray[0],
-            (currValueArray[1] + transaction.value).withPrecision(2),
+            (currValueArray[1] + transaction.amount).withPrecision(2),
           ];
         }
       }
@@ -448,30 +448,30 @@ class AccountBarChartState extends ConsumerState<AccountBarChart> {
       final transactionWeeknumber = weekNumber(transaction.date);
 
       if (balanceMap[transactionWeeknumber - firstWeeknumberOfMonth] == null) {
-        if (transaction.value >= 0) {
+        if (transaction.amount >= 0) {
           balanceMap[transactionWeeknumber - firstWeeknumberOfMonth] = [
-            transaction.value,
+            transaction.amount,
             0
           ];
         } else {
           balanceMap[transactionWeeknumber - firstWeeknumberOfMonth] = [
             0,
-            transaction.value
+            transaction.amount
           ];
         }
       } else {
         final List<double> currValueArray =
             balanceMap[transactionWeeknumber - firstWeeknumberOfMonth]!;
 
-        if (transaction.value >= 0) {
+        if (transaction.amount >= 0) {
           balanceMap[transactionWeeknumber - firstWeeknumberOfMonth] = [
-            (currValueArray[0] + transaction.value).withPrecision(2),
+            (currValueArray[0] + transaction.amount).withPrecision(2),
             currValueArray[1]
           ];
         } else {
           balanceMap[transactionWeeknumber - firstWeeknumberOfMonth] = [
             currValueArray[0],
-            (currValueArray[1] + transaction.value).withPrecision(2),
+            (currValueArray[1] + transaction.amount).withPrecision(2),
           ];
         }
       }
@@ -485,24 +485,24 @@ class AccountBarChartState extends ConsumerState<AccountBarChart> {
 
     for (var transaction in widget.transactionList) {
       if (balanceMap[transaction.date.month - 1] == null) {
-        if (transaction.value >= 0) {
-          balanceMap[transaction.date.month - 1] = [transaction.value, 0];
+        if (transaction.amount >= 0) {
+          balanceMap[transaction.date.month - 1] = [transaction.amount, 0];
         } else {
-          balanceMap[transaction.date.month - 1] = [0, transaction.value];
+          balanceMap[transaction.date.month - 1] = [0, transaction.amount];
         }
       } else {
         final List<double> currValueArray =
             balanceMap[transaction.date.month - 1]!;
 
-        if (transaction.value >= 0) {
+        if (transaction.amount >= 0) {
           balanceMap[transaction.date.month - 1] = [
-            (currValueArray[0] + transaction.value).withPrecision(2),
+            (currValueArray[0] + transaction.amount).withPrecision(2),
             currValueArray[1]
           ];
         } else {
           balanceMap[transaction.date.month - 1] = [
             currValueArray[0],
-            (currValueArray[1] + transaction.value).withPrecision(2),
+            (currValueArray[1] + transaction.amount).withPrecision(2),
           ];
         }
       }

@@ -29,6 +29,7 @@ class AccountNotifier extends Notifier<List<Account>> {
     String? description,
     required int? colorValue,
     required String? iconPath,
+    double? initialAmount,
   }) async {
     final newAccount = Account(
       name: name,
@@ -38,6 +39,20 @@ class AccountNotifier extends Notifier<List<Account>> {
     );
     final addedAccount =
         await DatabaseAccountHelper.instance.insertAccount(account: newAccount);
+
+    if (initialAmount != null) {
+      final newTransaction = Transaction(
+        accountId: addedAccount.id,
+        title: "Initial amount",
+        amount: initialAmount,
+        date: DateTime.now(),
+        isHidden: true,
+      );
+
+      ref
+          .read(transactionProvider.notifier)
+          .addTransaction(transaction: newTransaction);
+    }
 
     state = [...state, addedAccount];
   }

@@ -64,6 +64,7 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
   Category? selectedCategory;
   Account? selectedAccount;
   DateTime selectedDate = DateTime.now();
+  bool includeInReportCheckboxValue = true;
 
   final dateFormatter = DateFormat('dd/MM/yyyy');
 
@@ -74,38 +75,38 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
     _transactionTypeTabController = TabController(length: 2, vsync: this);
 
     if (editMode) {
-      titleInput.text = widget.initialTransactionSettings!.title;
-      descriptionInput.text =
-          widget.initialTransactionSettings!.description ?? '';
-      valueInput.text =
-          widget.initialTransactionSettings!.value.abs().toString();
-      dateInput.text = dateFormatter
-          .format(widget.initialTransactionSettings!.date)
-          .toString();
-      selectedDate = widget.initialTransactionSettings!.date;
+      final initialTransaction = widget.initialTransactionSettings!;
+
+      titleInput.text = initialTransaction.title;
+      descriptionInput.text = initialTransaction.description ?? '';
+      valueInput.text = initialTransaction.amount.abs().toString();
+      dateInput.text = dateFormatter.format(initialTransaction.date).toString();
+      selectedDate = initialTransaction.date;
 
       _transactionTypeTabController.index =
-          widget.initialTransactionSettings!.value >= 0 ? 0 : 1;
+          initialTransaction.amount >= 0 ? 0 : 1;
 
-      if (widget.initialTransactionSettings!.categoryId != null) {
+      if (initialTransaction.categoryId != null) {
         selectedCategory = ref
             .read(categoryProvider.notifier)
-            .getCategoryFromId(widget.initialTransactionSettings!.categoryId!);
+            .getCategoryFromId(initialTransaction.categoryId!);
 
         if (selectedCategory != null) {
           categoryInput.text = selectedCategory!.name;
         }
       }
 
-      if (widget.initialTransactionSettings!.accountId != null) {
+      if (initialTransaction.accountId != null) {
         selectedAccount = ref
             .read(accountProvider.notifier)
-            .getAccountFromId(widget.initialTransactionSettings!.accountId!);
+            .getAccountFromId(initialTransaction.accountId!);
 
         if (selectedAccount != null) {
           accountInput.text = selectedAccount!.name;
         }
       }
+
+      includeInReportCheckboxValue = !initialTransaction.isHidden;
     } else {
       titleInputFocusNode.requestFocus();
       dateInput.text = dateFormatter.format(selectedDate).toString();
@@ -189,24 +190,13 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
               },
               focusNode: titleInputFocusNode,
             ),
-            // const SizedBox(
-            //   height: 14,
-            // ),
-            // CustomTextField(
-            //   controller: descriptionInput,
-            //   label: 'Descrizione',
-            //   hintText: 'Inserisci una descrizione',
-            //   maxLines: null,
-            // ),
-
             const SizedBox(
               height: 14,
             ),
-
             CustomTextField(
               controller: valueInput,
-              label: '${appLocalizations.value}*',
-              hintText: appLocalizations.insertTheValueOfTheTransaction,
+              label: '${appLocalizations.amount}*',
+              hintText: appLocalizations.insertTheAmountOfTheTransaction,
               textInputFormatters: <TextInputFormatter>[
                 FilteringTextInputFormatter.allow(RegExp(r'^\d+\.?\d*'))
               ],
@@ -214,7 +204,7 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
                   signed: true, decimal: true),
               validator: (value) {
                 if (value == null || value.isEmpty) {
-                  return appLocalizations.valueIsMandatory;
+                  return appLocalizations.amountIsMandatory;
                 }
                 return null;
               },
@@ -286,6 +276,32 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
                 }
               },
             ),
+            const SizedBox(
+              height: 14,
+            ),
+            Row(
+              children: [
+                const Text(
+                  'Includi nei report',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
+                    color: CustomColors.lightBlack,
+                  ),
+                ),
+                const Spacer(),
+                Checkbox(
+                  value: includeInReportCheckboxValue,
+                  activeColor: CustomColors.blue,
+                  onChanged: (_) {
+                    includeInReportCheckboxValue =
+                        !includeInReportCheckboxValue;
+
+                    setState(() {});
+                  },
+                )
+              ],
+            ),
             const Spacer(),
             _buildSaveButton(),
           ],
@@ -350,7 +366,7 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
                     _transactionTypeTabController.index == 0 ? true : false);
           } else {
             _saveNewTransaction(
-                income:
+                isIncome:
                     _transactionTypeTabController.index == 0 ? true : false);
           }
         }
@@ -359,19 +375,22 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
     );
   }
 
-  _saveNewTransaction({required bool income}) {
-    final transactionValue =
-        income ? double.parse(valueInput.text) : -double.parse(valueInput.text);
+  _saveNewTransaction({required bool isIncome}) {
+    final transactionValue = isIncome
+        ? double.parse(valueInput.text)
+        : -double.parse(valueInput.text);
 
     ref
         .read(transactionProvider.notifier)
         .addNewTransaction(
-            title: titleInput.text,
-            description: descriptionInput.text,
-            value: transactionValue,
-            date: selectedDate,
-            category: selectedCategory,
-            account: selectedAccount)
+          title: titleInput.text,
+          description: descriptionInput.text,
+          amount: transactionValue,
+          date: selectedDate,
+          category: selectedCategory,
+          account: selectedAccount,
+          isHidden: !includeInReportCheckboxValue,
+        )
         .then((value) async {
       final InAppReview inAppReview = InAppReview.instance;
 
@@ -401,10 +420,11 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
             transactionToEdit: widget.initialTransactionSettings!,
             title: titleInput.text,
             description: descriptionInput.text,
-            value: transactionValue,
+            amount: transactionValue,
             date: selectedDate,
             category: selectedCategory,
             account: selectedAccount,
+            isHidden: !includeInReportCheckboxValue,
           )
           .then((value) => {if (mounted) Navigator.of(context).pop()});
     }

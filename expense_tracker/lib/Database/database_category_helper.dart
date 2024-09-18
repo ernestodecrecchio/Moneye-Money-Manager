@@ -1,4 +1,5 @@
 import 'package:expense_tracker/Database/database_helper.dart';
+import 'package:expense_tracker/Database/database_types.dart';
 import 'package:expense_tracker/models/category.dart';
 import 'package:sqflite/sqlite_api.dart';
 
@@ -7,19 +8,13 @@ class DatabaseCategoryHelper {
   DatabaseCategoryHelper._init();
 
   static Future inizializeTable(Database db) async {
-    const idType = 'INTEGER PRIMARY KEY AUTOINCREMENT';
-    const textType = 'TEXT NOT NULL';
-    const textTypeNullable = 'TEXT';
-    //const integerType = 'INTEGER NOT NULL';
-    const integerTypeNullable = 'INTEGER';
-
     await db.execute('''
       CREATE TABLE $categoriesTable ( 
-      ${CategoryFields.id} $idType, 
-      ${CategoryFields.name} $textType,
-      ${CategoryFields.description} $textTypeNullable,
-      ${CategoryFields.colorValue} $integerTypeNullable,
-      ${CategoryFields.iconPath} $textTypeNullable
+      ${CategoryFields.id} ${DatabaseTypes.idType},
+      ${CategoryFields.name} ${DatabaseTypes.textType}, 
+      ${CategoryFields.description} ${DatabaseTypes.textTypeNullable}, 
+      ${CategoryFields.colorValue} ${DatabaseTypes.integerTypeNullable}, 
+      ${CategoryFields.iconPath} ${DatabaseTypes.textTypeNullable}
       )
     ''');
 
