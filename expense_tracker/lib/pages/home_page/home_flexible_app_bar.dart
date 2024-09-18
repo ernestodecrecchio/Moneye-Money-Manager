@@ -49,7 +49,7 @@ class _HomeFlexibleSpaceBarState extends ConsumerState<HomeFlexibleSpaceBar> {
     double monthlyIncome = 0;
     double monthlyExpenses = 0;
     for (var transaction in currentMonthTransactions) {
-      if (transaction.includeInReports) {
+      if (!transaction.isHidden) {
         transaction.amount >= 0
             ? monthlyIncome += transaction.amount
             : monthlyExpenses += transaction.amount;

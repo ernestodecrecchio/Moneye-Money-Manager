@@ -23,9 +23,9 @@ class DatabaseTransactionHelper {
       ${TransactionFields.date} ${DatabaseTypes.dateTimeType},
       ${TransactionFields.categoryId} ${DatabaseTypes.integerTypeNullable},
       ${TransactionFields.accountId} ${DatabaseTypes.integerTypeNullable},
-      ${TransactionFields.includeInReports} ${DatabaseTypes.integerType} DEFAULT 1,
+      ${TransactionFields.isHidden} ${DatabaseTypes.integerType} DEFAULT 0,
       FOREIGN KEY (${TransactionFields.categoryId}) REFERENCES $categoriesTable (${CategoryFields.id}) ON DELETE SET NULL ON UPDATE NO ACTION,
-      FOREIGN KEY (${TransactionFields.accountId}) REFERENCES $accountsTable (${AccountFields.id}) ON DELETE SET NULL ON UPDATE NO ACTION
+      FOREIGN KEY (${TransactionFields.accountId}) REFERENCES $accountsTable (${AccountFields.id}) ON DELETE CASCADE ON UPDATE NO ACTION
       )
     ''');
 
@@ -38,7 +38,7 @@ class DatabaseTransactionHelper {
     batch.execute(
         '''ALTER TABLE $transactionsTable RENAME value TO ${TransactionFields.amount}''');
     batch.execute(
-        '''ALTER TABLE $transactionsTable ADD ${TransactionFields.includeInReports} ${DatabaseTypes.integerType} DEFAULT 1''');
+        '''ALTER TABLE $transactionsTable ADD ${TransactionFields.isHidden} ${DatabaseTypes.integerType} DEFAULT 0''');
   }
 
   static Future insertDemoData(Database db) async {

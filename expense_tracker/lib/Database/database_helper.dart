@@ -14,7 +14,6 @@ class DatabaseHelper {
     if (_database != null) return _database!;
 
     _database = await _initDB();
-
     return _database!;
   }
 
@@ -22,6 +21,7 @@ class DatabaseHelper {
     final dbPath = await getDatabasesPath();
     final path = join(dbPath, 'moneye_db.db');
 
+    print(path);
     return await openDatabase(path,
         version: 2,
         onConfigure: _configureDB,

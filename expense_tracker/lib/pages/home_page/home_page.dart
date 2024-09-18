@@ -200,6 +200,7 @@ class _HomePageState extends ConsumerState<HomePage> {
   Widget _buildLastTransactionList() {
     final List<Transaction> lastTransactionList = ref
         .watch(transactionProvider)
+        .where((transaction) => !transaction.isHidden)
         .sorted((a, b) => b.date.compareTo(a.date))
         .take(5)
         .toList();

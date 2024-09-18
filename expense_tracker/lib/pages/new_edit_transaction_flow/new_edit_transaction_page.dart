@@ -106,7 +106,7 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
         }
       }
 
-      includeInReportCheckboxValue = initialTransaction.includeInReports;
+      includeInReportCheckboxValue = !initialTransaction.isHidden;
     } else {
       titleInputFocusNode.requestFocus();
       dateInput.text = dateFormatter.format(selectedDate).toString();
@@ -190,15 +190,6 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
               },
               focusNode: titleInputFocusNode,
             ),
-            // const SizedBox(
-            //   height: 14,
-            // ),
-            // CustomTextField(
-            //   controller: descriptionInput,
-            //   label: 'Descrizione',
-            //   hintText: 'Inserisci una descrizione',
-            //   maxLines: null,
-            // ),
             const SizedBox(
               height: 14,
             ),
@@ -375,7 +366,7 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
                     _transactionTypeTabController.index == 0 ? true : false);
           } else {
             _saveNewTransaction(
-                income:
+                isIncome:
                     _transactionTypeTabController.index == 0 ? true : false);
           }
         }
@@ -384,9 +375,10 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
     );
   }
 
-  _saveNewTransaction({required bool income}) {
-    final transactionValue =
-        income ? double.parse(valueInput.text) : -double.parse(valueInput.text);
+  _saveNewTransaction({required bool isIncome}) {
+    final transactionValue = isIncome
+        ? double.parse(valueInput.text)
+        : -double.parse(valueInput.text);
 
     ref
         .read(transactionProvider.notifier)
@@ -397,7 +389,7 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
           date: selectedDate,
           category: selectedCategory,
           account: selectedAccount,
-          includeInReports: includeInReportCheckboxValue,
+          isHidden: !includeInReportCheckboxValue,
         )
         .then((value) async {
       final InAppReview inAppReview = InAppReview.instance;
@@ -431,7 +423,7 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
           date: selectedDate,
           category: selectedCategory,
           account: selectedAccount,
-          includeInReports: includeInReportCheckboxValue,
+          isHidden: !includeInReportCheckboxValue,
         )
         .then((value) => Navigator.of(context).pop());
   }
