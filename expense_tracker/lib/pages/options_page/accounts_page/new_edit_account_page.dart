@@ -48,7 +48,6 @@ class _NewAccountPageState extends ConsumerState<NewAccountPage> {
       descriptionInput.text = widget.initialAccountSettings!.description ?? '';
       selectedColor = widget.initialAccountSettings!.color;
       selectedIconPath = widget.initialAccountSettings!.iconPath;
-      //initialAmountInput.text = widget.initialAccountSettings.valie
     }
   }
 
@@ -118,27 +117,21 @@ class _NewAccountPageState extends ConsumerState<NewAccountPage> {
               controller: descriptionInput,
               label: appLocalizations.description,
               hintText: appLocalizations.insertTheDescription,
-              //  maxLines: null,
             ),
             const SizedBox(
               height: 14,
             ),
-            CustomTextField(
-              controller: initialBalanceInput,
-              label: appLocalizations.initialBalance,
-              hintText: appLocalizations.initialBalancePlaceholder,
-              textInputFormatters: <TextInputFormatter>[
-                FilteringTextInputFormatter.allow(RegExp(r'^\d+\.?\d*'))
-              ],
-              keyboardType: const TextInputType.numberWithOptions(
-                  signed: true, decimal: true),
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return appLocalizations.amountIsMandatory;
-                }
-                return null;
-              },
-            ),
+            if (!editMode)
+              CustomTextField(
+                controller: initialBalanceInput,
+                label: appLocalizations.initialBalance,
+                hintText: appLocalizations.initialBalancePlaceholder,
+                textInputFormatters: <TextInputFormatter>[
+                  FilteringTextInputFormatter.allow(RegExp(r'^\d+\.?\d*'))
+                ],
+                keyboardType: const TextInputType.numberWithOptions(
+                    signed: true, decimal: true),
+              ),
             _buildColorPicker(),
             const SizedBox(
               height: 14,

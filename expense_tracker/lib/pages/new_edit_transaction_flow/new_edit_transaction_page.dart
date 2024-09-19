@@ -106,7 +106,7 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
         }
       }
 
-      includeInReportCheckboxValue = !initialTransaction.isHidden;
+      includeInReportCheckboxValue = initialTransaction.includeInReports;
     } else {
       titleInputFocusNode.requestFocus();
       dateInput.text = dateFormatter.format(selectedDate).toString();
@@ -383,14 +383,14 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
     ref
         .read(transactionProvider.notifier)
         .addNewTransaction(
-          title: titleInput.text,
-          description: descriptionInput.text,
-          amount: transactionValue,
-          date: selectedDate,
-          category: selectedCategory,
-          account: selectedAccount,
-          isHidden: !includeInReportCheckboxValue,
-        )
+            title: titleInput.text,
+            description: descriptionInput.text,
+            amount: transactionValue,
+            date: selectedDate,
+            category: selectedCategory,
+            account: selectedAccount,
+            includeInReports: includeInReportCheckboxValue,
+            isHidden: false)
         .then((value) async {
       final InAppReview inAppReview = InAppReview.instance;
 
@@ -417,15 +417,15 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
       ref
           .read(transactionProvider.notifier)
           .updateTransaction(
-            transactionToEdit: widget.initialTransactionSettings!,
-            title: titleInput.text,
-            description: descriptionInput.text,
-            amount: transactionValue,
-            date: selectedDate,
-            category: selectedCategory,
-            account: selectedAccount,
-            isHidden: !includeInReportCheckboxValue,
-          )
+              transactionToEdit: widget.initialTransactionSettings!,
+              title: titleInput.text,
+              description: descriptionInput.text,
+              amount: transactionValue,
+              date: selectedDate,
+              category: selectedCategory,
+              account: selectedAccount,
+              includeInReports: includeInReportCheckboxValue,
+              isHidden: false)
           .then((value) => {if (mounted) Navigator.of(context).pop()});
     }
   }

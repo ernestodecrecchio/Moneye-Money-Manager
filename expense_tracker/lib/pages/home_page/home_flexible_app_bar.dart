@@ -201,10 +201,10 @@ class _HomeFlexibleSpaceBarState extends ConsumerState<HomeFlexibleSpaceBar> {
 
         double currMonthBalance = ref
             .watch(transactionProvider.notifier)
-            .getTotalBanalceUntilDate(currMonthDate);
+            .getTotalBalanceUntilDate(currMonthDate);
         double prevMonthBalance = ref
             .watch(transactionProvider.notifier)
-            .getTotalBanalceUntilDate(prevMonthDate);
+            .getTotalBalanceUntilDate(prevMonthDate);
 
         if (prevMonthBalance != 0) {
           final diffPercentage =

@@ -9,6 +9,7 @@ class TransactionFields {
     date,
     categoryId,
     accountId,
+    includeInReports,
     isHidden,
   ];
 
@@ -19,6 +20,7 @@ class TransactionFields {
   static const String date = 'date';
   static const String categoryId = 'categoryId';
   static const String accountId = 'accountId';
+  static const String includeInReports = 'includeInReports';
   static const String isHidden = 'isHidden';
 }
 
@@ -30,6 +32,7 @@ class Transaction {
   DateTime date;
   int? categoryId;
   int? accountId;
+  bool includeInReports;
   bool isHidden;
 
   Transaction(
@@ -40,6 +43,7 @@ class Transaction {
       required this.date,
       this.categoryId,
       this.accountId,
+      this.includeInReports = true,
       this.isHidden = false});
 
   Transaction copy({
@@ -50,6 +54,7 @@ class Transaction {
     DateTime? date,
     int? categoryId,
     int? accountId,
+    bool? includeInReports,
     bool? isHidden,
   }) =>
       Transaction(
@@ -60,6 +65,7 @@ class Transaction {
         date: date ?? this.date,
         categoryId: categoryId ?? this.categoryId,
         accountId: accountId ?? this.accountId,
+        includeInReports: includeInReports ?? this.includeInReports,
         isHidden: isHidden ?? this.isHidden,
       );
 
@@ -71,6 +77,8 @@ class Transaction {
         date: DateTime.parse(json[TransactionFields.date] as String),
         categoryId: json[TransactionFields.categoryId] as int?,
         accountId: json[TransactionFields.accountId] as int?,
+        includeInReports: (json[TransactionFields.includeInReports] as int) ==
+            1, // cast to bool
         isHidden:
             (json[TransactionFields.isHidden] as int) == 1, // cast to bool
       );
@@ -83,6 +91,7 @@ class Transaction {
         TransactionFields.date: date.toIso8601String(),
         TransactionFields.categoryId: categoryId,
         TransactionFields.accountId: accountId,
+        TransactionFields.includeInReports: includeInReports ? 1 : 0,
         TransactionFields.isHidden: isHidden ? 1 : 0
       };
 
@@ -90,11 +99,11 @@ class Transaction {
   operator ==(other) => other is Transaction && other.id == id;
 
   @override
-  int get hashCode => Object.hash(
-      id, title, description, amount, date, categoryId, accountId, isHidden);
+  int get hashCode => Object.hash(id, title, description, amount, date,
+      categoryId, accountId, includeInReports, isHidden);
 
   @override
   String toString() {
-    return 'Transaction [ID: $id - title: $title - amount: $amount - data: $date - isHidden: $isHidden]';
+    return 'Transaction [ID: $id - title: $title - amount: $amount - data: $date - includeInReports: $includeInReports - isHidden: $isHidden]';
   }
 }

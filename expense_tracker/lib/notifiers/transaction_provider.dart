@@ -12,12 +12,10 @@ class TransactionNotifier extends Notifier<List<Transaction>> {
 
   double get totalBalance {
     return state.fold(
-        0,
-        (previousAmount, element) =>
-            previousAmount + (element.isHidden ? 0 : element.amount));
+        0, (previousAmount, element) => previousAmount + element.amount);
   }
 
-  double getTotalBanalceUntilDate(DateTime date) {
+  double getTotalBalanceUntilDate(DateTime date) {
     double totalBalance = 0;
 
     for (var transaction in state) {
@@ -44,6 +42,7 @@ class TransactionNotifier extends Notifier<List<Transaction>> {
     required DateTime date,
     Category? category,
     Account? account,
+    bool includeInReports = true,
     bool isHidden = false,
   }) async {
     Transaction newTransaction = Transaction(
@@ -53,6 +52,7 @@ class TransactionNotifier extends Notifier<List<Transaction>> {
       date: date,
       categoryId: category?.id,
       accountId: account?.id,
+      includeInReports: includeInReports,
       isHidden: isHidden,
     );
 
@@ -91,6 +91,7 @@ class TransactionNotifier extends Notifier<List<Transaction>> {
     required DateTime date,
     required Category? category,
     required Account? account,
+    required bool includeInReports,
     required bool isHidden,
   }) async {
     final modifiedTransaction = Transaction(
@@ -101,6 +102,7 @@ class TransactionNotifier extends Notifier<List<Transaction>> {
       date: date,
       categoryId: category?.id,
       accountId: account?.id,
+      includeInReports: includeInReports,
       isHidden: isHidden,
     );
 
