@@ -571,39 +571,46 @@ class _ScrollableTabViewState extends ConsumerState<ScrollableTabView> {
         break;
     }
 
+    final includeInReportTransactionsList = transactionList
+        .where((transaction) => transaction.includeInReports)
+        .toList();
+
     return transactionList.isEmpty
         ? Align(child: Text(AppLocalizations.of(context)!.noTransactions))
         : SingleChildScrollView(
             child: Column(
               children: [
-                Container(
-                  height: 200,
-                  margin: const EdgeInsets.only(
-                      top: 10, bottom: 0, left: 18, right: 18),
-                  child: PageViewWithIndicators(
-                    widgetList: [
-                      _buildPieChart(transactionList, pieChartTransactionType),
-                      if (widget.selectedTransactionTimePeriod !=
-                          TransactionTimePeriod.day)
-                        _buildBarChart(
-                          transactionList: transactionList,
-                          transactionType: barChartTransactionType,
-                          timeMode: widget.selectedTransactionTimePeriod,
-                        ),
-                    ],
-                    indicatorIconPathList:
-                        widget.selectedTransactionTimePeriod !=
-                                TransactionTimePeriod.day
-                            ? const [
-                                'assets/icons/pie-chart.svg',
-                                'assets/icons/bar-chart.svg',
-                              ]
-                            : null,
+                if (includeInReportTransactionsList.isNotEmpty) ...[
+                  Container(
+                    height: 200,
+                    margin: const EdgeInsets.only(
+                        top: 10, bottom: 0, left: 18, right: 18),
+                    child: PageViewWithIndicators(
+                      widgetList: [
+                        _buildPieChart(includeInReportTransactionsList,
+                            pieChartTransactionType),
+                        if (widget.selectedTransactionTimePeriod !=
+                            TransactionTimePeriod.day)
+                          _buildBarChart(
+                            transactionList: transactionList,
+                            transactionType: barChartTransactionType,
+                            timeMode: widget.selectedTransactionTimePeriod,
+                          ),
+                      ],
+                      indicatorIconPathList:
+                          widget.selectedTransactionTimePeriod !=
+                                  TransactionTimePeriod.day
+                              ? const [
+                                  'assets/icons/pie-chart.svg',
+                                  'assets/icons/bar-chart.svg',
+                                ]
+                              : null,
+                    ),
                   ),
-                ),
-                const SizedBox(
-                  height: 4,
-                ),
+                  const SizedBox(
+                    height: 4,
+                  ),
+                ],
                 _buildTransactionListSection(transactionList),
               ],
             ),
@@ -619,7 +626,7 @@ class _ScrollableTabViewState extends ConsumerState<ScrollableTabView> {
       filteredTransactionList = fullTransactionList
           .where(
             (element) =>
-                !element.isHidden &&
+                // element.includeInReports &&
                 element.accountId == widget.account!.id &&
                 element.amount >= 0 &&
                 element.date.isAfterIncludingZero(widget.startDate) &&
@@ -631,7 +638,7 @@ class _ScrollableTabViewState extends ConsumerState<ScrollableTabView> {
       filteredTransactionList = fullTransactionList
           .where(
             (element) =>
-                !element.isHidden &&
+                element.includeInReports &&
                 element.amount >= 0 &&
                 element.date.isAfterIncludingZero(widget.startDate) &&
                 element.date.isBeforeIncludingZero(widget.endDate),
@@ -651,7 +658,7 @@ class _ScrollableTabViewState extends ConsumerState<ScrollableTabView> {
     if (widget.account != null) {
       filteredTransactionList = fullTransactionList
           .where((element) =>
-              !element.isHidden &&
+              element.includeInReports &&
               element.accountId == widget.account!.id &&
               element.amount < 0 &&
               element.date.isAfterIncludingZero(widget.startDate) &&
@@ -662,7 +669,7 @@ class _ScrollableTabViewState extends ConsumerState<ScrollableTabView> {
       filteredTransactionList = fullTransactionList
           .where(
             (element) =>
-                !element.isHidden &&
+                element.includeInReports &&
                 element.amount < 0 &&
                 element.date.isAfterIncludingZero(widget.startDate) &&
                 element.date.isBeforeIncludingZero(widget.endDate),
@@ -683,7 +690,7 @@ class _ScrollableTabViewState extends ConsumerState<ScrollableTabView> {
       filteredTransactionList = fullTransactionList
           .where(
             (element) =>
-                !element.isHidden &&
+                element.includeInReports &&
                 element.accountId == widget.account!.id &&
                 element.date.isAfterIncludingZero(widget.startDate) &&
                 element.date.isBeforeIncludingZero(widget.endDate),
@@ -694,7 +701,7 @@ class _ScrollableTabViewState extends ConsumerState<ScrollableTabView> {
       filteredTransactionList = fullTransactionList
           .where(
             (element) =>
-                !element.isHidden &&
+                element.includeInReports &&
                 element.date.isAfterIncludingZero(widget.startDate) &&
                 element.date.isBeforeIncludingZero(widget.endDate),
           )
