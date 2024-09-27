@@ -35,13 +35,14 @@ class WidgetExtensionService {
 
   void _launchedFromWidget(Uri? uri) {
     if (uri != null) {
-      final baseUrl = uri.toString().split('?')[0];
-      print(baseUrl);
+      final incomePreset = uri.queryParameters["income"] == "1";
 
-      navigatorKey.currentState?.pushNamed(NewEditTransactionPage.routeName);
-      print(uri.queryParameters["income"]);
-    } else {
-      print("no");
+      print(incomePreset);
+      navigatorKey.currentState?.pushNamed(
+        NewEditTransactionPage.routeName,
+        arguments:
+            NewEditTransactionPageScreenArguments(incomePreset: incomePreset),
+      );
     }
   }
 

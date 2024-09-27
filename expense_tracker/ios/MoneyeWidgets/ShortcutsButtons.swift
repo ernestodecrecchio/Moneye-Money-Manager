@@ -57,7 +57,7 @@ struct ShortcutsButtonsEntryView: View {
                     .tint(.white)
                 }
                 
-                Link(destination: URL.init(string: "moneye://openNewTransactionPage?homeWidget&income=0")!) {
+                Link(destination: URL.init(string: "moneye://openNewTransactionPage?homeWidget&income=1")!) {
                     Button {} label: {
                         Text(NSLocalizedString("Income", comment: "Button label to add an income transaction"))
                                 .foregroundColor(.widgetBackground)

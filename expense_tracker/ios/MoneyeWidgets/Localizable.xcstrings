@@ -2,6 +2,7 @@
   "sourceLanguage" : "en",
   "strings" : {
     "Expense" : {
+      "comment" : "Button label to add an expense transaction",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -48,6 +49,7 @@
       }
     },
     "Income" : {
+      "comment" : "Button label to add an income transaction",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -136,6 +138,7 @@
       }
     },
     "ShortcutButtonsWidgetDescription" : {
+      "comment" : "Description for shortcut buttons widget",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -164,6 +167,7 @@
       }
     },
     "ShortcutButtonsWidgetTitle" : {
+      "comment" : "Title for shortcut buttons widget",
       "localizations" : {
         "de" : {
           "stringUnit" : {

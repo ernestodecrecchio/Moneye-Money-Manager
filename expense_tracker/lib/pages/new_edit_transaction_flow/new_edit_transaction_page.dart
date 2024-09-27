@@ -17,20 +17,24 @@ import 'package:intl/intl.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class NewEditTransactionPageScreenArguments {
+  final bool? incomePreset;
   final Transaction? transaction;
   final Account? account;
 
-  NewEditTransactionPageScreenArguments({this.transaction, this.account});
+  NewEditTransactionPageScreenArguments(
+      {this.incomePreset, this.transaction, this.account});
 }
 
 class NewEditTransactionPage extends ConsumerStatefulWidget {
   static const routeName = '/newEditTransactionPage';
 
+  final bool? incomePreset;
   final Transaction? initialTransactionSettings;
   final Account? initialAccountSettings;
 
   const NewEditTransactionPage({
     super.key,
+    this.incomePreset,
     this.initialTransactionSettings,
     this.initialAccountSettings,
   });
@@ -110,6 +114,11 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
     } else {
       titleInputFocusNode.requestFocus();
       dateInput.text = dateFormatter.format(selectedDate).toString();
+
+      final incomePreset = widget.incomePreset;
+
+      _transactionTypeTabController.index =
+          incomePreset == null || incomePreset == true ? 0 : 1;
 
       if (widget.initialAccountSettings != null) {
         selectedAccount = ref

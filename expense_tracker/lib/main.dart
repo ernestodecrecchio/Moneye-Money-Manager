@@ -213,11 +213,13 @@ class MyApp extends r.ConsumerWidget {
                 final args = settings.arguments
                     as NewEditTransactionPageScreenArguments?;
 
+                final incomePreset = args?.incomePreset;
                 final transaction = args?.transaction;
                 final account = args?.account;
 
                 return MaterialPageRoute(
                   builder: (context) => NewEditTransactionPage(
+                    incomePreset: incomePreset,
                     initialTransactionSettings: transaction,
                     initialAccountSettings: account,
                   ),
