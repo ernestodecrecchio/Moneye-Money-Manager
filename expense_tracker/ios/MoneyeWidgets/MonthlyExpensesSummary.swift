@@ -1,5 +1,5 @@
 //
-//  MonthlyOutcomeSummary.swift
+//  MonthlyExpensesSummary.swift
 //  Runner
 //
 //  Created by Ernesto De Crecchio on 11/06/24.
@@ -8,10 +8,10 @@
 import WidgetKit
 import SwiftUI
 
-struct MonthlyOutcomeSummaryProvider: TimelineProvider {
+struct MonthlyExpensesSummaryProvider: TimelineProvider {
     func placeholder(in context: Context) -> Summary {
-        Summary(date: Date(), title: "This month",
-                outcomeValue: "-123.45€")
+        Summary(date: Date(),
+                expenseValue: NSLocalizedString("ExpenseValuePlaceholder", comment: ""))
     }
 
     func getSnapshot(in context: Context, completion: @escaping (Summary) -> ()) {
@@ -21,11 +21,9 @@ struct MonthlyOutcomeSummaryProvider: TimelineProvider {
             entry = placeholder(in: context)
         } else {
             let userDefaults = UserDefaults(suiteName: "group.moneyewidget")
+            let expenseValue = userDefaults?.string(forKey: "expenseValue") ?? "0€"
             
-            let title = userDefaults?.string(forKey: "title") ?? "Monthly transactions"
-            let outcomeValue = userDefaults?.string(forKey: "outcomeValue") ?? "0"
-            
-            entry = Summary(date: Date(), title: title, outcomeValue: outcomeValue)
+            entry = Summary(date: Date(), expenseValue: expenseValue)
         }
         
         completion(entry)
@@ -39,8 +37,8 @@ struct MonthlyOutcomeSummaryProvider: TimelineProvider {
     }
 }
 
-struct MonthlyOutcomeSummaryEntryView : View {
-    var entry: MonthlyOutcomeSummaryProvider.Entry
+struct MonthlyExpensesSummaryEntryView : View {
+    var entry: MonthlyExpensesSummaryProvider.Entry
 
     var bundle: URL {
         let bundle = Bundle.main
@@ -52,7 +50,7 @@ struct MonthlyOutcomeSummaryEntryView : View {
         return bundle.bundleURL
     }
     
-    init(entry: MonthlyOutcomeSummaryProvider.Entry) {
+    init(entry: MonthlyExpensesSummaryProvider.Entry) {
         self.entry = entry
         CTFontManagerRegisterFontsForURL(bundle.appending(path: "/assets/fonts/Ubuntu-R.ttf") as CFURL, CTFontManagerScope.process, nil)
         CTFontManagerRegisterFontsForURL(bundle.appending(path: "/assets/fonts/Ubuntu-B.ttf") as CFURL, CTFontManagerScope.process, nil)
@@ -75,17 +73,16 @@ struct MonthlyOutcomeSummaryEntryView : View {
         return VStack(
             alignment: .center, spacing: 24,
             content: {
-                if let title = entry.title {
-                    Text(title)
+                    Text(NSLocalizedString("ThisMonth", comment: ""))
                         .font(Font.custom("Ubuntu", size: 14))
                         .fontWeight(.bold)
                         .foregroundStyle(.white)
                         .minimumScaleFactor(0.2)
                         .lineLimit(1)
-                }
                 
-                if let outcomeValue = entry.outcomeValue {
-                    Text(outcomeValue)
+                
+                if let expenseValue = entry.expenseValue {
+                    Text(expenseValue)
                         .font(Font.custom("Ubuntu", size: 20))
                         .foregroundStyle(.white)
                         .minimumScaleFactor(0.2)
@@ -96,34 +93,34 @@ struct MonthlyOutcomeSummaryEntryView : View {
     }
 }
 
-struct MonthlyOutcomeSummaryWidget: Widget {
-    let kind: String = "MonthlyOutcomeSummaryWidget"
+struct MonthlyExpensesSummaryWidget: Widget {
+    let kind: String = "MonthlyExpensesSummaryWidget"
 
     var body: some WidgetConfiguration {
-        StaticConfiguration(kind: kind, provider: MonthlyOutcomeSummaryProvider()) { entry in
+        StaticConfiguration(kind: kind, provider: MonthlyExpensesSummaryProvider()) { entry in
             if #available(iOS 17.0, *) {
-                MonthlyOutcomeSummaryEntryView(entry: entry)
+                MonthlyExpensesSummaryEntryView(entry: entry)
                     .containerBackground(.fill.tertiary, for: .widget)
                     .containerBackground(for: .widget) {
-                        Color("WidgetBackground")
+                        Color(.widgetBackground)
                     }
             } else {
-                MonthlyOutcomeSummaryEntryView(entry: entry)
+                MonthlyExpensesSummaryEntryView(entry: entry)
                     .padding()
                     .containerBackground(for: .widget) {
-                        Color("WidgetBackground")
+                        Color(.widgetBackground)
                     }
             }
         }
-        .configurationDisplayName("This month outcome")
-        .description("The fastest way to keep track of your monthly outcome")
+        .configurationDisplayName(NSLocalizedString("MonthlyExpensesSummaryWidgetTitle", comment: ""))
+        .description(NSLocalizedString("MonthlyExpensesSummaryWidgetDescription", comment: ""))
         .supportedFamilies([.systemSmall])
     }
 }
 
 
 #Preview(as: .systemSmall) {
-    MonthlyOutcomeSummaryWidget()
+    MonthlyExpensesSummaryWidget()
 } timeline: {
-    Summary(date: .now, title: "This month", outcomeValue: "-123.45€")
+    Summary(date: .now, expenseValue: NSLocalizedString("ExpenseValuePlaceholder", comment: ""))
 }

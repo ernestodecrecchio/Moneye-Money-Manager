@@ -130,7 +130,7 @@ class _HomeFlexibleSpaceBarState extends ConsumerState<HomeFlexibleSpaceBar> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          appLocalizations!.outcomes,
+                          appLocalizations!.expenses,
                           style: const TextStyle(
                             color: Colors.white,
                             fontSize: 16,

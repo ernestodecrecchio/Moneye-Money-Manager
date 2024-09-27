@@ -10,9 +10,9 @@ import SwiftUI
 
 struct MonthlhySummaryProvider: TimelineProvider {
     func placeholder(in context: Context) -> Summary {
-        Summary(date: Date(), title: "This month", 
-                incomeValue: "123.45€",
-                outcomeValue: "-123.45€")
+        Summary(date: Date(),
+                incomeValue: NSLocalizedString("IncomeValuePlaceholder", comment: ""),
+                expenseValue: NSLocalizedString("ExpenseValuePlaceholder", comment: ""))
     }
 
     func getSnapshot(in context: Context, completion: @escaping (Summary) -> ()) {
@@ -23,11 +23,12 @@ struct MonthlhySummaryProvider: TimelineProvider {
         } else {
             let userDefaults = UserDefaults(suiteName: "group.moneyewidget")
             
-            let title = userDefaults?.string(forKey: "title") ?? "Monthly transactions"
-            let incomeValue = userDefaults?.string(forKey: "incomeValue") ?? "0"
-            let outcomeValue = userDefaults?.string(forKey: "outcomeValue") ?? "0"
+            let incomeValue = userDefaults?.string(forKey: "incomeValue") ?? "0€"
+            let expenseValue = userDefaults?.string(forKey: "expenseValue") ?? "0€"
             
-            entry = Summary(date: Date(), title: title, incomeValue: incomeValue, outcomeValue: outcomeValue)
+            entry = Summary(date: Date(), 
+                            incomeValue: incomeValue,
+                            expenseValue: expenseValue)
         }
         
         completion(entry)
@@ -80,14 +81,14 @@ struct MonthlySummaryEntryView : View {
         return VStack(
             alignment: .leading, spacing: 18,
             content: {
-                if let title = entry.title {
-                    Text(title)
+               
+                Text(NSLocalizedString("ThisMonth", comment: ""))
                         .font(Font.custom("Ubuntu", size: 14))
                         .fontWeight(.bold)
                         .foregroundStyle(.white)
                         .minimumScaleFactor(0.2)
                         .lineLimit(1)
-                }
+                
                 
                 if let incomeValue = entry.incomeValue {
                     HStack(
@@ -101,12 +102,12 @@ struct MonthlySummaryEntryView : View {
                         })
                 }
                 
-                if let outcomeValue = entry.outcomeValue {
+                if let expenseValue = entry.expenseValue {
                     HStack(
                         content: {
                             Image("PocketOut")
                             Spacer()
-                            Text(outcomeValue)
+                            Text(expenseValue)
                                 .font(Font.custom("Ubuntu", size: 20))
                                 .foregroundStyle(.white)
                                 .minimumScaleFactor(0.2)
@@ -122,15 +123,14 @@ struct MonthlySummaryEntryView : View {
             alignment: .leading,
             spacing: 24,
             content: {
-                if let title = entry.title {
-                    Text(title)
+                    Text(NSLocalizedString("ThisMonth", comment: ""))
                         .font(Font.custom("Ubuntu", size: 14))
                         .fontWeight(.bold)
                         .foregroundStyle(.white)
                         .minimumScaleFactor(0.2)
                         .lineLimit(1)
                         .frame(maxWidth: .infinity, alignment: .leading)
-                }
+                
                 
                 HStack(
                     alignment: .center, spacing: 28,
@@ -149,12 +149,12 @@ struct MonthlySummaryEntryView : View {
                             .frame(maxWidth: .infinity, alignment: .leading)
                         }
                         
-                        if let outcomeValue = entry.outcomeValue {
+                        if let expenseValue = entry.expenseValue {
                             HStack(
                                 spacing: 12,
                                 content: {
                                     Image("PocketOut")
-                                    Text(outcomeValue)
+                                    Text(expenseValue)
                                         .font(Font.custom("Ubuntu", size: 20))
                                         .foregroundStyle(.white)
                                         .minimumScaleFactor(0.2)
@@ -179,18 +179,18 @@ struct MonthlySummaryWidget: Widget {
                 MonthlySummaryEntryView(entry: entry)
                     .containerBackground(.fill.tertiary, for: .widget)
                     .containerBackground(for: .widget) {
-                        Color("WidgetBackground")
+                        Color(.widgetBackground)
                     }
             } else {
                 MonthlySummaryEntryView(entry: entry)
                     .padding()
                     .containerBackground(for: .widget) {
-                        Color("WidgetBackground")
+                        Color(.widgetBackground)
                     }
             }
         }
-        .configurationDisplayName("This month summary")
-        .description("The fastest way to keep track of your monthly status")
+        .configurationDisplayName(NSLocalizedString("MonthlySummaryWidgetTitle", comment: ""))
+        .description(NSLocalizedString("MonthlySummaryWidgetDescription", comment: ""))
         .supportedFamilies([.systemSmall, .systemMedium])
     }
 }
@@ -199,5 +199,7 @@ struct MonthlySummaryWidget: Widget {
 #Preview(as: .systemMedium) {
     MonthlySummaryWidget()
 } timeline: {
-    Summary(date: .now, title: "This month", incomeValue: "123.45", outcomeValue: "-123.45")
+    Summary(date: .now, 
+            incomeValue: NSLocalizedString("IncomeValuePlaceholder", comment: ""),
+            expenseValue: NSLocalizedString("ExpenseValuePlaceholder", comment: ""))
 }

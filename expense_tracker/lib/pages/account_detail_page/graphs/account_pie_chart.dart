@@ -220,16 +220,16 @@ class _AccountPieChartState extends ConsumerState<AccountPieChart> {
         totalValue: 0,
       );
 
-      final outcomeCategory = CategoryTotalValue(
+      final expenseCategory = CategoryTotalValue(
         category: Category(
             id: -2,
-            name: AppLocalizations.of(context)!.outcomes,
+            name: AppLocalizations.of(context)!.expenses,
             colorValue: CustomColors.expense.value),
         totalValue: 0,
       );
 
       categoryTotalValuePairs.add(incomeCategory);
-      categoryTotalValuePairs.add(outcomeCategory);
+      categoryTotalValuePairs.add(expenseCategory);
 
       for (var transaction in widget.transactionList) {
         totalValue += transaction.amount.abs();

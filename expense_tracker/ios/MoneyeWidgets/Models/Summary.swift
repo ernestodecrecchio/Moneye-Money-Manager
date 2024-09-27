@@ -12,12 +12,12 @@ struct Summary: TimelineEntry {
     
     let title: String?
     let incomeValue: String?
-    let outcomeValue: String?
+    let expenseValue: String?
     
-    init(date: Date, title: String?, incomeValue: String? = nil, outcomeValue: String? = nil) {
+    init(date: Date, title: String? = nil, incomeValue: String? = nil, expenseValue: String? = nil) {
         self.date = date
         self.title = title
         self.incomeValue = incomeValue
-        self.outcomeValue = outcomeValue
+        self.expenseValue = expenseValue
     }
 }

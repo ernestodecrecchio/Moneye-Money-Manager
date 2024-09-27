@@ -202,7 +202,7 @@ class _AccountDetailPageState extends ConsumerState<AccountDetailPage>
               child: FittedBox(
                 fit: BoxFit.contain,
                 child: Text(
-                  AppLocalizations.of(context)!.outcomes,
+                  AppLocalizations.of(context)!.expenses,
                 ),
               ),
             ),
@@ -560,7 +560,7 @@ class _ScrollableTabViewState extends ConsumerState<ScrollableTabView> {
         pieChartTransactionType = AccountPieChartModeTransactionType.income;
         break;
       case AccountDetailTransactionTypeMode.expense:
-        transactionList = _getOutcomeTransactionList();
+        transactionList = _getExpenseTransactionList();
         barChartTransactionType = AccountBarChartModeTransactionType.expense;
         pieChartTransactionType = AccountPieChartModeTransactionType.expense;
         break;
@@ -650,7 +650,7 @@ class _ScrollableTabViewState extends ConsumerState<ScrollableTabView> {
     return filteredTransactionList;
   }
 
-  List<Transaction> _getOutcomeTransactionList() {
+  List<Transaction> _getExpenseTransactionList() {
     List<Transaction> filteredTransactionList = [];
 
     final fullTransactionList = ref.watch(transactionProvider);

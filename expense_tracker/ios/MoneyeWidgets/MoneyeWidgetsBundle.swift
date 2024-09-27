@@ -12,6 +12,7 @@ import SwiftUI
 struct MoneyeWidgetsBundle: WidgetBundle {
     var body: some Widget {
         MonthlySummaryWidget()
-        MonthlyOutcomeSummaryWidget()
+        MonthlyExpensesSummaryWidget()
+        ShortcutsButtonsWidget()
     }
 }

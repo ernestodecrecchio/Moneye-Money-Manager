@@ -447,7 +447,7 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
             text: AppLocalizations.of(context)!.income,
           ),
           Tab(
-            text: AppLocalizations.of(context)!.outcome,
+            text: AppLocalizations.of(context)!.expense,
           )
         ],
         overlayColor: WidgetStateProperty.resolveWith<Color?>(

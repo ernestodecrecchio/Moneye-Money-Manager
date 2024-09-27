@@ -5,7 +5,6 @@ import 'package:expense_tracker/notifiers/currency_provider.dart';
 import 'package:expense_tracker/pages/new_edit_transaction_flow/new_edit_transaction_page.dart';
 import 'package:flutter/widgets.dart';
 import 'package:home_widget/home_widget.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class WidgetExtensionService {
   static final WidgetExtensionService _singleton =
@@ -36,26 +35,29 @@ class WidgetExtensionService {
 
   void _launchedFromWidget(Uri? uri) {
     if (uri != null) {
+      final baseUrl = uri.toString().split('?')[0];
+      print(baseUrl);
+
       navigatorKey.currentState?.pushNamed(NewEditTransactionPage.routeName);
+      print(uri.queryParameters["income"]);
+    } else {
+      print("no");
     }
   }
 
   static updateWidgetData(
       BuildContext context,
       double newIncomeValue,
-      double newOutcomeValue,
+      double newExpenseValue,
       Currency? currency,
       CurrencySymbolPosition currencySymbolPosition) {
-    var appLocalizations = AppLocalizations.of(context)!;
-
-    HomeWidget.saveWidgetData<String>('title', appLocalizations.thisMonth);
     HomeWidget.saveWidgetData<String>(
         'incomeValue',
         newIncomeValue.toStringAsFixedRoundedWithCurrency(
             2, currency, currencySymbolPosition));
     HomeWidget.saveWidgetData<String>(
-        'outcomeValue',
-        newOutcomeValue.toStringAsFixedRoundedWithCurrency(
+        'expenseValue',
+        newExpenseValue.toStringAsFixedRoundedWithCurrency(
             2, currency, currencySymbolPosition));
     HomeWidget.updateWidget(
         iOSName: iOSWidgetName, androidName: androidWidgetName);
