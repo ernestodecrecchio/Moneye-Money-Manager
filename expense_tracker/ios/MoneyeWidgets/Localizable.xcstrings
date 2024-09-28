@@ -34,7 +34,19 @@
       "comment" : "Text used as placeholder for expense value",
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "-123,45 €"
+          }
+        },
         "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "-123,45 €"
+          }
+        },
+        "es" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "-123,45 €"
@@ -81,7 +93,19 @@
       "comment" : "Text used as placeholder for expense value",
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "123,45 €"
+          }
+        },
         "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "123,45 €"
+          }
+        },
+        "es" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "123,45 €"
@@ -96,43 +120,113 @@
       }
     },
     "MonthlyExpensesSummaryWidgetDescription" : {
-      "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Behalten Sie Ihre monatlichen Ausgaben im Blick"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "The fastest way to keep track of your monthly expenses"
+            "value" : "Keep track of your monthly expenses"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lleva un registro de tus gastos mensuales"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tieni traccia delle tue spese mensili"
           }
         }
       }
     },
     "MonthlyExpensesSummaryWidgetTitle" : {
-      "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Monatliche Ausgabenübersicht"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Monthly Expenses Summary"
+            "value" : "Monthly expenses summary"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Resumen de gastos mensuales"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Resoconto delle spese mensile"
           }
         }
       }
     },
     "MonthlySummaryWidgetDescription" : {
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Behalten Sie Ihre monatlichen Einnahmen und Ausgaben im Blick"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "The fastest way to keep track of your monthly status"
+            "value" : "Keep track of your monthly incomes and expenses"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lleva un registro de tus ingresos y gastos mensuales"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tieni traccia delle tue entrate e spese mensili"
           }
         }
       }
     },
     "MonthlySummaryWidgetTitle" : {
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Monatliche Zusammenfassung"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Monthly Summary"
+            "value" : "Monthly summary"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Resumen Mensual"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Riepilogo mensile"
           }
         }
       }
@@ -155,7 +249,7 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Añade transacciones de ingreso y gasto rápidamente."
+            "value" : "Añade transacciones de ingreso y gasto rápidamente"
           }
         },
         "it" : {
@@ -171,37 +265,48 @@
       "localizations" : {
         "de" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Schnelltasten"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Shortcut Buttons"
+            "value" : "Shortcut buttons"
           }
         },
         "es" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Botones de acceso rápido"
           }
         },
         "it" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Tasti Rapidi"
           }
         }
       }
     },
     "ThisMonth" : {
-      "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dieser Monat"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "This month"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Este mes"
           }
         },
         "it" : {

@@ -83,7 +83,7 @@ struct MonthlySummaryEntryView : View {
             content: {
                
                 Text(NSLocalizedString("ThisMonth", comment: ""))
-                        .font(Font.custom("Ubuntu", size: 14))
+                        .font(Font.custom("Ubuntu", size: 20))
                         .fontWeight(.bold)
                         .foregroundStyle(.white)
                         .minimumScaleFactor(0.2)
@@ -124,7 +124,7 @@ struct MonthlySummaryEntryView : View {
             spacing: 24,
             content: {
                     Text(NSLocalizedString("ThisMonth", comment: ""))
-                        .font(Font.custom("Ubuntu", size: 14))
+                        .font(Font.custom("Ubuntu", size: 18))
                         .fontWeight(.bold)
                         .foregroundStyle(.white)
                         .minimumScaleFactor(0.2)
