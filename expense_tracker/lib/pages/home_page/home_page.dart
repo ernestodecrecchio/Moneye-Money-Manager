@@ -295,6 +295,8 @@ class _HomePageState extends ConsumerState<HomePage> {
 
   Widget _buildFloatingActionButton() {
     return FloatingActionButton(
+      backgroundColor: CustomColors.darkBlue,
+      shape: const CircleBorder(),
       onPressed: () =>
           Navigator.pushNamed(context, NewEditTransactionPage.routeName),
       child: const Icon(Icons.add),

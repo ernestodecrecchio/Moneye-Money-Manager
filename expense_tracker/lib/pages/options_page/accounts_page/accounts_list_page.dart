@@ -61,6 +61,7 @@ class _AccountsListPageState extends ConsumerState<AccountsListPage> {
   Widget _buildFloatingActionButton(BuildContext context) {
     return FloatingActionButton(
       backgroundColor: CustomColors.darkBlue,
+      shape: const CircleBorder(),
       child: const Icon(Icons.add),
       onPressed: () => Navigator.pushNamed(context, NewAccountPage.routeName),
     );

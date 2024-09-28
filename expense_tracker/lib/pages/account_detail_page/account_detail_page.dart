@@ -146,6 +146,7 @@ class _AccountDetailPageState extends ConsumerState<AccountDetailPage>
   Widget _buildFloatingActionButton(BuildContext context) {
     return FloatingActionButton(
       backgroundColor: CustomColors.darkBlue,
+      shape: const CircleBorder(),
       onPressed: () => Navigator.pushNamed(
         context,
         NewEditTransactionPage.routeName,
