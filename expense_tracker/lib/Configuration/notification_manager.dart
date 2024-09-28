@@ -154,10 +154,6 @@ class NotificationManager {
   static Future<void> scheduleDailyNotification({
     required TimeOfDay atTime,
   }) async {
-    // AppLocalizations localizations = await AppLocalizations.delegate.load(
-    //   Locale(Intl.shortLocale(Intl.getCurrentLocale().toString())),
-    // );
-
     AppLocalizations localizations = await AppLocalizations.delegate.load(
       Locale(Intl.shortLocale(Intl.getCurrentLocale().toString())),
     );

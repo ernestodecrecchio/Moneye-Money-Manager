@@ -1,9 +1,11 @@
 import 'package:collection/collection.dart';
 import 'package:expense_tracker/Database/database_account_helper.dart';
+import 'package:expense_tracker/main.dart';
 import 'package:expense_tracker/models/account.dart';
 import 'package:expense_tracker/models/transaction.dart';
 import 'package:expense_tracker/notifiers/transaction_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AccountNotifier extends Notifier<List<Account>> {
   @override
@@ -41,9 +43,17 @@ class AccountNotifier extends Notifier<List<Account>> {
         await DatabaseAccountHelper.instance.insertAccount(account: newAccount);
 
     if (initialAmount != null) {
+      final currentContext = navigatorKey.currentContext;
+      String initialBalanceTitle = "Inital balance";
+
+      if (currentContext != null && currentContext.mounted) {
+        initialBalanceTitle =
+            AppLocalizations.of(currentContext)!.initialBalance;
+      }
+
       final newTransaction = Transaction(
         accountId: addedAccount.id,
-        title: "Initial amount",
+        title: initialBalanceTitle,
         amount: initialAmount,
         date: DateTime.now(),
         includeInReports: false,
