@@ -33,7 +33,6 @@ class DatabaseTransactionHelper {
 
   // Update DB functions
   static void updateTransactionTableV1toV2(Batch batch) {
-    print("UPDATE FROM V1 TO V2");
     batch.execute(
         '''ALTER TABLE $transactionsTable RENAME value TO ${TransactionFields.amount}''');
     batch.execute(

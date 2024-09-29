@@ -19,7 +19,6 @@ class WidgetExtensionService {
   }
 
   WidgetExtensionService._internal() {
-    print("INIT SINGLETON WIDGET");
     HomeWidget.setAppGroupId(appGroupId);
   }
 
@@ -37,7 +36,6 @@ class WidgetExtensionService {
     if (uri != null) {
       final incomePreset = uri.queryParameters["income"] == "1";
 
-      print(incomePreset);
       navigatorKey.currentState?.pushNamed(
         NewEditTransactionPage.routeName,
         arguments:

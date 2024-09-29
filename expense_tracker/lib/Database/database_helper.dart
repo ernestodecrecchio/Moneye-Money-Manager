@@ -21,7 +21,6 @@ class DatabaseHelper {
     final dbPath = await getDatabasesPath();
     final path = join(dbPath, 'moneye_db.db');
 
-    print(path);
     return await openDatabase(path,
         version: 2,
         onConfigure: _configureDB,
