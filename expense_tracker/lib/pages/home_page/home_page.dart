@@ -219,35 +219,29 @@ class _HomePageState extends ConsumerState<HomePage> {
                 ),
               ),
               const Spacer(),
-              Wrap(
-                children: [
-                  TextButton(
-                    onPressed: () => Navigator.of(context)
-                        .pushNamed(AccountDetailPage.routeName),
-                    style: TextButton.styleFrom(
-                      padding: EdgeInsets.zero,
-                      minimumSize: Size.zero,
-                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+              TextButton(
+                onPressed: () => Navigator.of(context)
+                    .pushNamed(AccountDetailPage.routeName),
+                style: TextButton.styleFrom(
+                  padding: EdgeInsets.zero,
+                  minimumSize: Size.zero,
+                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                ),
+                child: Row(
+                  children: [
+                    Text(
+                      appLocalizations!.viewAll,
+                      style: const TextStyle(
+                        fontSize: 16,
+                      ),
+                      textAlign: TextAlign.left,
                     ),
-                    child: Row(
-                      mainAxisSize:
-                          MainAxisSize.min, // Make the row take minimum space
-                      children: [
-                        Text(
-                          appLocalizations!.viewAll,
-                          style: const TextStyle(
-                            fontSize: 16,
-                          ),
-                          textAlign: TextAlign.left,
-                        ),
-                        const Icon(
-                          Icons.chevron_right_rounded,
-                        ),
-                      ],
+                    const Icon(
+                      Icons.chevron_right_rounded,
                     ),
-                  ),
-                ],
-              )
+                  ],
+                ),
+              ),
             ],
           ),
         ),
