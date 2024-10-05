@@ -17,25 +17,23 @@ dependencies:
   flutter_riverpod: ^2.5.1
   sqflite: ^2.3.3
   path: ^1.9.0
-  fl_chart: ^0.68.0
+  fl_chart: ^0.69.0
   collection: ^1.18.0
   salomon_bottom_bar: ^3.3.2
   flutter_svg: ^2.0.10+1
   flutter_slidable: ^3.1.0
   cupertino_icons: ^1.0.8
   shared_preferences: ^2.2.3
-  flutter_local_notifications: ^17.1.2
-  flutter_timezone: ^1.0.8
+  flutter_local_notifications: ^17.2.3
+  flutter_timezone: ^3.0.1
   in_app_review: ^2.0.9
   app_settings: ^5.1.1
-  home_widget: ^0.6.0
+  home_widget: ^0.7.0
   timezone: ^0.9.3
 
 dev_dependencies:
-  flutter_test:
-    sdk: flutter
-  flutter_lints: ^4.0.0
-  flutter_launcher_icons: ^0.13.1
+  flutter_lints: ^5.0.0
+  flutter_launcher_icons: ^0.14.1
   flutter_native_splash: ^2.4.0
 
 flutter_native_splash:
