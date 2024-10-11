@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:expense_tracker/Helper/double_helper.dart';
 import 'package:expense_tracker/main.dart';
 import 'package:expense_tracker/models/currency.dart';
@@ -12,7 +14,6 @@ class WidgetExtensionService {
 
   static const String appGroupId = 'group.moneyewidget';
   static const String iOSWidgetName = 'MonthlySummaryWidget';
-  static const String androidWidgetName = 'MonthlySummaryWidget';
 
   factory WidgetExtensionService() {
     return _singleton;
@@ -58,7 +59,9 @@ class WidgetExtensionService {
         'expenseValue',
         newExpenseValue.toStringAsFixedRoundedWithCurrency(
             2, currency, currencySymbolPosition));
-    HomeWidget.updateWidget(
-        iOSName: iOSWidgetName, androidName: androidWidgetName);
+
+    if (Platform.isIOS) {
+      HomeWidget.updateWidget(iOSName: iOSWidgetName);
+    }
   }
 }
