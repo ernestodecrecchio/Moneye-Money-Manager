@@ -116,5 +116,6 @@
   "transactionList": "Lista transazioni",
   "thisMonth": "Questo mese",
   "initialBalance": "Saldo iniziale",
-  "initialBalancePlaceholder": "Inserisci il saldo iniziale del conto"
+  "initialBalancePlaceholder": "Inserisci il saldo iniziale del conto",
+  "includeInReports": "Includi nei report"
 }

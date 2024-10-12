@@ -116,5 +116,6 @@
     "transactionList": "Transaktionsliste",
     "thisMonth": "Deze maand",
     "initialBalance": "Startguthaben",
-    "initialBalancePlaceholder": "Geben Sie den Anfangssaldo des Kontos ein"
+    "initialBalancePlaceholder": "Geben Sie den Anfangssaldo des Kontos ein",
+    "includeInReports": "In Berichte einbeziehen"
 }

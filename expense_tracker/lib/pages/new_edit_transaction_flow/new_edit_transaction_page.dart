@@ -290,8 +290,8 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
             ),
             Row(
               children: [
-                const Text(
-                  'Includi nei report',
+                Text(
+                  appLocalizations.includeInReports,
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.w600,
