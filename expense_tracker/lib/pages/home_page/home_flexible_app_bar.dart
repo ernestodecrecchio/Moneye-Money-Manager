@@ -56,8 +56,12 @@ class _HomeFlexibleSpaceBarState extends ConsumerState<HomeFlexibleSpaceBar> {
       }
     }
 
-    WidgetExtensionService.updateWidgetData(context, monthlyIncome,
-        monthlyExpenses, currentCurrency, currentCurrencyPosition);
+    WidgetExtensionService.updateMonthlySummaryWidgetData(
+        context,
+        monthlyIncome,
+        monthlyExpenses,
+        currentCurrency,
+        currentCurrencyPosition);
 
     return SafeArea(
       minimum: const EdgeInsets.symmetric(

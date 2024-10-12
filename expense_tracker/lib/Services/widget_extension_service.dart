@@ -13,7 +13,10 @@ class WidgetExtensionService {
       WidgetExtensionService._internal();
 
   static const String appGroupId = 'group.moneyewidget';
-  static const String iOSWidgetName = 'MonthlySummaryWidget';
+  static const String shortcutsButtonsWidgetName = 'ShortcutsButtonsWidget';
+  static const String monthlySummaryWidgetName = 'MonthlySummaryWidget';
+  static const String monthlyExpensesSummaryWidgetName =
+      'MonthlyExpensesSummaryWidget';
 
   factory WidgetExtensionService() {
     return _singleton;
@@ -45,7 +48,7 @@ class WidgetExtensionService {
     }
   }
 
-  static updateWidgetData(
+  static updateMonthlySummaryWidgetData(
       BuildContext context,
       double newIncomeValue,
       double newExpenseValue,
@@ -61,7 +64,8 @@ class WidgetExtensionService {
             2, currency, currencySymbolPosition));
 
     if (Platform.isIOS) {
-      HomeWidget.updateWidget(iOSName: iOSWidgetName);
+      HomeWidget.updateWidget(iOSName: monthlySummaryWidgetName);
+      HomeWidget.updateWidget(iOSName: monthlyExpensesSummaryWidgetName);
     }
   }
 }
