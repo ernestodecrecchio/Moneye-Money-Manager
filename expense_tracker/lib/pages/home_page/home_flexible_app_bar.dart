@@ -19,7 +19,6 @@ class HomeFlexibleSpaceBar extends ConsumerStatefulWidget {
 class _HomeFlexibleSpaceBarState extends ConsumerState<HomeFlexibleSpaceBar> {
   AppLocalizations? appLocalizations;
   static const double horizontalPadding = 18;
-  static const double appBarHeight = 66.0;
 
   @override
   void didChangeDependencies() {
@@ -30,12 +29,7 @@ class _HomeFlexibleSpaceBarState extends ConsumerState<HomeFlexibleSpaceBar> {
 
   @override
   Widget build(BuildContext context) {
-    final double statusBarHeight = MediaQuery.of(context).padding.top;
-
-    return SizedBox(
-      height: statusBarHeight + appBarHeight,
-      child: _buildMonthlyBalanceSection(),
-    );
+    return _buildMonthlyBalanceSection();
   }
 
   Widget _buildMonthlyBalanceSection() {
@@ -79,7 +73,7 @@ class _HomeFlexibleSpaceBarState extends ConsumerState<HomeFlexibleSpaceBar> {
             ),
           ),
           const SizedBox(
-            height: 18,
+            height: 8,
           ),
           Text(
             appLocalizations!.totalBalance,

@@ -134,7 +134,7 @@ class _CategorySelectorContentState
       leading: Container(
         height: 32,
         width: 32,
-        padding: const EdgeInsets.all(6),
+        padding: const EdgeInsets.all(8),
         decoration: BoxDecoration(
           shape: BoxShape.circle,
           color: category.color,

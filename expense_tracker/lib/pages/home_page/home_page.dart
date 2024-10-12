@@ -53,7 +53,7 @@ class _HomePageState extends ConsumerState<HomePage> {
             backgroundColor: CustomColors.blue,
             pinned: true,
             automaticallyImplyLeading: false,
-            expandedHeight: 200,
+            expandedHeight: 190,
             flexibleSpace: LayoutBuilder(
               builder: (BuildContext context, BoxConstraints constraints) {
                 return FlexibleSpaceBar(
