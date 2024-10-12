@@ -593,7 +593,7 @@ class _ScrollableTabViewState extends ConsumerState<ScrollableTabView> {
                         if (widget.selectedTransactionTimePeriod !=
                             TransactionTimePeriod.day)
                           _buildBarChart(
-                            transactionList: transactionList,
+                            transactionList: includeInReportTransactionsList,
                             transactionType: barChartTransactionType,
                             timeMode: widget.selectedTransactionTimePeriod,
                           ),
@@ -627,7 +627,6 @@ class _ScrollableTabViewState extends ConsumerState<ScrollableTabView> {
       filteredTransactionList = fullTransactionList
           .where(
             (element) =>
-                // element.includeInReports &&
                 element.accountId == widget.account!.id &&
                 element.amount >= 0 &&
                 element.date.isAfterIncludingZero(widget.startDate) &&
@@ -639,7 +638,6 @@ class _ScrollableTabViewState extends ConsumerState<ScrollableTabView> {
       filteredTransactionList = fullTransactionList
           .where(
             (element) =>
-                element.includeInReports &&
                 element.amount >= 0 &&
                 element.date.isAfterIncludingZero(widget.startDate) &&
                 element.date.isBeforeIncludingZero(widget.endDate),
@@ -659,7 +657,6 @@ class _ScrollableTabViewState extends ConsumerState<ScrollableTabView> {
     if (widget.account != null) {
       filteredTransactionList = fullTransactionList
           .where((element) =>
-              element.includeInReports &&
               element.accountId == widget.account!.id &&
               element.amount < 0 &&
               element.date.isAfterIncludingZero(widget.startDate) &&
@@ -670,7 +667,6 @@ class _ScrollableTabViewState extends ConsumerState<ScrollableTabView> {
       filteredTransactionList = fullTransactionList
           .where(
             (element) =>
-                element.includeInReports &&
                 element.amount < 0 &&
                 element.date.isAfterIncludingZero(widget.startDate) &&
                 element.date.isBeforeIncludingZero(widget.endDate),
@@ -691,7 +687,6 @@ class _ScrollableTabViewState extends ConsumerState<ScrollableTabView> {
       filteredTransactionList = fullTransactionList
           .where(
             (element) =>
-                element.includeInReports &&
                 element.accountId == widget.account!.id &&
                 element.date.isAfterIncludingZero(widget.startDate) &&
                 element.date.isBeforeIncludingZero(widget.endDate),
@@ -702,7 +697,6 @@ class _ScrollableTabViewState extends ConsumerState<ScrollableTabView> {
       filteredTransactionList = fullTransactionList
           .where(
             (element) =>
-                element.includeInReports &&
                 element.date.isAfterIncludingZero(widget.startDate) &&
                 element.date.isBeforeIncludingZero(widget.endDate),
           )
