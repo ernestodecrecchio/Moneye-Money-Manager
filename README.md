@@ -21,6 +21,6 @@
 ## 📃 License
 This project is licensed under the terms of the AGPL-3.0 license.
 
-## 🗨️ Contacts
+## 📬 Contacts
 
 [Back to top](#top)
