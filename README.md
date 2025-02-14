@@ -8,13 +8,14 @@
 
 ## Table of Contents
 - [About the Project](#-about-the-project)
+- [Features](#-features)
 - [Feedback and Contributions](#-feedback-and-contributions)
 - [License](#-license)
 - [Contacts](#-contacts)
 
 ## 🚀 About the Project
-### Available Features
-### To Do Features
+
+## ✨ Features
 
 ## 🤝 Feedback and Contributions
 
