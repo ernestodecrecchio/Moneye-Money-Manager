@@ -7,17 +7,20 @@
 ![GitHub last commit](https://img.shields.io/github/last-commit/ITASerus/Moneye-Money-Manager?style=for-the-badge)
 
 ## Table of Contents
-- [About](#-about)
-- [How to Build](#-how-to-build)
+- [About the Project](#-about-the-project)
 - [Feedback and Contributions](#-feedback-and-contributions)
 - [License](#-license)
+- [Contacts](#-contacts)
 
-## 🚀 About
-
-## 📝 How to Build
+## 🚀 About the Project
+### Available Features
+### To Do Features
 
 ## 🤝 Feedback and Contributions
 
 ## 📃 License
+This project is licensed under the terms of the AGPL-3.0 license.
+
+## 🗨️ Contacts
 
 [Back to top](#top)
