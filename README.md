@@ -14,8 +14,21 @@
 - [Contacts](#-contacts)
 
 ## 🚀 About the Project
+**Moneye** is a powerful and intuitive money management app designed to help you take control of your finances effortlessly. Track your income and expenses, visualize your spending habits with insightful infographics, and gain a clear understanding of your financial patterns. With Moneye, you can make informed decisions to improve your budgeting and achieve your financial goals with ease.
+
+Moneye is available on both Apple Store and Play Store
 
 ## ✨ Features
+- [x] Create and customize accounts and categories by choosing icons and colors.
+- [x] Supports multiple languages: Italian, English, Español, and Deutsch.
+- [x] **Reminders**: Get notifications to help you remember to log your daily transactions.
+- [x] Detailed **graphs and statistics**: Visualize reports of your spending habits to better understand your finances.
+- [x] **Home Widgets** (iOS only): Quickly access Moneye’s features from your home screen.
+
+#### Upcoming Features
+- [ ] Home Widgets for Android version.
+- [ ] Recurring transactions for automated expense tracking.
+- [ ] Import and export transaction data for easier financial management.
 
 ## 🤝 Feedback and Contributions
 
