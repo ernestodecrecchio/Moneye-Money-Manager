@@ -42,6 +42,7 @@
 ## Architecture, Technologies and development infos
 
 ## 🤝 Feedback and Contributions
+We welcome contributions from the community! Please read our [Contributing Guide](CONTRIBUTING.md) to get started.  
 
 ## 📃 License
 This project is licensed under the terms of the AGPL-3.0 license.
