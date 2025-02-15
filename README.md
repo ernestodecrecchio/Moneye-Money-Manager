@@ -16,7 +16,16 @@
 ## 🚀 About the Project
 **Moneye** is a powerful and intuitive money management app designed to help you take control of your finances effortlessly. Track your income and expenses, visualize your spending habits with insightful infographics, and gain a clear understanding of your financial patterns. With Moneye, you can make informed decisions to improve your budgeting and achieve your financial goals with ease.
 
-Moneye is available on both Apple Store and Play Store
+
+<p align="center">Moneye is available on both Apple Store and Play Store</p>
+<p align="center">
+  <a href="https://apps.apple.com/us/app/moneye-money-manager/id6447369037">
+    <img src="https://github.com/ITASerus/Moneye-Money-Manager/blob/Readme-Update/Readme_Support_Files/Images/Store_Badges/Apple_App_Store_Badge.png" alt="Download Moneye the Apple App Store">
+  </a>
+  <a href="https://play.google.com/store/apps/details?id=com.ernestodecrecchio.moneye">
+    <img src="https://github.com/ITASerus/Moneye-Money-Manager/blob/Readme-Update/Readme_Support_Files/Images/Store_Badges/Google_Play_Store_Badge.png" alt="Download Moneye on the Google Play Store">
+  </a>
+</p>
 
 ## ✨ Features
 - [x] Create and customize accounts and categories by choosing icons and colors.
@@ -29,6 +38,8 @@ Moneye is available on both Apple Store and Play Store
 - [ ] Home Widgets for Android version.
 - [ ] Recurring transactions for automated expense tracking.
 - [ ] Import and export transaction data for easier financial management.
+
+## Architecture, Technologies and development infos
 
 ## 🤝 Feedback and Contributions
 
