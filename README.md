@@ -10,7 +10,7 @@
 - [About the Project](#-about-the-project)
 - [Screenshots](#-screenshots)
 - [Features](#-features)
-- [Technologies & Architecture](#-technologies-&-architecture)
+- [Technologies & Architecture](#-technologies--architecture)
 - [Contributions](#-contributions)
 - [License](#-license)
 
