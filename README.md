@@ -37,7 +37,7 @@
 <img src="https://github.com/ITASerus/Moneye-Money-Manager/blob/Readme-Update/Readme_Support_Files/Images/App_Preview/Screenshots/Frame%2010.png" width="180">
 <img src="https://github.com/ITASerus/Moneye-Money-Manager/blob/Readme-Update/Readme_Support_Files/Images/App_Preview/App_Video.gif" width="180">
 </p>
-  
+
 ## ✨ Features
 ### ✅ Current Features
 - Create and customize accounts and categories by choosing icons and colors.
