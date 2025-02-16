@@ -8,7 +8,7 @@
 
 ## Table of Contents
 - [About the Project](#-about-the-project)
-- [Screenshots](#-screenshots)
+- [Screenshots & Video](#-screenshots--Video)
 - [Features](#-features)
 - [Technologies & Architecture](#-technologies--architecture)
 - [Contributions](#-contributions)
@@ -28,18 +28,15 @@
   </a>
 </p>
 
-## 📱 Screenshots
+## 📱 Screenshots & Video
 <p align="center">
 <img src="https://github.com/ITASerus/Moneye-Money-Manager/blob/Readme-Update/Readme_Support_Files/Images/App_Preview/Screenshots/Frame%206.png" width="180">
 <img src="https://github.com/ITASerus/Moneye-Money-Manager/blob/Readme-Update/Readme_Support_Files/Images/App_Preview/Screenshots/Frame%207.png" width="180">
 <img src="https://github.com/ITASerus/Moneye-Money-Manager/blob/Readme-Update/Readme_Support_Files/Images/App_Preview/Screenshots/Frame%208.png" width="180">
 <img src="https://github.com/ITASerus/Moneye-Money-Manager/blob/Readme-Update/Readme_Support_Files/Images/App_Preview/Screenshots/Frame%209.png" width="180">
 <img src="https://github.com/ITASerus/Moneye-Money-Manager/blob/Readme-Update/Readme_Support_Files/Images/App_Preview/Screenshots/Frame%2010.png" width="180">
-</p>
-
-<p align="center">
 <img src="https://github.com/ITASerus/Moneye-Money-Manager/blob/Readme-Update/Readme_Support_Files/Images/App_Preview/App_Video.gif" width="180">
-<p/>
+</p>
   
 ## ✨ Features
 ### ✅ Current Features
