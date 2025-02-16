@@ -17,25 +17,24 @@
 ## 🚀 About the Project
 **Moneye** is a powerful and intuitive money management app designed to help you take control of your finances effortlessly. Track your income and expenses, visualize your spending habits with insightful infographics, and gain a clear understanding of your financial patterns. With Moneye, you can make informed decisions to improve your budgeting and achieve your financial goals with ease.
 
-
 <p align="center">Moneye is available on both Apple Store and Play Store</p>
 <p align="center">
   <a href="https://apps.apple.com/us/app/moneye-money-manager/id6447369037">
-    <img src="https://github.com/ITASerus/Moneye-Money-Manager/blob/Readme-Update/Readme_Support_Files/Images/Store_Badges/Apple_App_Store_Badge.png" alt="Download Moneye the Apple App Store">
+    <img src="https://github.com/ITASerus/Moneye-Money-Manager/blob/main/Readme_Support_Files/Images/Store_Badges/Apple_App_Store_Badge.png" alt="Download Moneye the Apple App Store">
   </a>
   <a href="https://play.google.com/store/apps/details?id=com.ernestodecrecchio.moneye">
-    <img src="https://github.com/ITASerus/Moneye-Money-Manager/blob/Readme-Update/Readme_Support_Files/Images/Store_Badges/Google_Play_Store_Badge.png" alt="Download Moneye on the Google Play Store">
+    <img src="https://github.com/ITASerus/Moneye-Money-Manager/blob/main/Readme_Support_Files/Images/Store_Badges/Google_Play_Store_Badge.png" alt="Download Moneye on the Google Play Store">
   </a>
 </p>
 
 ## 📱 Screenshots & Video
 <p align="center">
-<img src="https://github.com/ITASerus/Moneye-Money-Manager/blob/Readme-Update/Readme_Support_Files/Images/App_Preview/Screenshots/Frame%206.png" width="180">
-<img src="https://github.com/ITASerus/Moneye-Money-Manager/blob/Readme-Update/Readme_Support_Files/Images/App_Preview/Screenshots/Frame%207.png" width="180">
-<img src="https://github.com/ITASerus/Moneye-Money-Manager/blob/Readme-Update/Readme_Support_Files/Images/App_Preview/Screenshots/Frame%208.png" width="180">
-<img src="https://github.com/ITASerus/Moneye-Money-Manager/blob/Readme-Update/Readme_Support_Files/Images/App_Preview/Screenshots/Frame%209.png" width="180">
-<img src="https://github.com/ITASerus/Moneye-Money-Manager/blob/Readme-Update/Readme_Support_Files/Images/App_Preview/Screenshots/Frame%2010.png" width="180">
-<img src="https://github.com/ITASerus/Moneye-Money-Manager/blob/Readme-Update/Readme_Support_Files/Images/App_Preview/App_Video.gif" width="180">
+<img src="https://github.com/ITASerus/Moneye-Money-Manager/blob/main/Readme_Support_Files/Images/App_Preview/Screenshots/Frame%206.png" width="180">
+<img src="https://github.com/ITASerus/Moneye-Money-Manager/blob/main/Readme_Support_Files/Images/App_Preview/Screenshots/Frame%207.png" width="180">
+<img src="https://github.com/ITASerus/Moneye-Money-Manager/blob/main/Readme_Support_Files/Images/App_Preview/Screenshots/Frame%208.png" width="180">
+<img src="https://github.com/ITASerus/Moneye-Money-Manager/blob/main/Readme_Support_Files/Images/App_Preview/Screenshots/Frame%209.png" width="180">
+<img src="https://github.com/ITASerus/Moneye-Money-Manager/blob/main/Readme_Support_Files/Images/App_Preview/Screenshots/Frame%2010.png" width="180">
+<img src="https://github.com/ITASerus/Moneye-Money-Manager/blob/main/Readme_Support_Files/Images/App_Preview/App_Video.gif" width="180">
 </p>
 
 ## ✨ Features
