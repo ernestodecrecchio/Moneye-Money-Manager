@@ -10,9 +10,9 @@
 - [About the Project](#-about-the-project)
 - [Screenshots](#-screenshots)
 - [Features](#-features)
-- [Feedback and Contributions](#-feedback-and-contributions)
+- [Technologies & Architecture](#-technologies-&-architecture)
+- [Contributions](#-contributions)
 - [License](#-license)
-- [Contacts](#-contacts)
 
 ## 🚀 About the Project
 **Moneye** is a powerful and intuitive money management app designed to help you take control of your finances effortlessly. Track your income and expenses, visualize your spending habits with insightful infographics, and gain a clear understanding of your financial patterns. With Moneye, you can make informed decisions to improve your budgeting and achieve your financial goals with ease.
@@ -42,6 +42,7 @@
 - [x] Supports multiple languages: Italian, English, Español, and Deutsch.
 - [x] **Reminders**: Get notifications to help you remember to log your daily transactions.
 - [x] Detailed **graphs and statistics**: Visualize reports of your spending habits to better understand your finances.
+- [x] **Privacy first**: All financial data are stored locally, ensuring privacy and fast access.
 - [x] **Home Widgets** (iOS only): Quickly access Moneye’s features from your home screen.
 
 #### Upcoming Features
@@ -49,14 +50,19 @@
 - [ ] Recurring transactions for automated expense tracking.
 - [ ] Import and export transaction data for easier financial management.
 
-## Architecture, Technologies and development infos
+## 🛠 Technologies & Architecture
+Moneye is built using Flutter with the Dart programming language, ensuring a smooth and performant cross-platform experience on both iOS and Android.
 
-## 🤝 Feedback and Contributions
-We welcome contributions from the community! Please read the [Contributing Guide](.github/CONTRIBUTING.md) to get started.  
+- **Framework**: Flutter
+- **Language**: Dart
+- **State Management**: Riverpod
+- **Routing Management**: GoRouter
+- **Local Database**: SQLite
+
+## 🤝 Contributions
+Contributions are welcome! Please read the [Contributing Guide](.github/CONTRIBUTING.md) to get started.  
 
 ## 📃 License
 This project is licensed under the terms of the AGPL-3.0 license.
-
-## 📬 Contacts
 
 [Back to top](#top)
