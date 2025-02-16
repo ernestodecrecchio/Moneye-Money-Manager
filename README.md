@@ -30,12 +30,14 @@
 
 ## 📱 Screenshots
 <p align="center">
-<img src="https://github.com/ITASerus/Moneye-Money-Manager/blob/Readme-Update/Readme_Support_Files/Images/Screenshots/Frame%206.png" width="180">
-<img src="https://github.com/ITASerus/Moneye-Money-Manager/blob/Readme-Update/Readme_Support_Files/Images/Screenshots/Frame%207.png" width="180">
-<img src="https://github.com/ITASerus/Moneye-Money-Manager/blob/Readme-Update/Readme_Support_Files/Images/Screenshots/Frame%208.png" width="180">
-<img src="https://github.com/ITASerus/Moneye-Money-Manager/blob/Readme-Update/Readme_Support_Files/Images/Screenshots/Frame%209.png" width="180">
-<img src="https://github.com/ITASerus/Moneye-Money-Manager/blob/Readme-Update/Readme_Support_Files/Images/Screenshots/Frame%2010.png" width="180">
+<img src="https://github.com/ITASerus/Moneye-Money-Manager/blob/Readme-Update/Readme_Support_Files/Images/App_Preview/Screenshots/Frame%206.png" width="180">
+<img src="https://github.com/ITASerus/Moneye-Money-Manager/blob/Readme-Update/Readme_Support_Files/Images/App_Preview/Screenshots/Frame%207.png" width="180">
+<img src="https://github.com/ITASerus/Moneye-Money-Manager/blob/Readme-Update/Readme_Support_Files/Images/App_Preview/Screenshots/Frame%208.png" width="180">
+<img src="https://github.com/ITASerus/Moneye-Money-Manager/blob/Readme-Update/Readme_Support_Files/Images/App_Preview/Screenshots/Frame%209.png" width="180">
+<img src="https://github.com/ITASerus/Moneye-Money-Manager/blob/Readme-Update/Readme_Support_Files/Images/App_Preview/Screenshots/Frame%2010.png" width="180">
 </p>
+
+<img src="https://github.com/ITASerus/Moneye-Money-Manager/blob/Readme-Update/Readme_Support_Files/Images/App_Preview/App_Video.gif" width="180">
 
 ## ✨ Features
 - [x] Create and customize accounts and categories by choosing icons and colors.
