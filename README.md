@@ -37,20 +37,23 @@
 <img src="https://github.com/ITASerus/Moneye-Money-Manager/blob/Readme-Update/Readme_Support_Files/Images/App_Preview/Screenshots/Frame%2010.png" width="180">
 </p>
 
+<p align="center">
 <img src="https://github.com/ITASerus/Moneye-Money-Manager/blob/Readme-Update/Readme_Support_Files/Images/App_Preview/App_Video.gif" width="180">
-
+<p/>
+  
 ## ✨ Features
-- [x] Create and customize accounts and categories by choosing icons and colors.
-- [x] Supports multiple languages: Italian, English, Español, and Deutsch.
-- [x] **Reminders**: Get notifications to help you remember to log your daily transactions.
-- [x] Detailed **graphs and statistics**: Visualize reports of your spending habits to better understand your finances.
-- [x] **Privacy first**: All financial data are stored locally, ensuring privacy and fast access.
-- [x] **Home Widgets** (iOS only): Quickly access Moneye’s features from your home screen.
+### ✅ Current Features
+- Create and customize accounts and categories by choosing icons and colors.
+- Supports multiple languages: Italian, English, Español, and Deutsch.
+- **Reminders**: Get notifications to help you remember to log your daily transactions.
+- Detailed **graphs and statistics**: Visualize reports of your spending habits to better understand your finances.
+- **Privacy first**: All financial data are stored locally, ensuring privacy and fast access.
+- **Home Widgets** (iOS only): Quickly access Moneye’s features from your home screen.
 
-#### Upcoming Features
-- [ ] Home Widgets for Android version.
-- [ ] Recurring transactions for automated expense tracking.
-- [ ] Import and export transaction data for easier financial management.
+### 🔮 Upcoming Features
+- Home Widgets for Android version.
+- Recurring transactions for automated expense tracking.
+- Import and export transaction data for easier financial management.
 
 ## 🛠 Technologies & Architecture
 Moneye is built using Flutter with the Dart programming language, ensuring a smooth and performant cross-platform experience on both iOS and Android.
