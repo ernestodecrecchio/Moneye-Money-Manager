@@ -1,9 +1,9 @@
 <a name="top"></a>
-![Moneye Repository Banner](https://github.com/ITASerus/Moneye-Money-Manager/blob/main/Readme_Support_Files/Images/Repository_Banner.png)
+![Moneye Repository Banner](https://github.com/ernestodecrecchio/Moneye-Money-Manager/blob/main/Readme_Support_Files/Images/Repository_Banner.png)
 ![Static Badge](https://img.shields.io/badge/DART_%3E%3D3.5.0_%3C4.0.0-1e2833?style=for-the-badge&logo=dart&logoColor=%236dcff9)
 ![Static Badge](https://img.shields.io/badge/FLUTTER_%3E%3D3.24.0-f7f7f7?style=for-the-badge&logo=flutter&logoColor=%236dcff9)
 ![Static Badge](https://img.shields.io/badge/Status-In_development-blue?style=for-the-badge)
-![GitHub last commit](https://img.shields.io/github/last-commit/ITASerus/Moneye-Money-Manager?style=for-the-badge)
+![GitHub last commit](https://img.shields.io/github/last-commit/ernestodecrecchio/Moneye-Money-Manager?style=for-the-badge)
 ![Static Badge](https://img.shields.io/badge/License-AGPL--3.0-red?style=for-the-badge)
 
 ## Table of Contents
@@ -21,21 +21,21 @@
 <p align="center">Moneye is available on both Apple Store and Play Store</p>
 <p align="center">
   <a href="https://apps.apple.com/us/app/moneye-money-manager/id6447369037">
-    <img src="https://github.com/ITASerus/Moneye-Money-Manager/blob/main/Readme_Support_Files/Images/Store_Badges/Apple_App_Store_Badge.png" alt="Download Moneye the Apple App Store">
+    <img src="https://github.com/ernestodecrecchio/Moneye-Money-Manager/blob/main/Readme_Support_Files/Images/Store_Badges/Apple_App_Store_Badge.png" alt="Download Moneye the Apple App Store">
   </a>
   <a href="https://play.google.com/store/apps/details?id=com.ernestodecrecchio.moneye">
-    <img src="https://github.com/ITASerus/Moneye-Money-Manager/blob/main/Readme_Support_Files/Images/Store_Badges/Google_Play_Store_Badge.png" alt="Download Moneye on the Google Play Store">
+    <img src="https://github.com/ernestodecrecchio/Moneye-Money-Manager/blob/main/Readme_Support_Files/Images/Store_Badges/Google_Play_Store_Badge.png" alt="Download Moneye on the Google Play Store">
   </a>
 </p>
 
 ## 📱 Screenshots & Video
 <p align="center">
-<img src="https://github.com/ITASerus/Moneye-Money-Manager/blob/main/Readme_Support_Files/Images/App_Preview/Screenshots/Frame%206.png" width="180">
-<img src="https://github.com/ITASerus/Moneye-Money-Manager/blob/main/Readme_Support_Files/Images/App_Preview/Screenshots/Frame%207.png" width="180">
-<img src="https://github.com/ITASerus/Moneye-Money-Manager/blob/main/Readme_Support_Files/Images/App_Preview/Screenshots/Frame%208.png" width="180">
-<img src="https://github.com/ITASerus/Moneye-Money-Manager/blob/main/Readme_Support_Files/Images/App_Preview/Screenshots/Frame%209.png" width="180">
-<img src="https://github.com/ITASerus/Moneye-Money-Manager/blob/main/Readme_Support_Files/Images/App_Preview/Screenshots/Frame%2010.png" width="180">
-<img src="https://github.com/ITASerus/Moneye-Money-Manager/blob/main/Readme_Support_Files/Images/App_Preview/App_Video.gif" width="180">
+<img src="https://github.com/ernestodecrecchio/Moneye-Money-Manager/blob/main/Readme_Support_Files/Images/App_Preview/Screenshots/Frame%206.png" width="180">
+<img src="https://github.com/ernestodecrecchio/Moneye-Money-Manager/blob/main/Readme_Support_Files/Images/App_Preview/Screenshots/Frame%207.png" width="180">
+<img src="https://github.com/ernestodecrecchio/Moneye-Money-Manager/blob/main/Readme_Support_Files/Images/App_Preview/Screenshots/Frame%208.png" width="180">
+<img src="https://github.com/ernestodecrecchio/Moneye-Money-Manager/blob/main/Readme_Support_Files/Images/App_Preview/Screenshots/Frame%209.png" width="180">
+<img src="https://github.com/ernestodecrecchio/Moneye-Money-Manager/blob/main/Readme_Support_Files/Images/App_Preview/Screenshots/Frame%2010.png" width="180">
+<img src="https://github.com/ernestodecrecchio/Moneye-Money-Manager/blob/main/Readme_Support_Files/Images/App_Preview/App_Video.gif" width="180">
 </p>
 
 ## ✨ Features
@@ -87,7 +87,7 @@ flutter_native_splash: ^2.4.0
 To clone and run this application, you'll need git and flutter installed on your computer. From your command line:
 
 #### Clone this repository
-`$ git clone https://github.com/ITASerus/Moneye-Money-Manager.git`
+`$ git clone https://github.com/ernestodecrecchio/Moneye-Money-Manager.git`
 
 #### Go into the repository
 `$ cd Moneye-Money-Manager/expense_tracker`
