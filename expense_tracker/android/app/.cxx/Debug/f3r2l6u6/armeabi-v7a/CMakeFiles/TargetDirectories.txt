@@ -1,0 +1,2 @@
+C:/Users/Ernesto/Desktop/GitHub/Moneye-Money-Manager/expense_tracker/android/app/.cxx/Debug/f3r2l6u6/armeabi-v7a/CMakeFiles/edit_cache.dir
+C:/Users/Ernesto/Desktop/GitHub/Moneye-Money-Manager/expense_tracker/android/app/.cxx/Debug/f3r2l6u6/armeabi-v7a/CMakeFiles/rebuild_cache.dir
