@@ -85,7 +85,7 @@ class AccountListTile extends ConsumerWidget {
                 ),
                 Icon(
                   Icons.chevron_right_rounded,
-                  color: Colors.white.withOpacity(0.5),
+                  color: Colors.white.withValues(alpha: 0.5),
                   size: 20,
                 )
               ],
@@ -100,7 +100,7 @@ class AccountListTile extends ConsumerWidget {
                       AppLocalizations.of(context)!.total,
                       style: TextStyle(
                         fontSize: 12,
-                        color: Colors.white.withOpacity(0.5),
+                        color: Colors.white.withValues(alpha: 0.5),
                       ),
                     ),
                     const SizedBox(

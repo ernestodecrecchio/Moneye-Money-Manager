@@ -213,7 +213,7 @@ class _InlineIconPickerState extends State<InlineIconPicker> {
         decoration: BoxDecoration(
           color: iconPath == widget.selectedIconPath
               ? backgroundColor
-              : backgroundColor.withOpacity(0.5),
+              : backgroundColor.withValues(alpha: 0.5),
           shape: BoxShape.circle,
         ),
         child: SvgPicture.asset(

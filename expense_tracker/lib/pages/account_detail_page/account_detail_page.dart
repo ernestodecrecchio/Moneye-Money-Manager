@@ -167,7 +167,7 @@ class _AccountDetailPageState extends ConsumerState<AccountDetailPage>
           decoration: BoxDecoration(
             border: Border(
               bottom: BorderSide(
-                  color: CustomColors.grey.withOpacity(0.25), width: 2.0),
+                  color: CustomColors.grey.withValues(alpha: 0.25), width: 2.0),
             ),
           ),
         ),
