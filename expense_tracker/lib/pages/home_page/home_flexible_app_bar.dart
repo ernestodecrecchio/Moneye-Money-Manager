@@ -1,12 +1,12 @@
 import 'package:expense_tracker/Helper/double_helper.dart';
 import 'package:expense_tracker/Services/widget_extension_service.dart';
+import 'package:expense_tracker/l10n/app_localizations.dart';
 import 'package:expense_tracker/models/transaction.dart';
 import 'package:expense_tracker/notifiers/currency_provider.dart';
 import 'package:expense_tracker/notifiers/transaction_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class HomeFlexibleSpaceBar extends ConsumerStatefulWidget {
   const HomeFlexibleSpaceBar({super.key});

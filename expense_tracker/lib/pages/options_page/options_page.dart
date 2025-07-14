@@ -1,3 +1,4 @@
+import 'package:expense_tracker/l10n/app_localizations.dart';
 import 'package:expense_tracker/notifiers/currency_provider.dart';
 import 'package:expense_tracker/notifiers/locale_provider.dart';
 import 'package:expense_tracker/notifiers/notification_provider.dart';
@@ -9,7 +10,7 @@ import 'package:expense_tracker/pages/options_page/language_page/languages_list_
 import 'package:expense_tracker/pages/options_page/notification_page/notification_page.dart';
 import 'package:expense_tracker/style.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:in_app_review/in_app_review.dart';
 

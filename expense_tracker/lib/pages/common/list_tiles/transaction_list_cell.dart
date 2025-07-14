@@ -1,4 +1,5 @@
 import 'package:expense_tracker/Helper/double_helper.dart';
+import 'package:expense_tracker/l10n/app_localizations.dart';
 import 'package:expense_tracker/models/account.dart';
 import 'package:expense_tracker/models/transaction.dart';
 import 'package:expense_tracker/notifiers/account_provider.dart';
@@ -10,7 +11,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class TransactionListCell extends ConsumerWidget {
   final Transaction transaction;
@@ -125,7 +125,7 @@ class TransactionListCell extends ConsumerWidget {
     );
   }
 
-  _buildCategoryIcon(BuildContext context, WidgetRef ref) {
+  Container _buildCategoryIcon(BuildContext context, WidgetRef ref) {
     final category = ref
         .read(categoryProvider.notifier)
         .getCategoryForTransaction(transaction);

@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:expense_tracker/l10n/app_localizations.dart';
 import 'package:expense_tracker/models/category.dart';
 import 'package:expense_tracker/notifiers/category_provider.dart';
 import 'package:expense_tracker/pages/options_page/categories_page/new_edit_category_page.dart';
@@ -8,7 +9,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CategoryListCell extends ConsumerWidget {
   final Category category;
@@ -142,7 +142,7 @@ class CategoryListCell extends ConsumerWidget {
     return isDeleteConfirmed;
   }
 
-  _buildCategoryIcon(Category category) {
+  Container _buildCategoryIcon(Category category) {
     SvgPicture? categoryIcon;
     if (category.iconPath != null) {
       categoryIcon = SvgPicture.asset(

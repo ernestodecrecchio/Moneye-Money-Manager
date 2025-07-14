@@ -1,3 +1,4 @@
+import 'package:expense_tracker/l10n/app_localizations.dart';
 import 'package:expense_tracker/notifiers/currency_provider.dart';
 import 'package:expense_tracker/pages/common/custom_modal_bottom_sheet.dart';
 import 'package:expense_tracker/pages/common/custom_text_field.dart';
@@ -5,7 +6,6 @@ import 'package:expense_tracker/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CurrencyPage extends ConsumerStatefulWidget {
   static const routeName = '/currencyPage';
@@ -70,7 +70,7 @@ class _CurrencyPageState extends ConsumerState<CurrencyPage> {
     );
   }
 
-  _buildBody() {
+  Column _buildBody() {
     return Column(
       children: [
         _buildCurrencyPreview(),

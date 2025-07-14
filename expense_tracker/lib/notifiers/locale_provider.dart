@@ -11,7 +11,7 @@ class LocaleNotifier extends Notifier<Locale?> {
     return null;
   }
 
-  setFromLocalStorage(String? localStorageValue) {
+  void setFromLocalStorage(String? localStorageValue) {
     Intl.defaultLocale =
         localStorageValue ?? Intl.shortLocale(Platform.localeName);
 

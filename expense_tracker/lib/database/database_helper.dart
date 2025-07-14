@@ -47,7 +47,7 @@ class DatabaseHelper {
     }
   }
 
-  _updateDBV1toV2(Batch batch) {
+  void _updateDBV1toV2(Batch batch) {
     DatabaseTransactionHelper.updateTransactionTableV1toV2(batch);
   }
 }

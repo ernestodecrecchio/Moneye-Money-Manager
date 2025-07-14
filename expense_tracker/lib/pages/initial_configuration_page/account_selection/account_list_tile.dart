@@ -40,7 +40,7 @@ class _AccountListTileState extends State<AccountListTile> {
     );
   }
 
-  _buildAccountIcon(Account account) {
+  Widget _buildAccountIcon(Account account) {
     SvgPicture? accountIcon;
     if (account.iconPath != null) {
       accountIcon = SvgPicture.asset(

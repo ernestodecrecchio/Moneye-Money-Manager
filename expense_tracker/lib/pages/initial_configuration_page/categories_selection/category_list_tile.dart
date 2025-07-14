@@ -42,7 +42,7 @@ class _CategoryListTileState extends State<CategoryListTile> {
     );
   }
 
-  _buildCategoryIcon(Category category) {
+  Container _buildCategoryIcon(Category category) {
     SvgPicture? categoryIcon;
     if (category.iconPath != null) {
       categoryIcon = SvgPicture.asset(

@@ -1,4 +1,5 @@
 import 'package:expense_tracker/Helper/double_helper.dart';
+import 'package:expense_tracker/l10n/app_localizations.dart';
 import 'package:expense_tracker/models/category.dart';
 import 'package:expense_tracker/models/transaction.dart';
 import 'package:expense_tracker/notifiers/category_provider.dart';
@@ -10,7 +11,6 @@ import 'package:expense_tracker/pages/common/list_tiles/transaction_list_cell.da
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 enum AccountDetailTransactionListMode {
   transactionList,
@@ -144,7 +144,7 @@ class _TransactionListState extends ConsumerState<TransactionList> {
           final otherEntry = CategoryTotalValue(
               category: Category(
                 name: AppLocalizations.of(context)!.other,
-                colorValue: Colors.grey.value,
+                colorValue: Colors.grey.toARGB32(),
                 iconPath: 'assets/icons/box.svg',
               ),
               totalValue: transaction.amount);
@@ -169,7 +169,7 @@ class _TransactionListState extends ConsumerState<TransactionList> {
     );
   }
 
-  _buildCategoryListCell(
+  InkWell _buildCategoryListCell(
       {required CategoryTotalValue categoryTotalValuePair,
       required List<Transaction> transactionList}) {
     final currentCurrency = ref.watch(currentCurrencyProvider);
@@ -225,7 +225,7 @@ class _TransactionListState extends ConsumerState<TransactionList> {
     );
   }
 
-  _buildCategoryIcon(BuildContext context, Category category) {
+  Container _buildCategoryIcon(BuildContext context, Category category) {
     SvgPicture? categoryIcon;
     if (category.iconPath != null) {
       categoryIcon = SvgPicture.asset(

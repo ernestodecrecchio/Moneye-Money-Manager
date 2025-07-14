@@ -1,10 +1,10 @@
+import 'package:expense_tracker/l10n/app_localizations.dart';
 import 'package:expense_tracker/notifiers/account_provider.dart';
 import 'package:expense_tracker/pages/options_page/accounts_page/account_list_cell.dart';
 import 'package:expense_tracker/pages/options_page/accounts_page/new_edit_account_page.dart';
 import 'package:expense_tracker/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AccountsListPage extends ConsumerStatefulWidget {
   static const routeName = '/accountsListPage';

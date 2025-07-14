@@ -39,7 +39,7 @@ class CurrentCurrencyNotifier extends Notifier<Currency?> {
         namePlural: 'euros');
   }
 
-  setFromLocalStorage(String? localStorageValue) {
+  void setFromLocalStorage(String? localStorageValue) {
     if (localStorageValue != null) {
       final Map<String, dynamic> x = jsonDecode(localStorageValue);
 
@@ -88,7 +88,7 @@ class CurrencySymbolPositionNotifier extends Notifier<CurrencySymbolPosition> {
     return CurrencySymbolPosition.trailing;
   }
 
-  setFromLocalStorage(String? localStorageValue) {
+  void setFromLocalStorage(String? localStorageValue) {
     if (localStorageValue != null) {
       state = getCurrencySymbolPositionFromString(localStorageValue);
     }

@@ -71,7 +71,7 @@ class _InlineColorPickerState extends State<InlineColorPicker> {
     );
   }
 
-  _buildColorItem(Color color) {
+  InkWell _buildColorItem(Color color) {
     return InkWell(
       onTap: () {
         widget.onSelectedColor(color);

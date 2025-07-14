@@ -1,3 +1,4 @@
+import 'package:expense_tracker/l10n/app_localizations.dart';
 import 'package:expense_tracker/models/account.dart';
 import 'package:expense_tracker/notifiers/account_provider.dart';
 import 'package:expense_tracker/pages/common/custom_elevated_button.dart';
@@ -8,7 +9,6 @@ import 'package:expense_tracker/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class NewAccountPage extends ConsumerStatefulWidget {
   static const routeName = '/newEditAccountPage';
@@ -214,7 +214,7 @@ class _NewAccountPageState extends ConsumerState<NewAccountPage> {
     );
   }
 
-  _saveNewAccount() {
+  void _saveNewAccount() {
     final double? initialAmountValue =
         double.tryParse(initialBalanceInput.text);
 
@@ -223,20 +223,20 @@ class _NewAccountPageState extends ConsumerState<NewAccountPage> {
         .addNewAccountByParameters(
             name: titleInput.text,
             description: descriptionInput.text,
-            colorValue: selectedColor.value,
+            colorValue: selectedColor.toARGB32(),
             iconPath: selectedIconPath,
             initialAmount: initialAmountValue)
         .then((value) => {if (mounted) Navigator.of(context).pop()});
   }
 
-  _editAccount() {
+  void _editAccount() {
     ref
         .read(accountProvider.notifier)
         .updateAccount(
             accountToEdit: widget.initialAccountSettings!,
             name: titleInput.text,
             description: descriptionInput.text,
-            colorValue: selectedColor.value,
+            colorValue: selectedColor.toARGB32(),
             iconPath: selectedIconPath)
         .then((value) => {if (mounted) Navigator.of(context).pop()});
   }

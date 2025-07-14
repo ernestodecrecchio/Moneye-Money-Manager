@@ -1,9 +1,9 @@
+import 'package:expense_tracker/l10n/app_localizations.dart';
 import 'package:expense_tracker/notifiers/locale_provider.dart';
 import 'package:expense_tracker/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class LanguagesListPage extends ConsumerStatefulWidget {
   static const routeName = '/languagesListPage';

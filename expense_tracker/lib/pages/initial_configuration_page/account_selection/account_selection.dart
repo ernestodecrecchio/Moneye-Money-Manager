@@ -1,8 +1,8 @@
+import 'package:expense_tracker/l10n/app_localizations.dart';
 import 'package:expense_tracker/models/account.dart';
 import 'package:expense_tracker/pages/initial_configuration_page/account_selection/account_list_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AccountSelectionPage extends ConsumerStatefulWidget {
   final Function(List<Account>) onSelectedAccountListChanged;

@@ -1,3 +1,4 @@
+import 'package:expense_tracker/l10n/app_localizations.dart';
 import 'package:expense_tracker/models/account.dart';
 import 'package:expense_tracker/models/category.dart';
 import 'package:expense_tracker/models/transaction.dart';
@@ -14,7 +15,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:in_app_review/in_app_review.dart';
 import 'package:intl/intl.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class NewEditTransactionPageScreenArguments {
   final bool? incomePreset;
@@ -384,7 +384,7 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
     );
   }
 
-  _saveNewTransaction({required bool isIncome}) {
+  void _saveNewTransaction({required bool isIncome}) {
     final transactionValue = isIncome
         ? double.parse(valueInput.text)
         : -double.parse(valueInput.text);
@@ -413,7 +413,7 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
     });
   }
 
-  _editTransaction({required bool income}) {
+  void _editTransaction({required bool income}) {
     if (context.mounted) {
       final valueFromTextInput = double.parse(valueInput.text);
 
@@ -439,7 +439,7 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
     }
   }
 
-  _buildSegmentedBar() {
+  Container _buildSegmentedBar() {
     return Container(
       height: 54,
       decoration: BoxDecoration(

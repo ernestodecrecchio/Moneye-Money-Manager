@@ -1,4 +1,5 @@
 import 'package:expense_tracker/Helper/double_helper.dart';
+import 'package:expense_tracker/l10n/app_localizations.dart';
 import 'package:expense_tracker/models/category.dart';
 import 'package:expense_tracker/models/transaction.dart';
 import 'package:expense_tracker/notifiers/category_provider.dart';
@@ -8,7 +9,6 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 enum AccountPieChartModeTransactionType { income, expense, all }
 
@@ -64,7 +64,7 @@ class _AccountPieChartState extends ConsumerState<AccountPieChart> {
     );
   }
 
-  _buildGraph() {
+  Padding _buildGraph() {
     final currentCurrency = ref.watch(currentCurrencyProvider);
     final currentCurrencyPosition =
         ref.watch(currentCurrencySymbolPositionProvider);
@@ -147,7 +147,7 @@ class _AccountPieChartState extends ConsumerState<AccountPieChart> {
     );
   }
 
-  _buildIndicators() {
+  ListView _buildIndicators() {
     return ListView.builder(
         itemCount: categoryTotalValuePairs.length,
         itemBuilder: (context, index) {
@@ -207,7 +207,7 @@ class _AccountPieChartState extends ConsumerState<AccountPieChart> {
     );
   }
 
-  _loadData() {
+  void _loadData() {
     categoryTotalValuePairs.clear();
     totalValue = 0;
 
@@ -216,7 +216,7 @@ class _AccountPieChartState extends ConsumerState<AccountPieChart> {
         category: Category(
             id: -1,
             name: AppLocalizations.of(context)!.incomes,
-            colorValue: CustomColors.income.value),
+            colorValue: CustomColors.income.toARGB32()),
         totalValue: 0,
       );
 
@@ -224,7 +224,7 @@ class _AccountPieChartState extends ConsumerState<AccountPieChart> {
         category: Category(
             id: -2,
             name: AppLocalizations.of(context)!.expenses,
-            colorValue: CustomColors.expense.value),
+            colorValue: CustomColors.expense.toARGB32()),
         totalValue: 0,
       );
 
@@ -288,7 +288,7 @@ class _AccountPieChartState extends ConsumerState<AccountPieChart> {
     }
   }
 
-  _addToOtherCategoryIndicator(Transaction transaction) {
+  void _addToOtherCategoryIndicator(Transaction transaction) {
     final indexFound = categoryTotalValuePairs
         .indexWhere((element) => element.category.id == null);
 
@@ -298,7 +298,7 @@ class _AccountPieChartState extends ConsumerState<AccountPieChart> {
       final otherEntry = CategoryTotalValue(
           category: Category(
               name: AppLocalizations.of(context)!.other,
-              colorValue: Colors.grey.value),
+              colorValue: Colors.grey.toARGB32()),
           totalValue: transaction.amount);
 
       categoryTotalValuePairs.add(otherEntry);

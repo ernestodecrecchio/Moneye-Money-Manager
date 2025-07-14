@@ -1,12 +1,12 @@
 import 'dart:async';
 import 'dart:io';
+import 'package:expense_tracker/l10n/app_localizations.dart';
 import 'package:expense_tracker/models/recieved_notification.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:intl/intl.dart';
 import 'package:timezone/timezone.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class NotificationManager {
   static final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
@@ -69,17 +69,6 @@ class NotificationManager {
       requestAlertPermission: true,
       requestBadgePermission: true,
       requestSoundPermission: true,
-      onDidReceiveLocalNotification:
-          (int id, String? title, String? body, String? payload) async {
-        NotificationManager.didReceiveLocalNotificationStream.add(
-          ReceivedNotification(
-            id: id,
-            title: title,
-            body: body,
-            payload: payload,
-          ),
-        );
-      },
     );
 
     // Linux Nofification Settings
@@ -175,8 +164,6 @@ class NotificationManager {
           ),
         ),
         androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
-        uiLocalNotificationDateInterpretation:
-            UILocalNotificationDateInterpretation.absoluteTime,
         matchDateTimeComponents: DateTimeComponents.time);
   }
 
