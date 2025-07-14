@@ -1,11 +1,11 @@
 import 'package:expense_tracker/Helper/double_helper.dart';
+import 'package:expense_tracker/l10n/app_localizations.dart';
 import 'package:expense_tracker/models/account.dart';
 import 'package:expense_tracker/notifiers/currency_provider.dart';
 import 'package:expense_tracker/pages/account_detail_page/account_detail_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AccountListTile extends ConsumerWidget {
   final Account account;

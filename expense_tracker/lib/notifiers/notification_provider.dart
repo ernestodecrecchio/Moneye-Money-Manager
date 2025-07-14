@@ -9,7 +9,7 @@ class NotificationNotifier extends Notifier<bool?> {
     return null;
   }
 
-  setFromLocalStorage(bool? localStorageValue) {
+  void setFromLocalStorage(bool? localStorageValue) {
     state = localStorageValue;
   }
 
@@ -36,7 +36,7 @@ class NotificationTimeProvider extends Notifier<DateTime> {
     return DateTime.now();
   }
 
-  setFromLocalStorage(String? localStorageValue) {
+  void setFromLocalStorage(String? localStorageValue) {
     if (localStorageValue != null) {
       state = DateTime.parse(localStorageValue);
     }

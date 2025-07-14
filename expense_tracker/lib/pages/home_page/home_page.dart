@@ -1,5 +1,6 @@
 import 'package:collection/collection.dart';
 import 'package:expense_tracker/Services/widget_extension_service.dart';
+import 'package:expense_tracker/l10n/app_localizations.dart';
 import 'package:expense_tracker/models/account.dart';
 import 'package:expense_tracker/models/category.dart';
 import 'package:expense_tracker/models/transaction.dart';
@@ -17,7 +18,6 @@ import 'package:expense_tracker/pages/common/list_tiles/account_list_tile.dart';
 import 'package:expense_tracker/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class HomePage extends ConsumerStatefulWidget {
   const HomePage({super.key});
@@ -178,7 +178,7 @@ class _HomePageState extends ConsumerState<HomePage> {
     if (balanceTransactionsWithoutAccount != 0) {
       Account otherAccount = Account(
           name: appLocalizations!.other,
-          colorValue: Colors.grey.value,
+          colorValue: Colors.grey.toARGB32(),
           iconPath: 'assets/icons/box.svg');
 
       accountMap[otherAccount] = balanceTransactionsWithoutAccount;

@@ -48,7 +48,7 @@ class WidgetExtensionService {
     }
   }
 
-  static updateMonthlySummaryWidgetData(
+  static void updateMonthlySummaryWidgetData(
       BuildContext context,
       double newIncomeValue,
       double newExpenseValue,

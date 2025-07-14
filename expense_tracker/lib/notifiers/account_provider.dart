@@ -1,11 +1,11 @@
 import 'package:collection/collection.dart';
 import 'package:expense_tracker/Database/database_account_helper.dart';
+import 'package:expense_tracker/l10n/app_localizations.dart';
 import 'package:expense_tracker/main.dart';
 import 'package:expense_tracker/models/account.dart';
 import 'package:expense_tracker/models/transaction.dart';
 import 'package:expense_tracker/notifiers/transaction_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AccountNotifier extends Notifier<List<Account>> {
   @override

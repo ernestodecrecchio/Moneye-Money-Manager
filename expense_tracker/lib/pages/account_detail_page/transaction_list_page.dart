@@ -1,9 +1,9 @@
+import 'package:expense_tracker/l10n/app_localizations.dart';
 import 'package:expense_tracker/models/transaction.dart';
 import 'package:expense_tracker/pages/common/delete_transaction_snackbar.dart';
 import 'package:expense_tracker/pages/common/list_tiles/transaction_list_cell.dart';
 import 'package:expense_tracker/style.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class TransactionListPage extends ConsumerWidget {

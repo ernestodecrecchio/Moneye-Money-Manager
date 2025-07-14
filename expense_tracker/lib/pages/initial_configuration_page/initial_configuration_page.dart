@@ -1,3 +1,4 @@
+import 'package:expense_tracker/l10n/app_localizations.dart';
 import 'package:expense_tracker/models/account.dart';
 import 'package:expense_tracker/models/category.dart';
 import 'package:expense_tracker/models/currency.dart';
@@ -16,7 +17,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class InitialConfigurationPage extends ConsumerStatefulWidget {
   static const routeName = '/initialConfigurationPage';
@@ -375,7 +375,7 @@ class _InitialConfigurationPageState
     }
   }
 
-  onConfigurationEnd() async {
+  Future onConfigurationEnd() async {
     if (selectedCurrency != null) {
       ref
           .read(currentCurrencyProvider.notifier)

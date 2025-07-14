@@ -1,3 +1,4 @@
+import 'package:expense_tracker/l10n/app_localizations.dart';
 import 'package:expense_tracker/models/category.dart';
 import 'package:expense_tracker/notifiers/category_provider.dart';
 import 'package:expense_tracker/pages/options_page/categories_page/new_edit_category_page.dart';
@@ -5,7 +6,6 @@ import 'package:expense_tracker/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 Future<Category?> showCategoryBottomSheet(
     BuildContext context, Category? initialSelection) async {
@@ -104,7 +104,7 @@ class _CategorySelectorContentState
     );
   }
 
-  _buildAddCategoryTile() {
+  ListTile _buildAddCategoryTile() {
     return ListTile(
       leading: Container(
         height: 32,
@@ -129,7 +129,7 @@ class _CategorySelectorContentState
     );
   }
 
-  _buildCategoryTile(Category category) {
+  ListTile _buildCategoryTile(Category category) {
     return ListTile(
       leading: Container(
         height: 32,

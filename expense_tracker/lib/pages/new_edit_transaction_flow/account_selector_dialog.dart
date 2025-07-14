@@ -1,3 +1,4 @@
+import 'package:expense_tracker/l10n/app_localizations.dart';
 import 'package:expense_tracker/models/account.dart';
 import 'package:expense_tracker/notifiers/account_provider.dart';
 import 'package:expense_tracker/pages/options_page/accounts_page/new_edit_account_page.dart';
@@ -5,7 +6,6 @@ import 'package:expense_tracker/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 Future<Account?> showAccountBottomSheet(
     BuildContext context, Account? initialSelection) async {
@@ -103,7 +103,7 @@ class _AccountSelectorContentState
     );
   }
 
-  _buildAddAccountTile() {
+  ListTile _buildAddAccountTile() {
     return ListTile(
       leading: Container(
         height: 32,
@@ -128,7 +128,7 @@ class _AccountSelectorContentState
     );
   }
 
-  _buildAccountTile(Account account) {
+  ListTile _buildAccountTile(Account account) {
     return ListTile(
       leading: Container(
         height: 32,

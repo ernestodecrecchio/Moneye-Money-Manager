@@ -1,5 +1,6 @@
 import 'package:collection/collection.dart';
 import 'package:expense_tracker/Helper/date_time_helper.dart';
+import 'package:expense_tracker/l10n/app_localizations.dart';
 import 'package:expense_tracker/models/account.dart';
 import 'package:expense_tracker/models/transaction.dart';
 import 'package:expense_tracker/notifiers/account_provider.dart';
@@ -16,7 +17,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 enum AccountDetailTransactionTypeMode { income, expense, all }
 

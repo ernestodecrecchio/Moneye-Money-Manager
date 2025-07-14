@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:expense_tracker/Configuration/notification_manager.dart';
+import 'package:expense_tracker/l10n/app_localizations.dart';
 import 'package:expense_tracker/l10n/l10n.dart';
 import 'package:expense_tracker/models/account.dart';
 import 'package:expense_tracker/models/category.dart' as c;
@@ -27,7 +28,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart' as r;
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'pages/account_detail_page/transaction_list_page.dart';
 import 'package:flutter_timezone/flutter_timezone.dart';
@@ -160,7 +160,7 @@ class MyApp extends r.ConsumerWidget {
           ),
           tabBarTheme: const TabBarTheme(
             labelStyle: TextStyle(fontFamily: 'Ubuntu'),
-          ),
+          ).data,
           floatingActionButtonTheme: const FloatingActionButtonThemeData(
             backgroundColor: CustomColors.darkBlue,
             foregroundColor: Colors.white,

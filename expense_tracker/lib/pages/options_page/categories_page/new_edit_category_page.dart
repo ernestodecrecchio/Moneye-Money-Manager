@@ -1,3 +1,4 @@
+import 'package:expense_tracker/l10n/app_localizations.dart';
 import 'package:expense_tracker/models/category.dart';
 import 'package:expense_tracker/notifiers/category_provider.dart';
 import 'package:expense_tracker/pages/common/custom_elevated_button.dart';
@@ -7,7 +8,6 @@ import 'package:expense_tracker/pages/common/inline_icon_picker.dart';
 import 'package:expense_tracker/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class NewEditCategoryPage extends ConsumerStatefulWidget {
   static const routeName = '/newEditCategoryPage';
@@ -202,25 +202,25 @@ class _NewEditCategoryPageState extends ConsumerState<NewEditCategoryPage> {
     );
   }
 
-  _saveNewCategory() {
+  void _saveNewCategory() {
     ref
         .read(categoryProvider.notifier)
         .addNewCategoryByParameters(
             name: titleInput.text,
             description: descriptionInput.text,
-            colorValue: selectedColor.value,
+            colorValue: selectedColor.toARGB32(),
             iconPath: selectedIconPath)
         .then((value) => {if (mounted) Navigator.of(context).pop()});
   }
 
-  _editCategory() {
+  void _editCategory() {
     ref
         .read(categoryProvider.notifier)
         .updateCategory(
           categoryToEdit: widget.initialCategorySettings!,
           name: titleInput.text,
           description: descriptionInput.text,
-          colorValue: selectedColor.value,
+          colorValue: selectedColor.toARGB32(),
           iconPath: selectedIconPath,
         )
         .then((value) => {if (mounted) Navigator.of(context).pop()});

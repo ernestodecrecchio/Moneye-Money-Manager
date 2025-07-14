@@ -1,8 +1,8 @@
+import 'package:expense_tracker/l10n/app_localizations.dart';
 import 'package:expense_tracker/models/category.dart';
 import 'package:expense_tracker/pages/initial_configuration_page/categories_selection/category_list_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CategoriesSelection extends ConsumerStatefulWidget {
   final Function(List<Category>) onSelectedCategoryListChanged;

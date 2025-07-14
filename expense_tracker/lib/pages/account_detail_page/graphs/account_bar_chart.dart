@@ -74,7 +74,7 @@ class AccountBarChartState extends ConsumerState<AccountBarChart> {
     _loadData();
   }
 
-  _loadData() {
+  void _loadData() {
     bottomTitlesStrings = _getBottomTitlesString();
 
     switch (widget.transactionTimePeriod) {
@@ -223,7 +223,7 @@ class AccountBarChartState extends ConsumerState<AccountBarChart> {
     }
 
     return SideTitleWidget(
-      axisSide: meta.axisSide,
+      meta: meta,
       space: 0,
       child: FittedBox(child: Text(text, style: style)),
     );
@@ -350,7 +350,7 @@ class AccountBarChartState extends ConsumerState<AccountBarChart> {
     );
 
     return SideTitleWidget(
-      axisSide: meta.axisSide,
+      meta: meta,
       space: 5, //margin top
       child: text,
     );
@@ -367,7 +367,7 @@ class AccountBarChartState extends ConsumerState<AccountBarChart> {
     );
 
     return SideTitleWidget(
-      axisSide: meta.axisSide,
+      meta: meta,
       space: 5, //margin top
       child: text,
     );
@@ -384,7 +384,8 @@ class AccountBarChartState extends ConsumerState<AccountBarChart> {
     );
 
     return SideTitleWidget(
-      axisSide: meta.axisSide,
+      meta: meta,
+      // axisSide: meta.axisSide,
       space: 5, //margin top
       child: text,
     );
