@@ -5,7 +5,7 @@ import 'package:expense_tracker/pages/options_page/categories_page/new_edit_cate
 import 'package:expense_tracker/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:vector_graphics/vector_graphics.dart';
 
 Future<Category?> showCategoryBottomSheet(
     BuildContext context, Category? initialSelection) async {
@@ -140,8 +140,8 @@ class _CategorySelectorContentState
           color: category.color,
         ),
         child: category.iconPath != null
-            ? SvgPicture.asset(
-                category.iconPath!,
+            ? VectorGraphic(
+                loader: AssetBytesLoader(category.iconPath!),
                 colorFilter: const ColorFilter.mode(
                   Colors.white,
                   BlendMode.srcIn,
@@ -150,7 +150,8 @@ class _CategorySelectorContentState
             : null,
       ),
       trailing: _selectedCategory == category
-          ? SvgPicture.asset('assets/icons/checkmark.svg')
+          ? VectorGraphic(
+              loader: AssetBytesLoader('assets/icons/checkmark.svg'))
           : null,
       title: Text(
         category.name,
