@@ -52,7 +52,9 @@ flutter:
     - path: assets/flags/
       transformers:
         - package: vector_graphics_compiler
-    - assets/logo/
+    - path:  assets/logo/
+      transformers:
+        - package: vector_graphics_compiler
     - assets/icon/
     - lib/Configuration/
 
