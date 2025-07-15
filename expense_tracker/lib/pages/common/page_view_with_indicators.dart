@@ -1,6 +1,6 @@
 import 'package:expense_tracker/style.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:vector_graphics/vector_graphics.dart';
 
 class PageViewWithIndicators extends StatefulWidget {
   final List<Widget> widgetList;
@@ -91,8 +91,8 @@ class _PageViewWithIndicatorsState extends State<PageViewWithIndicators> {
         duration: const Duration(milliseconds: 150),
         margin: const EdgeInsets.symmetric(horizontal: 4.0),
         child: iconPath != null
-            ? SvgPicture.asset(
-                iconPath,
+            ? VectorGraphic(
+                loader: AssetBytesLoader(iconPath),
                 colorFilter: ColorFilter.mode(
                   isActive ? CustomColors.blue : CustomColors.grey,
                   BlendMode.srcIn,

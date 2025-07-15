@@ -10,7 +10,7 @@ import 'package:expense_tracker/pages/common/delete_transaction_snackbar.dart';
 import 'package:expense_tracker/pages/common/list_tiles/transaction_list_cell.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:vector_graphics/vector_graphics.dart';
 
 enum AccountDetailTransactionListMode {
   transactionList,
@@ -226,10 +226,10 @@ class _TransactionListState extends ConsumerState<TransactionList> {
   }
 
   Container _buildCategoryIcon(BuildContext context, Category category) {
-    SvgPicture? categoryIcon;
+    VectorGraphic? categoryIcon;
     if (category.iconPath != null) {
-      categoryIcon = SvgPicture.asset(
-        category.iconPath!,
+      categoryIcon = VectorGraphic(
+        loader: AssetBytesLoader(category.iconPath!),
         colorFilter: const ColorFilter.mode(
           Colors.white,
           BlendMode.srcIn,

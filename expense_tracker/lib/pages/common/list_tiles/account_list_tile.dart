@@ -5,7 +5,7 @@ import 'package:expense_tracker/notifiers/currency_provider.dart';
 import 'package:expense_tracker/pages/account_detail_page/account_detail_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:vector_graphics/vector_graphics.dart';
 
 class AccountListTile extends ConsumerWidget {
   final Account account;
@@ -55,8 +55,8 @@ class AccountListTile extends ConsumerWidget {
                   SizedBox(
                     height: 14,
                     width: 14,
-                    child: SvgPicture.asset(
-                      account.iconPath!,
+                    child: VectorGraphic(
+                      loader: AssetBytesLoader(account.iconPath!),
                       colorFilter: const ColorFilter.mode(
                         Colors.white,
                         BlendMode.srcIn,

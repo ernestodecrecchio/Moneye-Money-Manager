@@ -1,6 +1,6 @@
 import 'package:expense_tracker/style.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:vector_graphics/vector_graphics.dart';
 
 class InlineIconPicker extends StatefulWidget {
   final String? selectedIconPath;
@@ -118,8 +118,8 @@ class _InlineIconPickerState extends State<InlineIconPicker> {
               : backgroundColor.withValues(alpha: 0.5),
           shape: BoxShape.circle,
         ),
-        child: SvgPicture.asset(
-          iconPath,
+        child: VectorGraphic(
+          loader: AssetBytesLoader(iconPath),
           colorFilter: const ColorFilter.mode(
             Colors.white,
             BlendMode.srcIn,

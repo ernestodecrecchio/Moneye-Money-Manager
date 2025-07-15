@@ -6,7 +6,7 @@ import 'package:expense_tracker/notifiers/currency_provider.dart';
 import 'package:expense_tracker/notifiers/transaction_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:vector_graphics/vector_graphics.dart';
 
 class HomeFlexibleSpaceBar extends ConsumerStatefulWidget {
   const HomeFlexibleSpaceBar({super.key});
@@ -119,7 +119,9 @@ class _HomeFlexibleSpaceBarState extends ConsumerState<HomeFlexibleSpaceBar> {
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    SvgPicture.asset('assets/icons/pocket_out.svg'),
+                    VectorGraphic(
+                        loader:
+                            AssetBytesLoader('assets/icons/pocket_out.svg')),
                     const SizedBox(
                       width: 12,
                     ),
@@ -153,7 +155,8 @@ class _HomeFlexibleSpaceBarState extends ConsumerState<HomeFlexibleSpaceBar> {
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    SvgPicture.asset('assets/icons/pocket_in.svg'),
+                    VectorGraphic(
+                        loader: AssetBytesLoader('assets/icons/pocket_in.svg')),
                     const SizedBox(
                       width: 12,
                     ),

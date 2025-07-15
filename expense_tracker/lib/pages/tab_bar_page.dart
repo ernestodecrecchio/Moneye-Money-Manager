@@ -8,8 +8,8 @@ import 'package:expense_tracker/style.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
+import 'package:vector_graphics/vector_graphics.dart';
 
 class TabBarPage extends ConsumerStatefulWidget {
   static const routeName = '/TabBarPage';
@@ -49,10 +49,12 @@ class _TabBarPageState extends ConsumerState<TabBarPage> {
           },
           items: [
             SalomonBottomBarItem(
-              icon: SvgPicture.asset('assets/icons/transactions.svg',
-                  colorFilter: ColorFilter.mode(
-                      index == 0 ? CustomColors.blue : Colors.grey,
-                      BlendMode.srcIn)),
+              icon: VectorGraphic(
+                loader: AssetBytesLoader('assets/icons/transactions.svg'),
+                colorFilter: ColorFilter.mode(
+                    index == 0 ? CustomColors.blue : Colors.grey,
+                    BlendMode.srcIn),
+              ),
               title: const Text(
                 'Dashboard',
                 style: TextStyle(fontFamily: 'Ubuntu'),

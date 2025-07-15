@@ -1,6 +1,6 @@
 import 'package:expense_tracker/models/account.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:vector_graphics/vector_graphics.dart';
 
 class AccountListTile extends StatefulWidget {
   final Account account;
@@ -41,10 +41,10 @@ class _AccountListTileState extends State<AccountListTile> {
   }
 
   Widget _buildAccountIcon(Account account) {
-    SvgPicture? accountIcon;
+    VectorGraphic? accountIcon;
     if (account.iconPath != null) {
-      accountIcon = SvgPicture.asset(
-        account.iconPath!,
+      accountIcon = VectorGraphic(
+        loader: AssetBytesLoader(account.iconPath!),
         colorFilter: const ColorFilter.mode(
           Colors.white,
           BlendMode.srcIn,

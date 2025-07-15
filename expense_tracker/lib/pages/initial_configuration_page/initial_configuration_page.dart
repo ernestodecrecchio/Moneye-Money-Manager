@@ -15,8 +15,9 @@ import 'package:expense_tracker/pages/tab_bar_page.dart';
 import 'package:expense_tracker/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:vector_graphics/vector_graphics.dart';
 
 class InitialConfigurationPage extends ConsumerStatefulWidget {
   static const routeName = '/initialConfigurationPage';
@@ -255,8 +256,8 @@ class _InitialConfigurationPageState
       case 2:
         return [
           FloatingElement(
-            widget: SvgPicture.asset(
-              'assets/icons/cash.svg',
+            widget: VectorGraphic(
+              loader: AssetBytesLoader('assets/icons/cash.svg'),
               height: 170,
               colorFilter: ColorFilter.mode(
                 Colors.white.withValues(alpha: 0.05),
@@ -267,8 +268,8 @@ class _InitialConfigurationPageState
             coordinateY: 0,
           ),
           FloatingElement(
-            widget: SvgPicture.asset(
-              'assets/icons/credit_card.svg',
+            widget: VectorGraphic(
+              loader: AssetBytesLoader('assets/icons/credit_card.svg'),
               height: 150,
               colorFilter: ColorFilter.mode(
                   Colors.white.withValues(alpha: 0.05), BlendMode.srcIn),
@@ -277,8 +278,8 @@ class _InitialConfigurationPageState
             coordinateY: MediaQuery.of(context).size.height * 0.2,
           ),
           FloatingElement(
-            widget: SvgPicture.asset(
-              'assets/icons/savings.svg',
+            widget: VectorGraphic(
+              loader: AssetBytesLoader('assets/icons/savings.svg'),
               height: 100,
               colorFilter: ColorFilter.mode(
                   Colors.white.withValues(alpha: 0.05), BlendMode.srcIn),
@@ -287,8 +288,8 @@ class _InitialConfigurationPageState
             coordinateY: MediaQuery.of(context).size.height * 0.40,
           ),
           FloatingElement(
-            widget: SvgPicture.asset(
-              'assets/icons/savings.svg',
+            widget: VectorGraphic(
+              loader: AssetBytesLoader('assets/icons/savings.svg'),
               height: 200,
               colorFilter: ColorFilter.mode(
                   Colors.white.withValues(alpha: 0.05), BlendMode.srcIn),
@@ -297,8 +298,8 @@ class _InitialConfigurationPageState
             coordinateY: MediaQuery.of(context).size.height * 0.6,
           ),
           FloatingElement(
-            widget: SvgPicture.asset(
-              'assets/icons/wallet.svg',
+            widget: VectorGraphic(
+              loader: AssetBytesLoader('assets/icons/wallet.svg'),
               height: 180,
               colorFilter: ColorFilter.mode(
                   Colors.white.withValues(alpha: 0.05), BlendMode.srcIn),
@@ -310,8 +311,8 @@ class _InitialConfigurationPageState
       case 3:
         return [
           FloatingElement(
-            widget: SvgPicture.asset(
-              'assets/icons/food.svg',
+            widget: VectorGraphic(
+              loader: AssetBytesLoader('assets/icons/food.svg'),
               height: 170,
               colorFilter: ColorFilter.mode(
                 Colors.white.withValues(alpha: 0.05),
@@ -322,8 +323,8 @@ class _InitialConfigurationPageState
             coordinateY: 0,
           ),
           FloatingElement(
-            widget: SvgPicture.asset(
-              'assets/icons/popcorn.svg',
+            widget: VectorGraphic(
+              loader: AssetBytesLoader('assets/icons/popcorn.svg'),
               height: 150,
               colorFilter: ColorFilter.mode(
                 Colors.white.withValues(alpha: 0.05),
@@ -334,8 +335,8 @@ class _InitialConfigurationPageState
             coordinateY: MediaQuery.of(context).size.height * 0.2,
           ),
           FloatingElement(
-            widget: SvgPicture.asset(
-              'assets/icons/bill.svg',
+            widget: VectorGraphic(
+              loader: AssetBytesLoader('assets/icons/bill.svg'),
               height: 100,
               colorFilter: ColorFilter.mode(
                 Colors.white.withValues(alpha: 0.05),
@@ -346,8 +347,8 @@ class _InitialConfigurationPageState
             coordinateY: MediaQuery.of(context).size.height * 0.40,
           ),
           FloatingElement(
-            widget: SvgPicture.asset(
-              'assets/icons/bus.svg',
+            widget: VectorGraphic(
+              loader: AssetBytesLoader('assets/icons/bus.svg'),
               height: 200,
               colorFilter: ColorFilter.mode(
                 Colors.white.withValues(alpha: 0.05),
@@ -358,8 +359,8 @@ class _InitialConfigurationPageState
             coordinateY: MediaQuery.of(context).size.height * 0.6,
           ),
           FloatingElement(
-            widget: SvgPicture.asset(
-              'assets/icons/paw.svg',
+            widget: VectorGraphic(
+              loader: AssetBytesLoader('assets/icons/paw.svg'),
               height: 180,
               colorFilter: ColorFilter.mode(
                 Colors.white.withValues(alpha: 0.05),

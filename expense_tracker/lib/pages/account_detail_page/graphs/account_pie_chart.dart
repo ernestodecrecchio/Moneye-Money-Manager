@@ -8,7 +8,7 @@ import 'package:expense_tracker/style.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:vector_graphics/vector_graphics.dart';
 
 enum AccountPieChartModeTransactionType { income, expense, all }
 
@@ -195,8 +195,9 @@ class _AccountPieChartState extends ConsumerState<AccountPieChart> {
                   ? SizedBox(
                       height: 20,
                       width: 20,
-                      child: SvgPicture.asset(
-                        categoryTotalValuePairs[i].category.iconPath!,
+                      child: VectorGraphic(
+                        loader: AssetBytesLoader(
+                            categoryTotalValuePairs[i].category.iconPath!),
                         colorFilter: const ColorFilter.mode(
                             Colors.white, BlendMode.srcIn),
                       ),

@@ -15,8 +15,9 @@ import 'package:expense_tracker/pages/options_page/accounts_page/new_edit_accoun
 import 'package:expense_tracker/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+
 import 'package:intl/intl.dart';
+import 'package:vector_graphics/vector_graphics.dart';
 
 enum AccountDetailTransactionTypeMode { income, expense, all }
 
@@ -270,8 +271,9 @@ class _AccountDetailPageState extends ConsumerState<AccountDetailPage>
                                       Text(AppLocalizations.of(context)!.day),
                                   trailing: selectedTransactionTimePeriod ==
                                           TransactionTimePeriod.day
-                                      ? SvgPicture.asset(
-                                          'assets/icons/checkmark.svg')
+                                      ? VectorGraphic(
+                                          loader: AssetBytesLoader(
+                                              'assets/icons/checkmark.svg'))
                                       : null,
                                   onTap: () {
                                     selectedTransactionTimePeriod =
@@ -304,8 +306,9 @@ class _AccountDetailPageState extends ConsumerState<AccountDetailPage>
                                       Text(AppLocalizations.of(context)!.week),
                                   trailing: selectedTransactionTimePeriod ==
                                           TransactionTimePeriod.week
-                                      ? SvgPicture.asset(
-                                          'assets/icons/checkmark.svg')
+                                      ? VectorGraphic(
+                                          loader: AssetBytesLoader(
+                                              'assets/icons/checkmark.svg'))
                                       : null,
                                   onTap: () {
                                     selectedTransactionTimePeriod =
@@ -326,8 +329,9 @@ class _AccountDetailPageState extends ConsumerState<AccountDetailPage>
                                       Text(AppLocalizations.of(context)!.month),
                                   trailing: selectedTransactionTimePeriod ==
                                           TransactionTimePeriod.month
-                                      ? SvgPicture.asset(
-                                          'assets/icons/checkmark.svg')
+                                      ? VectorGraphic(
+                                          loader: AssetBytesLoader(
+                                              'assets/icons/checkmark.svg'))
                                       : null,
                                   onTap: () {
                                     selectedTransactionTimePeriod =
@@ -348,8 +352,9 @@ class _AccountDetailPageState extends ConsumerState<AccountDetailPage>
                                       Text(AppLocalizations.of(context)!.year),
                                   trailing: selectedTransactionTimePeriod ==
                                           TransactionTimePeriod.year
-                                      ? SvgPicture.asset(
-                                          'assets/icons/checkmark.svg')
+                                      ? VectorGraphic(
+                                          loader: AssetBytesLoader(
+                                              'assets/icons/checkmark.svg'))
                                       : null,
                                   onTap: () {
                                     selectedTransactionTimePeriod =

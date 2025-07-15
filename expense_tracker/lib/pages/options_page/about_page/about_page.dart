@@ -1,7 +1,7 @@
 import 'package:expense_tracker/l10n/app_localizations.dart';
 import 'package:expense_tracker/style.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:vector_graphics/vector_graphics.dart';
 
 class AboutPage extends StatelessWidget {
   static const routeName = '/aboutPage';
@@ -30,7 +30,8 @@ class AboutPage extends StatelessWidget {
       ),
       child: Column(
         children: [
-          SvgPicture.asset('assets/logo/Moneye_typologo.svg'),
+          VectorGraphic(
+              loader: AssetBytesLoader('assets/logo/Moneye_typologo.svg')),
           const SizedBox(
             height: 20,
           ),

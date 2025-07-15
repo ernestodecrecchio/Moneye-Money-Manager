@@ -3,7 +3,7 @@ import 'package:expense_tracker/notifiers/locale_provider.dart';
 import 'package:expense_tracker/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:vector_graphics/vector_graphics.dart';
 
 class LanguagesListPage extends ConsumerStatefulWidget {
   static const routeName = '/languagesListPage';
@@ -39,8 +39,8 @@ class _LanguagesListPageState extends ConsumerState<LanguagesListPage> {
             height: 30,
             width: 30,
             decoration: const BoxDecoration(shape: BoxShape.circle),
-            child: SvgPicture.asset(
-              'assets/flags/World.svg',
+            child: VectorGraphic(
+              loader: AssetBytesLoader('assets/flags/World.svg'),
               fit: BoxFit.fill,
               colorFilter: const ColorFilter.mode(
                 CustomColors.darkBlue,
@@ -63,8 +63,8 @@ class _LanguagesListPageState extends ConsumerState<LanguagesListPage> {
             height: 30,
             width: 30,
             decoration: const BoxDecoration(shape: BoxShape.circle),
-            child: SvgPicture.asset(
-              'assets/flags/United-Kingdom.svg',
+            child: VectorGraphic(
+              loader: AssetBytesLoader('assets/flags/United-Kingdom.svg'),
               fit: BoxFit.cover,
             ),
           ),
@@ -82,8 +82,8 @@ class _LanguagesListPageState extends ConsumerState<LanguagesListPage> {
             height: 30,
             width: 30,
             decoration: const BoxDecoration(shape: BoxShape.circle),
-            child: SvgPicture.asset(
-              'assets/flags/Italy.svg',
+            child: VectorGraphic(
+              loader: AssetBytesLoader('assets/flags/Italy.svg'),
               fit: BoxFit.cover,
             ),
           ),
@@ -101,8 +101,8 @@ class _LanguagesListPageState extends ConsumerState<LanguagesListPage> {
             height: 30,
             width: 30,
             decoration: const BoxDecoration(shape: BoxShape.circle),
-            child: SvgPicture.asset(
-              'assets/flags/Spain.svg',
+            child: VectorGraphic(
+              loader: AssetBytesLoader('assets/flags/Spain.svg'),
               fit: BoxFit.cover,
             ),
           ),
@@ -120,8 +120,8 @@ class _LanguagesListPageState extends ConsumerState<LanguagesListPage> {
             height: 30,
             width: 30,
             decoration: const BoxDecoration(shape: BoxShape.circle),
-            child: SvgPicture.asset(
-              'assets/flags/Germany.svg',
+            child: VectorGraphic(
+              loader: AssetBytesLoader('assets/flags/Germany.svg'),
               fit: BoxFit.cover,
             ),
           ),

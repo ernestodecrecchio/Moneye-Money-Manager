@@ -7,7 +7,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:vector_graphics/vector_graphics.dart';
 
 class AccountListCell extends ConsumerWidget {
   final Account account;
@@ -143,10 +143,10 @@ class AccountListCell extends ConsumerWidget {
   }
 
   Container _buildAccountIcon(Account account) {
-    SvgPicture? accountIcon;
+    VectorGraphic? accountIcon;
     if (account.iconPath != null) {
-      accountIcon = SvgPicture.asset(
-        account.iconPath!,
+      accountIcon = VectorGraphic(
+        loader: AssetBytesLoader(account.iconPath!),
         colorFilter: const ColorFilter.mode(
           Colors.white,
           BlendMode.srcIn,

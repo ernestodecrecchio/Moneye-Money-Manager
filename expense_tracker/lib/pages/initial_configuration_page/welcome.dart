@@ -1,7 +1,7 @@
 import 'package:expense_tracker/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:vector_graphics/vector_graphics.dart';
 
 class Welcome extends ConsumerStatefulWidget {
   const Welcome({super.key});
@@ -36,9 +36,8 @@ class _WelcomeState extends ConsumerState<Welcome> {
           SizedBox(
             height: 105,
             width: 105,
-            child: SvgPicture.asset(
-              'assets/logo/Moneye_logo.svg',
-            ),
+            child: VectorGraphic(
+                loader: AssetBytesLoader('assets/logo/Moneye_logo.svg')),
           ),
           const SizedBox(
             height: 40,

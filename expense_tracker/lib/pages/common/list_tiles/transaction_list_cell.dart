@@ -10,7 +10,7 @@ import 'package:expense_tracker/pages/new_edit_transaction_flow/new_edit_transac
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:vector_graphics/vector_graphics.dart';
 
 class TransactionListCell extends ConsumerWidget {
   final Transaction transaction;
@@ -130,18 +130,18 @@ class TransactionListCell extends ConsumerWidget {
         .read(categoryProvider.notifier)
         .getCategoryForTransaction(transaction);
 
-    SvgPicture? categoryIcon;
+    VectorGraphic? categoryIcon;
     if (category != null && category.iconPath != null) {
-      categoryIcon = SvgPicture.asset(
-        category.iconPath!,
+      categoryIcon = VectorGraphic(
+        loader: AssetBytesLoader(category.iconPath!),
         colorFilter: const ColorFilter.mode(
           Colors.white,
           BlendMode.srcIn,
         ),
       );
     } else {
-      categoryIcon = SvgPicture.asset(
-        'assets/icons/box.svg',
+      categoryIcon = VectorGraphic(
+        loader: AssetBytesLoader('assets/icons/box.svg'),
         colorFilter: const ColorFilter.mode(
           Colors.white,
           BlendMode.srcIn,

@@ -1,6 +1,6 @@
 import 'package:expense_tracker/models/category.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:vector_graphics/vector_graphics.dart';
 
 class CategoryListTile extends StatefulWidget {
   final Category category;
@@ -43,10 +43,10 @@ class _CategoryListTileState extends State<CategoryListTile> {
   }
 
   Container _buildCategoryIcon(Category category) {
-    SvgPicture? categoryIcon;
+    VectorGraphic? categoryIcon;
     if (category.iconPath != null) {
-      categoryIcon = SvgPicture.asset(
-        category.iconPath!,
+      categoryIcon = VectorGraphic(
+        loader: AssetBytesLoader(category.iconPath!),
         colorFilter: const ColorFilter.mode(
           Colors.white,
           BlendMode.srcIn,
