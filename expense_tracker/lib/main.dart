@@ -30,9 +30,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart' as r;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'pages/account_detail_page/transaction_list_page.dart';
-import 'package:flutter_timezone/flutter_timezone.dart';
 import 'package:timezone/data/latest_all.dart';
-import 'package:timezone/timezone.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
@@ -118,14 +116,6 @@ Future<void> _configureLocalTimeZone() async {
     return;
   }
   initializeTimeZones();
-
-  /* final timezoneInfo = await FlutterTimezone.getLocalTimezone();
-
-  if (timezoneInfo.localizedName != null) {
-    final timezoneLocalizedName = timezoneInfo.localizedName!;
-
-    setLocalLocation(getLocation(timezoneLocalizedName.locale));
-  }*/
 }
 
 class MyApp extends r.ConsumerWidget {
