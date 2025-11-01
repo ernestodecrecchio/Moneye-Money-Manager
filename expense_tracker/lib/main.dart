@@ -118,8 +118,14 @@ Future<void> _configureLocalTimeZone() async {
     return;
   }
   initializeTimeZones();
-  final String timeZoneName = await FlutterTimezone.getLocalTimezone();
-  setLocalLocation(getLocation(timeZoneName));
+
+  /* final timezoneInfo = await FlutterTimezone.getLocalTimezone();
+
+  if (timezoneInfo.localizedName != null) {
+    final timezoneLocalizedName = timezoneInfo.localizedName!;
+
+    setLocalLocation(getLocation(timezoneLocalizedName.locale));
+  }*/
 }
 
 class MyApp extends r.ConsumerWidget {
