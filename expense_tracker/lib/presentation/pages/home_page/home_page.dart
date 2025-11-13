@@ -1,5 +1,6 @@
 import 'package:collection/collection.dart';
 import 'package:expense_tracker/Services/widget_extension_service.dart';
+import 'package:expense_tracker/application/transactions/notifiers/latest_transactions_notifier.dart';
 import 'package:expense_tracker/l10n/app_localizations.dart';
 import 'package:expense_tracker/models/account.dart';
 import 'package:expense_tracker/models/category.dart';
@@ -231,92 +232,85 @@ class LastTransactionList extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final appLocalizations = AppLocalizations.of(context);
 
-    final List<Transaction> lastTransactionList = ref
-        .watch(transactionProvider)
-        .where((transaction) => !transaction.isHidden)
-        .sorted((a, b) => b.date.compareTo(a.date))
-        .take(5)
-        .toList();
+    final latestTransactionsAsync = ref.watch(latestTransactionsProvider);
 
-    return Column(
-      children: [
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
-          child: Row(
-            children: [
-              Text(
-                appLocalizations!.lastTransactions,
-                style: const TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                ),
+    return latestTransactionsAsync.when(
+      data: (lastTransactionList) {
+        if (lastTransactionList.isEmpty) {
+          return Align(
+            alignment: Alignment.center,
+            child: Padding(
+              padding: const EdgeInsets.only(top: 8.0),
+              child: Text(
+                appLocalizations!.noTransactions,
+                style: const TextStyle(color: Colors.grey),
               ),
-              const Spacer(),
-              TextButton(
-                onPressed: () => Navigator.of(context)
-                    .pushNamed(AccountDetailPage.routeName),
-                style: TextButton.styleFrom(
-                  padding: EdgeInsets.zero,
-                  minimumSize: Size.zero,
-                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                ),
-                child: Row(
-                  children: [
-                    Text(
-                      appLocalizations.viewAll,
-                      style: const TextStyle(
-                        fontSize: 16,
-                      ),
-                      textAlign: TextAlign.left,
+            ),
+          );
+        }
+
+        return Column(
+          children: [
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
+              child: Row(
+                children: [
+                  Text(
+                    appLocalizations!.lastTransactions,
+                    style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
                     ),
-                    const Icon(
-                      Icons.chevron_right_rounded,
+                  ),
+                  const Spacer(),
+                  TextButton(
+                    onPressed: () => Navigator.of(context)
+                        .pushNamed(AccountDetailPage.routeName),
+                    style: TextButton.styleFrom(
+                      padding: EdgeInsets.zero,
+                      minimumSize: Size.zero,
+                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                     ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
-        const SizedBox(
-          height: 8,
-        ),
-        lastTransactionList.isNotEmpty
-            ? ListView.separated(
-                padding: EdgeInsets.zero,
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: lastTransactionList.length,
-                itemBuilder: (_, index) {
-                  return TransactionListCell(
-                    transaction: lastTransactionList[index],
-                    horizontalPadding: horizontalPadding,
-                    onTransactionDelete: (transaction, index) {
-                      showDeleteTransactionSnackbar(
-                        context,
-                        ref,
-                        transaction,
-                        index,
-                      );
-                    },
-                  );
-                },
-                separatorBuilder: (context, index) => const Divider(),
-              )
-            : Align(
-                alignment: Alignment.center,
-                child: Padding(
-                  padding: const EdgeInsets.only(
-                    top: 8.0,
+                    child: Row(
+                      children: [
+                        Text(
+                          appLocalizations.viewAll,
+                          style: const TextStyle(
+                            fontSize: 16,
+                          ),
+                        ),
+                        const Icon(Icons.chevron_right_rounded),
+                      ],
+                    ),
                   ),
-                  child: Text(
-                    appLocalizations.noTransactions,
-                    style: const TextStyle(color: Colors.grey),
-                    textAlign: TextAlign.start,
-                  ),
-                ),
+                ],
               ),
-      ],
+            ),
+            const SizedBox(height: 8),
+            ListView.separated(
+              padding: EdgeInsets.zero,
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: lastTransactionList.length,
+              itemBuilder: (_, index) {
+                return TransactionListCell(
+                  transaction: lastTransactionList[index],
+                  horizontalPadding: horizontalPadding,
+                  onTransactionDelete: (transaction, index) {
+                    showDeleteTransactionSnackbar(
+                        context, ref, transaction, index);
+                  },
+                );
+              },
+              separatorBuilder: (_, __) => const Divider(),
+            ),
+          ],
+        );
+      },
+      loading: () => const Center(child: CircularProgressIndicator()),
+      error: (err, stack) => Center(
+        child: Text('Error loading transactions: $err'),
+      ),
     );
   }
 }

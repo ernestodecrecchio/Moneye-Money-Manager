@@ -1,5 +1,5 @@
-import 'package:expense_tracker/Database/database_helper.dart';
-import 'package:expense_tracker/Database/database_types.dart';
+import 'package:expense_tracker/data/database/database_helper.dart';
+import 'package:expense_tracker/data/database/database_types.dart';
 import 'package:expense_tracker/models/category.dart';
 import 'package:sqflite/sqlite_api.dart';
 

@@ -1,5 +1,5 @@
 import 'package:collection/collection.dart';
-import 'package:expense_tracker/Database/database_account_helper.dart';
+import 'package:expense_tracker/data/database/database_account_helper.dart';
 import 'package:expense_tracker/l10n/app_localizations.dart';
 import 'package:expense_tracker/main.dart';
 import 'package:expense_tracker/models/account.dart';
