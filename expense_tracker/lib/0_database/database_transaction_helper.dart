@@ -1,10 +1,11 @@
 import 'package:expense_tracker/data/database/database_helper.dart';
 import 'package:expense_tracker/data/database/database_types.dart';
-import 'package:expense_tracker/models/account.dart';
-import 'package:expense_tracker/models/category.dart';
-import 'package:expense_tracker/models/transaction.dart';
+import 'package:expense_tracker/application/transactions/models/account.dart';
+import 'package:expense_tracker/application/transactions/models/category.dart';
+import 'package:expense_tracker/application/transactions/models/transaction.dart';
 
-import 'package:expense_tracker/models/transaction.dart' as trans;
+import 'package:expense_tracker/application/transactions/models/transaction.dart'
+    as trans;
 import 'package:intl/intl.dart';
 import 'package:sqflite/sqlite_api.dart';
 

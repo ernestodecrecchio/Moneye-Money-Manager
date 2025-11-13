@@ -1,5 +1,5 @@
 import 'package:expense_tracker/l10n/app_localizations.dart';
-import 'package:expense_tracker/models/transaction.dart';
+import 'package:expense_tracker/application/transactions/models/transaction.dart';
 import 'package:expense_tracker/presentation/pages/common/delete_transaction_snackbar.dart';
 import 'package:expense_tracker/presentation/pages/common/list_tiles/transaction_list_cell.dart';
 import 'package:expense_tracker/style.dart';

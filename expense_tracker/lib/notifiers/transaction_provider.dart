@@ -1,7 +1,7 @@
 import 'package:expense_tracker/data/database/database_transaction_helper.dart';
-import 'package:expense_tracker/models/account.dart';
-import 'package:expense_tracker/models/category.dart';
-import 'package:expense_tracker/models/transaction.dart';
+import 'package:expense_tracker/application/transactions/models/account.dart';
+import 'package:expense_tracker/application/transactions/models/category.dart';
+import 'package:expense_tracker/application/transactions/models/transaction.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class TransactionNotifier extends Notifier<List<Transaction>> {

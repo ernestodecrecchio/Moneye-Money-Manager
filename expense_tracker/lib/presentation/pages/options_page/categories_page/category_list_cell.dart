@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:expense_tracker/l10n/app_localizations.dart';
-import 'package:expense_tracker/models/category.dart';
+import 'package:expense_tracker/application/transactions/models/category.dart';
 import 'package:expense_tracker/notifiers/category_provider.dart';
 import 'package:expense_tracker/presentation/pages/options_page/categories_page/new_edit_category_page.dart';
 import 'package:flutter/cupertino.dart';

@@ -1,4 +1,4 @@
-import 'package:expense_tracker/models/account.dart';
+import 'package:expense_tracker/application/transactions/models/account.dart';
 import 'package:flutter/material.dart';
 import 'package:vector_graphics/vector_graphics.dart';
 

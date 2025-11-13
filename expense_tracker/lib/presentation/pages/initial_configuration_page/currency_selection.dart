@@ -1,5 +1,5 @@
+import 'package:expense_tracker/application/transactions/models/currency.dart';
 import 'package:expense_tracker/l10n/app_localizations.dart';
-import 'package:expense_tracker/models/currency.dart';
 import 'package:expense_tracker/notifiers/currency_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

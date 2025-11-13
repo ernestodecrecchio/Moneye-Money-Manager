@@ -1,6 +1,6 @@
 import 'package:expense_tracker/Helper/double_helper.dart';
 import 'package:expense_tracker/l10n/app_localizations.dart';
-import 'package:expense_tracker/models/account.dart';
+import 'package:expense_tracker/application/transactions/models/account.dart';
 import 'package:expense_tracker/notifiers/currency_provider.dart';
 import 'package:expense_tracker/presentation/pages/account_detail_page/account_detail_page.dart';
 import 'package:flutter/material.dart';

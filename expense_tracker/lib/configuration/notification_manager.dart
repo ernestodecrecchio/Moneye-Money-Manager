@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:io';
+import 'package:expense_tracker/application/transactions/models/recieved_notification.dart';
 import 'package:expense_tracker/l10n/app_localizations.dart';
-import 'package:expense_tracker/models/recieved_notification.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';

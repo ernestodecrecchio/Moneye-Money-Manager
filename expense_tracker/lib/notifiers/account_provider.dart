@@ -2,8 +2,8 @@ import 'package:collection/collection.dart';
 import 'package:expense_tracker/data/database/database_account_helper.dart';
 import 'package:expense_tracker/l10n/app_localizations.dart';
 import 'package:expense_tracker/main.dart';
-import 'package:expense_tracker/models/account.dart';
-import 'package:expense_tracker/models/transaction.dart';
+import 'package:expense_tracker/application/transactions/models/account.dart';
+import 'package:expense_tracker/application/transactions/models/transaction.dart';
 import 'package:expense_tracker/notifiers/transaction_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

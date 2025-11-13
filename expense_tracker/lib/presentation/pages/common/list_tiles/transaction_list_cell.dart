@@ -1,7 +1,7 @@
 import 'package:expense_tracker/Helper/double_helper.dart';
 import 'package:expense_tracker/l10n/app_localizations.dart';
-import 'package:expense_tracker/models/account.dart';
-import 'package:expense_tracker/models/transaction.dart';
+import 'package:expense_tracker/application/transactions/models/account.dart';
+import 'package:expense_tracker/application/transactions/models/transaction.dart';
 import 'package:expense_tracker/notifiers/account_provider.dart';
 import 'package:expense_tracker/notifiers/category_provider.dart';
 import 'package:expense_tracker/notifiers/currency_provider.dart';
