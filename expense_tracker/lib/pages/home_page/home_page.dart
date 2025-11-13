@@ -73,11 +73,11 @@ class _HomePageState extends ConsumerState<HomePage> {
           SliverList(
             delegate: SliverChildListDelegate(
               <Widget>[
-                _buildAccountSection(),
+                AccountSection(horizontalPadding: horizontalPadding),
                 const SizedBox(
                   height: 14,
                 ),
-                _buildLastTransactionList(),
+                LastTransactionList(horizontalPadding: horizontalPadding),
               ],
             ),
           ),
@@ -86,15 +86,46 @@ class _HomePageState extends ConsumerState<HomePage> {
     );
   }
 
-  Widget _buildAccountSection() {
-    final list = getAccountBalance();
+  Category? getCategoryForTransaction(Transaction transaction) {
+    if (transaction.categoryId != null) {
+      return ref
+          .read(categoryProvider.notifier)
+          .getCategoryFromId(transaction.categoryId!);
+    }
+
+    return null;
+  }
+
+  Widget _buildFloatingActionButton() {
+    return FloatingActionButton(
+      backgroundColor: CustomColors.darkBlue,
+      shape: const CircleBorder(),
+      onPressed: () =>
+          Navigator.pushNamed(context, NewEditTransactionPage.routeName),
+      child: const Icon(Icons.add),
+    );
+  }
+}
+
+class AccountSection extends ConsumerWidget {
+  final double horizontalPadding;
+
+  const AccountSection({
+    super.key,
+    required this.horizontalPadding,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final appLocalizations = AppLocalizations.of(context);
+    final list = getAccountBalance(ref, appLocalizations);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: const EdgeInsets.symmetric(
-              horizontal: horizontalPadding, vertical: 8),
+          padding:
+              EdgeInsets.symmetric(horizontal: horizontalPadding, vertical: 8),
           child: Text(
             appLocalizations!.yourAccounts,
             style: const TextStyle(
@@ -108,8 +139,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                 height: 100,
                 child: ListView.separated(
                   clipBehavior: Clip.none,
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: horizontalPadding),
+                  padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
                   scrollDirection: Axis.horizontal,
                   itemCount: list.length,
                   itemBuilder: (context, index) {
@@ -129,7 +159,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                   child: Column(
                     children: [
                       Text(
-                        appLocalizations!.noAccountAdded,
+                        appLocalizations.noAccountAdded,
                         style: const TextStyle(color: Colors.grey),
                         textAlign: TextAlign.start,
                       ),
@@ -141,7 +171,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                               alignment: Alignment.center),
                           onPressed: () => Navigator.of(context)
                               .pushNamed(NewAccountPage.routeName),
-                          child: Text(appLocalizations!.addOne)),
+                          child: Text(appLocalizations.addOne)),
                     ],
                   ),
                 ),
@@ -151,7 +181,8 @@ class _HomePageState extends ConsumerState<HomePage> {
   }
 
   /// Returns a Map where for each account, there is a sum of all the transactions value
-  Map<Account, double> getAccountBalance() {
+  Map<Account, double> getAccountBalance(
+      WidgetRef ref, AppLocalizations? appLocalizations) {
     final Map<Account, double> accountMap = {};
 
     double balanceTransactionsWithoutAccount = 0;
@@ -186,18 +217,20 @@ class _HomePageState extends ConsumerState<HomePage> {
 
     return accountMap;
   }
+}
 
-  Category? getCategoryForTransaction(Transaction transaction) {
-    if (transaction.categoryId != null) {
-      return ref
-          .read(categoryProvider.notifier)
-          .getCategoryFromId(transaction.categoryId!);
-    }
+class LastTransactionList extends ConsumerWidget {
+  final double horizontalPadding;
 
-    return null;
-  }
+  const LastTransactionList({
+    super.key,
+    required this.horizontalPadding,
+  });
 
-  Widget _buildLastTransactionList() {
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final appLocalizations = AppLocalizations.of(context);
+
     final List<Transaction> lastTransactionList = ref
         .watch(transactionProvider)
         .where((transaction) => !transaction.isHidden)
@@ -208,7 +241,7 @@ class _HomePageState extends ConsumerState<HomePage> {
     return Column(
       children: [
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: horizontalPadding),
+          padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
           child: Row(
             children: [
               Text(
@@ -230,7 +263,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                 child: Row(
                   children: [
                     Text(
-                      appLocalizations!.viewAll,
+                      appLocalizations.viewAll,
                       style: const TextStyle(
                         fontSize: 16,
                       ),
@@ -277,23 +310,13 @@ class _HomePageState extends ConsumerState<HomePage> {
                     top: 8.0,
                   ),
                   child: Text(
-                    appLocalizations!.noTransactions,
+                    appLocalizations.noTransactions,
                     style: const TextStyle(color: Colors.grey),
                     textAlign: TextAlign.start,
                   ),
                 ),
               ),
       ],
-    );
-  }
-
-  Widget _buildFloatingActionButton() {
-    return FloatingActionButton(
-      backgroundColor: CustomColors.darkBlue,
-      shape: const CircleBorder(),
-      onPressed: () =>
-          Navigator.pushNamed(context, NewEditTransactionPage.routeName),
-      child: const Icon(Icons.add),
     );
   }
 }
