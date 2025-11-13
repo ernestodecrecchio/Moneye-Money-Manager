@@ -1,3 +1,4 @@
+import 'package:expense_tracker/application/transactions/notifiers/latest_transactions_notifier.dart';
 import 'package:expense_tracker/data/database/database_transaction_helper.dart';
 import 'package:expense_tracker/application/transactions/models/account.dart';
 import 'package:expense_tracker/application/transactions/models/category.dart';
@@ -60,6 +61,9 @@ class TransactionNotifier extends Notifier<List<Transaction>> {
         .insertTransaction(transaction: newTransaction);
 
     state = [...state, addedTransaction];
+
+    // Tell the LatestTransactionsNotifier to refresh
+    ref.invalidate(latestTransactionsProvider);
 
     return addedTransaction;
   }
