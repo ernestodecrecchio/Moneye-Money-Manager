@@ -18,26 +18,6 @@ class DatabaseAccountHelper {
       ${AccountFields.iconPath} ${DatabaseTypes.textTypeNullable}
       )
     ''');
-
-    // await insertDemoData(db);
-  }
-
-  static Future insertDemoData(Database db) async {
-    final a1 = Account(
-      id: 1,
-      name: 'Cash',
-      colorValue: 4283215696,
-      iconPath: 'assets/icons/cash.svg',
-    );
-    final a2 = Account(
-      id: 3,
-      name: 'Credit Card',
-      colorValue: 4278193203,
-      iconPath: 'assets/icons/picker_icons/visa.svg',
-    );
-
-    await db.insert(accountsTable, a1.toJson());
-    await db.insert(accountsTable, a2.toJson());
   }
 
   Future<Account> insertAccount({required Account account}) async {
