@@ -1,11 +1,11 @@
 import 'package:expense_tracker/Helper/double_helper.dart';
+import 'package:expense_tracker/application/transactions/notifiers/mutations/transaction_mutation_notifier.dart';
 import 'package:expense_tracker/l10n/app_localizations.dart';
 import 'package:expense_tracker/application/transactions/models/account.dart';
 import 'package:expense_tracker/application/transactions/models/transaction.dart';
 import 'package:expense_tracker/notifiers/account_provider.dart';
 import 'package:expense_tracker/notifiers/category_provider.dart';
 import 'package:expense_tracker/notifiers/currency_provider.dart';
-import 'package:expense_tracker/notifiers/transaction_provider.dart';
 import 'package:expense_tracker/presentation/pages/new_edit_transaction_flow/new_edit_transaction_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -17,7 +17,7 @@ class TransactionListCell extends ConsumerWidget {
   final double horizontalPadding;
   final bool showAccountLabel;
 
-  final Function(Transaction transactionDeleted, int index) onTransactionDelete;
+  final Function(Transaction transactionDeleted) onTransactionDelete;
 
   const TransactionListCell({
     super.key,
@@ -114,13 +114,11 @@ class TransactionListCell extends ConsumerWidget {
 
   Future _removeTransaction(BuildContext context, WidgetRef ref) async {
     await ref
-        .read(transactionProvider.notifier)
-        .deleteTransaction(transaction)
+        .read(transactionMutationProvider.notifier)
+        .delete(transaction)
         .then(
       (result) {
-        if (result.$1) {
-          onTransactionDelete(transaction, result.$2);
-        }
+        onTransactionDelete(transaction);
       },
     );
   }

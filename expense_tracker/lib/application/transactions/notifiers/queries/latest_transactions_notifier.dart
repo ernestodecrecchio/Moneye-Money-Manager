@@ -17,5 +17,5 @@ class LatestTransactionsNotifier extends AsyncNotifier<List<Transaction>> {
 
 final latestTransactionsProvider =
     AsyncNotifierProvider<LatestTransactionsNotifier, List<Transaction>>(
-  () => LatestTransactionsNotifier(),
+  LatestTransactionsNotifier.new,
 );

@@ -1,6 +1,6 @@
 import 'package:collection/collection.dart';
 import 'package:expense_tracker/Services/widget_extension_service.dart';
-import 'package:expense_tracker/application/transactions/notifiers/latest_transactions_notifier.dart';
+import 'package:expense_tracker/application/transactions/notifiers/queries/latest_transactions_notifier.dart';
 import 'package:expense_tracker/l10n/app_localizations.dart';
 import 'package:expense_tracker/application/transactions/models/account.dart';
 import 'package:expense_tracker/application/transactions/models/category.dart';
@@ -296,7 +296,7 @@ class LastTransactionList extends ConsumerWidget {
                 return TransactionListCell(
                   transaction: lastTransactionList[index],
                   horizontalPadding: horizontalPadding,
-                  onTransactionDelete: (transaction, index) {
+                  onTransactionDelete: (transaction) {
                     showDeleteTransactionSnackbar(
                         context, ref, transaction, index);
                   },

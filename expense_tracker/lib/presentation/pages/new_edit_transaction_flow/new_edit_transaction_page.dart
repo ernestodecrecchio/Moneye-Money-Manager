@@ -1,10 +1,10 @@
+import 'package:expense_tracker/application/transactions/notifiers/mutations/transaction_mutation_notifier.dart';
 import 'package:expense_tracker/l10n/app_localizations.dart';
 import 'package:expense_tracker/application/transactions/models/account.dart';
 import 'package:expense_tracker/application/transactions/models/category.dart';
 import 'package:expense_tracker/application/transactions/models/transaction.dart';
 import 'package:expense_tracker/notifiers/account_provider.dart';
 import 'package:expense_tracker/notifiers/category_provider.dart';
-import 'package:expense_tracker/notifiers/transaction_provider.dart';
 import 'package:expense_tracker/presentation/pages/common/custom_elevated_button.dart';
 import 'package:expense_tracker/presentation/pages/new_edit_transaction_flow/account_selector_dialog.dart';
 import 'package:expense_tracker/presentation/pages/common/custom_text_field.dart';
@@ -389,17 +389,19 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
         ? double.parse(valueInput.text)
         : -double.parse(valueInput.text);
 
+    final newTransaction = Transaction(
+        title: titleInput.text,
+        description: descriptionInput.text,
+        amount: transactionValue,
+        date: selectedDate,
+        categoryId: selectedCategory?.id,
+        accountId: selectedAccount?.id,
+        includeInReports: includeInReportCheckboxValue,
+        isHidden: false);
+
     ref
-        .read(transactionProvider.notifier)
-        .addNewTransaction(
-            title: titleInput.text,
-            description: descriptionInput.text,
-            amount: transactionValue,
-            date: selectedDate,
-            category: selectedCategory,
-            account: selectedAccount,
-            includeInReports: includeInReportCheckboxValue,
-            isHidden: false)
+        .read(transactionMutationProvider.notifier)
+        .add(newTransaction)
         .then((value) async {
       final InAppReview inAppReview = InAppReview.instance;
 
@@ -423,18 +425,20 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
               ? -valueFromTextInput
               : valueFromTextInput;
 
+      final modifiedTransaction = Transaction(
+        title: titleInput.text,
+        description: descriptionInput.text,
+        amount: transactionValue,
+        date: selectedDate,
+        categoryId: selectedCategory?.id,
+        accountId: selectedAccount?.id,
+        includeInReports: includeInReportCheckboxValue,
+        isHidden: false,
+      );
+
       ref
-          .read(transactionProvider.notifier)
-          .updateTransaction(
-              transactionToEdit: widget.initialTransactionSettings!,
-              title: titleInput.text,
-              description: descriptionInput.text,
-              amount: transactionValue,
-              date: selectedDate,
-              category: selectedCategory,
-              account: selectedAccount,
-              includeInReports: includeInReportCheckboxValue,
-              isHidden: false)
+          .read(transactionMutationProvider.notifier)
+          .update(widget.initialTransactionSettings!, modifiedTransaction)
           .then((value) => {if (mounted) Navigator.of(context).pop()});
     }
   }

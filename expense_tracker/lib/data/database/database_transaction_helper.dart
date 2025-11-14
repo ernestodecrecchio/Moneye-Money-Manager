@@ -5,6 +5,7 @@ import 'package:expense_tracker/application/transactions/models/category.dart';
 import 'package:expense_tracker/application/transactions/models/transaction.dart';
 import 'package:expense_tracker/application/transactions/models/transaction.dart'
     as trans;
+import 'package:expense_tracker/helper/date_time_helper.dart';
 import 'package:intl/intl.dart';
 import 'package:sqflite/sqlite_api.dart';
 
@@ -128,10 +129,52 @@ class DatabaseTransactionHelper {
 
     final result = await dbInstance.query(
       transactionsTable,
-      where: '${TransactionFields.isHidden} = false',
+      where: '${TransactionFields.isHidden} = 0',
       limit: limit,
       orderBy: orderBy,
     );
     return result.map((json) => trans.Transaction.fromJson(json)).toList();
+  }
+
+  Future<double> getTotalBalance(
+    DateTime? startDate,
+    DateTime? endDate,
+    Account? forAccount,
+  ) async {
+    final dbInstance = await DatabaseHelper.instance.database;
+
+    String query = '''
+      SELECT SUM(${TransactionFields.amount}) AS total_balance
+      FROM $transactionsTable
+      WHERE ${TransactionFields.isHidden} = 0
+    ''';
+
+    // Dynamic WHERE arguments
+    List<dynamic> args = [];
+
+    // Optional: filter start date
+    if (startDate != null) {
+      query += ' AND ${TransactionFields.date} >= ?';
+      args.add(formatDate(startDate));
+    }
+
+    // Optional: filter end date
+    if (endDate != null) {
+      query += ' AND ${TransactionFields.date} <= ?';
+      args.add(formatDate(endDate));
+    }
+
+    // Optional: filter by account
+    if (forAccount != null) {
+      query += ' AND ${TransactionFields.accountId} = ?';
+      args.add(forAccount.id);
+    }
+
+    // Execute query
+    final result = await dbInstance.rawQuery(query, args);
+
+    // sqflite returns: [{ "total_balance": 123.45 }] OR [{ "total_balance": null }]
+    final value = result.first['total_balance'];
+    return (value is num) ? value.toDouble() : 0.0;
   }
 }

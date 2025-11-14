@@ -1,6 +1,6 @@
+import 'package:expense_tracker/application/transactions/notifiers/mutations/transaction_mutation_notifier.dart';
 import 'package:expense_tracker/l10n/app_localizations.dart';
 import 'package:expense_tracker/application/transactions/models/transaction.dart';
-import 'package:expense_tracker/notifiers/transaction_provider.dart';
 import 'package:expense_tracker/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -22,10 +22,7 @@ void showDeleteTransactionSnackbar(
         label: AppLocalizations.of(context)!.cancel,
         textColor: Colors.white,
         onPressed: () async {
-          await ref.read(transactionProvider.notifier).addTransaction(
-                transaction: transaction,
-                index: index,
-              );
+          await ref.read(transactionMutationProvider.notifier).add(transaction);
         },
       ),
     ),

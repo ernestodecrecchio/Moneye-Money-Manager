@@ -1,7 +1,5 @@
-import 'package:expense_tracker/application/transactions/notifiers/latest_transactions_notifier.dart';
 import 'package:expense_tracker/data/database/database_transaction_helper.dart';
 import 'package:expense_tracker/application/transactions/models/account.dart';
-import 'package:expense_tracker/application/transactions/models/category.dart';
 import 'package:expense_tracker/application/transactions/models/transaction.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -9,11 +7,6 @@ class TransactionNotifier extends Notifier<List<Transaction>> {
   @override
   List<Transaction> build() {
     return [];
-  }
-
-  double get totalBalance {
-    return state.fold(
-        0, (previousAmount, element) => previousAmount + element.amount);
   }
 
   double getTotalBalanceUntilDate(DateTime date) {
@@ -34,115 +27,6 @@ class TransactionNotifier extends Notifier<List<Transaction>> {
 
   Future getTransactionsFromDb() async {
     state = await DatabaseTransactionHelper.instance.getAllTransactions();
-  }
-
-  Future<Transaction?> addNewTransaction({
-    required String title,
-    String? description,
-    required double amount,
-    required DateTime date,
-    Category? category,
-    Account? account,
-    bool includeInReports = true,
-    bool isHidden = false,
-  }) async {
-    Transaction newTransaction = Transaction(
-      title: title,
-      description: description,
-      amount: amount,
-      date: date,
-      categoryId: category?.id,
-      accountId: account?.id,
-      includeInReports: includeInReports,
-      isHidden: isHidden,
-    );
-
-    final addedTransaction = await DatabaseTransactionHelper.instance
-        .insertTransaction(transaction: newTransaction);
-
-    state = [...state, addedTransaction];
-
-    // Tell the LatestTransactionsNotifier to refresh
-    ref.invalidate(latestTransactionsProvider);
-
-    return addedTransaction;
-  }
-
-  Future<Transaction?> addTransaction({
-    required Transaction transaction,
-    int? index,
-  }) async {
-    final addedTransaction = await DatabaseTransactionHelper.instance
-        .insertTransaction(transaction: transaction);
-
-    if (index != null) {
-      final tempArray = List<Transaction>.of(state);
-      tempArray.insert(index, addedTransaction);
-
-      state = tempArray;
-    } else {
-      state = [...state, addedTransaction];
-    }
-
-    return addedTransaction;
-  }
-
-  Future updateTransaction({
-    required Transaction transactionToEdit,
-    required String title,
-    String? description,
-    required double amount,
-    required DateTime date,
-    required Category? category,
-    required Account? account,
-    required bool includeInReports,
-    required bool isHidden,
-  }) async {
-    final modifiedTransaction = Transaction(
-      id: transactionToEdit.id,
-      title: title,
-      description: description,
-      amount: amount,
-      date: date,
-      categoryId: category?.id,
-      accountId: account?.id,
-      includeInReports: includeInReports,
-      isHidden: isHidden,
-    );
-
-    if (await DatabaseTransactionHelper.instance.updateTransaction(
-        transactionToEdit: transactionToEdit,
-        modifiedTransaction: modifiedTransaction)) {
-      final transactionIndexToModify =
-          state.indexWhere((element) => element.id == transactionToEdit.id);
-
-      if (transactionIndexToModify != -1) {
-        final tempList = List<Transaction>.of(state);
-        tempList[transactionIndexToModify] = modifiedTransaction;
-
-        state = tempList;
-      }
-    }
-  }
-
-  /// Removes a transaction and returns the index of the old position
-  Future<(bool, int)> deleteTransaction(Transaction transaction) async {
-    final removedTransactionCount = await DatabaseTransactionHelper.instance
-        .deleteTransaction(transaction: transaction);
-
-    if (removedTransactionCount > 0) {
-      final tempList = List<Transaction>.of(state);
-      final index =
-          tempList.indexWhere((element) => element.id == transaction.id);
-
-      tempList.removeAt(index);
-
-      state = tempList;
-
-      return (true, index);
-    }
-
-    return (false, -1);
   }
 
   /// Returns a Map where for each month of the year, there is a sum of all the transactions amount

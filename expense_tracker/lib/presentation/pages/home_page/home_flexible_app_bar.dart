@@ -1,5 +1,6 @@
 import 'package:expense_tracker/Helper/double_helper.dart';
 import 'package:expense_tracker/Services/widget_extension_service.dart';
+import 'package:expense_tracker/application/transactions/notifiers/queries/total_balance_notifier.dart';
 import 'package:expense_tracker/l10n/app_localizations.dart';
 import 'package:expense_tracker/application/transactions/models/transaction.dart';
 import 'package:expense_tracker/notifiers/currency_provider.dart';
@@ -19,6 +20,12 @@ class HomeFlexibleSpaceBar extends ConsumerStatefulWidget {
 class _HomeFlexibleSpaceBarState extends ConsumerState<HomeFlexibleSpaceBar> {
   AppLocalizations? appLocalizations;
   static const double horizontalPadding = 18;
+
+  final _totalBalanceParams = TotalBalanceParams(
+    startDate: null,
+    endDate: null,
+    account: null,
+  );
 
   @override
   void didChangeDependencies() {
@@ -88,19 +95,33 @@ class _HomeFlexibleSpaceBarState extends ConsumerState<HomeFlexibleSpaceBar> {
               Flexible(
                 child: FittedBox(
                   fit: BoxFit.fitWidth,
-                  child: Text(
-                    ref
-                        .read(transactionProvider.notifier)
-                        .totalBalance
-                        .toStringAsFixedRoundedWithCurrency(
-                            2, currentCurrency, currentCurrencyPosition),
-                    style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 40,
-                      overflow: TextOverflow.clip,
-                      color: Colors.white,
-                    ),
-                  ),
+                  child: ref
+                      .watch(
+                        totalBalanceProvider(_totalBalanceParams),
+                      )
+                      .when(
+                        data: (balance) => Text(
+                          balance.toStringAsFixedRoundedWithCurrency(
+                              2, currentCurrency, currentCurrencyPosition),
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 40,
+                            overflow: TextOverflow.clip,
+                            color: Colors.white,
+                          ),
+                        ),
+                        loading: () => const CircularProgressIndicator(
+                          color: Colors.white,
+                        ),
+                        error: (err, _) => Text(
+                          'Error',
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 40,
+                            color: Colors.red,
+                          ),
+                        ),
+                      ),
                 ),
               ),
               const SizedBox(

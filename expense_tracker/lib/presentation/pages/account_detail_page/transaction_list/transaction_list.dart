@@ -93,7 +93,7 @@ class _TransactionListState extends ConsumerState<TransactionList> {
       itemBuilder: (_, index) => TransactionListCell(
         transaction: transactionList[index],
         showAccountLabel: false,
-        onTransactionDelete: (transaction, index) {
+        onTransactionDelete: (transaction) {
           showDeleteTransactionSnackbar(
             super
                 .context, // Passing the super.context because, if the transaction list becomes empty,the widget itself will be disposed and the snackbar action will not work with the transaction list context.

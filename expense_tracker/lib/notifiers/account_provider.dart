@@ -1,4 +1,5 @@
 import 'package:collection/collection.dart';
+import 'package:expense_tracker/application/transactions/notifiers/mutations/transaction_mutation_notifier.dart';
 import 'package:expense_tracker/data/database/database_account_helper.dart';
 import 'package:expense_tracker/l10n/app_localizations.dart';
 import 'package:expense_tracker/main.dart';
@@ -60,9 +61,7 @@ class AccountNotifier extends Notifier<List<Account>> {
         isHidden: false,
       );
 
-      ref
-          .read(transactionProvider.notifier)
-          .addTransaction(transaction: newTransaction);
+      ref.read(transactionMutationProvider.notifier).add(newTransaction);
     }
 
     state = [...state, addedAccount];

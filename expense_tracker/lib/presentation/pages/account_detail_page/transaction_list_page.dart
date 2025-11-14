@@ -30,7 +30,7 @@ class TransactionListPage extends ConsumerWidget {
       itemBuilder: (context, index) {
         return TransactionListCell(
           transaction: transactionList[index],
-          onTransactionDelete: (transaction, index) {
+          onTransactionDelete: (transaction) {
             showDeleteTransactionSnackbar(
               context,
               ref,
