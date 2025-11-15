@@ -4,6 +4,8 @@ import 'package:expense_tracker/data/repositories/transactions_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class TotalBalanceNotifier extends AsyncNotifier<double> {
+  late final TotalBalanceParams params;
+
   TransactionsRepository get _repo => ref.read(transactionsRepositoryProvider);
 
   final DateTime? startDate;
@@ -22,12 +24,7 @@ class TotalBalanceNotifier extends AsyncNotifier<double> {
   }
 
   Future<void> refresh() async {
-    state = const AsyncLoading();
-    state = await AsyncValue.guard(() => _repo.getTotalBalance(
-          startDate: startDate,
-          endDate: endDate,
-          forAccount: account,
-        ));
+    ref.invalidateSelf();
   }
 }
 
@@ -45,5 +42,5 @@ class TotalBalanceParams {
   final DateTime? endDate;
   final Account? account;
 
-  TotalBalanceParams({this.startDate, this.endDate, this.account});
+  const TotalBalanceParams({this.startDate, this.endDate, this.account});
 }
