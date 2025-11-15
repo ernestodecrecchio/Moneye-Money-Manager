@@ -21,11 +21,7 @@ class _HomeFlexibleSpaceBarState extends ConsumerState<HomeFlexibleSpaceBar> {
   AppLocalizations? appLocalizations;
   static const double horizontalPadding = 18;
 
-  final _totalBalanceParams = TotalBalanceParams(
-    startDate: null,
-    endDate: null,
-    account: null,
-  );
+  final _totalBalanceParams = const TotalBalanceParams();
 
   @override
   void didChangeDependencies() {
