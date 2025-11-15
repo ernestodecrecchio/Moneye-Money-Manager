@@ -1,3 +1,4 @@
+import 'package:equatable/equatable.dart';
 import 'package:expense_tracker/style.dart';
 import 'package:flutter/material.dart';
 
@@ -20,17 +21,17 @@ class AccountFields {
 }
 
 class Account {
-  int? id;
-  String name;
-  String? description;
-  int? colorValue;
-  String? iconPath;
+  final int? id;
+  final String name;
+  final String? description;
+  final int? colorValue;
+  final String? iconPath;
 
   Color get color {
     return colorValue != null ? Color(colorValue!) : CustomColors.darkBlue;
   }
 
-  Account({
+  const Account({
     this.id,
     required this.name,
     this.description,
@@ -68,18 +69,4 @@ class Account {
         AccountFields.colorValue: colorValue,
         AccountFields.iconPath: iconPath,
       };
-
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is Account &&
-          runtimeType == other.runtimeType &&
-          id == other.id &&
-          name == other.name &&
-          description == other.description &&
-          colorValue == other.colorValue &&
-          iconPath == other.iconPath;
-
-  @override
-  int get hashCode => Object.hash(id, name, description, colorValue, iconPath);
 }
