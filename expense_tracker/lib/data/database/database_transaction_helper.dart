@@ -125,7 +125,7 @@ class DatabaseTransactionHelper {
   Future<List<trans.Transaction>> getLatestTransactions(int limit) async {
     final dbInstance = await DatabaseHelper.instance.database;
 
-    const orderBy = '${TransactionFields.date} ASC';
+    const orderBy = '${TransactionFields.date} DESC';
 
     final result = await dbInstance.query(
       transactionsTable,
