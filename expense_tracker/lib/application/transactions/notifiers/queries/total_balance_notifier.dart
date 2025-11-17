@@ -1,3 +1,4 @@
+import 'package:equatable/equatable.dart';
 import 'package:expense_tracker/application/transactions/models/account.dart';
 import 'package:expense_tracker/application/transactions/notifiers/transactions_repository_provider.dart';
 import 'package:expense_tracker/data/repositories/transactions_repository.dart';
@@ -37,10 +38,13 @@ final totalBalanceProvider = AsyncNotifierProvider.family<TotalBalanceNotifier,
   ),
 );
 
-class TotalBalanceParams {
+class TotalBalanceParams extends Equatable {
   final DateTime? startDate;
   final DateTime? endDate;
   final Account? account;
 
   const TotalBalanceParams({this.startDate, this.endDate, this.account});
+
+  @override
+  List<Object?> get props => [startDate, endDate, account];
 }

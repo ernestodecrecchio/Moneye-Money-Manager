@@ -1,5 +1,4 @@
 import 'package:expense_tracker/data/database/database_transaction_helper.dart';
-import 'package:expense_tracker/application/transactions/models/account.dart';
 import 'package:expense_tracker/application/transactions/models/transaction.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -7,22 +6,6 @@ class TransactionNotifier extends Notifier<List<Transaction>> {
   @override
   List<Transaction> build() {
     return [];
-  }
-
-  double getTotalBalanceUntilDate(DateTime date) {
-    double totalBalance = 0;
-
-    for (var transaction in state) {
-      if (transaction.date.isBefore(date)) {
-        totalBalance += transaction.amount;
-      }
-    }
-
-    return totalBalance;
-  }
-
-  List<Transaction> getTransactionListForAccount(Account account) {
-    return state.where((element) => element.accountId == account.id).toList();
   }
 
   Future getTransactionsFromDb() async {

@@ -1,3 +1,4 @@
+import 'package:expense_tracker/Helper/date_time_helper.dart';
 import 'package:expense_tracker/Helper/double_helper.dart';
 import 'package:expense_tracker/Services/widget_extension_service.dart';
 import 'package:expense_tracker/application/transactions/notifiers/queries/total_balance_notifier.dart';
@@ -212,56 +213,101 @@ class _HomeFlexibleSpaceBarState extends ConsumerState<HomeFlexibleSpaceBar> {
   Widget _buildPercentageDifference() {
     return Consumer(
       builder: (context, ref, child) {
-        final currMonthDate = DateTime.now();
-        final prevMonthDate =
-            DateTime(currMonthDate.year, currMonthDate.month, 1);
+        final now = DateTime.now();
 
-        double currMonthBalance = ref
-            .watch(transactionProvider.notifier)
-            .getTotalBalanceUntilDate(currMonthDate);
-        double prevMonthBalance = ref
-            .watch(transactionProvider.notifier)
-            .getTotalBalanceUntilDate(prevMonthDate);
+        // Full current month
+        final currMonthStart = currentMonthFirstDay(now);
+        final currMonthEnd = currentMonthLastDay(now);
 
-        if (prevMonthBalance != 0) {
-          final diffPercentage =
-              ((currMonthBalance - prevMonthBalance) / prevMonthBalance) * 100;
+        // Full previous month
+        final prevMonthStart = previousMonthFirstDay(now);
+        final prevMonthEnd = previousMonthLastDay(now);
 
-          return Container(
-            decoration: BoxDecoration(
-              color: Colors.white24,
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.only(
-                left: 10,
-                right: 20,
-                top: 8,
-                bottom: 8,
-              ),
-              child: Row(
-                children: [
-                  Icon(
-                    diffPercentage >= 0
-                        ? Icons.arrow_drop_up_rounded
-                        : Icons.arrow_drop_down_rounded,
-                    color: Colors.white,
+        final currMonthTotalBalanceParams = TotalBalanceParams(
+          startDate: currMonthStart,
+          endDate: currMonthEnd,
+          account: null,
+        );
+
+        final prevMonthTotalBalanceParams = TotalBalanceParams(
+          startDate: prevMonthStart,
+          endDate: prevMonthEnd,
+          account: null,
+        );
+
+        final currentMonthBalanceAsync = ref.watch(
+          totalBalanceProvider(currMonthTotalBalanceParams),
+        );
+
+        final previousMonthBalanceAsync = ref.watch(
+          totalBalanceProvider(prevMonthTotalBalanceParams),
+        );
+
+        return currentMonthBalanceAsync.when(
+          data: (currBalance) {
+            return previousMonthBalanceAsync.when(
+              data: (prevBalance) {
+                if (prevBalance == 0) {
+                  return const SizedBox.shrink();
+                }
+
+                final diffPercentage =
+                    ((currBalance - prevBalance) / prevBalance) * 100;
+
+                return Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white24,
+                    borderRadius: BorderRadius.circular(10),
                   ),
-                  Text(
-                    '${diffPercentage.toStringAsFixedRounded(2)}%',
-                    style: const TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
+                  child: Padding(
+                    padding: const EdgeInsets.only(
+                      left: 10,
+                      right: 20,
+                      top: 8,
+                      bottom: 8,
+                    ),
+                    child: Row(
+                      children: [
+                        Icon(
+                          diffPercentage >= 0
+                              ? Icons.arrow_drop_up_rounded
+                              : Icons.arrow_drop_down_rounded,
+                          color: Colors.white,
+                        ),
+                        Text(
+                          '${diffPercentage.toStringAsFixedRounded(2)}%',
+                          style: const TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                ],
+                );
+              },
+              loading: () => const SizedBox(
+                height: 20,
+                width: 20,
+                child: CircularProgressIndicator(
+                  strokeWidth: 2,
+                  color: Colors.white,
+                ),
               ),
+              error: (_, __) => const SizedBox.shrink(),
+            );
+          },
+          loading: () => const SizedBox(
+            height: 20,
+            width: 20,
+            child: CircularProgressIndicator(
+              strokeWidth: 2,
+              color: Colors.white,
             ),
-          );
-        }
-
-        return const SizedBox.shrink();
+          ),
+          error: (_, __) => const SizedBox.shrink(),
+        );
       },
     );
   }
