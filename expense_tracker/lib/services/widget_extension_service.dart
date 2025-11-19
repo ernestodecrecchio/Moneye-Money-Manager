@@ -1,11 +1,11 @@
 import 'dart:io';
 
 import 'package:expense_tracker/Helper/double_helper.dart';
-import 'package:expense_tracker/application/transactions/models/currency.dart';
+import 'package:expense_tracker/domain/models/currency.dart';
 import 'package:expense_tracker/main.dart';
 import 'package:expense_tracker/notifiers/currency_provider.dart';
 import 'package:expense_tracker/presentation/pages/new_edit_transaction_flow/new_edit_transaction_page.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
 import 'package:home_widget/home_widget.dart';
 
 class WidgetExtensionService {

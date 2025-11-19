@@ -1,10 +1,11 @@
 import 'package:collection/collection.dart';
 import 'package:expense_tracker/Services/widget_extension_service.dart';
 import 'package:expense_tracker/application/transactions/notifiers/queries/latest_transactions_notifier.dart';
+import 'package:expense_tracker/application/transactions/notifiers/queries/total_balance_notifier.dart';
 import 'package:expense_tracker/l10n/app_localizations.dart';
-import 'package:expense_tracker/application/transactions/models/account.dart';
-import 'package:expense_tracker/application/transactions/models/category.dart';
-import 'package:expense_tracker/application/transactions/models/transaction.dart';
+import 'package:expense_tracker/domain/models/account.dart';
+import 'package:expense_tracker/domain/models/category.dart';
+import 'package:expense_tracker/domain/models/transaction.dart';
 import 'package:expense_tracker/notifiers/account_provider.dart';
 import 'package:expense_tracker/notifiers/category_provider.dart';
 import 'package:expense_tracker/presentation/pages/account_detail_page/account_detail_page.dart';
@@ -118,7 +119,6 @@ class AccountSection extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final appLocalizations = AppLocalizations.of(context);
-    final list = getAccountBalance(ref, appLocalizations);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -134,6 +134,7 @@ class AccountSection extends ConsumerWidget {
             ),
           ),
         ),
+        ref.watch(provider)
         list.isNotEmpty
             ? SizedBox(
                 height: 100,
@@ -143,6 +144,8 @@ class AccountSection extends ConsumerWidget {
                   scrollDirection: Axis.horizontal,
                   itemCount: list.length,
                   itemBuilder: (context, index) {
+
+                    ref.watch(totalBalanceProvider(TotalBalanceParams()))
                     return AccountListTile(
                         account: list.keys.toList()[index],
                         balance: list.values.toList()[index]);

@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
-import 'package:expense_tracker/application/transactions/models/account.dart';
+import 'package:expense_tracker/domain/models/account.dart';
 import 'package:expense_tracker/application/transactions/notifiers/transactions_repository_provider.dart';
-import 'package:expense_tracker/data/repositories/transactions_repository.dart';
+import 'package:expense_tracker/domain/repositories/transactions_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class TotalBalanceNotifier extends AsyncNotifier<double> {

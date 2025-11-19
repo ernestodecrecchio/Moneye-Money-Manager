@@ -1,8 +1,8 @@
-import 'package:expense_tracker/application/transactions/models/transaction.dart';
+import 'package:expense_tracker/domain/models/transaction.dart';
 import 'package:expense_tracker/application/transactions/notifiers/queries/latest_transactions_notifier.dart';
 import 'package:expense_tracker/application/transactions/notifiers/queries/total_balance_notifier.dart';
 import 'package:expense_tracker/application/transactions/notifiers/transactions_repository_provider.dart';
-import 'package:expense_tracker/data/repositories/transactions_repository.dart';
+import 'package:expense_tracker/domain/repositories/transactions_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class TransactionMutationNotifier extends Notifier<void> {

@@ -1,5 +1,5 @@
 import 'package:expense_tracker/l10n/app_localizations.dart';
-import 'package:expense_tracker/application/transactions/models/account.dart';
+import 'package:expense_tracker/domain/models/account.dart';
 import 'package:expense_tracker/presentation/pages/initial_configuration_page/account_selection/account_list_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

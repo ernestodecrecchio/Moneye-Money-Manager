@@ -1,4 +1,4 @@
-import 'package:expense_tracker/application/transactions/models/currency.dart';
+import 'package:expense_tracker/domain/models/currency.dart';
 import 'package:expense_tracker/notifiers/currency_provider.dart';
 import 'package:intl/intl.dart';
 

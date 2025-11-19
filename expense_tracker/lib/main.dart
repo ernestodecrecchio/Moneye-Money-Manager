@@ -3,10 +3,9 @@ import 'dart:io';
 import 'package:expense_tracker/Configuration/notification_manager.dart';
 import 'package:expense_tracker/l10n/app_localizations.dart';
 import 'package:expense_tracker/l10n/l10n.dart';
-import 'package:expense_tracker/application/transactions/models/account.dart';
-import 'package:expense_tracker/application/transactions/models/category.dart'
-    as c;
-import 'package:expense_tracker/application/transactions/models/transaction.dart';
+import 'package:expense_tracker/domain/models/account.dart';
+import 'package:expense_tracker/domain/models/category.dart' as c;
+import 'package:expense_tracker/domain/models/transaction.dart';
 import 'package:expense_tracker/notifiers/currency_provider.dart';
 import 'package:expense_tracker/notifiers/locale_provider.dart';
 import 'package:expense_tracker/notifiers/notification_provider.dart';

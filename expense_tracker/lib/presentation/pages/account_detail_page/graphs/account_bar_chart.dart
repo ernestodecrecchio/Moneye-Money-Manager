@@ -2,7 +2,7 @@ import 'dart:math';
 
 import 'package:expense_tracker/Helper/date_time_helper.dart';
 import 'package:expense_tracker/Helper/double_helper.dart';
-import 'package:expense_tracker/application/transactions/models/transaction.dart';
+import 'package:expense_tracker/domain/models/transaction.dart';
 import 'package:expense_tracker/notifiers/currency_provider.dart';
 import 'package:expense_tracker/presentation/pages/account_detail_page/account_detail_page.dart';
 import 'package:expense_tracker/style.dart';

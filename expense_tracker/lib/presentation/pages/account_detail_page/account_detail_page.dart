@@ -1,8 +1,8 @@
 import 'package:collection/collection.dart';
 import 'package:expense_tracker/Helper/date_time_helper.dart';
 import 'package:expense_tracker/l10n/app_localizations.dart';
-import 'package:expense_tracker/application/transactions/models/account.dart';
-import 'package:expense_tracker/application/transactions/models/transaction.dart';
+import 'package:expense_tracker/domain/models/account.dart';
+import 'package:expense_tracker/domain/models/transaction.dart';
 import 'package:expense_tracker/notifiers/account_provider.dart';
 import 'package:expense_tracker/presentation/pages/account_detail_page/graphs/account_bar_chart.dart';
 import 'package:expense_tracker/presentation/pages/account_detail_page/graphs/account_pie_chart.dart';
