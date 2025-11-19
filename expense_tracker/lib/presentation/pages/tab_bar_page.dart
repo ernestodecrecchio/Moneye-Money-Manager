@@ -1,7 +1,6 @@
 import 'package:expense_tracker/l10n/app_localizations.dart';
 import 'package:expense_tracker/notifiers/account_provider.dart';
 import 'package:expense_tracker/notifiers/category_provider.dart';
-import 'package:expense_tracker/notifiers/transaction_provider.dart';
 import 'package:expense_tracker/presentation/pages/home_page/home_page.dart';
 import 'package:expense_tracker/presentation/pages/options_page/options_page.dart';
 import 'package:expense_tracker/style.dart';
@@ -34,7 +33,6 @@ class _TabBarPageState extends ConsumerState<TabBarPage> {
 
     ref.read(categoryProvider.notifier).getCategoriesFromDb();
     ref.read(accountProvider.notifier).getAccountsFromDb();
-    ref.read(transactionProvider.notifier).getTransactionsFromDb();
   }
 
   @override

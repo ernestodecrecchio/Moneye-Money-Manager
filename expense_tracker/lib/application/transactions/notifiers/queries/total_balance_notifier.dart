@@ -5,9 +5,9 @@ import 'package:expense_tracker/data/repositories/transactions_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class TotalBalanceNotifier extends AsyncNotifier<double> {
-  late final TotalBalanceParams params;
-
   TransactionsRepository get _repo => ref.read(transactionsRepositoryProvider);
+
+  late final TotalBalanceParams params;
 
   final DateTime? startDate;
   final DateTime? endDate;

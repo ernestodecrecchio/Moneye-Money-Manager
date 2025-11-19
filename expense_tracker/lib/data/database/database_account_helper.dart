@@ -53,33 +53,43 @@ class DatabaseAccountHelper {
   }
 
   Future<List<Account>> getAllAccounts() async {
-    final db = await DatabaseHelper.instance.database;
+    final dbInstance = await DatabaseHelper.instance.database;
 
     const orderBy = '${AccountFields.name} ASC';
 
-    final result = await db.query(accountsTable, orderBy: orderBy);
+    final result = await dbInstance.query(accountsTable, orderBy: orderBy);
     return result.map((json) => Account.fromJson(json)).toList();
   }
 
   Future<List<Map<String, dynamic>>> getAllAccountsWithBalance() async {
-    final db = await DatabaseHelper.instance.database;
+    final dbInstance = await DatabaseHelper.instance.database;
 
-    final result = await db.rawQuery('''
-      SELECT a.${AccountFields.id}, a.${AccountFields.name}, COALESCE(SUM(${TransactionFields.amount}), 0.0) AS balance
-      FROM $accountsTable a LEFT JOIN $transactionsTable t ON  a.${AccountFields.id} = t.${TransactionFields.accountId}
-      GROUP BY a.${AccountFields.id}''');
+    final query = '''
+    SELECT a.${AccountFields.id} AS id,
+           a.${AccountFields.name} AS name,
+           COALESCE(SUM(t.${TransactionFields.amount}), 0.0) AS balance
+    FROM $accountsTable a
+    LEFT JOIN $transactionsTable t
+    ON a.${AccountFields.id} = t.${TransactionFields.accountId}
+    GROUP BY a.${AccountFields.id}
+    
+    UNION ALL
+    
+    SELECT -1 AS id, 
+           'No account' AS name,
+            COALESCE(SUM(${TransactionFields.amount}), 0.0) AS balance
+    FROM $transactionsTable
+    WHERE ${TransactionFields.accountId} IS NULL
+    ''';
 
-    List<Map<String, dynamic>> resultList = [];
-    for (var resultEntry in result) {
-      final account = Account.fromJson(resultEntry);
+    final result = await dbInstance.rawQuery(query);
 
-      resultList.add({
-        'account': account,
-        'balance': resultEntry['balance'],
-      });
-    }
-
-    return resultList;
+    return result.map((row) {
+      return {
+        'account': Account(id: row['id'] as int, name: row['name'] as String),
+        'balance': (row['balance'] as num).toDouble(),
+      };
+    }).toList();
   }
 
   Future<Account?> getAccountFromId(int id) async {

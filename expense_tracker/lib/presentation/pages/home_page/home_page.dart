@@ -7,7 +7,6 @@ import 'package:expense_tracker/application/transactions/models/category.dart';
 import 'package:expense_tracker/application/transactions/models/transaction.dart';
 import 'package:expense_tracker/notifiers/account_provider.dart';
 import 'package:expense_tracker/notifiers/category_provider.dart';
-import 'package:expense_tracker/notifiers/transaction_provider.dart';
 import 'package:expense_tracker/presentation/pages/account_detail_page/account_detail_page.dart';
 import 'package:expense_tracker/presentation/pages/common/delete_transaction_snackbar.dart';
 import 'package:expense_tracker/presentation/pages/common/list_tiles/transaction_list_cell.dart';

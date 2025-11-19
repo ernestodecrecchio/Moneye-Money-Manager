@@ -5,7 +5,6 @@ import 'package:expense_tracker/l10n/app_localizations.dart';
 import 'package:expense_tracker/main.dart';
 import 'package:expense_tracker/application/transactions/models/account.dart';
 import 'package:expense_tracker/application/transactions/models/transaction.dart';
-import 'package:expense_tracker/notifiers/transaction_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class AccountNotifier extends Notifier<List<Account>> {

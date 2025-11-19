@@ -34,7 +34,7 @@ class Account {
     this.id,
     required this.name,
     this.description,
-    required this.colorValue,
+    this.colorValue,
     this.iconPath,
   });
 

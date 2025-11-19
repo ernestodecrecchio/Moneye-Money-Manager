@@ -1,22 +1,7 @@
-import 'package:expense_tracker/application/transactions/models/account.dart';
+import 'package:expense_tracker/domain/models/account.dart';
 import 'package:expense_tracker/data/database/database_transaction_helper.dart';
-import 'package:expense_tracker/application/transactions/models/transaction.dart';
-
-abstract class TransactionsRepository {
-  Future<Transaction> insertTransaction({required Transaction transaction});
-  Future<bool> updateTransaction({
-    required Transaction transactionToEdit,
-    required Transaction editedTransaction,
-  });
-  Future<int> deleteTransaction({required Transaction transaction});
-
-  Future<double> getTotalBalance({
-    DateTime? startDate,
-    DateTime? endDate,
-    Account? forAccount,
-  });
-  Future<List<Transaction>> getLatestTransactions({int limit = 5});
-}
+import 'package:expense_tracker/domain/models/transaction.dart';
+import 'package:expense_tracker/domain/repositories/transactions_repository.dart';
 
 class TransactionsRepositoryImpl implements TransactionsRepository {
   final dbHelper = DatabaseTransactionHelper.instance;
@@ -55,4 +40,10 @@ class TransactionsRepositoryImpl implements TransactionsRepository {
   Future<List<Transaction>> getLatestTransactions({int limit = 5}) async {
     return dbHelper.getLatestTransactions(limit);
   }
+
+  /// Returns a Map where for each month of the year, there is a sum of all the transactions amount
+  /* @override
+  Future<Map<int, double>> getMonthlyBalanceForYear({required int year}) async {
+    return dbHelper.getMonthlyBalanceForYear(year);
+  }*/
 }
