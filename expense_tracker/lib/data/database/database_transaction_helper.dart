@@ -94,15 +94,6 @@ class DatabaseTransactionHelper {
     }
   }
 
-  Future<List<trans.Transaction>> getAllTransactions() async {
-    final db = await DatabaseHelper.instance.database;
-
-    const orderBy = '${TransactionFields.date} ASC';
-
-    final result = await db.query(transactionsTable, orderBy: orderBy);
-    return result.map((json) => trans.Transaction.fromJson(json)).toList();
-  }
-
   Future<List<trans.Transaction>> getTransactionsBetweenDates(
       {required DateTime startDate, required DateTime endDate}) async {
     final db = await DatabaseHelper.instance.database;
@@ -175,6 +166,50 @@ class DatabaseTransactionHelper {
     // sqflite returns: [{ "total_balance": 123.45 }] OR [{ "total_balance": null }]
     final value = result.first['total_balance'];
     return (value is num) ? value.toDouble() : 0.0;
+  }
+
+  Future<List<trans.Transaction>> getTransactions(
+    DateTime? startDate,
+    DateTime? endDate,
+    Account? forAccount,
+    int? limit,
+  ) async {
+    final dbInstance = await DatabaseHelper.instance.database;
+
+    // Dynamic WHERE arguments
+    String whereClause = '${TransactionFields.isHidden} = 0';
+
+    List<dynamic> args = [];
+
+    // Optional: filter start date
+    if (startDate != null) {
+      whereClause += ' AND ${TransactionFields.date} >= ?';
+      args.add(formatDate(startDate));
+    }
+
+    // Optional: filter end date
+    if (endDate != null) {
+      whereClause += ' AND ${TransactionFields.date} <= ?';
+      args.add(formatDate(endDate));
+    }
+
+    // Optional: filter by account
+    if (forAccount != null) {
+      whereClause += ' AND ${TransactionFields.accountId} = ?';
+      args.add(forAccount.id);
+    }
+
+    const orderBy = '${TransactionFields.date} DESC';
+
+    final result = await dbInstance.query(
+      transactionsTable,
+      where: whereClause,
+      whereArgs: args,
+      limit: limit,
+      orderBy: orderBy,
+    );
+
+    return result.map((json) => trans.Transaction.fromJson(json)).toList();
   }
 
   /*Future<Map<int, double>> getMonthlyBalanceForYear(int year) async {

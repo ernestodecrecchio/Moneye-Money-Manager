@@ -15,5 +15,11 @@ abstract class TransactionsRepository {
     Account? forAccount,
   });
   Future<List<Transaction>> getLatestTransactions({int limit = 5});
+  Future<List<Transaction>> getTransactions({
+    DateTime? startDate,
+    DateTime? endDate,
+    Account? forAccount,
+    int? limit,
+  });
   // Future<Map<int, double>> getMonthlyBalanceForYear({required int year});
 }

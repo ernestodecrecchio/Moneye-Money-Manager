@@ -41,6 +41,16 @@ class TransactionsRepositoryImpl implements TransactionsRepository {
     return dbHelper.getLatestTransactions(limit);
   }
 
+  @override
+  Future<List<Transaction>> getTransactions({
+    DateTime? startDate,
+    DateTime? endDate,
+    Account? forAccount,
+    int? limit,
+  }) async {
+    return dbHelper.getTransactions(startDate, endDate, forAccount, limit);
+  }
+
   /// Returns a Map where for each month of the year, there is a sum of all the transactions amount
   /* @override
   Future<Map<int, double>> getMonthlyBalanceForYear({required int year}) async {

@@ -2,8 +2,8 @@ import 'package:expense_tracker/Helper/date_time_helper.dart';
 import 'package:expense_tracker/Helper/double_helper.dart';
 import 'package:expense_tracker/Services/widget_extension_service.dart';
 import 'package:expense_tracker/application/transactions/notifiers/queries/total_balance_notifier.dart';
+import 'package:expense_tracker/application/transactions/notifiers/queries/transactions_list_notifier.dart';
 import 'package:expense_tracker/l10n/app_localizations.dart';
-import 'package:expense_tracker/domain/models/transaction.dart';
 import 'package:expense_tracker/notifiers/currency_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -22,6 +22,7 @@ class _HomeFlexibleSpaceBarState extends ConsumerState<HomeFlexibleSpaceBar> {
   static const double horizontalPadding = 18;
 
   final _totalBalanceParams = const TotalBalanceParams();
+  late final TransactionsListParams _currentMonthTransactionListParams;
 
   @override
   void didChangeDependencies() {
@@ -31,34 +32,20 @@ class _HomeFlexibleSpaceBarState extends ConsumerState<HomeFlexibleSpaceBar> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return _buildMonthlyBalanceSection();
+  void initState() {
+    super.initState();
+
+    _currentMonthTransactionListParams = TransactionsListParams(
+      startDate: currentMonthFirstDay(DateTime.now()),
+      endDate: currentMonthLastDay(DateTime.now()),
+    );
   }
 
-  Widget _buildMonthlyBalanceSection() {
+  @override
+  Widget build(BuildContext context) {
     final currentCurrency = ref.watch(currentCurrencyProvider);
     final currentCurrencyPosition =
         ref.watch(currentCurrencySymbolPositionProvider);
-
-    final List<Transaction> currentMonthTransactions =
-        getCurrentMonthTransactionList();
-
-    double monthlyIncome = 0;
-    double monthlyExpenses = 0;
-    for (var transaction in currentMonthTransactions) {
-      if (!transaction.isHidden && transaction.includeInReports) {
-        transaction.amount >= 0
-            ? monthlyIncome += transaction.amount
-            : monthlyExpenses += transaction.amount;
-      }
-    }
-
-    WidgetExtensionService.updateMonthlySummaryWidgetData(
-        context,
-        monthlyIncome,
-        monthlyExpenses,
-        currentCurrency,
-        currentCurrencyPosition);
 
     return SafeArea(
       minimum: const EdgeInsets.symmetric(
@@ -131,79 +118,122 @@ class _HomeFlexibleSpaceBarState extends ConsumerState<HomeFlexibleSpaceBar> {
           ),
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,
-            child: Row(
-              children: [
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    VectorGraphic(
-                        loader:
-                            AssetBytesLoader('assets/icons/pocket_out.svg')),
-                    const SizedBox(
-                      width: 12,
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          appLocalizations!.expenses,
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w300,
-                          ),
-                        ),
-                        Text(
-                          monthlyExpenses.toStringAsFixedRoundedWithCurrency(
-                              2, currentCurrency, currentCurrencyPosition),
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-                const SizedBox(
-                  width: 30,
-                ),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    VectorGraphic(
-                        loader: AssetBytesLoader('assets/icons/pocket_in.svg')),
-                    const SizedBox(
-                      width: 12,
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          appLocalizations!.incomes,
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w300,
-                          ),
-                        ),
-                        Text(
-                          monthlyIncome.toStringAsFixedRoundedWithCurrency(
-                              2, currentCurrency, currentCurrencyPosition),
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
+            child: ref
+                .watch(
+                  transactionsListProvider(_currentMonthTransactionListParams),
                 )
-              ],
-            ),
-          ),
+                .when(
+                  data: (transactionsList) {
+                    double monthlyIncome = 0;
+                    double monthlyExpenses = 0;
+                    for (var transaction in transactionsList) {
+                      if (!transaction.isHidden &&
+                          transaction.includeInReports) {
+                        transaction.amount >= 0
+                            ? monthlyIncome += transaction.amount
+                            : monthlyExpenses += transaction.amount;
+                      }
+                    }
+
+                    WidgetExtensionService.updateMonthlySummaryWidgetData(
+                        context,
+                        monthlyIncome,
+                        monthlyExpenses,
+                        currentCurrency,
+                        currentCurrencyPosition);
+
+                    return Row(
+                      spacing: 30,
+                      children: [
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            VectorGraphic(
+                              loader: AssetBytesLoader(
+                                  'assets/icons/pocket_out.svg'),
+                            ),
+                            const SizedBox(
+                              width: 12,
+                            ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  appLocalizations!.expenses,
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w300,
+                                  ),
+                                ),
+                                Text(
+                                  monthlyExpenses
+                                      .toStringAsFixedRoundedWithCurrency(
+                                          2,
+                                          currentCurrency,
+                                          currentCurrencyPosition),
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            VectorGraphic(
+                                loader: AssetBytesLoader(
+                                    'assets/icons/pocket_in.svg')),
+                            const SizedBox(
+                              width: 12,
+                            ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  appLocalizations!.incomes,
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w300,
+                                  ),
+                                ),
+                                Text(
+                                  monthlyIncome
+                                      .toStringAsFixedRoundedWithCurrency(
+                                          2,
+                                          currentCurrency,
+                                          currentCurrencyPosition),
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        )
+                      ],
+                    );
+                  },
+                  loading: () => const CircularProgressIndicator(
+                    color: Colors.white,
+                  ),
+                  error: (err, _) => Text(
+                    'Error',
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 40,
+                      color: Colors.red,
+                    ),
+                  ),
+                ),
+          )
         ],
       ),
     );
@@ -309,16 +339,5 @@ class _HomeFlexibleSpaceBarState extends ConsumerState<HomeFlexibleSpaceBar> {
         );
       },
     );
-  }
-
-  List<Transaction> getCurrentMonthTransactionList() {
-    final todayDate = DateTime.now();
-
-    return ref
-        .watch(transactionProvider)
-        .where((element) =>
-            element.date.month == todayDate.month &&
-            element.date.year == todayDate.year)
-        .toList();
   }
 }
