@@ -1,6 +1,6 @@
 import 'package:expense_tracker/Services/widget_extension_service.dart';
 import 'package:expense_tracker/application/accounts/notifiers/queries/accounts_with_balance_notifier.dart';
-import 'package:expense_tracker/application/transactions/notifiers/queries/latest_transactions_notifier.dart';
+import 'package:expense_tracker/application/transactions/notifiers/queries/transactions_list_notifier.dart';
 import 'package:expense_tracker/l10n/app_localizations.dart';
 import 'package:expense_tracker/domain/models/category.dart';
 import 'package:expense_tracker/domain/models/transaction.dart';
@@ -200,7 +200,10 @@ class LastTransactionList extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final appLocalizations = AppLocalizations.of(context);
 
-    final latestTransactionsAsync = ref.watch(latestTransactionsProvider);
+    final latestTransactionsListParam = TransactionsListParams(limit: 5);
+
+    final latestTransactionsAsync =
+        ref.watch(transactionsListProvider(latestTransactionsListParam));
 
     return latestTransactionsAsync.when(
       data: (lastTransactionList) {
