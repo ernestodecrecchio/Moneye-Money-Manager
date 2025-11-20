@@ -1,5 +1,5 @@
+import 'package:expense_tracker/application/transactions/notifiers/queries/transactions_list_notifier.dart';
 import 'package:expense_tracker/domain/models/transaction.dart';
-import 'package:expense_tracker/application/transactions/notifiers/queries/latest_transactions_notifier.dart';
 import 'package:expense_tracker/application/transactions/notifiers/queries/total_balance_notifier.dart';
 import 'package:expense_tracker/application/transactions/notifiers/transactions_repository_provider.dart';
 import 'package:expense_tracker/domain/repositories/transactions_repository.dart';
@@ -17,7 +17,7 @@ class TransactionMutationNotifier extends Notifier<void> {
     final inserted = await _repo.insertTransaction(transaction: transaction);
 
     ref.invalidate(totalBalanceProvider(const TotalBalanceParams()));
-    ref.invalidate(latestTransactionsProvider);
+    ref.invalidate(transactionsListProvider);
 
     return inserted;
   }
@@ -27,7 +27,7 @@ class TransactionMutationNotifier extends Notifier<void> {
         transactionToEdit: original, editedTransaction: modified);
 
     ref.invalidate(totalBalanceProvider(const TotalBalanceParams()));
-    ref.invalidate(latestTransactionsProvider);
+    ref.invalidate(transactionsListProvider);
   }
 
   Future<void> delete(Transaction transaction) async {
@@ -36,7 +36,7 @@ class TransactionMutationNotifier extends Notifier<void> {
 
     if (removedTransactionCount > 0) {
       ref.invalidate(totalBalanceProvider(const TotalBalanceParams()));
-      ref.invalidate(latestTransactionsProvider);
+      ref.invalidate(transactionsListProvider);
     }
   }
 }
