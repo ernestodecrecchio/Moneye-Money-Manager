@@ -1,3 +1,4 @@
+import 'package:expense_tracker/application/accounts/models/account_with_balance.dart';
 import 'package:expense_tracker/domain/models/account.dart';
 
 abstract class AccountsRepository {
@@ -5,5 +6,5 @@ abstract class AccountsRepository {
   Future<bool> updateAccount(
       {required Account accountToEdit, required Account editedAccount});
   Future<int> deleteAccount({required Account account});
-  Future<List<Map<String, dynamic>>> getAccountsListWithBalance();
+  Future<List<AccountWithBalance>> getAccountsListWithBalance();
 }

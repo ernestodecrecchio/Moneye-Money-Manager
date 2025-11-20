@@ -1,3 +1,4 @@
+import 'package:expense_tracker/application/accounts/models/account_with_balance.dart';
 import 'package:expense_tracker/data/database/database_helper.dart';
 import 'package:expense_tracker/data/database/database_types.dart';
 import 'package:expense_tracker/domain/models/account.dart';
@@ -61,7 +62,7 @@ class DatabaseAccountHelper {
     return result.map((json) => Account.fromJson(json)).toList();
   }
 
-  Future<List<Map<String, dynamic>>> getAllAccountsWithBalance() async {
+  Future<List<AccountWithBalance>> getAllAccountsWithBalance() async {
     final dbInstance = await DatabaseHelper.instance.database;
 
     final query = '''
@@ -85,10 +86,15 @@ class DatabaseAccountHelper {
     final result = await dbInstance.rawQuery(query);
 
     return result.map((row) {
-      return {
-        'account': Account(id: row['id'] as int, name: row['name'] as String),
-        'balance': (row['balance'] as num).toDouble(),
-      };
+      final account = Account(
+        id: row['id'] as int,
+        name: row['name'] as String,
+      );
+
+      return AccountWithBalance(
+        account: account,
+        balance: (row['balance'] as num).toDouble(),
+      );
     }).toList();
   }
 

@@ -1,3 +1,4 @@
+import 'package:expense_tracker/application/accounts/models/account_with_balance.dart';
 import 'package:expense_tracker/domain/models/account.dart';
 import 'package:expense_tracker/data/database/database_account_helper.dart';
 import 'package:expense_tracker/domain/repositories/accounts_repository.dart';
@@ -25,7 +26,7 @@ class AccountsRepositoryImpl implements AccountsRepository {
   }
 
   @override
-  Future<List<Map<String, dynamic>>> getAccountsListWithBalance() async {
+  Future<List<AccountWithBalance>> getAccountsListWithBalance() async {
     return getAccountsListWithBalance();
   }
 }

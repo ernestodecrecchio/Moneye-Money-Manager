@@ -1,12 +1,9 @@
-import 'package:collection/collection.dart';
 import 'package:expense_tracker/Services/widget_extension_service.dart';
+import 'package:expense_tracker/application/accounts/notifiers/queries/accounts_with_balance_notifier.dart';
 import 'package:expense_tracker/application/transactions/notifiers/queries/latest_transactions_notifier.dart';
-import 'package:expense_tracker/application/transactions/notifiers/queries/total_balance_notifier.dart';
 import 'package:expense_tracker/l10n/app_localizations.dart';
-import 'package:expense_tracker/domain/models/account.dart';
 import 'package:expense_tracker/domain/models/category.dart';
 import 'package:expense_tracker/domain/models/transaction.dart';
-import 'package:expense_tracker/notifiers/account_provider.dart';
 import 'package:expense_tracker/notifiers/category_provider.dart';
 import 'package:expense_tracker/presentation/pages/account_detail_page/account_detail_page.dart';
 import 'package:expense_tracker/presentation/pages/common/delete_transaction_snackbar.dart';
@@ -134,91 +131,60 @@ class AccountSection extends ConsumerWidget {
             ),
           ),
         ),
-        ref.watch(provider)
-        list.isNotEmpty
-            ? SizedBox(
-                height: 100,
-                child: ListView.separated(
-                  clipBehavior: Clip.none,
-                  padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
-                  scrollDirection: Axis.horizontal,
-                  itemCount: list.length,
-                  itemBuilder: (context, index) {
-
-                    ref.watch(totalBalanceProvider(TotalBalanceParams()))
-                    return AccountListTile(
-                        account: list.keys.toList()[index],
-                        balance: list.values.toList()[index]);
-                  },
-                  separatorBuilder: (context, index) => const SizedBox(
-                    width: 12,
-                  ),
-                ),
-              )
-            : Align(
-                alignment: Alignment.center,
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 8.0, bottom: 8),
-                  child: Column(
-                    children: [
-                      Text(
-                        appLocalizations.noAccountAdded,
-                        style: const TextStyle(color: Colors.grey),
-                        textAlign: TextAlign.start,
-                      ),
-                      TextButton(
-                          style: TextButton.styleFrom(
-                              padding: EdgeInsets.zero,
-                              minimumSize: Size.zero,
-                              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                              alignment: Alignment.center),
-                          onPressed: () => Navigator.of(context)
-                              .pushNamed(NewAccountPage.routeName),
-                          child: Text(appLocalizations.addOne)),
-                    ],
-                  ),
-                ),
+        ref.watch(accountsWithBalanceProvider).when(
+              data: (list) {
+                return list.isNotEmpty
+                    ? SizedBox(
+                        height: 100,
+                        child: ListView.separated(
+                          clipBehavior: Clip.none,
+                          padding: EdgeInsets.symmetric(
+                              horizontal: horizontalPadding),
+                          scrollDirection: Axis.horizontal,
+                          itemCount: list.length,
+                          itemBuilder: (context, index) {
+                            return AccountListTile(
+                                account: list[index].account,
+                                balance: list[index].balance);
+                          },
+                          separatorBuilder: (context, index) => const SizedBox(
+                            width: 12,
+                          ),
+                        ),
+                      )
+                    : Align(
+                        alignment: Alignment.center,
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 8.0, bottom: 8),
+                          child: Column(
+                            children: [
+                              Text(
+                                appLocalizations.noAccountAdded,
+                                style: const TextStyle(color: Colors.grey),
+                                textAlign: TextAlign.start,
+                              ),
+                              TextButton(
+                                  style: TextButton.styleFrom(
+                                      padding: EdgeInsets.zero,
+                                      minimumSize: Size.zero,
+                                      tapTargetSize:
+                                          MaterialTapTargetSize.shrinkWrap,
+                                      alignment: Alignment.center),
+                                  onPressed: () => Navigator.of(context)
+                                      .pushNamed(NewAccountPage.routeName),
+                                  child: Text(appLocalizations.addOne)),
+                            ],
+                          ),
+                        ),
+                      );
+              },
+              loading: () => const Center(child: CircularProgressIndicator()),
+              error: (err, stack) => Center(
+                child: Text('Error loading accounts: $err'),
               ),
+            ),
       ],
     );
-  }
-
-  /// Returns a Map where for each account, there is a sum of all the transactions value
-  Map<Account, double> getAccountBalance(
-      WidgetRef ref, AppLocalizations? appLocalizations) {
-    final Map<Account, double> accountMap = {};
-
-    double balanceTransactionsWithoutAccount = 0;
-
-    final accountList = ref.watch(accountProvider);
-    final transactionList = ref.watch(transactionProvider);
-
-    for (var account in accountList) {
-      accountMap[account] = 0;
-    }
-
-    for (var transaction in transactionList) {
-      Account? transactionAccount = accountList
-          .firstWhereOrNull((element) => element.id == transaction.accountId);
-
-      if (transactionAccount != null) {
-        accountMap[transactionAccount] =
-            accountMap[transactionAccount]! + transaction.amount;
-      } else {
-        balanceTransactionsWithoutAccount += transaction.amount;
-      }
-    }
-
-    if (balanceTransactionsWithoutAccount != 0) {
-      Account otherAccount = Account(
-          name: appLocalizations!.other,
-          colorValue: Colors.grey.toARGB32(),
-          iconPath: 'assets/icons/box.svg');
-
-      accountMap[otherAccount] = balanceTransactionsWithoutAccount;
-    }
-
-    return accountMap;
   }
 }
 
