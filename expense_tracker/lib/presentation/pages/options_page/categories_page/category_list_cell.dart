@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:expense_tracker/application/categories/notifiers/categories_repository_provider.dart';
 import 'package:expense_tracker/l10n/app_localizations.dart';
 import 'package:expense_tracker/domain/models/category.dart';
 import 'package:expense_tracker/notifiers/category_provider.dart';
@@ -41,8 +42,8 @@ class CategoryListCell extends ConsumerWidget {
         confirmDismiss: () => showDeleteAlert(context),
         closeOnCancel: true,
         onDismissed: () async => await ref
-            .read(categoryProvider.notifier)
-            .deleteCategoryCentral(category),
+            .read(categoriesRepositoryProvider)
+            .deleteCategory(category: category),
       ),
       children: [
         _buildDeleteSlidableAction(context, ref),

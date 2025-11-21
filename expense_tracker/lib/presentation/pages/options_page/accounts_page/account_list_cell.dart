@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:expense_tracker/application/accounts/notifiers/mutations/account_mutation_notifier.dart';
 import 'package:expense_tracker/l10n/app_localizations.dart';
 import 'package:expense_tracker/domain/models/account.dart';
 import 'package:expense_tracker/notifiers/account_provider.dart';
@@ -39,9 +40,8 @@ class AccountListCell extends ConsumerWidget {
       dismissible: DismissiblePane(
         confirmDismiss: () => showDeleteAlert(context),
         closeOnCancel: true,
-        onDismissed: () async => await ref
-            .read(accountProvider.notifier)
-            .deleteAccountCentral(account),
+        onDismissed: () async =>
+            await ref.read(accountMutationProvider.notifier).delete(account),
       ),
       children: [
         _buildDeleteSlidableAction(context, ref),

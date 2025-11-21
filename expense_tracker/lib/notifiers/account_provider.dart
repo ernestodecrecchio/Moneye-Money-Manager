@@ -118,25 +118,6 @@ class AccountNotifier extends Notifier<List<Account>> {
 
     return false;
   }
-
-  /// Deletes the account affecting the transactions viewed in the current session
-  Future<bool> deleteAccountCentral(Account account) async {
-    final isAccountDeleted = await deleteAccount(account);
-
-    if (isAccountDeleted) {
-      final transactionList = ref.read(transactionProvider);
-
-      for (var transaction in transactionList) {
-        if (transaction.accountId == account.id) {
-          transaction.accountId = null;
-        }
-      }
-
-      return true;
-    }
-
-    return false;
-  }
 }
 
 final accountProvider = NotifierProvider<AccountNotifier, List<Account>>(() {

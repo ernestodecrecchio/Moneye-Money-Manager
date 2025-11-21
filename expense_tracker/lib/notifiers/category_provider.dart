@@ -94,25 +94,6 @@ class CategoryNotifier extends Notifier<List<Category>> {
   Category? getCategoryFromId(int id) {
     return state.firstWhereOrNull((element) => element.id == id);
   }
-
-  /// Deletes the category affecting the transactions viewed in the current session
-  Future<bool> deleteCategoryCentral(Category category) async {
-    final isCategorytDeleted = await deleteCategory(category);
-
-    if (isCategorytDeleted) {
-      final transactionList = ref.read(transactionProvider);
-
-      for (var transaction in transactionList) {
-        if (transaction.categoryId == category.id) {
-          transaction.categoryId = null;
-        }
-      }
-
-      return true;
-    }
-
-    return false;
-  }
 }
 
 final categoryProvider = NotifierProvider<CategoryNotifier, List<Category>>(() {
