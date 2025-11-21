@@ -172,32 +172,47 @@ class DatabaseTransactionHelper {
     DateTime? startDate,
     DateTime? endDate,
     Account? forAccount,
+    bool? includeIncomes, // null = default = true
+    bool? includeExpenses, // null = default = true
     int? limit,
   ) async {
     final dbInstance = await DatabaseHelper.instance.database;
 
-    // Dynamic WHERE arguments
-    String whereClause = '${TransactionFields.isHidden} = 0';
+    // Defaults
+    final incIncome = includeIncomes ?? true;
+    final incExpense = includeExpenses ?? true;
 
-    List<dynamic> args = [];
+    // Collect conditions
+    final List<String> conditions = ['${TransactionFields.isHidden} = 0'];
+    final List<dynamic> args = [];
 
-    // Optional: filter start date
+    // Date filters
     if (startDate != null) {
-      whereClause += ' AND ${TransactionFields.date} >= ?';
+      conditions.add('${TransactionFields.date} >= ?');
       args.add(formatDate(startDate));
     }
 
-    // Optional: filter end date
     if (endDate != null) {
-      whereClause += ' AND ${TransactionFields.date} <= ?';
+      conditions.add('${TransactionFields.date} <= ?');
       args.add(formatDate(endDate));
     }
 
-    // Optional: filter by account
+    // Account filter
     if (forAccount != null) {
-      whereClause += ' AND ${TransactionFields.accountId} = ?';
+      conditions.add('${TransactionFields.accountId} = ?');
       args.add(forAccount.id);
     }
+
+    // Income/Expense filtering
+    if (incIncome != incExpense) {
+      conditions.add(
+        incIncome
+            ? '${TransactionFields.amount} >= 0'
+            : '${TransactionFields.amount} < 0',
+      );
+    }
+
+    final whereClause = conditions.join(' AND ');
 
     const orderBy = '${TransactionFields.date} DESC';
 

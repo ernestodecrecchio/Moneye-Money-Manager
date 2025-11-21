@@ -18,6 +18,8 @@ class TransactionsListNotifier extends AsyncNotifier<List<Transaction>> {
       startDate: params.startDate,
       endDate: params.endDate,
       forAccount: params.account,
+      includeIncomes: params.includeIncomes,
+      includeExpenses: params.includeExpenses,
       limit: params.limit,
     );
   }
@@ -36,15 +38,26 @@ class TransactionsListParams extends Equatable {
   final DateTime? startDate;
   final DateTime? endDate;
   final Account? account;
+  final bool? includeIncomes;
+  final bool? includeExpenses;
   final int? limit;
 
   const TransactionsListParams({
     this.startDate,
     this.endDate,
     this.account,
+    this.includeIncomes,
+    this.includeExpenses,
     this.limit,
   });
 
   @override
-  List<Object?> get props => [startDate, endDate, account, limit];
+  List<Object?> get props => [
+        startDate,
+        endDate,
+        account,
+        includeIncomes,
+        includeExpenses,
+        limit,
+      ];
 }

@@ -19,6 +19,8 @@ abstract class TransactionsRepository {
     DateTime? startDate,
     DateTime? endDate,
     Account? forAccount,
+    bool? includeIncomes,
+    bool? includeExpenses,
     int? limit,
   });
   // Future<Map<int, double>> getMonthlyBalanceForYear({required int year});

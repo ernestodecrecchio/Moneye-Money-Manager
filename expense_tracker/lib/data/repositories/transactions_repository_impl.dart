@@ -46,9 +46,18 @@ class TransactionsRepositoryImpl implements TransactionsRepository {
     DateTime? startDate,
     DateTime? endDate,
     Account? forAccount,
+    bool? includeIncomes,
+    bool? includeExpenses,
     int? limit,
   }) async {
-    return dbHelper.getTransactions(startDate, endDate, forAccount, limit);
+    return dbHelper.getTransactions(
+      startDate,
+      endDate,
+      forAccount,
+      includeIncomes,
+      includeExpenses,
+      limit,
+    );
   }
 
   /// Returns a Map where for each month of the year, there is a sum of all the transactions amount
