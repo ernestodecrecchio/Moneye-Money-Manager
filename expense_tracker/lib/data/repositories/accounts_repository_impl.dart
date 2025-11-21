@@ -26,7 +26,12 @@ class AccountsRepositoryImpl implements AccountsRepository {
   }
 
   @override
+  Future<List<Account>> getAccounts() async {
+    return dbHelper.getAllAccounts();
+  }
+
+  @override
   Future<List<AccountWithBalance>> getAccountsListWithBalance() async {
-    return getAccountsListWithBalance();
+    return dbHelper.getAllAccountsWithBalance();
   }
 }

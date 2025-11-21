@@ -1,3 +1,4 @@
+import 'package:expense_tracker/application/accounts/notifiers/queries/accounts_list_notifier.dart';
 import 'package:expense_tracker/l10n/app_localizations.dart';
 import 'package:expense_tracker/notifiers/account_provider.dart';
 import 'package:expense_tracker/presentation/pages/options_page/accounts_page/account_list_cell.dart';
@@ -29,33 +30,33 @@ class _AccountsListPageState extends ConsumerState<AccountsListPage> {
   }
 
   Widget _buildList() {
-    return RefreshIndicator(
-      onRefresh: () => ref.read(accountProvider.notifier).getAccountsFromDb(),
-      child: Consumer(
-        builder: ((context, ref, child) {
-          return ref.watch(accountProvider).isNotEmpty
-              ? ListView.builder(
-                  itemCount: ref.watch(accountProvider).length,
-                  itemBuilder: (context, index) {
-                    final account = ref.watch(accountProvider)[index];
+    return ref.watch(accountsListProvider).when(
+          data: (accountsList) {
+            return accountsList.isNotEmpty
+                ? ListView.builder(
+                    itemCount: ref.watch(accountProvider).length,
+                    itemBuilder: (context, index) {
+                      final account = ref.watch(accountProvider)[index];
 
-                    return AccountListCell(account: account);
-                  },
-                )
-              : Align(
-                  alignment: Alignment.center,
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 8.0),
-                    child: Text(
-                      AppLocalizations.of(context)!.noAccounts,
-                      style: const TextStyle(color: Colors.grey),
-                      textAlign: TextAlign.start,
+                      return AccountListCell(account: account);
+                    },
+                  )
+                : Align(
+                    alignment: Alignment.center,
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 8.0),
+                      child: Text(
+                        AppLocalizations.of(context)!.noAccounts,
+                        style: const TextStyle(color: Colors.grey),
+                        textAlign: TextAlign.start,
+                      ),
                     ),
-                  ),
-                );
-        }),
-      ),
-    );
+                  );
+          },
+          loading: () => const Center(child: CircularProgressIndicator()),
+          error: (error, stackTrace) =>
+              const Text('Error loading accounts list'),
+        );
   }
 
   Widget _buildFloatingActionButton(BuildContext context) {

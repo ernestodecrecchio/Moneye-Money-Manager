@@ -51,24 +51,7 @@ class DatabaseCategoryHelper {
     );
   }
 
-  static Future<Category> readCategory(int id) async {
-    final db = await DatabaseHelper.instance.database;
-
-    final maps = await db.query(
-      categoriesTable,
-      columns: CategoryFields.values,
-      where: '${CategoryFields.id} = ?',
-      whereArgs: [id],
-    );
-
-    if (maps.isNotEmpty) {
-      return Category.fromJson(maps.first);
-    } else {
-      throw Exception('ID $id not found');
-    }
-  }
-
-  Future<List<Category>> readAllCategories() async {
+  Future<List<Category>> getAllCategories() async {
     final db = await DatabaseHelper.instance.database;
 
     const orderBy = '${CategoryFields.name} ASC';
@@ -77,11 +60,14 @@ class DatabaseCategoryHelper {
     return result.map((json) => Category.fromJson(json)).toList();
   }
 
-  Future<Category?> getCategoryFromId(int id) async {
-    final db = await DatabaseHelper.instance.database;
+  Future<Category?> getCategoryById(int id) async {
+    final dbInstance = await DatabaseHelper.instance.database;
 
-    final result = await db.query(categoriesTable,
-        where: '${CategoryFields.id} = ?', whereArgs: [id]);
+    final result = await dbInstance.query(
+      categoriesTable,
+      where: '${CategoryFields.id} = ?',
+      whereArgs: [id],
+    );
 
     if (result.isNotEmpty) {
       return Category.fromJson(result.first);

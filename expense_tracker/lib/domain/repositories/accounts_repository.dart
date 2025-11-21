@@ -8,5 +8,7 @@ abstract class AccountsRepository {
     required Account editedAccount,
   });
   Future<int> deleteAccount({required Account account});
+
+  Future<List<Account>> getAccounts();
   Future<List<AccountWithBalance>> getAccountsListWithBalance();
 }

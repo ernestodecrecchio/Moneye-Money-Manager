@@ -13,10 +13,6 @@ class AccountNotifier extends Notifier<List<Account>> {
     return [];
   }
 
-  Future getAccountsFromDb() async {
-    state = await DatabaseAccountHelper.instance.getAllAccounts();
-  }
-
   Account? getAccountFromId(int id) {
     return state.firstWhereOrNull((element) => element.id == id);
   }

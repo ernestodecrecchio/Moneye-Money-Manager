@@ -7,20 +7,16 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 class TotalBalanceNotifier extends AsyncNotifier<double> {
   TransactionsRepository get _repo => ref.read(transactionsRepositoryProvider);
 
-  late final TotalBalanceParams params;
+  final TotalBalanceParams params;
 
-  final DateTime? startDate;
-  final DateTime? endDate;
-  final Account? account;
-
-  TotalBalanceNotifier({this.startDate, this.endDate, this.account});
+  TotalBalanceNotifier(this.params);
 
   @override
   Future<double> build() async {
     return _repo.getTotalBalance(
-      startDate: startDate,
-      endDate: endDate,
-      forAccount: account,
+      startDate: params.startDate,
+      endDate: params.endDate,
+      forAccount: params.account,
     );
   }
 
@@ -30,13 +26,7 @@ class TotalBalanceNotifier extends AsyncNotifier<double> {
 }
 
 final totalBalanceProvider = AsyncNotifierProvider.family<TotalBalanceNotifier,
-    double, TotalBalanceParams>(
-  (params) => TotalBalanceNotifier(
-    startDate: params.startDate,
-    endDate: params.endDate,
-    account: params.account,
-  ),
-);
+    double, TotalBalanceParams>(TotalBalanceNotifier.new);
 
 class TotalBalanceParams extends Equatable {
   final DateTime? startDate;

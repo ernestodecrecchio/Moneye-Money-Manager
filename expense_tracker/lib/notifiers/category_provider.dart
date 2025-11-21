@@ -10,10 +10,6 @@ class CategoryNotifier extends Notifier<List<Category>> {
     return [];
   }
 
-  Future getCategoriesFromDb() async {
-    state = await DatabaseCategoryHelper.instance.readAllCategories();
-  }
-
   Category? getCategoryForTransaction(Transaction transaction) {
     return state
         .firstWhereOrNull((element) => element.id == transaction.categoryId);

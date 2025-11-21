@@ -25,4 +25,14 @@ class CategoriesRepositoryImpl implements CategoriesRepository {
   Future<int> deleteCategory({required Category category}) {
     return dbHelper.deleteCategory(category: category);
   }
+
+  @override
+  Future<List<Category>> getCategories() {
+    return dbHelper.getAllCategories();
+  }
+
+  @override
+  Future<Category?> getCategoryById({required int id}) {
+    return dbHelper.getCategoryById(id);
+  }
 }

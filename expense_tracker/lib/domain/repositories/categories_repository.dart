@@ -7,4 +7,7 @@ abstract class CategoriesRepository {
     required Category editedCategory,
   });
   Future<int> deleteCategory({required Category category});
+
+  Future<List<Category>> getCategories();
+  Future<Category?> getCategoryById({required int id});
 }

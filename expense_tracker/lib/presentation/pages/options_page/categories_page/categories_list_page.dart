@@ -1,3 +1,4 @@
+import 'package:expense_tracker/application/categories/notifiers/queries/categories_list_notifier.dart';
 import 'package:expense_tracker/l10n/app_localizations.dart';
 import 'package:expense_tracker/notifiers/category_provider.dart';
 import 'package:expense_tracker/presentation/pages/options_page/categories_page/category_list_cell.dart';
@@ -29,33 +30,32 @@ class _CategoriesListPageState extends ConsumerState<CategoriesListPage> {
   }
 
   Widget _buildList() {
-    return RefreshIndicator(
-      onRefresh: () =>
-          ref.read(categoryProvider.notifier).getCategoriesFromDb(),
-      child: Consumer(
-        builder: ((context, ref, child) {
-          return ref.watch(categoryProvider).isNotEmpty
-              ? ListView.builder(
-                  itemCount: ref.watch(categoryProvider).length,
-                  itemBuilder: (context, index) {
-                    return CategoryListCell(
-                        category: ref.read(categoryProvider)[index]);
-                  },
-                )
-              : Align(
-                  alignment: Alignment.center,
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 8.0),
-                    child: Text(
-                      AppLocalizations.of(context)!.noCategories,
-                      style: const TextStyle(color: Colors.grey),
-                      textAlign: TextAlign.start,
+    return ref.watch(categoriesListProvider).when(
+          data: (categoriesList) {
+            return categoriesList.isNotEmpty
+                ? ListView.builder(
+                    itemCount: ref.watch(categoryProvider).length,
+                    itemBuilder: (context, index) {
+                      return CategoryListCell(
+                          category: ref.read(categoryProvider)[index]);
+                    },
+                  )
+                : Align(
+                    alignment: Alignment.center,
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 8.0),
+                      child: Text(
+                        AppLocalizations.of(context)!.noCategories,
+                        style: const TextStyle(color: Colors.grey),
+                        textAlign: TextAlign.start,
+                      ),
                     ),
-                  ),
-                );
-        }),
-      ),
-    );
+                  );
+          },
+          loading: () => const Center(child: CircularProgressIndicator()),
+          error: (error, stackTrace) =>
+              const Text('Error loading currency list'),
+        );
   }
 
   Widget _buildFloatingActionButton(BuildContext context) {
