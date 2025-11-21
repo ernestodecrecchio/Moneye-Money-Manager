@@ -1,5 +1,6 @@
 import 'package:collection/collection.dart';
 import 'package:expense_tracker/Helper/date_time_helper.dart';
+import 'package:expense_tracker/application/transactions/notifiers/queries/transactions_list_notifier.dart';
 import 'package:expense_tracker/l10n/app_localizations.dart';
 import 'package:expense_tracker/domain/models/account.dart';
 import 'package:expense_tracker/domain/models/transaction.dart';
@@ -14,8 +15,6 @@ import 'package:expense_tracker/presentation/pages/options_page/accounts_page/ne
 import 'package:expense_tracker/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import 'package:intl/intl.dart';
 import 'package:vector_graphics/vector_graphics.dart';
 
 enum AccountDetailTransactionTypeMode { income, expense, all }
@@ -96,7 +95,92 @@ class _AccountDetailPageState extends ConsumerState<AccountDetailPage>
       body: Column(
         children: [
           _buildTabBar(),
-          _buildDateBar(ref.watch(transactionProvider)),
+          DateBar(
+            selectedTransactionTimePeriod: selectedTransactionTimePeriod,
+            startDate: startDate,
+            endDate: endDate,
+            onTransactionTimePeriodChanged: (newTransactionTimePriod) {
+              selectedTransactionTimePeriod = newTransactionTimePriod;
+
+              final currentDate = DateTime.now();
+
+              switch (selectedTransactionTimePeriod) {
+                case TransactionTimePeriod.day:
+                  startDate = currentDayInitialTime();
+                  endDate = currentDayEndTime();
+                case TransactionTimePeriod.week:
+                  startDate = currentWeekFirstDay(currentDate);
+                  endDate = currentWeekLastDay(currentDate);
+                case TransactionTimePeriod.month:
+                  startDate = currentMonthFirstDay(currentDate);
+                  endDate = currentMonthLastDay(currentDate);
+                case TransactionTimePeriod.year:
+                  startDate = currentYearFirstDay(currentDate);
+                  endDate = currentYearLastDay(currentDate);
+                case TransactionTimePeriod.custom:
+                  throw UnimplementedError();
+              }
+
+              setState(() {});
+              Navigator.of(context).pop();
+            },
+            onLeftButtonPressed: () {
+              switch (selectedTransactionTimePeriod) {
+                case TransactionTimePeriod.day:
+                  startDate = previousDay(startDate);
+                  endDate = previousDay(endDate);
+
+                  break;
+                case TransactionTimePeriod.week:
+                  startDate = previousWeekFirstDay(startDate);
+                  endDate = previousWeekLastDay(endDate);
+
+                  break;
+                case TransactionTimePeriod.month:
+                  startDate = previousMonthFirstDay(startDate);
+                  endDate = previousMonthLastDay(endDate);
+
+                  break;
+                case TransactionTimePeriod.year:
+                  startDate = previousYearFirstDay(startDate);
+                  endDate = previousYearLastDay(endDate);
+
+                  break;
+                case TransactionTimePeriod.custom:
+                  break;
+              }
+
+              setState(() {});
+            },
+            onRightButtonPressed: () {
+              switch (selectedTransactionTimePeriod) {
+                case TransactionTimePeriod.day:
+                  startDate = nextDay(startDate);
+                  endDate = nextDay(endDate);
+
+                  break;
+                case TransactionTimePeriod.week:
+                  startDate = nextWeekFirstDay(startDate);
+                  endDate = nextWeekLastDay(endDate);
+
+                  break;
+                case TransactionTimePeriod.month:
+                  startDate = nextMonthFirstDay(startDate);
+                  endDate = nextMonthLastDay(endDate);
+
+                  break;
+                case TransactionTimePeriod.year:
+                  startDate = nextYearFirstDay(startDate);
+                  endDate = nextYearLastDay(endDate);
+
+                  break;
+                case TransactionTimePeriod.custom:
+                  break;
+              }
+
+              setState(() {});
+            },
+          ),
           Expanded(
             child: TabBarView(
               controller: _tabController,
@@ -220,8 +304,172 @@ class _AccountDetailPageState extends ConsumerState<AccountDetailPage>
       ],
     );
   }
+}
 
-  Widget _buildDateBar(List<Transaction> transactionListProvider) {
+class ScrollableTabView extends ConsumerStatefulWidget {
+  final Account? account;
+  final AccountDetailTransactionTypeMode transactionType;
+
+  final DateTime startDate;
+  final DateTime endDate;
+
+  final TransactionTimePeriod selectedTransactionTimePeriod;
+
+  const ScrollableTabView({
+    super.key,
+    required this.transactionType,
+    required this.startDate,
+    required this.endDate,
+    required this.selectedTransactionTimePeriod,
+    required this.account,
+  });
+
+  @override
+  ConsumerState<ScrollableTabView> createState() => _ScrollableTabViewState();
+}
+
+class _ScrollableTabViewState extends ConsumerState<ScrollableTabView> {
+  @override
+  Widget build(BuildContext context) {
+    List<Transaction> transactionList = [];
+    late AccountBarChartModeTransactionType barChartTransactionType;
+    late AccountPieChartModeTransactionType pieChartTransactionType;
+
+    switch (widget.transactionType) {
+      case AccountDetailTransactionTypeMode.income:
+        barChartTransactionType = AccountBarChartModeTransactionType.income;
+        pieChartTransactionType = AccountPieChartModeTransactionType.income;
+        break;
+      case AccountDetailTransactionTypeMode.expense:
+        barChartTransactionType = AccountBarChartModeTransactionType.expense;
+        pieChartTransactionType = AccountPieChartModeTransactionType.expense;
+        break;
+      case AccountDetailTransactionTypeMode.all:
+        barChartTransactionType = AccountBarChartModeTransactionType.all;
+        pieChartTransactionType = AccountPieChartModeTransactionType.all;
+        break;
+    }
+
+    final includeInReportTransactionsList = transactionList
+        .where((transaction) => transaction.includeInReports)
+        .toList();
+
+    final transactionsListParams = TransactionsListParams(
+      startDate: widget.startDate,
+      endDate: widget.endDate,
+      account: widget.account,
+      includeIncomes:
+          widget.transactionType == AccountDetailTransactionTypeMode.income,
+      includeExpenses:
+          widget.transactionType == AccountDetailTransactionTypeMode.expense,
+    );
+
+    return ref.watch(transactionsListProvider(transactionsListParams)).when(
+          data: (transactionsList) {
+            return transactionList.isEmpty
+                ? Align(
+                    child: Text(AppLocalizations.of(context)!.noTransactions))
+                : SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        if (includeInReportTransactionsList.isNotEmpty) ...[
+                          Container(
+                            height: 200,
+                            margin: const EdgeInsets.only(
+                                top: 10, bottom: 0, left: 18, right: 18),
+                            child: PageViewWithIndicators(
+                              widgetList: [
+                                _buildPieChart(includeInReportTransactionsList,
+                                    pieChartTransactionType),
+                                if (widget.selectedTransactionTimePeriod !=
+                                    TransactionTimePeriod.day)
+                                  _buildBarChart(
+                                    transactionList:
+                                        includeInReportTransactionsList,
+                                    transactionType: barChartTransactionType,
+                                    timeMode:
+                                        widget.selectedTransactionTimePeriod,
+                                  ),
+                              ],
+                              indicatorIconPathList:
+                                  widget.selectedTransactionTimePeriod !=
+                                          TransactionTimePeriod.day
+                                      ? const [
+                                          'assets/icons/pie-chart.svg',
+                                          'assets/icons/bar-chart.svg',
+                                        ]
+                                      : null,
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 4,
+                          ),
+                        ],
+                        _buildTransactionListSection(transactionList),
+                      ],
+                    ),
+                  );
+          },
+          loading: () => const Center(
+            child: CircularProgressIndicator(),
+          ),
+          error: (error, stackTrace) =>
+              const Text('Error loading transactions list'),
+        );
+  }
+
+  Widget _buildBarChart({
+    required List<Transaction> transactionList,
+    required AccountBarChartModeTransactionType transactionType,
+    required TransactionTimePeriod timeMode,
+  }) {
+    return AccountBarChart(
+      transactionType: transactionType,
+      transactionTimePeriod: timeMode,
+      startDate: widget.startDate,
+      endDate: widget.endDate,
+      transactionList: transactionList,
+    );
+  }
+
+  Widget _buildPieChart(List<Transaction> transactionList,
+      AccountPieChartModeTransactionType mode) {
+    return AccountPieChart(
+      transactionList: transactionList,
+      mode: mode,
+    );
+  }
+
+  Widget _buildTransactionListSection(List<Transaction> transactionList) {
+    return TransactionList(
+      transactionList: transactionList,
+      topWidgetRef: ref,
+    );
+  }
+}
+
+class DateBar extends ConsumerWidget {
+  final TransactionTimePeriod selectedTransactionTimePeriod;
+  final DateTime startDate;
+  final DateTime endDate;
+
+  final Function(TransactionTimePeriod newTransactionTimePriod)
+      onTransactionTimePeriodChanged;
+  final Function() onLeftButtonPressed;
+  final Function() onRightButtonPressed;
+
+  const DateBar({
+    super.key,
+    required this.selectedTransactionTimePeriod,
+    required this.startDate,
+    required this.endDate,
+    required this.onTransactionTimePeriodChanged,
+    required this.onLeftButtonPressed,
+    required this.onRightButtonPressed,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
     return Container(
       height: 50,
       padding: const EdgeInsets.symmetric(horizontal: 14),
@@ -274,31 +522,9 @@ class _AccountDetailPageState extends ConsumerState<AccountDetailPage>
                                           loader: AssetBytesLoader(
                                               'assets/icons/checkmark.svg'))
                                       : null,
-                                  onTap: () {
-                                    selectedTransactionTimePeriod =
-                                        TransactionTimePeriod.day;
-
-                                    final currentDate = DateTime.now();
-
-                                    startDate = DateTime(
-                                        currentDate.year,
-                                        currentDate.month,
-                                        currentDate.day,
-                                        0,
-                                        0,
-                                        0);
-
-                                    endDate = DateTime(
-                                        currentDate.year,
-                                        currentDate.month,
-                                        currentDate.day,
-                                        23,
-                                        59,
-                                        59);
-
-                                    setState(() {});
-                                    Navigator.of(context).pop();
-                                  },
+                                  onTap: () => onTransactionTimePeriodChanged(
+                                    TransactionTimePeriod.day,
+                                  ),
                                 ),
                                 ListTile(
                                   title:
@@ -309,19 +535,9 @@ class _AccountDetailPageState extends ConsumerState<AccountDetailPage>
                                           loader: AssetBytesLoader(
                                               'assets/icons/checkmark.svg'))
                                       : null,
-                                  onTap: () {
-                                    selectedTransactionTimePeriod =
-                                        TransactionTimePeriod.week;
-
-                                    final currentDate = DateTime.now();
-
-                                    startDate =
-                                        currentWeekFirstDay(currentDate);
-                                    endDate = currentWeekLastDay(currentDate);
-
-                                    setState(() {});
-                                    Navigator.of(context).pop();
-                                  },
+                                  onTap: () => onTransactionTimePeriodChanged(
+                                    TransactionTimePeriod.week,
+                                  ),
                                 ),
                                 ListTile(
                                   title:
@@ -332,19 +548,9 @@ class _AccountDetailPageState extends ConsumerState<AccountDetailPage>
                                           loader: AssetBytesLoader(
                                               'assets/icons/checkmark.svg'))
                                       : null,
-                                  onTap: () {
-                                    selectedTransactionTimePeriod =
-                                        TransactionTimePeriod.month;
-
-                                    final currentDate = DateTime.now();
-
-                                    startDate =
-                                        currentMonthFirstDay(currentDate);
-                                    endDate = currentMonthLastDay(currentDate);
-
-                                    setState(() {});
-                                    Navigator.of(context).pop();
-                                  },
+                                  onTap: () => onTransactionTimePeriodChanged(
+                                    TransactionTimePeriod.month,
+                                  ),
                                 ),
                                 ListTile(
                                   title:
@@ -355,19 +561,9 @@ class _AccountDetailPageState extends ConsumerState<AccountDetailPage>
                                           loader: AssetBytesLoader(
                                               'assets/icons/checkmark.svg'))
                                       : null,
-                                  onTap: () {
-                                    selectedTransactionTimePeriod =
-                                        TransactionTimePeriod.year;
-
-                                    final currentDate = DateTime.now();
-
-                                    startDate =
-                                        currentYearFirstDay(currentDate);
-                                    endDate = currentYearLastDay(currentDate);
-
-                                    setState(() {});
-                                    Navigator.of(context).pop();
-                                  },
+                                  onTap: () => onTransactionTimePeriodChanged(
+                                    TransactionTimePeriod.year,
+                                  ),
                                 ),
                               ],
                             ),
@@ -420,18 +616,15 @@ class _AccountDetailPageState extends ConsumerState<AccountDetailPage>
               child: FittedBox(
                 fit: BoxFit.scaleDown,
                 child: Text(
-                  selectedTransactionTimePeriod == TransactionTimePeriod.day
-                      ? DateFormat("dd MMM yyyy").format(startDate)
-                      : selectedTransactionTimePeriod ==
-                              TransactionTimePeriod.week
-                          ? '${DateFormat("dd MMM yy").format(startDate)} - ${DateFormat("dd MMM yy").format(endDate)}'
-                          : selectedTransactionTimePeriod ==
-                                  TransactionTimePeriod.month
-                              ? DateFormat("MMM yyyy").format(startDate)
-                              : selectedTransactionTimePeriod ==
-                                      TransactionTimePeriod.year
-                                  ? DateFormat("yyyy").format(startDate)
-                                  : '${startDate.day} ${startDate.month} - ${endDate.day} ${endDate.month}',
+                  switch (selectedTransactionTimePeriod) {
+                    TransactionTimePeriod.day => ddMMMyyyyFormatter(startDate),
+                    TransactionTimePeriod.week =>
+                      '${ddMMMyyFormatter(startDate)} - ${ddMMMyyFormatter(endDate)}',
+                    TransactionTimePeriod.month => MMMyyyyFormatter(startDate),
+                    TransactionTimePeriod.year => yyyyFormatter(startDate),
+                    TransactionTimePeriod.custom =>
+                      '${startDate.day} ${startDate.month} - ${endDate.day} ${endDate.month}',
+                  },
                   textAlign: TextAlign.end,
                   style: const TextStyle(
                     fontSize: 14,
@@ -445,34 +638,7 @@ class _AccountDetailPageState extends ConsumerState<AccountDetailPage>
             width: 10,
           ),
           FilledButton(
-            onPressed: () {
-              switch (selectedTransactionTimePeriod) {
-                case TransactionTimePeriod.day:
-                  startDate = previousDay(startDate);
-                  endDate = previousDay(endDate);
-
-                  break;
-                case TransactionTimePeriod.week:
-                  startDate = previousWeekFirstDay(startDate);
-                  endDate = previousWeekLastDay(endDate);
-
-                  break;
-                case TransactionTimePeriod.month:
-                  startDate = previousMonthFirstDay(startDate);
-                  endDate = previousMonthLastDay(endDate);
-
-                  break;
-                case TransactionTimePeriod.year:
-                  startDate = previousYearFirstDay(startDate);
-                  endDate = previousYearLastDay(endDate);
-
-                  break;
-                case TransactionTimePeriod.custom:
-                  break;
-              }
-
-              setState(() {});
-            },
+            onPressed: onLeftButtonPressed,
             style: FilledButton.styleFrom(
               minimumSize: const Size(35, 35),
               elevation: 0,
@@ -486,34 +652,7 @@ class _AccountDetailPageState extends ConsumerState<AccountDetailPage>
             width: 8,
           ),
           FilledButton(
-            onPressed: () {
-              switch (selectedTransactionTimePeriod) {
-                case TransactionTimePeriod.day:
-                  startDate = nextDay(startDate);
-                  endDate = nextDay(endDate);
-
-                  break;
-                case TransactionTimePeriod.week:
-                  startDate = nextWeekFirstDay(startDate);
-                  endDate = nextWeekLastDay(endDate);
-
-                  break;
-                case TransactionTimePeriod.month:
-                  startDate = nextMonthFirstDay(startDate);
-                  endDate = nextMonthLastDay(endDate);
-
-                  break;
-                case TransactionTimePeriod.year:
-                  startDate = nextYearFirstDay(startDate);
-                  endDate = nextYearLastDay(endDate);
-
-                  break;
-                case TransactionTimePeriod.custom:
-                  break;
-              }
-
-              setState(() {});
-            },
+            onPressed: onRightButtonPressed,
             style: FilledButton.styleFrom(
               minimumSize: const Size(35, 35),
               elevation: 0,
@@ -525,218 +664,6 @@ class _AccountDetailPageState extends ConsumerState<AccountDetailPage>
           ),
         ],
       ),
-    );
-  }
-}
-
-class ScrollableTabView extends ConsumerStatefulWidget {
-  final Account? account;
-  final AccountDetailTransactionTypeMode transactionType;
-
-  final DateTime startDate;
-  final DateTime endDate;
-
-  final TransactionTimePeriod selectedTransactionTimePeriod;
-
-  const ScrollableTabView({
-    super.key,
-    required this.transactionType,
-    required this.startDate,
-    required this.endDate,
-    required this.selectedTransactionTimePeriod,
-    required this.account,
-  });
-
-  @override
-  ConsumerState<ScrollableTabView> createState() => _ScrollableTabViewState();
-}
-
-class _ScrollableTabViewState extends ConsumerState<ScrollableTabView> {
-  @override
-  Widget build(BuildContext context) {
-    List<Transaction> transactionList = [];
-    late AccountBarChartModeTransactionType barChartTransactionType;
-    late AccountPieChartModeTransactionType pieChartTransactionType;
-
-    switch (widget.transactionType) {
-      case AccountDetailTransactionTypeMode.income:
-        transactionList = _getIncomeTransactionList();
-        barChartTransactionType = AccountBarChartModeTransactionType.income;
-        pieChartTransactionType = AccountPieChartModeTransactionType.income;
-        break;
-      case AccountDetailTransactionTypeMode.expense:
-        transactionList = _getExpenseTransactionList();
-        barChartTransactionType = AccountBarChartModeTransactionType.expense;
-        pieChartTransactionType = AccountPieChartModeTransactionType.expense;
-        break;
-      case AccountDetailTransactionTypeMode.all:
-        transactionList = _getTotalTransactionList();
-        barChartTransactionType = AccountBarChartModeTransactionType.all;
-        pieChartTransactionType = AccountPieChartModeTransactionType.all;
-        break;
-    }
-
-    final includeInReportTransactionsList = transactionList
-        .where((transaction) => transaction.includeInReports)
-        .toList();
-
-    return transactionList.isEmpty
-        ? Align(child: Text(AppLocalizations.of(context)!.noTransactions))
-        : SingleChildScrollView(
-            child: Column(
-              children: [
-                if (includeInReportTransactionsList.isNotEmpty) ...[
-                  Container(
-                    height: 200,
-                    margin: const EdgeInsets.only(
-                        top: 10, bottom: 0, left: 18, right: 18),
-                    child: PageViewWithIndicators(
-                      widgetList: [
-                        _buildPieChart(includeInReportTransactionsList,
-                            pieChartTransactionType),
-                        if (widget.selectedTransactionTimePeriod !=
-                            TransactionTimePeriod.day)
-                          _buildBarChart(
-                            transactionList: includeInReportTransactionsList,
-                            transactionType: barChartTransactionType,
-                            timeMode: widget.selectedTransactionTimePeriod,
-                          ),
-                      ],
-                      indicatorIconPathList:
-                          widget.selectedTransactionTimePeriod !=
-                                  TransactionTimePeriod.day
-                              ? const [
-                                  'assets/icons/pie-chart.svg',
-                                  'assets/icons/bar-chart.svg',
-                                ]
-                              : null,
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 4,
-                  ),
-                ],
-                _buildTransactionListSection(transactionList),
-              ],
-            ),
-          );
-  }
-
-  List<Transaction> _getIncomeTransactionList() {
-    List<Transaction> filteredTransactionList = [];
-
-    final fullTransactionList = ref.watch(transactionProvider);
-
-    if (widget.account != null) {
-      filteredTransactionList = fullTransactionList
-          .where(
-            (element) =>
-                element.accountId == widget.account!.id &&
-                element.amount >= 0 &&
-                element.date.isAfterIncludingZero(widget.startDate) &&
-                element.date.isBeforeIncludingZero(widget.endDate),
-          )
-          .toList()
-          .sorted((a, b) => a.date.isBefore(b.date) ? 1 : 0);
-    } else {
-      filteredTransactionList = fullTransactionList
-          .where(
-            (element) =>
-                element.amount >= 0 &&
-                element.date.isAfterIncludingZero(widget.startDate) &&
-                element.date.isBeforeIncludingZero(widget.endDate),
-          )
-          .toList()
-          .sorted((a, b) => a.date.isBefore(b.date) ? 1 : 0);
-    }
-
-    return filteredTransactionList;
-  }
-
-  List<Transaction> _getExpenseTransactionList() {
-    List<Transaction> filteredTransactionList = [];
-
-    final fullTransactionList = ref.watch(transactionProvider);
-
-    if (widget.account != null) {
-      filteredTransactionList = fullTransactionList
-          .where((element) =>
-              element.accountId == widget.account!.id &&
-              element.amount < 0 &&
-              element.date.isAfterIncludingZero(widget.startDate) &&
-              element.date.isBeforeIncludingZero(widget.endDate))
-          .toList()
-          .sorted((a, b) => a.date.isBefore(b.date) ? 1 : 0);
-    } else {
-      filteredTransactionList = fullTransactionList
-          .where(
-            (element) =>
-                element.amount < 0 &&
-                element.date.isAfterIncludingZero(widget.startDate) &&
-                element.date.isBeforeIncludingZero(widget.endDate),
-          )
-          .toList()
-          .sorted((a, b) => a.date.isBefore(b.date) ? 1 : 0);
-    }
-
-    return filteredTransactionList;
-  }
-
-  List<Transaction> _getTotalTransactionList() {
-    List<Transaction> filteredTransactionList = [];
-
-    final fullTransactionList = ref.watch(transactionProvider);
-
-    if (widget.account != null) {
-      filteredTransactionList = fullTransactionList
-          .where(
-            (element) =>
-                element.accountId == widget.account!.id &&
-                element.date.isAfterIncludingZero(widget.startDate) &&
-                element.date.isBeforeIncludingZero(widget.endDate),
-          )
-          .toList()
-          .sorted((a, b) => a.date.isBefore(b.date) ? 1 : 0);
-    } else {
-      filteredTransactionList = fullTransactionList
-          .where(
-            (element) =>
-                element.date.isAfterIncludingZero(widget.startDate) &&
-                element.date.isBeforeIncludingZero(widget.endDate),
-          )
-          .toList()
-          .sorted((a, b) => a.date.isBefore(b.date) ? 1 : 0);
-    }
-
-    return filteredTransactionList;
-  }
-
-  Widget _buildBarChart({
-    required List<Transaction> transactionList,
-    required AccountBarChartModeTransactionType transactionType,
-    required TransactionTimePeriod timeMode,
-  }) {
-    return AccountBarChart(
-      transactionType: transactionType,
-      transactionTimePeriod: timeMode,
-      startDate: widget.startDate,
-      endDate: widget.endDate,
-      transactionList: transactionList,
-    );
-  }
-
-  Widget _buildPieChart(List<Transaction> transactionList,
-      AccountPieChartModeTransactionType mode) {
-    return AccountPieChart(
-      transactionList: transactionList,
-      mode: mode,
-    );
-  }
-
-  Widget _buildTransactionListSection(List<Transaction> transactionList) {
-    return TransactionList(
-      transactionList: transactionList,
-      topWidgetRef: ref,
     );
   }
 }
