@@ -3,6 +3,7 @@ import 'package:expense_tracker/data/database/database_helper.dart';
 import 'package:expense_tracker/data/database/database_types.dart';
 import 'package:expense_tracker/domain/models/account.dart';
 import 'package:expense_tracker/domain/models/transaction.dart';
+import 'package:flutter/material.dart';
 import 'package:sqflite/sqlite_api.dart';
 
 class DatabaseAccountHelper {
@@ -65,9 +66,13 @@ class DatabaseAccountHelper {
   Future<List<AccountWithBalance>> getAllAccountsWithBalance() async {
     final dbInstance = await DatabaseHelper.instance.database;
 
+    // TODO: Aggiustare il nome dell'account "altro" utilizzando appLocalizations!.other
+
     final query = '''
     SELECT a.${AccountFields.id} AS id,
            a.${AccountFields.name} AS name,
+           a.${AccountFields.colorValue} AS color,
+           a.${AccountFields.iconPath} AS iconPath,
            COALESCE(SUM(t.${TransactionFields.amount}), 0.0) AS balance
     FROM $accountsTable a
     LEFT JOIN $transactionsTable t
@@ -78,6 +83,8 @@ class DatabaseAccountHelper {
     
     SELECT -1 AS id, 
            'No account' AS name,
+            ${Colors.grey.toARGB32()} AS color,
+            'assets/icons/box.svg' AS iconPath,
             COALESCE(SUM(${TransactionFields.amount}), 0.0) AS balance
     FROM $transactionsTable
     WHERE ${TransactionFields.accountId} IS NULL
@@ -87,8 +94,10 @@ class DatabaseAccountHelper {
 
     return result.map((row) {
       final account = Account(
-        id: row['id'] as int,
+        id: row['id'] as int?,
         name: row['name'] as String,
+        colorValue: row['color'] as int?,
+        iconPath: row['iconPath'] as String?,
       );
 
       return AccountWithBalance(
