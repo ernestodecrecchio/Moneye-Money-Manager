@@ -144,8 +144,9 @@ class AccountSection extends ConsumerWidget {
                           itemCount: list.length,
                           itemBuilder: (context, index) {
                             return AccountListTile(
-                                account: list[index].account,
-                                balance: list[index].balance);
+                              account: list[index].account,
+                              balance: list[index].balance,
+                            );
                           },
                           separatorBuilder: (context, index) => const SizedBox(
                             width: 12,
