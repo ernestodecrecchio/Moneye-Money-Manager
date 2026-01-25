@@ -55,7 +55,11 @@ class DatabaseTransactionHelper {
       required trans.Transaction modifiedTransaction}) async {
     final db = await DatabaseHelper.instance.database;
 
-    if (await db.update(transactionsTable, modifiedTransaction.toJson(),
+    final values = modifiedTransaction.toJson();
+    values.remove(trans.TransactionFields
+        .id); // Remove id from values to avoid error while updating the transaction avoiding to update the id
+
+    if (await db.update(transactionsTable, values,
             where: '${trans.TransactionFields.id} = ?',
             whereArgs: [transactionToEdit.id]) >
         0) {
