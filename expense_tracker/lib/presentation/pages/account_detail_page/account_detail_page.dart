@@ -337,7 +337,6 @@ class ScrollableTabView extends ConsumerStatefulWidget {
 class _ScrollableTabViewState extends ConsumerState<ScrollableTabView> {
   @override
   Widget build(BuildContext context) {
-    List<Transaction> transactionList = [];
     late AccountBarChartModeTransactionType barChartTransactionType;
     late AccountPieChartModeTransactionType pieChartTransactionType;
 
@@ -356,10 +355,6 @@ class _ScrollableTabViewState extends ConsumerState<ScrollableTabView> {
         break;
     }
 
-    final includeInReportTransactionsList = transactionList
-        .where((transaction) => transaction.includeInReports)
-        .toList();
-
     final transactionsListParams = TransactionsListParams(
       startDate: widget.startDate,
       endDate: widget.endDate,
@@ -374,7 +369,11 @@ class _ScrollableTabViewState extends ConsumerState<ScrollableTabView> {
 
     return ref.watch(transactionsListProvider(transactionsListParams)).when(
           data: (transactionsList) {
-            return transactionList.isEmpty
+            final includeInReportTransactionsList = transactionsList
+                .where((transaction) => transaction.includeInReports)
+                .toList();
+
+            return transactionsList.isEmpty
                 ? Align(child: Text(appLocalizations.noTransactions))
                 : SingleChildScrollView(
                     child: Column(
@@ -412,7 +411,7 @@ class _ScrollableTabViewState extends ConsumerState<ScrollableTabView> {
                             height: 4,
                           ),
                         ],
-                        _buildTransactionListSection(transactionList),
+                        _buildTransactionListSection(transactionsList),
                       ],
                     ),
                   );
