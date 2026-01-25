@@ -1,15 +1,16 @@
 import 'package:expense_tracker/Helper/double_helper.dart';
+import 'package:expense_tracker/application/categories/notifiers/queries/categories_list_notifier.dart';
 import 'package:expense_tracker/application/common/notifiers/app_localizations_provider.dart';
 import 'package:expense_tracker/l10n/app_localizations.dart';
 import 'package:expense_tracker/domain/models/category.dart';
 import 'package:expense_tracker/domain/models/transaction.dart';
-import 'package:expense_tracker/application/categories/notifiers/category_provider.dart';
 import 'package:expense_tracker/application/common/notifiers/currency_provider.dart';
 import 'package:expense_tracker/style.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:vector_graphics/vector_graphics.dart';
+import 'package:collection/collection.dart';
 
 enum AccountPieChartModeTransactionType { income, expense, all }
 
@@ -250,6 +251,8 @@ class _AccountPieChartState extends ConsumerState<AccountPieChart> {
       totalValue = totalValue.abs();
       categoryTotalValuePairs[1].totalValue *= -1;
     } else {
+      final categories = ref.read(categoriesListProvider).asData?.value ?? [];
+
       categoryTotalValuePairs.clear();
       totalValue = 0;
 
@@ -259,9 +262,9 @@ class _AccountPieChartState extends ConsumerState<AccountPieChart> {
         Category? category;
 
         if (transaction.categoryId != null) {
-          category = ref
-              .read(categoryProvider.notifier)
-              .getCategoryFromId(transaction.categoryId!);
+          category = categories.firstWhereOrNull(
+            (element) => element.id == transaction.categoryId,
+          );
         }
 
         if (category != null) {

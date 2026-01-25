@@ -1,7 +1,7 @@
+import 'package:expense_tracker/application/categories/notifiers/queries/categories_list_notifier.dart';
 import 'package:expense_tracker/application/common/notifiers/app_localizations_provider.dart';
 import 'package:expense_tracker/l10n/app_localizations.dart';
 import 'package:expense_tracker/domain/models/category.dart';
-import 'package:expense_tracker/application/categories/notifiers/category_provider.dart';
 import 'package:expense_tracker/presentation/pages/options_page/categories_page/new_edit_category_page.dart';
 import 'package:expense_tracker/style.dart';
 import 'package:flutter/material.dart';
@@ -77,21 +77,23 @@ class _CategorySelectorContentState
             ),
           ),
           Expanded(
-            child: Consumer(
-              builder: (context, ref, child) {
-                final categoriesList = ref.watch(categoryProvider);
-
-                return ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: categoriesList.length + 1,
-                    itemBuilder: (BuildContext context, int index) {
-                      if (index == categoriesList.length) {
-                        return _buildAddCategoryTile(appLocalizations);
-                      }
-                      return _buildCategoryTile(categoriesList[index]);
-                    });
-              },
-            ),
+            child: ref.watch(categoriesListProvider).when(
+                  data: (categoriesList) {
+                    return ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: categoriesList.length + 1,
+                        itemBuilder: (BuildContext context, int index) {
+                          if (index == categoriesList.length) {
+                            return _buildAddCategoryTile(appLocalizations);
+                          }
+                          return _buildCategoryTile(categoriesList[index]);
+                        });
+                  },
+                  loading: () =>
+                      const Center(child: CircularProgressIndicator()),
+                  error: (error, stackTrace) =>
+                      const Center(child: Text('Error loading categories')),
+                ),
           ),
         ],
       ),

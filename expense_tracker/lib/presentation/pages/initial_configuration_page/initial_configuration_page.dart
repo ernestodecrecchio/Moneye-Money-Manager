@@ -3,7 +3,7 @@ import 'package:expense_tracker/domain/models/account.dart';
 import 'package:expense_tracker/domain/models/category.dart';
 import 'package:expense_tracker/domain/models/currency.dart';
 import 'package:expense_tracker/application/accounts/notifiers/mutations/account_mutation_notifier.dart';
-import 'package:expense_tracker/application/categories/notifiers/category_provider.dart';
+import 'package:expense_tracker/application/categories/notifiers/mutations/category_mutation_notifier.dart';
 import 'package:expense_tracker/application/common/notifiers/currency_provider.dart';
 import 'package:expense_tracker/presentation/pages/initial_configuration_page/account_selection/account_selection.dart';
 import 'package:expense_tracker/presentation/pages/initial_configuration_page/categories_selection/categories_selection.dart';
@@ -392,9 +392,8 @@ class _InitialConfigurationPageState
 
     await Future.forEach(
         selectedCategory,
-        (category) async => await ref
-            .read(categoryProvider.notifier)
-            .addNewCategory(category: category));
+        (category) async =>
+            await ref.read(categoryMutationProvider.notifier).add(category));
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
 

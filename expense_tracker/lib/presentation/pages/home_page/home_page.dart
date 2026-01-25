@@ -2,9 +2,6 @@ import 'package:expense_tracker/Services/widget_extension_service.dart';
 import 'package:expense_tracker/application/accounts/notifiers/queries/accounts_with_balance_notifier.dart';
 import 'package:expense_tracker/application/transactions/notifiers/queries/transactions_list_notifier.dart';
 import 'package:expense_tracker/application/common/notifiers/app_localizations_provider.dart';
-import 'package:expense_tracker/domain/models/category.dart';
-import 'package:expense_tracker/domain/models/transaction.dart';
-import 'package:expense_tracker/application/categories/notifiers/category_provider.dart';
 import 'package:expense_tracker/presentation/pages/account_detail_page/account_detail_page.dart';
 import 'package:expense_tracker/presentation/pages/common/delete_transaction_snackbar.dart';
 import 'package:expense_tracker/presentation/pages/common/list_tiles/transaction_list_cell.dart';
@@ -79,16 +76,6 @@ class _HomePageState extends ConsumerState<HomePage> {
         ],
       ),
     );
-  }
-
-  Category? getCategoryForTransaction(Transaction transaction) {
-    if (transaction.categoryId != null) {
-      return ref
-          .read(categoryProvider.notifier)
-          .getCategoryFromId(transaction.categoryId!);
-    }
-
-    return null;
   }
 
   Widget _buildFloatingActionButton() {

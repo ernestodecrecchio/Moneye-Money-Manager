@@ -1,10 +1,8 @@
 import 'dart:io';
-
-import 'package:expense_tracker/application/categories/notifiers/categories_repository_provider.dart';
+import 'package:expense_tracker/application/categories/notifiers/mutations/category_mutation_notifier.dart';
 import 'package:expense_tracker/application/common/notifiers/app_localizations_provider.dart';
 import 'package:expense_tracker/l10n/app_localizations.dart';
 import 'package:expense_tracker/domain/models/category.dart';
-import 'package:expense_tracker/application/categories/notifiers/category_provider.dart';
 import 'package:expense_tracker/presentation/pages/options_page/categories_page/new_edit_category_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -45,9 +43,8 @@ class CategoryListCell extends ConsumerWidget {
       dismissible: DismissiblePane(
         confirmDismiss: () => showDeleteAlert(context, appLocalizations),
         closeOnCancel: true,
-        onDismissed: () async => await ref
-            .read(categoriesRepositoryProvider)
-            .deleteCategory(category: category),
+        onDismissed: () async =>
+            await ref.read(categoryMutationProvider.notifier).delete(category),
       ),
       children: [
         _buildDeleteSlidableAction(context, ref, appLocalizations),
@@ -67,7 +64,7 @@ class CategoryListCell extends ConsumerWidget {
               await showDeleteAlert(context, appLocalizations);
 
           if (context.mounted && isDeleteConfirmed) {
-            await ref.read(categoryProvider.notifier).deleteCategory(category);
+            await ref.read(categoryMutationProvider.notifier).delete(category);
           }
         });
   }

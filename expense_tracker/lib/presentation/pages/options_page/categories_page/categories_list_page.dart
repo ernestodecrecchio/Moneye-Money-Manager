@@ -1,7 +1,6 @@
 import 'package:expense_tracker/application/categories/notifiers/queries/categories_list_notifier.dart';
 import 'package:expense_tracker/application/common/notifiers/app_localizations_provider.dart';
 import 'package:expense_tracker/l10n/app_localizations.dart';
-import 'package:expense_tracker/application/categories/notifiers/category_provider.dart';
 import 'package:expense_tracker/presentation/pages/options_page/categories_page/category_list_cell.dart';
 import 'package:expense_tracker/presentation/pages/options_page/categories_page/new_edit_category_page.dart';
 import 'package:expense_tracker/style.dart';
@@ -37,10 +36,9 @@ class _CategoriesListPageState extends ConsumerState<CategoriesListPage> {
           data: (categoriesList) {
             return categoriesList.isNotEmpty
                 ? ListView.builder(
-                    itemCount: ref.watch(categoryProvider).length,
+                    itemCount: categoriesList.length,
                     itemBuilder: (context, index) {
-                      return CategoryListCell(
-                          category: ref.read(categoryProvider)[index]);
+                      return CategoryListCell(category: categoriesList[index]);
                     },
                   )
                 : Align(
@@ -57,7 +55,7 @@ class _CategoriesListPageState extends ConsumerState<CategoriesListPage> {
           },
           loading: () => const Center(child: CircularProgressIndicator()),
           error: (error, stackTrace) =>
-              const Text('Error loading currency list'),
+              const Center(child: Text('Error loading categories')),
         );
   }
 

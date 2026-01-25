@@ -1,7 +1,7 @@
+import 'package:expense_tracker/application/categories/notifiers/mutations/category_mutation_notifier.dart';
 import 'package:expense_tracker/application/common/notifiers/app_localizations_provider.dart';
 import 'package:expense_tracker/l10n/app_localizations.dart';
 import 'package:expense_tracker/domain/models/category.dart';
-import 'package:expense_tracker/application/categories/notifiers/category_provider.dart';
 import 'package:expense_tracker/presentation/pages/common/custom_elevated_button.dart';
 import 'package:expense_tracker/presentation/pages/common/custom_text_field.dart';
 import 'package:expense_tracker/presentation/pages/common/inline_color_picker.dart';
@@ -197,25 +197,33 @@ class _NewEditCategoryPageState extends ConsumerState<NewEditCategoryPage> {
   }
 
   void _saveNewCategory() {
+    final newCategory = Category(
+      name: titleInput.text,
+      description: descriptionInput.text,
+      colorValue: selectedColor.toARGB32(),
+      iconPath: selectedIconPath,
+    );
+
     ref
-        .read(categoryProvider.notifier)
-        .addNewCategoryByParameters(
-            name: titleInput.text,
-            description: descriptionInput.text,
-            colorValue: selectedColor.toARGB32(),
-            iconPath: selectedIconPath)
+        .read(categoryMutationProvider.notifier)
+        .add(newCategory)
         .then((value) => {if (mounted) Navigator.of(context).pop()});
   }
 
   void _editCategory() {
+    final modifiedCategory = Category(
+      id: widget.initialCategorySettings!.id,
+      name: titleInput.text,
+      description: descriptionInput.text,
+      colorValue: selectedColor.toARGB32(),
+      iconPath: selectedIconPath,
+    );
+
     ref
-        .read(categoryProvider.notifier)
-        .updateCategory(
-          categoryToEdit: widget.initialCategorySettings!,
-          name: titleInput.text,
-          description: descriptionInput.text,
-          colorValue: selectedColor.toARGB32(),
-          iconPath: selectedIconPath,
+        .read(categoryMutationProvider.notifier)
+        .update(
+          widget.initialCategorySettings!,
+          modifiedCategory,
         )
         .then((value) => {if (mounted) Navigator.of(context).pop()});
   }

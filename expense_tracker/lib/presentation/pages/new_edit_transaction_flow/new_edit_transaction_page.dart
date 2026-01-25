@@ -1,4 +1,5 @@
 import 'package:collection/collection.dart';
+import 'package:expense_tracker/application/categories/notifiers/queries/categories_list_notifier.dart';
 import 'package:expense_tracker/application/common/notifiers/app_localizations_provider.dart';
 import 'package:expense_tracker/application/transactions/notifiers/mutations/transaction_mutation_notifier.dart';
 import 'package:expense_tracker/l10n/app_localizations.dart';
@@ -6,7 +7,6 @@ import 'package:expense_tracker/domain/models/account.dart';
 import 'package:expense_tracker/domain/models/category.dart';
 import 'package:expense_tracker/domain/models/transaction.dart';
 import 'package:expense_tracker/application/accounts/notifiers/queries/accounts_list_notifier.dart';
-import 'package:expense_tracker/application/categories/notifiers/category_provider.dart';
 import 'package:expense_tracker/presentation/pages/common/custom_elevated_button.dart';
 import 'package:expense_tracker/presentation/pages/new_edit_transaction_flow/account_selector_dialog.dart';
 import 'package:expense_tracker/presentation/pages/common/custom_text_field.dart';
@@ -92,8 +92,11 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
 
       if (initialTransaction.categoryId != null) {
         selectedCategory = ref
-            .read(categoryProvider.notifier)
-            .getCategoryFromId(initialTransaction.categoryId!);
+            .read(categoriesListProvider)
+            .asData
+            ?.value
+            .firstWhereOrNull(
+                (element) => element.id == initialTransaction.categoryId);
 
         if (selectedCategory != null) {
           categoryInput.text = selectedCategory!.name;

@@ -3,7 +3,7 @@ import 'package:expense_tracker/application/common/notifiers/app_localizations_p
 import 'package:expense_tracker/l10n/app_localizations.dart';
 import 'package:expense_tracker/domain/models/category.dart';
 import 'package:expense_tracker/domain/models/transaction.dart';
-import 'package:expense_tracker/application/categories/notifiers/category_provider.dart';
+import 'package:expense_tracker/application/categories/notifiers/queries/categories_list_notifier.dart';
 import 'package:expense_tracker/application/common/notifiers/currency_provider.dart';
 import 'package:expense_tracker/presentation/pages/account_detail_page/graphs/account_pie_chart.dart';
 import 'package:expense_tracker/presentation/pages/account_detail_page/transaction_list_page.dart';
@@ -12,6 +12,7 @@ import 'package:expense_tracker/presentation/pages/common/list_tiles/transaction
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:vector_graphics/vector_graphics.dart';
+import 'package:collection/collection.dart';
 
 enum AccountDetailTransactionListMode {
   transactionList,
@@ -115,13 +116,15 @@ class _TransactionListState extends ConsumerState<TransactionList> {
 
     categoryTotalValuePairs.clear();
 
+    final categories = ref.watch(categoriesListProvider).asData?.value ?? [];
+
     for (var transaction in transactionList) {
       Category? category;
 
       if (transaction.categoryId != null) {
-        category = ref
-            .read(categoryProvider.notifier)
-            .getCategoryFromId(transaction.categoryId!);
+        category = categories.firstWhereOrNull(
+          (element) => element.id == transaction.categoryId,
+        );
       }
 
       if (category != null) {

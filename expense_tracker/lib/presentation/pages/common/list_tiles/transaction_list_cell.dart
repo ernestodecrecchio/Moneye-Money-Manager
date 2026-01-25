@@ -1,11 +1,11 @@
 import 'package:expense_tracker/Helper/double_helper.dart';
+import 'package:expense_tracker/application/categories/notifiers/queries/categories_list_notifier.dart';
 import 'package:expense_tracker/application/common/notifiers/app_localizations_provider.dart';
 import 'package:expense_tracker/application/transactions/notifiers/mutations/transaction_mutation_notifier.dart';
 import 'package:expense_tracker/l10n/app_localizations.dart';
 import 'package:expense_tracker/domain/models/account.dart';
 import 'package:expense_tracker/domain/models/transaction.dart';
 import 'package:expense_tracker/application/accounts/notifiers/queries/accounts_list_notifier.dart';
-import 'package:expense_tracker/application/categories/notifiers/category_provider.dart';
 import 'package:expense_tracker/application/common/notifiers/currency_provider.dart';
 import 'package:collection/collection.dart';
 import 'package:expense_tracker/presentation/pages/new_edit_transaction_flow/new_edit_transaction_page.dart';
@@ -130,9 +130,10 @@ class TransactionListCell extends ConsumerWidget {
   }
 
   Container _buildCategoryIcon(BuildContext context, WidgetRef ref) {
-    final category = ref
-        .read(categoryProvider.notifier)
-        .getCategoryForTransaction(transaction);
+    final categories = ref.watch(categoriesListProvider).asData?.value ?? [];
+    final category = categories.firstWhereOrNull(
+      (element) => element.id == transaction.categoryId,
+    );
 
     VectorGraphic? categoryIcon;
     if (category != null && category.iconPath != null) {
