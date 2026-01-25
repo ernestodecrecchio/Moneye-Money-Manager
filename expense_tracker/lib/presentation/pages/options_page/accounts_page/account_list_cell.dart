@@ -3,7 +3,6 @@ import 'package:expense_tracker/application/accounts/notifiers/mutations/account
 import 'package:expense_tracker/application/common/notifiers/app_localizations_provider.dart';
 import 'package:expense_tracker/l10n/app_localizations.dart';
 import 'package:expense_tracker/domain/models/account.dart';
-import 'package:expense_tracker/application/accounts/notifiers/account_provider.dart';
 import 'package:expense_tracker/presentation/pages/options_page/accounts_page/new_edit_account_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -65,7 +64,7 @@ class AccountListCell extends ConsumerWidget {
             await showDeleteAlert(context, appLocalizations);
 
         if (context.mounted && isDeleteConfirmed) {
-          await ref.read(accountProvider.notifier).deleteAccount(account);
+          await ref.read(accountMutationProvider.notifier).delete(account);
         }
       },
     );

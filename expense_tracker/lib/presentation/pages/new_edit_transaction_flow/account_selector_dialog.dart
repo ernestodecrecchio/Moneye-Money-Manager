@@ -1,7 +1,7 @@
 import 'package:expense_tracker/application/common/notifiers/app_localizations_provider.dart';
 import 'package:expense_tracker/l10n/app_localizations.dart';
 import 'package:expense_tracker/domain/models/account.dart';
-import 'package:expense_tracker/application/accounts/notifiers/account_provider.dart';
+import 'package:expense_tracker/application/accounts/notifiers/queries/accounts_list_notifier.dart';
 import 'package:expense_tracker/presentation/pages/options_page/accounts_page/new_edit_account_page.dart';
 import 'package:expense_tracker/style.dart';
 import 'package:flutter/material.dart';
@@ -79,16 +79,23 @@ class _AccountSelectorContentState
           Expanded(
             child: Consumer(
               builder: (context, ref, child) {
-                final accountsList = ref.watch(accountProvider);
-                return ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: accountsList.length + 1,
-                    itemBuilder: (BuildContext context, int index) {
-                      if (index == accountsList.length) {
-                        return _buildAddAccountTile(appLocalizations);
-                      }
-                      return _buildAccountTile(accountsList[index]);
-                    });
+                return ref.watch(accountsListProvider).when(
+                      data: (accountsList) {
+                        return ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: accountsList.length + 1,
+                            itemBuilder: (BuildContext context, int index) {
+                              if (index == accountsList.length) {
+                                return _buildAddAccountTile(appLocalizations);
+                              }
+                              return _buildAccountTile(accountsList[index]);
+                            });
+                      },
+                      loading: () =>
+                          const Center(child: CircularProgressIndicator()),
+                      error: (error, stackTrace) =>
+                          const Text('Error loading accounts'),
+                    );
               },
             ),
           ),

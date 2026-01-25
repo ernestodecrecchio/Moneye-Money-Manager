@@ -4,9 +4,10 @@ import 'package:expense_tracker/application/transactions/notifiers/mutations/tra
 import 'package:expense_tracker/l10n/app_localizations.dart';
 import 'package:expense_tracker/domain/models/account.dart';
 import 'package:expense_tracker/domain/models/transaction.dart';
-import 'package:expense_tracker/application/accounts/notifiers/account_provider.dart';
+import 'package:expense_tracker/application/accounts/notifiers/queries/accounts_list_notifier.dart';
 import 'package:expense_tracker/application/categories/notifiers/category_provider.dart';
 import 'package:expense_tracker/application/common/notifiers/currency_provider.dart';
+import 'package:collection/collection.dart';
 import 'package:expense_tracker/presentation/pages/new_edit_transaction_flow/new_edit_transaction_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -199,8 +200,10 @@ class TransactionListCell extends ConsumerWidget {
 
     if (showAccountLabel && transaction.accountId != null) {
       account = ref
-          .read(accountProvider.notifier)
-          .getAccountFromId(transaction.accountId!);
+          .watch(accountsListProvider)
+          .asData
+          ?.value
+          .firstWhereOrNull((a) => a.id == transaction.accountId);
     }
 
     return Column(

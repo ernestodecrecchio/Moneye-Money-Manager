@@ -1,7 +1,9 @@
 import 'package:expense_tracker/application/common/notifiers/app_localizations_provider.dart';
 import 'package:expense_tracker/l10n/app_localizations.dart';
 import 'package:expense_tracker/domain/models/account.dart';
-import 'package:expense_tracker/application/accounts/notifiers/account_provider.dart';
+import 'package:expense_tracker/domain/models/transaction.dart';
+import 'package:expense_tracker/application/accounts/notifiers/mutations/account_mutation_notifier.dart';
+import 'package:expense_tracker/application/transactions/notifiers/mutations/transaction_mutation_notifier.dart';
 import 'package:expense_tracker/presentation/pages/common/custom_elevated_button.dart';
 import 'package:expense_tracker/presentation/pages/common/custom_text_field.dart';
 import 'package:expense_tracker/presentation/pages/common/inline_color_picker.dart';
@@ -55,7 +57,7 @@ class _NewAccountPageState extends ConsumerState<NewAccountPage> {
   void dispose() {
     titleInput.dispose();
     descriptionInput.dispose();
-
+    initialBalanceInput.dispose();
     super.dispose();
   }
 
@@ -213,26 +215,53 @@ class _NewAccountPageState extends ConsumerState<NewAccountPage> {
     final double? initialAmountValue =
         double.tryParse(initialBalanceInput.text);
 
+    final newAccount = Account(
+      name: titleInput.text,
+      description: descriptionInput.text,
+      colorValue: selectedColor.toARGB32(),
+      iconPath: selectedIconPath,
+    );
+
     ref
-        .read(accountProvider.notifier)
-        .addNewAccountByParameters(
-            name: titleInput.text,
-            description: descriptionInput.text,
-            colorValue: selectedColor.toARGB32(),
-            iconPath: selectedIconPath,
-            initialAmount: initialAmountValue)
-        .then((value) => {if (mounted) Navigator.of(context).pop()});
+        .read(accountMutationProvider.notifier)
+        .add(newAccount)
+        .then((addedAccount) {
+      if (initialAmountValue != null) {
+        final currentContext = context;
+        String initialBalanceTitle = "Inital balance"; // TODO: Localize
+
+        if (currentContext.mounted) {
+          initialBalanceTitle =
+              AppLocalizations.of(currentContext)!.initialBalance;
+        }
+
+        final newTransaction = Transaction(
+          accountId: addedAccount.id,
+          title: initialBalanceTitle,
+          amount: initialAmountValue,
+          date: DateTime.now(),
+          includeInReports: false,
+          isHidden: false,
+        );
+
+        ref.read(transactionMutationProvider.notifier).add(newTransaction);
+      }
+      if (mounted) Navigator.of(context).pop();
+    });
   }
 
   void _editAccount() {
+    final modifiedAccount = Account(
+      id: widget.initialAccountSettings!.id,
+      name: titleInput.text,
+      description: descriptionInput.text,
+      colorValue: selectedColor.toARGB32(),
+      iconPath: selectedIconPath,
+    );
+
     ref
-        .read(accountProvider.notifier)
-        .updateAccount(
-            accountToEdit: widget.initialAccountSettings!,
-            name: titleInput.text,
-            description: descriptionInput.text,
-            colorValue: selectedColor.toARGB32(),
-            iconPath: selectedIconPath)
+        .read(accountMutationProvider.notifier)
+        .update(widget.initialAccountSettings!, modifiedAccount)
         .then((value) => {if (mounted) Navigator.of(context).pop()});
   }
 }

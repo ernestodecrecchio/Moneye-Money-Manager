@@ -5,7 +5,7 @@ import 'package:expense_tracker/application/transactions/notifiers/queries/trans
 import 'package:expense_tracker/l10n/app_localizations.dart';
 import 'package:expense_tracker/domain/models/account.dart';
 import 'package:expense_tracker/domain/models/transaction.dart';
-import 'package:expense_tracker/application/accounts/notifiers/account_provider.dart';
+import 'package:expense_tracker/application/accounts/notifiers/queries/accounts_list_notifier.dart';
 import 'package:expense_tracker/presentation/pages/account_detail_page/graphs/account_bar_chart.dart';
 import 'package:expense_tracker/presentation/pages/account_detail_page/graphs/account_pie_chart.dart';
 import 'package:expense_tracker/presentation/pages/account_detail_page/transaction_list/transaction_list.dart';
@@ -76,9 +76,11 @@ class _AccountDetailPageState extends ConsumerState<AccountDetailPage>
     Account? referenceAccount;
 
     if (widget.account != null) {
-      referenceAccount = ref
-          .watch(accountProvider)
-          .firstWhereOrNull((element) => element.id == widget.account!.id);
+      referenceAccount = ref.watch(accountsListProvider).maybeWhen(
+            data: (accountsList) => accountsList.firstWhereOrNull(
+                (element) => element.id == widget.account!.id),
+            orElse: () => null,
+          );
     }
 
     final appLocalizations = ref.watch(appLocalizationsProvider);

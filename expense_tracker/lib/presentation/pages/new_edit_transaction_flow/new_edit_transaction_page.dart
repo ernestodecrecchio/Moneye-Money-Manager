@@ -1,10 +1,11 @@
+import 'package:collection/collection.dart';
 import 'package:expense_tracker/application/common/notifiers/app_localizations_provider.dart';
 import 'package:expense_tracker/application/transactions/notifiers/mutations/transaction_mutation_notifier.dart';
 import 'package:expense_tracker/l10n/app_localizations.dart';
 import 'package:expense_tracker/domain/models/account.dart';
 import 'package:expense_tracker/domain/models/category.dart';
 import 'package:expense_tracker/domain/models/transaction.dart';
-import 'package:expense_tracker/application/accounts/notifiers/account_provider.dart';
+import 'package:expense_tracker/application/accounts/notifiers/queries/accounts_list_notifier.dart';
 import 'package:expense_tracker/application/categories/notifiers/category_provider.dart';
 import 'package:expense_tracker/presentation/pages/common/custom_elevated_button.dart';
 import 'package:expense_tracker/presentation/pages/new_edit_transaction_flow/account_selector_dialog.dart';
@@ -100,9 +101,11 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
       }
 
       if (initialTransaction.accountId != null) {
-        selectedAccount = ref
-            .read(accountProvider.notifier)
-            .getAccountFromId(initialTransaction.accountId!);
+        selectedAccount = ref.read(accountsListProvider).maybeWhen(
+              data: (accountsList) => accountsList.firstWhereOrNull(
+                  (element) => element.id == initialTransaction.accountId!),
+              orElse: () => null,
+            );
 
         if (selectedAccount != null) {
           accountInput.text = selectedAccount!.name;
@@ -120,9 +123,11 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
           incomePreset == null || incomePreset == true ? 0 : 1;
 
       if (widget.initialAccountSettings != null) {
-        selectedAccount = ref
-            .read(accountProvider.notifier)
-            .getAccountFromId(widget.initialAccountSettings!.id!);
+        selectedAccount = ref.read(accountsListProvider).maybeWhen(
+              data: (accountsList) => accountsList.firstWhereOrNull((element) =>
+                  element.id == widget.initialAccountSettings!.id!),
+              orElse: () => null,
+            );
 
         if (selectedAccount != null) {
           accountInput.text = selectedAccount!.name;

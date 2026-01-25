@@ -2,7 +2,7 @@ import 'package:expense_tracker/application/common/notifiers/app_localizations_p
 import 'package:expense_tracker/domain/models/account.dart';
 import 'package:expense_tracker/domain/models/category.dart';
 import 'package:expense_tracker/domain/models/currency.dart';
-import 'package:expense_tracker/application/accounts/notifiers/account_provider.dart';
+import 'package:expense_tracker/application/accounts/notifiers/mutations/account_mutation_notifier.dart';
 import 'package:expense_tracker/application/categories/notifiers/category_provider.dart';
 import 'package:expense_tracker/application/common/notifiers/currency_provider.dart';
 import 'package:expense_tracker/presentation/pages/initial_configuration_page/account_selection/account_selection.dart';
@@ -387,9 +387,8 @@ class _InitialConfigurationPageState
 
     await Future.forEach(
         selectedAccounts,
-        (account) async => await ref
-            .read(accountProvider.notifier)
-            .addNewAccount(account: account));
+        (account) async =>
+            await ref.read(accountMutationProvider.notifier).add(account));
 
     await Future.forEach(
         selectedCategory,

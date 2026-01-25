@@ -1,7 +1,6 @@
 import 'package:expense_tracker/application/accounts/notifiers/queries/accounts_list_notifier.dart';
 import 'package:expense_tracker/application/common/notifiers/app_localizations_provider.dart';
 import 'package:expense_tracker/l10n/app_localizations.dart';
-import 'package:expense_tracker/application/accounts/notifiers/account_provider.dart';
 import 'package:expense_tracker/presentation/pages/options_page/accounts_page/account_list_cell.dart';
 import 'package:expense_tracker/presentation/pages/options_page/accounts_page/new_edit_account_page.dart';
 import 'package:expense_tracker/style.dart';
@@ -37,9 +36,9 @@ class _AccountsListPageState extends ConsumerState<AccountsListPage> {
           data: (accountsList) {
             return accountsList.isNotEmpty
                 ? ListView.builder(
-                    itemCount: ref.watch(accountProvider).length,
+                    itemCount: accountsList.length,
                     itemBuilder: (context, index) {
-                      final account = ref.watch(accountProvider)[index];
+                      final account = accountsList[index];
 
                       return AccountListCell(account: account);
                     },
