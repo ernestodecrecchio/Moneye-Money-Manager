@@ -1,4 +1,4 @@
-import 'package:expense_tracker/l10n/app_localizations.dart';
+import 'package:expense_tracker/application/common/notifiers/app_localizations_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -13,13 +13,15 @@ class ConfigurationComplete extends ConsumerStatefulWidget {
 class _ConfigurationCompleteState extends ConsumerState<ConfigurationComplete> {
   @override
   Widget build(BuildContext context) {
+    final appLocalizations = ref.watch(appLocalizationsProvider);
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 28),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
-            AppLocalizations.of(context)!.endConfigurationMsg1,
+            appLocalizations.endConfigurationMsg1,
             textAlign: TextAlign.center,
             style: const TextStyle(
               color: Colors.white,
@@ -31,7 +33,7 @@ class _ConfigurationCompleteState extends ConsumerState<ConfigurationComplete> {
             height: 20,
           ),
           Text(
-            AppLocalizations.of(context)!.endConfigurationMsg2,
+            appLocalizations.endConfigurationMsg2,
             textAlign: TextAlign.center,
             style: const TextStyle(
               color: Colors.white,

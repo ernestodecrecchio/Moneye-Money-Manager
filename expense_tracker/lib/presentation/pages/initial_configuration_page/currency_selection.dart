@@ -1,6 +1,6 @@
+import 'package:expense_tracker/application/common/notifiers/app_localizations_provider.dart';
 import 'package:expense_tracker/domain/models/currency.dart';
-import 'package:expense_tracker/l10n/app_localizations.dart';
-import 'package:expense_tracker/notifiers/currency_provider.dart';
+import 'package:expense_tracker/application/common/notifiers/currency_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -22,6 +22,8 @@ class _CurrencySelectionState extends ConsumerState<CurrencySelectionPage> {
 
   @override
   Widget build(BuildContext context) {
+    final appLocalizations = ref.watch(appLocalizationsProvider);
+
     return LayoutBuilder(
       builder: (context, constraints) {
         return Padding(
@@ -29,7 +31,7 @@ class _CurrencySelectionState extends ConsumerState<CurrencySelectionPage> {
           child: Column(
             children: [
               Text(
-                AppLocalizations.of(context)!.selectCurrencyMsg1,
+                appLocalizations.selectCurrencyMsg1,
                 textAlign: TextAlign.center,
                 style: const TextStyle(
                   color: Colors.white,
@@ -41,7 +43,7 @@ class _CurrencySelectionState extends ConsumerState<CurrencySelectionPage> {
                 height: 20,
               ),
               Text(
-                AppLocalizations.of(context)!.selectCurrencyMsg2,
+                appLocalizations.selectCurrencyMsg2,
                 textAlign: TextAlign.center,
                 style: const TextStyle(
                   color: Colors.white,

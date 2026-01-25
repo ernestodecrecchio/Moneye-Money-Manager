@@ -1,5 +1,6 @@
+import 'package:expense_tracker/application/common/notifiers/app_localizations_provider.dart';
 import 'package:expense_tracker/l10n/app_localizations.dart';
-import 'package:expense_tracker/notifiers/locale_provider.dart';
+import 'package:expense_tracker/application/common/notifiers/locale_provider.dart';
 import 'package:expense_tracker/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -17,22 +18,24 @@ class LanguagesListPage extends ConsumerStatefulWidget {
 class _LanguagesListPageState extends ConsumerState<LanguagesListPage> {
   @override
   Widget build(BuildContext context) {
+    final appLocalizations = ref.watch(appLocalizationsProvider);
+
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppLocalizations.of(context)!.language),
+        title: Text(appLocalizations.language),
         backgroundColor: CustomColors.blue,
       ),
-      body: _buildList(context),
+      body: _buildList(context, appLocalizations),
     );
   }
 
-  Widget _buildList(BuildContext context) {
+  Widget _buildList(BuildContext context, AppLocalizations appLocalizations) {
     final currentLocale = ref.watch(localeProvider);
 
     return ListView(
       children: [
         ListTile(
-          title: Text(AppLocalizations.of(context)!.systemLanguageOption),
+          title: Text(appLocalizations.systemLanguageOption),
           onTap: () => ref.read(localeProvider.notifier).resetLocale(),
           leading: Container(
             clipBehavior: Clip.antiAlias,

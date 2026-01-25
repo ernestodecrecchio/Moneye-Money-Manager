@@ -1,6 +1,7 @@
 import 'package:expense_tracker/application/categories/notifiers/queries/categories_list_notifier.dart';
+import 'package:expense_tracker/application/common/notifiers/app_localizations_provider.dart';
 import 'package:expense_tracker/l10n/app_localizations.dart';
-import 'package:expense_tracker/notifiers/category_provider.dart';
+import 'package:expense_tracker/application/categories/notifiers/category_provider.dart';
 import 'package:expense_tracker/presentation/pages/options_page/categories_page/category_list_cell.dart';
 import 'package:expense_tracker/presentation/pages/options_page/categories_page/new_edit_category_page.dart';
 import 'package:expense_tracker/style.dart';
@@ -19,17 +20,19 @@ class CategoriesListPage extends ConsumerStatefulWidget {
 class _CategoriesListPageState extends ConsumerState<CategoriesListPage> {
   @override
   Widget build(BuildContext context) {
+    final appLocalizations = ref.watch(appLocalizationsProvider);
+
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppLocalizations.of(context)!.yourCategories),
+        title: Text(appLocalizations.yourCategories),
         backgroundColor: CustomColors.blue,
       ),
       floatingActionButton: _buildFloatingActionButton(context),
-      body: _buildList(),
+      body: _buildList(appLocalizations),
     );
   }
 
-  Widget _buildList() {
+  Widget _buildList(AppLocalizations appLocalizations) {
     return ref.watch(categoriesListProvider).when(
           data: (categoriesList) {
             return categoriesList.isNotEmpty
@@ -45,7 +48,7 @@ class _CategoriesListPageState extends ConsumerState<CategoriesListPage> {
                     child: Padding(
                       padding: const EdgeInsets.only(top: 8.0),
                       child: Text(
-                        AppLocalizations.of(context)!.noCategories,
+                        appLocalizations.noCategories,
                         style: const TextStyle(color: Colors.grey),
                         textAlign: TextAlign.start,
                       ),

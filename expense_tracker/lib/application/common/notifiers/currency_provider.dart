@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+/// Provider that loads the list of available currencies from a JSON file.
 final currencyListProvider = FutureProvider<List<Currency>>((ref) async {
   try {
     String jsonString =
@@ -24,11 +25,13 @@ final currencyListProvider = FutureProvider<List<Currency>>((ref) async {
   }
 });
 
+/// Notifier responsible for managing the current application currency.
 class CurrentCurrencyNotifier extends Notifier<Currency?> {
   CurrentCurrencyNotifier() : super();
 
   @override
   Currency? build() {
+    // Default currency is Euro.
     return const Currency(
         symbol: '€',
         name: 'Euro',
@@ -39,6 +42,7 @@ class CurrentCurrencyNotifier extends Notifier<Currency?> {
         namePlural: 'euros');
   }
 
+  /// Sets the current currency from a JSON string stored in local storage.
   void setFromLocalStorage(String? localStorageValue) {
     if (localStorageValue != null) {
       final Map<String, dynamic> x = jsonDecode(localStorageValue);
@@ -47,6 +51,7 @@ class CurrentCurrencyNotifier extends Notifier<Currency?> {
     }
   }
 
+  /// Updates the current currency and persists it to local storage.
   Future<bool> updateCurrency(Currency newCurrency) async {
     state = newCurrency;
 
@@ -57,17 +62,20 @@ class CurrentCurrencyNotifier extends Notifier<Currency?> {
   }
 }
 
+/// Provider for the [CurrentCurrencyNotifier], managing the user's selected currency.
 final currentCurrencyProvider =
     NotifierProvider<CurrentCurrencyNotifier, Currency?>(() {
   return CurrentCurrencyNotifier();
 });
 
+/// Represents the possible positions for the currency symbol.
 enum CurrencySymbolPosition {
   none,
   leading,
   trailing,
 }
 
+/// Helper function to convert a string representation to [CurrencySymbolPosition].
 CurrencySymbolPosition getCurrencySymbolPositionFromString(
     String currencySymbolPosition) {
   switch (currencySymbolPosition) {
@@ -82,18 +90,21 @@ CurrencySymbolPosition getCurrencySymbolPositionFromString(
   }
 }
 
+/// Notifier managing the position of the currency symbol.
 class CurrencySymbolPositionNotifier extends Notifier<CurrencySymbolPosition> {
   @override
   CurrencySymbolPosition build() {
     return CurrencySymbolPosition.trailing;
   }
 
+  /// Sets the symbol position from a persisted string.
   void setFromLocalStorage(String? localStorageValue) {
     if (localStorageValue != null) {
       state = getCurrencySymbolPositionFromString(localStorageValue);
     }
   }
 
+  /// Updates and persists the currency symbol position.
   Future updateCurrencyPosition(
       CurrencySymbolPosition newCurrencySymbolPosition) async {
     state = newCurrencySymbolPosition;
@@ -105,6 +116,7 @@ class CurrencySymbolPositionNotifier extends Notifier<CurrencySymbolPosition> {
   }
 }
 
+/// Provider for [CurrencySymbolPositionNotifier].
 final currentCurrencySymbolPositionProvider =
     NotifierProvider<CurrencySymbolPositionNotifier, CurrencySymbolPosition>(
         () {

@@ -1,6 +1,7 @@
+import 'package:expense_tracker/application/common/notifiers/app_localizations_provider.dart';
 import 'package:expense_tracker/l10n/app_localizations.dart';
 import 'package:expense_tracker/domain/models/category.dart';
-import 'package:expense_tracker/notifiers/category_provider.dart';
+import 'package:expense_tracker/application/categories/notifiers/category_provider.dart';
 import 'package:expense_tracker/presentation/pages/options_page/categories_page/new_edit_category_page.dart';
 import 'package:expense_tracker/style.dart';
 import 'package:flutter/material.dart';
@@ -40,8 +41,6 @@ class CategorySelectorContent extends ConsumerStatefulWidget {
 
 class _CategorySelectorContentState
     extends ConsumerState<CategorySelectorContent> {
-  late final AppLocalizations appLocalizations;
-
   Category? _selectedCategory;
 
   @override
@@ -52,14 +51,9 @@ class _CategorySelectorContentState
   }
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-
-    appLocalizations = AppLocalizations.of(context)!;
-  }
-
-  @override
   Widget build(BuildContext context) {
+    final appLocalizations = ref.watch(appLocalizationsProvider);
+
     return Container(
       color: Colors.white,
       padding: const EdgeInsets.only(top: 10),
@@ -92,7 +86,7 @@ class _CategorySelectorContentState
                     itemCount: categoriesList.length + 1,
                     itemBuilder: (BuildContext context, int index) {
                       if (index == categoriesList.length) {
-                        return _buildAddCategoryTile();
+                        return _buildAddCategoryTile(appLocalizations);
                       }
                       return _buildCategoryTile(categoriesList[index]);
                     });
@@ -104,7 +98,7 @@ class _CategorySelectorContentState
     );
   }
 
-  ListTile _buildAddCategoryTile() {
+  ListTile _buildAddCategoryTile(AppLocalizations appLocalizations) {
     return ListTile(
       leading: Container(
         height: 32,

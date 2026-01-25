@@ -1,4 +1,4 @@
-import 'package:expense_tracker/l10n/app_localizations.dart';
+import 'package:expense_tracker/application/common/notifiers/app_localizations_provider.dart';
 import 'package:expense_tracker/presentation/pages/home_page/home_page.dart';
 import 'package:expense_tracker/presentation/pages/options_page/options_page.dart';
 import 'package:expense_tracker/style.dart';
@@ -27,6 +27,8 @@ class _TabBarPageState extends ConsumerState<TabBarPage> {
 
   @override
   Widget build(BuildContext context) {
+    final appLocalizations = ref.watch(appLocalizationsProvider);
+
     return Scaffold(
         bottomNavigationBar: SalomonBottomBar(
           currentIndex: index,
@@ -51,7 +53,7 @@ class _TabBarPageState extends ConsumerState<TabBarPage> {
             SalomonBottomBarItem(
               icon: const Icon(CupertinoIcons.gear_solid),
               title: Text(
-                AppLocalizations.of(context)!.settings,
+                appLocalizations.settings,
                 style: const TextStyle(fontFamily: 'Ubuntu'),
               ),
             ),

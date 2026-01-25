@@ -1,9 +1,10 @@
 import 'package:expense_tracker/Helper/double_helper.dart';
+import 'package:expense_tracker/application/common/notifiers/app_localizations_provider.dart';
 import 'package:expense_tracker/l10n/app_localizations.dart';
 import 'package:expense_tracker/domain/models/category.dart';
 import 'package:expense_tracker/domain/models/transaction.dart';
-import 'package:expense_tracker/notifiers/category_provider.dart';
-import 'package:expense_tracker/notifiers/currency_provider.dart';
+import 'package:expense_tracker/application/categories/notifiers/category_provider.dart';
+import 'package:expense_tracker/application/common/notifiers/currency_provider.dart';
 import 'package:expense_tracker/style.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
@@ -49,10 +50,12 @@ class _AccountPieChartState extends ConsumerState<AccountPieChart> {
 
   @override
   Widget build(BuildContext context) {
+    final appLocalizations = ref.watch(appLocalizationsProvider);
+
     return Row(
       children: <Widget>[
         Expanded(
-          child: _buildGraph(),
+          child: _buildGraph(appLocalizations),
         ),
         const SizedBox(
           width: 30,
@@ -64,7 +67,7 @@ class _AccountPieChartState extends ConsumerState<AccountPieChart> {
     );
   }
 
-  Padding _buildGraph() {
+  Padding _buildGraph(AppLocalizations appLocalizations) {
     final currentCurrency = ref.watch(currentCurrencyProvider);
     final currentCurrencyPosition =
         ref.watch(currentCurrencySymbolPositionProvider);
@@ -88,7 +91,7 @@ class _AccountPieChartState extends ConsumerState<AccountPieChart> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
-                    AppLocalizations.of(context)!.total,
+                    appLocalizations.total,
                     textAlign: TextAlign.center,
                     style: const TextStyle(
                       fontSize: 14,
@@ -212,11 +215,13 @@ class _AccountPieChartState extends ConsumerState<AccountPieChart> {
     categoryTotalValuePairs.clear();
     totalValue = 0;
 
+    final appLocalizations = ref.read(appLocalizationsProvider);
+
     if (widget.mode == AccountPieChartModeTransactionType.all) {
       final incomeCategory = CategoryTotalValue(
         category: Category(
             id: -1,
-            name: AppLocalizations.of(context)!.incomes,
+            name: appLocalizations.incomes,
             colorValue: CustomColors.income.toARGB32()),
         totalValue: 0,
       );
@@ -224,7 +229,7 @@ class _AccountPieChartState extends ConsumerState<AccountPieChart> {
       final expenseCategory = CategoryTotalValue(
         category: Category(
             id: -2,
-            name: AppLocalizations.of(context)!.expenses,
+            name: appLocalizations.expenses,
             colorValue: CustomColors.expense.toARGB32()),
         totalValue: 0,
       );
@@ -275,7 +280,7 @@ class _AccountPieChartState extends ConsumerState<AccountPieChart> {
             categoryTotalValuePairs.add(newEntry);
           }
         } else {
-          _addToOtherCategoryIndicator(transaction);
+          _addToOtherCategoryIndicator(transaction, appLocalizations);
         }
       }
     }
@@ -289,7 +294,8 @@ class _AccountPieChartState extends ConsumerState<AccountPieChart> {
     }
   }
 
-  void _addToOtherCategoryIndicator(Transaction transaction) {
+  void _addToOtherCategoryIndicator(
+      Transaction transaction, AppLocalizations appLocalizations) {
     final indexFound = categoryTotalValuePairs
         .indexWhere((element) => element.category.id == null);
 
@@ -298,8 +304,7 @@ class _AccountPieChartState extends ConsumerState<AccountPieChart> {
     } else {
       final otherEntry = CategoryTotalValue(
           category: Category(
-              name: AppLocalizations.of(context)!.other,
-              colorValue: Colors.grey.toARGB32()),
+              name: appLocalizations.other, colorValue: Colors.grey.toARGB32()),
           totalValue: transaction.amount);
 
       categoryTotalValuePairs.add(otherEntry);

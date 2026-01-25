@@ -1,28 +1,33 @@
+import 'package:expense_tracker/application/common/notifiers/app_localizations_provider.dart';
 import 'package:expense_tracker/l10n/app_localizations.dart';
 import 'package:expense_tracker/style.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:vector_graphics/vector_graphics.dart';
 
-class AboutPage extends StatelessWidget {
+class AboutPage extends ConsumerWidget {
   static const routeName = '/aboutPage';
 
   const AboutPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final appLocalizations = ref.watch(appLocalizationsProvider);
+
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppLocalizations.of(context)!.info),
+        title: Text(appLocalizations.info),
         backgroundColor: CustomColors.blue,
         elevation: 0,
       ),
       body: SafeArea(
-        child: SingleChildScrollView(child: _buildBody(context)),
+        child:
+            SingleChildScrollView(child: _buildBody(context, appLocalizations)),
       ),
     );
   }
 
-  Widget _buildBody(BuildContext context) {
+  Widget _buildBody(BuildContext context, AppLocalizations appLocalizations) {
     return Padding(
       padding: const EdgeInsets.symmetric(
         horizontal: 16,
@@ -36,7 +41,7 @@ class AboutPage extends StatelessWidget {
             height: 20,
           ),
           Text(
-            AppLocalizations.of(context)!.infoDescription,
+            appLocalizations.infoDescription,
             style: const TextStyle(
               fontSize: 18,
             ),

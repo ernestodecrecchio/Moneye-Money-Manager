@@ -1,5 +1,5 @@
+import 'package:expense_tracker/application/common/notifiers/app_localizations_provider.dart';
 import 'package:expense_tracker/application/transactions/notifiers/mutations/transaction_mutation_notifier.dart';
-import 'package:expense_tracker/l10n/app_localizations.dart';
 import 'package:expense_tracker/domain/models/transaction.dart';
 import 'package:expense_tracker/style.dart';
 import 'package:flutter/material.dart';
@@ -11,15 +11,16 @@ void showDeleteTransactionSnackbar(
   Transaction transaction,
   int index,
 ) {
+  final appLocalizations = ref.read(appLocalizationsProvider);
   ScaffoldMessenger.of(context).removeCurrentSnackBar();
 
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
-      content: Text(AppLocalizations.of(context)!.transactionDeleted),
+      content: Text(appLocalizations.transactionDeleted),
       backgroundColor: CustomColors.blue,
       behavior: SnackBarBehavior.floating,
       action: SnackBarAction(
-        label: AppLocalizations.of(context)!.cancel,
+        label: appLocalizations.cancel,
         textColor: Colors.white,
         onPressed: () async {
           await ref.read(transactionMutationProvider.notifier).add(transaction);

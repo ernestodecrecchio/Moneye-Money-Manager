@@ -1,8 +1,9 @@
 import 'dart:io';
 import 'package:expense_tracker/application/accounts/notifiers/mutations/account_mutation_notifier.dart';
+import 'package:expense_tracker/application/common/notifiers/app_localizations_provider.dart';
 import 'package:expense_tracker/l10n/app_localizations.dart';
 import 'package:expense_tracker/domain/models/account.dart';
-import 'package:expense_tracker/notifiers/account_provider.dart';
+import 'package:expense_tracker/application/accounts/notifiers/account_provider.dart';
 import 'package:expense_tracker/presentation/pages/options_page/accounts_page/new_edit_account_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -17,10 +18,12 @@ class AccountListCell extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final appLocalizations = ref.watch(appLocalizationsProvider);
+
     return Slidable(
       key: Key(account.id.toString()),
-      startActionPane: _buildDeleteActionPane(context, ref),
-      endActionPane: _buildDeleteActionPane(context, ref),
+      startActionPane: _buildDeleteActionPane(context, ref, appLocalizations),
+      endActionPane: _buildDeleteActionPane(context, ref, appLocalizations),
       child: ListTile(
         onTap: () => Navigator.of(context)
             .pushNamed(NewAccountPage.routeName, arguments: account),
@@ -34,30 +37,32 @@ class AccountListCell extends ConsumerWidget {
     );
   }
 
-  ActionPane _buildDeleteActionPane(BuildContext context, WidgetRef ref) {
+  ActionPane _buildDeleteActionPane(
+      BuildContext context, WidgetRef ref, AppLocalizations appLocalizations) {
     return ActionPane(
       motion: const ScrollMotion(),
       dismissible: DismissiblePane(
-        confirmDismiss: () => showDeleteAlert(context),
+        confirmDismiss: () => showDeleteAlert(context, appLocalizations),
         closeOnCancel: true,
         onDismissed: () async =>
             await ref.read(accountMutationProvider.notifier).delete(account),
       ),
       children: [
-        _buildDeleteSlidableAction(context, ref),
+        _buildDeleteSlidableAction(context, ref, appLocalizations),
       ],
     );
   }
 
   SlidableAction _buildDeleteSlidableAction(
-      BuildContext context, WidgetRef ref) {
+      BuildContext context, WidgetRef ref, AppLocalizations appLocalizations) {
     return SlidableAction(
       backgroundColor: const Color(0xFFFE4A49),
       foregroundColor: Colors.white,
       icon: Icons.delete,
-      label: AppLocalizations.of(context)!.delete,
+      label: appLocalizations.delete,
       onPressed: (_) async {
-        final isDeleteConfirmed = await showDeleteAlert(context);
+        final isDeleteConfirmed =
+            await showDeleteAlert(context, appLocalizations);
 
         if (context.mounted && isDeleteConfirmed) {
           await ref.read(accountProvider.notifier).deleteAccount(account);
@@ -66,7 +71,8 @@ class AccountListCell extends ConsumerWidget {
     );
   }
 
-  Future<bool> showDeleteAlert(BuildContext context) async {
+  Future<bool> showDeleteAlert(
+      BuildContext context, AppLocalizations appLocalizations) async {
     bool isDeleteConfirmed = false;
 
     if (Platform.isAndroid) {
@@ -75,10 +81,10 @@ class AccountListCell extends ConsumerWidget {
         builder: (context) {
           return AlertDialog(
             title: Text(
-              AppLocalizations.of(context)!.areYouSure,
+              appLocalizations.areYouSure,
             ),
             content: Text(
-              AppLocalizations.of(context)!.deleteAccountAlertBody,
+              appLocalizations.deleteAccountAlertBody,
             ),
             actions: [
               TextButton(
@@ -87,7 +93,7 @@ class AccountListCell extends ConsumerWidget {
                   Navigator.of(context).pop();
                 },
                 child: Text(
-                  AppLocalizations.of(context)!.cancel,
+                  appLocalizations.cancel,
                 ),
               ),
               TextButton(
@@ -96,7 +102,7 @@ class AccountListCell extends ConsumerWidget {
                   Navigator.of(context).pop();
                 },
                 child: Text(
-                  AppLocalizations.of(context)!.delete,
+                  appLocalizations.delete,
                 ),
               )
             ],
@@ -108,10 +114,10 @@ class AccountListCell extends ConsumerWidget {
         context: context,
         builder: (BuildContext context) => CupertinoAlertDialog(
           title: Text(
-            AppLocalizations.of(context)!.areYouSure,
+            appLocalizations.areYouSure,
           ),
           content: Text(
-            AppLocalizations.of(context)!.deleteAccountAlertBody,
+            appLocalizations.deleteAccountAlertBody,
           ),
           actions: <CupertinoDialogAction>[
             CupertinoDialogAction(
@@ -121,7 +127,7 @@ class AccountListCell extends ConsumerWidget {
                 Navigator.pop(context);
               },
               child: Text(
-                AppLocalizations.of(context)!.cancel,
+                appLocalizations.cancel,
               ),
             ),
             CupertinoDialogAction(
@@ -131,7 +137,7 @@ class AccountListCell extends ConsumerWidget {
                 Navigator.pop(context);
               },
               child: Text(
-                AppLocalizations.of(context)!.delete,
+                appLocalizations.delete,
               ),
             ),
           ],

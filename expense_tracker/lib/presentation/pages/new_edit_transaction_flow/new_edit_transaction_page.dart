@@ -1,10 +1,11 @@
+import 'package:expense_tracker/application/common/notifiers/app_localizations_provider.dart';
 import 'package:expense_tracker/application/transactions/notifiers/mutations/transaction_mutation_notifier.dart';
 import 'package:expense_tracker/l10n/app_localizations.dart';
 import 'package:expense_tracker/domain/models/account.dart';
 import 'package:expense_tracker/domain/models/category.dart';
 import 'package:expense_tracker/domain/models/transaction.dart';
-import 'package:expense_tracker/notifiers/account_provider.dart';
-import 'package:expense_tracker/notifiers/category_provider.dart';
+import 'package:expense_tracker/application/accounts/notifiers/account_provider.dart';
+import 'package:expense_tracker/application/categories/notifiers/category_provider.dart';
 import 'package:expense_tracker/presentation/pages/common/custom_elevated_button.dart';
 import 'package:expense_tracker/presentation/pages/new_edit_transaction_flow/account_selector_dialog.dart';
 import 'package:expense_tracker/presentation/pages/common/custom_text_field.dart';
@@ -46,8 +47,6 @@ class NewEditTransactionPage extends ConsumerStatefulWidget {
 
 class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
     with SingleTickerProviderStateMixin {
-  late final AppLocalizations appLocalizations;
-
   bool get editMode {
     return widget.initialTransactionSettings != null;
   }
@@ -133,13 +132,6 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
   }
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-
-    appLocalizations = AppLocalizations.of(context)!;
-  }
-
-  @override
   void dispose() {
     titleInput.dispose();
     titleInputFocusNode.dispose();
@@ -155,6 +147,8 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
 
   @override
   Widget build(BuildContext context) {
+    final appLocalizations = ref.watch(appLocalizationsProvider);
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -171,7 +165,7 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
               hasScrollBody: false,
               child: Padding(
                 padding: const EdgeInsets.only(bottom: 10.0),
-                child: _buildForm(),
+                child: _buildForm(appLocalizations),
               ),
             ),
           ],
@@ -180,7 +174,7 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
     );
   }
 
-  Widget _buildForm() {
+  Widget _buildForm(AppLocalizations appLocalizations) {
     return Form(
       key: _formKey,
       child: Padding(
@@ -221,7 +215,7 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
             const SizedBox(
               height: 8,
             ),
-            _buildSegmentedBar(),
+            _buildSegmentedBar(appLocalizations),
             const SizedBox(
               height: 14,
             ),
@@ -292,7 +286,7 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
               children: [
                 Text(
                   appLocalizations.includeInReports,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.w600,
                     color: CustomColors.lightBlack,
@@ -312,7 +306,7 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
               ],
             ),
             const Spacer(),
-            _buildSaveButton(),
+            _buildSaveButton(appLocalizations),
           ],
         ),
       ),
@@ -365,7 +359,7 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
     }
   }
 
-  Widget _buildSaveButton() {
+  Widget _buildSaveButton(AppLocalizations appLocalizations) {
     return CustomElevatedButton(
       onPressed: () {
         if (_formKey.currentState!.validate()) {
@@ -443,7 +437,7 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
     }
   }
 
-  Container _buildSegmentedBar() {
+  Container _buildSegmentedBar(AppLocalizations appLocalizations) {
     return Container(
       height: 54,
       decoration: BoxDecoration(
@@ -457,10 +451,10 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
         padding: const EdgeInsets.symmetric(horizontal: 3, vertical: 3),
         tabs: [
           Tab(
-            text: AppLocalizations.of(context)!.income,
+            text: appLocalizations.income,
           ),
           Tab(
-            text: AppLocalizations.of(context)!.expense,
+            text: appLocalizations.expense,
           )
         ],
         overlayColor: WidgetStateProperty.resolveWith<Color?>(

@@ -1,4 +1,4 @@
-import 'package:expense_tracker/l10n/app_localizations.dart';
+import 'package:expense_tracker/application/common/notifiers/app_localizations_provider.dart';
 import 'package:expense_tracker/domain/models/transaction.dart';
 import 'package:expense_tracker/presentation/pages/common/delete_transaction_snackbar.dart';
 import 'package:expense_tracker/presentation/pages/common/list_tiles/transaction_list_cell.dart';
@@ -15,9 +15,11 @@ class TransactionListPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final appLocalizations = ref.watch(appLocalizationsProvider);
+
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppLocalizations.of(context)!.allTransactions),
+        title: Text(appLocalizations.allTransactions),
         backgroundColor: CustomColors.blue,
       ),
       body: _buildList(context, ref),

@@ -1,7 +1,7 @@
 import 'package:app_settings/app_settings.dart';
 import 'package:expense_tracker/Configuration/notification_manager.dart';
-import 'package:expense_tracker/l10n/app_localizations.dart';
-import 'package:expense_tracker/notifiers/notification_provider.dart';
+import 'package:expense_tracker/application/common/notifiers/app_localizations_provider.dart';
+import 'package:expense_tracker/application/common/notifiers/notification_provider.dart';
 import 'package:expense_tracker/style.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -14,9 +14,11 @@ class ReminderPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final appLocalizations = ref.watch(appLocalizationsProvider);
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Promemoria'),
+        title: Text(appLocalizations.reminder),
         backgroundColor: CustomColors.blue,
       ),
       body: SafeArea(
@@ -29,7 +31,7 @@ class ReminderPage extends ConsumerWidget {
                   padding: const EdgeInsets.only(bottom: 10.0, top: 30),
                   child: Column(children: [
                     Text(
-                      AppLocalizations.of(context)!.reminderDescription,
+                      appLocalizations.reminderDescription,
                       style: const TextStyle(
                           color: CustomColors.clearGreyText, fontSize: 16),
                     ),
@@ -38,7 +40,7 @@ class ReminderPage extends ConsumerWidget {
                       children: [
                         Expanded(
                           child: Text(
-                            AppLocalizations.of(context)!.dailyReminder,
+                            appLocalizations.dailyReminder,
                             style: const TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.w600,

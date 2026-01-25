@@ -1,4 +1,4 @@
-import 'package:expense_tracker/l10n/app_localizations.dart';
+import 'package:expense_tracker/application/common/notifiers/app_localizations_provider.dart';
 import 'package:expense_tracker/domain/models/account.dart';
 import 'package:expense_tracker/presentation/pages/initial_configuration_page/account_selection/account_list_tile.dart';
 import 'package:flutter/material.dart';
@@ -24,24 +24,26 @@ class _AccountSelectionState extends ConsumerState<AccountSelectionPage> {
   void didChangeDependencies() {
     super.didChangeDependencies();
 
+    final appLocalizations = ref.read(appLocalizationsProvider);
+
     accountList = [
       Account(
-        name: AppLocalizations.of(context)!.cash,
+        name: appLocalizations.cash,
         colorValue: 4278214515,
         iconPath: 'assets/icons/cash.svg',
       ),
       Account(
-        name: AppLocalizations.of(context)!.creditCard,
+        name: appLocalizations.creditCard,
         colorValue: 4291454722,
         iconPath: 'assets/icons/credit_card.svg',
       ),
       Account(
-        name: AppLocalizations.of(context)!.debitCard,
+        name: appLocalizations.debitCard,
         colorValue: 4289472825,
         iconPath: 'assets/icons/credit_card.svg',
       ),
       Account(
-        name: AppLocalizations.of(context)!.savings,
+        name: appLocalizations.savings,
         colorValue: 4283990359,
         iconPath: 'assets/icons/savings.svg',
       ),
@@ -54,12 +56,14 @@ class _AccountSelectionState extends ConsumerState<AccountSelectionPage> {
 
   @override
   Widget build(BuildContext context) {
+    final appLocalizations = ref.watch(appLocalizationsProvider);
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 28),
       child: Column(
         children: [
           Text(
-            AppLocalizations.of(context)!.selectAccountMsg1,
+            appLocalizations.selectAccountMsg1,
             textAlign: TextAlign.center,
             style: const TextStyle(
               color: Colors.white,
@@ -71,7 +75,7 @@ class _AccountSelectionState extends ConsumerState<AccountSelectionPage> {
             height: 20,
           ),
           Text(
-            AppLocalizations.of(context)!.selectAccountMsg2,
+            appLocalizations.selectAccountMsg2,
             textAlign: TextAlign.center,
             style: const TextStyle(
               color: Colors.white,

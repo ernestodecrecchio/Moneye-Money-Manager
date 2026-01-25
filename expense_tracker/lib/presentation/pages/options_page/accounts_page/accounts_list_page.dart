@@ -1,6 +1,7 @@
 import 'package:expense_tracker/application/accounts/notifiers/queries/accounts_list_notifier.dart';
+import 'package:expense_tracker/application/common/notifiers/app_localizations_provider.dart';
 import 'package:expense_tracker/l10n/app_localizations.dart';
-import 'package:expense_tracker/notifiers/account_provider.dart';
+import 'package:expense_tracker/application/accounts/notifiers/account_provider.dart';
 import 'package:expense_tracker/presentation/pages/options_page/accounts_page/account_list_cell.dart';
 import 'package:expense_tracker/presentation/pages/options_page/accounts_page/new_edit_account_page.dart';
 import 'package:expense_tracker/style.dart';
@@ -19,17 +20,19 @@ class AccountsListPage extends ConsumerStatefulWidget {
 class _AccountsListPageState extends ConsumerState<AccountsListPage> {
   @override
   Widget build(BuildContext context) {
+    final appLocalizations = ref.watch(appLocalizationsProvider);
+
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppLocalizations.of(context)!.yourAccounts),
+        title: Text(appLocalizations.yourAccounts),
         backgroundColor: CustomColors.blue,
       ),
       floatingActionButton: _buildFloatingActionButton(context),
-      body: _buildList(),
+      body: _buildList(appLocalizations),
     );
   }
 
-  Widget _buildList() {
+  Widget _buildList(AppLocalizations appLocalizations) {
     return ref.watch(accountsListProvider).when(
           data: (accountsList) {
             return accountsList.isNotEmpty
@@ -46,7 +49,7 @@ class _AccountsListPageState extends ConsumerState<AccountsListPage> {
                     child: Padding(
                       padding: const EdgeInsets.only(top: 8.0),
                       child: Text(
-                        AppLocalizations.of(context)!.noAccounts,
+                        appLocalizations.noAccounts,
                         style: const TextStyle(color: Colors.grey),
                         textAlign: TextAlign.start,
                       ),

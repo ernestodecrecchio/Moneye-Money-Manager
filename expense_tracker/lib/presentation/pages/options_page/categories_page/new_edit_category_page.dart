@@ -1,6 +1,7 @@
+import 'package:expense_tracker/application/common/notifiers/app_localizations_provider.dart';
 import 'package:expense_tracker/l10n/app_localizations.dart';
 import 'package:expense_tracker/domain/models/category.dart';
-import 'package:expense_tracker/notifiers/category_provider.dart';
+import 'package:expense_tracker/application/categories/notifiers/category_provider.dart';
 import 'package:expense_tracker/presentation/pages/common/custom_elevated_button.dart';
 import 'package:expense_tracker/presentation/pages/common/custom_text_field.dart';
 import 'package:expense_tracker/presentation/pages/common/inline_color_picker.dart';
@@ -25,8 +26,6 @@ class NewEditCategoryPage extends ConsumerStatefulWidget {
 }
 
 class _NewEditCategoryPageState extends ConsumerState<NewEditCategoryPage> {
-  late final AppLocalizations appLocalizations;
-
   final _formKey = GlobalKey<FormState>();
 
   TextEditingController titleInput = TextEditingController();
@@ -52,13 +51,6 @@ class _NewEditCategoryPageState extends ConsumerState<NewEditCategoryPage> {
   }
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-
-    appLocalizations = AppLocalizations.of(context)!;
-  }
-
-  @override
   void dispose() {
     titleInput.dispose();
     descriptionInput.dispose();
@@ -68,6 +60,8 @@ class _NewEditCategoryPageState extends ConsumerState<NewEditCategoryPage> {
 
   @override
   Widget build(BuildContext context) {
+    final appLocalizations = ref.watch(appLocalizationsProvider);
+
     return Scaffold(
       appBar: AppBar(
         title: Text(editMode
@@ -83,7 +77,7 @@ class _NewEditCategoryPageState extends ConsumerState<NewEditCategoryPage> {
               hasScrollBody: false,
               child: Padding(
                   padding: const EdgeInsets.only(bottom: 10),
-                  child: _buildForm()),
+                  child: _buildForm(appLocalizations)),
             ),
           ],
         ),
@@ -91,7 +85,7 @@ class _NewEditCategoryPageState extends ConsumerState<NewEditCategoryPage> {
     );
   }
 
-  Widget _buildForm() {
+  Widget _buildForm(AppLocalizations appLocalizations) {
     return Form(
       key: _formKey,
       child: Padding(
@@ -121,20 +115,20 @@ class _NewEditCategoryPageState extends ConsumerState<NewEditCategoryPage> {
             const SizedBox(
               height: 14,
             ),
-            _buildColorPicker(),
+            _buildColorPicker(appLocalizations),
             const SizedBox(
               height: 14,
             ),
-            _buildIconPicker(),
+            _buildIconPicker(appLocalizations),
             const Spacer(),
-            _buildSaveButton(),
+            _buildSaveButton(appLocalizations),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildColorPicker() {
+  Widget _buildColorPicker(AppLocalizations appLocalizations) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -160,7 +154,7 @@ class _NewEditCategoryPageState extends ConsumerState<NewEditCategoryPage> {
     );
   }
 
-  Widget _buildIconPicker() {
+  Widget _buildIconPicker(AppLocalizations appLocalizations) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -187,7 +181,7 @@ class _NewEditCategoryPageState extends ConsumerState<NewEditCategoryPage> {
     );
   }
 
-  Widget _buildSaveButton() {
+  Widget _buildSaveButton(AppLocalizations appLocalizations) {
     return CustomElevatedButton(
       onPressed: () {
         if (_formKey.currentState!.validate()) {

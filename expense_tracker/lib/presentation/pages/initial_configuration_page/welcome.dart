@@ -1,4 +1,4 @@
-import 'package:expense_tracker/l10n/app_localizations.dart';
+import 'package:expense_tracker/application/common/notifiers/app_localizations_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:vector_graphics/vector_graphics.dart';
@@ -13,6 +13,8 @@ class Welcome extends ConsumerStatefulWidget {
 class _WelcomeState extends ConsumerState<Welcome> {
   @override
   Widget build(BuildContext context) {
+    final appLocalizations = ref.watch(appLocalizationsProvider);
+
     return Padding(
       padding: const EdgeInsets.only(
         left: 28,
@@ -22,7 +24,7 @@ class _WelcomeState extends ConsumerState<Welcome> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
-            AppLocalizations.of(context)!.welcomePageMsg1,
+            appLocalizations.welcomePageMsg1,
             textAlign: TextAlign.center,
             style: const TextStyle(
               color: Colors.white,
@@ -43,7 +45,7 @@ class _WelcomeState extends ConsumerState<Welcome> {
             height: 40,
           ),
           Text(
-            AppLocalizations.of(context)!.welcomePageMsg2,
+            appLocalizations.welcomePageMsg2,
             textAlign: TextAlign.center,
             style: const TextStyle(
               color: Colors.white,

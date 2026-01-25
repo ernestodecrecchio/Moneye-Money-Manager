@@ -7,21 +7,28 @@ import 'package:expense_tracker/domain/models/account.dart';
 import 'package:expense_tracker/domain/models/transaction.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+/// Legacy notifier responsible for managing the list of accounts.
+///
+/// [!] Note: This notifier combines both state management and data operations (mutations).
+/// Modern features should use dedicated repository-based notifiers in subfolders.
 class AccountNotifier extends Notifier<List<Account>> {
   @override
   List<Account> build() {
     return [];
   }
 
+  /// Returns an [Account] by its ID from the current state.
   Account? getAccountFromId(int id) {
     return state.firstWhereOrNull((element) => element.id == id);
   }
 
+  /// Returns the [Account] associated with a given [Transaction].
   Account? getAccountForTransaction(Transaction transaction) {
     return state
         .firstWhereOrNull((element) => element.id == transaction.accountId);
   }
 
+  /// Adds a new account and optionally an initial balance transaction.
   Future addNewAccountByParameters({
     required String name,
     String? description,
@@ -62,6 +69,7 @@ class AccountNotifier extends Notifier<List<Account>> {
     state = [...state, addedAccount];
   }
 
+  /// Persists a new [Account] to the database and updates the state.
   Future addNewAccount({required Account account}) async {
     final addedAccount =
         await DatabaseAccountHelper.instance.insertAccount(account: account);
@@ -69,6 +77,7 @@ class AccountNotifier extends Notifier<List<Account>> {
     state = [...state, addedAccount];
   }
 
+  /// Updates an existing [Account] and refreshes the state.
   Future updateAccount({
     required Account accountToEdit,
     required String name,
@@ -98,7 +107,8 @@ class AccountNotifier extends Notifier<List<Account>> {
     }
   }
 
-  /// Deletes the account without affecting the transactions viewed in the current session
+  /// Deletes an [Account] from the database and state.
+  /// Note: Transactions associated with the account stay in the session but lose their reference.
   Future<bool> deleteAccount(Account account) async {
     final removedAccountCount =
         await DatabaseAccountHelper.instance.deleteAccount(account: account);
@@ -116,6 +126,7 @@ class AccountNotifier extends Notifier<List<Account>> {
   }
 }
 
+/// Provider for the [AccountNotifier], managing the list of user accounts.
 final accountProvider = NotifierProvider<AccountNotifier, List<Account>>(() {
   return AccountNotifier();
 });

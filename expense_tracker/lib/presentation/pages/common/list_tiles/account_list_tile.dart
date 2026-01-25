@@ -1,7 +1,7 @@
 import 'package:expense_tracker/Helper/double_helper.dart';
-import 'package:expense_tracker/l10n/app_localizations.dart';
+import 'package:expense_tracker/application/common/notifiers/app_localizations_provider.dart';
 import 'package:expense_tracker/domain/models/account.dart';
-import 'package:expense_tracker/notifiers/currency_provider.dart';
+import 'package:expense_tracker/application/common/notifiers/currency_provider.dart';
 import 'package:expense_tracker/presentation/pages/account_detail_page/account_detail_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -22,6 +22,7 @@ class AccountListTile extends ConsumerWidget {
     final currentCurrency = ref.watch(currentCurrencyProvider);
     final currentCurrencyPosition =
         ref.watch(currentCurrencySymbolPositionProvider);
+    final appLocalizations = ref.watch(appLocalizationsProvider);
 
     return GestureDetector(
       onTap: () => Navigator.pushNamed(
@@ -96,7 +97,7 @@ class AccountListTile extends ConsumerWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      AppLocalizations.of(context)!.total,
+                      appLocalizations.total,
                       style: TextStyle(
                         fontSize: 12,
                         color: Colors.white.withValues(alpha: 0.5),

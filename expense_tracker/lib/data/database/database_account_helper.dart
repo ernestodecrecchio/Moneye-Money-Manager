@@ -63,10 +63,9 @@ class DatabaseAccountHelper {
     return result.map((json) => Account.fromJson(json)).toList();
   }
 
-  Future<List<AccountWithBalance>> getAllAccountsWithBalance() async {
+  Future<List<AccountWithBalance>> getAllAccountsWithBalance(
+      {String? otherAccountName}) async {
     final dbInstance = await DatabaseHelper.instance.database;
-
-    // TODO: Aggiustare il nome dell'account "altro" utilizzando appLocalizations!.other
 
     final query = '''
     SELECT a.${AccountFields.id} AS id,
@@ -82,7 +81,7 @@ class DatabaseAccountHelper {
     UNION ALL
     
     SELECT -1 AS id, 
-           'No account' AS name,
+           '${otherAccountName ?? 'No account'}' AS name,
             ${Colors.grey.toARGB32()} AS color,
             'assets/icons/box.svg' AS iconPath,
             COALESCE(SUM(${TransactionFields.amount}), 0.0) AS balance

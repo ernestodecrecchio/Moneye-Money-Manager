@@ -1,5 +1,6 @@
+import 'package:expense_tracker/application/common/notifiers/app_localizations_provider.dart';
 import 'package:expense_tracker/l10n/app_localizations.dart';
-import 'package:expense_tracker/notifiers/currency_provider.dart';
+import 'package:expense_tracker/application/common/notifiers/currency_provider.dart';
 import 'package:expense_tracker/presentation/pages/common/custom_modal_bottom_sheet.dart';
 import 'package:expense_tracker/presentation/pages/common/custom_text_field.dart';
 import 'package:expense_tracker/style.dart';
@@ -37,21 +38,24 @@ class _CurrencyPageState extends ConsumerState<CurrencyPage> {
     final currentCurrency = ref.read(currentCurrencyProvider);
     final currencySymbolPositionProvider =
         ref.read(currentCurrencySymbolPositionProvider);
+    final appLocalizations = ref.read(appLocalizationsProvider);
 
     if (currentCurrency != null) {
       _currencySymbolInput.text =
           '${currentCurrency.name} - ${currentCurrency.symbolNative}';
     }
 
-    _currencySymbolPositionInput.text =
-        getCurrencySymbolPositionDescription(currencySymbolPositionProvider);
+    _currencySymbolPositionInput.text = getCurrencySymbolPositionDescription(
+        currencySymbolPositionProvider, appLocalizations);
   }
 
   @override
   Widget build(BuildContext context) {
+    final appLocalizations = ref.watch(appLocalizationsProvider);
+
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppLocalizations.of(context)!.currency),
+        title: Text(appLocalizations.currency),
         backgroundColor: CustomColors.blue,
       ),
       body: SafeArea(
@@ -62,7 +66,7 @@ class _CurrencyPageState extends ConsumerState<CurrencyPage> {
               hasScrollBody: false,
               child: Padding(
                   padding: const EdgeInsets.only(bottom: 10.0, top: 30),
-                  child: _buildBody()),
+                  child: _buildBody(appLocalizations)),
             ),
           ],
         ),
@@ -70,26 +74,26 @@ class _CurrencyPageState extends ConsumerState<CurrencyPage> {
     );
   }
 
-  Column _buildBody() {
+  Column _buildBody(AppLocalizations appLocalizations) {
     return Column(
       children: [
         _buildCurrencyPreview(),
         const SizedBox(
           height: 14,
         ),
-        _buildCurrenctCurrencyTextField(),
+        _buildCurrenctCurrencyTextField(appLocalizations),
         const SizedBox(
           height: 4,
         ),
         Text(
-          AppLocalizations.of(context)!.currencyConversionDisclaimer,
+          appLocalizations.currencyConversionDisclaimer,
           style:
               const TextStyle(color: CustomColors.clearGreyText, fontSize: 12),
         ),
         const SizedBox(
           height: 14,
         ),
-        _buildCurrencySymbolPositionTextField(),
+        _buildCurrencySymbolPositionTextField(appLocalizations),
       ],
     );
   }
@@ -130,10 +134,10 @@ class _CurrencyPageState extends ConsumerState<CurrencyPage> {
             ])));
   }
 
-  Widget _buildCurrenctCurrencyTextField() {
+  Widget _buildCurrenctCurrencyTextField(AppLocalizations appLocalizations) {
     return CustomTextField(
       controller: _currencySymbolInput,
-      label: AppLocalizations.of(context)!.currency,
+      label: appLocalizations.currency,
       readOnly: true,
       icon: Icons.chevron_right_rounded,
       onTap: () async {
@@ -160,7 +164,7 @@ class _CurrencyPageState extends ConsumerState<CurrencyPage> {
                             children: [
                               Flexible(
                                 child: Text(
-                                  AppLocalizations.of(context)!.selectCurrency,
+                                  appLocalizations.selectCurrency,
                                   style: const TextStyle(
                                       fontSize: 18,
                                       fontWeight: FontWeight.w600),
@@ -218,7 +222,8 @@ class _CurrencyPageState extends ConsumerState<CurrencyPage> {
     );
   }
 
-  Widget _buildCurrencySymbolPositionTextField() {
+  Widget _buildCurrencySymbolPositionTextField(
+      AppLocalizations appLocalizations) {
     final currentCurrencyPosition =
         ref.watch(currentCurrencySymbolPositionProvider);
 
@@ -227,7 +232,7 @@ class _CurrencyPageState extends ConsumerState<CurrencyPage> {
 
     return CustomTextField(
       controller: _currencySymbolPositionInput,
-      label: AppLocalizations.of(context)!.currencyPosition,
+      label: appLocalizations.currencyPosition,
       readOnly: true,
       icon: Icons.chevron_right_rounded,
       onTap: () async {
@@ -245,8 +250,7 @@ class _CurrencyPageState extends ConsumerState<CurrencyPage> {
                       children: [
                         Flexible(
                           child: Text(
-                            AppLocalizations.of(context)!
-                                .selectCurrencyPosition,
+                            appLocalizations.selectCurrencyPosition,
                             style: const TextStyle(
                                 fontSize: 18, fontWeight: FontWeight.w600),
                           ),
@@ -263,7 +267,7 @@ class _CurrencyPageState extends ConsumerState<CurrencyPage> {
                       shrinkWrap: true,
                       children: [
                         ListTile(
-                          title: Text(AppLocalizations.of(context)!.none),
+                          title: Text(appLocalizations.none),
                           trailing: currentCurrencyPosition ==
                                   CurrencySymbolPosition.none
                               ? VectorGraphic(
@@ -276,7 +280,7 @@ class _CurrencyPageState extends ConsumerState<CurrencyPage> {
                                     CurrencySymbolPosition.none);
 
                             _currencySymbolPositionInput.text =
-                                AppLocalizations.of(context)!.none;
+                                appLocalizations.none;
 
                             setState(() {});
 
@@ -284,7 +288,7 @@ class _CurrencyPageState extends ConsumerState<CurrencyPage> {
                           },
                         ),
                         ListTile(
-                          title: Text(AppLocalizations.of(context)!.atTheStart),
+                          title: Text(appLocalizations.atTheStart),
                           trailing: currentCurrencyPosition ==
                                   CurrencySymbolPosition.leading
                               ? VectorGraphic(
@@ -297,14 +301,14 @@ class _CurrencyPageState extends ConsumerState<CurrencyPage> {
                                     CurrencySymbolPosition.leading);
 
                             _currencySymbolPositionInput.text =
-                                AppLocalizations.of(context)!.atTheStart;
+                                appLocalizations.atTheStart;
                             setState(() {});
 
                             Navigator.of(context).pop();
                           },
                         ),
                         ListTile(
-                          title: Text(AppLocalizations.of(context)!.atTheEnd),
+                          title: Text(appLocalizations.atTheEnd),
                           trailing: currentCurrencyPosition ==
                                   CurrencySymbolPosition.trailing
                               ? VectorGraphic(
@@ -317,7 +321,7 @@ class _CurrencyPageState extends ConsumerState<CurrencyPage> {
                                     CurrencySymbolPosition.trailing);
 
                             _currencySymbolPositionInput.text =
-                                AppLocalizations.of(context)!.atTheEnd;
+                                appLocalizations.atTheEnd;
 
                             setState(() {});
 
@@ -336,14 +340,15 @@ class _CurrencyPageState extends ConsumerState<CurrencyPage> {
     );
   }
 
-  String getCurrencySymbolPositionDescription(CurrencySymbolPosition position) {
+  String getCurrencySymbolPositionDescription(
+      CurrencySymbolPosition position, AppLocalizations appLocalizations) {
     switch (position) {
       case CurrencySymbolPosition.none:
-        return AppLocalizations.of(context)!.none;
+        return appLocalizations.none;
       case CurrencySymbolPosition.leading:
-        return AppLocalizations.of(context)!.atTheStart;
+        return appLocalizations.atTheStart;
       case CurrencySymbolPosition.trailing:
-        return AppLocalizations.of(context)!.atTheEnd;
+        return appLocalizations.atTheEnd;
     }
   }
 }

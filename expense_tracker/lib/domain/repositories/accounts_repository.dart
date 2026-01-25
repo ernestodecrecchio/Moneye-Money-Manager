@@ -10,5 +10,6 @@ abstract class AccountsRepository {
   Future<int> deleteAccount({required Account account});
 
   Future<List<Account>> getAccounts();
-  Future<List<AccountWithBalance>> getAccountsListWithBalance();
+  Future<List<AccountWithBalance>> getAccountsListWithBalance(
+      {String? otherAccountName});
 }

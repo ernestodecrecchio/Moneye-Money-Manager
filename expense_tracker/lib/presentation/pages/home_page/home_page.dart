@@ -1,10 +1,10 @@
 import 'package:expense_tracker/Services/widget_extension_service.dart';
 import 'package:expense_tracker/application/accounts/notifiers/queries/accounts_with_balance_notifier.dart';
 import 'package:expense_tracker/application/transactions/notifiers/queries/transactions_list_notifier.dart';
-import 'package:expense_tracker/l10n/app_localizations.dart';
+import 'package:expense_tracker/application/common/notifiers/app_localizations_provider.dart';
 import 'package:expense_tracker/domain/models/category.dart';
 import 'package:expense_tracker/domain/models/transaction.dart';
-import 'package:expense_tracker/notifiers/category_provider.dart';
+import 'package:expense_tracker/application/categories/notifiers/category_provider.dart';
 import 'package:expense_tracker/presentation/pages/account_detail_page/account_detail_page.dart';
 import 'package:expense_tracker/presentation/pages/common/delete_transaction_snackbar.dart';
 import 'package:expense_tracker/presentation/pages/common/list_tiles/transaction_list_cell.dart';
@@ -25,14 +25,11 @@ class HomePage extends ConsumerStatefulWidget {
 }
 
 class _HomePageState extends ConsumerState<HomePage> {
-  AppLocalizations? appLocalizations;
   static const double horizontalPadding = 18;
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-
-    appLocalizations = AppLocalizations.of(context)!;
 
     // Opens new transaction page when app is in background
     WidgetExtensionService().listenWidgetClick();
@@ -115,7 +112,7 @@ class AccountSection extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final appLocalizations = AppLocalizations.of(context);
+    final appLocalizations = ref.watch(appLocalizationsProvider);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -124,7 +121,7 @@ class AccountSection extends ConsumerWidget {
           padding:
               EdgeInsets.symmetric(horizontal: horizontalPadding, vertical: 8),
           child: Text(
-            appLocalizations!.yourAccounts,
+            appLocalizations.yourAccounts,
             style: const TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,
@@ -199,7 +196,7 @@ class LastTransactionList extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final appLocalizations = AppLocalizations.of(context);
+    final appLocalizations = ref.watch(appLocalizationsProvider);
 
     final latestTransactionsListParam = TransactionsListParams(limit: 5);
 
@@ -214,7 +211,7 @@ class LastTransactionList extends ConsumerWidget {
             child: Padding(
               padding: const EdgeInsets.only(top: 8.0),
               child: Text(
-                appLocalizations!.noTransactions,
+                appLocalizations.noTransactions,
                 style: const TextStyle(color: Colors.grey),
               ),
             ),
@@ -228,7 +225,7 @@ class LastTransactionList extends ConsumerWidget {
               child: Row(
                 children: [
                   Text(
-                    appLocalizations!.lastTransactions,
+                    appLocalizations.lastTransactions,
                     style: const TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,

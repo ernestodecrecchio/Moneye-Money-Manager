@@ -1,5 +1,5 @@
 import 'package:expense_tracker/domain/models/currency.dart';
-import 'package:expense_tracker/notifiers/currency_provider.dart';
+import 'package:expense_tracker/application/common/notifiers/currency_provider.dart';
 import 'package:intl/intl.dart';
 
 extension DoubleParsing on double {

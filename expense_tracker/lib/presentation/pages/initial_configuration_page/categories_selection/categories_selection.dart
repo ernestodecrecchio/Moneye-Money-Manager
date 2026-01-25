@@ -1,4 +1,4 @@
-import 'package:expense_tracker/l10n/app_localizations.dart';
+import 'package:expense_tracker/application/common/notifiers/app_localizations_provider.dart';
 import 'package:expense_tracker/domain/models/category.dart';
 import 'package:expense_tracker/presentation/pages/initial_configuration_page/categories_selection/category_list_tile.dart';
 import 'package:flutter/material.dart';
@@ -26,34 +26,36 @@ class _CategoriesSelectionState extends ConsumerState<CategoriesSelection> {
   void didChangeDependencies() {
     super.didChangeDependencies();
 
+    final appLocalizations = ref.read(appLocalizationsProvider);
+
     categoryList = [
       Category(
-        name: AppLocalizations.of(context)!.foodAndDining,
+        name: appLocalizations.foodAndDining,
         colorValue: 4294944000,
         iconPath: 'assets/icons/food.svg',
       ),
       Category(
-        name: AppLocalizations.of(context)!.transportation,
+        name: appLocalizations.transportation,
         colorValue: 4278223103,
         iconPath: 'assets/icons/bus.svg',
       ),
       Category(
-        name: AppLocalizations.of(context)!.entertainment,
+        name: appLocalizations.entertainment,
         colorValue: 4286578816,
         iconPath: 'assets/icons/popcorn.svg',
       ),
       Category(
-        name: AppLocalizations.of(context)!.billsAndUtilities,
+        name: appLocalizations.billsAndUtilities,
         colorValue: 4286611584,
         iconPath: 'assets/icons/bill.svg',
       ),
       Category(
-        name: AppLocalizations.of(context)!.petExpenses,
+        name: appLocalizations.petExpenses,
         colorValue: 4294928820,
         iconPath: 'assets/icons/paw.svg',
       ),
       Category(
-        name: AppLocalizations.of(context)!.subscriptions,
+        name: appLocalizations.subscriptions,
         colorValue: 4278222976,
         iconPath: 'assets/icons/calendar.svg',
       ),
@@ -66,12 +68,14 @@ class _CategoriesSelectionState extends ConsumerState<CategoriesSelection> {
 
   @override
   Widget build(BuildContext context) {
+    final appLocalizations = ref.watch(appLocalizationsProvider);
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 28),
       child: Column(
         children: [
           Text(
-            AppLocalizations.of(context)!.selectCategoryMsg1,
+            appLocalizations.selectCategoryMsg1,
             textAlign: TextAlign.center,
             style: const TextStyle(
               color: Colors.white,
@@ -83,7 +87,7 @@ class _CategoriesSelectionState extends ConsumerState<CategoriesSelection> {
             height: 20,
           ),
           Text(
-            AppLocalizations.of(context)!.selectCategoryMsg2,
+            appLocalizations.selectCategoryMsg2,
             textAlign: TextAlign.center,
             style: const TextStyle(
               color: Colors.white,

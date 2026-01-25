@@ -1,10 +1,10 @@
+import 'package:expense_tracker/application/common/notifiers/app_localizations_provider.dart';
 import 'package:expense_tracker/Helper/date_time_helper.dart';
 import 'package:expense_tracker/Helper/double_helper.dart';
 import 'package:expense_tracker/Services/widget_extension_service.dart';
 import 'package:expense_tracker/application/transactions/notifiers/queries/total_balance_notifier.dart';
 import 'package:expense_tracker/application/transactions/notifiers/queries/transactions_list_notifier.dart';
-import 'package:expense_tracker/l10n/app_localizations.dart';
-import 'package:expense_tracker/notifiers/currency_provider.dart';
+import 'package:expense_tracker/application/common/notifiers/currency_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:vector_graphics/vector_graphics.dart';
@@ -18,18 +18,10 @@ class HomeFlexibleSpaceBar extends ConsumerStatefulWidget {
 }
 
 class _HomeFlexibleSpaceBarState extends ConsumerState<HomeFlexibleSpaceBar> {
-  AppLocalizations? appLocalizations;
   static const double horizontalPadding = 18;
 
   final _totalBalanceParams = const TotalBalanceParams();
   late final TransactionsListParams _currentMonthTransactionListParams;
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-
-    appLocalizations = AppLocalizations.of(context)!;
-  }
 
   @override
   void initState() {
@@ -43,6 +35,7 @@ class _HomeFlexibleSpaceBarState extends ConsumerState<HomeFlexibleSpaceBar> {
 
   @override
   Widget build(BuildContext context) {
+    final appLocalizations = ref.watch(appLocalizationsProvider);
     final currentCurrency = ref.watch(currentCurrencyProvider);
     final currentCurrencyPosition =
         ref.watch(currentCurrencySymbolPositionProvider);
@@ -55,7 +48,7 @@ class _HomeFlexibleSpaceBarState extends ConsumerState<HomeFlexibleSpaceBar> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            appLocalizations!.financialOverviewForThisMonth,
+            appLocalizations.financialOverviewForThisMonth,
             style: const TextStyle(
               color: Colors.white70,
               fontSize: 16,
@@ -66,7 +59,7 @@ class _HomeFlexibleSpaceBarState extends ConsumerState<HomeFlexibleSpaceBar> {
             height: 8,
           ),
           Text(
-            appLocalizations!.totalBalance,
+            appLocalizations.totalBalance,
             style: const TextStyle(
               color: Colors.white,
               fontSize: 18,
@@ -159,7 +152,7 @@ class _HomeFlexibleSpaceBarState extends ConsumerState<HomeFlexibleSpaceBar> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  appLocalizations!.expenses,
+                                  appLocalizations.expenses,
                                   style: const TextStyle(
                                     color: Colors.white,
                                     fontSize: 16,
@@ -195,7 +188,7 @@ class _HomeFlexibleSpaceBarState extends ConsumerState<HomeFlexibleSpaceBar> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  appLocalizations!.incomes,
+                                  appLocalizations.incomes,
                                   style: const TextStyle(
                                     color: Colors.white,
                                     fontSize: 16,

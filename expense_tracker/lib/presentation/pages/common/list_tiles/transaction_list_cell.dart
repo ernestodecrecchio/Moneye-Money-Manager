@@ -1,11 +1,12 @@
 import 'package:expense_tracker/Helper/double_helper.dart';
+import 'package:expense_tracker/application/common/notifiers/app_localizations_provider.dart';
 import 'package:expense_tracker/application/transactions/notifiers/mutations/transaction_mutation_notifier.dart';
 import 'package:expense_tracker/l10n/app_localizations.dart';
 import 'package:expense_tracker/domain/models/account.dart';
 import 'package:expense_tracker/domain/models/transaction.dart';
-import 'package:expense_tracker/notifiers/account_provider.dart';
-import 'package:expense_tracker/notifiers/category_provider.dart';
-import 'package:expense_tracker/notifiers/currency_provider.dart';
+import 'package:expense_tracker/application/accounts/notifiers/account_provider.dart';
+import 'package:expense_tracker/application/categories/notifiers/category_provider.dart';
+import 'package:expense_tracker/application/common/notifiers/currency_provider.dart';
 import 'package:expense_tracker/presentation/pages/new_edit_transaction_flow/new_edit_transaction_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -30,10 +31,12 @@ class TransactionListCell extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final appLocalizations = ref.watch(appLocalizationsProvider);
+
     return Slidable(
       key: UniqueKey(), // Key(transaction.id.toString()),
-      startActionPane: _buildDeleteActionPane(context, ref),
-      endActionPane: _buildDeleteActionPane(context, ref),
+      startActionPane: _buildDeleteActionPane(context, ref, appLocalizations),
+      endActionPane: _buildDeleteActionPane(context, ref, appLocalizations),
       child: InkWell(
         onTap: () => Navigator.of(context).pushNamed(
           NewEditTransactionPage.routeName,
@@ -67,7 +70,7 @@ class TransactionListCell extends ConsumerWidget {
                     const SizedBox(
                       height: 2,
                     ),
-                    _buildDate(context),
+                    _buildDate(context, appLocalizations),
                   ],
                 ),
               ),
@@ -79,25 +82,27 @@ class TransactionListCell extends ConsumerWidget {
     );
   }
 
-  ActionPane _buildDeleteActionPane(BuildContext context, WidgetRef ref) {
+  ActionPane _buildDeleteActionPane(
+      BuildContext context, WidgetRef ref, AppLocalizations appLocalizations) {
     return ActionPane(
       motion: const ScrollMotion(),
       dismissible: DismissiblePane(
           onDismissed: () async => await _removeTransaction(context, ref)),
       children: [
-        _buildDeleteAction(context, ref),
+        _buildDeleteAction(context, ref, appLocalizations),
         // _buildEditAction(),
       ],
     );
   }
 
-  SlidableAction _buildDeleteAction(BuildContext context, WidgetRef ref) {
+  SlidableAction _buildDeleteAction(
+      BuildContext context, WidgetRef ref, AppLocalizations appLocalizations) {
     return SlidableAction(
       onPressed: (_) async => await _removeTransaction(context, ref),
       backgroundColor: const Color(0xFFFE4A49),
       foregroundColor: Colors.white,
       icon: Icons.delete,
-      label: AppLocalizations.of(context)!.delete,
+      label: appLocalizations.delete,
     );
   }
 
@@ -158,7 +163,7 @@ class TransactionListCell extends ConsumerWidget {
     );
   }
 
-  Widget _buildDate(BuildContext context) {
+  Widget _buildDate(BuildContext context, AppLocalizations appLocalizations) {
     final now = DateTime.now();
     final today = DateTime(now.year, now.month, now.day);
     final yesterday = DateTime(now.year, now.month, now.day - 1);
@@ -169,9 +174,9 @@ class TransactionListCell extends ConsumerWidget {
         transaction.date.year, transaction.date.month, transaction.date.day);
 
     if (dateToCheck == today) {
-      dateString = '$dateString (${AppLocalizations.of(context)!.today})';
+      dateString = '$dateString (${appLocalizations.today})';
     } else if (dateToCheck == yesterday) {
-      dateString = '$dateString (${AppLocalizations.of(context)!.yesterday})';
+      dateString = '$dateString (${appLocalizations.yesterday})';
     }
 
     return Flexible(

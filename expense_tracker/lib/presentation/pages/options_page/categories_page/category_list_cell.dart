@@ -1,9 +1,10 @@
 import 'dart:io';
 
 import 'package:expense_tracker/application/categories/notifiers/categories_repository_provider.dart';
+import 'package:expense_tracker/application/common/notifiers/app_localizations_provider.dart';
 import 'package:expense_tracker/l10n/app_localizations.dart';
 import 'package:expense_tracker/domain/models/category.dart';
-import 'package:expense_tracker/notifiers/category_provider.dart';
+import 'package:expense_tracker/application/categories/notifiers/category_provider.dart';
 import 'package:expense_tracker/presentation/pages/options_page/categories_page/new_edit_category_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -18,10 +19,12 @@ class CategoryListCell extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final appLocalizations = ref.watch(appLocalizationsProvider);
+
     return Slidable(
       key: Key(category.id.toString()),
-      startActionPane: _buildDeleteActionPane(context, ref),
-      endActionPane: _buildDeleteActionPane(context, ref),
+      startActionPane: _buildDeleteActionPane(context, ref, appLocalizations),
+      endActionPane: _buildDeleteActionPane(context, ref, appLocalizations),
       child: ListTile(
         onTap: () => Navigator.of(context)
             .pushNamed(NewEditCategoryPage.routeName, arguments: category),
@@ -35,31 +38,33 @@ class CategoryListCell extends ConsumerWidget {
     );
   }
 
-  ActionPane _buildDeleteActionPane(BuildContext context, WidgetRef ref) {
+  ActionPane _buildDeleteActionPane(
+      BuildContext context, WidgetRef ref, AppLocalizations appLocalizations) {
     return ActionPane(
       motion: const ScrollMotion(),
       dismissible: DismissiblePane(
-        confirmDismiss: () => showDeleteAlert(context),
+        confirmDismiss: () => showDeleteAlert(context, appLocalizations),
         closeOnCancel: true,
         onDismissed: () async => await ref
             .read(categoriesRepositoryProvider)
             .deleteCategory(category: category),
       ),
       children: [
-        _buildDeleteSlidableAction(context, ref),
+        _buildDeleteSlidableAction(context, ref, appLocalizations),
       ],
     );
   }
 
   SlidableAction _buildDeleteSlidableAction(
-      BuildContext context, WidgetRef ref) {
+      BuildContext context, WidgetRef ref, AppLocalizations appLocalizations) {
     return SlidableAction(
         backgroundColor: const Color(0xFFFE4A49),
         foregroundColor: Colors.white,
         icon: Icons.delete,
-        label: AppLocalizations.of(context)!.delete,
+        label: appLocalizations.delete,
         onPressed: (_) async {
-          final isDeleteConfirmed = await showDeleteAlert(context);
+          final isDeleteConfirmed =
+              await showDeleteAlert(context, appLocalizations);
 
           if (context.mounted && isDeleteConfirmed) {
             await ref.read(categoryProvider.notifier).deleteCategory(category);
@@ -67,7 +72,8 @@ class CategoryListCell extends ConsumerWidget {
         });
   }
 
-  Future<bool> showDeleteAlert(BuildContext context) async {
+  Future<bool> showDeleteAlert(
+      BuildContext context, AppLocalizations appLocalizations) async {
     bool isDeleteConfirmed = false;
 
     if (Platform.isAndroid) {
@@ -76,10 +82,10 @@ class CategoryListCell extends ConsumerWidget {
         builder: (context) {
           return AlertDialog(
             title: Text(
-              AppLocalizations.of(context)!.areYouSure,
+              appLocalizations.areYouSure,
             ),
             content: Text(
-              AppLocalizations.of(context)!.deleteCategoryAlertBody,
+              appLocalizations.deleteCategoryAlertBody,
             ),
             actions: [
               TextButton(
@@ -88,7 +94,7 @@ class CategoryListCell extends ConsumerWidget {
                   Navigator.pop(context);
                 },
                 child: Text(
-                  AppLocalizations.of(context)!.cancel,
+                  appLocalizations.cancel,
                 ),
               ),
               TextButton(
@@ -97,7 +103,7 @@ class CategoryListCell extends ConsumerWidget {
                   Navigator.pop(context);
                 },
                 child: Text(
-                  AppLocalizations.of(context)!.delete,
+                  appLocalizations.delete,
                 ),
               )
             ],
@@ -109,10 +115,10 @@ class CategoryListCell extends ConsumerWidget {
         context: context,
         builder: (BuildContext context) => CupertinoAlertDialog(
           title: Text(
-            AppLocalizations.of(context)!.areYouSure,
+            appLocalizations.areYouSure,
           ),
           content: Text(
-            AppLocalizations.of(context)!.deleteCategoryAlertBody,
+            appLocalizations.deleteCategoryAlertBody,
           ),
           actions: <CupertinoDialogAction>[
             CupertinoDialogAction(
@@ -122,7 +128,7 @@ class CategoryListCell extends ConsumerWidget {
                 Navigator.pop(context);
               },
               child: Text(
-                AppLocalizations.of(context)!.cancel,
+                appLocalizations.cancel,
               ),
             ),
             CupertinoDialogAction(
@@ -132,7 +138,7 @@ class CategoryListCell extends ConsumerWidget {
                 Navigator.pop(context);
               },
               child: Text(
-                AppLocalizations.of(context)!.delete,
+                appLocalizations.delete,
               ),
             ),
           ],

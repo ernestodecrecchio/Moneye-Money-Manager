@@ -1,10 +1,11 @@
 import 'package:collection/collection.dart';
 import 'package:expense_tracker/Helper/date_time_helper.dart';
+import 'package:expense_tracker/application/common/notifiers/app_localizations_provider.dart';
 import 'package:expense_tracker/application/transactions/notifiers/queries/transactions_list_notifier.dart';
 import 'package:expense_tracker/l10n/app_localizations.dart';
 import 'package:expense_tracker/domain/models/account.dart';
 import 'package:expense_tracker/domain/models/transaction.dart';
-import 'package:expense_tracker/notifiers/account_provider.dart';
+import 'package:expense_tracker/application/accounts/notifiers/account_provider.dart';
 import 'package:expense_tracker/presentation/pages/account_detail_page/graphs/account_bar_chart.dart';
 import 'package:expense_tracker/presentation/pages/account_detail_page/graphs/account_pie_chart.dart';
 import 'package:expense_tracker/presentation/pages/account_detail_page/transaction_list/transaction_list.dart';
@@ -80,21 +81,23 @@ class _AccountDetailPageState extends ConsumerState<AccountDetailPage>
           .firstWhereOrNull((element) => element.id == widget.account!.id);
     }
 
+    final appLocalizations = ref.watch(appLocalizationsProvider);
+
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.account != null
             ? referenceAccount?.name ?? widget.account!.name
-            : AppLocalizations.of(context)!.allTransactions),
+            : appLocalizations.allTransactions),
         backgroundColor: CustomColors.blue,
         actions: [
           if (widget.account != null && widget.account!.id != null)
-            _buildEditAction(context)
+            _buildEditAction(context, appLocalizations)
         ],
       ),
       floatingActionButton: _buildFloatingActionButton(context),
       body: Column(
         children: [
-          _buildTabBar(),
+          _buildTabBar(appLocalizations),
           DateBar(
             selectedTransactionTimePeriod: selectedTransactionTimePeriod,
             startDate: startDate,
@@ -214,10 +217,11 @@ class _AccountDetailPageState extends ConsumerState<AccountDetailPage>
     );
   }
 
-  Widget _buildEditAction(BuildContext context) {
+  Widget _buildEditAction(
+      BuildContext context, AppLocalizations appLocalizations) {
     return TextButton(
       child: Text(
-        AppLocalizations.of(context)!.edit,
+        appLocalizations.edit,
         style: const TextStyle(color: Colors.white),
       ),
       onPressed: () => Navigator.of(context).pushNamed(
@@ -242,7 +246,7 @@ class _AccountDetailPageState extends ConsumerState<AccountDetailPage>
     );
   }
 
-  Widget _buildTabBar() {
+  Widget _buildTabBar(AppLocalizations appLocalizations) {
     return Stack(
       fit: StackFit.passthrough,
       alignment: Alignment.bottomCenter,
@@ -279,7 +283,7 @@ class _AccountDetailPageState extends ConsumerState<AccountDetailPage>
               child: FittedBox(
                 fit: BoxFit.contain,
                 child: Text(
-                  AppLocalizations.of(context)!.incomes,
+                  appLocalizations.incomes,
                 ),
               ),
             ),
@@ -287,7 +291,7 @@ class _AccountDetailPageState extends ConsumerState<AccountDetailPage>
               child: FittedBox(
                 fit: BoxFit.contain,
                 child: Text(
-                  AppLocalizations.of(context)!.expenses,
+                  appLocalizations.expenses,
                 ),
               ),
             ),
@@ -295,7 +299,7 @@ class _AccountDetailPageState extends ConsumerState<AccountDetailPage>
               child: FittedBox(
                 fit: BoxFit.contain,
                 child: Text(
-                  AppLocalizations.of(context)!.balance,
+                  appLocalizations.balance,
                 ),
               ),
             ),
@@ -364,11 +368,12 @@ class _ScrollableTabViewState extends ConsumerState<ScrollableTabView> {
           widget.transactionType == AccountDetailTransactionTypeMode.expense,
     );
 
+    final appLocalizations = ref.watch(appLocalizationsProvider);
+
     return ref.watch(transactionsListProvider(transactionsListParams)).when(
           data: (transactionsList) {
             return transactionList.isEmpty
-                ? Align(
-                    child: Text(AppLocalizations.of(context)!.noTransactions))
+                ? Align(child: Text(appLocalizations.noTransactions))
                 : SingleChildScrollView(
                     child: Column(
                       children: [
@@ -470,6 +475,8 @@ class DateBar extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final appLocalizations = ref.watch(appLocalizationsProvider);
+
     return Container(
       height: 50,
       padding: const EdgeInsets.symmetric(horizontal: 14),
@@ -495,8 +502,7 @@ class DateBar extends ConsumerWidget {
                               children: [
                                 Flexible(
                                   child: Text(
-                                    AppLocalizations.of(context)!
-                                        .selectTimeInterval,
+                                    appLocalizations.selectTimeInterval,
                                     style: const TextStyle(
                                         fontSize: 18,
                                         fontWeight: FontWeight.w600),
@@ -514,8 +520,7 @@ class DateBar extends ConsumerWidget {
                               shrinkWrap: true,
                               children: [
                                 ListTile(
-                                  title:
-                                      Text(AppLocalizations.of(context)!.day),
+                                  title: Text(appLocalizations.day),
                                   trailing: selectedTransactionTimePeriod ==
                                           TransactionTimePeriod.day
                                       ? VectorGraphic(
@@ -527,8 +532,7 @@ class DateBar extends ConsumerWidget {
                                   ),
                                 ),
                                 ListTile(
-                                  title:
-                                      Text(AppLocalizations.of(context)!.week),
+                                  title: Text(appLocalizations.week),
                                   trailing: selectedTransactionTimePeriod ==
                                           TransactionTimePeriod.week
                                       ? VectorGraphic(
@@ -540,8 +544,7 @@ class DateBar extends ConsumerWidget {
                                   ),
                                 ),
                                 ListTile(
-                                  title:
-                                      Text(AppLocalizations.of(context)!.month),
+                                  title: Text(appLocalizations.month),
                                   trailing: selectedTransactionTimePeriod ==
                                           TransactionTimePeriod.month
                                       ? VectorGraphic(
@@ -553,8 +556,7 @@ class DateBar extends ConsumerWidget {
                                   ),
                                 ),
                                 ListTile(
-                                  title:
-                                      Text(AppLocalizations.of(context)!.year),
+                                  title: Text(appLocalizations.year),
                                   trailing: selectedTransactionTimePeriod ==
                                           TransactionTimePeriod.year
                                       ? VectorGraphic(
@@ -587,16 +589,16 @@ class DateBar extends ConsumerWidget {
                       child: Text(
                         selectedTransactionTimePeriod ==
                                 TransactionTimePeriod.day
-                            ? AppLocalizations.of(context)!.day
+                            ? appLocalizations.day
                             : selectedTransactionTimePeriod ==
                                     TransactionTimePeriod.week
-                                ? AppLocalizations.of(context)!.week
+                                ? appLocalizations.week
                                 : selectedTransactionTimePeriod ==
                                         TransactionTimePeriod.month
-                                    ? AppLocalizations.of(context)!.month
+                                    ? appLocalizations.month
                                     : selectedTransactionTimePeriod ==
                                             TransactionTimePeriod.year
-                                        ? AppLocalizations.of(context)!.year
+                                        ? appLocalizations.year
                                         : 'Custom',
                         style: const TextStyle(fontSize: 14),
                       ),

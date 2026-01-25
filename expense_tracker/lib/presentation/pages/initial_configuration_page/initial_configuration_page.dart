@@ -1,10 +1,10 @@
-import 'package:expense_tracker/l10n/app_localizations.dart';
+import 'package:expense_tracker/application/common/notifiers/app_localizations_provider.dart';
 import 'package:expense_tracker/domain/models/account.dart';
 import 'package:expense_tracker/domain/models/category.dart';
 import 'package:expense_tracker/domain/models/currency.dart';
-import 'package:expense_tracker/notifiers/account_provider.dart';
-import 'package:expense_tracker/notifiers/category_provider.dart';
-import 'package:expense_tracker/notifiers/currency_provider.dart';
+import 'package:expense_tracker/application/accounts/notifiers/account_provider.dart';
+import 'package:expense_tracker/application/categories/notifiers/category_provider.dart';
+import 'package:expense_tracker/application/common/notifiers/currency_provider.dart';
 import 'package:expense_tracker/presentation/pages/initial_configuration_page/account_selection/account_selection.dart';
 import 'package:expense_tracker/presentation/pages/initial_configuration_page/categories_selection/categories_selection.dart';
 import 'package:expense_tracker/presentation/pages/initial_configuration_page/configuration_complete.dart';
@@ -75,6 +75,8 @@ class _InitialConfigurationPageState
 
   @override
   Widget build(BuildContext context) {
+    final appLocalizations = ref.watch(appLocalizationsProvider);
+
     return Scaffold(
       backgroundColor: CustomColors.darkBlue,
       extendBodyBehindAppBar: true,
@@ -91,7 +93,7 @@ class _InitialConfigurationPageState
                 }
               },
               child: Text(
-                AppLocalizations.of(context)!.skip,
+                appLocalizations.skip,
                 style: const TextStyle(color: Colors.white),
               ),
             ),
@@ -154,8 +156,8 @@ class _InitialConfigurationPageState
                     ),
                     child: Text(
                       currentIndex == pages.length - 1
-                          ? AppLocalizations.of(context)!.done
-                          : AppLocalizations.of(context)!.toContinue,
+                          ? appLocalizations.done
+                          : appLocalizations.toContinue,
                       style: const TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.w600,

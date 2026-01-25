@@ -1,9 +1,10 @@
 import 'package:expense_tracker/Helper/double_helper.dart';
+import 'package:expense_tracker/application/common/notifiers/app_localizations_provider.dart';
 import 'package:expense_tracker/l10n/app_localizations.dart';
 import 'package:expense_tracker/domain/models/category.dart';
 import 'package:expense_tracker/domain/models/transaction.dart';
-import 'package:expense_tracker/notifiers/category_provider.dart';
-import 'package:expense_tracker/notifiers/currency_provider.dart';
+import 'package:expense_tracker/application/categories/notifiers/category_provider.dart';
+import 'package:expense_tracker/application/common/notifiers/currency_provider.dart';
 import 'package:expense_tracker/presentation/pages/account_detail_page/graphs/account_pie_chart.dart';
 import 'package:expense_tracker/presentation/pages/account_detail_page/transaction_list_page.dart';
 import 'package:expense_tracker/presentation/pages/common/delete_transaction_snackbar.dart';
@@ -37,6 +38,8 @@ class _TransactionListState extends ConsumerState<TransactionList> {
 
   @override
   Widget build(BuildContext context) {
+    final appLocalizations = ref.watch(appLocalizationsProvider);
+
     return Column(
       children: [
         Padding(
@@ -44,7 +47,7 @@ class _TransactionListState extends ConsumerState<TransactionList> {
           child:
               Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
             Text(
-              AppLocalizations.of(context)!.transactionList,
+              appLocalizations.transactionList,
               style: const TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
@@ -68,8 +71,8 @@ class _TransactionListState extends ConsumerState<TransactionList> {
               child: Text(
                 transactionListMode ==
                         AccountDetailTransactionListMode.transactionList
-                    ? AppLocalizations.of(context)!.byList
-                    : AppLocalizations.of(context)!.byCategory,
+                    ? appLocalizations.byList
+                    : appLocalizations.byCategory,
                 style: const TextStyle(
                   fontSize: 14,
                 ),
@@ -79,7 +82,7 @@ class _TransactionListState extends ConsumerState<TransactionList> {
         ),
         transactionListMode == AccountDetailTransactionListMode.transactionList
             ? _buildTransactionList(context, widget.transactionList)
-            : _buildCategoryList(widget.transactionList)
+            : _buildCategoryList(widget.transactionList, appLocalizations)
       ],
     );
   }
@@ -106,7 +109,8 @@ class _TransactionListState extends ConsumerState<TransactionList> {
     );
   }
 
-  Widget _buildCategoryList(List<Transaction> transactionList) {
+  Widget _buildCategoryList(
+      List<Transaction> transactionList, AppLocalizations appLocalizations) {
     final List<CategoryTotalValue> categoryTotalValuePairs = [];
 
     categoryTotalValuePairs.clear();
@@ -143,7 +147,7 @@ class _TransactionListState extends ConsumerState<TransactionList> {
         } else {
           final otherEntry = CategoryTotalValue(
               category: Category(
-                name: AppLocalizations.of(context)!.other,
+                name: appLocalizations.other,
                 colorValue: Colors.grey.toARGB32(),
                 iconPath: 'assets/icons/box.svg',
               ),
