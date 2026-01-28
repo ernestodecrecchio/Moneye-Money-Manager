@@ -92,7 +92,8 @@ class _AccountDetailPageState extends ConsumerState<AccountDetailPage>
             : appLocalizations.allTransactions),
         backgroundColor: CustomColors.blue,
         actions: [
-          if (widget.account != null && widget.account!.id != null)
+          if (widget.account?.id !=
+              -1) // TODO: Centralizza id account "other transactions"
             _buildEditAction(context, appLocalizations)
         ],
       ),
