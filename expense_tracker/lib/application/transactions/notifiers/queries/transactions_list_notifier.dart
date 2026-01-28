@@ -5,19 +5,22 @@ import 'package:expense_tracker/domain/models/transaction.dart';
 import 'package:expense_tracker/domain/repositories/transactions_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class TransactionsListNotifier
-    extends FamilyAsyncNotifier<List<Transaction>, TransactionsListParams> {
+class TransactionsListNotifier extends AsyncNotifier<List<Transaction>> {
   TransactionsRepository get _repo => ref.read(transactionsRepositoryProvider);
 
+  final TransactionsListParams params;
+
+  TransactionsListNotifier(this.params);
+
   @override
-  Future<List<Transaction>> build(TransactionsListParams arg) async {
+  Future<List<Transaction>> build() async {
     return _repo.getTransactions(
-      startDate: arg.startDate,
-      endDate: arg.endDate,
-      forAccount: arg.account,
-      includeIncomes: arg.includeIncomes,
-      includeExpenses: arg.includeExpenses,
-      limit: arg.limit,
+      startDate: params.startDate,
+      endDate: params.endDate,
+      forAccount: params.account,
+      includeIncomes: params.includeIncomes,
+      includeExpenses: params.includeExpenses,
+      limit: params.limit,
     );
   }
 
