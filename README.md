@@ -1,8 +1,8 @@
 <a name="top"></a>
 ![Moneye Repository Banner](https://github.com/ernestodecrecchio/Moneye-Money-Manager/blob/main/Readme_Support_Files/Images/Repository_Banner.png)
-![Static Badge](https://img.shields.io/badge/DART_%3E%3D3.5.0_%3C4.0.0-1e2833?style=for-the-badge&logo=dart&logoColor=%236dcff9)
-![Static Badge](https://img.shields.io/badge/FLUTTER_%3E%3D3.24.0-f7f7f7?style=for-the-badge&logo=flutter&logoColor=%236dcff9)
-![Static Badge](https://img.shields.io/badge/Status-In_development-blue?style=for-the-badge)
+![Static Badge](https://img.shields.io/badge/DART_%3E%3D3.10.7_%3C4.0.0-1e2833?style=for-the-badge&logo=dart&logoColor=%236dcff9)
+![Static Badge](https://img.shields.io/badge/FLUTTER_%3E%3D3.38.7-f7f7f7?style=for-the-badge&logo=flutter&logoColor=%236dcff9)
+![Static Badge](https://img.shields.io/badge/Status-In_mantainance-blue?style=for-the-badge)
 ![GitHub last commit](https://img.shields.io/github/last-commit/ernestodecrecchio/Moneye-Money-Manager?style=for-the-badge)
 ![Static Badge](https://img.shields.io/badge/License-AGPL--3.0-red?style=for-the-badge)
 
