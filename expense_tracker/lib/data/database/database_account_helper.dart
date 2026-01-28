@@ -67,6 +67,8 @@ class DatabaseAccountHelper {
       {String? otherAccountName}) async {
     final dbInstance = await DatabaseHelper.instance.database;
 
+    final otherAccountId = -1;
+
     final query = '''
     SELECT a.${AccountFields.id} AS id,
            a.${AccountFields.name} AS name,
@@ -80,7 +82,7 @@ class DatabaseAccountHelper {
     
     UNION ALL
     
-    SELECT -1 AS id, 
+    SELECT $otherAccountId AS id, 
            '${otherAccountName ?? 'No account'}' AS name,
             ${Colors.grey.toARGB32()} AS color,
             'assets/icons/box.svg' AS iconPath,
@@ -91,7 +93,9 @@ class DatabaseAccountHelper {
 
     final result = await dbInstance.rawQuery(query);
 
-    return result.map((row) {
+    final list = <AccountWithBalance>[];
+
+    for (final row in result) {
       final account = Account(
         id: row['id'] as int?,
         name: row['name'] as String,
@@ -99,11 +103,19 @@ class DatabaseAccountHelper {
         iconPath: row['iconPath'] as String?,
       );
 
-      return AccountWithBalance(
-        account: account,
-        balance: (row['balance'] as num).toDouble(),
+      final balance = (row['balance'] as num).toDouble();
+
+      if (account.id == otherAccountId && balance == 0) continue;
+
+      list.add(
+        AccountWithBalance(
+          account: account,
+          balance: balance,
+        ),
       );
-    }).toList();
+    }
+
+    return list;
   }
 
   Future<Account?> getAccountFromId(int id) async {
