@@ -19,6 +19,7 @@ void showDeleteTransactionSnackbar(
       content: Text(appLocalizations.transactionDeleted),
       backgroundColor: CustomColors.blue,
       behavior: SnackBarBehavior.floating,
+      persist: false,
       action: SnackBarAction(
         label: appLocalizations.cancel,
         textColor: Colors.white,
