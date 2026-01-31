@@ -24,7 +24,9 @@ void showDeleteTransactionSnackbar(
         label: appLocalizations.cancel,
         textColor: Colors.white,
         onPressed: () async {
-          await ref.read(transactionMutationProvider.notifier).add(transaction);
+          await ref
+              .read(transactionMutationProvider.notifier)
+              .addTransaction(transaction);
         },
       ),
     ),

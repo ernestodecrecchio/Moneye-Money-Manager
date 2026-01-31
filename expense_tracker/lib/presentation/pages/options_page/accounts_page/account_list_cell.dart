@@ -43,8 +43,9 @@ class AccountListCell extends ConsumerWidget {
       dismissible: DismissiblePane(
         confirmDismiss: () => showDeleteAlert(context, appLocalizations),
         closeOnCancel: true,
-        onDismissed: () async =>
-            await ref.read(accountMutationProvider.notifier).delete(account),
+        onDismissed: () async => await ref
+            .read(accountMutationProvider.notifier)
+            .deleteAccount(account),
       ),
       children: [
         _buildDeleteSlidableAction(context, ref, appLocalizations),
@@ -64,7 +65,9 @@ class AccountListCell extends ConsumerWidget {
             await showDeleteAlert(context, appLocalizations);
 
         if (context.mounted && isDeleteConfirmed) {
-          await ref.read(accountMutationProvider.notifier).delete(account);
+          await ref
+              .read(accountMutationProvider.notifier)
+              .deleteAccount(account);
         }
       },
     );

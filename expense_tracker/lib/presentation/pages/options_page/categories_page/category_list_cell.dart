@@ -43,8 +43,9 @@ class CategoryListCell extends ConsumerWidget {
       dismissible: DismissiblePane(
         confirmDismiss: () => showDeleteAlert(context, appLocalizations),
         closeOnCancel: true,
-        onDismissed: () async =>
-            await ref.read(categoryMutationProvider.notifier).delete(category),
+        onDismissed: () async => await ref
+            .read(categoryMutationProvider.notifier)
+            .deleteCategory(category),
       ),
       children: [
         _buildDeleteSlidableAction(context, ref, appLocalizations),
@@ -64,7 +65,9 @@ class CategoryListCell extends ConsumerWidget {
               await showDeleteAlert(context, appLocalizations);
 
           if (context.mounted && isDeleteConfirmed) {
-            await ref.read(categoryMutationProvider.notifier).delete(category);
+            await ref
+                .read(categoryMutationProvider.notifier)
+                .deleteCategory(category);
           }
         });
   }

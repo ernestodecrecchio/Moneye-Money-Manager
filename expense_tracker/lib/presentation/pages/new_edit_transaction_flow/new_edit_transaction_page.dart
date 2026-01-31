@@ -156,6 +156,7 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
   @override
   Widget build(BuildContext context) {
     final appLocalizations = ref.watch(appLocalizationsProvider);
+    final isLoading = ref.watch(transactionMutationProvider).isLoading;
 
     return Scaffold(
       appBar: AppBar(
@@ -173,7 +174,7 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
               hasScrollBody: false,
               child: Padding(
                 padding: const EdgeInsets.only(bottom: 10.0),
-                child: _buildForm(appLocalizations),
+                child: _buildForm(appLocalizations, isLoading),
               ),
             ),
           ],
@@ -182,7 +183,7 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
     );
   }
 
-  Widget _buildForm(AppLocalizations appLocalizations) {
+  Widget _buildForm(AppLocalizations appLocalizations, bool isLoading) {
     return Form(
       key: _formKey,
       child: Padding(
@@ -314,7 +315,7 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
               ],
             ),
             const Spacer(),
-            _buildSaveButton(appLocalizations),
+            _buildSaveButton(appLocalizations, isLoading),
           ],
         ),
       ),
@@ -367,26 +368,30 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
     }
   }
 
-  Widget _buildSaveButton(AppLocalizations appLocalizations) {
+  Widget _buildSaveButton(AppLocalizations appLocalizations, bool isLoading) {
     return CustomElevatedButton(
-      onPressed: () {
+      text: editMode ? appLocalizations.applyChanges : appLocalizations.save,
+      isLoading: isLoading,
+      onPressed: () async {
         if (_formKey.currentState!.validate()) {
           if (editMode) {
-            _editTransaction(
+            await _editTransaction(
                 income:
                     _transactionTypeTabController.index == 0 ? true : false);
           } else {
-            _saveNewTransaction(
+            await _saveNewTransaction(
                 isIncome:
                     _transactionTypeTabController.index == 0 ? true : false);
           }
         }
+
+        if (!mounted) return;
+        Navigator.of(context).pop();
       },
-      text: editMode ? appLocalizations.applyChanges : appLocalizations.save,
     );
   }
 
-  void _saveNewTransaction({required bool isIncome}) {
+  Future<void> _saveNewTransaction({required bool isIncome}) async {
     final transactionValue = isIncome
         ? double.parse(valueInput.text)
         : -double.parse(valueInput.text);
@@ -401,23 +406,18 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
         includeInReports: includeInReportCheckboxValue,
         isHidden: false);
 
-    ref
+    await ref
         .read(transactionMutationProvider.notifier)
-        .add(newTransaction)
-        .then((value) async {
-      final InAppReview inAppReview = InAppReview.instance;
+        .addTransaction(newTransaction);
 
-      if (await inAppReview.isAvailable()) {
-        inAppReview.requestReview();
-      }
+    final InAppReview inAppReview = InAppReview.instance;
 
-      if (mounted) {
-        Navigator.of(context).pop();
-      }
-    });
+    if (await inAppReview.isAvailable()) {
+      inAppReview.requestReview();
+    }
   }
 
-  void _editTransaction({required bool income}) {
+  Future<void> _editTransaction({required bool income}) async {
     if (context.mounted) {
       final valueFromTextInput = double.parse(valueInput.text);
 
@@ -438,10 +438,8 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
         isHidden: false,
       );
 
-      ref
-          .read(transactionMutationProvider.notifier)
-          .update(widget.initialTransactionSettings!, modifiedTransaction)
-          .then((value) => {if (mounted) Navigator.of(context).pop()});
+      await ref.read(transactionMutationProvider.notifier).updateTransaction(
+          widget.initialTransactionSettings!, modifiedTransaction);
     }
   }
 

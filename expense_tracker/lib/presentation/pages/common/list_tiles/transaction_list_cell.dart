@@ -121,7 +121,7 @@ class TransactionListCell extends ConsumerWidget {
   Future _removeTransaction(BuildContext context, WidgetRef ref) async {
     await ref
         .read(transactionMutationProvider.notifier)
-        .delete(transaction)
+        .deleteTransaction(transaction)
         .then(
       (result) {
         onTransactionDelete(transaction);

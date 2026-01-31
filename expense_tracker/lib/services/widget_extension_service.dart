@@ -32,8 +32,10 @@ class WidgetExtensionService {
   }
 
   // App launched from terminated state
-  void checkForWidgetLaunch() {
-    HomeWidget.initiallyLaunchedFromHomeWidget().then(_launchedFromWidget);
+  Future<void> checkForWidgetLaunch() async {
+    await HomeWidget.initiallyLaunchedFromHomeWidget();
+
+    _launchedFromWidget(null);
   }
 
   void _launchedFromWidget(Uri? uri) {

@@ -64,6 +64,7 @@ class _NewAccountPageState extends ConsumerState<NewAccountPage> {
   @override
   Widget build(BuildContext context) {
     final appLocalizations = ref.watch(appLocalizationsProvider);
+    final isLoading = ref.watch(accountMutationProvider).isLoading;
 
     return Scaffold(
       appBar: AppBar(
@@ -80,7 +81,7 @@ class _NewAccountPageState extends ConsumerState<NewAccountPage> {
               hasScrollBody: false,
               child: Padding(
                 padding: const EdgeInsets.only(bottom: 10),
-                child: _buildForm(appLocalizations),
+                child: _buildForm(appLocalizations, isLoading),
               ),
             )
           ],
@@ -89,7 +90,7 @@ class _NewAccountPageState extends ConsumerState<NewAccountPage> {
     );
   }
 
-  Widget _buildForm(AppLocalizations appLocalizations) {
+  Widget _buildForm(AppLocalizations appLocalizations, bool isLoading) {
     return Form(
       key: _formKey,
       child: Padding(
@@ -135,7 +136,7 @@ class _NewAccountPageState extends ConsumerState<NewAccountPage> {
             ),
             _buildIconPicker(appLocalizations),
             const Spacer(),
-            _buildSaveButton(appLocalizations),
+            _buildSaveButton(appLocalizations, isLoading),
           ],
         ),
       ),
@@ -196,22 +197,26 @@ class _NewAccountPageState extends ConsumerState<NewAccountPage> {
     );
   }
 
-  Widget _buildSaveButton(AppLocalizations appLocalizations) {
+  Widget _buildSaveButton(AppLocalizations appLocalizations, bool isLoading) {
     return CustomElevatedButton(
-      onPressed: () {
+      text: editMode ? appLocalizations.applyChanges : appLocalizations.save,
+      isLoading: isLoading,
+      onPressed: () async {
         if (_formKey.currentState!.validate()) {
           if (editMode) {
-            _editAccount();
+            await _editAccount();
           } else {
-            _saveNewAccount();
+            await _saveNewAccount();
           }
         }
+
+        if (!mounted) return;
+        Navigator.of(context).pop();
       },
-      text: editMode ? appLocalizations.applyChanges : appLocalizations.save,
     );
   }
 
-  void _saveNewAccount() {
+  Future<void> _saveNewAccount() async {
     final double? initialAmountValue =
         double.tryParse(initialBalanceInput.text);
 
@@ -222,35 +227,34 @@ class _NewAccountPageState extends ConsumerState<NewAccountPage> {
       iconPath: selectedIconPath,
     );
 
-    ref
-        .read(accountMutationProvider.notifier)
-        .add(newAccount)
-        .then((addedAccount) {
-      if (initialAmountValue != null) {
-        final currentContext = context;
-        String initialBalanceTitle = "Inital balance"; // TODO: Localize
+    final Account addedAccount =
+        await ref.read(accountMutationProvider.notifier).addAccount(newAccount);
 
-        if (currentContext.mounted) {
-          initialBalanceTitle =
-              AppLocalizations.of(currentContext)!.initialBalance;
-        }
+    if (initialAmountValue != null) {
+      final currentContext = context;
+      String initialBalanceTitle = "Inital balance"; // TODO: Localize
 
-        final newTransaction = Transaction(
-          accountId: addedAccount.id,
-          title: initialBalanceTitle,
-          amount: initialAmountValue,
-          date: DateTime.now(),
-          includeInReports: false,
-          isHidden: false,
-        );
-
-        ref.read(transactionMutationProvider.notifier).add(newTransaction);
+      if (currentContext.mounted) {
+        initialBalanceTitle =
+            AppLocalizations.of(currentContext)!.initialBalance;
       }
-      if (mounted) Navigator.of(context).pop();
-    });
+
+      final newTransaction = Transaction(
+        accountId: addedAccount.id,
+        title: initialBalanceTitle,
+        amount: initialAmountValue,
+        date: DateTime.now(),
+        includeInReports: false,
+        isHidden: false,
+      );
+
+      await ref
+          .read(transactionMutationProvider.notifier)
+          .addTransaction(newTransaction);
+    }
   }
 
-  void _editAccount() {
+  Future<void> _editAccount() async {
     final modifiedAccount = Account(
       id: widget.initialAccountSettings!.id,
       name: titleInput.text,
@@ -259,9 +263,11 @@ class _NewAccountPageState extends ConsumerState<NewAccountPage> {
       iconPath: selectedIconPath,
     );
 
-    ref
+    await ref
         .read(accountMutationProvider.notifier)
-        .update(widget.initialAccountSettings!, modifiedAccount)
-        .then((value) => {if (mounted) Navigator.of(context).pop()});
+        .updateAccount(widget.initialAccountSettings!, modifiedAccount);
+
+    if (!mounted) return;
+    Navigator.of(context).pop();
   }
 }

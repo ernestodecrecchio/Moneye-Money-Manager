@@ -387,13 +387,15 @@ class _InitialConfigurationPageState
 
     await Future.forEach(
         selectedAccounts,
-        (account) async =>
-            await ref.read(accountMutationProvider.notifier).add(account));
+        (account) async => await ref
+            .read(accountMutationProvider.notifier)
+            .addAccount(account));
 
     await Future.forEach(
         selectedCategory,
-        (category) async =>
-            await ref.read(categoryMutationProvider.notifier).add(category));
+        (category) async => await ref
+            .read(categoryMutationProvider.notifier)
+            .addCategory(category));
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
 

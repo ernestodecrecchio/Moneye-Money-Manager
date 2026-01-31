@@ -230,33 +230,4 @@ class DatabaseTransactionHelper {
 
     return result.map((json) => trans.Transaction.fromJson(json)).toList();
   }
-
-  /*Future<Map<int, double>> getMonthlyBalanceForYear(int year) async {
-    final dbInstance = await DatabaseHelper.instance.database;
-
-    String query = '''
-    SELECT STRFTIME('%m', ${TransactionFields.date}) AS month, SUM(${TransactionFields.amount}) AS total
-    FROM $transactionsTable
-    WHERE STRFTIME('%Y', ${TransactionFields.date}) = ?
-    GROUP BY month
-    ORDER BY month
-    ''';
-
-    final results = await dbInstance.rawQuery(query, [year.toString()]);
-
-    // Always return a map with all 12 months
-    final Map<int, double> monthlyTotals = {
-      for (int m = 1; m <= 12; m++) m: 0.0,
-    };
-
-    for (final row in results) {
-      final monthString = row['month'] as String; // "01", "02", ...
-      final month = int.parse(monthString);
-
-      final value = row['total'];
-      monthlyTotals[month] = (value is num) ? value.toDouble() : 0.0;
-    }
-
-    return monthlyTotals;
-  }*/
 }

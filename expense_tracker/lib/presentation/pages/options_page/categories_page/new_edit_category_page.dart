@@ -61,6 +61,7 @@ class _NewEditCategoryPageState extends ConsumerState<NewEditCategoryPage> {
   @override
   Widget build(BuildContext context) {
     final appLocalizations = ref.watch(appLocalizationsProvider);
+    final isLoading = ref.watch(categoryMutationProvider).isLoading;
 
     return Scaffold(
       appBar: AppBar(
@@ -77,7 +78,7 @@ class _NewEditCategoryPageState extends ConsumerState<NewEditCategoryPage> {
               hasScrollBody: false,
               child: Padding(
                   padding: const EdgeInsets.only(bottom: 10),
-                  child: _buildForm(appLocalizations)),
+                  child: _buildForm(appLocalizations, isLoading)),
             ),
           ],
         ),
@@ -85,7 +86,7 @@ class _NewEditCategoryPageState extends ConsumerState<NewEditCategoryPage> {
     );
   }
 
-  Widget _buildForm(AppLocalizations appLocalizations) {
+  Widget _buildForm(AppLocalizations appLocalizations, bool isLoading) {
     return Form(
       key: _formKey,
       child: Padding(
@@ -110,7 +111,6 @@ class _NewEditCategoryPageState extends ConsumerState<NewEditCategoryPage> {
               controller: descriptionInput,
               label: appLocalizations.description,
               hintText: appLocalizations.insertTheDescription,
-              //   maxLines: null,
             ),
             const SizedBox(
               height: 14,
@@ -121,7 +121,7 @@ class _NewEditCategoryPageState extends ConsumerState<NewEditCategoryPage> {
             ),
             _buildIconPicker(appLocalizations),
             const Spacer(),
-            _buildSaveButton(appLocalizations),
+            _buildSaveButton(appLocalizations, isLoading),
           ],
         ),
       ),
@@ -181,22 +181,26 @@ class _NewEditCategoryPageState extends ConsumerState<NewEditCategoryPage> {
     );
   }
 
-  Widget _buildSaveButton(AppLocalizations appLocalizations) {
+  Widget _buildSaveButton(AppLocalizations appLocalizations, bool isLoading) {
     return CustomElevatedButton(
-      onPressed: () {
-        if (_formKey.currentState!.validate()) {
-          if (editMode) {
-            _editCategory();
-          } else {
-            _saveNewCategory();
-          }
-        }
-      },
       text: editMode ? appLocalizations.applyChanges : appLocalizations.save,
+      isLoading: isLoading,
+      onPressed: () async {
+        if (!_formKey.currentState!.validate()) return;
+
+        if (editMode) {
+          await _editCategory();
+        } else {
+          await _saveNewCategory();
+        }
+
+        if (!mounted) return;
+        Navigator.of(context).pop();
+      },
     );
   }
 
-  void _saveNewCategory() {
+  Future<void> _saveNewCategory() async {
     final newCategory = Category(
       name: titleInput.text,
       description: descriptionInput.text,
@@ -204,13 +208,10 @@ class _NewEditCategoryPageState extends ConsumerState<NewEditCategoryPage> {
       iconPath: selectedIconPath,
     );
 
-    ref
-        .read(categoryMutationProvider.notifier)
-        .add(newCategory)
-        .then((value) => {if (mounted) Navigator.of(context).pop()});
+    await ref.read(categoryMutationProvider.notifier).addCategory(newCategory);
   }
 
-  void _editCategory() {
+  Future<void> _editCategory() async {
     final modifiedCategory = Category(
       id: widget.initialCategorySettings!.id,
       name: titleInput.text,
@@ -219,12 +220,9 @@ class _NewEditCategoryPageState extends ConsumerState<NewEditCategoryPage> {
       iconPath: selectedIconPath,
     );
 
-    ref
-        .read(categoryMutationProvider.notifier)
-        .update(
+    await ref.read(categoryMutationProvider.notifier).updateCategory(
           widget.initialCategorySettings!,
           modifiedCategory,
-        )
-        .then((value) => {if (mounted) Navigator.of(context).pop()});
+        );
   }
 }

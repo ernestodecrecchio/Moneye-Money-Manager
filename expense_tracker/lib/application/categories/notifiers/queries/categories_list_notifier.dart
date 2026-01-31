@@ -11,7 +11,7 @@ class CategoriesListNotifier extends AsyncNotifier<List<Category>> {
     return _repo.getCategories();
   }
 
-  Future<void> refresh() async {
+  void refresh() async {
     ref.invalidateSelf();
   }
 }
