@@ -815,6 +815,72 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Include in reports'**
   String get includeInReports;
+
+  /// No description provided for @backupAndRestore.
+  ///
+  /// In en, this message translates to:
+  /// **'Backup & Restore'**
+  String get backupAndRestore;
+
+  /// No description provided for @backupAndRestoreOptionDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Export or import your data'**
+  String get backupAndRestoreOptionDescription;
+
+  /// No description provided for @exportData.
+  ///
+  /// In en, this message translates to:
+  /// **'Export data'**
+  String get exportData;
+
+  /// No description provided for @importData.
+  ///
+  /// In en, this message translates to:
+  /// **'Import data'**
+  String get importData;
+
+  /// No description provided for @importWarning.
+  ///
+  /// In en, this message translates to:
+  /// **'Importing a backup will delete all current data. Are you sure you want to proceed?'**
+  String get importWarning;
+
+  /// No description provided for @importSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Data imported successfully'**
+  String get importSuccess;
+
+  /// No description provided for @exportSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Data exported successfully'**
+  String get exportSuccess;
+
+  /// No description provided for @importError.
+  ///
+  /// In en, this message translates to:
+  /// **'An error occurred while importing data'**
+  String get importError;
+
+  /// No description provided for @exportError.
+  ///
+  /// In en, this message translates to:
+  /// **'An error occurred while exporting data'**
+  String get exportError;
+
+  /// No description provided for @saveToDevice.
+  ///
+  /// In en, this message translates to:
+  /// **'Save to device'**
+  String get saveToDevice;
+
+  /// No description provided for @shareBackup.
+  ///
+  /// In en, this message translates to:
+  /// **'Share backup'**
+  String get shareBackup;
 }
 
 class _AppLocalizationsDelegate

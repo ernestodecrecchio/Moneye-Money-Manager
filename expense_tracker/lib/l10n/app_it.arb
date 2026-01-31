@@ -117,5 +117,16 @@
   "thisMonth": "Questo mese",
   "initialBalance": "Saldo iniziale",
   "initialBalancePlaceholder": "Inserisci il saldo iniziale del conto",
-  "includeInReports": "Includi nei report"
+  "includeInReports": "Includi nei report",
+  "backupAndRestore": "Backup e Ripristino",
+  "backupAndRestoreOptionDescription": "Esporta o importa i tuoi dati",
+  "exportData": "Esporta dati",
+  "importData": "Importa dati",
+  "importWarning": "L'importazione di un backup eliminerà tutti i dati correnti. Sei sicuro di voler procedere?",
+  "importSuccess": "Dati importati con successo",
+  "exportSuccess": "Dati esportati con successo",
+  "importError": "Si è verificato un errore durante l'importazione dei dati",
+  "exportError": "Si è verificato un errore durante l'esportazione dei dati",
+  "saveToDevice": "Salva sul dispositivo",
+  "shareBackup": "Condividi backup"
 }

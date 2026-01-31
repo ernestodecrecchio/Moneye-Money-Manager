@@ -387,4 +387,41 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get includeInReports => 'Includi nei report';
+
+  @override
+  String get backupAndRestore => 'Backup e Ripristino';
+
+  @override
+  String get backupAndRestoreOptionDescription =>
+      'Esporta o importa i tuoi dati';
+
+  @override
+  String get exportData => 'Esporta dati';
+
+  @override
+  String get importData => 'Importa dati';
+
+  @override
+  String get importWarning =>
+      'L\'importazione di un backup eliminerà tutti i dati correnti. Sei sicuro di voler procedere?';
+
+  @override
+  String get importSuccess => 'Dati importati con successo';
+
+  @override
+  String get exportSuccess => 'Dati esportati con successo';
+
+  @override
+  String get importError =>
+      'Si è verificato un errore durante l\'importazione dei dati';
+
+  @override
+  String get exportError =>
+      'Si è verificato un errore durante l\'esportazione dei dati';
+
+  @override
+  String get saveToDevice => 'Salva sul dispositivo';
+
+  @override
+  String get shareBackup => 'Condividi backup';
 }

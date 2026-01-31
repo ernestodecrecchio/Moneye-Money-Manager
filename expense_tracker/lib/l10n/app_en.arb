@@ -117,5 +117,16 @@
   "thisMonth": "This month",
   "initialBalance": "Initial balance",
   "initialBalancePlaceholder": "Insert the initial balance of the account",
-  "includeInReports": "Include in reports"
+  "includeInReports": "Include in reports",
+  "backupAndRestore": "Backup & Restore",
+  "backupAndRestoreOptionDescription": "Export or import your data",
+  "exportData": "Export data",
+  "importData": "Import data",
+  "importWarning": "Importing a backup will delete all current data. Are you sure you want to proceed?",
+  "importSuccess": "Data imported successfully",
+  "exportSuccess": "Data exported successfully",
+  "importError": "An error occurred while importing data",
+  "exportError": "An error occurred while exporting data",
+  "saveToDevice": "Save to device",
+  "shareBackup": "Share backup"
 }

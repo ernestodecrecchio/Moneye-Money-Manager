@@ -387,4 +387,38 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get includeInReports => 'Incluir en los informes';
+
+  @override
+  String get backupAndRestore => 'Backup & Restore';
+
+  @override
+  String get backupAndRestoreOptionDescription => 'Export or import your data';
+
+  @override
+  String get exportData => 'Export data';
+
+  @override
+  String get importData => 'Import data';
+
+  @override
+  String get importWarning =>
+      'Importing a backup will delete all current data. Are you sure you want to proceed?';
+
+  @override
+  String get importSuccess => 'Data imported successfully';
+
+  @override
+  String get exportSuccess => 'Data exported successfully';
+
+  @override
+  String get importError => 'An error occurred while importing data';
+
+  @override
+  String get exportError => 'An error occurred while exporting data';
+
+  @override
+  String get saveToDevice => 'Save to device';
+
+  @override
+  String get shareBackup => 'Share backup';
 }
