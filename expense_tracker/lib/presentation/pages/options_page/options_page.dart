@@ -10,6 +10,7 @@ import 'package:expense_tracker/presentation/pages/options_page/currency_page/cu
 import 'package:expense_tracker/presentation/pages/options_page/language_page/languages_list_page.dart';
 import 'package:expense_tracker/presentation/pages/options_page/notification_page/notification_page.dart';
 import 'package:expense_tracker/style.dart';
+import 'package:expense_tracker/presentation/pages/whats_new_page/whats_new_history_page.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -151,6 +152,21 @@ class OptionsPage extends ConsumerWidget {
               appStoreId: '6447369037',
             );
           },
+        ),
+        const Divider(),
+        ListTile(
+          leading: const SizedBox(
+            height: double.infinity,
+            child: Icon(
+              Icons.auto_awesome_rounded,
+              color: CustomColors.darkBlue,
+            ),
+          ),
+          title: Text(appLocalizations.whatsNew),
+          subtitle: Text(appLocalizations.whatsNewDescription),
+          trailing: const Icon(Icons.chevron_right_rounded),
+          onTap: () =>
+              Navigator.of(context).pushNamed(WhatsNewHistoryPage.routeName),
         ),
         const Divider(),
         ListTile(

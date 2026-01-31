@@ -624,6 +624,30 @@ abstract class AppLocalizations {
   /// **'Continue'**
   String get toContinue;
 
+  /// No description provided for @saveToDevice.
+  ///
+  /// In en, this message translates to:
+  /// **'Save to device'**
+  String get saveToDevice;
+
+  /// No description provided for @shareBackup.
+  ///
+  /// In en, this message translates to:
+  /// **'Share backup'**
+  String get shareBackup;
+
+  /// No description provided for @whatsNew.
+  ///
+  /// In en, this message translates to:
+  /// **'What\'s New'**
+  String get whatsNew;
+
+  /// No description provided for @whatsNewDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'View latest features and updates'**
+  String get whatsNewDescription;
+
   /// No description provided for @done.
   ///
   /// In en, this message translates to:

@@ -281,6 +281,18 @@ class AppLocalizationsDe extends AppLocalizations {
   String get toContinue => 'Weiter';
 
   @override
+  String get saveToDevice => 'Save to device';
+
+  @override
+  String get shareBackup => 'Share backup';
+
+  @override
+  String get whatsNew => 'What\'s New';
+
+  @override
+  String get whatsNewDescription => 'View latest features and updates';
+
+  @override
   String get done => 'Fertig';
 
   @override

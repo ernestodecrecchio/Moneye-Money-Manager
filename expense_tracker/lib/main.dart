@@ -31,6 +31,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart' as r;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'presentation/pages/account_detail_page/transaction_list_page.dart';
 import 'package:timezone/data/latest_all.dart';
+import 'package:expense_tracker/presentation/pages/whats_new_page/whats_new_history_page.dart';
+import 'package:expense_tracker/presentation/pages/whats_new_page/whats_new_page.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
@@ -100,12 +103,20 @@ Future main() async {
 
   await NotificationManager.initNotificationManager();
 
+  // VERSION CHECK
+  final packageInfo = await PackageInfo.fromPlatform();
+  final currentVersion = '${packageInfo.version}+${packageInfo.buildNumber}';
+  final lastSeenVersion = prefs.getString('last_seen_version');
+  final showWhatsNew =
+      lastSeenVersion != currentVersion && lastSeenVersion != null;
+
   // SETTING UP NEEDS CONFIGURATION
   runApp(
     r.UncontrolledProviderScope(
       container: container,
       child: MyApp(
         needsConfiguration: prefs.getBool('needs_configuration') ?? true,
+        showWhatsNew: showWhatsNew,
       ),
     ),
   );
@@ -120,10 +131,12 @@ Future<void> _configureLocalTimeZone() async {
 
 class MyApp extends r.ConsumerWidget {
   final bool needsConfiguration;
+  final bool showWhatsNew;
 
   const MyApp({
     super.key,
     required this.needsConfiguration,
+    required this.showWhatsNew,
   });
 
   @override
@@ -170,7 +183,9 @@ class MyApp extends r.ConsumerWidget {
           GlobalCupertinoLocalizations.delegate,
           GlobalWidgetsLocalizations.delegate,
         ],
-        initialRoute: '/',
+        initialRoute: showWhatsNew
+            ? WhatsNewPage.routeName
+            : (needsConfiguration ? '/' : TabBarPage.routeName),
         routes: {
           '/': (context) => needsConfiguration
               ? const InitialConfigurationPage()
@@ -182,6 +197,9 @@ class MyApp extends r.ConsumerWidget {
           CurrencyPage.routeName: (context) => const CurrencyPage(),
           ReminderPage.routeName: (context) => const ReminderPage(),
           AboutPage.routeName: (context) => const AboutPage(),
+          WhatsNewPage.routeName: (context) => const WhatsNewPage(),
+          WhatsNewHistoryPage.routeName: (context) =>
+              const WhatsNewHistoryPage(),
         },
         onGenerateRoute: (settings) {
           switch (settings.name) {
