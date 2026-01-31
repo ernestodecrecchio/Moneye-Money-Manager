@@ -202,12 +202,12 @@ class _NewAccountPageState extends ConsumerState<NewAccountPage> {
       text: editMode ? appLocalizations.applyChanges : appLocalizations.save,
       isLoading: isLoading,
       onPressed: () async {
-        if (_formKey.currentState!.validate()) {
-          if (editMode) {
-            await _editAccount();
-          } else {
-            await _saveNewAccount();
-          }
+        if (!_formKey.currentState!.validate()) return;
+
+        if (editMode) {
+          await _editAccount();
+        } else {
+          await _saveNewAccount();
         }
 
         if (!mounted) return;

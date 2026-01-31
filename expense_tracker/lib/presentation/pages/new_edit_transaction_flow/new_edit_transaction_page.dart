@@ -373,16 +373,15 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
       text: editMode ? appLocalizations.applyChanges : appLocalizations.save,
       isLoading: isLoading,
       onPressed: () async {
-        if (_formKey.currentState!.validate()) {
-          if (editMode) {
-            await _editTransaction(
-                income:
-                    _transactionTypeTabController.index == 0 ? true : false);
-          } else {
-            await _saveNewTransaction(
-                isIncome:
-                    _transactionTypeTabController.index == 0 ? true : false);
-          }
+        if (!_formKey.currentState!.validate()) return;
+
+        if (editMode) {
+          await _editTransaction(
+              income: _transactionTypeTabController.index == 0 ? true : false);
+        } else {
+          await _saveNewTransaction(
+              isIncome:
+                  _transactionTypeTabController.index == 0 ? true : false);
         }
 
         if (!mounted) return;
