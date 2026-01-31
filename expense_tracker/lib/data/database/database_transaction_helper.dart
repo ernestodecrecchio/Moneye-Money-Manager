@@ -106,8 +106,7 @@ class DatabaseTransactionHelper {
 
     final result = await db.query(transactionsTable,
         orderBy: orderBy,
-        where:
-            "${TransactionFields.date} BETWEEN date(?, 'localtime') AND date(?, 'localtime')",
+        where: "date(${TransactionFields.date}) BETWEEN ? AND ?",
         whereArgs: [
           DateFormat('yyyy-MM-dd').format(startDate).toString(),
           DateFormat('yyyy-MM-dd').format(endDate).toString(),
@@ -148,13 +147,13 @@ class DatabaseTransactionHelper {
 
     // Optional: filter start date
     if (startDate != null) {
-      query += ' AND ${TransactionFields.date} >= ?';
+      query += ' AND date(${TransactionFields.date}) >= ?';
       args.add(formatDate(startDate));
     }
 
     // Optional: filter end date
     if (endDate != null) {
-      query += ' AND ${TransactionFields.date} <= ?';
+      query += ' AND date(${TransactionFields.date}) <= ?';
       args.add(formatDate(endDate));
     }
 
@@ -192,12 +191,12 @@ class DatabaseTransactionHelper {
 
     // Date filters
     if (startDate != null) {
-      conditions.add('${TransactionFields.date} >= ?');
+      conditions.add('date(${TransactionFields.date}) >= ?');
       args.add(formatDate(startDate));
     }
 
     if (endDate != null) {
-      conditions.add('${TransactionFields.date} <= ?');
+      conditions.add('date(${TransactionFields.date}) <= ?');
       args.add(formatDate(endDate));
     }
 
