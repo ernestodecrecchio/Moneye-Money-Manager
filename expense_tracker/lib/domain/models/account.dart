@@ -1,3 +1,4 @@
+import 'package:equatable/equatable.dart';
 import 'package:expense_tracker/style.dart';
 import 'package:flutter/material.dart';
 
@@ -19,7 +20,7 @@ class AccountFields {
   static const String iconPath = 'iconPath';
 }
 
-class Account {
+class Account extends Equatable {
   final int? id;
   final String name;
   final String? description;
@@ -37,6 +38,9 @@ class Account {
     this.colorValue,
     this.iconPath,
   });
+
+  @override
+  List<Object?> get props => [id, name, description, colorValue, iconPath];
 
   Account copy({
     int? id,

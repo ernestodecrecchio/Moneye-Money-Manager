@@ -168,6 +168,7 @@ class DatabaseTransactionHelper {
 
     // sqflite returns: [{ "total_balance": 123.45 }] OR [{ "total_balance": null }]
     final value = result.first['total_balance'];
+
     return (value is num) ? value.toDouble() : 0.0;
   }
 

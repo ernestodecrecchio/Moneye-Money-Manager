@@ -20,7 +20,7 @@ class TransactionMutationNotifier extends AsyncNotifier<void> {
     state = await AsyncValue.guard(() async {
       inserted = await _repo.insertTransaction(transaction: transaction);
 
-      ref.invalidate(totalBalanceProvider(const TotalBalanceParams()));
+      ref.invalidate(totalBalanceProvider);
       ref.invalidate(transactionsListProvider);
       ref.invalidate(accountsWithBalanceProvider);
     });
@@ -36,7 +36,7 @@ class TransactionMutationNotifier extends AsyncNotifier<void> {
       await _repo.updateTransaction(
           transactionToEdit: original, editedTransaction: modified);
 
-      ref.invalidate(totalBalanceProvider(const TotalBalanceParams()));
+      ref.invalidate(totalBalanceProvider);
       ref.invalidate(transactionsListProvider);
       ref.invalidate(accountsWithBalanceProvider);
     });
@@ -50,7 +50,7 @@ class TransactionMutationNotifier extends AsyncNotifier<void> {
           await _repo.deleteTransaction(transaction: transaction);
 
       if (removedTransactionCount > 0) {
-        ref.invalidate(totalBalanceProvider(const TotalBalanceParams()));
+        ref.invalidate(totalBalanceProvider);
         ref.invalidate(transactionsListProvider);
         ref.invalidate(accountsWithBalanceProvider);
       }

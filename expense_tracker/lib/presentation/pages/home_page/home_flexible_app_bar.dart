@@ -233,91 +233,77 @@ class _HomeFlexibleSpaceBarState extends ConsumerState<HomeFlexibleSpaceBar> {
   }
 
   Widget _buildPercentageDifference() {
-    return Consumer(
-      builder: (context, ref, child) {
-        final now = DateTime.now();
+    final now = DateTime.now();
 
-        // Full current month
-        final currMonthStart = currentMonthFirstDay(now);
-        final currMonthEnd = currentMonthLastDay(now);
+    final currMonthEnd = currentMonthLastDay(now);
+    final prevMonthEnd = previousMonthLastDay(now);
 
-        // Full previous month
-        final prevMonthStart = previousMonthFirstDay(now);
-        final prevMonthEnd = previousMonthLastDay(now);
+    final currMonthTotalBalanceParams = TotalBalanceParams(
+      startDate: null,
+      endDate: currMonthEnd,
+      account: null,
+    );
 
-        final currMonthTotalBalanceParams = TotalBalanceParams(
-          startDate: currMonthStart,
-          endDate: currMonthEnd,
-          account: null,
-        );
+    final prevMonthTotalBalanceParams = TotalBalanceParams(
+      startDate: null,
+      endDate: prevMonthEnd,
+      account: null,
+    );
 
-        final prevMonthTotalBalanceParams = TotalBalanceParams(
-          startDate: prevMonthStart,
-          endDate: prevMonthEnd,
-          account: null,
-        );
+    final currentMonthBalanceAsync = ref.watch(
+      totalBalanceProvider(currMonthTotalBalanceParams),
+    );
 
-        final currentMonthBalanceAsync = ref.watch(
-          totalBalanceProvider(currMonthTotalBalanceParams),
-        );
+    final previousMonthBalanceAsync = ref.watch(
+      totalBalanceProvider(prevMonthTotalBalanceParams),
+    );
 
-        final previousMonthBalanceAsync = ref.watch(
-          totalBalanceProvider(prevMonthTotalBalanceParams),
-        );
+    return currentMonthBalanceAsync.when(
+      data: (currBalance) {
+        return previousMonthBalanceAsync.when(
+          data: (prevBalance) {
+            if (prevBalance == 0) {
+              return const SizedBox.shrink();
+            }
 
-        return currentMonthBalanceAsync.when(
-          data: (currBalance) {
-            return previousMonthBalanceAsync.when(
-              data: (prevBalance) {
-                if (prevBalance == 0) {
-                  return const SizedBox.shrink();
-                }
+            final diffPercentage =
+                ((currBalance - prevBalance) / prevBalance) * 100;
 
-                final diffPercentage =
-                    ((currBalance - prevBalance) / prevBalance) * 100;
+            if (diffPercentage == 0) {
+              return const SizedBox.shrink();
+            }
 
-                return Container(
-                  decoration: BoxDecoration(
-                    color: Colors.white24,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.only(
-                      left: 10,
-                      right: 20,
-                      top: 8,
-                      bottom: 8,
+            return Container(
+              decoration: BoxDecoration(
+                color: Colors.white24,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.only(
+                  left: 10,
+                  right: 20,
+                  top: 8,
+                  bottom: 8,
+                ),
+                child: Row(
+                  children: [
+                    Icon(
+                      diffPercentage >= 0
+                          ? Icons.arrow_drop_up_rounded
+                          : Icons.arrow_drop_down_rounded,
+                      color: Colors.white,
                     ),
-                    child: Row(
-                      children: [
-                        Icon(
-                          diffPercentage >= 0
-                              ? Icons.arrow_drop_up_rounded
-                              : Icons.arrow_drop_down_rounded,
-                          color: Colors.white,
-                        ),
-                        Text(
-                          '${diffPercentage.toStringAsFixedRounded(2)}%',
-                          style: const TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ],
+                    Text(
+                      '${diffPercentage.toStringAsFixedRounded(2)}%',
+                      style: const TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
                     ),
-                  ),
-                );
-              },
-              loading: () => const SizedBox(
-                height: 20,
-                width: 20,
-                child: CircularProgressIndicator(
-                  strokeWidth: 2,
-                  color: Colors.white,
+                  ],
                 ),
               ),
-              error: (_, __) => const SizedBox.shrink(),
             );
           },
           loading: () => const SizedBox(
@@ -331,6 +317,15 @@ class _HomeFlexibleSpaceBarState extends ConsumerState<HomeFlexibleSpaceBar> {
           error: (_, __) => const SizedBox.shrink(),
         );
       },
+      loading: () => const SizedBox(
+        height: 20,
+        width: 20,
+        child: CircularProgressIndicator(
+          strokeWidth: 2,
+          color: Colors.white,
+        ),
+      ),
+      error: (_, __) => const SizedBox.shrink(),
     );
   }
 }
