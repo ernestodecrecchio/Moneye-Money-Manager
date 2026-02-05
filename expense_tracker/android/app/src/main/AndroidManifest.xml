@@ -3,8 +3,7 @@
    <application
         android:label="Moneye"
         android:name="${applicationName}"
-        android:icon="@mipmap/launcher_icon"
-        android:roundIcon="@mipmap/launcher_icon_round"
+        android:icon="@mipmap/ic_launcher"
         android:enableOnBackInvokedCallback="true"
         >
         <activity
