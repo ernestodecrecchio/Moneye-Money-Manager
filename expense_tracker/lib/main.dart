@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:expense_tracker/Configuration/notification_manager.dart';
+import 'package:expense_tracker/application/common/analytics_manager.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:expense_tracker/l10n/app_localizations.dart';
 import 'package:expense_tracker/l10n/l10n.dart';
 import 'package:expense_tracker/domain/models/account.dart';
@@ -38,6 +40,8 @@ final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  await Firebase.initializeApp();
 
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
@@ -139,6 +143,7 @@ class MyApp extends r.ConsumerWidget {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Moneye',
+        navigatorObservers: [AnalyticsManager.observer],
         theme: ThemeData(
           fontFamily: 'Ubuntu',
           scaffoldBackgroundColor: Colors.white,

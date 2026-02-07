@@ -1,4 +1,5 @@
 import 'package:expense_tracker/application/accounts/notifiers/queries/accounts_with_balance_notifier.dart';
+import 'package:expense_tracker/application/common/analytics_manager.dart';
 import 'package:expense_tracker/application/transactions/notifiers/queries/transactions_list_notifier.dart';
 import 'package:expense_tracker/domain/models/transaction.dart';
 import 'package:expense_tracker/application/transactions/notifiers/queries/total_balance_notifier.dart';
@@ -24,6 +25,11 @@ class TransactionMutationNotifier extends AsyncNotifier<void> {
       ref.invalidate(transactionsListProvider);
       ref.invalidate(accountsWithBalanceProvider);
     });
+
+    await AnalyticsManager.logTransactionAdded(
+      amount: inserted.amount,
+      categoryId: inserted.categoryId,
+    );
 
     return inserted;
   }
@@ -55,6 +61,8 @@ class TransactionMutationNotifier extends AsyncNotifier<void> {
         ref.invalidate(accountsWithBalanceProvider);
       }
     });
+
+    await AnalyticsManager.logTransactionDeleted();
   }
 }
 

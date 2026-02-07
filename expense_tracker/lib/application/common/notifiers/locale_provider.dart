@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:expense_tracker/application/common/analytics_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
@@ -33,6 +34,8 @@ class LocaleNotifier extends Notifier<Locale?> {
     Intl.defaultLocale = newLocale.languageCode;
 
     final prefs = await SharedPreferences.getInstance();
+
+    await AnalyticsManager.logLanguageChanged(newLocale.languageCode);
 
     return await prefs.setString('locale', newLocale.languageCode);
   }
