@@ -117,5 +117,12 @@
     "thisMonth": "Deze maand",
     "initialBalance": "Startguthaben",
     "initialBalancePlaceholder": "Geben Sie den Anfangssaldo des Kontos ein",
-    "includeInReports": "In Berichte einbeziehen"
+    "includeInReports": "In Berichte einbeziehen",
+    "analytics": "Analyse",
+    "analyticsOptionDescription": "Konfigurieren Sie, wie Daten gesammelt und verwendet werden",
+    "analyticsDescription": "Daten-Sammlung aktivieren, um die App zu verbessern. Daten sind anonym.",
+    "analyticsConsentTitle": "App-Verbesserung unterstützen?",
+    "analyticsConsentBody": "Wir verwenden Google Analytics, um anonyme Nutzungsdaten zu sammeln. Dies hilft uns zu verstehen, welche Funktionen am häufigsten genutzt werden und wie wir die App verbessern können. Sie können dies jederzeit in den Einstellungen ändern.",
+    "accept": "Akzeptieren",
+    "decline": "Ablehnen"
 }

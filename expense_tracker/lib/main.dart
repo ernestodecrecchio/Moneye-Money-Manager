@@ -23,7 +23,9 @@ import 'package:expense_tracker/presentation/pages/new_edit_transaction_flow/new
 import 'package:expense_tracker/presentation/pages/options_page/currency_page/currency_page.dart';
 import 'package:expense_tracker/presentation/pages/options_page/language_page/languages_list_page.dart';
 import 'package:expense_tracker/presentation/pages/options_page/notification_page/notification_page.dart';
+import 'package:expense_tracker/presentation/pages/options_page/analytics_settings_page.dart';
 import 'package:expense_tracker/presentation/pages/tab_bar_page.dart';
+import 'package:expense_tracker/application/common/notifiers/analytics_consent_provider.dart';
 import 'package:expense_tracker/style.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -105,6 +107,13 @@ Future main() async {
   }
 
   await NotificationManager.initNotificationManager();
+
+  // SETTING UP ANALYTICS CONSENT
+  final analyticsConsentValue =
+      prefs.getBool(AnalyticsConsentNotifier.consentKey);
+  final analyticsConsentNotifier =
+      container.read(analyticsConsentProvider.notifier);
+  analyticsConsentNotifier.setFromLocalStorage(analyticsConsentValue);
 
   // SETTING UP NEEDS CONFIGURATION
   runApp(
@@ -194,6 +203,8 @@ class MyApp extends r.ConsumerWidget {
           CurrencyPage.routeName: (context) => const CurrencyPage(),
           ReminderPage.routeName: (context) => const ReminderPage(),
           AboutPage.routeName: (context) => const AboutPage(),
+          AnalyticsSettingsPage.routeName: (context) =>
+              const AnalyticsSettingsPage(),
         },
         onGenerateRoute: (settings) {
           switch (settings.name) {

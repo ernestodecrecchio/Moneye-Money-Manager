@@ -2,6 +2,7 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 
 class AnalyticsManager {
   static final FirebaseAnalytics _analytics = FirebaseAnalytics.instance;
+  static bool _enabled = false;
 
   static FirebaseAnalyticsObserver get observer =>
       FirebaseAnalyticsObserver(analytics: _analytics);
@@ -11,6 +12,7 @@ class AnalyticsManager {
     required String name,
     Map<String, Object>? parameters,
   }) async {
+    if (!_enabled) return;
     await _analytics.logEvent(
       name: name,
       parameters: parameters,
@@ -73,6 +75,13 @@ class AnalyticsManager {
 
   /// Logs a screen view manually if needed.
   static Future<void> logScreenView({required String screenName}) async {
+    if (!_enabled) return;
     await _analytics.logScreenView(screenName: screenName);
+  }
+
+  /// Enables or disables analytics collection.
+  static Future<void> setAnalyticsCollectionEnabled(bool enabled) async {
+    _enabled = enabled;
+    await _analytics.setAnalyticsCollectionEnabled(enabled);
   }
 }

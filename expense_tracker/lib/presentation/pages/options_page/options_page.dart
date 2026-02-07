@@ -8,6 +8,7 @@ import 'package:expense_tracker/presentation/pages/options_page/accounts_page/ac
 import 'package:expense_tracker/presentation/pages/options_page/categories_page/categories_list_page.dart';
 import 'package:expense_tracker/presentation/pages/options_page/currency_page/currency_page.dart';
 import 'package:expense_tracker/presentation/pages/options_page/language_page/languages_list_page.dart';
+import 'package:expense_tracker/presentation/pages/options_page/analytics_settings_page.dart';
 import 'package:expense_tracker/presentation/pages/options_page/notification_page/notification_page.dart';
 import 'package:expense_tracker/style.dart';
 import 'package:flutter/material.dart';
@@ -165,6 +166,21 @@ class OptionsPage extends ConsumerWidget {
           subtitle: Text(appLocalizations.infoOptionDescription),
           trailing: const Icon(Icons.chevron_right_rounded),
           onTap: () => Navigator.of(context).pushNamed(AboutPage.routeName),
+        ),
+        const Divider(),
+        ListTile(
+          leading: const SizedBox(
+            height: double.infinity,
+            child: Icon(
+              Icons.analytics_outlined,
+              color: CustomColors.darkBlue,
+            ),
+          ),
+          title: Text(appLocalizations.analytics),
+          subtitle: Text(appLocalizations.analyticsOptionDescription),
+          trailing: const Icon(Icons.chevron_right_rounded),
+          onTap: () =>
+              Navigator.of(context).pushNamed(AnalyticsSettingsPage.routeName),
         ),
       ],
     );

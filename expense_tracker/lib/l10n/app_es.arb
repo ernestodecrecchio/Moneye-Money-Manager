@@ -117,5 +117,12 @@
 "thisMonth": "Este mes",
 "initialBalance": "Saldo Inicial",
 "initialBalancePlaceholder": "Inserte el saldo inicial de la cuenta",
-"includeInReports": "Incluir en los informes"
+"includeInReports": "Incluir en los informes",
+"analytics": "Analítica",
+"analyticsOptionDescription": "Configure cómo se recopilan y utilizan los datos",
+"analyticsDescription": "Habilite la recopilación de datos para ayudar a mejorar la aplicación. Los datos son anónimos.",
+"analyticsConsentTitle": "¿Apoyar la mejora de la aplicación?",
+"analyticsConsentBody": "Utilizamos Google Analytics para recopilar datos de uso anónimos. Esto nos ayuda a comprender qué funciones se usan más y cómo mejorar la aplicación. Puedes cambiar esto en cualquier momento en la configuración.",
+"accept": "Aceptar",
+"decline": "Rechazar"
 }

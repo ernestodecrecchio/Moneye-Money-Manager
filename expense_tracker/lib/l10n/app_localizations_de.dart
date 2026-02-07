@@ -390,4 +390,28 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get includeInReports => 'In Berichte einbeziehen';
+
+  @override
+  String get analytics => 'Analyse';
+
+  @override
+  String get analyticsOptionDescription =>
+      'Konfigurieren Sie, wie Daten gesammelt und verwendet werden';
+
+  @override
+  String get analyticsDescription =>
+      'Daten-Sammlung aktivieren, um die App zu verbessern. Daten sind anonym.';
+
+  @override
+  String get analyticsConsentTitle => 'App-Verbesserung unterstützen?';
+
+  @override
+  String get analyticsConsentBody =>
+      'Wir verwenden Google Analytics, um anonyme Nutzungsdaten zu sammeln. Dies hilft uns zu verstehen, welche Funktionen am häufigsten genutzt werden und wie wir die App verbessern können. Sie können dies jederzeit in den Einstellungen ändern.';
+
+  @override
+  String get accept => 'Akzeptieren';
+
+  @override
+  String get decline => 'Ablehnen';
 }
