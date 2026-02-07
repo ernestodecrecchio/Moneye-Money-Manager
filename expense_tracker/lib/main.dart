@@ -213,6 +213,7 @@ class MyApp extends r.ConsumerWidget {
                 final args = settings.arguments as List<Transaction>;
 
                 return MaterialPageRoute(
+                  settings: settings,
                   builder: (context) =>
                       TransactionListPage(transactionList: args),
                 );
@@ -222,6 +223,7 @@ class MyApp extends r.ConsumerWidget {
                 final args = settings.arguments as Account?;
 
                 return MaterialPageRoute(
+                  settings: settings,
                   builder: (context) => AccountDetailPage(
                     account: args,
                   ),
@@ -237,6 +239,7 @@ class MyApp extends r.ConsumerWidget {
                 final account = args?.account;
 
                 return MaterialPageRoute(
+                  settings: settings,
                   builder: (context) => NewEditTransactionPage(
                     incomePreset: incomePreset,
                     initialTransactionSettings: transaction,
@@ -249,6 +252,7 @@ class MyApp extends r.ConsumerWidget {
                 final args = settings.arguments as Account?;
 
                 return MaterialPageRoute(
+                  settings: settings,
                   builder: (context) => NewAccountPage(
                     initialAccountSettings: args,
                   ),
@@ -259,6 +263,7 @@ class MyApp extends r.ConsumerWidget {
                 final args = settings.arguments as c.Category?;
 
                 return MaterialPageRoute(
+                  settings: settings,
                   builder: (context) => NewEditCategoryPage(
                     initialCategorySettings: args,
                   ),
