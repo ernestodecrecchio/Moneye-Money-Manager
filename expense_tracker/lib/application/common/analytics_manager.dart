@@ -1,4 +1,8 @@
+import 'package:expense_tracker/application/common/notifiers/analytics_consent_provider.dart';
+import 'package:expense_tracker/application/common/notifiers/app_localizations_provider.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class AnalyticsManager {
   static final FirebaseAnalytics _analytics = FirebaseAnalytics.instance;
@@ -6,6 +10,39 @@ class AnalyticsManager {
 
   static FirebaseAnalyticsObserver get observer =>
       FirebaseAnalyticsObserver(analytics: _analytics);
+
+  /// Shows the analytics consent dialog.
+  static void showConsentDialog({
+    required BuildContext context,
+    required WidgetRef ref,
+  }) {
+    final appLocalizations = ref.read(appLocalizationsProvider);
+
+    showAdaptiveDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => AlertDialog.adaptive(
+        title: Text(appLocalizations.analyticsConsentTitle),
+        content: Text(appLocalizations.analyticsConsentBody),
+        actions: [
+          TextButton(
+            onPressed: () {
+              ref.read(analyticsConsentProvider.notifier).updateConsent(false);
+              Navigator.of(context).pop();
+            },
+            child: Text(appLocalizations.decline),
+          ),
+          TextButton(
+            onPressed: () {
+              ref.read(analyticsConsentProvider.notifier).updateConsent(true);
+              Navigator.of(context).pop();
+            },
+            child: Text(appLocalizations.accept),
+          ),
+        ],
+      ),
+    );
+  }
 
   /// Logs a custom event.
   static Future<void> logEvent({

@@ -1,3 +1,4 @@
+import 'package:expense_tracker/application/common/analytics_manager.dart';
 import 'package:expense_tracker/application/common/notifiers/analytics_consent_provider.dart';
 import 'package:expense_tracker/application/common/notifiers/app_localizations_provider.dart';
 import 'package:expense_tracker/presentation/pages/home_page/home_page.dart';
@@ -32,37 +33,8 @@ class _TabBarPageState extends ConsumerState<TabBarPage> {
   void _checkAnalyticsConsent() {
     final consent = ref.read(analyticsConsentProvider);
     if (consent == null) {
-      _showAnalyticsConsentDialog();
+      AnalyticsManager.showConsentDialog(context: context, ref: ref);
     }
-  }
-
-  void _showAnalyticsConsentDialog() {
-    final appLocalizations = ref.read(appLocalizationsProvider);
-
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (context) => AlertDialog(
-        title: Text(appLocalizations.analyticsConsentTitle),
-        content: Text(appLocalizations.analyticsConsentBody),
-        actions: [
-          TextButton(
-            onPressed: () {
-              ref.read(analyticsConsentProvider.notifier).updateConsent(false);
-              Navigator.of(context).pop();
-            },
-            child: Text(appLocalizations.decline),
-          ),
-          TextButton(
-            onPressed: () {
-              ref.read(analyticsConsentProvider.notifier).updateConsent(true);
-              Navigator.of(context).pop();
-            },
-            child: Text(appLocalizations.accept),
-          ),
-        ],
-      ),
-    );
   }
 
   final screen = [
