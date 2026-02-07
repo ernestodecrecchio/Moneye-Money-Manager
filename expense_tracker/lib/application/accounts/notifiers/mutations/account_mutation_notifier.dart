@@ -1,5 +1,5 @@
 import 'package:expense_tracker/application/accounts/notifiers/accounts_repository_provider.dart';
-import 'package:expense_tracker/application/common/analytics_manager.dart';
+import 'package:expense_tracker/configuration/analytics_manager.dart';
 import 'package:expense_tracker/application/accounts/notifiers/queries/accounts_list_notifier.dart';
 import 'package:expense_tracker/application/accounts/notifiers/queries/accounts_with_balance_notifier.dart';
 import 'package:expense_tracker/application/transactions/notifiers/queries/total_balance_notifier.dart';

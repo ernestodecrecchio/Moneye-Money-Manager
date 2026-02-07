@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:expense_tracker/Configuration/notification_manager.dart';
-import 'package:expense_tracker/application/common/analytics_manager.dart';
+import 'package:expense_tracker/configuration/analytics_manager.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:expense_tracker/l10n/app_localizations.dart';
 import 'package:expense_tracker/l10n/l10n.dart';

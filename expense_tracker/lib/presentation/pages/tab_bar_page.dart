@@ -1,4 +1,4 @@
-import 'package:expense_tracker/application/common/analytics_manager.dart';
+import 'package:expense_tracker/configuration/analytics_manager.dart';
 import 'package:expense_tracker/application/common/notifiers/analytics_consent_provider.dart';
 import 'package:expense_tracker/application/common/notifiers/app_localizations_provider.dart';
 import 'package:expense_tracker/presentation/pages/home_page/home_page.dart';

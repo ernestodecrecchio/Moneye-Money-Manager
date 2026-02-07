@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:expense_tracker/application/common/analytics_manager.dart';
+import 'package:expense_tracker/configuration/analytics_manager.dart';
 import 'package:expense_tracker/domain/models/currency.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

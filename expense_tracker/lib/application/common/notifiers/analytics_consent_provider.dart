@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:expense_tracker/application/common/analytics_manager.dart';
+import 'package:expense_tracker/configuration/analytics_manager.dart';
 
 class AnalyticsConsentNotifier extends Notifier<bool?> {
   static const String consentKey = 'analytics_consent';
