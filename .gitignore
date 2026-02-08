@@ -238,16 +238,8 @@ DerivedData/
 !.vscode/launch.json
 !.vscode/extensions.json
 
-
-## Custom
-# Google API key and other resources
-GoogleService-Info.plist
-google-services.json
-# Plugins (already resolved through pubspec.yaml)
-.flutter-plugins
-
 # Firebase / FlutterFire
-.google-services.json
+google-services.json
 GoogleService-Info.plist
 .firebase/
 .firebaserc
@@ -255,3 +247,4 @@ firebase.json
 
 # Flutter
 .flutter-plugins-dependencies
+.flutter-plugins
