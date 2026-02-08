@@ -158,20 +158,6 @@ class OptionsPage extends ConsumerWidget {
           leading: const SizedBox(
             height: double.infinity,
             child: Icon(
-              Icons.info_outline,
-              color: CustomColors.darkBlue,
-            ),
-          ),
-          title: Text(appLocalizations.info),
-          subtitle: Text(appLocalizations.infoOptionDescription),
-          trailing: const Icon(Icons.chevron_right_rounded),
-          onTap: () => Navigator.of(context).pushNamed(AboutPage.routeName),
-        ),
-        const Divider(),
-        ListTile(
-          leading: const SizedBox(
-            height: double.infinity,
-            child: Icon(
               Icons.analytics_outlined,
               color: CustomColors.darkBlue,
             ),
@@ -181,6 +167,20 @@ class OptionsPage extends ConsumerWidget {
           trailing: const Icon(Icons.chevron_right_rounded),
           onTap: () =>
               Navigator.of(context).pushNamed(AnalyticsSettingsPage.routeName),
+        ),
+        const Divider(),
+        ListTile(
+          leading: const SizedBox(
+            height: double.infinity,
+            child: Icon(
+              Icons.info_outline,
+              color: CustomColors.darkBlue,
+            ),
+          ),
+          title: Text(appLocalizations.info),
+          subtitle: Text(appLocalizations.infoOptionDescription),
+          trailing: const Icon(Icons.chevron_right_rounded),
+          onTap: () => Navigator.of(context).pushNamed(AboutPage.routeName),
         ),
       ],
     );
