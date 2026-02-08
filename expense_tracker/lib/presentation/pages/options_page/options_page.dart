@@ -1,3 +1,4 @@
+import 'package:expense_tracker/application/common/notifiers/package_info_provider.dart';
 import 'package:expense_tracker/application/common/notifiers/app_localizations_provider.dart';
 import 'package:expense_tracker/l10n/app_localizations.dart';
 import 'package:expense_tracker/application/common/notifiers/currency_provider.dart';
@@ -38,151 +39,174 @@ class OptionsPage extends ConsumerWidget {
       BuildContext context, WidgetRef ref, AppLocalizations appLocalizations) {
     final currentCurrency = ref.watch(currentCurrencyProvider);
     final currentLocale = ref.watch(localeProvider);
+    final packageInfoAsync = ref.watch(packageInfoProvider);
 
-    return ListView(
-      children: [
-        ListTile(
-          leading: const SizedBox(
-            height: double.infinity,
-            child: Icon(
-              Icons.grid_view_rounded,
-              color: CustomColors.darkBlue,
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          ListTile(
+            leading: const SizedBox(
+              height: double.infinity,
+              child: Icon(
+                Icons.grid_view_rounded,
+                color: CustomColors.darkBlue,
+              ),
             ),
+            title: Text(appLocalizations.categories),
+            subtitle: Text(appLocalizations.categoriesOptionDescription),
+            trailing: const Icon(Icons.chevron_right_rounded),
+            onTap: () =>
+                Navigator.of(context).pushNamed(CategoriesListPage.routeName),
           ),
-          title: Text(appLocalizations.categories),
-          subtitle: Text(appLocalizations.categoriesOptionDescription),
-          trailing: const Icon(Icons.chevron_right_rounded),
-          onTap: () =>
-              Navigator.of(context).pushNamed(CategoriesListPage.routeName),
-        ),
-        const Divider(),
-        ListTile(
-          leading: const SizedBox(
-            height: double.infinity,
-            child: Icon(
-              Icons.account_balance_rounded,
-              color: CustomColors.darkBlue,
+          const Divider(),
+          ListTile(
+            leading: const SizedBox(
+              height: double.infinity,
+              child: Icon(
+                Icons.account_balance_rounded,
+                color: CustomColors.darkBlue,
+              ),
             ),
+            title: Text(appLocalizations.accounts),
+            subtitle: Text(appLocalizations.accountsOptionDescription),
+            trailing: const Icon(Icons.chevron_right_rounded),
+            onTap: () =>
+                Navigator.of(context).pushNamed(AccountsListPage.routeName),
           ),
-          title: Text(appLocalizations.accounts),
-          subtitle: Text(appLocalizations.accountsOptionDescription),
-          trailing: const Icon(Icons.chevron_right_rounded),
-          onTap: () =>
-              Navigator.of(context).pushNamed(AccountsListPage.routeName),
-        ),
-        const Divider(),
-        ListTile(
-          leading: const SizedBox(
-            height: double.infinity,
-            child: Icon(
-              Icons.translate_rounded,
-              color: CustomColors.darkBlue,
+          const Divider(),
+          ListTile(
+            leading: const SizedBox(
+              height: double.infinity,
+              child: Icon(
+                Icons.translate_rounded,
+                color: CustomColors.darkBlue,
+              ),
             ),
-          ),
-          title: Text(appLocalizations.language),
-          subtitle: Text(appLocalizations.languageOptionDescription),
-          trailing: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              if (currentLocale != null) Text(currentLocale.languageCode),
-              const Icon(Icons.chevron_right_rounded),
-            ],
-          ),
-          onTap: () =>
-              Navigator.of(context).pushNamed(LanguagesListPage.routeName),
-        ),
-        const Divider(),
-        ListTile(
-          leading: const SizedBox(
-            height: double.infinity,
-            child: Icon(
-              Icons.currency_exchange_outlined,
-              color: CustomColors.darkBlue,
+            title: Text(appLocalizations.language),
+            subtitle: Text(appLocalizations.languageOptionDescription),
+            trailing: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                if (currentLocale != null) Text(currentLocale.languageCode),
+                const Icon(Icons.chevron_right_rounded),
+              ],
             ),
+            onTap: () =>
+                Navigator.of(context).pushNamed(LanguagesListPage.routeName),
           ),
-          title: Text(appLocalizations.currency),
-          subtitle: Text(appLocalizations.selectCurrency),
-          trailing: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              if (currentCurrency != null) Text(currentCurrency.symbolNative),
-              const Icon(Icons.chevron_right_rounded),
-            ],
-          ),
-          onTap: () => Navigator.of(context).pushNamed(CurrencyPage.routeName),
-        ),
-        const Divider(),
-        ListTile(
-          leading: const SizedBox(
-            height: double.infinity,
-            child: Icon(
-              Icons.notifications_active_rounded,
-              color: CustomColors.darkBlue,
+          const Divider(),
+          ListTile(
+            leading: const SizedBox(
+              height: double.infinity,
+              child: Icon(
+                Icons.currency_exchange_outlined,
+                color: CustomColors.darkBlue,
+              ),
             ),
-          ),
-          title: Text(appLocalizations.reminder),
-          subtitle: Text(appLocalizations.reminderOptionDescription),
-          trailing: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(ref.watch(notificationsEnabledProvider) != null &&
-                      ref.watch(notificationsEnabledProvider) == true
-                  ? appLocalizations.yes
-                  : appLocalizations.no),
-              const Icon(Icons.chevron_right_rounded),
-            ],
-          ),
-          onTap: () => Navigator.of(context).pushNamed(ReminderPage.routeName),
-        ),
-        const Divider(),
-        ListTile(
-          leading: const SizedBox(
-            height: double.infinity,
-            child: Icon(
-              Icons.star_rounded,
-              color: CustomColors.darkBlue,
+            title: Text(appLocalizations.currency),
+            subtitle: Text(appLocalizations.selectCurrency),
+            trailing: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                if (currentCurrency != null) Text(currentCurrency.symbolNative),
+                const Icon(Icons.chevron_right_rounded),
+              ],
             ),
+            onTap: () =>
+                Navigator.of(context).pushNamed(CurrencyPage.routeName),
           ),
-          title: Text(appLocalizations.feedback),
-          subtitle: Text(appLocalizations.feedbackAndReviewOptionDescription),
-          onTap: () {
-            final InAppReview inAppReview = InAppReview.instance;
+          const Divider(),
+          ListTile(
+            leading: const SizedBox(
+              height: double.infinity,
+              child: Icon(
+                Icons.notifications_active_rounded,
+                color: CustomColors.darkBlue,
+              ),
+            ),
+            title: Text(appLocalizations.reminder),
+            subtitle: Text(appLocalizations.reminderOptionDescription),
+            trailing: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(ref.watch(notificationsEnabledProvider) != null &&
+                        ref.watch(notificationsEnabledProvider) == true
+                    ? appLocalizations.yes
+                    : appLocalizations.no),
+                const Icon(Icons.chevron_right_rounded),
+              ],
+            ),
+            onTap: () =>
+                Navigator.of(context).pushNamed(ReminderPage.routeName),
+          ),
+          const Divider(),
+          ListTile(
+            leading: const SizedBox(
+              height: double.infinity,
+              child: Icon(
+                Icons.star_rounded,
+                color: CustomColors.darkBlue,
+              ),
+            ),
+            title: Text(appLocalizations.feedback),
+            subtitle: Text(appLocalizations.feedbackAndReviewOptionDescription),
+            onTap: () {
+              final InAppReview inAppReview = InAppReview.instance;
 
-            inAppReview.openStoreListing(
-              appStoreId: '6447369037',
-            );
-          },
-        ),
-        const Divider(),
-        ListTile(
-          leading: const SizedBox(
-            height: double.infinity,
-            child: Icon(
-              Icons.analytics_outlined,
-              color: CustomColors.darkBlue,
+              inAppReview.openStoreListing(
+                appStoreId: '6447369037',
+              );
+            },
+          ),
+          const Divider(),
+          ListTile(
+            leading: const SizedBox(
+              height: double.infinity,
+              child: Icon(
+                Icons.analytics_outlined,
+                color: CustomColors.darkBlue,
+              ),
+            ),
+            title: Text(appLocalizations.analytics),
+            subtitle: Text(appLocalizations.analyticsOptionDescription),
+            trailing: const Icon(Icons.chevron_right_rounded),
+            onTap: () => Navigator.of(context)
+                .pushNamed(AnalyticsSettingsPage.routeName),
+          ),
+          const Divider(),
+          ListTile(
+            leading: const SizedBox(
+              height: double.infinity,
+              child: Icon(
+                Icons.info_outline,
+                color: CustomColors.darkBlue,
+              ),
+            ),
+            title: Text(appLocalizations.info),
+            subtitle: Text(appLocalizations.infoOptionDescription),
+            trailing: const Icon(Icons.chevron_right_rounded),
+            onTap: () => Navigator.of(context).pushNamed(AboutPage.routeName),
+          ),
+          const Divider(),
+          SizedBox(
+            height: 40,
+          ),
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: packageInfoAsync.when(
+              data: (packageInfo) => Text(
+                '${appLocalizations.version} ${packageInfo.version}',
+                style: const TextStyle(
+                  color: Colors.grey,
+                  fontSize: 12,
+                ),
+              ),
+              error: (_, __) => const SizedBox.shrink(),
+              loading: () => const SizedBox.shrink(),
             ),
           ),
-          title: Text(appLocalizations.analytics),
-          subtitle: Text(appLocalizations.analyticsOptionDescription),
-          trailing: const Icon(Icons.chevron_right_rounded),
-          onTap: () =>
-              Navigator.of(context).pushNamed(AnalyticsSettingsPage.routeName),
-        ),
-        const Divider(),
-        ListTile(
-          leading: const SizedBox(
-            height: double.infinity,
-            child: Icon(
-              Icons.info_outline,
-              color: CustomColors.darkBlue,
-            ),
-          ),
-          title: Text(appLocalizations.info),
-          subtitle: Text(appLocalizations.infoOptionDescription),
-          trailing: const Icon(Icons.chevron_right_rounded),
-          onTap: () => Navigator.of(context).pushNamed(AboutPage.routeName),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

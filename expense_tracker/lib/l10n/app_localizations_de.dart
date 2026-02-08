@@ -414,4 +414,7 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get decline => 'Ablehnen';
+
+  @override
+  String get version => 'Version';
 }

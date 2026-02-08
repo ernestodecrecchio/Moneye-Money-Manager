@@ -411,4 +411,7 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get decline => 'Rifiuta';
+
+  @override
+  String get version => 'Versione';
 }

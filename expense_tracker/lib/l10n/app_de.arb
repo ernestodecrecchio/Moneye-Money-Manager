@@ -124,5 +124,6 @@
     "analyticsConsentTitle": "App-Verbesserung unterstützen?",
     "analyticsConsentBody": "Wir verwenden Google Analytics, um anonyme Nutzungsdaten zu sammeln. Dies hilft uns zu verstehen, welche Funktionen am häufigsten genutzt werden und wie wir die App verbessern können. Sie können dies jederzeit in den Einstellungen ändern.",
     "accept": "Akzeptieren",
-    "decline": "Ablehnen"
+    "decline": "Ablehnen",
+    "version": "Version"
 }

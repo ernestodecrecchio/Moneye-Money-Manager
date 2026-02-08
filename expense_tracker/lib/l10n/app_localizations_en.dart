@@ -410,4 +410,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get decline => 'Decline';
+
+  @override
+  String get version => 'Version';
 }
