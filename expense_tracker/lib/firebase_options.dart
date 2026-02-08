@@ -65,4 +65,5 @@ class DefaultFirebaseOptions {
     storageBucket: 'moneye-money-manager.firebasestorage.app',
     iosBundleId: 'com.ernestodecrecchio.moneye',
   );
+
 }
