@@ -56,7 +56,6 @@ class _CurrencyPageState extends ConsumerState<CurrencyPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(appLocalizations.currency),
-        backgroundColor: CustomColors.blue,
       ),
       body: SafeArea(
         minimum: const EdgeInsets.symmetric(horizontal: 17),

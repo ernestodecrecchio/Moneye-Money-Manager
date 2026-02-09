@@ -23,7 +23,6 @@ class _LanguagesListPageState extends ConsumerState<LanguagesListPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(appLocalizations.language),
-        backgroundColor: CustomColors.blue,
       ),
       body: _buildList(context, appLocalizations),
     );

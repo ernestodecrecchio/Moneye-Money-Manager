@@ -17,7 +17,6 @@ class AboutPage extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(appLocalizations.info),
-        backgroundColor: CustomColors.blue,
         elevation: 0,
       ),
       body: SafeArea(

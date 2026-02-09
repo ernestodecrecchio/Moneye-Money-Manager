@@ -42,7 +42,6 @@ class _HomePageState extends ConsumerState<HomePage> {
       body: CustomScrollView(
         slivers: <Widget>[
           SliverAppBar(
-            backgroundColor: CustomColors.blue,
             pinned: true,
             automaticallyImplyLeading: false,
             expandedHeight: 190,

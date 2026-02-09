@@ -24,7 +24,6 @@ class _CategoriesListPageState extends ConsumerState<CategoriesListPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(appLocalizations.yourCategories),
-        backgroundColor: CustomColors.blue,
       ),
       floatingActionButton: _buildFloatingActionButton(context),
       body: _buildList(appLocalizations),

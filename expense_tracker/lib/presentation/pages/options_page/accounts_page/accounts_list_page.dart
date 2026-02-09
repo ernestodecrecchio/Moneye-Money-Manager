@@ -24,7 +24,6 @@ class _AccountsListPageState extends ConsumerState<AccountsListPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(appLocalizations.yourAccounts),
-        backgroundColor: CustomColors.blue,
       ),
       floatingActionButton: _buildFloatingActionButton(context),
       body: _buildList(appLocalizations),

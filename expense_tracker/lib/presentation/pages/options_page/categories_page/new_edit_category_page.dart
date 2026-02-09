@@ -68,7 +68,6 @@ class _NewEditCategoryPageState extends ConsumerState<NewEditCategoryPage> {
         title: Text(editMode
             ? appLocalizations.editCategory
             : appLocalizations.newCategory),
-        backgroundColor: CustomColors.blue,
       ),
       body: SafeArea(
         minimum: const EdgeInsets.symmetric(horizontal: 17),

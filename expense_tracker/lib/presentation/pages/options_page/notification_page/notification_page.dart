@@ -19,7 +19,6 @@ class ReminderPage extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(appLocalizations.reminder),
-        backgroundColor: CustomColors.blue,
       ),
       body: SafeArea(
         minimum: const EdgeInsets.symmetric(horizontal: 17),

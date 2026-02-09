@@ -20,7 +20,6 @@ class TransactionListPage extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(appLocalizations.allTransactions),
-        backgroundColor: CustomColors.blue,
       ),
       body: _buildList(context, ref),
     );

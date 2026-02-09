@@ -17,7 +17,6 @@ class AnalyticsSettingsPage extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(appLocalizations.analytics),
-        backgroundColor: CustomColors.blue,
       ),
       body: ListView(
         children: [

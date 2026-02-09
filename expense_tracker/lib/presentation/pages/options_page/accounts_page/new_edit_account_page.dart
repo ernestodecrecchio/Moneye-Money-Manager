@@ -71,7 +71,6 @@ class _NewAccountPageState extends ConsumerState<NewAccountPage> {
         title: Text(editMode
             ? appLocalizations.editAccount
             : appLocalizations.newAccount),
-        backgroundColor: CustomColors.blue,
       ),
       body: SafeArea(
         minimum: const EdgeInsets.symmetric(horizontal: 17),
