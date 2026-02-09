@@ -278,16 +278,14 @@ class AppLocalizationsEn extends AppLocalizations {
   String get toContinue => 'Continue';
 
   @override
-  String get saveToDevice => 'Save to device';
+  String get updateHistory => 'Update history';
 
   @override
-  String get shareBackup => 'Share backup';
+  String get updateHistoryOptionDescription =>
+      'View the latest features and updates';
 
   @override
-  String get whatsNew => 'What\'s New';
-
-  @override
-  String get whatsNewDescription => 'View latest features and updates';
+  String get updateHistoryEmptyList => 'No updates found.';
 
   @override
   String get done => 'Done!';
