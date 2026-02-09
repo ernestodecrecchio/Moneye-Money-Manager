@@ -2,7 +2,6 @@ import 'package:expense_tracker/application/common/notifiers/app_localizations_p
 import 'package:expense_tracker/domain/models/transaction.dart';
 import 'package:expense_tracker/presentation/pages/common/delete_transaction_snackbar.dart';
 import 'package:expense_tracker/presentation/pages/common/list_tiles/transaction_list_cell.dart';
-import 'package:expense_tracker/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

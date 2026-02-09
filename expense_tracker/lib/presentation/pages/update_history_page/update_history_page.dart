@@ -69,15 +69,9 @@ class _UpdateHistoryPageState extends ConsumerState<UpdateHistoryPage> {
                               fontSize: 16,
                             ),
                           ),
-                          subtitle: Text(
-                            "Click to see what changed",
-                            style: TextStyle(
-                              color: Colors.grey[600],
-                              fontSize: 13,
-                            ),
+                          trailing: const Icon(
+                            Icons.chevron_right_rounded,
                           ),
-                          trailing: const Icon(Icons.chevron_right_rounded,
-                              color: CustomColors.clearGrey),
                           onTap: () {
                             Navigator.of(context).push(
                               MaterialPageRoute(
@@ -87,8 +81,7 @@ class _UpdateHistoryPageState extends ConsumerState<UpdateHistoryPage> {
                             );
                           },
                         ),
-                        if (index < versions.length - 1)
-                          const Divider(indent: 72),
+                        if (index < versions.length - 1) const Divider(),
                       ],
                     );
                   },
