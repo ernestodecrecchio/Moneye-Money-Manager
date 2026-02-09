@@ -51,9 +51,6 @@ captures/
 # External native build folder generated in Android Studio 2.2 and later
 .externalNativeBuild
 
-# Google Services (e.g. APIs or Firebase)
-google-services.json
-
 # Freeline
 freeline.py
 freeline/
@@ -76,8 +73,6 @@ fastlane/readme.md
 .packages
 .pub/
 build/
-# If you're building an application, you may want to check-in your pubspec.lock
-pubspec.lock
 
 # Directory created by dartdoc
 # If you don't generate documentation locally you can remove this line.
@@ -243,10 +238,13 @@ DerivedData/
 !.vscode/launch.json
 !.vscode/extensions.json
 
-
-## Custom
-# Google API key and other resources
-GoogleService-Info.plist
+# Firebase / FlutterFire
 google-services.json
-# Plugins (already resolved through pubspec.yaml)
+GoogleService-Info.plist
+.firebase/
+.firebaserc
+firebase.json
+
+# Flutter
+.flutter-plugins-dependencies
 .flutter-plugins

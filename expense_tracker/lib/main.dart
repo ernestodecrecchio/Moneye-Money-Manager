@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:expense_tracker/Configuration/notification_manager.dart';
+import 'package:expense_tracker/configuration/analytics_manager.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:expense_tracker/l10n/app_localizations.dart';
 import 'package:expense_tracker/l10n/l10n.dart';
 import 'package:expense_tracker/domain/models/account.dart';
@@ -21,7 +23,9 @@ import 'package:expense_tracker/presentation/pages/new_edit_transaction_flow/new
 import 'package:expense_tracker/presentation/pages/options_page/currency_page/currency_page.dart';
 import 'package:expense_tracker/presentation/pages/options_page/language_page/languages_list_page.dart';
 import 'package:expense_tracker/presentation/pages/options_page/notification_page/notification_page.dart';
+import 'package:expense_tracker/presentation/pages/options_page/analytics_settings_page.dart';
 import 'package:expense_tracker/presentation/pages/tab_bar_page.dart';
+import 'package:expense_tracker/application/common/notifiers/analytics_consent_provider.dart';
 import 'package:expense_tracker/style.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -34,11 +38,15 @@ import 'package:timezone/data/latest_all.dart';
 import 'package:expense_tracker/presentation/pages/whats_new_page/whats_new_history_page.dart';
 import 'package:expense_tracker/presentation/pages/whats_new_page/whats_new_page.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:flutter_timezone/flutter_timezone.dart';
+import 'package:timezone/timezone.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  await Firebase.initializeApp();
 
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
@@ -110,6 +118,13 @@ Future main() async {
   final showWhatsNew =
       lastSeenVersion != currentVersion && lastSeenVersion != null;
 
+  // SETTING UP ANALYTICS CONSENT
+  final analyticsConsentValue =
+      prefs.getBool(AnalyticsConsentNotifier.consentKey);
+  final analyticsConsentNotifier =
+      container.read(analyticsConsentProvider.notifier);
+  analyticsConsentNotifier.setFromLocalStorage(analyticsConsentValue);
+
   // SETTING UP NEEDS CONFIGURATION
   runApp(
     r.UncontrolledProviderScope(
@@ -126,7 +141,12 @@ Future<void> _configureLocalTimeZone() async {
   if (kIsWeb || Platform.isLinux) {
     return;
   }
+
   initializeTimeZones();
+
+  // Needed to correctly initialize local notifications management
+  final timezoneInfo = await FlutterTimezone.getLocalTimezone();
+  setLocalLocation(getLocation(timezoneInfo.identifier));
 }
 
 class MyApp extends r.ConsumerWidget {
@@ -145,6 +165,7 @@ class MyApp extends r.ConsumerWidget {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Moneye',
+        navigatorObservers: [AnalyticsManager.observer],
         theme: ThemeData(
           fontFamily: 'Ubuntu',
           scaffoldBackgroundColor: Colors.white,
@@ -200,6 +221,8 @@ class MyApp extends r.ConsumerWidget {
           WhatsNewPage.routeName: (context) => const WhatsNewPage(),
           WhatsNewHistoryPage.routeName: (context) =>
               const WhatsNewHistoryPage(),
+          AnalyticsSettingsPage.routeName: (context) =>
+              const AnalyticsSettingsPage(),
         },
         onGenerateRoute: (settings) {
           switch (settings.name) {
@@ -208,6 +231,7 @@ class MyApp extends r.ConsumerWidget {
                 final args = settings.arguments as List<Transaction>;
 
                 return MaterialPageRoute(
+                  settings: settings,
                   builder: (context) =>
                       TransactionListPage(transactionList: args),
                 );
@@ -217,6 +241,7 @@ class MyApp extends r.ConsumerWidget {
                 final args = settings.arguments as Account?;
 
                 return MaterialPageRoute(
+                  settings: settings,
                   builder: (context) => AccountDetailPage(
                     account: args,
                   ),
@@ -232,6 +257,7 @@ class MyApp extends r.ConsumerWidget {
                 final account = args?.account;
 
                 return MaterialPageRoute(
+                  settings: settings,
                   builder: (context) => NewEditTransactionPage(
                     incomePreset: incomePreset,
                     initialTransactionSettings: transaction,
@@ -244,6 +270,7 @@ class MyApp extends r.ConsumerWidget {
                 final args = settings.arguments as Account?;
 
                 return MaterialPageRoute(
+                  settings: settings,
                   builder: (context) => NewAccountPage(
                     initialAccountSettings: args,
                   ),
@@ -254,6 +281,7 @@ class MyApp extends r.ConsumerWidget {
                 final args = settings.arguments as c.Category?;
 
                 return MaterialPageRoute(
+                  settings: settings,
                   builder: (context) => NewEditCategoryPage(
                     initialCategorySettings: args,
                   ),

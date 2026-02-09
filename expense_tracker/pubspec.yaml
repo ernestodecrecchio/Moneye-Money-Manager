@@ -3,7 +3,7 @@ description: Money tracker
 
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
-version: 1.0.0+86
+version: 1.0.2+94
 
 environment:
   sdk: ">=3.0.0 <4.0.0"
@@ -23,13 +23,16 @@ dependencies:
   flutter_slidable: ^4.0.3
   cupertino_icons: ^1.0.8
   shared_preferences: ^2.5.3
-  flutter_local_notifications: ^19.5.0
+  flutter_local_notifications: ^20.0.0
+  flutter_timezone: ^5.0.1
   in_app_review: ^2.0.11
   app_settings: ^6.1.1
   home_widget: ^0.8.1
   timezone: ^0.10.1
   vector_graphics: ^1.1.19
   equatable: ^2.0.7
+  firebase_core: ^3.11.0
+  firebase_analytics: ^11.3.6
   package_info_plus: ^9.0.0
   
 dev_dependencies:

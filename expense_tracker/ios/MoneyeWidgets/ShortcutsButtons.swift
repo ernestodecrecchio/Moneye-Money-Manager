@@ -48,7 +48,7 @@ struct ShortcutsButtonsEntryView: View {
                 Link(destination: URL.init(string: "moneye://openNewTransactionPage?homeWidget&income=0")!) {
                     Button {} label: {
                         Text(NSLocalizedString("Expense", comment: "Button label to add an expense transaction"))
-                            .foregroundColor(.widgetBackground)
+                            .foregroundColor(Color("WidgetBackground"))
                             .frame(maxWidth: .infinity)
                             .font(Font.custom("Ubuntu", size: 20))
                             .fontWeight(.light)
@@ -60,7 +60,7 @@ struct ShortcutsButtonsEntryView: View {
                 Link(destination: URL.init(string: "moneye://openNewTransactionPage?homeWidget&income=1")!) {
                     Button {} label: {
                         Text(NSLocalizedString("Income", comment: "Button label to add an income transaction"))
-                                .foregroundColor(.widgetBackground)
+                                .foregroundColor(Color("WidgetBackground"))
                                 .frame(maxWidth: .infinity)
                                 .font(Font.custom("Ubuntu", size: 20))
                                 .fontWeight(.light)

@@ -207,7 +207,7 @@ class _NewAccountPageState extends ConsumerState<NewAccountPage> {
         if (editMode) {
           await _editAccount();
         } else {
-          await _saveNewAccount();
+          await _saveNewAccount(appLocalizations);
         }
 
         if (!mounted) return;
@@ -216,7 +216,7 @@ class _NewAccountPageState extends ConsumerState<NewAccountPage> {
     );
   }
 
-  Future<void> _saveNewAccount() async {
+  Future<void> _saveNewAccount(AppLocalizations appLocalizations) async {
     final double? initialAmountValue =
         double.tryParse(initialBalanceInput.text);
 
@@ -231,13 +231,7 @@ class _NewAccountPageState extends ConsumerState<NewAccountPage> {
         await ref.read(accountMutationProvider.notifier).addAccount(newAccount);
 
     if (initialAmountValue != null) {
-      final currentContext = context;
-      String initialBalanceTitle = "Inital balance"; // TODO: Localize
-
-      if (currentContext.mounted) {
-        initialBalanceTitle =
-            AppLocalizations.of(currentContext)!.initialBalance;
-      }
+      String initialBalanceTitle = appLocalizations.initialBalance;
 
       final newTransaction = Transaction(
         accountId: addedAccount.id,

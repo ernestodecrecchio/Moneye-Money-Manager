@@ -839,6 +839,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Include in reports'**
   String get includeInReports;
+
+  /// No description provided for @analytics.
+  ///
+  /// In en, this message translates to:
+  /// **'Analytics'**
+  String get analytics;
+
+  /// No description provided for @analyticsOptionDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Configure how data is collected and used'**
+  String get analyticsOptionDescription;
+
+  /// No description provided for @analyticsDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Enable data collection to help improve the app. Data is anonymous.'**
+  String get analyticsDescription;
+
+  /// No description provided for @analyticsConsentTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Support App Improvement?'**
+  String get analyticsConsentTitle;
+
+  /// No description provided for @analyticsConsentBody.
+  ///
+  /// In en, this message translates to:
+  /// **'We use Google Analytics to collect anonymous usage data. This helps us understand which features are used most and how to improve the app. You can change this anytime in settings.'**
+  String get analyticsConsentBody;
+
+  /// No description provided for @accept.
+  ///
+  /// In en, this message translates to:
+  /// **'Accept'**
+  String get accept;
+
+  /// No description provided for @decline.
+  ///
+  /// In en, this message translates to:
+  /// **'Decline'**
+  String get decline;
+
+  /// No description provided for @version.
+  ///
+  /// In en, this message translates to:
+  /// **'Version'**
+  String get version;
 }
 
 class _AppLocalizationsDelegate

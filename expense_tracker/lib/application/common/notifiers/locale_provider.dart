@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:expense_tracker/configuration/analytics_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
@@ -18,10 +19,12 @@ class LocaleNotifier extends Notifier<Locale?> {
   /// Sets the locale from a value stored in local storage (SharedPreferences).
   /// Typically called during app initialization.
   void setFromLocalStorage(String? localStorageValue) {
-    Intl.defaultLocale =
-        localStorageValue ?? Intl.shortLocale(Platform.localeName);
-
-    state = Locale(localStorageValue ?? Intl.shortLocale(Platform.localeName));
+    if (localStorageValue == null || localStorageValue.isEmpty) {
+      state = null;
+    } else {
+      Intl.defaultLocale = localStorageValue;
+      state = Locale(localStorageValue);
+    }
   }
 
   /// Updates the application locale and persists the change to SharedPreferences.
@@ -32,6 +35,8 @@ class LocaleNotifier extends Notifier<Locale?> {
 
     final prefs = await SharedPreferences.getInstance();
 
+    await AnalyticsManager.logLanguageChanged(newLocale.languageCode);
+
     return await prefs.setString('locale', newLocale.languageCode);
   }
 
@@ -41,7 +46,7 @@ class LocaleNotifier extends Notifier<Locale?> {
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    Intl.defaultLocale = Platform.localeName;
+    Intl.defaultLocale = Intl.shortLocale(Platform.localeName);
 
     return prefs.remove('locale');
   }

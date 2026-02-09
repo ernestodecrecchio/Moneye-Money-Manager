@@ -121,5 +121,13 @@
   "thisMonth": "This month",
   "initialBalance": "Initial balance",
   "initialBalancePlaceholder": "Insert the initial balance of the account",
-  "includeInReports": "Include in reports"
+  "includeInReports": "Include in reports",
+  "analytics": "Analytics",
+  "analyticsOptionDescription": "Configure how data is collected and used",
+  "analyticsDescription": "Enable data collection to help improve the app. Data is anonymous.",
+  "analyticsConsentTitle": "Support App Improvement?",
+  "analyticsConsentBody": "We use Google Analytics to collect anonymous usage data. This helps us understand which features are used most and how to improve the app. You can change this anytime in settings.",
+  "accept": "Accept",
+  "decline": "Decline",
+  "version": "Version"
 }

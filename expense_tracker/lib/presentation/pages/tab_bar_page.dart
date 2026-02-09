@@ -1,3 +1,5 @@
+import 'package:expense_tracker/configuration/analytics_manager.dart';
+import 'package:expense_tracker/application/common/notifiers/analytics_consent_provider.dart';
 import 'package:expense_tracker/application/common/notifiers/app_localizations_provider.dart';
 import 'package:expense_tracker/presentation/pages/home_page/home_page.dart';
 import 'package:expense_tracker/presentation/pages/options_page/options_page.dart';
@@ -19,6 +21,21 @@ class TabBarPage extends ConsumerStatefulWidget {
 
 class _TabBarPageState extends ConsumerState<TabBarPage> {
   int index = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _checkAnalyticsConsent();
+    });
+  }
+
+  void _checkAnalyticsConsent() {
+    final consent = ref.read(analyticsConsentProvider);
+    if (consent == null) {
+      AnalyticsManager.showConsentDialog(context: context, ref: ref);
+    }
+  }
 
   final screen = [
     const HomePage(),

@@ -399,5 +399,32 @@ class AppLocalizationsIt extends AppLocalizations {
       'Inserisci il saldo iniziale del conto';
 
   @override
-  String get includeInReports => 'Includi nei report';
+  String get includeInReports => 'Includi nei rapporti';
+
+  @override
+  String get analytics => 'Analisi';
+
+  @override
+  String get analyticsOptionDescription =>
+      'Configura come i dati vengono raccolti e utilizzati';
+
+  @override
+  String get analyticsDescription =>
+      'Abilita la raccolta dati per aiutarci a migliorare l\'app. I dati sono anonimi.';
+
+  @override
+  String get analyticsConsentTitle => 'Supporta il miglioramento dell\'app?';
+
+  @override
+  String get analyticsConsentBody =>
+      'Utilizziamo Google Analytics per raccogliere dati anonimi sull\'utilizzo. Questo ci aiuta a capire quali funzionalità sono più utilizzate e come migliorare l\'app. Puoi cambiare questa impostazione in qualsiasi momento nelle impostazioni.';
+
+  @override
+  String get accept => 'Accetta';
+
+  @override
+  String get decline => 'Rifiuta';
+
+  @override
+  String get version => 'Versione';
 }

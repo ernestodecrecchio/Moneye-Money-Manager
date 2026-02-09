@@ -87,7 +87,7 @@ class NotificationManager {
     );
 
     await flutterLocalNotificationsPlugin.initialize(
-      initializationSettings,
+      settings: initializationSettings,
       onDidReceiveNotificationResponse:
           (NotificationResponse notificationResponse) {
         switch (notificationResponse.notificationResponseType) {
@@ -148,11 +148,11 @@ class NotificationManager {
     );
 
     await flutterLocalNotificationsPlugin.zonedSchedule(
-        0,
-        localizations.notificationTitle,
-        localizations.notificationSubtitle,
-        _nextInstanceOfTwelveAM(time: atTime),
-        const NotificationDetails(
+        id: 0,
+        title: localizations.notificationTitle,
+        body: localizations.notificationSubtitle,
+        scheduledDate: _nextInstanceOfTimeOfDay(time: atTime),
+        notificationDetails: const NotificationDetails(
           android: AndroidNotificationDetails(
             'daily notification channel id',
             'daily notification channel name',
@@ -167,7 +167,25 @@ class NotificationManager {
         matchDateTimeComponents: DateTimeComponents.time);
   }
 
-  static TZDateTime _nextInstanceOfTwelveAM({required TimeOfDay time}) {
+  /// Returns the next future occurrence of the given [TimeOfDay],
+  /// calculated in the local timezone.
+  ///
+  /// The resulting date will be:
+  /// - **today** at the specified time, if that time has not passed yet
+  /// - **tomorrow** at the same time, if it has already passed today
+  ///
+  /// Useful for scheduling daily recurring events
+  /// (e.g. local notifications, background tasks, reminders).
+  ///
+  /// Example:
+  /// - Current time: 3:30 PM
+  /// - [time]: 12:00 PM
+  /// → Result: tomorrow at 12:00 PM
+  ///
+  /// - Current time: 9:00 AM
+  /// - [time]: 12:00 PM
+  /// → Result: today at 12:00 PM
+  static TZDateTime _nextInstanceOfTimeOfDay({required TimeOfDay time}) {
     final TZDateTime now = TZDateTime.now(local);
     TZDateTime scheduledDate =
         TZDateTime(local, now.year, now.month, now.day, time.hour, time.minute);
