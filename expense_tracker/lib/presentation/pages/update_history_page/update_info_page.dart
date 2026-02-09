@@ -5,17 +5,17 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:expense_tracker/style.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
-class WhatsNewPage extends StatefulWidget {
-  static const routeName = '/whats-new';
+class UpdateInfoPage extends StatefulWidget {
+  static const routeName = '/update-info-page';
   final String? version;
 
-  const WhatsNewPage({super.key, this.version});
+  const UpdateInfoPage({super.key, this.version});
 
   @override
-  State<WhatsNewPage> createState() => _WhatsNewPageState();
+  State<UpdateInfoPage> createState() => _UpdateInfoPageState();
 }
 
-class _WhatsNewPageState extends State<WhatsNewPage>
+class _UpdateInfoPageState extends State<UpdateInfoPage>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _fadeAnimation;
@@ -51,7 +51,7 @@ class _WhatsNewPageState extends State<WhatsNewPage>
   Future<void> _loadContent() async {
     try {
       final jsonString =
-          await rootBundle.loadString('lib/Configuration/whats_new.json');
+          await rootBundle.loadString('lib/Configuration/update-history.json');
       final data = jsonDecode(jsonString);
 
       String versionToShow;
@@ -111,7 +111,7 @@ class _WhatsNewPageState extends State<WhatsNewPage>
             end: Alignment.bottomCenter,
             colors: [
               CustomColors.darkBlue,
-              CustomColors.blue.withOpacity(0.8),
+              CustomColors.blue.withValues(alpha: 0.8)
             ],
           ),
         ),
@@ -131,7 +131,7 @@ class _WhatsNewPageState extends State<WhatsNewPage>
                         Container(
                           padding: const EdgeInsets.all(16),
                           decoration: BoxDecoration(
-                            color: Colors.white.withOpacity(0.1),
+                            color: Colors.white.withValues(alpha: 0.1),
                             shape: BoxShape.circle,
                           ),
                           child: const Icon(
@@ -247,10 +247,10 @@ class _FeatureCard extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.1),
+        color: Colors.white.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(20),
         border: Border.all(
-          color: Colors.white.withOpacity(0.1),
+          color: Colors.white.withValues(alpha: 0.1),
         ),
       ),
       child: Row(
@@ -259,7 +259,7 @@ class _FeatureCard extends StatelessWidget {
           Container(
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.1),
+              color: Colors.white.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(14),
             ),
             child: Icon(
@@ -285,7 +285,7 @@ class _FeatureCard extends StatelessWidget {
                 Text(
                   description,
                   style: TextStyle(
-                    color: Colors.white.withOpacity(0.7),
+                    color: Colors.white.withValues(alpha: 0.7),
                     fontSize: 14,
                     height: 1.4,
                   ),

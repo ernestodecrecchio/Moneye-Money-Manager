@@ -12,7 +12,7 @@ import 'package:expense_tracker/presentation/pages/options_page/language_page/la
 import 'package:expense_tracker/presentation/pages/options_page/analytics_settings_page.dart';
 import 'package:expense_tracker/presentation/pages/options_page/notification_page/notification_page.dart';
 import 'package:expense_tracker/style.dart';
-import 'package:expense_tracker/presentation/pages/whats_new_page/whats_new_history_page.dart';
+import 'package:expense_tracker/presentation/pages/update_history_page/update_history_page.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -28,7 +28,6 @@ class OptionsPage extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(appLocalizations.settings),
-        backgroundColor: CustomColors.blue,
       ),
       body: SafeArea(
         child: _buildBody(context, ref, appLocalizations),
@@ -158,6 +157,7 @@ class OptionsPage extends ConsumerWidget {
               );
             },
           ),
+          const Divider(),
           ListTile(
             leading: const SizedBox(
               height: double.infinity,
@@ -166,13 +166,12 @@ class OptionsPage extends ConsumerWidget {
                 color: CustomColors.darkBlue,
               ),
             ),
-            title: Text(appLocalizations.whatsNew),
-            subtitle: Text(appLocalizations.whatsNewDescription),
+            title: Text(appLocalizations.updateHistory),
+            subtitle: Text(appLocalizations.updateHistoryOptionDescription),
             trailing: const Icon(Icons.chevron_right_rounded),
             onTap: () =>
-                Navigator.of(context).pushNamed(WhatsNewHistoryPage.routeName),
+                Navigator.of(context).pushNamed(UpdateHistoryPage.routeName),
           ),
-          const Divider(),
           const Divider(),
           ListTile(
             leading: const SizedBox(

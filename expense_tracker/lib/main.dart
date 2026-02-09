@@ -35,8 +35,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart' as r;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'presentation/pages/account_detail_page/transaction_list_page.dart';
 import 'package:timezone/data/latest_all.dart';
-import 'package:expense_tracker/presentation/pages/whats_new_page/whats_new_history_page.dart';
-import 'package:expense_tracker/presentation/pages/whats_new_page/whats_new_page.dart';
+import 'package:expense_tracker/presentation/pages/update_history_page/update_history_page.dart';
+import 'package:expense_tracker/presentation/pages/update_history_page/update_info_page.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:flutter_timezone/flutter_timezone.dart';
 import 'package:timezone/timezone.dart';
@@ -205,7 +205,7 @@ class MyApp extends r.ConsumerWidget {
           GlobalWidgetsLocalizations.delegate,
         ],
         initialRoute: showWhatsNew
-            ? WhatsNewPage.routeName
+            ? UpdateInfoPage.routeName
             : (needsConfiguration ? '/' : TabBarPage.routeName),
         routes: {
           '/': (context) => needsConfiguration
@@ -218,9 +218,8 @@ class MyApp extends r.ConsumerWidget {
           CurrencyPage.routeName: (context) => const CurrencyPage(),
           ReminderPage.routeName: (context) => const ReminderPage(),
           AboutPage.routeName: (context) => const AboutPage(),
-          WhatsNewPage.routeName: (context) => const WhatsNewPage(),
-          WhatsNewHistoryPage.routeName: (context) =>
-              const WhatsNewHistoryPage(),
+          UpdateInfoPage.routeName: (context) => const UpdateInfoPage(),
+          UpdateHistoryPage.routeName: (context) => const UpdateHistoryPage(),
           AnalyticsSettingsPage.routeName: (context) =>
               const AnalyticsSettingsPage(),
         },

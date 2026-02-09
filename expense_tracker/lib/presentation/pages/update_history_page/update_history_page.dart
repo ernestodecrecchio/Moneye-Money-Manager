@@ -1,19 +1,21 @@
 import 'dart:convert';
+import 'package:expense_tracker/application/common/notifiers/app_localizations_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:expense_tracker/style.dart';
-import 'package:expense_tracker/presentation/pages/whats_new_page/whats_new_page.dart';
+import 'package:expense_tracker/presentation/pages/update_history_page/update_info_page.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class WhatsNewHistoryPage extends StatefulWidget {
-  static const routeName = '/whats-new-history';
+class UpdateHistoryPage extends ConsumerStatefulWidget {
+  static const routeName = '/updates-history';
 
-  const WhatsNewHistoryPage({super.key});
+  const UpdateHistoryPage({super.key});
 
   @override
-  State<WhatsNewHistoryPage> createState() => _WhatsNewHistoryPageState();
+  ConsumerState<UpdateHistoryPage> createState() => _UpdateHistoryPageState();
 }
 
-class _WhatsNewHistoryPageState extends State<WhatsNewHistoryPage> {
+class _UpdateHistoryPageState extends ConsumerState<UpdateHistoryPage> {
   Map<String, dynamic> _allVersions = {};
   bool _isLoading = true;
 
@@ -23,37 +25,23 @@ class _WhatsNewHistoryPageState extends State<WhatsNewHistoryPage> {
     _loadVersions();
   }
 
-  Future<void> _loadVersions() async {
-    try {
-      final jsonString =
-          await rootBundle.loadString('lib/Configuration/whats_new.json');
-      final data = jsonDecode(jsonString);
-      setState(() {
-        _allVersions = data;
-        _isLoading = false;
-      });
-    } catch (e) {
-      if (mounted) {
-        setState(() => _isLoading = false);
-      }
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
+    final appLocalizations = ref.watch(appLocalizationsProvider);
+
     // Sort versions - newest first (assuming version+build format or similar)
     final versions = _allVersions.keys.toList()..sort((a, b) => b.compareTo(a));
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Update History"),
-        centerTitle: true,
-        elevation: 0,
+        title: Text(appLocalizations.updateHistory),
       ),
       body: _isLoading
           ? const Center(child: CircularProgressIndicator())
           : versions.isEmpty
-              ? const Center(child: Text("No updates found."))
+              ? Center(
+                  child: Text(appLocalizations.updateHistoryEmptyList),
+                )
               : ListView.builder(
                   itemCount: versions.length,
                   itemBuilder: (context, index) {
@@ -66,7 +54,7 @@ class _WhatsNewHistoryPageState extends State<WhatsNewHistoryPage> {
                           leading: Container(
                             padding: const EdgeInsets.all(10),
                             decoration: BoxDecoration(
-                              color: CustomColors.blue.withOpacity(0.1),
+                              color: CustomColors.blue.withValues(alpha: 0.1),
                               borderRadius: BorderRadius.circular(10),
                             ),
                             child: const Icon(
@@ -75,7 +63,7 @@ class _WhatsNewHistoryPageState extends State<WhatsNewHistoryPage> {
                             ),
                           ),
                           title: Text(
-                            "Version $version",
+                            "${appLocalizations.version} $version",
                             style: const TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 16,
@@ -94,7 +82,7 @@ class _WhatsNewHistoryPageState extends State<WhatsNewHistoryPage> {
                             Navigator.of(context).push(
                               MaterialPageRoute(
                                 builder: (context) =>
-                                    WhatsNewPage(version: version),
+                                    UpdateInfoPage(version: version),
                               ),
                             );
                           },
@@ -106,5 +94,21 @@ class _WhatsNewHistoryPageState extends State<WhatsNewHistoryPage> {
                   },
                 ),
     );
+  }
+
+  Future<void> _loadVersions() async {
+    try {
+      final jsonString =
+          await rootBundle.loadString('lib/Configuration/update-history.json');
+      final data = jsonDecode(jsonString);
+      setState(() {
+        _allVersions = data;
+        _isLoading = false;
+      });
+    } catch (e) {
+      if (mounted) {
+        setState(() => _isLoading = false);
+      }
+    }
   }
 }
