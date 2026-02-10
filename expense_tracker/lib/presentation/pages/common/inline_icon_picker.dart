@@ -22,8 +22,6 @@ class _InlineIconPickerState extends State<InlineIconPicker> {
   final _controller = PageController();
   int selectedIndex = 0;
 
-  //late List<Widget> _pageList;
-
   List<String> iconPathList = [
     'assets/icons/box.svg',
     'assets/icons/boar.svg',
@@ -52,18 +50,13 @@ class _InlineIconPickerState extends State<InlineIconPicker> {
     'assets/icons/present.svg',
     'assets/icons/doctor.svg',
     'assets/icons/bill.svg',
-    'assets/icons/calendar.svg'
+    'assets/icons/calendar.svg',
+    'assets/icons/bitcoin_logo.svg',
+    'assets/icons/play.svg',
+    'assets/icons/revolut.svg',
+    'assets/icons/steam.svg',
+    'assets/icons/scooter.svg'
   ];
-
-  @override
-  void initState() {
-    super.initState();
-
-    // _pageList = [
-    //   _buildPage1(),
-    //   _buildPage2(),
-    // ];
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -74,7 +67,7 @@ class _InlineIconPickerState extends State<InlineIconPicker> {
       decoration: BoxDecoration(
           color: CustomColors.lightBlue,
           borderRadius: BorderRadius.circular(25)),
-      child: _buildGridView(), //_buildPageView(),
+      child: _buildGridView(),
     );
   }
 
