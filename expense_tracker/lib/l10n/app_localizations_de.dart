@@ -432,5 +432,5 @@ class AppLocalizationsDe extends AppLocalizations {
   String get continueCTA => 'Weiter';
 
   @override
-  String get whatsNew => 'Novità';
+  String get whatsNew => 'Neuigkeiten';
 }
