@@ -2,6 +2,7 @@ import 'package:expense_tracker/application/common/notifiers/app_localizations_p
 import 'package:expense_tracker/l10n/app_localizations.dart';
 import 'package:expense_tracker/domain/models/account.dart';
 import 'package:expense_tracker/application/accounts/notifiers/queries/accounts_list_notifier.dart';
+import 'package:expense_tracker/presentation/pages/common/custom_modal_bottom_sheet.dart';
 import 'package:expense_tracker/presentation/pages/options_page/accounts_page/new_edit_account_page.dart';
 import 'package:expense_tracker/style.dart';
 import 'package:flutter/material.dart';
@@ -10,15 +11,7 @@ import 'package:vector_graphics/vector_graphics.dart';
 
 Future<Account?> showAccountBottomSheet(
     BuildContext context, Account? initialSelection) async {
-  return await showModalBottomSheet(
-    shape: const RoundedRectangleBorder(
-      borderRadius: BorderRadius.only(
-        topLeft: Radius.circular(34),
-        topRight: Radius.circular(34),
-      ),
-    ),
-    backgroundColor: Colors.white,
-    clipBehavior: Clip.antiAlias,
+  return await showCustomModalBottomSheet(
     context: context,
     builder: ((context) {
       return AccountSelectorContent(currentSelection: initialSelection);

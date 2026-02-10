@@ -2,6 +2,7 @@ import 'package:expense_tracker/application/categories/notifiers/queries/categor
 import 'package:expense_tracker/application/common/notifiers/app_localizations_provider.dart';
 import 'package:expense_tracker/l10n/app_localizations.dart';
 import 'package:expense_tracker/domain/models/category.dart';
+import 'package:expense_tracker/presentation/pages/common/custom_modal_bottom_sheet.dart';
 import 'package:expense_tracker/presentation/pages/options_page/categories_page/new_edit_category_page.dart';
 import 'package:expense_tracker/style.dart';
 import 'package:flutter/material.dart';
@@ -10,15 +11,7 @@ import 'package:vector_graphics/vector_graphics.dart';
 
 Future<Category?> showCategoryBottomSheet(
     BuildContext context, Category? initialSelection) async {
-  return await showModalBottomSheet(
-    shape: const RoundedRectangleBorder(
-      borderRadius: BorderRadius.only(
-        topLeft: Radius.circular(34),
-        topRight: Radius.circular(34),
-      ),
-    ),
-    backgroundColor: Colors.white,
-    clipBehavior: Clip.antiAlias,
+  return await showCustomModalBottomSheet(
     context: context,
     builder: ((context) {
       return CategorySelectorContent(currentSelection: initialSelection);
