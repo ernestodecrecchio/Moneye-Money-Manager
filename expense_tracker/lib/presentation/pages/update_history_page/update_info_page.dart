@@ -1,21 +1,23 @@
 import 'dart:convert';
+import 'package:expense_tracker/application/common/notifiers/app_localizations_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:expense_tracker/style.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
-class UpdateInfoPage extends StatefulWidget {
+class UpdateInfoPage extends ConsumerStatefulWidget {
   static const routeName = '/update-info-page';
   final String? version;
 
   const UpdateInfoPage({super.key, this.version});
 
   @override
-  State<UpdateInfoPage> createState() => _UpdateInfoPageState();
+  ConsumerState<UpdateInfoPage> createState() => _UpdateInfoPageState();
 }
 
-class _UpdateInfoPageState extends State<UpdateInfoPage>
+class _UpdateInfoPageState extends ConsumerState<UpdateInfoPage>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _fadeAnimation;
@@ -97,11 +99,13 @@ class _UpdateInfoPageState extends State<UpdateInfoPage>
 
   @override
   Widget build(BuildContext context) {
+    final appLocalizations = ref.watch(appLocalizationsProvider);
+
     if (_isLoading) {
       return const Scaffold(body: Center(child: CircularProgressIndicator()));
     }
 
-    final locale = Localizations.localeOf(context).languageCode;
+    final locale = appLocalizations.localeName;
 
     return Scaffold(
       body: Container(
@@ -144,13 +148,12 @@ class _UpdateInfoPageState extends State<UpdateInfoPage>
                         Text(
                           widget.version != null
                               ? "Moneye ${widget.version}"
-                              : "What's New",
+                              : appLocalizations.whatsNew,
                           textAlign: TextAlign.center,
                           style: const TextStyle(
                             color: Colors.white,
                             fontSize: 32,
                             fontWeight: FontWeight.bold,
-                            letterSpacing: -0.5,
                           ),
                         ),
                       ],
@@ -196,7 +199,9 @@ class _UpdateInfoPageState extends State<UpdateInfoPage>
                       elevation: 0,
                     ),
                     child: Text(
-                      widget.version != null ? "Back" : "Continue",
+                      widget.version != null
+                          ? appLocalizations.back
+                          : appLocalizations.continueCTA,
                       style: const TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
@@ -204,7 +209,7 @@ class _UpdateInfoPageState extends State<UpdateInfoPage>
                     ),
                   ),
                 ),
-                const SizedBox(height: 32),
+                const SizedBox(height: 12),
               ],
             ),
           ),

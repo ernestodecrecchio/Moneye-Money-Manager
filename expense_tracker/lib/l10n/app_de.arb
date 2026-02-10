@@ -85,7 +85,6 @@
     "billsAndUtilities": "Rechnungen und Dienstprogramme",
     "petExpenses": "Tierische Ausgaben",
     "subscriptions": "Abonnements",
-    "toContinue": "Weiter",
     "updateHistory": "Aktualisierungsverlauf",
     "updateHistoryOptionDescription": "Die neuesten Funktionen und Updates anzeigen",
     "updateHistoryEmptyList": "Keine Updates gefunden.",
@@ -128,5 +127,8 @@
     "analyticsConsentBody": "Wir verwenden Google Analytics, um anonyme Nutzungsdaten zu sammeln. Dies hilft uns zu verstehen, welche Funktionen am häufigsten genutzt werden und wie wir die App verbessern können. Sie können dies jederzeit in den Einstellungen ändern.",
     "accept": "Akzeptieren",
     "decline": "Ablehnen",
-    "version": "Version"
+    "version": "Version",
+    "back": "Zurück",
+    "continueCTA": "Weiter",
+  "whatsNew": "Novità"
 }

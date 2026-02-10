@@ -278,9 +278,6 @@ class AppLocalizationsDe extends AppLocalizations {
   String get subscriptions => 'Abonnements';
 
   @override
-  String get toContinue => 'Weiter';
-
-  @override
   String get updateHistory => 'Aktualisierungsverlauf';
 
   @override
@@ -427,4 +424,13 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get version => 'Version';
+
+  @override
+  String get back => 'Zurück';
+
+  @override
+  String get continueCTA => 'Weiter';
+
+  @override
+  String get whatsNew => 'Novità';
 }

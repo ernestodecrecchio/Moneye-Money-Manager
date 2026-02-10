@@ -618,12 +618,6 @@ abstract class AppLocalizations {
   /// **'Subscriptions'**
   String get subscriptions;
 
-  /// No description provided for @toContinue.
-  ///
-  /// In en, this message translates to:
-  /// **'Continue'**
-  String get toContinue;
-
   /// No description provided for @updateHistory.
   ///
   /// In en, this message translates to:
@@ -881,6 +875,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Version'**
   String get version;
+
+  /// No description provided for @back.
+  ///
+  /// In en, this message translates to:
+  /// **'Back'**
+  String get back;
+
+  /// No description provided for @continueCTA.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue'**
+  String get continueCTA;
+
+  /// No description provided for @whatsNew.
+  ///
+  /// In en, this message translates to:
+  /// **'What\'s new'**
+  String get whatsNew;
 }
 
 class _AppLocalizationsDelegate

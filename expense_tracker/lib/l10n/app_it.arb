@@ -88,7 +88,6 @@
   "billsAndUtilities": "Bollette e Servizi Pubblici",
   "petExpenses": "Spese per Animali Domestici",
   "subscriptions": "Abbonamenti",
-  "toContinue": "Continua",
   "done": "Fatto!",
   "skip": "Salta",
   "welcomePageMsg1": "Benvenuto in Moneye!",
@@ -128,5 +127,8 @@
   "analyticsConsentBody": "Utilizziamo Google Analytics per raccogliere dati anonimi sull'utilizzo. Questo ci aiuta a capire quali funzionalità sono più utilizzate e come migliorare l'app. Puoi cambiare questa impostazione in qualsiasi momento nelle impostazioni.",
   "accept": "Accetta",
   "decline": "Rifiuta",
-  "version": "Versione"
+  "version": "Versione",
+  "back": "Indietro",
+  "continueCTA": "Continua",
+  "whatsNew": "Novità"
 }

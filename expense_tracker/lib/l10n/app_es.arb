@@ -85,7 +85,6 @@
 "billsAndUtilities": "Facturas y Servicios Públicos",
 "petExpenses": "Gastos de Mascotas",
 "subscriptions": "Suscripciones",
-"toContinue": "Continuar",
 "updateHistory": "Historial de actualizaciones",
 "updateHistoryOptionDescription": "Ver las últimas funciones y actualizaciones",
 "updateHistoryEmptyList": "No se encontraron actualizaciones.",
@@ -128,5 +127,8 @@
 "analyticsConsentBody": "Utilizamos Google Analytics para recopilar datos de uso anónimos. Esto nos ayuda a comprender qué funciones se usan más y cómo mejorar la aplicación. Puedes cambiar esto en cualquier momento en la configuración.",
 "accept": "Aceptar",
 "decline": "Rechazar",
-"version": "Versión"
+"version": "Versión",
+"back": "Atrás",
+"continueCTA": "Continuar",
+"whatsNew": "Novedades"
 }

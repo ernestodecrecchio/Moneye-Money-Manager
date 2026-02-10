@@ -157,7 +157,7 @@ class _InitialConfigurationPageState
                     child: Text(
                       currentIndex == pages.length - 1
                           ? appLocalizations.done
-                          : appLocalizations.toContinue,
+                          : appLocalizations.continueCTA,
                       style: const TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.w600,
