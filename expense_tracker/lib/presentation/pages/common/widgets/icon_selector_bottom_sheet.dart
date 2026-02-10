@@ -80,24 +80,29 @@ class _IconSelectorContentState extends ConsumerState<IconSelectorContent> {
             ),
             const SizedBox(height: 10),
             Flexible(
-              child: SingleChildScrollView(
-                child: Wrap(
-                  spacing: 12,
-                  runSpacing: 12,
-                  children: widget.iconPathList
-                      .map(
-                        (path) => IconItem(
-                          iconPath: path,
-                          isSelected: path == _selectedIconPath,
-                          backgroundColor: widget.backgroundColor,
-                          onTap: () {
-                            Navigator.of(context).pop();
-                            widget.onSelectedIcon(path);
-                          },
-                        ),
-                      )
-                      .toList(),
+              child: GridView.builder(
+                shrinkWrap: true,
+                physics: const ClampingScrollPhysics(),
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 7,
+                  crossAxisSpacing: 12,
+                  mainAxisSpacing: 12,
                 ),
+                itemCount: widget.iconPathList.length,
+                itemBuilder: (context, index) {
+                  final path = widget.iconPathList[index];
+                  return Center(
+                    child: IconItem(
+                      iconPath: path,
+                      isSelected: path == _selectedIconPath,
+                      backgroundColor: widget.backgroundColor,
+                      onTap: () {
+                        Navigator.of(context).pop();
+                        widget.onSelectedIcon(path);
+                      },
+                    ),
+                  );
+                },
               ),
             ),
           ],
