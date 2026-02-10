@@ -185,7 +185,7 @@ class _NewAccountPageState extends ConsumerState<NewAccountPage> {
         ),
         InlineIconPicker(
           selectedIconPath: selectedIconPath,
-          backgorundColor: selectedColor,
+          backgroundColor: selectedColor,
           onSelectedIcon: (newSelectedIconPath) {
             selectedIconPath = newSelectedIconPath;
 

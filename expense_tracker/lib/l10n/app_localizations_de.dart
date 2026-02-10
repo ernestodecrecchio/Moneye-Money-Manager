@@ -106,6 +106,9 @@ class AppLocalizationsDe extends AppLocalizations {
   String get selectAccount => 'Konto auswählen';
 
   @override
+  String get selectIcon => 'Symbol auswählen';
+
+  @override
   String get selectDate => 'Datum auswählen';
 
   @override

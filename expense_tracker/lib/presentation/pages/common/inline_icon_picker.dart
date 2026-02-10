@@ -1,17 +1,20 @@
+import 'package:expense_tracker/application/common/app_icons.dart';
+import 'package:expense_tracker/presentation/pages/common/expand_hint_button.dart';
+import 'package:expense_tracker/presentation/pages/common/widgets/icon_item.dart';
+import 'package:expense_tracker/presentation/pages/common/widgets/icon_selector_bottom_sheet.dart';
 import 'package:expense_tracker/style.dart';
 import 'package:flutter/material.dart';
-import 'package:vector_graphics/vector_graphics.dart';
 
 class InlineIconPicker extends StatefulWidget {
   final String? selectedIconPath;
   final Function(String selectedIconPath) onSelectedIcon;
-  final Color? backgorundColor;
+  final Color? backgroundColor;
 
   const InlineIconPicker({
     super.key,
     required this.onSelectedIcon,
     this.selectedIconPath,
-    this.backgorundColor,
+    this.backgroundColor,
   });
 
   @override
@@ -19,67 +22,85 @@ class InlineIconPicker extends StatefulWidget {
 }
 
 class _InlineIconPickerState extends State<InlineIconPicker> {
-  final _controller = PageController();
-  int selectedIndex = 0;
+  late final ScrollController _scrollController;
 
-  List<String> iconPathList = [
-    'assets/icons/box.svg',
-    'assets/icons/boar.svg',
-    'assets/icons/cat.svg',
-    'assets/icons/cow.svg',
-    'assets/icons/paw.svg',
-    'assets/icons/car.svg',
-    'assets/icons/bus.svg',
-    'assets/icons/cinema.svg',
-    'assets/icons/food.svg',
-    'assets/icons/graduate.svg',
-    'assets/icons/house.svg',
-    'assets/icons/netflix.svg',
-    'assets/icons/popcorn.svg',
-    'assets/icons/university.svg',
-    'assets/icons/bag.svg',
-    'assets/icons/hamburger.svg',
-    'assets/icons/paypal.svg',
-    'assets/icons/shirt.svg',
-    'assets/icons/twitch-logo.svg',
-    'assets/icons/visa.svg',
-    'assets/icons/cash.svg',
-    'assets/icons/healthcare.svg',
-    'assets/icons/travel.svg',
-    'assets/icons/book.svg',
-    'assets/icons/present.svg',
-    'assets/icons/doctor.svg',
-    'assets/icons/bill.svg',
-    'assets/icons/calendar.svg',
-    'assets/icons/bitcoin_logo.svg',
-    'assets/icons/play.svg',
-    'assets/icons/revolut.svg',
-    'assets/icons/steam.svg',
-    'assets/icons/scooter.svg'
-  ];
+  @override
+  void initState() {
+    super.initState();
+    _scrollController = ScrollController();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _scrollToSelectedIcon();
+    });
+  }
+
+  @override
+  void didUpdateWidget(covariant InlineIconPicker oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    if (widget.selectedIconPath != oldWidget.selectedIconPath) {
+      _scrollToSelectedIcon();
+    }
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  void _scrollToSelectedIcon() {
+    if (widget.selectedIconPath == null) return;
+
+    final index = AppIcons.iconPathList.indexOf(widget.selectedIconPath!);
+    if (index == -1) return;
+
+    // Each column (2 icons) has width 40 and spacing 14.
+    // (114 - 10*2 - 14) / 2 = 40 width for each icon/column
+    final scrollOffset = (index ~/ 2) * (40 + 14).toDouble();
+
+    if (_scrollController.hasClients) {
+      _scrollController.animateTo(
+        scrollOffset,
+        duration: const Duration(milliseconds: 250),
+        curve: Curves.easeOutQuint,
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Container(
       height: 114,
       clipBehavior: Clip.antiAlias,
-      padding: const EdgeInsets.only(top: 10, bottom: 10),
       decoration: BoxDecoration(
           color: CustomColors.lightBlue,
           borderRadius: BorderRadius.circular(25)),
-      child: _buildGridView(),
+      child: Stack(
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(top: 10, bottom: 10),
+            child: _buildGridView(),
+          ),
+          ExpandHintButton(
+            onTap: () => showIconBottomSheet(
+                context: context,
+                backgroundColor:
+                    widget.backgroundColor ?? CustomColors.darkBlue,
+                iconPathList: AppIcons.iconPathList,
+                onSelectedIcon: widget.onSelectedIcon,
+                initialSelectionIconPath: widget.selectedIconPath),
+            backgroundColor: CustomColors.clearGrey,
+          )
+        ],
+      ),
     );
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-
-    super.dispose();
   }
 
   Widget _buildGridView() {
     return GridView.builder(
+      controller: _scrollController,
+      physics: const ClampingScrollPhysics(),
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
         crossAxisSpacing: 14,
@@ -87,38 +108,16 @@ class _InlineIconPickerState extends State<InlineIconPicker> {
       ),
       padding: const EdgeInsets.symmetric(horizontal: 22),
       scrollDirection: Axis.horizontal,
-      itemCount: iconPathList.length,
+      itemCount: AppIcons.iconPathList.length,
       itemBuilder: (context, index) {
-        return _buildIconItem(iconPathList[index]);
+        final iconPath = AppIcons.iconPathList[index];
+        return IconItem(
+          iconPath: iconPath,
+          isSelected: iconPath == widget.selectedIconPath,
+          backgroundColor: widget.backgroundColor ?? CustomColors.darkBlue,
+          onTap: () => widget.onSelectedIcon(iconPath),
+        );
       },
-    );
-  }
-
-  InkWell _buildIconItem(String iconPath) {
-    final backgroundColor = widget.backgorundColor ?? CustomColors.darkBlue;
-
-    return InkWell(
-      onTap: () {
-        widget.onSelectedIcon(iconPath);
-      },
-      child: Container(
-        height: 35,
-        width: 35,
-        padding: const EdgeInsets.all(7),
-        decoration: BoxDecoration(
-          color: iconPath == widget.selectedIconPath
-              ? backgroundColor
-              : backgroundColor.withValues(alpha: 0.5),
-          shape: BoxShape.circle,
-        ),
-        child: VectorGraphic(
-          loader: AssetBytesLoader(iconPath),
-          colorFilter: const ColorFilter.mode(
-            Colors.white,
-            BlendMode.srcIn,
-          ),
-        ),
-      ),
     );
   }
 }

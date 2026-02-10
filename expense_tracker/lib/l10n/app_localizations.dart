@@ -288,6 +288,12 @@ abstract class AppLocalizations {
   /// **'Select account'**
   String get selectAccount;
 
+  /// No description provided for @selectIcon.
+  ///
+  /// In en, this message translates to:
+  /// **'Select icon'**
+  String get selectIcon;
+
   /// No description provided for @selectDate.
   ///
   /// In en, this message translates to:

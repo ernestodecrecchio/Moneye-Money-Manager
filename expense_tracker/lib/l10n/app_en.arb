@@ -30,6 +30,7 @@
   "account": "Account",
   "selectCategory": "Select the category",
   "selectAccount": "Select account",
+  "selectIcon": "Select icon",
   "selectDate": "Select the date",
   "newTransaction": "New transaction",
   "newCategory": "New category",

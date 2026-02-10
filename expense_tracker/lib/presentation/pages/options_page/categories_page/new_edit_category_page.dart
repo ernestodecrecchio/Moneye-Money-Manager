@@ -170,7 +170,7 @@ class _NewEditCategoryPageState extends ConsumerState<NewEditCategoryPage> {
         ),
         InlineIconPicker(
             selectedIconPath: selectedIconPath,
-            backgorundColor: selectedColor,
+            backgroundColor: selectedColor,
             onSelectedIcon: (newSelectedIconPath) {
               selectedIconPath = newSelectedIconPath;
 

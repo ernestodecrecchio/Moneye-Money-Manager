@@ -30,6 +30,7 @@
 "account": "Cuenta",
 "selectCategory": "Selecciona la categoría",
 "selectAccount": "Selecciona la cuenta",
+"selectIcon": "Seleccionar ícono",
 "selectDate": "Selecciona la fecha",
 "newTransaction": "Nueva transacción",
 "newCategory": "Nueva categoría",
