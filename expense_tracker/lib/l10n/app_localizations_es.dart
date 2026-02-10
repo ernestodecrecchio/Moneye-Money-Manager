@@ -433,4 +433,11 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get whatsNew => 'Novedades';
+
+  @override
+  String get dailyReminderChannelName => 'Recordatorios Diarios';
+
+  @override
+  String get dailyReminderChannelDescription =>
+      'Notificaciones para recordarte ingresar tus transacciones diarias.';
 }

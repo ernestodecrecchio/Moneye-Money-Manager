@@ -1,6 +1,8 @@
 import 'dart:io';
 
 import 'package:expense_tracker/configuration/analytics_manager.dart';
+import 'package:expense_tracker/configuration/notification_manager.dart';
+import 'package:expense_tracker/application/common/notifiers/notification_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
@@ -37,6 +39,8 @@ class LocaleNotifier extends Notifier<Locale?> {
 
     await AnalyticsManager.logLanguageChanged(newLocale.languageCode);
 
+    await _rescheduleNotifications();
+
     return await prefs.setString('locale', newLocale.languageCode);
   }
 
@@ -48,7 +52,20 @@ class LocaleNotifier extends Notifier<Locale?> {
 
     Intl.defaultLocale = Intl.shortLocale(Platform.localeName);
 
+    await _rescheduleNotifications();
+
     return prefs.remove('locale');
+  }
+
+  Future<void> _rescheduleNotifications() async {
+    final notificationsEnabled = ref.read(notificationsEnabledProvider);
+    final notificationTime = ref.read(notificationTimeProvider);
+
+    if (notificationsEnabled == true) {
+      await NotificationManager.updateScheduledNotifications(
+        atTime: TimeOfDay.fromDateTime(notificationTime),
+      );
+    }
   }
 }
 

@@ -899,6 +899,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'What\'s new'**
   String get whatsNew;
+
+  /// No description provided for @dailyReminderChannelName.
+  ///
+  /// In en, this message translates to:
+  /// **'Daily Reminders'**
+  String get dailyReminderChannelName;
+
+  /// No description provided for @dailyReminderChannelDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications to remind you to enter your daily transactions.'**
+  String get dailyReminderChannelDescription;
 }
 
 class _AppLocalizationsDelegate

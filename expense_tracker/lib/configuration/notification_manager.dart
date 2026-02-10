@@ -32,6 +32,9 @@ class NotificationManager {
   /// Defines a iOS/MacOS notification category for plain actions.
   static String darwinNotificationCategoryPlain = 'plainCategory';
 
+  /// Channel ID for daily reminders
+  static const String dailyReminderChannelId = 'daily_reminder_channel';
+
   @pragma('vm:entry-point')
   static void notificationTapBackground(
       NotificationResponse notificationResponse) {
@@ -152,11 +155,11 @@ class NotificationManager {
         title: localizations.notificationTitle,
         body: localizations.notificationSubtitle,
         scheduledDate: _nextInstanceOfTimeOfDay(time: atTime),
-        notificationDetails: const NotificationDetails(
+        notificationDetails: NotificationDetails(
           android: AndroidNotificationDetails(
-            'daily notification channel id',
-            'daily notification channel name',
-            channelDescription: 'daily notification description',
+            dailyReminderChannelId,
+            localizations.dailyReminderChannelName,
+            channelDescription: localizations.dailyReminderChannelDescription,
             importance: Importance.max,
             priority: Priority.high,
             icon:
@@ -165,6 +168,15 @@ class NotificationManager {
         ),
         androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
         matchDateTimeComponents: DateTimeComponents.time);
+  }
+
+  /// Updates all scheduled notifications with current localization settings.
+  /// This should be called when the app's locale changes.
+  static Future<void> updateScheduledNotifications({
+    required TimeOfDay atTime,
+  }) async {
+    await clearAllNotifications();
+    await scheduleDailyNotification(atTime: atTime);
   }
 
   /// Returns the next future occurrence of the given [TimeOfDay],

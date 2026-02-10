@@ -433,4 +433,11 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get whatsNew => 'Novità';
+
+  @override
+  String get dailyReminderChannelName => 'Promemoria Giornalieri';
+
+  @override
+  String get dailyReminderChannelDescription =>
+      'Notifiche per ricordarti di inserire le tue transazioni giornaliere.';
 }
