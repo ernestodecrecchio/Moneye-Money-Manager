@@ -228,6 +228,12 @@ class _UpdateInfoPageState extends ConsumerState<UpdateInfoPage>
         return Icons.notifications_active_rounded;
       case 'brush':
         return Icons.brush_rounded;
+      case 'history_update':
+        return Icons.history_rounded;
+      case 'palette_icons':
+        return Icons.palette_rounded;
+      case 'analytics_chart':
+        return Icons.insights_rounded;
       default:
         return Icons.fiber_new_rounded;
     }

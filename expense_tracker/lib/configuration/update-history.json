@@ -1,98 +1,49 @@
 {
-  "1.0.0+86": [
+  "1.0.3": [
     {
       "title": {
-        "en": "Local Backup & Save",
-        "it": "Backup Locale"
+        "en": "What’s New",
+        "it": "Novità",
+        "es": "Novedades",
+        "de": "Neuigkeiten"
       },
       "description": {
-        "en": "Save your data directly to your device or share it with other apps.",
-        "it": "Salva i tuoi dati sul dispositivo o condividili con altre app."
+        "en": "When new features are released, a popup will keep you informed about what’s new.",
+        "it": "Quando vengono rilasciate nuove funzionalità, un popup ti informerà su tutte le novità.",
+        "es": "Cuando se lancen nuevas funciones, un mensaje emergente te mantendrá informado.",
+        "de": "Bei neuen Funktionen wirst du über ein Popup über alle Neuigkeiten informiert."
       },
-      "icon": "save"
+      "icon": "history_update"
     },
     {
       "title": {
-        "en": "Animated Amounts",
-        "it": "Importi Animati"
+        "en": "More Icons",
+        "it": "Nuove Icone",
+        "es": "Más Iconos",
+        "de": "Neue Icons"
       },
       "description": {
-        "en": "Smooth animations when your balances and transaction amounts change.",
-        "it": "Animazioni fluide quando cambiano i saldi e gli importi delle transazioni."
+        "en": "Many new icons are now available to better customize your accounts and categories.",
+        "it": "Sono disponibili nuove icone per personalizzare al meglio conti e categorie.",
+        "es": "Ahora hay nuevos iconos disponibles para personalizar cuentas y categorías.",
+        "de": "Viele neue Icons stehen jetzt zur Verfügung, um Konten und Kategorien anzupassen."
       },
-      "icon": "auto_graph"
-    }
-  ],
-  "1.0.0+88676": [
-    {
-      "title": {
-        "en": "Local Backup & Save",
-        "it": "Backup Locale"
-      },
-      "description": {
-        "en": "Save your data directly to your device or share it with other apps.",
-        "it": "Salva i tuoi dati sul dispositivo o condividili con altre app."
-      },
-      "icon": "save"
+      "icon": "palette_icons"
     },
     {
       "title": {
-        "en": "Animated Amounts",
-        "it": "Importi Animati"
+        "en": "Anonymous Analytics",
+        "it": "Analisi Anonima",
+        "es": "Analíticas Anónimas",
+        "de": "Anonyme Analyse"
       },
       "description": {
-        "en": "Smooth animations when your balances and transaction amounts change.",
-        "it": "Animazioni fluide quando cambiano i saldi e gli importi delle transazioni."
+        "en": "Optional and completely anonymous analytics help improve the app based on real usage.",
+        "it": "Statistiche opzionali e completamente anonime aiutano a migliorare l’app in base all’utilizzo reale.",
+        "es": "Analíticas opcionales y completamente anónimas ayudan a mejorar la app según el uso real.",
+        "de": "Optionale und vollständig anonyme Analysen helfen, die App anhand der Nutzung zu verbessern."
       },
-      "icon": "auto_graph"
-    }
-  ],
-  "1.0.0435+86": [
-    {
-      "title": {
-        "en": "Local Backup & Save",
-        "it": "Backup Locale"
-      },
-      "description": {
-        "en": "Save your data directly to your device or share it with other apps.",
-        "it": "Salva i tuoi dati sul dispositivo o condividili con altre app."
-      },
-      "icon": "save"
-    },
-    {
-      "title": {
-        "en": "Animated Amounts",
-        "it": "Importi Animati"
-      },
-      "description": {
-        "en": "Smooth animations when your balances and transaction amounts change.",
-        "it": "Animazioni fluide quando cambiano i saldi e gli importi delle transazioni."
-      },
-      "icon": "auto_graph"
-    }
-  ],
-  "1.0.0+866": [
-    {
-      "title": {
-        "en": "Local Backup & Save",
-        "it": "Backup Locale"
-      },
-      "description": {
-        "en": "Save your data directly to your device or share it with other apps.",
-        "it": "Salva i tuoi dati sul dispositivo o condividili con altre app."
-      },
-      "icon": "save"
-    },
-    {
-      "title": {
-        "en": "Animated Amounts",
-        "it": "Importi Animati"
-      },
-      "description": {
-        "en": "Smooth animations when your balances and transaction amounts change.",
-        "it": "Animazioni fluide quando cambiano i saldi e gli importi delle transazioni."
-      },
-      "icon": "auto_graph"
+      "icon": "analytics_chart"
     }
   ]
 }
