@@ -133,7 +133,20 @@ class NotificationManager {
               .resolvePlatformSpecificImplementation<
                   AndroidFlutterLocalNotificationsPlugin>();
 
-      return await androidImplementation?.requestNotificationsPermission();
+      // Ensure notifications are permitted on Android 13+
+      await androidImplementation?.requestNotificationsPermission();
+
+      // Check for exact alarm permission
+      var hasExactAlarmPermission =
+          await androidImplementation?.canScheduleExactNotifications() ?? false;
+
+      if (!hasExactAlarmPermission) {
+        // This will redirect the user to the system settings page for "Alarms & Reminders"
+        await androidImplementation?.requestExactAlarmsPermission();
+      }
+
+      // Return the overall status of notifications (true if granted, false/null otherwise)
+      return await androidImplementation?.areNotificationsEnabled();
     }
 
     return false;
@@ -146,28 +159,56 @@ class NotificationManager {
   static Future<void> scheduleDailyNotification({
     required TimeOfDay atTime,
   }) async {
-    AppLocalizations localizations = await AppLocalizations.delegate.load(
-      Locale(Intl.shortLocale(Intl.getCurrentLocale().toString())),
-    );
+    try {
+      AppLocalizations localizations = await AppLocalizations.delegate.load(
+        Locale(Intl.shortLocale(Intl.getCurrentLocale().toString())),
+      );
 
-    await flutterLocalNotificationsPlugin.zonedSchedule(
-        id: 0,
-        title: localizations.notificationTitle,
-        body: localizations.notificationSubtitle,
-        scheduledDate: _nextInstanceOfTimeOfDay(time: atTime),
-        notificationDetails: NotificationDetails(
-          android: AndroidNotificationDetails(
-            dailyReminderChannelId,
-            localizations.dailyReminderChannelName,
-            channelDescription: localizations.dailyReminderChannelDescription,
-            importance: Importance.max,
-            priority: Priority.high,
-            icon:
-                '@drawable/ic_stat_logo_transparent', // Icon for the notification in android status bar
+      AndroidScheduleMode scheduleMode =
+          AndroidScheduleMode.exactAllowWhileIdle;
+
+      if (Platform.isAndroid) {
+        final androidImplementation = flutterLocalNotificationsPlugin
+            .resolvePlatformSpecificImplementation<
+                AndroidFlutterLocalNotificationsPlugin>();
+
+        final bool? canScheduleExact =
+            await androidImplementation?.canScheduleExactNotifications();
+
+        if (canScheduleExact != true) {
+          print("### permission missing");
+          // If the permission is missing, fallback to inexact to avoid crashing
+          scheduleMode = AndroidScheduleMode.inexactAllowWhileIdle;
+        } else {
+          print("### permission granted");
+        }
+      }
+
+      print("### ${localizations.notificationTitle}");
+      print("### ${_nextInstanceOfTimeOfDay(time: atTime)}");
+
+      await flutterLocalNotificationsPlugin.zonedSchedule(
+          id: 0,
+          title: localizations.notificationTitle,
+          body: localizations.notificationSubtitle,
+          scheduledDate: _nextInstanceOfTimeOfDay(time: atTime),
+          notificationDetails: NotificationDetails(
+            android: AndroidNotificationDetails(
+              dailyReminderChannelId,
+              localizations.dailyReminderChannelName,
+              channelDescription: localizations.dailyReminderChannelDescription,
+              importance: Importance.max,
+              priority: Priority.high,
+              icon: '@drawable/ic_stat_logo_transparent',
+            ),
           ),
-        ),
-        androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
-        matchDateTimeComponents: DateTimeComponents.time);
+          androidScheduleMode: scheduleMode,
+          matchDateTimeComponents: DateTimeComponents.time);
+    } catch (e) {
+      if (kDebugMode) {
+        print('Error scheduling notification: $e');
+      }
+    }
   }
 
   /// Updates all scheduled notifications with current localization settings.
