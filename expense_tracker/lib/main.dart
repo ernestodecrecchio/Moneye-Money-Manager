@@ -115,10 +115,11 @@ Future main() async {
   final packageInfo = await PackageInfo.fromPlatform();
   final currentVersion = packageInfo.version;
   final lastSeenVersion = prefs.getString('last_seen_version');
-  final showWhatsNew =
-      lastSeenVersion != currentVersion && lastSeenVersion != null;
+  final showWhatsNew = lastSeenVersion != currentVersion;
 
-  print("show: $showWhatsNew - $currentVersion - $lastSeenVersion");
+  if (showWhatsNew) {
+    await prefs.setString('last_seen_version', currentVersion);
+  }
 
   // SETTING UP ANALYTICS CONSENT
   final analyticsConsentValue =
@@ -206,9 +207,9 @@ class MyApp extends r.ConsumerWidget {
           GlobalCupertinoLocalizations.delegate,
           GlobalWidgetsLocalizations.delegate,
         ],
-        initialRoute: showWhatsNew
-            ? UpdateInfoPage.routeName
-            : (needsConfiguration ? '/' : TabBarPage.routeName),
+        initialRoute: needsConfiguration
+            ? '/'
+            : (showWhatsNew ? UpdateInfoPage.routeName : TabBarPage.routeName),
         routes: {
           '/': (context) => needsConfiguration
               ? const InitialConfigurationPage()
