@@ -106,6 +106,25 @@ class NotificationManager {
       },
       onDidReceiveBackgroundNotificationResponse: notificationTapBackground,
     );
+
+    if (Platform.isAndroid) {
+      final androidPlugin =
+          flutterLocalNotificationsPlugin.resolvePlatformSpecificImplementation<
+              AndroidFlutterLocalNotificationsPlugin>();
+
+      AppLocalizations localizations = await AppLocalizations.delegate.load(
+        Locale(Intl.shortLocale(Intl.getCurrentLocale().toString())),
+      );
+
+      final AndroidNotificationChannel channel = AndroidNotificationChannel(
+        dailyReminderChannelId,
+        localizations.dailyReminderChannelName,
+        description: localizations.dailyReminderChannelDescription,
+        importance: Importance.max,
+      );
+
+      await androidPlugin?.createNotificationChannel(channel);
+    }
   }
 
   static Future<bool?> requestNotificationPermissions() async {
@@ -176,16 +195,10 @@ class NotificationManager {
             await androidImplementation?.canScheduleExactNotifications();
 
         if (canScheduleExact != true) {
-          print("### permission missing");
           // If the permission is missing, fallback to inexact to avoid crashing
           scheduleMode = AndroidScheduleMode.inexactAllowWhileIdle;
-        } else {
-          print("### permission granted");
         }
       }
-
-      print("### ${localizations.notificationTitle}");
-      print("### ${_nextInstanceOfTimeOfDay(time: atTime)}");
 
       await flutterLocalNotificationsPlugin.zonedSchedule(
           id: 0,
@@ -199,7 +212,7 @@ class NotificationManager {
               channelDescription: localizations.dailyReminderChannelDescription,
               importance: Importance.max,
               priority: Priority.high,
-              icon: '@drawable/ic_stat_logo_transparent',
+              icon: 'ic_stat_logo_transparent',
             ),
           ),
           androidScheduleMode: scheduleMode,
