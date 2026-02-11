@@ -53,7 +53,7 @@ class _UpdateInfoPageState extends ConsumerState<UpdateInfoPage>
   Future<void> _loadContent() async {
     try {
       final jsonString =
-          await rootBundle.loadString('lib/Configuration/update-history.json');
+          await rootBundle.loadString('lib/configuration/update-history.json');
       final data = jsonDecode(jsonString);
 
       String versionToShow;

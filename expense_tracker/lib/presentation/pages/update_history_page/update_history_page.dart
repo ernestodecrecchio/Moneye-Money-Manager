@@ -92,7 +92,7 @@ class _UpdateHistoryPageState extends ConsumerState<UpdateHistoryPage> {
   Future<void> _loadVersions() async {
     try {
       final jsonString =
-          await rootBundle.loadString('lib/Configuration/update-history.json');
+          await rootBundle.loadString('lib/configuration/update-history.json');
       final data = jsonDecode(jsonString);
       setState(() {
         _allVersions = data;

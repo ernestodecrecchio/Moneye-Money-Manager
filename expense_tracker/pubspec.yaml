@@ -60,7 +60,7 @@ flutter:
       transformers:
         - package: vector_graphics_compiler
     - assets/icon/
-    - lib/Configuration/
+    - lib/configuration/
 
   fonts:
     - family: Ubuntu

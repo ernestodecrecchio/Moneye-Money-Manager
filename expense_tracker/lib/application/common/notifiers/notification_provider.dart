@@ -1,4 +1,4 @@
-import 'package:expense_tracker/Configuration/notification_manager.dart';
+import 'package:expense_tracker/configuration/notification_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
