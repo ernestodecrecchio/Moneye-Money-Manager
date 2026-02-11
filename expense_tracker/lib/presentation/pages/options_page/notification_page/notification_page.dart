@@ -1,5 +1,5 @@
 import 'package:app_settings/app_settings.dart';
-import 'package:expense_tracker/Configuration/notification_manager.dart';
+import 'package:expense_tracker/configuration/notification_manager.dart';
 import 'package:expense_tracker/application/common/notifiers/app_localizations_provider.dart';
 import 'package:expense_tracker/application/common/notifiers/notification_provider.dart';
 import 'package:expense_tracker/style.dart';
@@ -53,25 +53,40 @@ class ReminderPage extends ConsumerWidget {
                               ref.watch(notificationsEnabledProvider) ?? false,
                           onChanged: (newValue) async {
                             if (newValue) {
-                              final isPermissionGranted =
+                              final isNotificationPermissionGranted =
                                   await NotificationManager
                                           .requestNotificationPermissions() ??
                                       false;
 
-                              if (!isPermissionGranted) {
+                              if (!isNotificationPermissionGranted) {
                                 AppSettings.openAppSettings(
                                     type: AppSettingsType.notification,
                                     asAnotherTask: true);
-                              } else {
+                                return;
+                              }
+
+                              final isExactAlarmPermissionGranted =
+                                  await NotificationManager
+                                      .isExactAlarmPermissionGranted();
+
+                              if (!isExactAlarmPermissionGranted) {
+                                // The previous requestNotificationPermissions calls requestExactAlarmsPermission internally on Android.
+                                // If we are here, it means the user might have returned after being redirected.
+                                // We check again. If still false, we don't enable.
                                 await ref
                                     .read(notificationsEnabledProvider.notifier)
-                                    .updateNotificationsEnabledValue(true);
-
-                                await ref
-                                    .read(notificationTimeProvider.notifier)
-                                    .updateNotificationsTimeValue(
-                                        ref.read(notificationTimeProvider));
+                                    .updateNotificationsEnabledValue(false);
+                                return;
                               }
+
+                              await ref
+                                  .read(notificationsEnabledProvider.notifier)
+                                  .updateNotificationsEnabledValue(true);
+
+                              await ref
+                                  .read(notificationTimeProvider.notifier)
+                                  .updateNotificationsTimeValue(
+                                      ref.read(notificationTimeProvider));
                             } else {
                               ref
                                   .read(notificationsEnabledProvider.notifier)

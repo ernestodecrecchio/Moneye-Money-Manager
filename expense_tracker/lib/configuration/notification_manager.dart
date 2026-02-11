@@ -171,6 +171,17 @@ class NotificationManager {
     return false;
   }
 
+  static Future<bool> isExactAlarmPermissionGranted() async {
+    if (Platform.isAndroid) {
+      final androidImplementation =
+          flutterLocalNotificationsPlugin.resolvePlatformSpecificImplementation<
+              AndroidFlutterLocalNotificationsPlugin>();
+      return await androidImplementation?.canScheduleExactNotifications() ??
+          false;
+    }
+    return true;
+  }
+
   static Future clearAllNotifications() async {
     await flutterLocalNotificationsPlugin.cancelAll();
   }
@@ -185,20 +196,6 @@ class NotificationManager {
 
       AndroidScheduleMode scheduleMode =
           AndroidScheduleMode.exactAllowWhileIdle;
-
-      if (Platform.isAndroid) {
-        final androidImplementation = flutterLocalNotificationsPlugin
-            .resolvePlatformSpecificImplementation<
-                AndroidFlutterLocalNotificationsPlugin>();
-
-        final bool? canScheduleExact =
-            await androidImplementation?.canScheduleExactNotifications();
-
-        if (canScheduleExact != true) {
-          // If the permission is missing, fallback to inexact to avoid crashing
-          scheduleMode = AndroidScheduleMode.inexactAllowWhileIdle;
-        }
-      }
 
       await flutterLocalNotificationsPlugin.zonedSchedule(
           id: 0,
