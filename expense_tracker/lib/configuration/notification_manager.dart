@@ -221,6 +221,35 @@ class NotificationManager {
     }
   }
 
+  /// Sends a notification immediately for testing purposes.
+  static Future<void> showInstantNotification() async {
+    try {
+      AppLocalizations localizations = await AppLocalizations.delegate.load(
+        Locale(Intl.shortLocale(Intl.getCurrentLocale().toString())),
+      );
+
+      await flutterLocalNotificationsPlugin.show(
+        id: 1, // Unique ID for test notification
+        title: localizations.notificationTitle,
+        body: localizations.notificationSubtitle,
+        notificationDetails: NotificationDetails(
+          android: AndroidNotificationDetails(
+            dailyReminderChannelId,
+            localizations.dailyReminderChannelName,
+            channelDescription: localizations.dailyReminderChannelDescription,
+            importance: Importance.max,
+            priority: Priority.high,
+            icon: 'ic_stat_logo_transparent',
+          ),
+        ),
+      );
+    } catch (e) {
+      if (kDebugMode) {
+        print('Error showing instant notification: $e');
+      }
+    }
+  }
+
   /// Updates all scheduled notifications with current localization settings.
   /// This should be called when the app's locale changes.
   static Future<void> updateScheduledNotifications({

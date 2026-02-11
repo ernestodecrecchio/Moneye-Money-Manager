@@ -113,6 +113,32 @@ class ReminderPage extends ConsumerWidget {
                           },
                         ),
                       ),
+                      const SizedBox(height: 24),
+                      SizedBox(
+                        width: double.infinity,
+                        child: ElevatedButton.icon(
+                          onPressed: () async {
+                            await NotificationManager.showInstantNotification();
+                            if (context.mounted) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                    content: Text(
+                                        appLocalizations.testNotificationSent)),
+                              );
+                            }
+                          },
+                          icon: const Icon(Icons.notification_important),
+                          label: Text(appLocalizations.sendTestNotification),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: CustomColors.blue,
+                            foregroundColor: Colors.white,
+                            padding: const EdgeInsets.symmetric(vertical: 12),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                          ),
+                        ),
+                      ),
                     ]
                   ])),
             ),

@@ -911,6 +911,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Notifications to remind you to enter your daily transactions.'**
   String get dailyReminderChannelDescription;
+
+  /// No description provided for @sendTestNotification.
+  ///
+  /// In en, this message translates to:
+  /// **'Show me how it will appear'**
+  String get sendTestNotification;
+
+  /// No description provided for @testNotificationSent.
+  ///
+  /// In en, this message translates to:
+  /// **'Test notification sent!'**
+  String get testNotificationSent;
 }
 
 class _AppLocalizationsDelegate

@@ -133,5 +133,7 @@
   "continueCTA": "Continua",
   "whatsNew": "Novità",
   "dailyReminderChannelName": "Promemoria Giornalieri",
-  "dailyReminderChannelDescription": "Notifiche per ricordarti di inserire le tue transazioni giornaliere."
+  "dailyReminderChannelDescription": "Notifiche per ricordarti di inserire le tue transazioni giornaliere.",
+  "sendTestNotification": "Mostrami come apparirà",
+  "testNotificationSent": "Notifica di test inviata!"
 }

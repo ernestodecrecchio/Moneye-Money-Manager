@@ -133,5 +133,7 @@
     "continueCTA": "Weiter",
     "whatsNew": "Neuigkeiten",
     "dailyReminderChannelName": "Tägliche Erinnerungen",
-    "dailyReminderChannelDescription": "Benachrichtigungen, die Sie daran erinnern, Ihre täglichen Transaktionen einzugeben."
+    "dailyReminderChannelDescription": "Benachrichtigungen, die Sie daran erinnern, Ihre täglichen Transaktionen einzugeben.",
+  "sendTestNotification": "Zeig mir, wie es aussehen wird",
+  "testNotificationSent": "Testbenachrichtigung gesendet!"
 }

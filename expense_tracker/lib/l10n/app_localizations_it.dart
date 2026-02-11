@@ -440,4 +440,10 @@ class AppLocalizationsIt extends AppLocalizations {
   @override
   String get dailyReminderChannelDescription =>
       'Notifiche per ricordarti di inserire le tue transazioni giornaliere.';
+
+  @override
+  String get sendTestNotification => 'Mostrami come apparirà';
+
+  @override
+  String get testNotificationSent => 'Notifica di test inviata!';
 }
