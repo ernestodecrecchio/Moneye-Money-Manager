@@ -27,8 +27,9 @@ class ReminderPage extends ConsumerWidget {
             SliverFillRemaining(
               hasScrollBody: false,
               child: Padding(
-                  padding: const EdgeInsets.only(bottom: 10.0, top: 30),
-                  child: Column(children: [
+                padding: const EdgeInsets.only(bottom: 10.0, top: 30),
+                child: Column(
+                  children: [
                     Text(
                       appLocalizations.reminderDescription,
                       style: const TextStyle(
@@ -113,7 +114,7 @@ class ReminderPage extends ConsumerWidget {
                           },
                         ),
                       ),
-                      const SizedBox(height: 24),
+                      /* const SizedBox(height: 24),
                       SizedBox(
                         width: double.infinity,
                         child: ElevatedButton.icon(
@@ -138,9 +139,11 @@ class ReminderPage extends ConsumerWidget {
                             ),
                           ),
                         ),
-                      ),
+                      ),*/
                     ]
-                  ])),
+                  ],
+                ),
+              ),
             ),
           ],
         ),
