@@ -4,7 +4,7 @@ Future showCustomModalBottomSheet({
   required BuildContext context,
   required Widget Function(BuildContext) builder,
 }) async {
-  await showModalBottomSheet(
+  return await showModalBottomSheet(
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(34),
