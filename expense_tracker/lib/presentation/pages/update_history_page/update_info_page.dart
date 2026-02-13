@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:expense_tracker/application/common/notifiers/app_localizations_provider.dart';
+import 'package:expense_tracker/presentation/pages/common/custom_elevated_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -187,26 +188,13 @@ class _UpdateInfoPageState extends ConsumerState<UpdateInfoPage>
                 const SizedBox(height: 24),
                 FadeTransition(
                   opacity: _fadeAnimation,
-                  child: ElevatedButton(
+                  child: CustomElevatedButton(
+                    text: widget.version != null
+                        ? appLocalizations.back
+                        : appLocalizations.continueCTA,
                     onPressed: _onFinish,
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.white,
-                      foregroundColor: CustomColors.darkBlue,
-                      padding: const EdgeInsets.symmetric(vertical: 18),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                      elevation: 0,
-                    ),
-                    child: Text(
-                      widget.version != null
-                          ? appLocalizations.back
-                          : appLocalizations.continueCTA,
-                      style: const TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
+                    isLoading: false,
+                    mode: CustomElevatedButtonMode.light,
                   ),
                 ),
                 const SizedBox(height: 12),

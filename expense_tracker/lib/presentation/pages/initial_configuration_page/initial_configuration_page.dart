@@ -5,6 +5,7 @@ import 'package:expense_tracker/domain/models/currency.dart';
 import 'package:expense_tracker/application/accounts/notifiers/mutations/account_mutation_notifier.dart';
 import 'package:expense_tracker/application/categories/notifiers/mutations/category_mutation_notifier.dart';
 import 'package:expense_tracker/application/common/notifiers/currency_provider.dart';
+import 'package:expense_tracker/presentation/pages/common/custom_elevated_button.dart';
 import 'package:expense_tracker/presentation/pages/initial_configuration_page/account_selection/account_selection.dart';
 import 'package:expense_tracker/presentation/pages/initial_configuration_page/categories_selection/categories_selection.dart';
 import 'package:expense_tracker/presentation/pages/initial_configuration_page/configuration_complete.dart';
@@ -133,10 +134,8 @@ class _InitialConfigurationPageState
                     left: horizontalPadding,
                     right: horizontalPadding,
                   ),
-                  height: 50,
-                  width: double.infinity,
-                  margin: const EdgeInsets.only(top: 10),
-                  child: FilledButton(
+                  margin: const EdgeInsets.only(top: 14),
+                  child: CustomElevatedButton(
                     onPressed: () async {
                       if (currentIndex != pages.length - 1) {
                         pageController.nextPage(
@@ -151,19 +150,11 @@ class _InitialConfigurationPageState
                         }
                       }
                     },
-                    style: FilledButton.styleFrom(
-                      backgroundColor: Colors.white,
-                    ),
-                    child: Text(
-                      currentIndex == pages.length - 1
-                          ? appLocalizations.done
-                          : appLocalizations.continueCTA,
-                      style: const TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w600,
-                        color: CustomColors.darkBlue,
-                      ),
-                    ),
+                    isLoading: false,
+                    text: currentIndex == pages.length - 1
+                        ? appLocalizations.done
+                        : appLocalizations.continueCTA,
+                    mode: CustomElevatedButtonMode.light,
                   ),
                 ),
               ],

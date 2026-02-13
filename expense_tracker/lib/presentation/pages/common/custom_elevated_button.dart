@@ -1,30 +1,39 @@
 import 'package:expense_tracker/style.dart';
 import 'package:flutter/material.dart';
 
+enum CustomElevatedButtonMode { light, dark }
+
 class CustomElevatedButton extends StatelessWidget {
   final String text;
   final Future<void> Function()? onPressed;
   final bool isLoading;
+  final CustomElevatedButtonMode mode;
 
   const CustomElevatedButton({
     super.key,
     required this.text,
     required this.onPressed,
     required this.isLoading,
+    this.mode = CustomElevatedButtonMode.dark,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: 50,
       width: double.infinity,
-      margin: const EdgeInsets.only(top: 10),
       child: FilledButton(
         onPressed: isLoading ? null : onPressed,
         style: FilledButton.styleFrom(
-          backgroundColor: CustomColors.darkBlue,
-          foregroundColor: Colors.white,
-          disabledBackgroundColor: CustomColors.darkBlue,
+          backgroundColor: mode == CustomElevatedButtonMode.dark
+              ? CustomColors.darkBlue
+              : Colors.white,
+          foregroundColor: mode == CustomElevatedButtonMode.dark
+              ? Colors.white
+              : CustomColors.darkBlue,
+          disabledBackgroundColor: mode == CustomElevatedButtonMode.dark
+              ? CustomColors.darkBlue
+              : Colors.white,
           disabledForegroundColor: Colors.grey,
         ),
         child: isLoading
