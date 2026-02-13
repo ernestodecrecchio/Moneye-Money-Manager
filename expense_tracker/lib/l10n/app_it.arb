@@ -123,7 +123,7 @@
   "includeInReports": "Includi nei rapporti",
   "analytics": "Analisi",
   "analyticsOptionDescription": "Configura come i dati vengono raccolti e utilizzati",
-  "analyticsDescription": "Abilita la raccolta dati per aiutarci a migliorare l'app. I dati sono anonimi.",
+  "analyticsDescription": "Abilita la raccolta di dati anonimi per contribuire a migliorare l’app.\nNon vengono tracciati importi delle transazioni né informazioni personali.",
   "analyticsConsentTitle": "Supporta il miglioramento dell'app?",
   "analyticsConsentBody": "Utilizziamo Google Analytics per raccogliere dati anonimi sull'utilizzo. Questo ci aiuta a capire quali funzionalità sono più utilizzate e come migliorare l'app. Puoi cambiare questa impostazione in qualsiasi momento nelle impostazioni.",
   "accept": "Accetta",

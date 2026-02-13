@@ -407,7 +407,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get analyticsDescription =>
-      'Habilite la recopilación de datos para ayudar a mejorar la aplicación. Los datos son anónimos.';
+      'Activa la recopilación de datos anónimos para ayudar a mejorar la aplicación.\nNo se rastrean importes de transacciones ni información personal.';
 
   @override
   String get analyticsConsentTitle => '¿Apoyar la mejora de la aplicación?';

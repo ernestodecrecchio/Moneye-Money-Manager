@@ -123,7 +123,7 @@
   "includeInReports": "Include in reports",
   "analytics": "Analytics",
   "analyticsOptionDescription": "Configure how data is collected and used",
-  "analyticsDescription": "Enable data collection to help improve the app. Data is anonymous.",
+  "analyticsDescription": "Enable anonymous data collection to help improve the app.\nNo transaction amounts or personal information are tracked.",
   "analyticsConsentTitle": "Support App Improvement?",
   "analyticsConsentBody": "We use Google Analytics to collect anonymous usage data. This helps us understand which features are used most and how to improve the app. You can change this anytime in settings.",
   "accept": "Accept",

@@ -23,7 +23,7 @@ import 'package:expense_tracker/presentation/pages/new_edit_transaction_flow/new
 import 'package:expense_tracker/presentation/pages/options_page/currency_page/currency_page.dart';
 import 'package:expense_tracker/presentation/pages/options_page/language_page/languages_list_page.dart';
 import 'package:expense_tracker/presentation/pages/options_page/notification_page/notification_page.dart';
-import 'package:expense_tracker/presentation/pages/options_page/analytics_settings_page.dart';
+import 'package:expense_tracker/presentation/pages/options_page/analytics_page/analytics_settings_page.dart';
 import 'package:expense_tracker/presentation/pages/tab_bar_page.dart';
 import 'package:expense_tracker/application/common/notifiers/analytics_consent_provider.dart';
 import 'package:expense_tracker/style.dart';

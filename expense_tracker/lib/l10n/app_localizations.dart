@@ -849,7 +849,7 @@ abstract class AppLocalizations {
   /// No description provided for @analyticsDescription.
   ///
   /// In en, this message translates to:
-  /// **'Enable data collection to help improve the app. Data is anonymous.'**
+  /// **'Enable anonymous data collection to help improve the app.\nNo transaction amounts or personal information are tracked.'**
   String get analyticsDescription;
 
   /// No description provided for @analyticsConsentTitle.

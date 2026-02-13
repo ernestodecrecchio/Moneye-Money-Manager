@@ -410,7 +410,7 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get analyticsDescription =>
-      'Daten-Sammlung aktivieren, um die App zu verbessern. Daten sind anonym.';
+      'Aktiviere die anonyme Datenerfassung, um zur Verbesserung der App beizutragen.\nEs werden weder Transaktionsbeträge noch persönliche Informationen erfasst.';
 
   @override
   String get analyticsConsentTitle => 'App-Verbesserung unterstützen?';
