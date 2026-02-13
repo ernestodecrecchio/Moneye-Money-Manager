@@ -202,7 +202,9 @@ class DatabaseTransactionHelper {
     }
 
     // Account filter
-    if (forAccount != null) {
+    if (forAccount?.isOtherAccount == true) {
+      conditions.add('${TransactionFields.accountId} IS NULL');
+    } else if (forAccount != null) {
       conditions.add('${TransactionFields.accountId} = ?');
       args.add(forAccount.id);
     }
