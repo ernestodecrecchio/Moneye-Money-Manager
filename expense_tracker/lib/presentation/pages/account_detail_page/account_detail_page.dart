@@ -91,8 +91,7 @@ class _AccountDetailPageState extends ConsumerState<AccountDetailPage>
             ? referenceAccount?.name ?? widget.account!.name
             : appLocalizations.allTransactions),
         actions: [
-          if (widget.account?.id !=
-              -1) // TODO: Centralizza id account "other transactions"
+          if (widget.account?.isOtherAccount == false)
             _buildEditAction(context, appLocalizations)
         ],
       ),

@@ -67,8 +67,6 @@ class DatabaseAccountHelper {
       {String? otherAccountName}) async {
     final dbInstance = await DatabaseHelper.instance.database;
 
-    final otherAccountId = -1;
-
     final query = '''
     SELECT a.${AccountFields.id} AS id,
            a.${AccountFields.name} AS name,

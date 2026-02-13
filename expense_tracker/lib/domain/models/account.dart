@@ -2,6 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:expense_tracker/style.dart';
 import 'package:flutter/material.dart';
 
+const int otherAccountId = -1;
 const String accountsTable = 'accounts';
 
 class AccountFields {
@@ -29,6 +30,10 @@ class Account extends Equatable {
 
   Color get color {
     return colorValue != null ? Color(colorValue!) : CustomColors.darkBlue;
+  }
+
+  bool get isOtherAccount {
+    return id == otherAccountId;
   }
 
   const Account({
