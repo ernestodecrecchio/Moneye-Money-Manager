@@ -57,21 +57,16 @@ class AnalyticsManager {
   }
 
   /// Logs when the user adds a new transaction.
-  static Future<void> logTransactionAdded({
-    required double amount,
-    int? categoryId,
-  }) async {
-    final type = amount >= 0 ? 'income' : 'expense';
-    final parameters = <String, Object>{
-      'transaction_type': type,
-      'amount': amount.abs(),
-    };
-    if (categoryId != null) {
-      parameters['category_id'] = categoryId;
-    }
+  static Future<void> logTransactionAdded() async {
     await logEvent(
       name: 'add_transaction',
-      parameters: parameters,
+    );
+  }
+
+  /// Logs when the user updates a transaction.
+  static Future<void> logTransactionUpdated() async {
+    await logEvent(
+      name: 'update_transaction',
     );
   }
 
@@ -81,12 +76,9 @@ class AnalyticsManager {
   }
 
   /// Logs when the user creates a new account.
-  static Future<void> logAccountCreated({required String accountName}) async {
+  static Future<void> logAccountCreated() async {
     await logEvent(
       name: 'create_account',
-      parameters: {
-        'account_name': accountName,
-      },
     );
   }
 

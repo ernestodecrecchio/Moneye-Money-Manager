@@ -26,7 +26,7 @@ class AccountMutationNotifier extends AsyncNotifier<void> {
       ref.invalidate(accountsWithBalanceProvider);
     });
 
-    await AnalyticsManager.logAccountCreated(accountName: inserted.name);
+    await AnalyticsManager.logAccountCreated();
 
     return inserted;
   }

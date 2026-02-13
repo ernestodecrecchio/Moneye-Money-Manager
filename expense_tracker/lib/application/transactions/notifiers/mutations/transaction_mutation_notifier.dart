@@ -26,10 +26,7 @@ class TransactionMutationNotifier extends AsyncNotifier<void> {
       ref.invalidate(accountsWithBalanceProvider);
     });
 
-    await AnalyticsManager.logTransactionAdded(
-      amount: inserted.amount,
-      categoryId: inserted.categoryId,
-    );
+    await AnalyticsManager.logTransactionAdded();
 
     return inserted;
   }
@@ -46,6 +43,8 @@ class TransactionMutationNotifier extends AsyncNotifier<void> {
       ref.invalidate(transactionsListProvider);
       ref.invalidate(accountsWithBalanceProvider);
     });
+
+    await AnalyticsManager.logTransactionUpdated();
   }
 
   Future<void> deleteTransaction(Transaction transaction) async {
