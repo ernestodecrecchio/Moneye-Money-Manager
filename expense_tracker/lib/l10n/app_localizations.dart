@@ -837,7 +837,7 @@ abstract class AppLocalizations {
   /// No description provided for @analytics.
   ///
   /// In en, this message translates to:
-  /// **'Analytics'**
+  /// **'Analytics & Stability'**
   String get analytics;
 
   /// No description provided for @analyticsOptionDescription.
@@ -849,7 +849,7 @@ abstract class AppLocalizations {
   /// No description provided for @analyticsDescription.
   ///
   /// In en, this message translates to:
-  /// **'Enable anonymous data collection to help improve the app.\nNo transaction amounts or personal information are tracked.'**
+  /// **'Anonymous data collection and crash reporting facilitate the improvement of app stability. No transaction amounts or personal information are tracked.'**
   String get analyticsDescription;
 
   /// No description provided for @analyticsConsentTitle.
@@ -861,7 +861,7 @@ abstract class AppLocalizations {
   /// No description provided for @analyticsConsentBody.
   ///
   /// In en, this message translates to:
-  /// **'We use Google Analytics to collect anonymous usage data. This helps us understand which features are used most and how to improve the app. You can change this anytime in settings.'**
+  /// **'Google Analytics and Firebase Crashlytics are used to collect anonymous usage data and crash reports. This ensures the app\'s stability and provides insights into its usage. These settings can be changed anytime.'**
   String get analyticsConsentBody;
 
   /// No description provided for @accept.
@@ -875,6 +875,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Decline'**
   String get decline;
+
+  /// No description provided for @privacyAssurance.
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy is a priority. Names, emails, transaction amounts, or any data that could identify the user are never collected. All reports are strictly anonymous.'**
+  String get privacyAssurance;
+
+  /// No description provided for @privacyAssuranceLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy Assurance'**
+  String get privacyAssuranceLabel;
+
+  /// No description provided for @whatIsTracked.
+  ///
+  /// In en, this message translates to:
+  /// **'What is tracked:'**
+  String get whatIsTracked;
+
+  /// No description provided for @usageData.
+  ///
+  /// In en, this message translates to:
+  /// **'Basic usage patterns'**
+  String get usageData;
+
+  /// No description provided for @crashReports.
+  ///
+  /// In en, this message translates to:
+  /// **'Crash and error reports'**
+  String get crashReports;
+
+  /// No description provided for @whatIsNotTracked.
+  ///
+  /// In en, this message translates to:
+  /// **'What is NOT tracked:'**
+  String get whatIsNotTracked;
+
+  /// No description provided for @personalInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'Personal information'**
+  String get personalInfo;
+
+  /// No description provided for @transactionData.
+  ///
+  /// In en, this message translates to:
+  /// **'Transaction amounts and details'**
+  String get transactionData;
 
   /// No description provided for @version.
   ///

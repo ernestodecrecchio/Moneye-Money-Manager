@@ -1,6 +1,7 @@
 import 'package:expense_tracker/application/common/notifiers/analytics_consent_provider.dart';
 import 'package:expense_tracker/application/common/notifiers/app_localizations_provider.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -22,7 +23,13 @@ class AnalyticsManager {
       context: context,
       barrierDismissible: false,
       builder: (context) => AlertDialog.adaptive(
-        title: Text(appLocalizations.analyticsConsentTitle),
+        title: Row(
+          children: [
+            const Icon(Icons.security, color: Colors.blue),
+            const SizedBox(width: 8),
+            Expanded(child: Text(appLocalizations.analyticsConsentTitle)),
+          ],
+        ),
         content: Text(appLocalizations.analyticsConsentBody),
         actions: [
           TextButton(
@@ -112,5 +119,6 @@ class AnalyticsManager {
   static Future<void> setAnalyticsCollectionEnabled(bool enabled) async {
     _enabled = enabled;
     await _analytics.setAnalyticsCollectionEnabled(enabled);
+    await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(enabled);
   }
 }

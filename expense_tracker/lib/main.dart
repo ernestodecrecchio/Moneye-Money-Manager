@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:expense_tracker/configuration/notification_manager.dart';
 import 'package:expense_tracker/configuration/analytics_manager.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:expense_tracker/l10n/app_localizations.dart';
 import 'package:expense_tracker/l10n/l10n.dart';
 import 'package:expense_tracker/domain/models/account.dart';
@@ -23,7 +24,7 @@ import 'package:expense_tracker/presentation/pages/new_edit_transaction_flow/new
 import 'package:expense_tracker/presentation/pages/options_page/currency_page/currency_page.dart';
 import 'package:expense_tracker/presentation/pages/options_page/language_page/languages_list_page.dart';
 import 'package:expense_tracker/presentation/pages/options_page/notification_page/notification_page.dart';
-import 'package:expense_tracker/presentation/pages/options_page/analytics_page/analytics_settings_page.dart';
+import 'package:expense_tracker/presentation/pages/options_page/diagnostics_page/diagnostics_settings_page.dart';
 import 'package:expense_tracker/presentation/pages/tab_bar_page.dart';
 import 'package:expense_tracker/application/common/notifiers/analytics_consent_provider.dart';
 import 'package:expense_tracker/style.dart';
@@ -47,6 +48,17 @@ Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await Firebase.initializeApp();
+
+  // Pass all uncaught "fatal" errors from the framework to Crashlytics
+  FlutterError.onError = (errorDetails) {
+    FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);
+  };
+
+  // Pass all uncaught asynchronous errors that aren't handled by the Flutter framework to Crashlytics
+  PlatformDispatcher.instance.onError = (error, stack) {
+    FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
+    return true;
+  };
 
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
@@ -220,8 +232,8 @@ class MyApp extends r.ConsumerWidget {
           AboutPage.routeName: (context) => const AboutPage(),
           UpdateInfoPage.routeName: (context) => const UpdateInfoPage(),
           UpdateHistoryPage.routeName: (context) => const UpdateHistoryPage(),
-          AnalyticsSettingsPage.routeName: (context) =>
-              const AnalyticsSettingsPage(),
+          DiagnosticsSettingsPage.routeName: (context) =>
+              const DiagnosticsSettingsPage(),
         },
         onGenerateRoute: (settings) {
           switch (settings.name) {

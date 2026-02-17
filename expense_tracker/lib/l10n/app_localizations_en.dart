@@ -398,7 +398,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get includeInReports => 'Include in reports';
 
   @override
-  String get analytics => 'Analytics';
+  String get analytics => 'Analytics & Stability';
 
   @override
   String get analyticsOptionDescription =>
@@ -406,20 +406,45 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get analyticsDescription =>
-      'Enable anonymous data collection to help improve the app.\nNo transaction amounts or personal information are tracked.';
+      'Anonymous data collection and crash reporting facilitate the improvement of app stability. No transaction amounts or personal information are tracked.';
 
   @override
   String get analyticsConsentTitle => 'Support App Improvement?';
 
   @override
   String get analyticsConsentBody =>
-      'We use Google Analytics to collect anonymous usage data. This helps us understand which features are used most and how to improve the app. You can change this anytime in settings.';
+      'Google Analytics and Firebase Crashlytics are used to collect anonymous usage data and crash reports. This ensures the app\'s stability and provides insights into its usage. These settings can be changed anytime.';
 
   @override
   String get accept => 'Accept';
 
   @override
   String get decline => 'Decline';
+
+  @override
+  String get privacyAssurance =>
+      'Privacy is a priority. Names, emails, transaction amounts, or any data that could identify the user are never collected. All reports are strictly anonymous.';
+
+  @override
+  String get privacyAssuranceLabel => 'Privacy Assurance';
+
+  @override
+  String get whatIsTracked => 'What is tracked:';
+
+  @override
+  String get usageData => 'Basic usage patterns';
+
+  @override
+  String get crashReports => 'Crash and error reports';
+
+  @override
+  String get whatIsNotTracked => 'What is NOT tracked:';
+
+  @override
+  String get personalInfo => 'Personal information';
+
+  @override
+  String get transactionData => 'Transaction amounts and details';
 
   @override
   String get version => 'Version';

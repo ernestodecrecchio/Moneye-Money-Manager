@@ -402,7 +402,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get includeInReports => 'In Berichte einbeziehen';
 
   @override
-  String get analytics => 'Analyse';
+  String get analytics => 'Analyse & Stabilität';
 
   @override
   String get analyticsOptionDescription =>
@@ -410,20 +410,45 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get analyticsDescription =>
-      'Aktiviere die anonyme Datenerfassung, um zur Verbesserung der App beizutragen.\nEs werden weder Transaktionsbeträge noch persönliche Informationen erfasst.';
+      'Anonyme Datenerfassung und Fehlerberichterstattung erleichtern die Verbesserung der App-Stabilität. Es werden weder Transaktionsbeträge noch persönliche Informationen erfasst.';
 
   @override
   String get analyticsConsentTitle => 'App-Verbesserung unterstützen?';
 
   @override
   String get analyticsConsentBody =>
-      'Wir verwenden Google Analytics, um anonyme Nutzungsdaten zu sammeln. Dies hilft uns zu verstehen, welche Funktionen am häufigsten genutzt werden und wie wir die App verbessern können. Sie können dies jederzeit in den Einstellungen ändern.';
+      'Google Analytics und Firebase Crashlytics werden verwendet, um anonyme Nutzungsdaten und Fehlerberichte zu sammeln. Dies gewährleistet die Stabilität der App und liefert Erkenntnisse über deren Nutzung. Diese Einstellungen können jederzeit geändert werden.';
 
   @override
   String get accept => 'Akzeptieren';
 
   @override
   String get decline => 'Ablehnen';
+
+  @override
+  String get privacyAssurance =>
+      'Privatsphäre hat Priorität. Namen, E-Mails, Transaktionsbeträge oder andere Daten, die den Nutzer identifizieren könnten, werden niemals erfasst. Alle Berichte sind streng anonym.';
+
+  @override
+  String get privacyAssuranceLabel => 'Datenschutzgarantie';
+
+  @override
+  String get whatIsTracked => 'Was verfolgt wird:';
+
+  @override
+  String get usageData => 'Grundlegende Nutzungsmuster';
+
+  @override
+  String get crashReports => 'Fehler- und Absturzberichte';
+
+  @override
+  String get whatIsNotTracked => 'Was NICHT verfolgt wird:';
+
+  @override
+  String get personalInfo => 'Persönliche Informationen';
+
+  @override
+  String get transactionData => 'Transaktionsbeträge und -details';
 
   @override
   String get version => 'Version';

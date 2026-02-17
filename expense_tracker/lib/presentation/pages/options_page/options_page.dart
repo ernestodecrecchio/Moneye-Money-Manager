@@ -9,7 +9,7 @@ import 'package:expense_tracker/presentation/pages/options_page/accounts_page/ac
 import 'package:expense_tracker/presentation/pages/options_page/categories_page/categories_list_page.dart';
 import 'package:expense_tracker/presentation/pages/options_page/currency_page/currency_page.dart';
 import 'package:expense_tracker/presentation/pages/options_page/language_page/languages_list_page.dart';
-import 'package:expense_tracker/presentation/pages/options_page/analytics_page/analytics_settings_page.dart';
+import 'package:expense_tracker/presentation/pages/options_page/diagnostics_page/diagnostics_settings_page.dart';
 import 'package:expense_tracker/presentation/pages/options_page/notification_page/notification_page.dart';
 import 'package:expense_tracker/style.dart';
 import 'package:expense_tracker/presentation/pages/update_history_page/update_history_page.dart';
@@ -185,7 +185,7 @@ class OptionsPage extends ConsumerWidget {
             subtitle: Text(appLocalizations.analyticsOptionDescription),
             trailing: const Icon(Icons.chevron_right_rounded),
             onTap: () => Navigator.of(context)
-                .pushNamed(AnalyticsSettingsPage.routeName),
+                .pushNamed(DiagnosticsSettingsPage.routeName),
           ),
           const Divider(),
           ListTile(

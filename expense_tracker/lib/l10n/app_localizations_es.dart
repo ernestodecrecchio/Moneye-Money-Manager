@@ -399,7 +399,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get includeInReports => 'Incluir en los informes';
 
   @override
-  String get analytics => 'Analítica';
+  String get analytics => 'Análisis y Estabilidad';
 
   @override
   String get analyticsOptionDescription =>
@@ -407,20 +407,45 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get analyticsDescription =>
-      'Activa la recopilación de datos anónimos para ayudar a mejorar la aplicación.\nNo se rastrean importes de transacciones ni información personal.';
+      'La recopilación de datos anónimos y el informe de errores facilitan la mejora de la estabilidad de la aplicación. No se rastrean montos de transacciones ni información personal.';
 
   @override
   String get analyticsConsentTitle => '¿Apoyar la mejora de la aplicación?';
 
   @override
   String get analyticsConsentBody =>
-      'Utilizamos Google Analytics para recopilar datos de uso anónimos. Esto nos ayuda a comprender qué funciones se usan más y cómo mejorar la aplicación. Puedes cambiar esto en cualquier momento en la configuración.';
+      'Se utilizan Google Analytics y Firebase Crashlytics para recopilar datos de uso anónimos e informes de errores. Esto garantiza la estabilidad de la aplicación y proporciona información sobre su uso. Estos ajustes pueden cambiarse en cualquier momento.';
 
   @override
   String get accept => 'Aceptar';
 
   @override
   String get decline => 'Rechazar';
+
+  @override
+  String get privacyAssurance =>
+      'La privacidad es una prioridad. Nunca se recopilan nombres, correos electrónicos, montos de transacciones ni ningún dato que pueda identificar al usuario. Todos los informes son estrictamente anónimos.';
+
+  @override
+  String get privacyAssuranceLabel => 'Garantía de Privacidad';
+
+  @override
+  String get whatIsTracked => 'Qué se rastrea:';
+
+  @override
+  String get usageData => 'Patrones de uso básicos';
+
+  @override
+  String get crashReports => 'Informes de errores y fallos';
+
+  @override
+  String get whatIsNotTracked => 'Qué NO se rastrea:';
+
+  @override
+  String get personalInfo => 'Información personal';
+
+  @override
+  String get transactionData => 'Montos y detalles de las transacciones';
 
   @override
   String get version => 'Versión';
