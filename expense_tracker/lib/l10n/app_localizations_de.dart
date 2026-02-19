@@ -194,6 +194,23 @@ class AppLocalizationsDe extends AppLocalizations {
       'Magst du Moneye? Lass es uns wissen!';
 
   @override
+  String get contacts => 'Kontakte';
+
+  @override
+  String get contactsDescription =>
+      'Kontaktieren Sie den Entwickler, um einen Fehler zu melden oder eine Funktion vorzuschlagen';
+
+  @override
+  String get contactsPageHeader =>
+      'Du kannst mich kontaktieren, um einen Fehler zu melden, eine Funktion vorzuschlagen oder was auch immer du willst!';
+
+  @override
+  String get reportBug => 'Einen Fehler melden';
+
+  @override
+  String get suggestFeature => 'Eine Funktion vorschlagen';
+
+  @override
   String get financialOverviewForThisMonth =>
       'Die finanzielle Übersicht für diesen Monat';
 

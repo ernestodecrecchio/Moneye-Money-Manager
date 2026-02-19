@@ -194,6 +194,23 @@ class AppLocalizationsIt extends AppLocalizations {
       'Ti piace Moneye? Faccelo sapere!';
 
   @override
+  String get contacts => 'Contatti';
+
+  @override
+  String get contactsDescription =>
+      'Contatta lo sviluppatore per segnalare un bug o suggerire una funzionalità';
+
+  @override
+  String get contactsPageHeader =>
+      'Puoi contattarmi per segnalare un bug, suggerire una funzionalità o qualunque altra cosa!';
+
+  @override
+  String get reportBug => 'Segnala un bug';
+
+  @override
+  String get suggestFeature => 'Suggerisci una funzionalità';
+
+  @override
   String get financialOverviewForThisMonth =>
       'Il resoconto finanziario di questo mese';
 

@@ -11,8 +11,9 @@ import 'package:expense_tracker/presentation/pages/options_page/currency_page/cu
 import 'package:expense_tracker/presentation/pages/options_page/language_page/languages_list_page.dart';
 import 'package:expense_tracker/presentation/pages/options_page/privacy_page/privacy_settings_page.dart';
 import 'package:expense_tracker/presentation/pages/options_page/notification_page/notification_page.dart';
-import 'package:expense_tracker/style.dart';
 import 'package:expense_tracker/presentation/pages/update_history_page/update_history_page.dart';
+import 'package:expense_tracker/presentation/pages/options_page/widgets/option_list_tile.dart';
+import 'package:expense_tracker/presentation/pages/options_page/contacts_page/contacts_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:in_app_review/in_app_review.dart';
@@ -96,6 +97,30 @@ class OptionsPage extends ConsumerWidget {
           ),
           const Divider(),
           OptionListTile(
+            title: appLocalizations.updateHistory,
+            subtitle: appLocalizations.updateHistoryOptionDescription,
+            leadingIcon: Icons.auto_awesome_rounded,
+            onTap: () =>
+                Navigator.of(context).pushNamed(UpdateHistoryPage.routeName),
+          ),
+          const Divider(),
+          OptionListTile(
+            title: appLocalizations.contacts,
+            subtitle: appLocalizations.contactsDescription,
+            leadingIcon: Icons.alternate_email_rounded,
+            onTap: () =>
+                Navigator.of(context).pushNamed(ContactsPage.routeName),
+          ),
+          const Divider(),
+          OptionListTile(
+            title: appLocalizations.privacy,
+            subtitle: appLocalizations.privacyOptionDescription,
+            leadingIcon: Icons.security_outlined,
+            onTap: () =>
+                Navigator.of(context).pushNamed(PrivacySettingsPage.routeName),
+          ),
+          const Divider(),
+          OptionListTile(
             title: appLocalizations.feedback,
             subtitle: appLocalizations.feedbackAndReviewOptionDescription,
             leadingIcon: Icons.star_rounded,
@@ -106,22 +131,6 @@ class OptionsPage extends ConsumerWidget {
                 appStoreId: '6447369037',
               );
             },
-          ),
-          const Divider(),
-          OptionListTile(
-            title: appLocalizations.updateHistory,
-            subtitle: appLocalizations.updateHistoryOptionDescription,
-            leadingIcon: Icons.auto_awesome_rounded,
-            onTap: () =>
-                Navigator.of(context).pushNamed(UpdateHistoryPage.routeName),
-          ),
-          const Divider(),
-          OptionListTile(
-            title: appLocalizations.privacy,
-            subtitle: appLocalizations.privacyOptionDescription,
-            leadingIcon: Icons.security_outlined,
-            onTap: () =>
-                Navigator.of(context).pushNamed(PrivacySettingsPage.routeName),
           ),
           const Divider(),
           OptionListTile(
@@ -150,52 +159,6 @@ class OptionsPage extends ConsumerWidget {
           ),
         ],
       ),
-    );
-  }
-}
-
-class OptionListTile extends StatelessWidget {
-  final String title;
-  final String? subtitle;
-  final IconData leadingIcon;
-  final bool enableRightArrow;
-  final List<Widget>? trailingWidgets;
-  final Function()? onTap;
-
-  const OptionListTile({
-    super.key,
-    required this.title,
-    this.subtitle,
-    required this.leadingIcon,
-    this.onTap,
-    this.enableRightArrow = true,
-    this.trailingWidgets,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final List<Widget> trailingChildren = [
-      if (trailingWidgets != null) ...trailingWidgets!,
-      if (enableRightArrow) const Icon(Icons.chevron_right_rounded),
-    ];
-
-    return ListTile(
-      leading: SizedBox(
-        height: double.infinity,
-        child: Icon(
-          leadingIcon,
-          color: CustomColors.darkBlue,
-        ),
-      ),
-      title: Text(title),
-      subtitle: subtitle != null ? Text(subtitle!) : null,
-      trailing: trailingChildren.isNotEmpty
-          ? Row(
-              mainAxisSize: MainAxisSize.min,
-              children: trailingChildren,
-            )
-          : null,
-      onTap: onTap,
     );
   }
 }

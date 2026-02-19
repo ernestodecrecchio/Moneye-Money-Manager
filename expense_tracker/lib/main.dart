@@ -25,6 +25,7 @@ import 'package:expense_tracker/presentation/pages/options_page/currency_page/cu
 import 'package:expense_tracker/presentation/pages/options_page/language_page/languages_list_page.dart';
 import 'package:expense_tracker/presentation/pages/options_page/notification_page/notification_page.dart';
 import 'package:expense_tracker/presentation/pages/options_page/privacy_page/privacy_settings_page.dart';
+import 'package:expense_tracker/presentation/pages/options_page/contacts_page/contacts_page.dart';
 import 'package:expense_tracker/presentation/pages/tab_bar_page.dart';
 import 'package:expense_tracker/application/common/notifiers/analytics_consent_provider.dart';
 import 'package:expense_tracker/style.dart';
@@ -237,6 +238,7 @@ class MyApp extends r.ConsumerWidget {
           UpdateHistoryPage.routeName: (context) => const UpdateHistoryPage(),
           PrivacySettingsPage.routeName: (context) =>
               const PrivacySettingsPage(),
+          ContactsPage.routeName: (context) => const ContactsPage(),
         },
         onGenerateRoute: (settings) {
           switch (settings.name) {

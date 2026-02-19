@@ -450,6 +450,36 @@ abstract class AppLocalizations {
   /// **'Do you like Moneye? Let us know!'**
   String get feedbackAndReviewOptionDescription;
 
+  /// No description provided for @contacts.
+  ///
+  /// In en, this message translates to:
+  /// **'Contacts'**
+  String get contacts;
+
+  /// No description provided for @contactsDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Contact the developer to report a bug or suggest a feature'**
+  String get contactsDescription;
+
+  /// No description provided for @contactsPageHeader.
+  ///
+  /// In en, this message translates to:
+  /// **'You can contact me to report a bug, suggest a feature, or whatever you want!'**
+  String get contactsPageHeader;
+
+  /// No description provided for @reportBug.
+  ///
+  /// In en, this message translates to:
+  /// **'Report a bug'**
+  String get reportBug;
+
+  /// No description provided for @suggestFeature.
+  ///
+  /// In en, this message translates to:
+  /// **'Suggest a feature'**
+  String get suggestFeature;
+
   /// No description provided for @financialOverviewForThisMonth.
   ///
   /// In en, this message translates to:
