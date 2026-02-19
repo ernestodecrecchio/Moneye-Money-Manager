@@ -49,7 +49,6 @@ class ReminderPage extends ConsumerWidget {
                           ),
                         ),
                         Switch.adaptive(
-                          activeThumbColor: CustomColors.blue,
                           value:
                               ref.watch(notificationsEnabledProvider) ?? false,
                           onChanged: (newValue) async {
