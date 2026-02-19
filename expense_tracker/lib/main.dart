@@ -134,6 +134,11 @@ Future main() async {
   final showWhatsNew =
       lastSeenVersion != currentVersion && lastSeenVersion != null;
 
+  // First startup
+  if (lastSeenVersion == null) {
+    await prefs.setString('last_seen_version', currentVersion);
+  }
+
   // SETTING UP ANALYTICS CONSENT
   final analyticsConsentValue =
       prefs.getBool(AnalyticsConsentNotifier.consentKey);
