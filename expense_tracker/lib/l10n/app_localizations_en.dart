@@ -9,54 +9,10 @@ class AppLocalizationsEn extends AppLocalizations {
   AppLocalizationsEn([String locale = 'en']) : super(locale);
 
   @override
-  String get yesterday => 'Yesterday';
+  String get accept => 'Accept';
 
   @override
-  String get today => 'Today';
-
-  @override
-  String get financialOverviewForThisMonth =>
-      'The financial overview for this month';
-
-  @override
-  String get totalBalance => 'Total balance';
-
-  @override
-  String get income => 'Income';
-
-  @override
-  String get incomes => 'Incomes';
-
-  @override
-  String get expense => 'Expense';
-
-  @override
-  String get expenses => 'Expenses';
-
-  @override
-  String get total => 'Total';
-
-  @override
-  String get yourAccounts => 'Your accounts';
-
-  @override
-  String get lastTransactions => 'Last transactions';
-
-  @override
-  String get viewAll => 'View all';
-
-  @override
-  String get settings => 'Settings';
-
-  @override
-  String get categories => 'Categories';
-
-  @override
-  String get yourCategories => 'Your categories';
-
-  @override
-  String get categoriesOptionDescription =>
-      'Manage the categories and create new ones';
+  String get account => 'Account';
 
   @override
   String get accounts => 'Accounts';
@@ -66,141 +22,88 @@ class AppLocalizationsEn extends AppLocalizations {
       'Manage the accounts and create new ones';
 
   @override
-  String get language => 'Language';
-
-  @override
-  String get languageOptionDescription => 'Select the language used in the app';
+  String get addOne => 'add one';
 
   @override
   String get allTransactions => 'All transactions';
 
   @override
-  String get title => 'Title';
-
-  @override
-  String get description => 'Description';
-
-  @override
   String get amount => 'Amount';
-
-  @override
-  String get date => 'Date';
-
-  @override
-  String get color => 'Color';
-
-  @override
-  String get icon => 'Icon';
-
-  @override
-  String get category => 'Category';
-
-  @override
-  String get account => 'Account';
-
-  @override
-  String get selectCategory => 'Select the category';
-
-  @override
-  String get selectAccount => 'Select account';
-
-  @override
-  String get selectIcon => 'Select icon';
-
-  @override
-  String get selectDate => 'Select the date';
-
-  @override
-  String get newTransaction => 'New transaction';
-
-  @override
-  String get newCategory => 'New category';
-
-  @override
-  String get newAccount => 'New account';
-
-  @override
-  String get editTransaction => 'Edit transaction';
-
-  @override
-  String get editCategory => 'Edit category';
-
-  @override
-  String get editAccount => 'Edit account';
-
-  @override
-  String get insertTheTitleOfTheTransaction =>
-      'Insert the title of the trasnaction';
-
-  @override
-  String get titleIsMandatory => 'The title is mandatory';
-
-  @override
-  String get insertTheDescription => 'Insert a description';
-
-  @override
-  String get insertTheAmountOfTheTransaction =>
-      'Insert the amount of the trasnaction';
 
   @override
   String get amountIsMandatory => 'The amount is mandatory';
 
   @override
-  String get insertTheTitleOfTheCategory => 'Insert the title of the category';
+  String get analyticsDescription =>
+      'Data needed to improve the experience and to plan future new features';
 
   @override
-  String get insertTheAccountName => 'Insert the account name';
+  String get analyticsTitle => 'Analytics';
 
   @override
   String get applyChanges => 'Apply changes';
 
   @override
-  String get save => 'Save';
+  String get areYouSure => 'Are you sure?';
 
   @override
-  String get edit => 'Edit';
+  String get atTheEnd => 'At the end';
+
+  @override
+  String get atTheStart => 'At the start';
+
+  @override
+  String get back => 'Back';
 
   @override
   String get balance => 'Balance';
 
   @override
-  String get selectTimeInterval => 'Select the time interval';
+  String get billsAndUtilities => 'Bills & Utilities';
 
   @override
-  String get day => 'Day';
+  String get byCategory => 'By category';
 
   @override
-  String get week => 'Week';
+  String get byList => 'By list';
 
   @override
-  String get month => 'Month';
+  String get cancel => 'Cancel';
 
   @override
-  String get year => 'Year';
+  String get cash => 'Cash';
 
   @override
-  String get noTransactions => 'No transactions';
+  String get categories => 'Categories';
 
   @override
-  String get noAccounts => 'No accounts';
+  String get categoriesOptionDescription =>
+      'Manage the categories and create new ones';
 
   @override
-  String get noAccountAdded => 'No account added,';
+  String get category => 'Category';
 
   @override
-  String get addOne => 'add one';
+  String get color => 'Color';
 
   @override
-  String get noCategories => 'No categories';
+  String get continueCTA => 'Continue';
 
   @override
-  String get other => 'Other';
+  String get crashReports => 'Crash and error reports';
+
+  @override
+  String get crashTest => 'Crash Test (Debug Only)';
+
+  @override
+  String get creditCard => 'Credit Card';
 
   @override
   String get currency => 'Currency';
 
   @override
-  String get selectCurrency => 'Select the currency';
+  String get currencyConversionDisclaimer =>
+      'Note: Changing the currency displayed in the app will not result in transaction amount conversions.';
 
   @override
   String get currencyOptionDescription =>
@@ -210,165 +113,29 @@ class AppLocalizationsEn extends AppLocalizations {
   String get currencyPosition => 'Position of the currency symbol';
 
   @override
-  String get selectCurrencyPosition => 'Select the currency symbol position';
+  String get dailyReminder => 'Daily reminder';
 
   @override
-  String get none => 'None';
+  String get dailyReminderChannelDescription =>
+      'Notifications to remind you to enter your daily transactions.';
 
   @override
-  String get atTheStart => 'At the start';
+  String get dailyReminderChannelName => 'Daily Reminders';
 
   @override
-  String get atTheEnd => 'At the end';
+  String get date => 'Date';
 
   @override
-  String get currencyConversionDisclaimer =>
-      'Note: Changing the currency displayed in the app will not result in transaction amount conversions.';
-
-  @override
-  String get info => 'Info';
-
-  @override
-  String get infoOptionDescription => 'App credits and other info';
-
-  @override
-  String get infoDescription =>
-      'Welcome to Moneye, an app developed by me, Ernesto De Crecchio, with the goal of providing an easy-to-use and effective tool for managing personal finances.\n\nMoneye enables you to effortlessly track your expenses, view insightful graphs, and gain a better understanding of your spending habits.\n\nAs the developer of the app, I am dedicated to constantly improving its features, and have planned new updates to be released in the future, ensuring that my users have access to the most up-to-date and comprehensive tools for managing their finances.\n\nMy aim is to provide an intuitive experience for all users, and I hope that you find Moneye helpful in achieving your financial goals.';
-
-  @override
-  String get delete => 'Delete';
-
-  @override
-  String get byList => 'By list';
-
-  @override
-  String get byCategory => 'By category';
-
-  @override
-  String get systemLanguageOption => 'Automatic (based on the system)';
-
-  @override
-  String get cash => 'Cash';
-
-  @override
-  String get creditCard => 'Credit Card';
+  String get day => 'Day';
 
   @override
   String get debitCard => 'Debit Card';
 
   @override
-  String get savings => 'Savings';
+  String get decline => 'Decline';
 
   @override
-  String get foodAndDining => 'Food & Dining';
-
-  @override
-  String get transportation => 'Transportation';
-
-  @override
-  String get entertainment => 'Entertainment';
-
-  @override
-  String get billsAndUtilities => 'Bills & Utilities';
-
-  @override
-  String get petExpenses => 'Pet Expenses';
-
-  @override
-  String get subscriptions => 'Subscriptions';
-
-  @override
-  String get updateHistory => 'Update history';
-
-  @override
-  String get updateHistoryOptionDescription =>
-      'View the latest features and updates';
-
-  @override
-  String get updateHistoryEmptyList => 'No updates found.';
-
-  @override
-  String get done => 'Done!';
-
-  @override
-  String get skip => 'Skip';
-
-  @override
-  String get welcomePageMsg1 => 'Welcome to Moneye!';
-
-  @override
-  String get welcomePageMsg2 =>
-      'Let\'s get you started on your journey towards financial control.\nI’ll help you configure the app in just a few steps.';
-
-  @override
-  String get selectCurrencyMsg1 => 'Select your preferred currency';
-
-  @override
-  String get selectCurrencyMsg2 =>
-      'Don\'t worry, you can always change it later to match your needs.';
-
-  @override
-  String get selectAccountMsg1 => 'Choose the accounts you want to monitor';
-
-  @override
-  String get selectAccountMsg2 =>
-      'Cash, credit card, or others\nSelect what you\'d like to keep a close eye on.';
-
-  @override
-  String get selectCategoryMsg1 =>
-      'Make the most of Moneye by categorizing your transactions';
-
-  @override
-  String get selectCategoryMsg2 =>
-      'Select from the preconfigured list or create your custom categories later';
-
-  @override
-  String get endConfigurationMsg1 =>
-      'Congratulations! Moneye is now configured and ready to help you manage your expenses efficiently.';
-
-  @override
-  String get endConfigurationMsg2 =>
-      'Don\'t forget to explore other exciting features to optimize your financial journey.';
-
-  @override
-  String get notificationTitle => 'Moneye';
-
-  @override
-  String get notificationSubtitle =>
-      'Remember to enter your daily transactions!';
-
-  @override
-  String get reminder => 'Reminder';
-
-  @override
-  String get reminderOptionDescription =>
-      'Set a reminder to remember to insert new transactions';
-
-  @override
-  String get reminderDescription =>
-      'Moneye will remind you every day, at a set time, to enter new transactions.\n\nYou will never forget to keep your data updated!';
-
-  @override
-  String get dailyReminder => 'Daily reminder';
-
-  @override
-  String get yes => 'yes';
-
-  @override
-  String get no => 'no';
-
-  @override
-  String get feedback => 'Feedback';
-
-  @override
-  String get feedbackAndReviewOptionDescription =>
-      'Do you like Moneye? Let us know!';
-
-  @override
-  String get cancel => 'Cancel';
-
-  @override
-  String get areYouSure => 'Are you sure?';
+  String get delete => 'Delete';
 
   @override
   String get deleteAccountAlertBody =>
@@ -379,13 +146,82 @@ class AppLocalizationsEn extends AppLocalizations {
       'Deleting a category will not remove the transactions associated with it.';
 
   @override
-  String get transactionDeleted => 'Transaction deleted';
+  String get description => 'Description';
 
   @override
-  String get transactionList => 'Transaction list';
+  String get done => 'Done!';
 
   @override
-  String get thisMonth => 'This month';
+  String get edit => 'Edit';
+
+  @override
+  String get editAccount => 'Edit account';
+
+  @override
+  String get editCategory => 'Edit category';
+
+  @override
+  String get editTransaction => 'Edit transaction';
+
+  @override
+  String get endConfigurationMsg1 =>
+      'Congratulations! Moneye is now configured and ready to help you manage your expenses efficiently.';
+
+  @override
+  String get endConfigurationMsg2 =>
+      'Don\'t forget to explore other exciting features to optimize your financial journey.';
+
+  @override
+  String get entertainment => 'Entertainment';
+
+  @override
+  String get essentialDescription =>
+      'Data needed to analyze the stability of the app';
+
+  @override
+  String get essentialTitle => 'Essential';
+
+  @override
+  String get expense => 'Expense';
+
+  @override
+  String get expenses => 'Expenses';
+
+  @override
+  String get feedback => 'Feedback';
+
+  @override
+  String get feedbackAndReviewOptionDescription =>
+      'Do you like Moneye? Let us know!';
+
+  @override
+  String get financialOverviewForThisMonth =>
+      'The financial overview for this month';
+
+  @override
+  String get foodAndDining => 'Food & Dining';
+
+  @override
+  String get icon => 'Icon';
+
+  @override
+  String get includeInReports => 'Include in reports';
+
+  @override
+  String get income => 'Income';
+
+  @override
+  String get incomes => 'Incomes';
+
+  @override
+  String get info => 'Info';
+
+  @override
+  String get infoDescription =>
+      'Welcome to Moneye, an app developed by me, Ernesto De Crecchio, with the goal of providing an easy-to-use and effective tool for managing personal finances.\n\nMoneye enables you to effortlessly track your expenses, view insightful graphs, and gain a better understanding of your spending habits.\n\nAs the developer of the app, I am dedicated to constantly improving its features, and have planned new updates to be released in the future, ensuring that my users have access to the most up-to-date and comprehensive tools for managing their finances.\n\nMy aim is to provide an intuitive experience for all users, and I hope that you find Moneye helpful in achieving your financial goals.';
+
+  @override
+  String get infoOptionDescription => 'App credits and other info';
 
   @override
   String get initialBalance => 'Initial balance';
@@ -395,89 +231,253 @@ class AppLocalizationsEn extends AppLocalizations {
       'Insert the initial balance of the account';
 
   @override
-  String get includeInReports => 'Include in reports';
+  String get insertTheAccountName => 'Insert the account name';
 
   @override
-  String get accept => 'Accept';
+  String get insertTheAmountOfTheTransaction =>
+      'Insert the amount of the trasnaction';
 
   @override
-  String get decline => 'Decline';
+  String get insertTheDescription => 'Insert a description';
+
+  @override
+  String get insertTheTitleOfTheCategory => 'Insert the title of the category';
+
+  @override
+  String get insertTheTitleOfTheTransaction =>
+      'Insert the title of the trasnaction';
+
+  @override
+  String get language => 'Language';
+
+  @override
+  String get languageOptionDescription => 'Select the language used in the app';
+
+  @override
+  String get lastTransactions => 'Last transactions';
+
+  @override
+  String get month => 'Month';
+
+  @override
+  String get newAccount => 'New account';
+
+  @override
+  String get newCategory => 'New category';
+
+  @override
+  String get newTransaction => 'New transaction';
+
+  @override
+  String get no => 'no';
+
+  @override
+  String get noAccountAdded => 'No account added,';
+
+  @override
+  String get noAccounts => 'No accounts';
+
+  @override
+  String get noCategories => 'No categories';
+
+  @override
+  String get none => 'None';
+
+  @override
+  String get notificationSubtitle =>
+      'Remember to enter your daily transactions!';
+
+  @override
+  String get notificationTitle => 'Moneye';
+
+  @override
+  String get noTransactions => 'No transactions';
+
+  @override
+  String get other => 'Other';
+
+  @override
+  String get personalInfo => 'Personal information';
+
+  @override
+  String get petExpenses => 'Pet Expenses';
 
   @override
   String get privacy => 'Privacy';
-
-  @override
-  String get privacyOptionDescription =>
-      'Configure how data is collected and used';
-
-  @override
-  String get privacyIntroduction =>
-      'Choose which data can be collected to help improve the app and ensure its stability.';
 
   @override
   String get privacyAssurance =>
       'Privacy is a priority. Names, emails, transaction amounts, or any data that could identify the user are never collected. All reports are strictly anonymous.';
 
   @override
-  String get essentialTitle => 'Essential';
-
-  @override
-  String get essentialDescription =>
-      'Data needed to analyze the stability of the app';
-
-  @override
-  String get analyticsTitle => 'Analytics';
-
-  @override
-  String get analyticsDescription =>
-      'Data needed to improve the experience and to plan future new features';
-
-  @override
-  String get crashTest => 'Crash Test (Debug Only)';
-
-  @override
   String get privacyAssuranceLabel => 'Privacy Assurance';
 
   @override
-  String get whatIsTracked => 'What is tracked:';
+  String get privacyIntroduction =>
+      'Choose which data can be collected to help improve the app and ensure its stability.';
 
   @override
-  String get usageData => 'Basic usage patterns';
+  String get privacyOptionDescription =>
+      'Configure how data is collected and used';
 
   @override
-  String get crashReports => 'Crash and error reports';
+  String get reminder => 'Reminder';
 
   @override
-  String get whatIsNotTracked => 'What is NOT tracked:';
+  String get reminderDescription =>
+      'Moneye will remind you every day, at a set time, to enter new transactions.\n\nYou will never forget to keep your data updated!';
 
   @override
-  String get personalInfo => 'Personal information';
+  String get reminderOptionDescription =>
+      'Set a reminder to remember to insert new transactions';
 
   @override
-  String get transactionData => 'Transaction amounts and details';
+  String get save => 'Save';
 
   @override
-  String get version => 'Version';
+  String get savings => 'Savings';
 
   @override
-  String get back => 'Back';
+  String get selectAccount => 'Select account';
 
   @override
-  String get continueCTA => 'Continue';
+  String get selectAccountMsg1 => 'Choose the accounts you want to monitor';
 
   @override
-  String get whatsNew => 'What\'s new';
+  String get selectAccountMsg2 =>
+      'Cash, credit card, or others\nSelect what you\'d like to keep a close eye on.';
 
   @override
-  String get dailyReminderChannelName => 'Daily Reminders';
+  String get selectCategory => 'Select the category';
 
   @override
-  String get dailyReminderChannelDescription =>
-      'Notifications to remind you to enter your daily transactions.';
+  String get selectCategoryMsg1 =>
+      'Make the most of Moneye by categorizing your transactions';
+
+  @override
+  String get selectCategoryMsg2 =>
+      'Select from the preconfigured list or create your custom categories later';
+
+  @override
+  String get selectCurrency => 'Select the currency';
+
+  @override
+  String get selectCurrencyMsg1 => 'Select your preferred currency';
+
+  @override
+  String get selectCurrencyMsg2 =>
+      'Don\'t worry, you can always change it later to match your needs.';
+
+  @override
+  String get selectCurrencyPosition => 'Select the currency symbol position';
+
+  @override
+  String get selectDate => 'Select the date';
+
+  @override
+  String get selectIcon => 'Select icon';
+
+  @override
+  String get selectTimeInterval => 'Select the time interval';
 
   @override
   String get sendTestNotification => 'Show me how it will appear';
 
   @override
+  String get settings => 'Settings';
+
+  @override
+  String get skip => 'Skip';
+
+  @override
+  String get subscriptions => 'Subscriptions';
+
+  @override
+  String get systemLanguageOption => 'Automatic (based on the system)';
+
+  @override
   String get testNotificationSent => 'Test notification sent!';
+
+  @override
+  String get thisMonth => 'This month';
+
+  @override
+  String get title => 'Title';
+
+  @override
+  String get titleIsMandatory => 'The title is mandatory';
+
+  @override
+  String get today => 'Today';
+
+  @override
+  String get total => 'Total';
+
+  @override
+  String get totalBalance => 'Total balance';
+
+  @override
+  String get transactionData => 'Transaction amounts and details';
+
+  @override
+  String get transactionDeleted => 'Transaction deleted';
+
+  @override
+  String get transactionList => 'Transaction list';
+
+  @override
+  String get transportation => 'Transportation';
+
+  @override
+  String get updateHistory => 'Update history';
+
+  @override
+  String get updateHistoryEmptyList => 'No updates found.';
+
+  @override
+  String get updateHistoryOptionDescription =>
+      'View the latest features and updates';
+
+  @override
+  String get usageData => 'Basic usage patterns';
+
+  @override
+  String get version => 'Version';
+
+  @override
+  String get viewAll => 'View all';
+
+  @override
+  String get week => 'Week';
+
+  @override
+  String get welcomePageMsg1 => 'Welcome to Moneye!';
+
+  @override
+  String get welcomePageMsg2 =>
+      'Let\'s get you started on your journey towards financial control.\nI’ll help you configure the app in just a few steps.';
+
+  @override
+  String get whatIsNotTracked => 'What is NOT tracked:';
+
+  @override
+  String get whatIsTracked => 'What is tracked:';
+
+  @override
+  String get whatsNew => 'What\'s new';
+
+  @override
+  String get year => 'Year';
+
+  @override
+  String get yes => 'yes';
+
+  @override
+  String get yesterday => 'Yesterday';
+
+  @override
+  String get yourAccounts => 'Your accounts';
+
+  @override
+  String get yourCategories => 'Your categories';
 }
