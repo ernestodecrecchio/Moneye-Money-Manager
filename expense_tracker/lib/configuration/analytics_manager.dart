@@ -23,13 +23,7 @@ class AnalyticsManager {
       context: context,
       barrierDismissible: false,
       builder: (context) => AlertDialog.adaptive(
-        title: Row(
-          children: [
-            const Icon(Icons.security, color: Colors.blue),
-            const SizedBox(width: 8),
-            Expanded(child: Text(appLocalizations.analyticsTitle)),
-          ],
-        ),
+        title: Text(appLocalizations.analyticsTitle),
         content: Text(appLocalizations.analyticsDescription),
         actions: [
           TextButton(
