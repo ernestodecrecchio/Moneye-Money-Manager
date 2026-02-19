@@ -2,8 +2,10 @@ import 'package:app_settings/app_settings.dart';
 import 'package:expense_tracker/configuration/notification_manager.dart';
 import 'package:expense_tracker/application/common/notifiers/app_localizations_provider.dart';
 import 'package:expense_tracker/application/common/notifiers/notification_provider.dart';
+import 'package:expense_tracker/presentation/pages/common/custom_elevated_button.dart';
 import 'package:expense_tracker/style.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -113,32 +115,27 @@ class ReminderPage extends ConsumerWidget {
                           },
                         ),
                       ),
-                      /* const SizedBox(height: 24),
+                    ],
+                    if (kDebugMode) ...[
+                      const SizedBox(height: 24),
                       SizedBox(
                         width: double.infinity,
-                        child: ElevatedButton.icon(
+                        child: CustomElevatedButton(
                           onPressed: () async {
                             await NotificationManager.showInstantNotification();
                             if (context.mounted) {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
-                                    content: Text(
-                                        appLocalizations.testNotificationSent)),
+                                  content: Text(
+                                      appLocalizations.testNotificationSent),
+                                ),
                               );
                             }
                           },
-                          icon: const Icon(Icons.notification_important),
-                          label: Text(appLocalizations.sendTestNotification),
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: CustomColors.blue,
-                            foregroundColor: Colors.white,
-                            padding: const EdgeInsets.symmetric(vertical: 12),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                          ),
+                          text: appLocalizations.sendTestNotification,
+                          isLoading: false,
                         ),
-                      ),*/
+                      ),
                     ]
                   ],
                 ),
