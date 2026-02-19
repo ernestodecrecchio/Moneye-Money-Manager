@@ -222,6 +222,10 @@ class _UpdateInfoPageState extends ConsumerState<UpdateInfoPage>
         return Icons.palette_rounded;
       case 'analytics_chart':
         return Icons.insights_rounded;
+      case 'contact_support':
+        return Icons.alternate_email_rounded;
+      case 'shield_check':
+        return Icons.security_outlined;
       default:
         return Icons.fiber_new_rounded;
     }

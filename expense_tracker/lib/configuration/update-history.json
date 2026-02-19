@@ -1,4 +1,51 @@
 {
+  "1.0.3": [
+    {
+      "title": {
+        "en": "Contact the Developer",
+        "it": "Contatta lo Sviluppatore",
+        "es": "Contacta al Desarrollador",
+        "de": "Entwickler kontaktieren"
+      },
+      "description": {
+        "en": "You can now contact the developer directly to suggest new features or report bugs and issues.",
+        "it": "Ora puoi contattare direttamente lo sviluppatore per suggerire nuove funzionalità o segnalare bug e problemi.",
+        "es": "Ahora puedes contactar directamente al desarrollador para sugerir nuevas funciones o informar errores y problemas.",
+        "de": "Du kannst jetzt den Entwickler direkt kontaktieren, um neue Funktionen vorzuschlagen oder Fehler und Probleme zu melden."
+      },
+      "icon": "contact_support"
+    },
+    {
+      "title": {
+        "en": "Improved Stability",
+        "it": "Stabilità Migliorata",
+        "es": "Estabilidad Mejorada",
+        "de": "Verbesserte Stabilität"
+      },
+      "description": {
+        "en": "A new crash monitoring system has been introduced to help detect and fix issues faster, making the app more stable and reliable.",
+        "it": "È stato introdotto un nuovo sistema di monitoraggio dei crash per individuare e risolvere i problemi più rapidamente, rendendo l'app più stabile e affidabile.",
+        "es": "Se ha introducido un nuevo sistema de monitoreo de fallos para detectar y solucionar problemas más rápidamente, haciendo la app más estable y confiable.",
+        "de": "Ein neues Crash-Überwachungssystem wurde eingeführt, um Probleme schneller zu erkennen und zu beheben, wodurch die App stabiler und zuverlässiger wird."
+      },
+      "icon": "shield_check"
+    },
+    {
+      "title": {
+        "en": "More Icons",
+        "it": "Nuove Icone",
+        "es": "Más Iconos",
+        "de": "Neue Icons"
+      },
+      "description": {
+        "en": "Additional icons are now available to give you even more ways to personalize your accounts and categories.",
+        "it": "Sono disponibili nuove icone per offrirti ancora più possibilità di personalizzare conti e categorie.",
+        "es": "Nuevos iconos están disponibles para ofrecerte aún más formas de personalizar cuentas y categorías.",
+        "de": "Neue Icons sind verfügbar, um dir noch mehr Möglichkeiten zur Personalisierung von Konten und Kategorien zu bieten."
+      },
+      "icon": "palette_icons"
+    }
+  ],
   "1.0.2": [
     {
       "title": {
