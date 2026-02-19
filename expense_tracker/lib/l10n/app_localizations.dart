@@ -834,36 +834,6 @@ abstract class AppLocalizations {
   /// **'Include in reports'**
   String get includeInReports;
 
-  /// No description provided for @analytics.
-  ///
-  /// In en, this message translates to:
-  /// **'Analytics & Stability'**
-  String get analytics;
-
-  /// No description provided for @analyticsOptionDescription.
-  ///
-  /// In en, this message translates to:
-  /// **'Configure how data is collected and used'**
-  String get analyticsOptionDescription;
-
-  /// No description provided for @analyticsDescription.
-  ///
-  /// In en, this message translates to:
-  /// **'Anonymous data collection and crash reporting facilitate the improvement of app stability. No transaction amounts or personal information are tracked.'**
-  String get analyticsDescription;
-
-  /// No description provided for @analyticsConsentTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Support App Improvement?'**
-  String get analyticsConsentTitle;
-
-  /// No description provided for @analyticsConsentBody.
-  ///
-  /// In en, this message translates to:
-  /// **'Google Analytics and Firebase Crashlytics are used to collect anonymous usage data and crash reports. This ensures the app\'s stability and provides insights into its usage. These settings can be changed anytime.'**
-  String get analyticsConsentBody;
-
   /// No description provided for @accept.
   ///
   /// In en, this message translates to:
@@ -876,11 +846,59 @@ abstract class AppLocalizations {
   /// **'Decline'**
   String get decline;
 
+  /// No description provided for @privacy.
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy'**
+  String get privacy;
+
+  /// No description provided for @privacyOptionDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Configure how data is collected and used'**
+  String get privacyOptionDescription;
+
+  /// No description provided for @privacyIntroduction.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose which data can be collected to help improve the app and ensure its stability.'**
+  String get privacyIntroduction;
+
   /// No description provided for @privacyAssurance.
   ///
   /// In en, this message translates to:
   /// **'Privacy is a priority. Names, emails, transaction amounts, or any data that could identify the user are never collected. All reports are strictly anonymous.'**
   String get privacyAssurance;
+
+  /// No description provided for @essentialTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Essential'**
+  String get essentialTitle;
+
+  /// No description provided for @essentialDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Data needed to analyze the stability of the app'**
+  String get essentialDescription;
+
+  /// No description provided for @analyticsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Analytics'**
+  String get analyticsTitle;
+
+  /// No description provided for @analyticsDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Data needed to improve the experience and to plan future new features'**
+  String get analyticsDescription;
+
+  /// No description provided for @crashTest.
+  ///
+  /// In en, this message translates to:
+  /// **'Crash Test (Debug Only)'**
+  String get crashTest;
 
   /// No description provided for @privacyAssuranceLabel.
   ///

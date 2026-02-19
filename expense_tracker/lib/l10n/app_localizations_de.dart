@@ -402,32 +402,41 @@ class AppLocalizationsDe extends AppLocalizations {
   String get includeInReports => 'In Berichte einbeziehen';
 
   @override
-  String get analytics => 'Analyse & Stabilität';
-
-  @override
-  String get analyticsOptionDescription =>
-      'Konfigurieren Sie, wie Daten gesammelt und verwendet werden';
-
-  @override
-  String get analyticsDescription =>
-      'Anonyme Datenerfassung und Fehlerberichterstattung erleichtern die Verbesserung der App-Stabilität. Es werden weder Transaktionsbeträge noch persönliche Informationen erfasst.';
-
-  @override
-  String get analyticsConsentTitle => 'App-Verbesserung unterstützen?';
-
-  @override
-  String get analyticsConsentBody =>
-      'Google Analytics und Firebase Crashlytics werden verwendet, um anonyme Nutzungsdaten und Fehlerberichte zu sammeln. Dies gewährleistet die Stabilität der App und liefert Erkenntnisse über deren Nutzung. Diese Einstellungen können jederzeit geändert werden.';
-
-  @override
   String get accept => 'Akzeptieren';
 
   @override
   String get decline => 'Ablehnen';
 
   @override
+  String get privacy => 'Datenschutz';
+
+  @override
+  String get privacyOptionDescription =>
+      'Konfigurieren Sie, wie Daten gesammelt und verwendet werden';
+
+  @override
+  String get privacyIntroduction =>
+      'Wählen Sie aus, welche Daten gesammelt werden dürfen, um die App zu verbessern und ihre Stabilität zu gewährleisten.';
+
+  @override
   String get privacyAssurance =>
       'Privatsphäre hat Priorität. Namen, E-Mails, Transaktionsbeträge oder andere Daten, die den Nutzer identifizieren könnten, werden niemals erfasst. Alle Berichte sind streng anonym.';
+
+  @override
+  String get essentialTitle => 'Essenziell';
+
+  @override
+  String get essentialDescription => 'Daten zur Analyse der Stabilität der App';
+
+  @override
+  String get analyticsTitle => 'Analyse';
+
+  @override
+  String get analyticsDescription =>
+      'Daten zur Verbesserung des Erlebnisses und zur Planung zukünftiger neuer Funktionen';
+
+  @override
+  String get crashTest => 'Crash-Test (Nur Debug)';
 
   @override
   String get privacyAssuranceLabel => 'Datenschutzgarantie';
@@ -445,7 +454,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get whatIsNotTracked => 'Was NICHT verfolgt wird:';
 
   @override
-  String get personalInfo => 'Persönliche Informationen';
+  String get personalInfo => 'Personal information';
 
   @override
   String get transactionData => 'Transaktionsbeträge und -details';

@@ -27,10 +27,10 @@ class AnalyticsManager {
           children: [
             const Icon(Icons.security, color: Colors.blue),
             const SizedBox(width: 8),
-            Expanded(child: Text(appLocalizations.analyticsConsentTitle)),
+            Expanded(child: Text(appLocalizations.analyticsTitle)),
           ],
         ),
-        content: Text(appLocalizations.analyticsConsentBody),
+        content: Text(appLocalizations.analyticsDescription),
         actions: [
           TextButton(
             onPressed: () {
@@ -119,6 +119,10 @@ class AnalyticsManager {
   static Future<void> setAnalyticsCollectionEnabled(bool enabled) async {
     _enabled = enabled;
     await _analytics.setAnalyticsCollectionEnabled(enabled);
-    await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(enabled);
+  }
+
+  /// Forces a crash to test Crashlytics integration.
+  static void crashApp() {
+    FirebaseCrashlytics.instance.crash();
   }
 }

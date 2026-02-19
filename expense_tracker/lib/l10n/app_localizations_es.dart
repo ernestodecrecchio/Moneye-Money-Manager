@@ -399,32 +399,42 @@ class AppLocalizationsEs extends AppLocalizations {
   String get includeInReports => 'Incluir en los informes';
 
   @override
-  String get analytics => 'Análisis y Estabilidad';
-
-  @override
-  String get analyticsOptionDescription =>
-      'Configure cómo se recopilan y utilizan los datos';
-
-  @override
-  String get analyticsDescription =>
-      'La recopilación de datos anónimos y el informe de errores facilitan la mejora de la estabilidad de la aplicación. No se rastrean montos de transacciones ni información personal.';
-
-  @override
-  String get analyticsConsentTitle => '¿Apoyar la mejora de la aplicación?';
-
-  @override
-  String get analyticsConsentBody =>
-      'Se utilizan Google Analytics y Firebase Crashlytics para recopilar datos de uso anónimos e informes de errores. Esto garantiza la estabilidad de la aplicación y proporciona información sobre su uso. Estos ajustes pueden cambiarse en cualquier momento.';
-
-  @override
   String get accept => 'Aceptar';
 
   @override
   String get decline => 'Rechazar';
 
   @override
+  String get privacy => 'Privacidad';
+
+  @override
+  String get privacyOptionDescription =>
+      'Configura cómo se recopilan y utilizan los datos';
+
+  @override
+  String get privacyIntroduction =>
+      'Elija qué datos se pueden recopilar para ayudar a mejorar la aplicación';
+
+  @override
   String get privacyAssurance =>
       'La privacidad es una prioridad. Nunca se recopilan nombres, correos electrónicos, montos de transacciones ni ningún dato que pueda identificar al usuario. Todos los informes son estrictamente anónimos.';
+
+  @override
+  String get essentialTitle => 'Esencial';
+
+  @override
+  String get essentialDescription =>
+      'Datos necesarios para analizar la estabilidad de la aplicación';
+
+  @override
+  String get analyticsTitle => 'Análisis';
+
+  @override
+  String get analyticsDescription =>
+      'Datos necesarios para mejorar la experiencia y planificar nuevas funciones futuras';
+
+  @override
+  String get crashTest => 'Prueba de Fallo (Solo Debug)';
 
   @override
   String get privacyAssuranceLabel => 'Garantía de Privacidad';

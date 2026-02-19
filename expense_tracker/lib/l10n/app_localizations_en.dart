@@ -398,32 +398,42 @@ class AppLocalizationsEn extends AppLocalizations {
   String get includeInReports => 'Include in reports';
 
   @override
-  String get analytics => 'Analytics & Stability';
-
-  @override
-  String get analyticsOptionDescription =>
-      'Configure how data is collected and used';
-
-  @override
-  String get analyticsDescription =>
-      'Anonymous data collection and crash reporting facilitate the improvement of app stability. No transaction amounts or personal information are tracked.';
-
-  @override
-  String get analyticsConsentTitle => 'Support App Improvement?';
-
-  @override
-  String get analyticsConsentBody =>
-      'Google Analytics and Firebase Crashlytics are used to collect anonymous usage data and crash reports. This ensures the app\'s stability and provides insights into its usage. These settings can be changed anytime.';
-
-  @override
   String get accept => 'Accept';
 
   @override
   String get decline => 'Decline';
 
   @override
+  String get privacy => 'Privacy';
+
+  @override
+  String get privacyOptionDescription =>
+      'Configure how data is collected and used';
+
+  @override
+  String get privacyIntroduction =>
+      'Choose which data can be collected to help improve the app and ensure its stability.';
+
+  @override
   String get privacyAssurance =>
       'Privacy is a priority. Names, emails, transaction amounts, or any data that could identify the user are never collected. All reports are strictly anonymous.';
+
+  @override
+  String get essentialTitle => 'Essential';
+
+  @override
+  String get essentialDescription =>
+      'Data needed to analyze the stability of the app';
+
+  @override
+  String get analyticsTitle => 'Analytics';
+
+  @override
+  String get analyticsDescription =>
+      'Data needed to improve the experience and to plan future new features';
+
+  @override
+  String get crashTest => 'Crash Test (Debug Only)';
 
   @override
   String get privacyAssuranceLabel => 'Privacy Assurance';

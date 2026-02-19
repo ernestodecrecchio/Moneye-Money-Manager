@@ -24,7 +24,7 @@ import 'package:expense_tracker/presentation/pages/new_edit_transaction_flow/new
 import 'package:expense_tracker/presentation/pages/options_page/currency_page/currency_page.dart';
 import 'package:expense_tracker/presentation/pages/options_page/language_page/languages_list_page.dart';
 import 'package:expense_tracker/presentation/pages/options_page/notification_page/notification_page.dart';
-import 'package:expense_tracker/presentation/pages/options_page/diagnostics_page/diagnostics_settings_page.dart';
+import 'package:expense_tracker/presentation/pages/options_page/privacy_page/privacy_settings_page.dart';
 import 'package:expense_tracker/presentation/pages/tab_bar_page.dart';
 import 'package:expense_tracker/application/common/notifiers/analytics_consent_provider.dart';
 import 'package:expense_tracker/style.dart';
@@ -48,6 +48,9 @@ Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await Firebase.initializeApp();
+
+  // Explicitly enable Crashlytics for app stability diagnostics
+  await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(true);
 
   // Pass all uncaught "fatal" errors from the framework to Crashlytics
   FlutterError.onError = (errorDetails) {
@@ -232,8 +235,8 @@ class MyApp extends r.ConsumerWidget {
           AboutPage.routeName: (context) => const AboutPage(),
           UpdateInfoPage.routeName: (context) => const UpdateInfoPage(),
           UpdateHistoryPage.routeName: (context) => const UpdateHistoryPage(),
-          DiagnosticsSettingsPage.routeName: (context) =>
-              const DiagnosticsSettingsPage(),
+          PrivacySettingsPage.routeName: (context) =>
+              const PrivacySettingsPage(),
         },
         onGenerateRoute: (settings) {
           switch (settings.name) {

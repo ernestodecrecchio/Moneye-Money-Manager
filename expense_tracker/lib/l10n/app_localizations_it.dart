@@ -399,32 +399,42 @@ class AppLocalizationsIt extends AppLocalizations {
   String get includeInReports => 'Includi nei rapporti';
 
   @override
-  String get analytics => 'Analisi e Stabilità';
-
-  @override
-  String get analyticsOptionDescription =>
-      'Configura come i dati vengono raccolti e utilizzati';
-
-  @override
-  String get analyticsDescription =>
-      'La raccolta di dati anonimi e la segnalazione dei crash favoriscono il miglioramento della stabilità dell’app. Non vengono tracciati importi delle transazioni né informazioni personali.';
-
-  @override
-  String get analyticsConsentTitle => 'Supporta il miglioramento dell\'app?';
-
-  @override
-  String get analyticsConsentBody =>
-      'Vengono utilizzati Google Analytics e Firebase Crashlytics per raccogliere dati anonimi sull\'utilizzo e segnalazioni di crash. Ciò garantisce la stabilità dell\'app e fornisce informazioni sul suo utilizzo. Queste impostazioni possono essere modificate in qualsiasi momento.';
-
-  @override
   String get accept => 'Accetta';
 
   @override
   String get decline => 'Rifiuta';
 
   @override
+  String get privacy => 'Privacy';
+
+  @override
+  String get privacyOptionDescription =>
+      'Configura come i dati vengono raccolti e utilizzati';
+
+  @override
+  String get privacyIntroduction =>
+      'Scegli quali dati possono essere raccolti per aiutare a migliorare l\'app e garantirne la stabilità.';
+
+  @override
   String get privacyAssurance =>
       'La privacy è una priorità. Nomi, email, importi delle transazioni o dati identificativi non vengono mai raccolti. Tutte le segnalazioni sono rigorosamente anonime.';
+
+  @override
+  String get essentialTitle => 'Essenziale';
+
+  @override
+  String get essentialDescription =>
+      'Dati necessari per analizzare la stabilità dell\'app';
+
+  @override
+  String get analyticsTitle => 'Analytics';
+
+  @override
+  String get analyticsDescription =>
+      'Dati necessari per migliorare l\'esperienza e pianificare nuove funzionalità future';
+
+  @override
+  String get crashTest => 'Test di Crash (Solo Debug)';
 
   @override
   String get privacyAssuranceLabel => 'Garanzia di Privacy';
