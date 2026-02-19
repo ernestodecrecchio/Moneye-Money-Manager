@@ -129,7 +129,7 @@ Future main() async {
 
   // VERSION CHECK
   final packageInfo = await PackageInfo.fromPlatform();
-  final currentVersion = '${packageInfo.version}+${packageInfo.buildNumber}';
+  final currentVersion = packageInfo.version;
   final lastSeenVersion = prefs.getString('last_seen_version');
   final showWhatsNew =
       lastSeenVersion != currentVersion && lastSeenVersion != null;

@@ -62,7 +62,7 @@ class _UpdateInfoPageState extends ConsumerState<UpdateInfoPage>
         versionToShow = widget.version!;
       } else {
         final packageInfo = await PackageInfo.fromPlatform();
-        versionToShow = '${packageInfo.version}+${packageInfo.buildNumber}';
+        versionToShow = packageInfo.version;
       }
 
       setState(() {
@@ -85,8 +85,7 @@ class _UpdateInfoPageState extends ConsumerState<UpdateInfoPage>
 
     final prefs = await SharedPreferences.getInstance();
     final packageInfo = await PackageInfo.fromPlatform();
-    await prefs.setString('last_seen_version',
-        '${packageInfo.version}+${packageInfo.buildNumber}');
+    await prefs.setString('last_seen_version', packageInfo.version);
     if (mounted) {
       Navigator.of(context).pushReplacementNamed('/');
     }
