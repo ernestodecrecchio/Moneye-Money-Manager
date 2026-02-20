@@ -9,7 +9,7 @@ class AnalyticsManager {
   static final FirebaseAnalytics _analytics = FirebaseAnalytics.instance;
   static bool _enabled = false;
 
-  static FirebaseAnalyticsObserver get observer =>
+  static final FirebaseAnalyticsObserver observer =
       FirebaseAnalyticsObserver(analytics: _analytics);
 
   /// Shows the analytics consent dialog.
@@ -51,6 +51,7 @@ class AnalyticsManager {
     Map<String, Object>? parameters,
   }) async {
     if (!_enabled) return;
+
     await _analytics.logEvent(
       name: name,
       parameters: parameters,
