@@ -19,8 +19,6 @@ class CategoryListTile extends StatefulWidget {
 }
 
 class _CategoryListTileState extends State<CategoryListTile> {
-  bool isSelected = true;
-
   @override
   Widget build(BuildContext context) {
     return Opacity(
@@ -38,6 +36,12 @@ class _CategoryListTileState extends State<CategoryListTile> {
               fontSize: 20, color: Colors.white, fontWeight: FontWeight.w500),
         ),
         leading: _buildCategoryIcon(widget.category),
+        trailing: widget.selected
+            ? Icon(
+                Icons.check_circle,
+                color: Colors.white,
+              )
+            : null,
       ),
     );
   }

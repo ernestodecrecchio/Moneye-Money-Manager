@@ -36,6 +36,12 @@ class _AccountListTileState extends State<AccountListTile> {
               fontSize: 20, color: Colors.white, fontWeight: FontWeight.w500),
         ),
         leading: _buildAccountIcon(widget.account),
+        trailing: widget.selected
+            ? Icon(
+                Icons.check_circle,
+                color: Colors.white,
+              )
+            : null,
       ),
     );
   }
