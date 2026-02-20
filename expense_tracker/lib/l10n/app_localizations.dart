@@ -150,17 +150,29 @@ abstract class AppLocalizations {
   /// **'The amount is mandatory'**
   String get amountIsMandatory;
 
-  /// No description provided for @analyticsDescription.
+  /// No description provided for @analyticsAlertDescription.
   ///
   /// In en, this message translates to:
-  /// **'Data needed to improve the experience and to plan future new features'**
-  String get analyticsDescription;
+  /// **'Your privacy is important.\nIf you accept, anonymous usage data will be collected to understand how features are used and how to improve the app.\nNo personal data, location data, transaction details, account information, or other sensitive information will be collected.\n\nThis option can be disabled at any time in Settings.'**
+  String get analyticsAlertDescription;
 
-  /// No description provided for @analyticsTitle.
+  /// No description provided for @analyticsAlertTitle.
   ///
   /// In en, this message translates to:
-  /// **'Analytics'**
-  String get analyticsTitle;
+  /// **'Help improve the app'**
+  String get analyticsAlertTitle;
+
+  /// No description provided for @analyticsOptionDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Anonymous data about feature usage used to plan future developments.\nNo personal data is collected.'**
+  String get analyticsOptionDescription;
+
+  /// No description provided for @analyticsOptionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Anonymous usage statistics'**
+  String get analyticsOptionTitle;
 
   /// No description provided for @applyChanges.
   ///
@@ -414,17 +426,17 @@ abstract class AppLocalizations {
   /// **'Entertainment'**
   String get entertainment;
 
-  /// No description provided for @essentialDescription.
+  /// No description provided for @essentialDataOptionDescription.
   ///
   /// In en, this message translates to:
-  /// **'Data needed to analyze the stability of the app'**
-  String get essentialDescription;
+  /// **'Anonymous data about crashes and errors used to ensure the proper functioning of the app.'**
+  String get essentialDataOptionDescription;
 
-  /// No description provided for @essentialTitle.
+  /// No description provided for @essentialDataOptionTitle.
   ///
   /// In en, this message translates to:
-  /// **'Essential'**
-  String get essentialTitle;
+  /// **'Essential technical data'**
+  String get essentialDataOptionTitle;
 
   /// No description provided for @expense.
   ///

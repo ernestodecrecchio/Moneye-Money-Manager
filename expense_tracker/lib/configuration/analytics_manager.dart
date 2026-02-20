@@ -24,8 +24,8 @@ class AnalyticsManager {
       context: context,
       barrierDismissible: false,
       builder: (context) => AlertDialog.adaptive(
-        title: Text(appLocalizations.analyticsTitle),
-        content: Text(appLocalizations.analyticsDescription),
+        title: Text(appLocalizations.analyticsAlertTitle),
+        content: Text(appLocalizations.analyticsAlertDescription),
         actions: [
           TextButton(
             onPressed: () {

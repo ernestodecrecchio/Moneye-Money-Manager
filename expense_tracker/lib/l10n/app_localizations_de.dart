@@ -34,11 +34,18 @@ class AppLocalizationsDe extends AppLocalizations {
   String get amountIsMandatory => 'Der Betrag ist obligatorisch';
 
   @override
-  String get analyticsDescription =>
-      'Daten zur Verbesserung des Erlebnisses und zur Planung zukünftiger neuer Funktionen';
+  String get analyticsAlertDescription =>
+      'Deine Privatsphäre ist wichtig.\nWenn du zustimmst, werden anonyme Nutzungsdaten erfasst, um zu verstehen, wie Funktionen verwendet werden und wie die App verbessert werden kann.\nEs werden keine personenbezogenen Daten, Standortdaten, Transaktionsdetails, Kontoinformationen oder andere sensible Daten erfasst.\n\nDiese Option kann jederzeit in den Einstellungen deaktiviert werden.';
 
   @override
-  String get analyticsTitle => 'Analyse';
+  String get analyticsAlertTitle => 'Hilf mit, die App zu verbessern';
+
+  @override
+  String get analyticsOptionDescription =>
+      'Anonyme Daten zur Nutzung von Funktionen, die zur Planung zukünftiger Entwicklungen verwendet werden.\nEs werden keine personenbezogenen Daten erfasst.';
+
+  @override
+  String get analyticsOptionTitle => 'Anonyme Nutzungsstatistiken';
 
   @override
   String get applyChanges => 'Änderungen anwenden';
@@ -175,10 +182,11 @@ class AppLocalizationsDe extends AppLocalizations {
   String get entertainment => 'Unterhaltung';
 
   @override
-  String get essentialDescription => 'Daten zur Analyse der Stabilität der App';
+  String get essentialDataOptionDescription =>
+      'Anonyme Daten zu Abstürzen und Fehlern, die verwendet werden, um die ordnungsgemäße Funktion der App sicherzustellen.';
 
   @override
-  String get essentialTitle => 'Essenziell';
+  String get essentialDataOptionTitle => 'Wesentliche technische Daten';
 
   @override
   String get expense => 'Ausgabe';

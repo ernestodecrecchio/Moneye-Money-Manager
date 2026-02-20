@@ -37,8 +37,8 @@ class PrivacySettingsPage extends ConsumerWidget {
           const SizedBox(height: 8),
           _buildSettingsSection(
             context,
-            title: appLocalizations.essentialTitle,
-            description: appLocalizations.essentialDescription,
+            title: appLocalizations.essentialDataOptionTitle,
+            description: appLocalizations.essentialDataOptionDescription,
             value: true,
             isLocked: true,
             onChanged: null,
@@ -46,8 +46,8 @@ class PrivacySettingsPage extends ConsumerWidget {
           const Divider(height: 1),
           _buildSettingsSection(
             context,
-            title: appLocalizations.analyticsTitle,
-            description: appLocalizations.analyticsDescription,
+            title: appLocalizations.analyticsOptionTitle,
+            description: appLocalizations.analyticsOptionDescription,
             value: consent ?? false,
             isLocked: false,
             onChanged: (value) {
