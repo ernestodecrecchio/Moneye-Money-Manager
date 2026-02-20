@@ -117,7 +117,7 @@ class _AccountSelectorContentState
         style: const TextStyle(fontSize: 18),
       ),
       onTap: () {
-        Navigator.of(context).pushNamed(NewAccountPage.routeName);
+        Navigator.of(context).pushNamed(NewEditAccountPage.routeName);
       },
     );
   }

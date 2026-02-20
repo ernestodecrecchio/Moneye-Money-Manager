@@ -155,7 +155,7 @@ class AccountSection extends ConsumerWidget {
                                           MaterialTapTargetSize.shrinkWrap,
                                       alignment: Alignment.center),
                                   onPressed: () => Navigator.of(context)
-                                      .pushNamed(NewAccountPage.routeName),
+                                      .pushNamed(NewEditAccountPage.routeName),
                                   child: Text(appLocalizations.addOne)),
                             ],
                           ),

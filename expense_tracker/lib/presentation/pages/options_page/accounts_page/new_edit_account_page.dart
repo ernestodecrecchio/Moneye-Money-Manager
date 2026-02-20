@@ -13,21 +13,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class NewAccountPage extends ConsumerStatefulWidget {
+class NewEditAccountPage extends ConsumerStatefulWidget {
   static const routeName = '/newEditAccountPage';
 
   final Account? initialAccountSettings;
 
-  const NewAccountPage({
+  const NewEditAccountPage({
     super.key,
     this.initialAccountSettings,
   });
 
   @override
-  ConsumerState<NewAccountPage> createState() => _NewAccountPageState();
+  ConsumerState<NewEditAccountPage> createState() => _NewAccountPageState();
 }
 
-class _NewAccountPageState extends ConsumerState<NewAccountPage> {
+class _NewAccountPageState extends ConsumerState<NewEditAccountPage> {
   final _formKey = GlobalKey<FormState>();
 
   TextEditingController titleInput = TextEditingController();

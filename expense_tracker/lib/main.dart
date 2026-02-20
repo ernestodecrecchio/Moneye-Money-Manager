@@ -286,13 +286,13 @@ class MyApp extends r.ConsumerWidget {
                   ),
                 );
               }
-            case NewAccountPage.routeName:
+            case NewEditAccountPage.routeName:
               {
                 final args = settings.arguments as Account?;
 
                 return MaterialPageRoute(
                   settings: settings,
-                  builder: (context) => NewAccountPage(
+                  builder: (context) => NewEditAccountPage(
                     initialAccountSettings: args,
                   ),
                 );

@@ -226,7 +226,7 @@ class _AccountDetailPageState extends ConsumerState<AccountDetailPage>
         style: const TextStyle(color: Colors.white),
       ),
       onPressed: () => Navigator.of(context).pushNamed(
-        NewAccountPage.routeName,
+        NewEditAccountPage.routeName,
         arguments: widget.account,
       ),
     );

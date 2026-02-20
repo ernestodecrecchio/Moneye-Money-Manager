@@ -25,7 +25,7 @@ class AccountListCell extends ConsumerWidget {
       endActionPane: _buildDeleteActionPane(context, ref, appLocalizations),
       child: ListTile(
         onTap: () => Navigator.of(context)
-            .pushNamed(NewAccountPage.routeName, arguments: account),
+            .pushNamed(NewEditAccountPage.routeName, arguments: account),
         title: Text(
           account.name,
           style: const TextStyle(fontSize: 16),

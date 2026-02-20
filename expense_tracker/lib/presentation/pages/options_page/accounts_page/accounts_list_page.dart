@@ -65,7 +65,8 @@ class _AccountsListPageState extends ConsumerState<AccountsListPage> {
       backgroundColor: CustomColors.darkBlue,
       shape: const CircleBorder(),
       child: const Icon(Icons.add),
-      onPressed: () => Navigator.pushNamed(context, NewAccountPage.routeName),
+      onPressed: () =>
+          Navigator.pushNamed(context, NewEditAccountPage.routeName),
     );
   }
 }
