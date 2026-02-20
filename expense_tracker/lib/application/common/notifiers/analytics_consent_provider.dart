@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:expense_tracker/configuration/analytics_manager.dart';
@@ -12,8 +13,9 @@ class AnalyticsConsentNotifier extends Notifier<bool?> {
 
   void setFromLocalStorage(bool? localStorageValue) {
     state = localStorageValue;
-    // Disable collection if consent is null (undecided) or false (refused)
-    AnalyticsManager.setAnalyticsCollectionEnabled(localStorageValue ?? false);
+    // Disable collection if debug mode or consent is null (undecided) or false (refused)
+    AnalyticsManager.setAnalyticsCollectionEnabled(
+        kDebugMode ? false : localStorageValue ?? false);
   }
 
   Future<void> updateConsent(bool consent) async {
