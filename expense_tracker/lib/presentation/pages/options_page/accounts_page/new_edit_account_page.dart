@@ -259,8 +259,5 @@ class _NewAccountPageState extends ConsumerState<NewEditAccountPage> {
     await ref
         .read(accountMutationProvider.notifier)
         .updateAccount(widget.initialAccountSettings!, modifiedAccount);
-
-    if (!mounted) return;
-    Navigator.of(context).pop();
   }
 }
