@@ -131,6 +131,25 @@ class _LanguagesListPageState extends ConsumerState<LanguagesListPage> {
               ? const Icon(Icons.check)
               : null,
         ),
+        ListTile(
+          title: const Text('Français'),
+          onTap: () => ref
+              .read(localeProvider.notifier)
+              .updateLocale(const Locale('fr')),
+          leading: Container(
+            clipBehavior: Clip.antiAlias,
+            height: 30,
+            width: 30,
+            decoration: const BoxDecoration(shape: BoxShape.circle),
+            child: VectorGraphic(
+              loader: AssetBytesLoader('assets/flags/France.svg'),
+              fit: BoxFit.cover,
+            ),
+          ),
+          trailing: currentLocale?.languageCode == 'fr'
+              ? const Icon(Icons.check)
+              : null,
+        ),
       ],
     );
   }

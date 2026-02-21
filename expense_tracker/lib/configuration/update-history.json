@@ -5,13 +5,15 @@
         "en": "Contact the Developer",
         "it": "Contatta lo Sviluppatore",
         "es": "Contacta al Desarrollador",
-        "de": "Entwickler kontaktieren"
+        "de": "Entwickler kontaktieren",
+        "fr": "Contacter le développeur"
       },
       "description": {
         "en": "You can now contact the developer directly to suggest new features or report bugs and issues.",
         "it": "Ora puoi contattare direttamente lo sviluppatore per suggerire nuove funzionalità o segnalare bug e problemi.",
         "es": "Ahora puedes contactar directamente al desarrollador para sugerir nuevas funciones o informar errores y problemas.",
-        "de": "Du kannst jetzt den Entwickler direkt kontaktieren, um neue Funktionen vorzuschlagen oder Fehler und Probleme zu melden."
+        "de": "Du kannst jetzt den Entwickler direkt kontaktieren, um neue Funktionen vorzuschlagen oder Fehler und Probleme zu melden.",
+        "fr": "Vous pouvez désormais contacter directement le développeur pour suggérer de nouvelles fonctionnalités ou signaler des bugs et des problèmes."
       },
       "icon": "contact_support"
     },
@@ -20,13 +22,15 @@
         "en": "Improved Stability",
         "it": "Stabilità Migliorata",
         "es": "Estabilidad Mejorada",
-        "de": "Verbesserte Stabilität"
+        "de": "Verbesserte Stabilität",
+        "fr": "Stabilité Améliorée"
       },
       "description": {
         "en": "A new crash monitoring system has been introduced to help detect and fix issues faster, making the app more stable and reliable.",
         "it": "È stato introdotto un nuovo sistema di monitoraggio dei crash per individuare e risolvere i problemi più rapidamente, rendendo l'app più stabile e affidabile.",
         "es": "Se ha introducido un nuevo sistema de monitoreo de fallos para detectar y solucionar problemas más rápidamente, haciendo la app más estable y confiable.",
-        "de": "Ein neues Crash-Überwachungssystem wurde eingeführt, um Probleme schneller zu erkennen und zu beheben, wodurch die App stabiler und zuverlässiger wird."
+        "de": "Ein neues Crash-Überwachungssystem wurde eingeführt, um Probleme schneller zu erkennen und zu beheben, wodurch die App stabiler und zuverlässiger wird.",
+        "fr": "Un nouveau système de surveillance des crashs a été introduit afin de détecter et corriger les problèmes plus rapidement, rendant l'application plus stable et fiable."
       },
       "icon": "shield_check"
     },
@@ -35,15 +39,34 @@
         "en": "More Icons",
         "it": "Nuove Icone",
         "es": "Más Iconos",
-        "de": "Neue Icons"
+        "de": "Neue Icons",
+        "fr": "Nouvelles Icônes"
       },
       "description": {
         "en": "Additional icons are now available to give you even more ways to personalize your accounts and categories.",
         "it": "Sono disponibili nuove icone per offrirti ancora più possibilità di personalizzare conti e categorie.",
         "es": "Nuevos iconos están disponibles para ofrecerte aún más formas de personalizar cuentas y categorías.",
-        "de": "Neue Icons sind verfügbar, um dir noch mehr Möglichkeiten zur Personalisierung von Konten und Kategorien zu bieten."
+        "de": "Neue Icons sind verfügbar, um dir noch mehr Möglichkeiten zur Personalisierung von Konten und Kategorien zu bieten.",
+        "fr": "De nouvelles icônes sont désormais disponibles pour vous offrir encore plus de possibilités de personnaliser vos comptes et catégories."
       },
       "icon": "palette_icons"
+    },
+    {
+      "title": {
+        "en": "French Language Support",
+        "it": "Supporto alla Lingua Francese",
+        "es": "Compatibilidad con el Idioma Francés",
+        "de": "Unterstützung für Französisch",
+        "fr": "Support de la Langue Française"
+      },
+      "description": {
+        "en": "The app is now available in French. You can switch to French from the language settings.",
+        "it": "L'app è ora disponibile in francese. Puoi passare al francese dalle impostazioni della lingua.",
+        "es": "La app ahora está disponible en francés. Puedes cambiar al francés desde la configuración de idioma.",
+        "de": "Die App ist jetzt auch auf Französisch verfügbar. Du kannst die Sprache in den Einstellungen ändern.",
+        "fr": "L'application est désormais disponible en français. Vous pouvez changer la langue dans les paramètres."
+      },
+      "icon": "language"
     }
   ],
   "1.0.2": [

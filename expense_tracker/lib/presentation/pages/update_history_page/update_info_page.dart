@@ -224,7 +224,9 @@ class _UpdateInfoPageState extends ConsumerState<UpdateInfoPage>
       case 'contact_support':
         return Icons.alternate_email_rounded;
       case 'shield_check':
-        return Icons.security_outlined;
+        return Icons.security_rounded;
+      case 'language':
+        return Icons.language_rounded;
       default:
         return Icons.fiber_new_rounded;
     }
