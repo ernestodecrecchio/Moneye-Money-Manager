@@ -22,6 +22,12 @@
             "value" : "Gasto"
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dépense"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -52,13 +58,20 @@
             "value" : "-123,45 €"
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "-123,45 €"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "-123,45 €"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "Income" : {
       "comment" : "Button label to add an income transaction",
@@ -79,6 +92,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ingreso"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Revenu"
           }
         },
         "it" : {
@@ -117,7 +136,8 @@
             "value" : "123,45 €"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "MonthlyExpensesSummaryWidgetDescription" : {
       "localizations" : {
@@ -137,6 +157,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Lleva un registro de tus gastos mensuales"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Suivez vos dépenses mensuelles"
           }
         },
         "it" : {
@@ -167,9 +193,15 @@
             "value" : "Resumen de gastos mensuales"
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Résumé des dépenses mensuelles"
+          }
+        },
         "it" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Resoconto delle spese mensile"
           }
         }
@@ -195,6 +227,12 @@
             "value" : "Lleva un registro de tus ingresos y gastos mensuales"
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Suivez vos revenus et dépenses mensuels"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -207,7 +245,7 @@
       "localizations" : {
         "de" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Monatliche Zusammenfassung"
           }
         },
@@ -219,13 +257,19 @@
         },
         "es" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Resumen Mensual"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Résumé mensuel"
           }
         },
         "it" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Riepilogo mensile"
           }
         }
@@ -252,6 +296,12 @@
             "value" : "Añade transacciones de ingreso y gasto rápidamente"
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ajoutez rapidement des transactions de revenu et de dépense"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -265,7 +315,7 @@
       "localizations" : {
         "de" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Schnelltasten"
           }
         },
@@ -277,13 +327,19 @@
         },
         "es" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Botones de acceso rápido"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Boutons de raccourci"
           }
         },
         "it" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Tasti Rapidi"
           }
         }
@@ -307,6 +363,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Este mes"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ce mois-ci"
           }
         },
         "it" : {
