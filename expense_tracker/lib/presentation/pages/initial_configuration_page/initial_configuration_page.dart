@@ -370,23 +370,21 @@ class _InitialConfigurationPageState
   }
 
   Future onConfigurationEnd() async {
+    final currencyNotifier = ref.read(currentCurrencyProvider.notifier);
+    final accountNotifier = ref.read(accountMutationProvider.notifier);
+    final categoryNotifier = ref.read(categoryMutationProvider.notifier);
+
     if (selectedCurrency != null) {
-      ref
-          .read(currentCurrencyProvider.notifier)
-          .updateCurrency(selectedCurrency!);
+      currencyNotifier.updateCurrency(selectedCurrency!);
     }
 
-    await Future.forEach(
-        selectedAccounts,
-        (account) async => await ref
-            .read(accountMutationProvider.notifier)
-            .addAccount(account));
+    for (var account in selectedAccounts) {
+      await accountNotifier.addAccount(account);
+    }
 
-    await Future.forEach(
-        selectedCategory,
-        (category) async => await ref
-            .read(categoryMutationProvider.notifier)
-            .addCategory(category));
+    for (var category in selectedCategory) {
+      await categoryNotifier.addCategory(category);
+    }
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
