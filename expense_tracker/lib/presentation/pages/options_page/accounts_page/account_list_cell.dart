@@ -1,10 +1,9 @@
-import 'dart:io';
 import 'package:expense_tracker/application/accounts/notifiers/mutations/account_mutation_notifier.dart';
 import 'package:expense_tracker/application/common/notifiers/app_localizations_provider.dart';
 import 'package:expense_tracker/l10n/app_localizations.dart';
 import 'package:expense_tracker/domain/models/account.dart';
+import 'package:expense_tracker/presentation/pages/common/dialogs.dart';
 import 'package:expense_tracker/presentation/pages/options_page/accounts_page/new_edit_account_page.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -41,7 +40,7 @@ class AccountListCell extends ConsumerWidget {
     return ActionPane(
       motion: const ScrollMotion(),
       dismissible: DismissiblePane(
-        confirmDismiss: () => showDeleteAlert(context, appLocalizations),
+        confirmDismiss: () => showDeleteAccountAlert(context, appLocalizations),
         closeOnCancel: true,
         onDismissed: () async => await ref
             .read(accountMutationProvider.notifier)
@@ -62,7 +61,7 @@ class AccountListCell extends ConsumerWidget {
       label: appLocalizations.delete,
       onPressed: (_) async {
         final isDeleteConfirmed =
-            await showDeleteAlert(context, appLocalizations);
+            await showDeleteAccountAlert(context, appLocalizations);
 
         if (context.mounted && isDeleteConfirmed) {
           await ref
@@ -71,83 +70,6 @@ class AccountListCell extends ConsumerWidget {
         }
       },
     );
-  }
-
-  Future<bool> showDeleteAlert(
-      BuildContext context, AppLocalizations appLocalizations) async {
-    bool isDeleteConfirmed = false;
-
-    if (Platform.isAndroid) {
-      await showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            title: Text(
-              appLocalizations.areYouSure,
-            ),
-            content: Text(
-              appLocalizations.deleteAccountAlertBody,
-            ),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  isDeleteConfirmed = false;
-                  Navigator.of(context).pop();
-                },
-                child: Text(
-                  appLocalizations.cancel,
-                ),
-              ),
-              TextButton(
-                onPressed: () {
-                  isDeleteConfirmed = true;
-                  Navigator.of(context).pop();
-                },
-                child: Text(
-                  appLocalizations.delete,
-                ),
-              )
-            ],
-          );
-        },
-      );
-    } else {
-      await showCupertinoModalPopup(
-        context: context,
-        builder: (BuildContext context) => CupertinoAlertDialog(
-          title: Text(
-            appLocalizations.areYouSure,
-          ),
-          content: Text(
-            appLocalizations.deleteAccountAlertBody,
-          ),
-          actions: <CupertinoDialogAction>[
-            CupertinoDialogAction(
-              isDefaultAction: true,
-              onPressed: () {
-                isDeleteConfirmed = false;
-                Navigator.pop(context);
-              },
-              child: Text(
-                appLocalizations.cancel,
-              ),
-            ),
-            CupertinoDialogAction(
-              isDestructiveAction: true,
-              onPressed: () {
-                isDeleteConfirmed = true;
-                Navigator.pop(context);
-              },
-              child: Text(
-                appLocalizations.delete,
-              ),
-            ),
-          ],
-        ),
-      );
-    }
-
-    return isDeleteConfirmed;
   }
 
   Container _buildAccountIcon(Account account) {

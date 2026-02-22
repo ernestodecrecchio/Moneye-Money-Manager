@@ -4,6 +4,7 @@ import 'package:expense_tracker/l10n/app_localizations.dart';
 import 'package:expense_tracker/domain/models/category.dart';
 import 'package:expense_tracker/presentation/pages/common/custom_elevated_button.dart';
 import 'package:expense_tracker/presentation/pages/common/custom_text_field.dart';
+import 'package:expense_tracker/presentation/pages/common/dialogs.dart';
 import 'package:expense_tracker/presentation/pages/common/inline_color_picker.dart';
 import 'package:expense_tracker/presentation/pages/common/inline_icon_picker.dart';
 import 'package:expense_tracker/style.dart';
@@ -63,11 +64,25 @@ class _NewEditCategoryPageState extends ConsumerState<NewEditCategoryPage> {
     final appLocalizations = ref.watch(appLocalizationsProvider);
     final isLoading = ref.watch(categoryMutationProvider).isLoading;
 
+    final List<Widget> actions = [];
+
+    if (widget.initialCategorySettings != null) {
+      final cateogry = widget.initialCategorySettings!;
+      actions.add(_buildDeleteAction(
+        context,
+        appLocalizations,
+        cateogry,
+      ));
+    }
+
     return Scaffold(
       appBar: AppBar(
-        title: Text(editMode
-            ? appLocalizations.editCategory
-            : appLocalizations.newCategory),
+        title: Text(
+          editMode
+              ? appLocalizations.editCategory
+              : appLocalizations.newCategory,
+        ),
+        actions: actions,
       ),
       body: SafeArea(
         minimum: const EdgeInsets.symmetric(horizontal: 17),
@@ -223,5 +238,31 @@ class _NewEditCategoryPageState extends ConsumerState<NewEditCategoryPage> {
           widget.initialCategorySettings!,
           modifiedCategory,
         );
+  }
+
+  Widget _buildDeleteAction(BuildContext context,
+      AppLocalizations appLocalizations, Category category) {
+    return TextButton(
+      child: Text(
+        appLocalizations.delete,
+        style: const TextStyle(color: Colors.white),
+      ),
+      onPressed: () async {
+        final navigator = Navigator.of(context);
+
+        final confirmed =
+            await showDeleteCategoryAlert(context, appLocalizations);
+
+        if (!mounted || !confirmed) return;
+
+        await ref
+            .read(categoryMutationProvider.notifier)
+            .deleteCategory(category);
+
+        if (!mounted) return;
+
+        navigator.pop();
+      },
+    );
   }
 }

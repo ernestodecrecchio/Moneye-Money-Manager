@@ -6,6 +6,7 @@ import 'package:expense_tracker/application/accounts/notifiers/mutations/account
 import 'package:expense_tracker/application/transactions/notifiers/mutations/transaction_mutation_notifier.dart';
 import 'package:expense_tracker/presentation/pages/common/custom_elevated_button.dart';
 import 'package:expense_tracker/presentation/pages/common/custom_text_field.dart';
+import 'package:expense_tracker/presentation/pages/common/dialogs.dart';
 import 'package:expense_tracker/presentation/pages/common/inline_color_picker.dart';
 import 'package:expense_tracker/presentation/pages/common/inline_icon_picker.dart';
 import 'package:expense_tracker/style.dart';
@@ -66,11 +67,23 @@ class _NewAccountPageState extends ConsumerState<NewEditAccountPage> {
     final appLocalizations = ref.watch(appLocalizationsProvider);
     final isLoading = ref.watch(accountMutationProvider).isLoading;
 
+    final List<Widget> actions = [];
+
+    if (widget.initialAccountSettings != null) {
+      final account = widget.initialAccountSettings!;
+      actions.add(_buildDeleteAction(
+        context,
+        appLocalizations,
+        account,
+      ));
+    }
+
     return Scaffold(
       appBar: AppBar(
-        title: Text(editMode
-            ? appLocalizations.editAccount
-            : appLocalizations.newAccount),
+        title: Text(
+          editMode ? appLocalizations.editAccount : appLocalizations.newAccount,
+        ),
+        actions: actions,
       ),
       body: SafeArea(
         minimum: const EdgeInsets.symmetric(horizontal: 17),
@@ -259,5 +272,29 @@ class _NewAccountPageState extends ConsumerState<NewEditAccountPage> {
     await ref
         .read(accountMutationProvider.notifier)
         .updateAccount(widget.initialAccountSettings!, modifiedAccount);
+  }
+
+  Widget _buildDeleteAction(BuildContext context,
+      AppLocalizations appLocalizations, Account account) {
+    return TextButton(
+      child: Text(
+        appLocalizations.delete,
+        style: const TextStyle(color: Colors.white),
+      ),
+      onPressed: () async {
+        final navigator = Navigator.of(context);
+
+        final confirmed =
+            await showDeleteAccountAlert(context, appLocalizations);
+
+        if (!mounted || !confirmed) return;
+
+        await ref.read(accountMutationProvider.notifier).deleteAccount(account);
+
+        if (!mounted) return;
+
+        navigator.pop();
+      },
+    );
   }
 }
