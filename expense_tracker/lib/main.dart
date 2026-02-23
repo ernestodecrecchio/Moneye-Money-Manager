@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 import 'package:expense_tracker/configuration/notification_manager.dart';
 import 'package:expense_tracker/configuration/analytics_manager.dart';
@@ -131,8 +132,21 @@ Future main() async {
   final packageInfo = await PackageInfo.fromPlatform();
   final currentVersion = packageInfo.version;
   final lastSeenVersion = prefs.getString('last_seen_version');
-  final showWhatsNew =
-      lastSeenVersion != currentVersion && lastSeenVersion != null;
+
+  bool versionHasEntry = false;
+  try {
+    final jsonString =
+        await rootBundle.loadString('lib/configuration/update-history.json');
+    final Map<String, dynamic> data = jsonDecode(jsonString);
+    versionHasEntry = data.containsKey(currentVersion);
+  } catch (e) {
+    // If there's an error loading or parsing the JSON, we assume no entry exists
+    versionHasEntry = false;
+  }
+
+  final showWhatsNew = lastSeenVersion != currentVersion &&
+      lastSeenVersion != null &&
+      versionHasEntry;
 
   // First startup
   if (lastSeenVersion == null) {
