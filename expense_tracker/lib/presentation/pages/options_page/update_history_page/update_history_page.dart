@@ -3,7 +3,7 @@ import 'package:expense_tracker/application/common/notifiers/app_localizations_p
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:expense_tracker/style.dart';
-import 'package:expense_tracker/presentation/pages/update_history_page/update_info_page.dart';
+import 'package:expense_tracker/presentation/pages/options_page/update_history_page/update_info_page.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class UpdateHistoryPage extends ConsumerStatefulWidget {

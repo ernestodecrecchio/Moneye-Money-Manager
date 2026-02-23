@@ -70,8 +70,7 @@
             "value" : "-123,45 €"
           }
         }
-      },
-      "shouldTranslate" : false
+      }
     },
     "Income" : {
       "comment" : "Button label to add an income transaction",
@@ -130,14 +129,19 @@
             "value" : "123,45 €"
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "123,45 €"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "123,45 €"
           }
         }
-      },
-      "shouldTranslate" : false
+      }
     },
     "MonthlyExpensesSummaryWidgetDescription" : {
       "localizations" : {

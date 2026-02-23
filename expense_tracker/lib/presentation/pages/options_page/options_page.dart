@@ -11,7 +11,7 @@ import 'package:expense_tracker/presentation/pages/options_page/currency_page/cu
 import 'package:expense_tracker/presentation/pages/options_page/language_page/languages_list_page.dart';
 import 'package:expense_tracker/presentation/pages/options_page/privacy_page/privacy_settings_page.dart';
 import 'package:expense_tracker/presentation/pages/options_page/notification_page/notification_page.dart';
-import 'package:expense_tracker/presentation/pages/update_history_page/update_history_page.dart';
+import 'package:expense_tracker/presentation/pages/options_page/update_history_page/update_history_page.dart';
 import 'package:expense_tracker/presentation/pages/options_page/widgets/option_list_tile.dart';
 import 'package:expense_tracker/presentation/pages/options_page/contacts_page/contacts_page.dart';
 import 'package:flutter/material.dart';
