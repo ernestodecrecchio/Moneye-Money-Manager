@@ -293,7 +293,7 @@ class _NewAccountPageState extends ConsumerState<NewEditAccountPage> {
 
         if (!mounted) return;
 
-        navigator.pop();
+        navigator.pop('deleted');
       },
     );
   }

@@ -225,10 +225,16 @@ class _AccountDetailPageState extends ConsumerState<AccountDetailPage>
         appLocalizations.edit,
         style: const TextStyle(color: Colors.white),
       ),
-      onPressed: () => Navigator.of(context).pushNamed(
-        NewEditAccountPage.routeName,
-        arguments: widget.account,
-      ),
+      onPressed: () async {
+        final result = await Navigator.of(context).pushNamed(
+          NewEditAccountPage.routeName,
+          arguments: widget.account,
+        );
+
+        if (result == 'deleted' && context.mounted) {
+          Navigator.of(context).pop();
+        }
+      },
     );
   }
 
