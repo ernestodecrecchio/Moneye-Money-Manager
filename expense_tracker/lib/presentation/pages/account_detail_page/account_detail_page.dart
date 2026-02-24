@@ -453,7 +453,15 @@ class _ScrollableTabViewState extends ConsumerState<ScrollableTabView> {
 
   Widget _buildTransactionListSection(List<Transaction> transactionList) {
     return TransactionList(
-      transactionList: transactionList,
+      transactionsListParams: TransactionsListParams(
+        startDate: widget.startDate,
+        endDate: widget.endDate,
+        account: widget.account,
+        includeIncomes:
+            widget.transactionType == AccountDetailTransactionTypeMode.income,
+        includeExpenses:
+            widget.transactionType == AccountDetailTransactionTypeMode.expense,
+      ),
       topWidgetRef: ref,
     );
   }

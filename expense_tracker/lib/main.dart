@@ -269,7 +269,7 @@ class MyApp extends r.ConsumerWidget {
                   settings: settings,
                   builder: (context) => TransactionListForCategoryPage(
                     category: args.category,
-                    transactionList: args.transactionList,
+                    params: args.params,
                   ),
                 );
               }

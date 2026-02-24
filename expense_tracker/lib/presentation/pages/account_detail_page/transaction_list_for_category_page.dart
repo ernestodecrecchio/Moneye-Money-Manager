@@ -5,13 +5,15 @@ import 'package:expense_tracker/presentation/pages/common/list_tiles/transaction
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:expense_tracker/application/transactions/notifiers/queries/transactions_list_notifier.dart';
+
 class TransactionListForCategoryPageArguments {
   final Category category;
-  final List<Transaction> transactionList;
+  final TransactionsListParams params;
 
   TransactionListForCategoryPageArguments({
     required this.category,
-    required this.transactionList,
+    required this.params,
   });
 }
 
@@ -19,12 +21,12 @@ class TransactionListForCategoryPage extends ConsumerWidget {
   static const routeName = '/transactionListForCategoryPage';
 
   final Category category;
-  final List<Transaction> transactionList;
+  final TransactionsListParams params;
 
   const TransactionListForCategoryPage({
     super.key,
     required this.category,
-    required this.transactionList,
+    required this.params,
   });
 
   @override
@@ -33,11 +35,18 @@ class TransactionListForCategoryPage extends ConsumerWidget {
       appBar: AppBar(
         title: Text(category.name),
       ),
-      body: _buildList(context, ref),
+      body: ref.watch(transactionsListProvider(params)).when(
+            data: (transactionList) =>
+                _buildList(context, ref, transactionList),
+            loading: () => const Center(child: CircularProgressIndicator()),
+            error: (error, stack) =>
+                const Center(child: Text('Error loading transactions')),
+          ),
     );
   }
 
-  Widget _buildList(BuildContext context, WidgetRef ref) {
+  Widget _buildList(
+      BuildContext context, WidgetRef ref, List<Transaction> transactionList) {
     return ListView.builder(
       itemCount: transactionList.length,
       itemBuilder: (context, index) {

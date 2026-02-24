@@ -7,6 +7,7 @@ import 'package:expense_tracker/application/categories/notifiers/queries/categor
 import 'package:expense_tracker/application/common/notifiers/currency_provider.dart';
 import 'package:expense_tracker/presentation/pages/account_detail_page/graphs/account_pie_chart.dart';
 import 'package:expense_tracker/presentation/pages/account_detail_page/transaction_list_for_category_page.dart';
+import 'package:expense_tracker/application/transactions/notifiers/queries/transactions_list_notifier.dart';
 import 'package:expense_tracker/presentation/pages/common/delete_transaction_snackbar.dart';
 import 'package:expense_tracker/presentation/pages/common/list_tiles/transaction_list_cell.dart';
 import 'package:flutter/material.dart';
@@ -20,12 +21,12 @@ enum AccountDetailTransactionListMode {
 }
 
 class TransactionList extends ConsumerStatefulWidget {
-  final List<Transaction> transactionList;
+  final TransactionsListParams transactionsListParams;
   final WidgetRef topWidgetRef;
 
   const TransactionList({
     super.key,
-    required this.transactionList,
+    required this.transactionsListParams,
     required this.topWidgetRef,
   });
 
@@ -41,51 +42,63 @@ class _TransactionListState extends ConsumerState<TransactionList> {
   Widget build(BuildContext context) {
     final appLocalizations = ref.watch(appLocalizationsProvider);
 
-    return Column(
-      children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 18),
-          child:
-              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-            Text(
-              appLocalizations.transactionList,
-              style: const TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            TextButton(
-              onPressed: () {
-                transactionListMode = transactionListMode ==
-                        AccountDetailTransactionListMode.transactionList
-                    ? AccountDetailTransactionListMode.forCategory
-                    : AccountDetailTransactionListMode.transactionList;
+    return ref
+        .watch(transactionsListProvider(widget.transactionsListParams))
+        .when(
+          data: (transactionList) => Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 18),
+                child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        appLocalizations.transactionList,
+                        style: const TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          transactionListMode = transactionListMode ==
+                                  AccountDetailTransactionListMode
+                                      .transactionList
+                              ? AccountDetailTransactionListMode.forCategory
+                              : AccountDetailTransactionListMode
+                                  .transactionList;
 
-                setState(() {});
-              },
-              style: TextButton.styleFrom(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 0, vertical: 10),
-                  minimumSize: Size.zero,
-                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                  alignment: Alignment.centerLeft),
-              child: Text(
-                transactionListMode ==
-                        AccountDetailTransactionListMode.transactionList
-                    ? appLocalizations.byList
-                    : appLocalizations.byCategory,
-                style: const TextStyle(
-                  fontSize: 14,
-                ),
+                          setState(() {});
+                        },
+                        style: TextButton.styleFrom(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 0, vertical: 10),
+                            minimumSize: Size.zero,
+                            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                            alignment: Alignment.centerLeft),
+                        child: Text(
+                          transactionListMode ==
+                                  AccountDetailTransactionListMode
+                                      .transactionList
+                              ? appLocalizations.byList
+                              : appLocalizations.byCategory,
+                          style: const TextStyle(
+                            fontSize: 14,
+                          ),
+                        ),
+                      ),
+                    ]),
               ),
-            ),
-          ]),
-        ),
-        transactionListMode == AccountDetailTransactionListMode.transactionList
-            ? _buildTransactionList(context, widget.transactionList)
-            : _buildCategoryList(widget.transactionList, appLocalizations)
-      ],
-    );
+              transactionListMode ==
+                      AccountDetailTransactionListMode.transactionList
+                  ? _buildTransactionList(context, transactionList)
+                  : _buildCategoryList(transactionList, appLocalizations)
+            ],
+          ),
+          loading: () => const Center(child: CircularProgressIndicator()),
+          error: (error, stack) =>
+              const Center(child: Text('Error loading transactions')),
+        );
   }
 
   Widget _buildTransactionList(
@@ -188,7 +201,9 @@ class _TransactionListState extends ConsumerState<TransactionList> {
 
     final args = TransactionListForCategoryPageArguments(
       category: category,
-      transactionList: transactionList,
+      params: widget.transactionsListParams.copyWith(
+        categoryId: category.id,
+      ),
     );
 
     return InkWell(

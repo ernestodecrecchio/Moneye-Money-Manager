@@ -176,6 +176,7 @@ class DatabaseTransactionHelper {
     DateTime? startDate,
     DateTime? endDate,
     Account? forAccount,
+    int? categoryId,
     bool? includeIncomes, // null = default = true
     bool? includeExpenses, // null = default = true
     int? limit,
@@ -207,6 +208,12 @@ class DatabaseTransactionHelper {
     } else if (forAccount != null) {
       conditions.add('${TransactionFields.accountId} = ?');
       args.add(forAccount.id);
+    }
+
+    // Category filter
+    if (categoryId != null) {
+      conditions.add('${TransactionFields.categoryId} = ?');
+      args.add(categoryId);
     }
 
     // Income/Expense filtering
