@@ -124,11 +124,10 @@ class _TransactionListState extends ConsumerState<TransactionList> {
   }
 
   Widget _buildCategoryList(
-      List<Transaction> transactionList, AppLocalizations appLocalizations) {
+    List<Transaction> transactionList,
+    AppLocalizations appLocalizations,
+  ) {
     final List<CategoryTotalValue> categoryTotalValuePairs = [];
-
-    categoryTotalValuePairs.clear();
-
     final categories = ref.watch(categoriesListProvider).asData?.value ?? [];
 
     for (var transaction in transactionList) {
@@ -178,22 +177,16 @@ class _TransactionListState extends ConsumerState<TransactionList> {
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       itemCount: categoryTotalValuePairs.length,
-      itemBuilder: (context, index) => _buildCategoryListCell(
-        categoryTotalValuePair: categoryTotalValuePairs[index],
+      itemBuilder: (context, index) => _buildCategoryCell(
         category: categoryTotalValuePairs[index].category,
-        transactionList: transactionList
-            .where((transaction) =>
-                transaction.categoryId ==
-                categoryTotalValuePairs[index].category.id)
-            .toList(),
+        totalValue: categoryTotalValuePairs[index].totalValue,
       ),
     );
   }
 
-  InkWell _buildCategoryListCell({
-    required CategoryTotalValue categoryTotalValuePair,
+  InkWell _buildCategoryCell({
     required Category category,
-    required List<Transaction> transactionList,
+    required double totalValue,
   }) {
     final currentCurrency = ref.watch(currentCurrencyProvider);
     final currentCurrencyPosition =
@@ -215,7 +208,7 @@ class _TransactionListState extends ConsumerState<TransactionList> {
         padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 17),
         child: Row(
           children: [
-            _buildCategoryIcon(context, categoryTotalValuePair.category),
+            _buildCategoryIcon(context, category),
             const SizedBox(
               width: 8,
             ),
@@ -225,7 +218,7 @@ class _TransactionListState extends ConsumerState<TransactionList> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    categoryTotalValuePair.category.name,
+                    category.name,
                     maxLines: 1,
                     style: const TextStyle(
                       fontSize: 16,
@@ -237,8 +230,7 @@ class _TransactionListState extends ConsumerState<TransactionList> {
                     height: 2,
                   ),
                   Text(
-                    categoryTotalValuePair.totalValue
-                        .toStringAsFixedRoundedWithCurrency(
+                    totalValue.toStringAsFixedRoundedWithCurrency(
                       2,
                       currentCurrency,
                       currentCurrencyPosition,
