@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:expense_tracker/application/transactions/notifiers/transactions_repository_provider.dart';
+import 'package:expense_tracker/domain/models/category.dart';
 import 'package:expense_tracker/domain/models/account.dart';
 import 'package:expense_tracker/domain/models/transaction.dart';
 import 'package:expense_tracker/domain/repositories/transactions_repository.dart';
@@ -18,7 +19,7 @@ class TransactionsListNotifier extends AsyncNotifier<List<Transaction>> {
       startDate: params.startDate,
       endDate: params.endDate,
       forAccount: params.account,
-      categoryId: params.categoryId,
+      categoryId: params.category?.id,
       includeIncomes: params.includeIncomes,
       includeExpenses: params.includeExpenses,
       limit: params.limit,
@@ -39,7 +40,7 @@ class TransactionsListParams extends Equatable {
   final DateTime? startDate;
   final DateTime? endDate;
   final Account? account;
-  final int? categoryId;
+  final Category? category;
   final bool? includeIncomes;
   final bool? includeExpenses;
   final int? limit;
@@ -48,7 +49,7 @@ class TransactionsListParams extends Equatable {
     this.startDate,
     this.endDate,
     this.account,
-    this.categoryId,
+    this.category,
     this.includeIncomes,
     this.includeExpenses,
     this.limit,
@@ -58,7 +59,7 @@ class TransactionsListParams extends Equatable {
     DateTime? startDate,
     DateTime? endDate,
     Account? account,
-    int? categoryId,
+    Category? category,
     bool? includeIncomes,
     bool? includeExpenses,
     int? limit,
@@ -67,7 +68,7 @@ class TransactionsListParams extends Equatable {
       startDate: startDate ?? this.startDate,
       endDate: endDate ?? this.endDate,
       account: account ?? this.account,
-      categoryId: categoryId ?? this.categoryId,
+      category: category ?? this.category,
       includeIncomes: includeIncomes ?? this.includeIncomes,
       includeExpenses: includeExpenses ?? this.includeExpenses,
       limit: limit ?? this.limit,
@@ -79,7 +80,7 @@ class TransactionsListParams extends Equatable {
         startDate,
         endDate,
         account,
-        categoryId,
+        category,
         includeIncomes,
         includeExpenses,
         limit,

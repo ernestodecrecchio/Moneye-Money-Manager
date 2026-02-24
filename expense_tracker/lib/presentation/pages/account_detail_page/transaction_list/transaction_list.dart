@@ -200,9 +200,8 @@ class _TransactionListState extends ConsumerState<TransactionList> {
         ref.watch(currentCurrencySymbolPositionProvider);
 
     final args = TransactionListForCategoryPageArguments(
-      category: category,
       params: widget.transactionsListParams.copyWith(
-        categoryId: category.id,
+        category: category,
       ),
     );
 

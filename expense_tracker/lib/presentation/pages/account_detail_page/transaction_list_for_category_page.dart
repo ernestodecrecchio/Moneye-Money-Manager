@@ -1,4 +1,3 @@
-import 'package:expense_tracker/domain/models/category.dart';
 import 'package:expense_tracker/domain/models/transaction.dart';
 import 'package:expense_tracker/presentation/pages/common/delete_transaction_snackbar.dart';
 import 'package:expense_tracker/presentation/pages/common/list_tiles/transaction_list_cell.dart';
@@ -8,11 +7,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:expense_tracker/application/transactions/notifiers/queries/transactions_list_notifier.dart';
 
 class TransactionListForCategoryPageArguments {
-  final Category category;
   final TransactionsListParams params;
 
   TransactionListForCategoryPageArguments({
-    required this.category,
     required this.params,
   });
 }
@@ -20,12 +17,10 @@ class TransactionListForCategoryPageArguments {
 class TransactionListForCategoryPage extends ConsumerWidget {
   static const routeName = '/transactionListForCategoryPage';
 
-  final Category category;
   final TransactionsListParams params;
 
   const TransactionListForCategoryPage({
     super.key,
-    required this.category,
     required this.params,
   });
 
@@ -33,7 +28,7 @@ class TransactionListForCategoryPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(category.name),
+        title: Text(params.category?.name ?? ""),
       ),
       body: ref.watch(transactionsListProvider(params)).when(
             data: (transactionList) =>

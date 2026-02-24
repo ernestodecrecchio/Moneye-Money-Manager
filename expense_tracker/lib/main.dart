@@ -268,7 +268,6 @@ class MyApp extends r.ConsumerWidget {
                 return MaterialPageRoute(
                   settings: settings,
                   builder: (context) => TransactionListForCategoryPage(
-                    category: args.category,
                     params: args.params,
                   ),
                 );
