@@ -9,7 +9,6 @@ import 'package:expense_tracker/l10n/app_localizations.dart';
 import 'package:expense_tracker/l10n/l10n.dart';
 import 'package:expense_tracker/domain/models/account.dart';
 import 'package:expense_tracker/domain/models/category.dart' as c;
-import 'package:expense_tracker/domain/models/transaction.dart';
 import 'package:expense_tracker/application/common/notifiers/currency_provider.dart';
 import 'package:expense_tracker/application/common/notifiers/locale_provider.dart';
 import 'package:expense_tracker/application/common/notifiers/notification_provider.dart';
@@ -36,7 +35,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart' as r;
 import 'package:shared_preferences/shared_preferences.dart';
-import 'presentation/pages/account_detail_page/transaction_list_page.dart';
+import 'presentation/pages/account_detail_page/transaction_list_for_category_page.dart';
 import 'package:timezone/data/latest_all.dart';
 import 'package:expense_tracker/presentation/pages/options_page/update_history_page/update_history_page.dart';
 import 'package:expense_tracker/presentation/pages/options_page/update_history_page/update_info_page.dart';
@@ -261,14 +260,17 @@ class MyApp extends r.ConsumerWidget {
         },
         onGenerateRoute: (settings) {
           switch (settings.name) {
-            case TransactionListPage.routeName:
+            case TransactionListForCategoryPage.routeName:
               {
-                final args = settings.arguments as List<Transaction>;
+                final args = settings.arguments
+                    as TransactionListForCategoryPageArguments;
 
                 return MaterialPageRoute(
                   settings: settings,
-                  builder: (context) =>
-                      TransactionListPage(transactionList: args),
+                  builder: (context) => TransactionListForCategoryPage(
+                    category: args.category,
+                    transactionList: args.transactionList,
+                  ),
                 );
               }
             case AccountDetailPage.routeName:

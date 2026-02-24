@@ -6,7 +6,7 @@ import 'package:expense_tracker/domain/models/transaction.dart';
 import 'package:expense_tracker/application/categories/notifiers/queries/categories_list_notifier.dart';
 import 'package:expense_tracker/application/common/notifiers/currency_provider.dart';
 import 'package:expense_tracker/presentation/pages/account_detail_page/graphs/account_pie_chart.dart';
-import 'package:expense_tracker/presentation/pages/account_detail_page/transaction_list_page.dart';
+import 'package:expense_tracker/presentation/pages/account_detail_page/transaction_list_for_category_page.dart';
 import 'package:expense_tracker/presentation/pages/common/delete_transaction_snackbar.dart';
 import 'package:expense_tracker/presentation/pages/common/list_tiles/transaction_list_cell.dart';
 import 'package:flutter/material.dart';
@@ -167,6 +167,7 @@ class _TransactionListState extends ConsumerState<TransactionList> {
       itemCount: categoryTotalValuePairs.length,
       itemBuilder: (context, index) => _buildCategoryListCell(
         categoryTotalValuePair: categoryTotalValuePairs[index],
+        category: categoryTotalValuePairs[index].category,
         transactionList: transactionList
             .where((transaction) =>
                 transaction.categoryId ==
@@ -176,16 +177,25 @@ class _TransactionListState extends ConsumerState<TransactionList> {
     );
   }
 
-  InkWell _buildCategoryListCell(
-      {required CategoryTotalValue categoryTotalValuePair,
-      required List<Transaction> transactionList}) {
+  InkWell _buildCategoryListCell({
+    required CategoryTotalValue categoryTotalValuePair,
+    required Category category,
+    required List<Transaction> transactionList,
+  }) {
     final currentCurrency = ref.watch(currentCurrencyProvider);
     final currentCurrencyPosition =
         ref.watch(currentCurrencySymbolPositionProvider);
 
+    final args = TransactionListForCategoryPageArguments(
+      category: category,
+      transactionList: transactionList,
+    );
+
     return InkWell(
-      onTap: () => Navigator.of(context)
-          .pushNamed(TransactionListPage.routeName, arguments: transactionList),
+      onTap: () => Navigator.of(context).pushNamed(
+        TransactionListForCategoryPage.routeName,
+        arguments: args,
+      ),
       child: Container(
         height: 64,
         padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 17),

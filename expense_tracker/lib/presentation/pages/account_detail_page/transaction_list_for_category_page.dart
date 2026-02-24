@@ -1,24 +1,37 @@
-import 'package:expense_tracker/application/common/notifiers/app_localizations_provider.dart';
+import 'package:expense_tracker/domain/models/category.dart';
 import 'package:expense_tracker/domain/models/transaction.dart';
 import 'package:expense_tracker/presentation/pages/common/delete_transaction_snackbar.dart';
 import 'package:expense_tracker/presentation/pages/common/list_tiles/transaction_list_cell.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class TransactionListPage extends ConsumerWidget {
-  static const routeName = '/transactionListPage';
-
+class TransactionListForCategoryPageArguments {
+  final Category category;
   final List<Transaction> transactionList;
 
-  const TransactionListPage({super.key, required this.transactionList});
+  TransactionListForCategoryPageArguments({
+    required this.category,
+    required this.transactionList,
+  });
+}
+
+class TransactionListForCategoryPage extends ConsumerWidget {
+  static const routeName = '/transactionListForCategoryPage';
+
+  final Category category;
+  final List<Transaction> transactionList;
+
+  const TransactionListForCategoryPage({
+    super.key,
+    required this.category,
+    required this.transactionList,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final appLocalizations = ref.watch(appLocalizationsProvider);
-
     return Scaffold(
       appBar: AppBar(
-        title: Text(appLocalizations.allTransactions),
+        title: Text(category.name),
       ),
       body: _buildList(context, ref),
     );
