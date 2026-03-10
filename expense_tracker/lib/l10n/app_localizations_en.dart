@@ -466,6 +466,21 @@ class AppLocalizationsEn extends AppLocalizations {
   String get usageData => 'Basic usage patterns';
 
   @override
+  String get theme => 'Theme';
+
+  @override
+  String get themeOptionDescription => 'Change the app appearance';
+
+  @override
+  String get lightTheme => 'Light';
+
+  @override
+  String get darkTheme => 'Dark';
+
+  @override
+  String get systemTheme => 'System';
+
+  @override
   String get version => 'Version';
 
   @override

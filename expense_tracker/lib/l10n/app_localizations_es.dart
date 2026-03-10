@@ -468,6 +468,21 @@ class AppLocalizationsEs extends AppLocalizations {
   String get usageData => 'Patrones de uso básicos';
 
   @override
+  String get theme => 'Tema';
+
+  @override
+  String get themeOptionDescription => 'Cambiar la apariencia de la aplicación';
+
+  @override
+  String get lightTheme => 'Claro';
+
+  @override
+  String get darkTheme => 'Oscuro';
+
+  @override
+  String get systemTheme => 'Sistema';
+
+  @override
   String get version => 'Versión';
 
   @override

@@ -956,6 +956,36 @@ abstract class AppLocalizations {
   /// **'Basic usage patterns'**
   String get usageData;
 
+  /// No description provided for @theme.
+  ///
+  /// In en, this message translates to:
+  /// **'Theme'**
+  String get theme;
+
+  /// No description provided for @themeOptionDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Change the app appearance'**
+  String get themeOptionDescription;
+
+  /// No description provided for @lightTheme.
+  ///
+  /// In en, this message translates to:
+  /// **'Light'**
+  String get lightTheme;
+
+  /// No description provided for @darkTheme.
+  ///
+  /// In en, this message translates to:
+  /// **'Dark'**
+  String get darkTheme;
+
+  /// No description provided for @systemTheme.
+  ///
+  /// In en, this message translates to:
+  /// **'System'**
+  String get systemTheme;
+
   /// No description provided for @version.
   ///
   /// In en, this message translates to:
