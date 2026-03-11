@@ -10,6 +10,7 @@ import 'package:expense_tracker/application/common/notifiers/currency_provider.d
 import 'package:collection/collection.dart';
 
 import 'package:expense_tracker/presentation/pages/new_edit_transaction_flow/new_edit_transaction_page.dart';
+import 'package:expense_tracker/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:expense_tracker/style/app_theme.dart';
@@ -101,8 +102,8 @@ class TransactionListCell extends ConsumerWidget {
       BuildContext context, WidgetRef ref, AppLocalizations appLocalizations) {
     return SlidableAction(
       onPressed: (_) async => await _removeTransaction(context, ref),
-      backgroundColor: context.appColors.expense,
-      foregroundColor: context.appColors.onPrimary,
+      backgroundColor: CustomColors.swipeActionRed,
+      foregroundColor: Colors.white,
       icon: Icons.delete,
       label: appLocalizations.delete,
     );
@@ -129,8 +130,8 @@ class TransactionListCell extends ConsumerWidget {
     if (category != null && category.iconPath != null) {
       categoryIcon = VectorGraphic(
         loader: AssetBytesLoader(category.iconPath!),
-        colorFilter: ColorFilter.mode(
-          context.appColors.onPrimary,
+        colorFilter: const ColorFilter.mode(
+          Colors.white,
           BlendMode.srcIn,
         ),
       );

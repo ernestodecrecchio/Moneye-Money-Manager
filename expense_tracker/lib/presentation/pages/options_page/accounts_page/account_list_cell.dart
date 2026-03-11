@@ -4,6 +4,7 @@ import 'package:expense_tracker/l10n/app_localizations.dart';
 import 'package:expense_tracker/domain/models/account.dart';
 import 'package:expense_tracker/presentation/pages/common/dialogs.dart';
 import 'package:expense_tracker/presentation/pages/options_page/accounts_page/new_edit_account_page.dart';
+import 'package:expense_tracker/style.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -57,8 +58,8 @@ class AccountListCell extends ConsumerWidget {
   SlidableAction _buildDeleteSlidableAction(
       BuildContext context, WidgetRef ref, AppLocalizations appLocalizations) {
     return SlidableAction(
-      backgroundColor: context.appColors.expense,
-      foregroundColor: context.appColors.onPrimary,
+      backgroundColor: CustomColors.swipeActionRed,
+      foregroundColor: Colors.white,
       icon: Icons.delete,
       label: appLocalizations.delete,
       onPressed: (_) async {
@@ -79,8 +80,8 @@ class AccountListCell extends ConsumerWidget {
     if (account.iconPath != null) {
       accountIcon = VectorGraphic(
         loader: AssetBytesLoader(account.iconPath!),
-        colorFilter: ColorFilter.mode(
-          context.appColors.onPrimary,
+        colorFilter: const ColorFilter.mode(
+          Colors.white,
           BlendMode.srcIn,
         ),
       );
