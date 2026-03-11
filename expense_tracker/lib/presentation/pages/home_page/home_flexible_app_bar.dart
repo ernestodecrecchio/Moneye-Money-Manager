@@ -69,6 +69,7 @@ class _HomeFlexibleSpaceBarState extends ConsumerState<HomeFlexibleSpaceBar> {
             ),
           ),
           Row(
+            spacing: 28,
             children: [
               Flexible(
                 child: FittedBox(
@@ -102,9 +103,6 @@ class _HomeFlexibleSpaceBarState extends ConsumerState<HomeFlexibleSpaceBar> {
                         ),
                       ),
                 ),
-              ),
-              const SizedBox(
-                width: 28,
               ),
               _buildPercentageDifference()
             ],

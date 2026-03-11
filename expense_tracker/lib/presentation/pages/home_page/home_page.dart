@@ -208,6 +208,7 @@ class LastTransactionList extends ConsumerWidget {
         }
 
         return Column(
+          spacing: 8,
           children: [
             Padding(
               padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
@@ -244,7 +245,6 @@ class LastTransactionList extends ConsumerWidget {
                 ],
               ),
             ),
-            const SizedBox(height: 8),
             ListView.separated(
               padding: EdgeInsets.zero,
               shrinkWrap: true,
