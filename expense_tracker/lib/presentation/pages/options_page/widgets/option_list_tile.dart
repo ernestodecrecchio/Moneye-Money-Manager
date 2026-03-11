@@ -1,4 +1,4 @@
-import 'package:expense_tracker/style.dart';
+import 'package:expense_tracker/style/app_theme.dart';
 import 'package:flutter/material.dart';
 
 class OptionListTile extends StatelessWidget {
@@ -21,6 +21,7 @@ class OptionListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.appColors;
     final List<Widget> trailingChildren = [
       if (trailingWidgets != null) ...trailingWidgets!,
       if (enableRightArrow) const Icon(Icons.chevron_right_rounded),
@@ -31,7 +32,7 @@ class OptionListTile extends StatelessWidget {
         height: double.infinity,
         child: Icon(
           leadingIcon,
-          color: CustomColors.darkBlue,
+          color: colors.secondary,
         ),
       ),
       title: Text(title),

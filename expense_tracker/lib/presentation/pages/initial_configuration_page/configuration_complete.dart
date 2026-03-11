@@ -1,6 +1,7 @@
 import 'package:expense_tracker/application/common/notifiers/app_localizations_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:expense_tracker/style/app_theme.dart';
 
 class ConfigurationComplete extends ConsumerStatefulWidget {
   const ConfigurationComplete({super.key});
@@ -23,8 +24,8 @@ class _ConfigurationCompleteState extends ConsumerState<ConfigurationComplete> {
           Text(
             appLocalizations.endConfigurationMsg1,
             textAlign: TextAlign.center,
-            style: const TextStyle(
-              color: Colors.white,
+            style: TextStyle(
+              color: context.appColors.textPrimary,
               fontSize: 28,
               fontWeight: FontWeight.w700,
             ),
@@ -35,8 +36,8 @@ class _ConfigurationCompleteState extends ConsumerState<ConfigurationComplete> {
           Text(
             appLocalizations.endConfigurationMsg2,
             textAlign: TextAlign.center,
-            style: const TextStyle(
-              color: Colors.white,
+            style: TextStyle(
+              color: context.appColors.textPrimary,
               fontSize: 20,
               fontWeight: FontWeight.w500,
             ),

@@ -8,6 +8,7 @@ import 'package:expense_tracker/application/common/notifiers/currency_provider.d
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:vector_graphics/vector_graphics.dart';
+import 'package:expense_tracker/style/app_theme.dart';
 
 class HomeFlexibleSpaceBar extends ConsumerStatefulWidget {
   const HomeFlexibleSpaceBar({super.key});
@@ -49,8 +50,9 @@ class _HomeFlexibleSpaceBarState extends ConsumerState<HomeFlexibleSpaceBar> {
         children: [
           Text(
             appLocalizations.financialOverviewForThisMonth,
-            style: const TextStyle(
-              color: Colors.white70,
+            style: TextStyle(
+              color:
+                  Theme.of(context).appBarTheme.foregroundColor?.withAlpha(180),
               fontSize: 16,
               fontWeight: FontWeight.w700,
             ),
@@ -60,8 +62,8 @@ class _HomeFlexibleSpaceBarState extends ConsumerState<HomeFlexibleSpaceBar> {
           ),
           Text(
             appLocalizations.totalBalance,
-            style: const TextStyle(
-              color: Colors.white,
+            style: TextStyle(
+              color: Theme.of(context).appBarTheme.foregroundColor,
               fontSize: 18,
               fontWeight: FontWeight.w400,
             ),
@@ -79,22 +81,23 @@ class _HomeFlexibleSpaceBarState extends ConsumerState<HomeFlexibleSpaceBar> {
                         data: (balance) => Text(
                           balance.toStringAsFixedRoundedWithCurrency(
                               2, currentCurrency, currentCurrencyPosition),
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 40,
                             overflow: TextOverflow.clip,
-                            color: Colors.white,
+                            color:
+                                Theme.of(context).appBarTheme.foregroundColor,
                           ),
                         ),
-                        loading: () => const CircularProgressIndicator(
-                          color: Colors.white,
+                        loading: () => CircularProgressIndicator(
+                          color: Theme.of(context).appBarTheme.foregroundColor,
                         ),
                         error: (err, _) => Text(
                           'Error',
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 40,
-                            color: Colors.red,
+                            color: context.appColors.expense,
                           ),
                         ),
                       ),
@@ -144,6 +147,11 @@ class _HomeFlexibleSpaceBarState extends ConsumerState<HomeFlexibleSpaceBar> {
                             VectorGraphic(
                               loader: AssetBytesLoader(
                                   'assets/icons/pocket_out.svg'),
+                              colorFilter: ColorFilter.mode(
+                                Theme.of(context).appBarTheme.foregroundColor ??
+                                    Colors.white,
+                                BlendMode.srcIn,
+                              ),
                             ),
                             const SizedBox(
                               width: 12,
@@ -153,8 +161,10 @@ class _HomeFlexibleSpaceBarState extends ConsumerState<HomeFlexibleSpaceBar> {
                               children: [
                                 Text(
                                   appLocalizations.expenses,
-                                  style: const TextStyle(
-                                    color: Colors.white,
+                                  style: TextStyle(
+                                    color: Theme.of(context)
+                                        .appBarTheme
+                                        .foregroundColor,
                                     fontSize: 16,
                                     fontWeight: FontWeight.w300,
                                   ),
@@ -165,8 +175,10 @@ class _HomeFlexibleSpaceBarState extends ConsumerState<HomeFlexibleSpaceBar> {
                                           2,
                                           currentCurrency,
                                           currentCurrencyPosition),
-                                  style: const TextStyle(
-                                    color: Colors.white,
+                                  style: TextStyle(
+                                    color: Theme.of(context)
+                                        .appBarTheme
+                                        .foregroundColor,
                                     fontSize: 16,
                                     fontWeight: FontWeight.bold,
                                   ),
@@ -179,8 +191,14 @@ class _HomeFlexibleSpaceBarState extends ConsumerState<HomeFlexibleSpaceBar> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             VectorGraphic(
-                                loader: AssetBytesLoader(
-                                    'assets/icons/pocket_in.svg')),
+                              loader: AssetBytesLoader(
+                                  'assets/icons/pocket_in.svg'),
+                              colorFilter: ColorFilter.mode(
+                                Theme.of(context).appBarTheme.foregroundColor ??
+                                    Colors.white,
+                                BlendMode.srcIn,
+                              ),
+                            ),
                             const SizedBox(
                               width: 12,
                             ),
@@ -189,8 +207,10 @@ class _HomeFlexibleSpaceBarState extends ConsumerState<HomeFlexibleSpaceBar> {
                               children: [
                                 Text(
                                   appLocalizations.incomes,
-                                  style: const TextStyle(
-                                    color: Colors.white,
+                                  style: TextStyle(
+                                    color: Theme.of(context)
+                                        .appBarTheme
+                                        .foregroundColor,
                                     fontSize: 16,
                                     fontWeight: FontWeight.w300,
                                   ),
@@ -201,8 +221,10 @@ class _HomeFlexibleSpaceBarState extends ConsumerState<HomeFlexibleSpaceBar> {
                                           2,
                                           currentCurrency,
                                           currentCurrencyPosition),
-                                  style: const TextStyle(
-                                    color: Colors.white,
+                                  style: TextStyle(
+                                    color: Theme.of(context)
+                                        .appBarTheme
+                                        .foregroundColor,
                                     fontSize: 16,
                                     fontWeight: FontWeight.bold,
                                   ),
@@ -214,15 +236,15 @@ class _HomeFlexibleSpaceBarState extends ConsumerState<HomeFlexibleSpaceBar> {
                       ],
                     );
                   },
-                  loading: () => const CircularProgressIndicator(
-                    color: Colors.white,
+                  loading: () => CircularProgressIndicator(
+                    color: Theme.of(context).appBarTheme.foregroundColor,
                   ),
                   error: (err, _) => Text(
                     'Error',
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 40,
-                      color: Colors.red,
+                      color: context.appColors.expense,
                     ),
                   ),
                 ),
@@ -275,7 +297,10 @@ class _HomeFlexibleSpaceBarState extends ConsumerState<HomeFlexibleSpaceBar> {
 
             return Container(
               decoration: BoxDecoration(
-                color: Colors.white24,
+                color: Theme.of(context)
+                    .appBarTheme
+                    .foregroundColor
+                    ?.withValues(alpha: 0.24),
                 borderRadius: BorderRadius.circular(10),
               ),
               child: Padding(
@@ -291,14 +316,14 @@ class _HomeFlexibleSpaceBarState extends ConsumerState<HomeFlexibleSpaceBar> {
                       diffPercentage >= 0
                           ? Icons.arrow_drop_up_rounded
                           : Icons.arrow_drop_down_rounded,
-                      color: Colors.white,
+                      color: Theme.of(context).appBarTheme.foregroundColor,
                     ),
                     Text(
                       '${diffPercentage.toStringAsFixedRounded(2)}%',
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.bold,
-                        color: Colors.white,
+                        color: Theme.of(context).appBarTheme.foregroundColor,
                       ),
                     ),
                   ],
@@ -306,23 +331,23 @@ class _HomeFlexibleSpaceBarState extends ConsumerState<HomeFlexibleSpaceBar> {
               ),
             );
           },
-          loading: () => const SizedBox(
+          loading: () => SizedBox(
             height: 20,
             width: 20,
             child: CircularProgressIndicator(
               strokeWidth: 2,
-              color: Colors.white,
+              color: Theme.of(context).appBarTheme.foregroundColor,
             ),
           ),
           error: (_, __) => const SizedBox.shrink(),
         );
       },
-      loading: () => const SizedBox(
+      loading: () => SizedBox(
         height: 20,
         width: 20,
         child: CircularProgressIndicator(
           strokeWidth: 2,
-          color: Colors.white,
+          color: Theme.of(context).appBarTheme.foregroundColor,
         ),
       ),
       error: (_, __) => const SizedBox.shrink(),

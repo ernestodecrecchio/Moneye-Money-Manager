@@ -6,6 +6,7 @@ import 'package:expense_tracker/domain/models/transaction.dart';
 import 'package:expense_tracker/application/common/notifiers/currency_provider.dart';
 import 'package:expense_tracker/presentation/pages/account_detail_page/account_detail_page.dart';
 import 'package:expense_tracker/style.dart';
+import 'package:expense_tracker/style/app_theme.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -36,47 +37,19 @@ class AccountBarChart extends ConsumerStatefulWidget {
 }
 
 class AccountBarChartState extends ConsumerState<AccountBarChart> {
-  final Color incomeBarColor = CustomColors.income;
-  final Color expenseBarColor = CustomColors.expense;
-  final Color avgColor = CustomColors.blue;
-
   final double barWidth = 10;
   final double barsSpace = 1; // Space between bars of the same group
 
-  late Map<int, List<double>> valueMap;
+  /// CALCULATIONS
 
-  late List<BarChartGroupData> showingBarGroups;
-
-  late List<String> bottomTitlesStrings;
-
-  int touchedGroupIndex = -1;
-
-  var minValue = 0.0;
-  var maxValue = 0.0;
-
-  double? minY;
-  double? maxY;
-  double leftMinValue = 0;
-  double leftMaxValue = 0;
-  double leftAvgValue = 0;
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-
-    _loadData();
-  }
-
-  @override
-  void didUpdateWidget(covariant AccountBarChart oldWidget) {
-    super.didUpdateWidget(oldWidget);
-
-    _loadData();
-  }
-
-  void _loadData() {
-    bottomTitlesStrings = _getBottomTitlesString();
-
+  /// Calculates the transaction values for the current view based on [widget.transactionTimePeriod]
+  /// and [widget.transactionType]. Returns a record containing the [valueMap], [minValue], and [maxValue].
+  ///
+  /// [valueMap] maps the time index (e.g., day of week, week number, or month) to a list
+  /// of exactly two doubles: `[incomeAmount, expenseAmount]`.
+  (Map<int, List<double>> valueMap, double minValue, double maxValue)
+      _calculateValues() {
+    Map<int, List<double>> valueMap;
     switch (widget.transactionTimePeriod) {
       case TransactionTimePeriod.day:
         valueMap = {};
@@ -94,6 +67,9 @@ class AccountBarChartState extends ConsumerState<AccountBarChart> {
         valueMap = {};
         break;
     }
+
+    double minValue = 0.0;
+    double maxValue = 0.0;
 
     valueMap.forEach((key, value) {
       switch (widget.transactionType) {
@@ -116,25 +92,40 @@ class AccountBarChartState extends ConsumerState<AccountBarChart> {
       }
     });
 
-    minValue *= -1;
+    return (valueMap, minValue, maxValue);
+  }
 
-    minY = 0;
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.appColors;
+    final bottomTitlesStrings = _getBottomTitlesString();
+    final (valueMap, rawMinValue, maxValue) = _calculateValues();
 
-    maxY = widget.transactionType == AccountBarChartModeTransactionType.income
+    final minValue = rawMinValue * -1;
+    const minY = 0.0;
+    final maxY = widget.transactionType ==
+            AccountBarChartModeTransactionType.income
         ? maxValue
         : widget.transactionType == AccountBarChartModeTransactionType.expense
             ? minValue
             : max(minValue, maxValue);
 
-    showingBarGroups = _buildGroupData();
-  }
+    final leftMaxValue = widget.transactionType ==
+            AccountBarChartModeTransactionType.income
+        ? maxValue
+        : widget.transactionType == AccountBarChartModeTransactionType.expense
+            ? minValue
+            : max(minValue, maxValue);
 
-  @override
-  Widget build(BuildContext context) {
+    final showingBarGroups = _buildGroupData(
+      valueMap: valueMap,
+      bottomTitlesStrings: bottomTitlesStrings,
+      incomeBarColor: colors.income,
+      expenseBarColor: colors.expense,
+    );
+
     return Padding(
-      padding: const EdgeInsets.only(
-        top: 8.0,
-      ),
+      padding: const EdgeInsets.only(top: 8.0),
       child: BarChart(
         BarChartData(
           minY: minY,
@@ -142,9 +133,18 @@ class AccountBarChartState extends ConsumerState<AccountBarChart> {
           barTouchData: BarTouchData(
             touchTooltipData: BarTouchTooltipData(
               getTooltipColor: (BarChartGroupData group) =>
-                  Colors.grey.shade200,
+                  colors.surface.withValues(alpha: 0.9),
               fitInsideVertically: true,
               fitInsideHorizontally: true,
+              getTooltipItem: (group, groupIndex, rod, rodIndex) {
+                return BarTooltipItem(
+                  rod.toY.toStringAsFixed(2),
+                  TextStyle(
+                    color: colors.textPrimary,
+                    fontWeight: FontWeight.bold,
+                  ),
+                );
+              },
             ),
           ),
           titlesData: FlTitlesData(
@@ -158,26 +158,22 @@ class AccountBarChartState extends ConsumerState<AccountBarChart> {
             bottomTitles: AxisTitles(
               sideTitles: SideTitles(
                 showTitles: true,
-                getTitlesWidget: _buildBottomTitleWidget,
-                // reservedSize: 0,
+                getTitlesWidget: (value, meta) =>
+                    _buildBottomTitleWidget(value, meta, bottomTitlesStrings),
               ),
             ),
             leftTitles: AxisTitles(
               sideTitles: SideTitles(
-                  showTitles: true,
-                  reservedSize: 35,
-                  //  interval: getInterval(),
-                  getTitlesWidget: leftTitles),
+                showTitles: true,
+                reservedSize: 35,
+                getTitlesWidget: (value, meta) =>
+                    _leftTitles(value, meta, leftMaxValue),
+              ),
             ),
           ),
-          borderData: FlBorderData(
-            show: false,
-          ),
+          borderData: FlBorderData(show: false),
           barGroups: showingBarGroups,
-          //   groupsSpace: ,
-          gridData: const FlGridData(
-            show: false,
-          ),
+          gridData: const FlGridData(show: false),
         ),
       ),
     );
@@ -185,32 +181,30 @@ class AccountBarChartState extends ConsumerState<AccountBarChart> {
 
   /// LEFT TITLE MANAGEMENT
 
-  Widget leftTitles(double value, TitleMeta meta) {
+  /// Builds the left-side axis titles for the bar chart.
+  /// Displays the minimum, maximum, and average values formatted with currency.
+  Widget _leftTitles(double value, TitleMeta meta, double leftMaxValue) {
     final currentCurrency = ref.watch(currentCurrencyProvider);
     final currentCurrencyPosition =
         ref.watch(currentCurrencySymbolPositionProvider);
+    final colors = context.appColors;
+    final textTheme = Theme.of(context).textTheme;
 
-    const style = TextStyle(
-      color: Color(0xff7589a2),
-      fontWeight: FontWeight.bold,
-      fontSize: 14,
-    );
+    final style = textTheme.labelSmall?.copyWith(
+          color: colors.textSecondary,
+          fontWeight: FontWeight.bold,
+        ) ??
+        const TextStyle(
+          color: CustomColors.chartLabelsGray,
+          fontWeight: FontWeight.bold,
+          fontSize: 14,
+        );
+
+    final leftAvgValue = (leftMaxValue / 2).roundToDouble();
 
     String text;
-
-    if (widget.transactionType == AccountBarChartModeTransactionType.income) {
-      leftMaxValue = maxValue;
-    } else if (widget.transactionType ==
-        AccountBarChartModeTransactionType.expense) {
-      leftMaxValue = minValue;
-    } else if (widget.transactionType ==
-        AccountBarChartModeTransactionType.all) {
-      leftMaxValue = max(minValue, maxValue);
-    }
-    leftAvgValue = (leftMaxValue / 2).roundToDouble();
-
-    if (value == leftMinValue) {
-      text = leftMinValue.toStringAsFixedRoundedWithCurrency(
+    if (value == 0) {
+      text = 0.0.toStringAsFixedRoundedWithCurrency(
           2, currentCurrency, currentCurrencyPosition);
     } else if (value == leftMaxValue) {
       text = leftMaxValue.toStringAsFixedRoundedWithCurrency(
@@ -231,103 +225,79 @@ class AccountBarChartState extends ConsumerState<AccountBarChart> {
 
   /// BOTTOM TITLE MANAGEMENT
 
+  /// Generates the weekday labels for a week-long period (e.g., "dd/MM").
   List<String> _getWeekdayBottomTitlesString() {
     return [
       DateFormat("dd/MM").format(widget.startDate!),
-      DateFormat("dd/MM").format(DateTime(widget.startDate!.year,
-          widget.startDate!.month, widget.startDate!.day + 1)),
-      DateFormat("dd/MM").format(DateTime(widget.startDate!.year,
-          widget.startDate!.month, widget.startDate!.day + 2)),
-      DateFormat("dd/MM").format(DateTime(widget.startDate!.year,
-          widget.startDate!.month, widget.startDate!.day + 3)),
-      DateFormat("dd/MM").format(DateTime(widget.startDate!.year,
-          widget.startDate!.month, widget.startDate!.day + 4)),
-      DateFormat("dd/MM").format(DateTime(widget.startDate!.year,
-          widget.startDate!.month, widget.startDate!.day + 5)),
-      DateFormat("dd/MM").format(DateTime(widget.startDate!.year,
-          widget.startDate!.month, widget.startDate!.day + 6)),
+      DateFormat("dd/MM")
+          .format(widget.startDate!.add(const Duration(days: 1))),
+      DateFormat("dd/MM")
+          .format(widget.startDate!.add(const Duration(days: 2))),
+      DateFormat("dd/MM")
+          .format(widget.startDate!.add(const Duration(days: 3))),
+      DateFormat("dd/MM")
+          .format(widget.startDate!.add(const Duration(days: 4))),
+      DateFormat("dd/MM")
+          .format(widget.startDate!.add(const Duration(days: 5))),
+      DateFormat("dd/MM")
+          .format(widget.startDate!.add(const Duration(days: 6))),
     ];
   }
 
+  /// Generates the week-interval labels for a month-long period (e.g., "01 - 07").
   List<String> _getWeekIntervalBottomTitlesString() {
     final ddDateFormat = DateFormat("dd");
-
     final List<String> weekDatesList = [];
 
-    final DateTime currentMonthFirstDayDate =
-        currentMonthFirstDay(widget.startDate!);
-    final DateTime currentMonthLastDayDate =
-        currentMonthLastDay(widget.startDate!);
+    final DateTime start = currentMonthFirstDay(widget.startDate!);
+    final DateTime end = nextMonthFirstDay(widget.startDate!);
 
-    final DateTime nextMonthFirstDayDate = nextMonthFirstDay(widget.startDate!);
+    DateTime currentWeekFirst = currentWeekFirstDay(start);
+    DateTime currentWeekLast = currentWeekLastDay(start);
 
-    DateTime currentWeekFirstDayDate =
-        currentWeekFirstDay(currentMonthFirstDayDate);
-    DateTime currentWeekLastDayDate =
-        currentWeekLastDay(currentMonthFirstDayDate);
-
-    if (currentMonthFirstDayDate.day != currentWeekLastDayDate.day) {
+    if (start.day != currentWeekLast.day) {
       weekDatesList.add(
-          '${ddDateFormat.format(currentMonthFirstDayDate)} - ${ddDateFormat.format(currentWeekLastDayDate)}');
+          '${ddDateFormat.format(start)} - ${ddDateFormat.format(currentWeekLast)}');
     } else {
-      weekDatesList.add(ddDateFormat.format(currentMonthFirstDayDate));
+      weekDatesList.add(ddDateFormat.format(start));
     }
-    currentWeekFirstDayDate = nextWeekFirstDay(currentWeekFirstDayDate);
-    currentWeekLastDayDate = nextWeekLastDay(currentWeekLastDayDate);
 
-    while (currentWeekLastDayDate.isBefore(nextMonthFirstDayDate)) {
+    currentWeekFirst = nextWeekFirstDay(currentWeekFirst);
+    currentWeekLast = nextWeekLastDay(currentWeekLast);
+
+    while (currentWeekLast.isBefore(end)) {
       weekDatesList.add(
-          '${ddDateFormat.format(currentWeekFirstDayDate)} - ${ddDateFormat.format(currentWeekLastDayDate)}');
-
-      currentWeekFirstDayDate = nextWeekFirstDay(currentWeekFirstDayDate);
-      currentWeekLastDayDate = nextWeekLastDay(currentWeekLastDayDate);
+          '${ddDateFormat.format(currentWeekFirst)} - ${ddDateFormat.format(currentWeekLast)}');
+      currentWeekFirst = nextWeekFirstDay(currentWeekFirst);
+      currentWeekLast = nextWeekLastDay(currentWeekLast);
     }
 
-    if (currentWeekFirstDayDate.month == currentMonthFirstDayDate.month) {
-      if (currentWeekFirstDayDate.day != currentMonthLastDayDate.day) {
+    if (currentWeekFirst.month == start.month) {
+      final lastDay = currentMonthLastDay(widget.startDate!);
+      if (currentWeekFirst.day != lastDay.day) {
         weekDatesList.add(
-            '${ddDateFormat.format(currentWeekFirstDayDate)} - ${ddDateFormat.format(currentMonthLastDayDate)}');
+            '${ddDateFormat.format(currentWeekFirst)} - ${ddDateFormat.format(lastDay)}');
       } else {
-        weekDatesList.add(ddDateFormat.format(currentWeekFirstDayDate));
+        weekDatesList.add(ddDateFormat.format(currentWeekFirst));
       }
     }
 
     return weekDatesList;
   }
 
+  /// Generates month labels for a year-long period (e.g., "Jan", "Feb").
   List<String> _getMonthBottomTitlesString() {
-    return [
-      DateFormat("MMM").format(widget.startDate!),
-      DateFormat("MMM").format(
-          DateTime(widget.startDate!.year, widget.startDate!.month + 1)),
-      DateFormat("MMM").format(
-          DateTime(widget.startDate!.year, widget.startDate!.month + 2)),
-      DateFormat("MMM").format(
-          DateTime(widget.startDate!.year, widget.startDate!.month + 3)),
-      DateFormat("MMM").format(
-          DateTime(widget.startDate!.year, widget.startDate!.month + 4)),
-      DateFormat("MMM").format(
-          DateTime(widget.startDate!.year, widget.startDate!.month + 5)),
-      DateFormat("MMM").format(
-          DateTime(widget.startDate!.year, widget.startDate!.month + 6)),
-      DateFormat("MMM").format(
-          DateTime(widget.startDate!.year, widget.startDate!.month + 7)),
-      DateFormat("MMM").format(
-          DateTime(widget.startDate!.year, widget.startDate!.month + 8)),
-      DateFormat("MMM").format(
-          DateTime(widget.startDate!.year, widget.startDate!.month + 9)),
-      DateFormat("MMM").format(
-          DateTime(widget.startDate!.year, widget.startDate!.month + 10)),
-      DateFormat("MMM").format(
-          DateTime(widget.startDate!.year, widget.startDate!.month + 11)),
-    ];
+    return List.generate(12, (i) {
+      return DateFormat("MMM").format(
+          DateTime(widget.startDate!.year, widget.startDate!.month + i));
+    });
   }
 
+  /// Returns the appropriate list of title strings based on [widget.transactionTimePeriod].
   List<String> _getBottomTitlesString() {
     switch (widget.transactionTimePeriod) {
       case TransactionTimePeriod.day:
         return [];
-
       case TransactionTimePeriod.week:
         return _getWeekdayBottomTitlesString();
       case TransactionTimePeriod.month:
@@ -339,219 +309,149 @@ class AccountBarChartState extends ConsumerState<AccountBarChart> {
     }
   }
 
-  Widget _weekdayBottomTitleWidget(double value, TitleMeta meta) {
-    final Widget text = Text(
-      bottomTitlesStrings[value.toInt()],
-      style: const TextStyle(
-        color: Color(0xff7589a2),
-        fontWeight: FontWeight.bold,
-        fontSize: 12,
-      ),
-    );
-
-    return SideTitleWidget(
-      meta: meta,
-      space: 5, //margin top
-      child: text,
-    );
-  }
-
-  Widget _weekIntervalBottomTitleWidget(double value, TitleMeta meta) {
-    final Widget text = Text(
-      bottomTitlesStrings[value.toInt()],
-      style: const TextStyle(
-        color: Color(0xff7589a2),
-        fontWeight: FontWeight.bold,
-        fontSize: 12,
-      ),
-    );
-
-    return SideTitleWidget(
-      meta: meta,
-      space: 5, //margin top
-      child: text,
-    );
-  }
-
-  Widget _monthBottomTitleWidget(double value, TitleMeta meta) {
-    final Widget text = Text(
-      bottomTitlesStrings[value.toInt()],
-      style: const TextStyle(
-        color: Color(0xff7589a2),
-        fontWeight: FontWeight.bold,
-        fontSize: 12,
-      ),
-    );
-
-    return SideTitleWidget(
-      meta: meta,
-      // axisSide: meta.axisSide,
-      space: 5, //margin top
-      child: text,
-    );
-  }
-
-  Widget _buildBottomTitleWidget(double value, TitleMeta meta) {
-    switch (widget.transactionTimePeriod) {
-      case TransactionTimePeriod.day:
-        break;
-      case TransactionTimePeriod.week:
-        return _weekdayBottomTitleWidget(value, meta);
-      case TransactionTimePeriod.month:
-        return _weekIntervalBottomTitleWidget(value, meta);
-      case TransactionTimePeriod.year:
-        return _monthBottomTitleWidget(value, meta);
-      default:
-        break;
+  /// Builds the title widget for the bottom axis based on [value] and [bottomTitlesStrings].
+  Widget _buildBottomTitleWidget(
+      double value, TitleMeta meta, List<String> bottomTitlesStrings) {
+    if (value.toInt() >= bottomTitlesStrings.length || value.toInt() < 0) {
+      return const SizedBox.shrink();
     }
 
-    return Container();
+    final colors = context.appColors;
+    final textTheme = Theme.of(context).textTheme;
+
+    return SideTitleWidget(
+      meta: meta,
+      space: 5,
+      child: Text(
+        bottomTitlesStrings[value.toInt()],
+        style: textTheme.labelSmall?.copyWith(
+              color: colors.textSecondary,
+              fontWeight: FontWeight.bold,
+            ) ??
+            const TextStyle(
+              color: CustomColors.chartLabelsGray,
+              fontWeight: FontWeight.bold,
+              fontSize: 12,
+            ),
+      ),
+    );
   }
 
   /// BALANCE MANAGEMENT
 
+  /// Aggregates transaction amounts by day of the week for a 7-day period.
+  /// Result is a map of `dayIndex (0-6)` to `[totalIncome, totalExpense]`.
   Map<int, List<double>> getDailyBalanceForWeek() {
-    final Map<int, List<double>> balanceMap2 = {};
-
+    final Map<int, List<double>> balanceMap = {};
     for (var transaction in widget.transactionList) {
-      if (balanceMap2[transaction.date.weekday - 1] == null) {
-        if (transaction.amount >= 0) {
-          balanceMap2[transaction.date.weekday - 1] = [transaction.amount, 0];
-        } else {
-          balanceMap2[transaction.date.weekday - 1] = [0, transaction.amount];
-        }
+      final dayIndex = transaction.date.weekday - 1;
+      balanceMap.putIfAbsent(dayIndex, () => [0, 0]);
+      if (transaction.amount >= 0) {
+        balanceMap[dayIndex]![0] =
+            (balanceMap[dayIndex]![0] + transaction.amount).withPrecision(2);
       } else {
-        final List<double> currValueArray =
-            balanceMap2[transaction.date.weekday - 1]!;
-
-        if (transaction.amount >= 0) {
-          balanceMap2[transaction.date.weekday - 1] = [
-            (currValueArray[0] + transaction.amount).withPrecision(2),
-            currValueArray[1]
-          ];
-        } else {
-          balanceMap2[transaction.date.weekday - 1] = [
-            currValueArray[0],
-            (currValueArray[1] + transaction.amount).withPrecision(2),
-          ];
-        }
+        balanceMap[dayIndex]![1] =
+            (balanceMap[dayIndex]![1] + transaction.amount).withPrecision(2);
       }
     }
-
-    return balanceMap2;
+    return balanceMap;
   }
 
+  /// Aggregates transaction amounts by week index for a monthly view.
+  /// Result is a map of `weekIndex` to `[totalIncome, totalExpense]`.
   Map<int, List<double>> getWeekBalanceForMonth() {
     final Map<int, List<double>> balanceMap = {};
-    final firstWeeknumberOfMonth = weekNumber(widget.startDate!);
-
+    final firstWeek = weekNumber(widget.startDate!);
     for (var transaction in widget.transactionList) {
-      final transactionWeeknumber = weekNumber(transaction.date);
-
-      if (balanceMap[transactionWeeknumber - firstWeeknumberOfMonth] == null) {
-        if (transaction.amount >= 0) {
-          balanceMap[transactionWeeknumber - firstWeeknumberOfMonth] = [
-            transaction.amount,
-            0
-          ];
-        } else {
-          balanceMap[transactionWeeknumber - firstWeeknumberOfMonth] = [
-            0,
-            transaction.amount
-          ];
-        }
+      final weekIndex = weekNumber(transaction.date) - firstWeek;
+      balanceMap.putIfAbsent(weekIndex, () => [0, 0]);
+      if (transaction.amount >= 0) {
+        balanceMap[weekIndex]![0] =
+            (balanceMap[weekIndex]![0] + transaction.amount).withPrecision(2);
       } else {
-        final List<double> currValueArray =
-            balanceMap[transactionWeeknumber - firstWeeknumberOfMonth]!;
-
-        if (transaction.amount >= 0) {
-          balanceMap[transactionWeeknumber - firstWeeknumberOfMonth] = [
-            (currValueArray[0] + transaction.amount).withPrecision(2),
-            currValueArray[1]
-          ];
-        } else {
-          balanceMap[transactionWeeknumber - firstWeeknumberOfMonth] = [
-            currValueArray[0],
-            (currValueArray[1] + transaction.amount).withPrecision(2),
-          ];
-        }
+        balanceMap[weekIndex]![1] =
+            (balanceMap[weekIndex]![1] + transaction.amount).withPrecision(2);
       }
     }
-
     return balanceMap;
   }
 
+  /// Aggregates transaction amounts by month index for a yearly view.
+  /// Result is a map of `monthIndex (0-11)` to `[totalIncome, totalExpense]`.
   Map<int, List<double>> getMonthlyBalanceForYear() {
     final Map<int, List<double>> balanceMap = {};
-
     for (var transaction in widget.transactionList) {
-      if (balanceMap[transaction.date.month - 1] == null) {
-        if (transaction.amount >= 0) {
-          balanceMap[transaction.date.month - 1] = [transaction.amount, 0];
-        } else {
-          balanceMap[transaction.date.month - 1] = [0, transaction.amount];
-        }
+      final monthIndex = transaction.date.month - 1;
+      balanceMap.putIfAbsent(monthIndex, () => [0, 0]);
+      if (transaction.amount >= 0) {
+        balanceMap[monthIndex]![0] =
+            (balanceMap[monthIndex]![0] + transaction.amount).withPrecision(2);
       } else {
-        final List<double> currValueArray =
-            balanceMap[transaction.date.month - 1]!;
-
-        if (transaction.amount >= 0) {
-          balanceMap[transaction.date.month - 1] = [
-            (currValueArray[0] + transaction.amount).withPrecision(2),
-            currValueArray[1]
-          ];
-        } else {
-          balanceMap[transaction.date.month - 1] = [
-            currValueArray[0],
-            (currValueArray[1] + transaction.amount).withPrecision(2),
-          ];
-        }
+        balanceMap[monthIndex]![1] =
+            (balanceMap[monthIndex]![1] + transaction.amount).withPrecision(2);
       }
     }
-
     return balanceMap;
   }
 
-  List<BarChartGroupData> _buildGroupData() {
-    final List<BarChartGroupData> barChartGroupDataList = [];
-
-    for (int i = 0; i < bottomTitlesStrings.length; i++) {
-      List<double> barValue = valueMap[i] ?? [0, 0];
+  /// Converts [valueMap] and [bottomTitlesStrings] into a list of [BarChartGroupData]
+  /// using the provided [incomeBarColor] and [expenseBarColor].
+  ///
+  /// [valueMap] is index-based and contains `[income, expense]` totals per index.
+  List<BarChartGroupData> _buildGroupData({
+    required Map<int, List<double>> valueMap,
+    required List<String> bottomTitlesStrings,
+    required Color incomeBarColor,
+    required Color expenseBarColor,
+  }) {
+    return List.generate(bottomTitlesStrings.length, (i) {
+      final barValue = valueMap[i] ?? [0, 0];
+      double y1 = barValue[0];
+      double y2 = barValue[1];
 
       if (widget.transactionType ==
               AccountBarChartModeTransactionType.expense ||
           widget.transactionType == AccountBarChartModeTransactionType.all) {
-        barValue[1] *= -1;
+        y2 *= -1;
       }
 
-      barChartGroupDataList
-          .add(makeGroupData(x: i, y1: barValue[0], y2: barValue[1]));
-    }
-
-    return barChartGroupDataList;
+      return makeGroupData(
+        x: i,
+        y1: y1,
+        y2: y2,
+        incomeBarColor: incomeBarColor,
+        expenseBarColor: expenseBarColor,
+      );
+    });
   }
 
-  BarChartGroupData makeGroupData(
-      {required int x, required double? y1, double? y2}) {
+  /// Factory method to create a [BarChartGroupData] entry with specific rod data
+  /// based on enabled transaction types.
+  BarChartGroupData makeGroupData({
+    required int x,
+    required double y1,
+    required double y2,
+    required Color incomeBarColor,
+    required Color expenseBarColor,
+  }) {
+    final showIncome =
+        widget.transactionType == AccountBarChartModeTransactionType.income ||
+            widget.transactionType == AccountBarChartModeTransactionType.all;
+    final showExpense =
+        widget.transactionType == AccountBarChartModeTransactionType.expense ||
+            widget.transactionType == AccountBarChartModeTransactionType.all;
+
     return BarChartGroupData(
       barsSpace: barsSpace,
       x: x,
       barRods: [
-        if (y1 != null &&
-            (widget.transactionType ==
-                    AccountBarChartModeTransactionType.income ||
-                widget.transactionType ==
-                    AccountBarChartModeTransactionType.all))
+        if (showIncome)
           BarChartRodData(
             toY: y1,
             color: incomeBarColor,
             width: barWidth,
           ),
-        if (y2 != null &&
-            (widget.transactionType ==
-                    AccountBarChartModeTransactionType.expense ||
-                widget.transactionType ==
-                    AccountBarChartModeTransactionType.all))
+        if (showExpense)
           BarChartRodData(
             toY: y2,
             color: expenseBarColor,

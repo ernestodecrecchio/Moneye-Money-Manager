@@ -25,6 +25,30 @@ class CustomColors {
   /// #FC5757
   static const expense = Color.fromARGB(255, 252, 87, 87);
 
+  /// #F5F7FB
+  static const lightSurface = Color(0xFFF5F7FB);
+
+  /// #121212
+  static const darkScaffoldBackground = Color(0xFF121212);
+
+  /// #1E1E1E
+  static const darkSurface = Color(0xFF1E1E1E);
+
+  /// #2C2C2C
+  static const darkDivider = Color.fromARGB(255, 28, 28, 28);
+
+  /// #81C784
+  static const darkIncome = Color(0xFF81C784);
+
+  /// #E57373
+  static const darkExpense = Color(0xFFE57373);
+
+  /// #FE4A49 (Swipe Action Red)
+  static const swipeActionRed = Color(0xFFFE4A49);
+
+  /// #7589A2 (Chart Labels Gray)
+  static const chartLabelsGray = Color(0xFF7589A2);
+
   // Picker Colors
   static const red1 = Color.fromARGB(255, 244, 67, 54);
   static const red2 = Color.fromARGB(255, 233, 30, 99);
@@ -40,4 +64,25 @@ class CustomColors {
   static const brown2 = Color.fromARGB(255, 172, 106, 82);
   static const black = Color.fromARGB(255, 0, 0, 0);
   static const grey = Color.fromARGB(255, 158, 158, 158);
+}
+
+extension ColorExtension on Color {
+  Color darken([double amount = .1]) {
+    assert(amount >= 0 && amount <= 1);
+
+    final hsl = HSLColor.fromColor(this);
+    final hslDark = hsl.withLightness((hsl.lightness - amount).clamp(0.0, 1.0));
+
+    return hslDark.toColor();
+  }
+
+  Color lighten([double amount = .1]) {
+    assert(amount >= 0 && amount <= 1);
+
+    final hsl = HSLColor.fromColor(this);
+    final hslLight =
+        hsl.withLightness((hsl.lightness + amount).clamp(0.0, 1.0));
+
+    return hslLight.toColor();
+  }
 }

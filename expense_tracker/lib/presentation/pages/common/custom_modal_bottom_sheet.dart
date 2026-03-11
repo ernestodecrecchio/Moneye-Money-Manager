@@ -11,7 +11,6 @@ Future showCustomModalBottomSheet({
           topRight: Radius.circular(34),
         ),
       ),
-      backgroundColor: Colors.white,
       clipBehavior: Clip.antiAlias,
       context: context,
       builder: builder);

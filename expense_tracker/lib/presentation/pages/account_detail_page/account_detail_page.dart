@@ -13,6 +13,7 @@ import 'package:expense_tracker/presentation/pages/common/custom_modal_bottom_sh
 import 'package:expense_tracker/presentation/pages/common/page_view_with_indicators.dart';
 import 'package:expense_tracker/presentation/pages/new_edit_transaction_flow/new_edit_transaction_page.dart';
 import 'package:expense_tracker/presentation/pages/options_page/accounts_page/new_edit_account_page.dart';
+import 'package:expense_tracker/style/app_theme.dart';
 import 'package:expense_tracker/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -223,7 +224,9 @@ class _AccountDetailPageState extends ConsumerState<AccountDetailPage>
     return TextButton(
       child: Text(
         appLocalizations.edit,
-        style: const TextStyle(color: Colors.white),
+        style: TextStyle(
+          color: Theme.of(context).appBarTheme.foregroundColor,
+        ),
       ),
       onPressed: () async {
         final result = await Navigator.of(context).pushNamed(
@@ -240,8 +243,6 @@ class _AccountDetailPageState extends ConsumerState<AccountDetailPage>
 
   Widget _buildFloatingActionButton(BuildContext context) {
     return FloatingActionButton(
-      backgroundColor: CustomColors.darkBlue,
-      shape: const CircleBorder(),
       onPressed: () => Navigator.pushNamed(
         context,
         NewEditTransactionPage.routeName,
@@ -254,24 +255,17 @@ class _AccountDetailPageState extends ConsumerState<AccountDetailPage>
   }
 
   Widget _buildTabBar(AppLocalizations appLocalizations) {
+    final colors = context.appColors;
+
     return Stack(
       fit: StackFit.passthrough,
       alignment: Alignment.bottomCenter,
       children: [
-        Container(
-          decoration: BoxDecoration(
-            border: Border(
-              bottom: BorderSide(
-                  color: CustomColors.grey.withValues(alpha: 0.25), width: 2.0),
-            ),
-          ),
-        ),
         TabBar(
           controller: _tabController,
-          indicatorColor: CustomColors.blue,
           indicatorSize: TabBarIndicatorSize.tab,
-          labelColor: CustomColors.darkBlue,
-          labelStyle: const TextStyle(fontSize: 16),
+          dividerColor: colors.divider.darken(0.05),
+          dividerHeight: 2,
           onTap: (value) {
             switch (value) {
               case 0:
@@ -424,8 +418,10 @@ class _ScrollableTabViewState extends ConsumerState<ScrollableTabView> {
           loading: () => const Center(
             child: CircularProgressIndicator(),
           ),
-          error: (error, stackTrace) =>
-              const Text('Error loading transactions list'),
+          error: (error, stackTrace) => Text(
+            'Error loading transactions list',
+            style: Theme.of(context).textTheme.bodyMedium,
+          ),
         );
   }
 
@@ -491,11 +487,14 @@ class DateBar extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final appLocalizations = ref.watch(appLocalizationsProvider);
 
+    final colors = context.appColors;
+    final textTheme = Theme.of(context).textTheme;
+
     return Container(
       height: 50,
       padding: const EdgeInsets.symmetric(horizontal: 14),
       width: double.infinity,
-      color: CustomColors.clearGrey,
+      color: colors.surface,
       child: Row(
         children: [
           SizedBox(
@@ -517,9 +516,9 @@ class DateBar extends ConsumerWidget {
                                 Flexible(
                                   child: Text(
                                     appLocalizations.selectTimeInterval,
-                                    style: const TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.w600),
+                                    style: textTheme.titleLarge?.copyWith(
+                                      fontWeight: FontWeight.w600,
+                                    ),
                                   ),
                                 ),
                                 IconButton(
@@ -538,8 +537,13 @@ class DateBar extends ConsumerWidget {
                                   trailing: selectedTransactionTimePeriod ==
                                           TransactionTimePeriod.day
                                       ? VectorGraphic(
-                                          loader: AssetBytesLoader(
-                                              'assets/icons/checkmark.svg'))
+                                          loader: const AssetBytesLoader(
+                                              'assets/icons/checkmark.svg'),
+                                          colorFilter: ColorFilter.mode(
+                                            colors.primary,
+                                            BlendMode.srcIn,
+                                          ),
+                                        )
                                       : null,
                                   onTap: () => onTransactionTimePeriodChanged(
                                     TransactionTimePeriod.day,
@@ -550,8 +554,13 @@ class DateBar extends ConsumerWidget {
                                   trailing: selectedTransactionTimePeriod ==
                                           TransactionTimePeriod.week
                                       ? VectorGraphic(
-                                          loader: AssetBytesLoader(
-                                              'assets/icons/checkmark.svg'))
+                                          loader: const AssetBytesLoader(
+                                              'assets/icons/checkmark.svg'),
+                                          colorFilter: ColorFilter.mode(
+                                            colors.primary,
+                                            BlendMode.srcIn,
+                                          ),
+                                        )
                                       : null,
                                   onTap: () => onTransactionTimePeriodChanged(
                                     TransactionTimePeriod.week,
@@ -562,8 +571,13 @@ class DateBar extends ConsumerWidget {
                                   trailing: selectedTransactionTimePeriod ==
                                           TransactionTimePeriod.month
                                       ? VectorGraphic(
-                                          loader: AssetBytesLoader(
-                                              'assets/icons/checkmark.svg'))
+                                          loader: const AssetBytesLoader(
+                                              'assets/icons/checkmark.svg'),
+                                          colorFilter: ColorFilter.mode(
+                                            colors.primary,
+                                            BlendMode.srcIn,
+                                          ),
+                                        )
                                       : null,
                                   onTap: () => onTransactionTimePeriodChanged(
                                     TransactionTimePeriod.month,
@@ -574,8 +588,13 @@ class DateBar extends ConsumerWidget {
                                   trailing: selectedTransactionTimePeriod ==
                                           TransactionTimePeriod.year
                                       ? VectorGraphic(
-                                          loader: AssetBytesLoader(
-                                              'assets/icons/checkmark.svg'))
+                                          loader: const AssetBytesLoader(
+                                              'assets/icons/checkmark.svg'),
+                                          colorFilter: ColorFilter.mode(
+                                            colors.primary,
+                                            BlendMode.srcIn,
+                                          ),
+                                        )
                                       : null,
                                   onTap: () => onTransactionTimePeriodChanged(
                                     TransactionTimePeriod.year,
@@ -591,7 +610,7 @@ class DateBar extends ConsumerWidget {
                 );
               },
               style: FilledButton.styleFrom(
-                backgroundColor: CustomColors.blue,
+                backgroundColor: colors.primary,
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -614,7 +633,10 @@ class DateBar extends ConsumerWidget {
                                             TransactionTimePeriod.year
                                         ? appLocalizations.year
                                         : 'Custom',
-                        style: const TextStyle(fontSize: 14),
+                        style: textTheme.bodyMedium?.copyWith(
+                          color: colors.onPrimary,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
                   ),
@@ -642,9 +664,9 @@ class DateBar extends ConsumerWidget {
                       '${startDate.day} ${startDate.month} - ${endDate.day} ${endDate.month}',
                   },
                   textAlign: TextAlign.end,
-                  style: const TextStyle(
+                  style: textTheme.bodySmall?.copyWith(
                     fontSize: 14,
-                    color: CustomColors.clearGreyText,
+                    color: colors.textSecondary,
                   ),
                 ),
               ),
@@ -658,7 +680,7 @@ class DateBar extends ConsumerWidget {
             style: FilledButton.styleFrom(
               minimumSize: const Size(35, 35),
               elevation: 0,
-              backgroundColor: CustomColors.blue,
+              backgroundColor: colors.primary,
               padding: EdgeInsets.zero,
               tapTargetSize: MaterialTapTargetSize.shrinkWrap,
             ),
@@ -672,7 +694,7 @@ class DateBar extends ConsumerWidget {
             style: FilledButton.styleFrom(
               minimumSize: const Size(35, 35),
               elevation: 0,
-              backgroundColor: CustomColors.blue,
+              backgroundColor: colors.primary,
               padding: EdgeInsets.zero,
               tapTargetSize: MaterialTapTargetSize.shrinkWrap,
             ),

@@ -25,10 +25,12 @@ import 'package:expense_tracker/presentation/pages/options_page/currency_page/cu
 import 'package:expense_tracker/presentation/pages/options_page/language_page/languages_list_page.dart';
 import 'package:expense_tracker/presentation/pages/options_page/notification_page/notification_page.dart';
 import 'package:expense_tracker/presentation/pages/options_page/privacy_page/privacy_settings_page.dart';
+import 'package:expense_tracker/presentation/pages/options_page/theme_page/theme_selection_page.dart';
 import 'package:expense_tracker/presentation/pages/options_page/contacts_page/contacts_page.dart';
 import 'package:expense_tracker/presentation/pages/tab_bar_page.dart';
 import 'package:expense_tracker/application/common/notifiers/analytics_consent_provider.dart';
-import 'package:expense_tracker/style.dart';
+import 'package:expense_tracker/application/common/notifiers/theme_provider.dart';
+import 'package:expense_tracker/style/app_theme.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -159,6 +161,11 @@ Future main() async {
       container.read(analyticsConsentProvider.notifier);
   analyticsConsentNotifier.setFromLocalStorage(analyticsConsentValue);
 
+  // SETTING UP THEME
+  final themeModeString = prefs.getString('theme_mode');
+  final themeProviderNotifier = container.read(themeProvider.notifier);
+  themeProviderNotifier.setFromLocalStorage(themeModeString);
+
   // SETTING UP NEEDS CONFIGURATION
   runApp(
     r.UncontrolledProviderScope(
@@ -200,36 +207,9 @@ class MyApp extends r.ConsumerWidget {
         debugShowCheckedModeBanner: false,
         title: 'Moneye',
         navigatorObservers: [AnalyticsManager.observer],
-        theme: ThemeData(
-          fontFamily: 'Ubuntu',
-          scaffoldBackgroundColor: Colors.white,
-          textButtonTheme: TextButtonThemeData(
-            style: TextButton.styleFrom(
-              foregroundColor: CustomColors.blue,
-            ),
-          ),
-          dividerTheme: const DividerThemeData(
-            color: CustomColors.clearGrey,
-            thickness: 1,
-            space: 0,
-          ),
-          appBarTheme: const AppBarTheme(
-            backgroundColor: CustomColors.blue,
-            foregroundColor: Colors.white,
-            titleTextStyle: TextStyle(
-              fontWeight: FontWeight.w500,
-              fontSize: 20,
-              fontFamily: 'Ubuntu',
-            ),
-          ),
-          tabBarTheme: const TabBarTheme(
-            labelStyle: TextStyle(fontFamily: 'Ubuntu'),
-          ).data,
-          floatingActionButtonTheme: const FloatingActionButtonThemeData(
-            backgroundColor: CustomColors.darkBlue,
-            foregroundColor: Colors.white,
-          ),
-        ),
+        theme: AppTheme.light,
+        darkTheme: AppTheme.dark,
+        themeMode: ref.watch(themeProvider),
         locale: ref.watch(localeProvider),
         supportedLocales: L10n.all,
         localizationsDelegates: const [
@@ -256,6 +236,7 @@ class MyApp extends r.ConsumerWidget {
           UpdateHistoryPage.routeName: (context) => const UpdateHistoryPage(),
           PrivacySettingsPage.routeName: (context) =>
               const PrivacySettingsPage(),
+          ThemeSelectionPage.routeName: (context) => const ThemeSelectionPage(),
           ContactsPage.routeName: (context) => const ContactsPage(),
         },
         onGenerateRoute: (settings) {

@@ -470,6 +470,21 @@ class AppLocalizationsDe extends AppLocalizations {
   String get usageData => 'Grundlegende Nutzungsmuster';
 
   @override
+  String get theme => 'Thema';
+
+  @override
+  String get themeOptionDescription => 'App-Erscheinungsbild ändern';
+
+  @override
+  String get lightTheme => 'Hell';
+
+  @override
+  String get darkTheme => 'Dunkel';
+
+  @override
+  String get systemTheme => 'System';
+
+  @override
   String get version => 'Version';
 
   @override

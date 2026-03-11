@@ -9,10 +9,11 @@ import 'package:expense_tracker/presentation/pages/common/custom_text_field.dart
 import 'package:expense_tracker/presentation/pages/common/dialogs.dart';
 import 'package:expense_tracker/presentation/pages/common/inline_color_picker.dart';
 import 'package:expense_tracker/presentation/pages/common/inline_icon_picker.dart';
-import 'package:expense_tracker/style.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:expense_tracker/style/app_theme.dart';
 
 class NewEditAccountPage extends ConsumerStatefulWidget {
   static const routeName = '/newEditAccountPage';
@@ -35,11 +36,19 @@ class _NewAccountPageState extends ConsumerState<NewEditAccountPage> {
   TextEditingController descriptionInput = TextEditingController();
   TextEditingController initialBalanceInput = TextEditingController();
 
-  Color selectedColor = CustomColors.darkBlue;
+  late Color selectedColor;
   String? selectedIconPath;
 
   bool get editMode {
     return widget.initialAccountSettings != null;
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (!editMode) {
+      selectedColor = context.appColors.secondary;
+    }
   }
 
   @override
@@ -108,6 +117,7 @@ class _NewAccountPageState extends ConsumerState<NewEditAccountPage> {
       child: Padding(
         padding: const EdgeInsets.only(top: 30),
         child: Column(
+          spacing: 14,
           children: [
             CustomTextField(
               controller: titleInput,
@@ -120,16 +130,10 @@ class _NewAccountPageState extends ConsumerState<NewEditAccountPage> {
                 return null;
               },
             ),
-            const SizedBox(
-              height: 14,
-            ),
             CustomTextField(
               controller: descriptionInput,
               label: appLocalizations.description,
               hintText: appLocalizations.insertTheDescription,
-            ),
-            const SizedBox(
-              height: 14,
             ),
             if (!editMode)
               CustomTextField(
@@ -143,9 +147,6 @@ class _NewAccountPageState extends ConsumerState<NewEditAccountPage> {
                     signed: true, decimal: true),
               ),
             _buildColorPicker(appLocalizations),
-            const SizedBox(
-              height: 14,
-            ),
             _buildIconPicker(appLocalizations),
             const Spacer(),
             _buildSaveButton(appLocalizations, isLoading),
@@ -161,11 +162,9 @@ class _NewAccountPageState extends ConsumerState<NewEditAccountPage> {
       children: [
         Text(
           appLocalizations.color,
-          style: const TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.w600,
-            color: CustomColors.lightBlack,
-          ),
+          style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                fontWeight: FontWeight.bold,
+              ),
         ),
         const SizedBox(
           height: 5,
@@ -187,11 +186,9 @@ class _NewAccountPageState extends ConsumerState<NewEditAccountPage> {
       children: [
         Text(
           appLocalizations.icon,
-          style: const TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.w600,
-            color: CustomColors.lightBlack,
-          ),
+          style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                fontWeight: FontWeight.bold,
+              ),
         ),
         const SizedBox(
           height: 5,
@@ -279,7 +276,9 @@ class _NewAccountPageState extends ConsumerState<NewEditAccountPage> {
     return TextButton(
       child: Text(
         appLocalizations.delete,
-        style: const TextStyle(color: Colors.white),
+        style: TextStyle(
+          color: Theme.of(context).appBarTheme.foregroundColor,
+        ),
       ),
       onPressed: () async {
         final navigator = Navigator.of(context);

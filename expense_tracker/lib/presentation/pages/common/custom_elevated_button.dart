@@ -1,4 +1,4 @@
-import 'package:expense_tracker/style.dart';
+import 'package:expense_tracker/style/app_theme.dart';
 import 'package:flutter/material.dart';
 
 enum CustomElevatedButtonMode { light, dark }
@@ -19,30 +19,35 @@ class CustomElevatedButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.appColors;
+    final textTheme = Theme.of(context).textTheme;
+
+    final backgroundColor = mode == CustomElevatedButtonMode.dark
+        ? colors.secondary
+        : colors.scaffoldBackground;
+    final foregroundColor = mode == CustomElevatedButtonMode.dark
+        ? colors.onSecondary
+        : colors.secondary;
+
     return SizedBox(
       height: 50,
       width: double.infinity,
       child: FilledButton(
         onPressed: isLoading ? null : onPressed,
         style: FilledButton.styleFrom(
-          backgroundColor: mode == CustomElevatedButtonMode.dark
-              ? CustomColors.darkBlue
-              : Colors.white,
-          foregroundColor: mode == CustomElevatedButtonMode.dark
-              ? Colors.white
-              : CustomColors.darkBlue,
-          disabledBackgroundColor: mode == CustomElevatedButtonMode.dark
-              ? CustomColors.darkBlue
-              : Colors.white,
-          disabledForegroundColor: Colors.grey,
+          backgroundColor: backgroundColor,
+          foregroundColor: foregroundColor,
+          disabledBackgroundColor: backgroundColor.withValues(alpha: 0.5),
+          disabledForegroundColor: colors.textSecondary,
         ),
         child: isLoading
             ? const CircularProgressIndicator()
             : Text(
                 text,
-                style: const TextStyle(
-                  fontSize: 18,
+                style: textTheme.titleMedium?.copyWith(
+                  color: foregroundColor,
                   fontWeight: FontWeight.w600,
+                  fontSize: 18,
                 ),
               ),
       ),

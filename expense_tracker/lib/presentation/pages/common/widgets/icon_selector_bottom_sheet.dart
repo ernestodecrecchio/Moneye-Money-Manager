@@ -55,30 +55,26 @@ class _IconSelectorContentState extends ConsumerState<IconSelectorContent> {
   @override
   Widget build(BuildContext context) {
     final appLocalizations = ref.watch(appLocalizationsProvider);
+    final textTheme = Theme.of(context).textTheme;
 
     return SafeArea(
-      child: Container(
-        color: Colors.white,
+      child: Padding(
         padding:
             const EdgeInsets.only(top: 10, left: 17, right: 17, bottom: 20),
         child: Column(
           mainAxisSize: MainAxisSize.min,
+          spacing: 10,
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  appLocalizations.selectIcon,
-                  style: const TextStyle(
-                      fontSize: 18, fontWeight: FontWeight.w600),
-                ),
+                Text(appLocalizations.selectIcon, style: textTheme.titleMedium),
                 IconButton(
                   onPressed: () => Navigator.of(context).pop(),
                   icon: const Icon(Icons.close),
                 )
               ],
             ),
-            const SizedBox(height: 10),
             Flexible(
               child: GridView.builder(
                 shrinkWrap: true,

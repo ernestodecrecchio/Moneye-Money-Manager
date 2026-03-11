@@ -2,6 +2,7 @@ import 'package:expense_tracker/application/common/notifiers/app_localizations_p
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:vector_graphics/vector_graphics.dart';
+import 'package:expense_tracker/style/app_theme.dart';
 
 class Welcome extends ConsumerStatefulWidget {
   const Welcome({super.key});
@@ -26,8 +27,8 @@ class _WelcomeState extends ConsumerState<Welcome> {
           Text(
             appLocalizations.welcomePageMsg1,
             textAlign: TextAlign.center,
-            style: const TextStyle(
-              color: Colors.white,
+            style: TextStyle(
+              color: context.appColors.textPrimary,
               fontSize: 34,
               fontWeight: FontWeight.w700,
             ),
@@ -47,8 +48,8 @@ class _WelcomeState extends ConsumerState<Welcome> {
           Text(
             appLocalizations.welcomePageMsg2,
             textAlign: TextAlign.center,
-            style: const TextStyle(
-              color: Colors.white,
+            style: TextStyle(
+              color: context.appColors.textPrimary,
               fontSize: 20,
               fontWeight: FontWeight.w600,
             ),

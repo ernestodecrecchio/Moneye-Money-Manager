@@ -2,7 +2,7 @@ import 'package:expense_tracker/application/common/notifiers/analytics_consent_p
 import 'package:expense_tracker/application/common/notifiers/app_localizations_provider.dart';
 import 'package:expense_tracker/configuration/analytics_manager.dart';
 import 'package:expense_tracker/l10n/app_localizations.dart';
-import 'package:expense_tracker/style.dart';
+import 'package:expense_tracker/style/app_theme.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -16,6 +16,8 @@ class PrivacySettingsPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final appLocalizations = ref.watch(appLocalizationsProvider);
     final consent = ref.watch(analyticsConsentProvider);
+    final colors = context.appColors;
+    final textTheme = Theme.of(context).textTheme;
 
     return Scaffold(
       appBar: AppBar(
@@ -27,16 +29,17 @@ class PrivacySettingsPage extends ConsumerWidget {
             padding: const EdgeInsets.all(16.0),
             child: Text(
               appLocalizations.privacyIntroduction,
-              style: const TextStyle(
+              style: textTheme.bodyLarge?.copyWith(
                 fontSize: 16,
-                color: CustomColors.darkBlue,
               ),
             ),
           ),
-          _buildPrivacyAssurance(appLocalizations),
+          _buildPrivacyAssurance(appLocalizations, colors, textTheme),
           const SizedBox(height: 8),
           _buildSettingsSection(
             context,
+            colors: colors,
+            textTheme: textTheme,
             title: appLocalizations.essentialDataOptionTitle,
             description: appLocalizations.essentialDataOptionDescription,
             value: true,
@@ -46,6 +49,8 @@ class PrivacySettingsPage extends ConsumerWidget {
           const Divider(height: 1),
           _buildSettingsSection(
             context,
+            colors: colors,
+            textTheme: textTheme,
             title: appLocalizations.analyticsOptionTitle,
             description: appLocalizations.analyticsOptionDescription,
             value: consent ?? false,
@@ -55,14 +60,13 @@ class PrivacySettingsPage extends ConsumerWidget {
             },
           ),
           if (kDebugMode) ...[
-            const Padding(
-              padding: EdgeInsets.fromLTRB(16, 32, 16, 8),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(16, 32, 16, 8),
               child: Text(
                 "Debug",
-                style: TextStyle(
+                style: textTheme.titleMedium?.copyWith(
                   fontWeight: FontWeight.bold,
                   fontSize: 18,
-                  color: CustomColors.darkBlue,
                 ),
               ),
             ),
@@ -75,8 +79,8 @@ class PrivacySettingsPage extends ConsumerWidget {
                   icon: const Icon(Icons.bug_report),
                   label: Text(appLocalizations.crashTest),
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.red.shade700,
-                    foregroundColor: Colors.white,
+                    backgroundColor: colors.expense,
+                    foregroundColor: colors.onPrimary,
                   ),
                 ),
               ),
@@ -87,27 +91,28 @@ class PrivacySettingsPage extends ConsumerWidget {
     );
   }
 
-  Widget _buildPrivacyAssurance(AppLocalizations appLocalizations) {
+  Widget _buildPrivacyAssurance(AppLocalizations appLocalizations,
+      AppColors colors, TextTheme textTheme) {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: CustomColors.blue.withAlpha(20),
+        color: colors.primary.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: CustomColors.blue.withAlpha(50)),
+        border: Border.all(color: colors.primary.withValues(alpha: 0.2)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             children: [
-              const Icon(Icons.privacy_tip, color: CustomColors.blue, size: 20),
+              Icon(Icons.privacy_tip, color: colors.primary, size: 20),
               const SizedBox(width: 8),
               Text(
                 appLocalizations.privacyAssuranceLabel,
-                style: const TextStyle(
+                style: textTheme.bodyMedium?.copyWith(
                   fontWeight: FontWeight.bold,
-                  color: CustomColors.blue,
+                  color: colors.primary,
                 ),
               ),
             ],
@@ -115,10 +120,9 @@ class PrivacySettingsPage extends ConsumerWidget {
           const SizedBox(height: 12),
           Text(
             appLocalizations.privacyAssurance,
-            style: const TextStyle(
+            style: textTheme.bodyMedium?.copyWith(
               fontSize: 14,
               height: 1.4,
-              color: Colors.black87,
             ),
           ),
         ],
@@ -128,6 +132,8 @@ class PrivacySettingsPage extends ConsumerWidget {
 
   Widget _buildSettingsSection(
     BuildContext context, {
+    required AppColors colors,
+    required TextTheme textTheme,
     required String title,
     required String description,
     required bool value,
@@ -137,7 +143,7 @@ class PrivacySettingsPage extends ConsumerWidget {
     return ListTile(
       title: Text(
         title,
-        style: const TextStyle(
+        style: textTheme.titleMedium?.copyWith(
           fontWeight: FontWeight.bold,
           fontSize: 16,
         ),
@@ -146,15 +152,16 @@ class PrivacySettingsPage extends ConsumerWidget {
         padding: const EdgeInsets.only(top: 4),
         child: Text(
           description,
-          style: TextStyle(
+          style: textTheme.bodyMedium?.copyWith(
             fontSize: 14,
-            color: Colors.grey.shade700,
+            color: colors.textSecondary,
           ),
         ),
       ),
       trailing: Switch.adaptive(
         value: value,
         onChanged: onChanged,
+        activeTrackColor: colors.primary,
       ),
     );
   }

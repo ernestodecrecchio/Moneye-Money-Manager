@@ -1,6 +1,6 @@
-import 'package:expense_tracker/style.dart';
 import 'package:flutter/material.dart';
 import 'package:vector_graphics/vector_graphics.dart';
+import 'package:expense_tracker/style/app_theme.dart';
 
 class PageViewWithIndicators extends StatefulWidget {
   final List<Widget> widgetList;
@@ -94,7 +94,9 @@ class _PageViewWithIndicatorsState extends State<PageViewWithIndicators> {
             ? VectorGraphic(
                 loader: AssetBytesLoader(iconPath),
                 colorFilter: ColorFilter.mode(
-                  isActive ? CustomColors.blue : CustomColors.grey,
+                  isActive
+                      ? context.appColors.primary
+                      : context.appColors.textSecondary,
                   BlendMode.srcIn,
                 ),
               )

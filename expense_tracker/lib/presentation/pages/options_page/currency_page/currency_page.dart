@@ -3,7 +3,7 @@ import 'package:expense_tracker/l10n/app_localizations.dart';
 import 'package:expense_tracker/application/common/notifiers/currency_provider.dart';
 import 'package:expense_tracker/presentation/pages/common/custom_modal_bottom_sheet.dart';
 import 'package:expense_tracker/presentation/pages/common/custom_text_field.dart';
-import 'package:expense_tracker/style.dart';
+import 'package:expense_tracker/style/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:vector_graphics/vector_graphics.dart';
@@ -52,6 +52,8 @@ class _CurrencyPageState extends ConsumerState<CurrencyPage> {
   @override
   Widget build(BuildContext context) {
     final appLocalizations = ref.watch(appLocalizationsProvider);
+    final colors = context.appColors;
+    final textTheme = Theme.of(context).textTheme;
 
     return Scaffold(
       appBar: AppBar(
@@ -65,7 +67,7 @@ class _CurrencyPageState extends ConsumerState<CurrencyPage> {
               hasScrollBody: false,
               child: Padding(
                   padding: const EdgeInsets.only(bottom: 10.0, top: 30),
-                  child: _buildBody(appLocalizations)),
+                  child: _buildBody(appLocalizations, colors, textTheme)),
             ),
           ],
         ),
@@ -73,31 +75,32 @@ class _CurrencyPageState extends ConsumerState<CurrencyPage> {
     );
   }
 
-  Column _buildBody(AppLocalizations appLocalizations) {
+  Column _buildBody(AppLocalizations appLocalizations, AppColors colors,
+      TextTheme textTheme) {
     return Column(
       children: [
-        _buildCurrencyPreview(),
+        _buildCurrencyPreview(colors, textTheme),
         const SizedBox(
           height: 14,
         ),
-        _buildCurrenctCurrencyTextField(appLocalizations),
+        _buildCurrenctCurrencyTextField(appLocalizations, colors, textTheme),
         const SizedBox(
           height: 4,
         ),
         Text(
           appLocalizations.currencyConversionDisclaimer,
-          style:
-              const TextStyle(color: CustomColors.clearGreyText, fontSize: 12),
+          style: TextStyle(color: colors.textSecondary, fontSize: 12),
         ),
         const SizedBox(
           height: 14,
         ),
-        _buildCurrencySymbolPositionTextField(appLocalizations),
+        _buildCurrencySymbolPositionTextField(
+            appLocalizations, colors, textTheme),
       ],
     );
   }
 
-  Widget _buildCurrencyPreview() {
+  Widget _buildCurrencyPreview(AppColors colors, TextTheme textTheme) {
     final currentCurrency = ref.watch(currentCurrencyProvider);
     final currentCurrencyPosition =
         ref.watch(currentCurrencySymbolPositionProvider);
@@ -113,15 +116,15 @@ class _CurrencyPageState extends ConsumerState<CurrencyPage> {
 
     TextSpan exampleValueTextSpan = TextSpan(
       text: exampleValue.toStringAsFixed(2),
-      style: const TextStyle(color: CustomColors.clearGreyText),
+      style: TextStyle(color: colors.textSecondary),
     );
 
     return Padding(
         padding: const EdgeInsets.symmetric(vertical: 20),
         child: RichText(
             text: TextSpan(
-                style: const TextStyle(
-                  color: Colors.black,
+                style: TextStyle(
+                  color: colors.textPrimary,
                   fontSize: 40,
                 ),
                 children: [
@@ -133,7 +136,8 @@ class _CurrencyPageState extends ConsumerState<CurrencyPage> {
             ])));
   }
 
-  Widget _buildCurrenctCurrencyTextField(AppLocalizations appLocalizations) {
+  Widget _buildCurrenctCurrencyTextField(AppLocalizations appLocalizations,
+      AppColors colors, TextTheme textTheme) {
     return CustomTextField(
       controller: _currencySymbolInput,
       label: appLocalizations.currency,
@@ -164,14 +168,15 @@ class _CurrencyPageState extends ConsumerState<CurrencyPage> {
                               Flexible(
                                 child: Text(
                                   appLocalizations.selectCurrency,
-                                  style: const TextStyle(
+                                  style: textTheme.titleMedium?.copyWith(
                                       fontSize: 18,
                                       fontWeight: FontWeight.w600),
                                 ),
                               ),
                               IconButton(
                                 onPressed: () => Navigator.of(context).pop(),
-                                icon: const Icon(Icons.close),
+                                icon: Icon(Icons.close,
+                                    color: colors.textPrimary),
                               )
                             ],
                           ),
@@ -222,7 +227,9 @@ class _CurrencyPageState extends ConsumerState<CurrencyPage> {
   }
 
   Widget _buildCurrencySymbolPositionTextField(
-      AppLocalizations appLocalizations) {
+      AppLocalizations appLocalizations,
+      AppColors colors,
+      TextTheme textTheme) {
     final currentCurrencyPosition =
         ref.watch(currentCurrencySymbolPositionProvider);
 
@@ -250,13 +257,13 @@ class _CurrencyPageState extends ConsumerState<CurrencyPage> {
                         Flexible(
                           child: Text(
                             appLocalizations.selectCurrencyPosition,
-                            style: const TextStyle(
+                            style: textTheme.titleMedium?.copyWith(
                                 fontSize: 18, fontWeight: FontWeight.w600),
                           ),
                         ),
                         IconButton(
                           onPressed: () => Navigator.of(context).pop(),
-                          icon: const Icon(Icons.close),
+                          icon: Icon(Icons.close, color: colors.textPrimary),
                         )
                       ],
                     ),
