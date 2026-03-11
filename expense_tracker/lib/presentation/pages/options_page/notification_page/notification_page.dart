@@ -3,7 +3,7 @@ import 'package:expense_tracker/configuration/notification_manager.dart';
 import 'package:expense_tracker/application/common/notifiers/app_localizations_provider.dart';
 import 'package:expense_tracker/application/common/notifiers/notification_provider.dart';
 import 'package:expense_tracker/presentation/pages/common/custom_elevated_button.dart';
-import 'package:expense_tracker/style.dart';
+import 'package:expense_tracker/style/app_theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -17,6 +17,8 @@ class ReminderPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final appLocalizations = ref.watch(appLocalizationsProvider);
+    final colors = Theme.of(context).extension<AppColors>()!;
+    final textTheme = Theme.of(context).textTheme;
 
     return Scaffold(
       appBar: AppBar(
@@ -34,8 +36,9 @@ class ReminderPage extends ConsumerWidget {
                   children: [
                     Text(
                       appLocalizations.reminderDescription,
-                      style: const TextStyle(
-                          color: CustomColors.clearGreyText, fontSize: 16),
+                      style: textTheme.bodyLarge?.copyWith(
+                        color: colors.textSecondary,
+                      ),
                     ),
                     const SizedBox(height: 14),
                     Row(
@@ -43,16 +46,17 @@ class ReminderPage extends ConsumerWidget {
                         Expanded(
                           child: Text(
                             appLocalizations.dailyReminder,
-                            style: const TextStyle(
+                            style: textTheme.titleMedium?.copyWith(
                               fontSize: 18,
                               fontWeight: FontWeight.w600,
-                              color: CustomColors.lightBlack,
+                              color: colors.textPrimary,
                             ),
                           ),
                         ),
                         Switch.adaptive(
                           value:
                               ref.watch(notificationsEnabledProvider) ?? false,
+                          activeTrackColor: colors.primary,
                           onChanged: (newValue) async {
                             if (newValue) {
                               final isNotificationPermissionGranted =
