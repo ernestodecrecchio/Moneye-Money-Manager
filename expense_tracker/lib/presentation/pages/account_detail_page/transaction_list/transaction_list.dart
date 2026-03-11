@@ -12,6 +12,7 @@ import 'package:expense_tracker/presentation/pages/common/list_tiles/transaction
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:vector_graphics/vector_graphics.dart';
+import 'package:expense_tracker/style/app_theme.dart';
 import 'package:collection/collection.dart';
 
 enum AccountDetailTransactionListMode {
@@ -49,10 +50,9 @@ class _TransactionListState extends ConsumerState<TransactionList> {
               Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
             Text(
               appLocalizations.transactionList,
-              style: const TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
+              style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
             ),
             TextButton(
               onPressed: () {
@@ -74,9 +74,9 @@ class _TransactionListState extends ConsumerState<TransactionList> {
                         AccountDetailTransactionListMode.transactionList
                     ? appLocalizations.byList
                     : appLocalizations.byCategory,
-                style: const TextStyle(
-                  fontSize: 14,
-                ),
+                style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
               ),
             ),
           ]),
@@ -151,7 +151,10 @@ class _TransactionListState extends ConsumerState<TransactionList> {
           final otherEntry = CategoryTotalValue(
               category: Category(
                 name: appLocalizations.other,
-                colorValue: Colors.grey.toARGB32(),
+                colorValue: Theme.of(context)
+                    .extension<AppColors>()!
+                    .textSecondary
+                    .toARGB32(),
                 iconPath: 'assets/icons/box.svg',
               ),
               totalValue: transaction.amount);
@@ -213,11 +216,9 @@ class _TransactionListState extends ConsumerState<TransactionList> {
                   Text(
                     categoryTotalValuePair.category.name,
                     maxLines: 1,
-                    style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      overflow: TextOverflow.ellipsis,
-                    ),
+                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                          fontWeight: FontWeight.bold,
+                        ),
                   ),
                   const SizedBox(
                     height: 2,
@@ -229,6 +230,11 @@ class _TransactionListState extends ConsumerState<TransactionList> {
                       currentCurrency,
                       currentCurrencyPosition,
                     ),
+                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          color: Theme.of(context)
+                              .extension<AppColors>()!
+                              .textSecondary,
+                        ),
                   ),
                 ],
               ),

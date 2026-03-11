@@ -2,7 +2,7 @@ import 'package:expense_tracker/application/common/app_icons.dart';
 import 'package:expense_tracker/presentation/pages/common/expand_hint_button.dart';
 import 'package:expense_tracker/presentation/pages/common/widgets/icon_item.dart';
 import 'package:expense_tracker/presentation/pages/common/widgets/icon_selector_bottom_sheet.dart';
-import 'package:expense_tracker/style.dart';
+import 'package:expense_tracker/style/app_theme.dart';
 import 'package:flutter/material.dart';
 
 class InlineIconPicker extends StatefulWidget {
@@ -70,12 +70,15 @@ class _InlineIconPickerState extends State<InlineIconPicker> {
 
   @override
   Widget build(BuildContext context) {
+    final colors = Theme.of(context).extension<AppColors>()!;
+
     return Container(
       height: 114,
       clipBehavior: Clip.antiAlias,
       decoration: BoxDecoration(
-          color: CustomColors.lightBlue,
-          borderRadius: BorderRadius.circular(25)),
+        color: colors.surface,
+        borderRadius: BorderRadius.circular(25),
+      ),
       child: Stack(
         children: [
           Padding(
@@ -85,12 +88,11 @@ class _InlineIconPickerState extends State<InlineIconPicker> {
           ExpandHintButton(
             onTap: () => showIconBottomSheet(
                 context: context,
-                backgroundColor:
-                    widget.backgroundColor ?? CustomColors.darkBlue,
+                backgroundColor: widget.backgroundColor ?? colors.secondary,
                 iconPathList: AppIcons.iconPathList,
                 onSelectedIcon: widget.onSelectedIcon,
                 initialSelectionIconPath: widget.selectedIconPath),
-            backgroundColor: CustomColors.clearGrey,
+            backgroundColor: colors.divider,
           )
         ],
       ),
@@ -115,7 +117,8 @@ class _InlineIconPickerState extends State<InlineIconPicker> {
           child: IconItem(
             iconPath: iconPath,
             isSelected: iconPath == widget.selectedIconPath,
-            backgroundColor: widget.backgroundColor ?? CustomColors.darkBlue,
+            backgroundColor: widget.backgroundColor ??
+                Theme.of(context).extension<AppColors>()!.secondary,
             onTap: () => widget.onSelectedIcon(iconPath),
           ),
         );

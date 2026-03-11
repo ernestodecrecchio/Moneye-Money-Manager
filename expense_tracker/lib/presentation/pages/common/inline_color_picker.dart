@@ -1,4 +1,5 @@
 import 'package:expense_tracker/style.dart';
+import 'package:expense_tracker/style/app_theme.dart';
 import 'package:flutter/material.dart';
 
 class InlineColorPicker extends StatefulWidget {
@@ -37,14 +38,17 @@ class _InlineColorPickerState extends State<InlineColorPicker> {
 
   @override
   Widget build(BuildContext context) {
+    final colors = Theme.of(context).extension<AppColors>()!;
+
     return Container(
       height: 114,
       clipBehavior: Clip.antiAlias,
       padding: const EdgeInsets.only(top: 10, bottom: 10),
       decoration: BoxDecoration(
-          color: CustomColors.lightBlue,
-          borderRadius: BorderRadius.circular(25)),
-      child: _buildGridView(), //_buildPageView(),
+        color: colors.surface,
+        borderRadius: BorderRadius.circular(25),
+      ),
+      child: _buildGridView(),
     );
   }
 

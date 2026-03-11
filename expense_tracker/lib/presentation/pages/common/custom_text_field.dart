@@ -1,4 +1,4 @@
-import 'package:expense_tracker/style.dart';
+import 'package:expense_tracker/style/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -36,6 +36,9 @@ class CustomTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = Theme.of(context).extension<AppColors>()!;
+    final textTheme = Theme.of(context).textTheme;
+
     return Padding(
       padding:
           EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
@@ -45,10 +48,8 @@ class CustomTextField extends StatelessWidget {
           if (label != null)
             Text(
               label!,
-              style: const TextStyle(
-                fontSize: 18,
+              style: textTheme.titleMedium?.copyWith(
                 fontWeight: FontWeight.w600,
-                color: CustomColors.lightBlack,
               ),
             ),
           const SizedBox(
@@ -65,40 +66,38 @@ class CustomTextField extends StatelessWidget {
             maxLines: maxLines,
             inputFormatters: [...?textInputFormatters],
             keyboardType: keyboardType,
+            style: textTheme.bodyLarge,
             onChanged: onTextChanged != null
                 ? (newText) => onTextChanged!(newText)
                 : null,
             decoration: InputDecoration(
               isDense: true,
               hintText: hintText,
-              hintStyle: TextStyle(fontSize: 16, color: Colors.grey.shade400),
+              hintStyle: textTheme.bodyMedium?.copyWith(
+                color: colors.textSecondary.withAlpha(150),
+              ),
               filled: true,
-              fillColor: CustomColors.lightBlue,
+              fillColor: colors.surface,
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(borderRadius),
-                borderSide: const BorderSide(
-                  width: 0,
-                  style: BorderStyle.none,
-                ),
+                borderSide: BorderSide.none,
               ),
               suffixIcon: icon != null
                   ? Icon(
                       icon,
-                      color: CustomColors.blue,
+                      color: colors.primary,
                     )
                   : null,
               focusedBorder: OutlineInputBorder(
-                borderSide:
-                    const BorderSide(color: CustomColors.blue, width: 2),
+                borderSide: BorderSide(color: colors.primary, width: 2),
                 borderRadius: BorderRadius.circular(borderRadius),
               ),
               focusedErrorBorder: OutlineInputBorder(
-                borderSide:
-                    const BorderSide(color: CustomColors.blue, width: 2),
+                borderSide: BorderSide(color: colors.primary, width: 2),
                 borderRadius: BorderRadius.circular(borderRadius),
               ),
               errorBorder: OutlineInputBorder(
-                borderSide: const BorderSide(color: Colors.red, width: 2),
+                borderSide: BorderSide(color: colors.expense, width: 2),
                 borderRadius: BorderRadius.circular(borderRadius),
               ),
             ),
