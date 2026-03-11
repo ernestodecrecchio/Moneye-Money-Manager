@@ -16,12 +16,12 @@ enum AccountPieChartModeTransactionType { income, expense, all }
 
 class AccountPieChart extends ConsumerStatefulWidget {
   final List<Transaction> transactionList;
-  final AccountPieChartModeTransactionType? mode;
+  final AccountPieChartModeTransactionType mode;
 
   const AccountPieChart({
     super.key,
     required this.transactionList,
-    this.mode,
+    required this.mode,
   });
 
   @override
@@ -34,97 +34,110 @@ class _AccountPieChartState extends ConsumerState<AccountPieChart> {
   /// Processes the [widget.transactionList] and returns the calculated
   /// [categoryTotalValuePairs] and the [totalValue].
   (List<CategoryTotalValue> pairs, double total) _calculateData(
-      AppColors colors, AppLocalizations appLocalizations) {
+    AppColors colors,
+    AppLocalizations appLocalizations,
+  ) {
     final List<CategoryTotalValue> categoryTotalValuePairs = [];
     double totalValue = 0;
 
-    if (widget.mode == AccountPieChartModeTransactionType.all) {
-      final incomeCategory = CategoryTotalValue(
-        category: Category(
+    switch (widget.mode) {
+      case AccountPieChartModeTransactionType.all:
+        final incomeCategory = CategoryTotalValue(
+          category: Category(
             id: -1,
             name: appLocalizations.incomes,
-            colorValue: colors.income.toARGB32()),
-        totalValue: 0,
-      );
+            colorValue: colors.income.toARGB32(),
+          ),
+          totalValue: 0,
+        );
 
-      final expenseCategory = CategoryTotalValue(
-        category: Category(
-            id: -2,
-            name: appLocalizations.expenses,
-            colorValue: colors.expense.toARGB32()),
-        totalValue: 0,
-      );
+        final expenseCategory = CategoryTotalValue(
+          category: Category(
+              id: -2,
+              name: appLocalizations.expenses,
+              colorValue: colors.expense.toARGB32()),
+          totalValue: 0,
+        );
 
-      categoryTotalValuePairs.add(incomeCategory);
-      categoryTotalValuePairs.add(expenseCategory);
+        categoryTotalValuePairs.add(incomeCategory);
+        categoryTotalValuePairs.add(expenseCategory);
 
-      double absoluteTotal = 0;
-      for (var transaction in widget.transactionList) {
-        absoluteTotal += transaction.amount.abs();
+        double absoluteTotal = 0;
+        for (var transaction in widget.transactionList) {
+          absoluteTotal += transaction.amount.abs();
 
-        if (transaction.amount >= 0) {
-          categoryTotalValuePairs[0].totalValue += transaction.amount;
-        } else {
-          categoryTotalValuePairs[1].totalValue += transaction.amount;
-        }
-      }
-
-      totalValue = absoluteTotal;
-      categoryTotalValuePairs[1].totalValue *= -1;
-    } else {
-      final categories = ref.watch(categoriesListProvider).asData?.value ?? [];
-
-      for (var transaction in widget.transactionList) {
-        totalValue += transaction.amount;
-
-        Category? category;
-        if (transaction.categoryId != null) {
-          category = categories.firstWhereOrNull(
-            (element) => element.id == transaction.categoryId,
-          );
-        }
-
-        if (category != null) {
-          final indexFound = categoryTotalValuePairs
-              .indexWhere((element) => element.category == category);
-
-          if (indexFound != -1) {
-            categoryTotalValuePairs[indexFound].totalValue +=
-                transaction.amount;
+          if (transaction.amount >= 0) {
+            categoryTotalValuePairs[0].totalValue += transaction.amount;
           } else {
-            final newEntry = CategoryTotalValue(
-              category: category,
-              totalValue: transaction.amount,
+            categoryTotalValuePairs[1].totalValue += transaction.amount;
+          }
+        }
+
+        totalValue = absoluteTotal;
+        categoryTotalValuePairs[1].totalValue *= -1;
+
+      case AccountPieChartModeTransactionType.income:
+      case AccountPieChartModeTransactionType.expense:
+        final categories =
+            ref.watch(categoriesListProvider).asData?.value ?? [];
+
+        for (var transaction in widget.transactionList) {
+          totalValue += transaction.amount;
+
+          Category? category;
+          if (transaction.categoryId != null) {
+            category = categories.firstWhereOrNull(
+              (element) => element.id == transaction.categoryId,
             );
-            categoryTotalValuePairs.add(newEntry);
           }
-        } else {
-          // Handle "Other" category
-          final indexFound = categoryTotalValuePairs
-              .indexWhere((element) => element.category.id == null);
 
-          if (indexFound != -1) {
-            categoryTotalValuePairs[indexFound].totalValue +=
-                transaction.amount;
+          if (category != null) {
+            final indexFound = categoryTotalValuePairs
+                .indexWhere((element) => element.category == category);
+
+            if (indexFound != -1) {
+              categoryTotalValuePairs[indexFound].totalValue +=
+                  transaction.amount;
+            } else {
+              final newEntry = CategoryTotalValue(
+                category: category,
+                totalValue: transaction.amount,
+              );
+              categoryTotalValuePairs.add(newEntry);
+            }
           } else {
-            final otherEntry = CategoryTotalValue(
-                category: Category(
-                  name: appLocalizations.other,
-                  colorValue: colors.textSecondary.toARGB32(),
-                ),
-                totalValue: transaction.amount);
-            categoryTotalValuePairs.add(otherEntry);
+            // Handle "Other" category
+            final indexFound = categoryTotalValuePairs
+                .indexWhere((element) => element.category.id == null);
+
+            if (indexFound != -1) {
+              categoryTotalValuePairs[indexFound].totalValue +=
+                  transaction.amount;
+            } else {
+              final otherEntry = CategoryTotalValue(
+                  category: Category(
+                    name: appLocalizations.other,
+                    colorValue: colors.textSecondary.toARGB32(),
+                  ),
+                  totalValue: transaction.amount);
+              categoryTotalValuePairs.add(otherEntry);
+            }
           }
         }
-      }
-    }
 
-    if (widget.mode == AccountPieChartModeTransactionType.income) {
-      categoryTotalValuePairs
-          .sort((a, b) => a.totalValue < b.totalValue ? 1 : -1);
-    } else if (widget.mode == AccountPieChartModeTransactionType.expense) {
-      categoryTotalValuePairs
-          .sort((a, b) => a.totalValue > b.totalValue ? 1 : -1);
+        if (widget.mode == AccountPieChartModeTransactionType.income) {
+          categoryTotalValuePairs
+              .sort((a, b) => a.totalValue < b.totalValue ? 1 : -1);
+        } else if (widget.mode == AccountPieChartModeTransactionType.expense) {
+          categoryTotalValuePairs
+              .sort((a, b) => a.totalValue > b.totalValue ? 1 : -1);
+        }
+
+        if (totalValue != 0) {
+          for (var pair in categoryTotalValuePairs) {
+            pair.percentage = (pair.totalValue / totalValue * 100).abs();
+          }
+        }
     }
 
     return (categoryTotalValuePairs, totalValue);
@@ -138,13 +151,11 @@ class _AccountPieChartState extends ConsumerState<AccountPieChart> {
         _calculateData(colors, appLocalizations);
 
     return Row(
+      spacing: 30,
       children: <Widget>[
         Expanded(
           child: _buildGraph(
               appLocalizations, colors, categoryTotalValuePairs, totalValue),
-        ),
-        const SizedBox(
-          width: 30,
         ),
         Expanded(
           child: _buildIndicators(categoryTotalValuePairs),
@@ -266,29 +277,21 @@ class _AccountPieChartState extends ConsumerState<AccountPieChart> {
         final currentCategoryTotalValuePair = pairs[i];
 
         final isTouched = i == touchedIndex;
-        final fontSize = isTouched ? 25.0 : 16.0;
         final radius = isTouched ? 50.0 : 40.0;
-        const shadows = [Shadow(color: Colors.black, blurRadius: 2)];
 
         return PieChartSectionData(
           color: currentCategoryTotalValuePair.category.color,
-          value: currentCategoryTotalValuePair.totalValue,
+          value: currentCategoryTotalValuePair.totalValue.abs(),
           showTitle: false,
           title: currentCategoryTotalValuePair.category.name,
           radius: radius,
-          titleStyle: TextStyle(
-            fontSize: fontSize,
-            fontWeight: FontWeight.bold,
-            color: Colors.white,
-            shadows: shadows,
-          ),
           badgeWidget: isTouched
               ? Text(
                   '${((currentCategoryTotalValuePair.totalValue / totalValue) * 100).toStringAsFixedRounded(2)}%',
                   style: const TextStyle(
                       color: Colors.white, fontWeight: FontWeight.bold),
                 )
-              : pairs[i].category.iconPath != null
+              : pairs[i].category.iconPath != null && pairs[i].percentage > 5
                   ? SizedBox(
                       height: 20,
                       width: 20,
@@ -308,8 +311,13 @@ class _AccountPieChartState extends ConsumerState<AccountPieChart> {
 class CategoryTotalValue {
   final Category category;
   double totalValue;
+  double percentage;
 
-  CategoryTotalValue({required this.category, required this.totalValue});
+  CategoryTotalValue({
+    required this.category,
+    required this.totalValue,
+    this.percentage = 0.0,
+  });
 }
 
 class Indicator extends ConsumerWidget {
@@ -338,7 +346,7 @@ class Indicator extends ConsumerWidget {
             height: 12,
             width: 12,
             decoration: BoxDecoration(
-              //  color: color,
+              // color: color,
               border: Border.all(color: color, width: 3),
               shape: BoxShape.circle,
             ),
