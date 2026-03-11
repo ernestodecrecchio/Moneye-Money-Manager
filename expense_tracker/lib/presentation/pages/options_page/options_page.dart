@@ -11,7 +11,10 @@ import 'package:expense_tracker/presentation/pages/options_page/currency_page/cu
 import 'package:expense_tracker/presentation/pages/options_page/language_page/languages_list_page.dart';
 import 'package:expense_tracker/presentation/pages/options_page/privacy_page/privacy_settings_page.dart';
 import 'package:expense_tracker/presentation/pages/options_page/notification_page/notification_page.dart';
+import 'package:expense_tracker/presentation/pages/options_page/theme_page/theme_selection_page.dart';
 import 'package:expense_tracker/presentation/pages/options_page/update_history_page/update_history_page.dart';
+import 'package:expense_tracker/application/common/notifiers/theme_provider.dart';
+import 'package:expense_tracker/style/app_theme.dart';
 import 'package:expense_tracker/presentation/pages/options_page/widgets/option_list_tile.dart';
 import 'package:expense_tracker/presentation/pages/options_page/contacts_page/contacts_page.dart';
 import 'package:flutter/material.dart';
@@ -39,6 +42,7 @@ class OptionsPage extends ConsumerWidget {
       BuildContext context, WidgetRef ref, AppLocalizations appLocalizations) {
     final currentCurrency = ref.watch(currentCurrencyProvider);
     final currentLocale = ref.watch(localeProvider);
+    final currentThemeMode = ref.watch(themeProvider);
     final packageInfoAsync = ref.watch(packageInfoProvider);
 
     return SingleChildScrollView(
@@ -105,6 +109,23 @@ class OptionsPage extends ConsumerWidget {
           ),
           const Divider(),
           OptionListTile(
+            title: appLocalizations.theme,
+            subtitle: appLocalizations.themeOptionDescription,
+            leadingIcon: Icons.palette_outlined,
+            trailingWidgets: [
+              Text(
+                currentThemeMode == ThemeMode.system
+                    ? appLocalizations.systemTheme
+                    : (currentThemeMode == ThemeMode.light
+                        ? appLocalizations.lightTheme
+                        : appLocalizations.darkTheme),
+              ),
+            ],
+            onTap: () =>
+                Navigator.of(context).pushNamed(ThemeSelectionPage.routeName),
+          ),
+          const Divider(),
+          OptionListTile(
             title: appLocalizations.contacts,
             subtitle: appLocalizations.contactsDescription,
             leadingIcon: Icons.alternate_email_rounded,
@@ -148,8 +169,9 @@ class OptionsPage extends ConsumerWidget {
             child: packageInfoAsync.when(
               data: (packageInfo) => Text(
                 '${appLocalizations.version} ${packageInfo.version}',
-                style: const TextStyle(
-                  color: Colors.grey,
+                style: TextStyle(
+                  color:
+                      Theme.of(context).extension<AppColors>()!.textSecondary,
                   fontSize: 12,
                 ),
               ),

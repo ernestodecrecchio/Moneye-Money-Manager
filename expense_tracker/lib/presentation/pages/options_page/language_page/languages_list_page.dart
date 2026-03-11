@@ -1,7 +1,7 @@
 import 'package:expense_tracker/application/common/notifiers/app_localizations_provider.dart';
 import 'package:expense_tracker/l10n/app_localizations.dart';
 import 'package:expense_tracker/application/common/notifiers/locale_provider.dart';
-import 'package:expense_tracker/style.dart';
+import 'package:expense_tracker/style/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:vector_graphics/vector_graphics.dart';
@@ -44,8 +44,8 @@ class _LanguagesListPageState extends ConsumerState<LanguagesListPage> {
             child: VectorGraphic(
               loader: AssetBytesLoader('assets/flags/World.svg'),
               fit: BoxFit.fill,
-              colorFilter: const ColorFilter.mode(
-                CustomColors.darkBlue,
+              colorFilter: ColorFilter.mode(
+                Theme.of(context).extension<AppColors>()!.secondary,
                 BlendMode.srcIn,
               ),
             ),

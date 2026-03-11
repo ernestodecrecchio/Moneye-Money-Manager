@@ -8,6 +8,7 @@ import 'package:expense_tracker/domain/models/transaction.dart';
 import 'package:expense_tracker/application/accounts/notifiers/queries/accounts_list_notifier.dart';
 import 'package:expense_tracker/application/common/notifiers/currency_provider.dart';
 import 'package:collection/collection.dart';
+import 'package:expense_tracker/style.dart';
 import 'package:expense_tracker/presentation/pages/new_edit_transaction_flow/new_edit_transaction_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -100,7 +101,7 @@ class TransactionListCell extends ConsumerWidget {
       BuildContext context, WidgetRef ref, AppLocalizations appLocalizations) {
     return SlidableAction(
       onPressed: (_) async => await _removeTransaction(context, ref),
-      backgroundColor: const Color(0xFFFE4A49),
+      backgroundColor: CustomColors.swipeActionRed,
       foregroundColor: Colors.white,
       icon: Icons.delete,
       label: appLocalizations.delete,

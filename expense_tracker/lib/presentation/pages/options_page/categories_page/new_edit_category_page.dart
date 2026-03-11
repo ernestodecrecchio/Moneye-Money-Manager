@@ -106,6 +106,7 @@ class _NewEditCategoryPageState extends ConsumerState<NewEditCategoryPage> {
       child: Padding(
         padding: const EdgeInsets.only(top: 30),
         child: Column(
+          spacing: 14,
           children: [
             CustomTextField(
               controller: titleInput,
@@ -118,21 +119,12 @@ class _NewEditCategoryPageState extends ConsumerState<NewEditCategoryPage> {
                 return null;
               },
             ),
-            const SizedBox(
-              height: 14,
-            ),
             CustomTextField(
               controller: descriptionInput,
               label: appLocalizations.description,
               hintText: appLocalizations.insertTheDescription,
             ),
-            const SizedBox(
-              height: 14,
-            ),
             _buildColorPicker(appLocalizations),
-            const SizedBox(
-              height: 14,
-            ),
             _buildIconPicker(appLocalizations),
             const Spacer(),
             _buildSaveButton(appLocalizations, isLoading),
@@ -148,11 +140,9 @@ class _NewEditCategoryPageState extends ConsumerState<NewEditCategoryPage> {
       children: [
         Text(
           appLocalizations.color,
-          style: const TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.w600,
-            color: CustomColors.lightBlack,
-          ),
+          style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                fontWeight: FontWeight.bold,
+              ),
         ),
         const SizedBox(
           height: 5,
@@ -174,11 +164,9 @@ class _NewEditCategoryPageState extends ConsumerState<NewEditCategoryPage> {
       children: [
         Text(
           appLocalizations.icon,
-          style: const TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.w600,
-            color: CustomColors.lightBlack,
-          ),
+          style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                fontWeight: FontWeight.bold,
+              ),
         ),
         const SizedBox(
           height: 5,
@@ -245,7 +233,9 @@ class _NewEditCategoryPageState extends ConsumerState<NewEditCategoryPage> {
     return TextButton(
       child: Text(
         appLocalizations.delete,
-        style: const TextStyle(color: Colors.white),
+        style: TextStyle(
+          color: Theme.of(context).appBarTheme.foregroundColor,
+        ),
       ),
       onPressed: () async {
         final navigator = Navigator.of(context);

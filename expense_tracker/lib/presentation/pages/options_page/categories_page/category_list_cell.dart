@@ -4,6 +4,7 @@ import 'package:expense_tracker/l10n/app_localizations.dart';
 import 'package:expense_tracker/domain/models/category.dart';
 import 'package:expense_tracker/presentation/pages/common/dialogs.dart';
 import 'package:expense_tracker/presentation/pages/options_page/categories_page/new_edit_category_page.dart';
+import 'package:expense_tracker/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -56,7 +57,7 @@ class CategoryListCell extends ConsumerWidget {
   SlidableAction _buildDeleteSlidableAction(
       BuildContext context, WidgetRef ref, AppLocalizations appLocalizations) {
     return SlidableAction(
-        backgroundColor: const Color(0xFFFE4A49),
+        backgroundColor: CustomColors.swipeActionRed,
         foregroundColor: Colors.white,
         icon: Icons.delete,
         label: appLocalizations.delete,
