@@ -4,7 +4,7 @@ import 'package:expense_tracker/l10n/app_localizations.dart';
 import 'package:expense_tracker/domain/models/category.dart';
 import 'package:expense_tracker/presentation/pages/common/dialogs.dart';
 import 'package:expense_tracker/presentation/pages/options_page/categories_page/new_edit_category_page.dart';
-import 'package:expense_tracker/style.dart';
+import 'package:expense_tracker/style/style.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

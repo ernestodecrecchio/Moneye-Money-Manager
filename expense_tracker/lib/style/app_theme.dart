@@ -1,4 +1,4 @@
-import 'package:expense_tracker/style.dart';
+import 'package:expense_tracker/style/style.dart';
 import 'package:flutter/material.dart';
 
 enum AppThemeMode {
