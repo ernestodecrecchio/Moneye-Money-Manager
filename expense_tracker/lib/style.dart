@@ -35,7 +35,7 @@ class CustomColors {
   static const darkSurface = Color(0xFF1E1E1E);
 
   /// #2C2C2C
-  static const darkDivider = Color(0xFF2C2C2C);
+  static const darkDivider = Color.fromARGB(255, 28, 28, 28);
 
   /// #81C784
   static const darkIncome = Color(0xFF81C784);
