@@ -4,7 +4,6 @@ import 'package:expense_tracker/l10n/app_localizations.dart';
 import 'package:expense_tracker/application/common/notifiers/currency_provider.dart';
 import 'package:expense_tracker/application/common/notifiers/locale_provider.dart';
 import 'package:expense_tracker/application/common/notifiers/notification_provider.dart';
-import 'package:expense_tracker/presentation/pages/options_page/about_page/about_page.dart';
 import 'package:expense_tracker/presentation/pages/options_page/accounts_page/accounts_list_page.dart';
 import 'package:expense_tracker/presentation/pages/options_page/categories_page/categories_list_page.dart';
 import 'package:expense_tracker/presentation/pages/options_page/currency_page/currency_page.dart';
@@ -146,13 +145,6 @@ class OptionsPage extends ConsumerWidget {
                 appStoreId: '6447369037',
               );
             },
-          ),
-          const Divider(),
-          OptionListTile(
-            title: appLocalizations.info,
-            subtitle: appLocalizations.infoOptionDescription,
-            leadingIcon: Icons.info_outline,
-            onTap: () => Navigator.of(context).pushNamed(AboutPage.routeName),
           ),
           const Divider(),
           SizedBox(

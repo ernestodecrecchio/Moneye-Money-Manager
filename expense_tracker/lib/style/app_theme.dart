@@ -176,9 +176,9 @@ class AppColors extends ThemeExtension<AppColors> {
   );
 
   static const dark = AppColors(
-    primary: Colors.orange,
+    primary: Colors.white,
     onPrimary: Colors.black,
-    secondary: Colors.orange,
+    secondary: Colors.white,
     onSecondary: Colors.black,
     scaffoldBackground: CustomColors.darkScaffoldBackground,
     surface: CustomColors.darkSurface,

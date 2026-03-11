@@ -14,7 +14,6 @@ import 'package:expense_tracker/application/common/notifiers/locale_provider.dar
 import 'package:expense_tracker/application/common/notifiers/notification_provider.dart';
 import 'package:expense_tracker/presentation/pages/account_detail_page/account_detail_page.dart';
 import 'package:expense_tracker/presentation/pages/initial_configuration_page/initial_configuration_page.dart';
-import 'package:expense_tracker/presentation/pages/options_page/about_page/about_page.dart';
 import 'package:expense_tracker/presentation/pages/options_page/accounts_page/accounts_list_page.dart';
 import 'package:expense_tracker/presentation/pages/options_page/categories_page/categories_list_page.dart';
 import 'package:expense_tracker/presentation/pages/options_page/categories_page/new_edit_category_page.dart';
@@ -231,7 +230,6 @@ class MyApp extends r.ConsumerWidget {
           LanguagesListPage.routeName: (context) => const LanguagesListPage(),
           CurrencyPage.routeName: (context) => const CurrencyPage(),
           ReminderPage.routeName: (context) => const ReminderPage(),
-          AboutPage.routeName: (context) => const AboutPage(),
           UpdateInfoPage.routeName: (context) => const UpdateInfoPage(),
           UpdateHistoryPage.routeName: (context) => const UpdateHistoryPage(),
           PrivacySettingsPage.routeName: (context) =>
