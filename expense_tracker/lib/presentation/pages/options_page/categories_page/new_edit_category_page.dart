@@ -7,9 +7,10 @@ import 'package:expense_tracker/presentation/pages/common/custom_text_field.dart
 import 'package:expense_tracker/presentation/pages/common/dialogs.dart';
 import 'package:expense_tracker/presentation/pages/common/inline_color_picker.dart';
 import 'package:expense_tracker/presentation/pages/common/inline_icon_picker.dart';
-import 'package:expense_tracker/style.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:expense_tracker/style/app_theme.dart';
 
 class NewEditCategoryPage extends ConsumerStatefulWidget {
   static const routeName = '/newEditCategoryPage';
@@ -32,11 +33,19 @@ class _NewEditCategoryPageState extends ConsumerState<NewEditCategoryPage> {
   TextEditingController titleInput = TextEditingController();
   TextEditingController descriptionInput = TextEditingController();
 
-  Color selectedColor = CustomColors.darkBlue;
+  late Color selectedColor;
   String? selectedIconPath;
 
   bool get editMode {
     return widget.initialCategorySettings != null;
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (!editMode) {
+      selectedColor = context.appColors.secondary;
+    }
   }
 
   @override
