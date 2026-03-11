@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:expense_tracker/style.dart';
+import 'package:expense_tracker/style/app_theme.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
 class UpdateInfoPage extends ConsumerStatefulWidget {
@@ -107,97 +108,101 @@ class _UpdateInfoPageState extends ConsumerState<UpdateInfoPage>
 
     final locale = appLocalizations.localeName;
 
-    return Scaffold(
-      body: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [
-              CustomColors.darkBlue,
-              CustomColors.blue.withValues(alpha: 0.8)
-            ],
+    return Theme(
+      data: AppTheme.light,
+      child: Scaffold(
+        body: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [
+                CustomColors.darkBlue,
+                CustomColors.blue.withValues(alpha: 0.8)
+              ],
+            ),
           ),
-        ),
-        child: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                const SizedBox(height: 60),
-                FadeTransition(
-                  opacity: _fadeAnimation,
-                  child: SlideTransition(
-                    position: _slideAnimation,
-                    child: Column(
-                      children: [
-                        Container(
-                          padding: const EdgeInsets.all(16),
-                          decoration: BoxDecoration(
-                            color: Colors.white.withValues(alpha: 0.1),
-                            shape: BoxShape.circle,
+          child: SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  const SizedBox(height: 60),
+                  FadeTransition(
+                    opacity: _fadeAnimation,
+                    child: SlideTransition(
+                      position: _slideAnimation,
+                      child: Column(
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.all(16),
+                            decoration: BoxDecoration(
+                              color: Colors.white.withValues(alpha: 0.1),
+                              shape: BoxShape.circle,
+                            ),
+                            child: const Icon(
+                              Icons.auto_awesome_rounded,
+                              color: Colors.white,
+                              size: 48,
+                            ),
                           ),
-                          child: const Icon(
-                            Icons.auto_awesome_rounded,
-                            color: Colors.white,
-                            size: 48,
+                          const SizedBox(height: 24),
+                          Text(
+                            widget.version != null
+                                ? "Moneye ${widget.version}"
+                                : appLocalizations.whatsNew,
+                            textAlign: TextAlign.center,
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 32,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
-                        ),
-                        const SizedBox(height: 24),
-                        Text(
-                          widget.version != null
-                              ? "Moneye ${widget.version}"
-                              : appLocalizations.whatsNew,
-                          textAlign: TextAlign.center,
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 32,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
-                ),
-                const SizedBox(height: 40),
-                Expanded(
-                  child: ListView.separated(
-                    itemCount: _versionFeatures.length,
-                    separatorBuilder: (context, index) =>
-                        const SizedBox(height: 24),
-                    itemBuilder: (context, index) {
-                      final item = _versionFeatures[index];
-                      return FadeTransition(
-                        opacity: _fadeAnimation,
-                        child: SlideTransition(
-                          position: _slideAnimation,
-                          child: _FeatureCard(
-                            title: item['title'][locale] ?? item['title']['en'],
-                            description: item['description'][locale] ??
-                                item['description']['en'],
-                            icon: _getIconData(item['icon']),
-                            delay: index * 0.1,
+                  const SizedBox(height: 40),
+                  Expanded(
+                    child: ListView.separated(
+                      itemCount: _versionFeatures.length,
+                      separatorBuilder: (context, index) =>
+                          const SizedBox(height: 24),
+                      itemBuilder: (context, index) {
+                        final item = _versionFeatures[index];
+                        return FadeTransition(
+                          opacity: _fadeAnimation,
+                          child: SlideTransition(
+                            position: _slideAnimation,
+                            child: _FeatureCard(
+                              title:
+                                  item['title'][locale] ?? item['title']['en'],
+                              description: item['description'][locale] ??
+                                  item['description']['en'],
+                              icon: _getIconData(item['icon']),
+                              delay: index * 0.1,
+                            ),
                           ),
-                        ),
-                      );
-                    },
+                        );
+                      },
+                    ),
                   ),
-                ),
-                const SizedBox(height: 24),
-                FadeTransition(
-                  opacity: _fadeAnimation,
-                  child: CustomElevatedButton(
-                    text: widget.version != null
-                        ? appLocalizations.back
-                        : appLocalizations.continueCTA,
-                    onPressed: _onFinish,
-                    isLoading: false,
-                    mode: CustomElevatedButtonMode.light,
+                  const SizedBox(height: 24),
+                  FadeTransition(
+                    opacity: _fadeAnimation,
+                    child: CustomElevatedButton(
+                      text: widget.version != null
+                          ? appLocalizations.back
+                          : appLocalizations.continueCTA,
+                      onPressed: _onFinish,
+                      isLoading: false,
+                      mode: CustomElevatedButtonMode.light,
+                    ),
                   ),
-                ),
-                const SizedBox(height: 12),
-              ],
+                  const SizedBox(height: 12),
+                ],
+              ),
             ),
           ),
         ),

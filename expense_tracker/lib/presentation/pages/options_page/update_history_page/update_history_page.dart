@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:expense_tracker/application/common/notifiers/app_localizations_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:expense_tracker/style.dart';
+import 'package:expense_tracker/style/app_theme.dart';
 import 'package:expense_tracker/presentation/pages/options_page/update_history_page/update_info_page.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -28,6 +28,8 @@ class _UpdateHistoryPageState extends ConsumerState<UpdateHistoryPage> {
   @override
   Widget build(BuildContext context) {
     final appLocalizations = ref.watch(appLocalizationsProvider);
+    final colors = Theme.of(context).extension<AppColors>()!;
+    final textTheme = Theme.of(context).textTheme;
 
     // Sort versions - newest first (assuming version+build format or similar)
     final versions = _allVersions.keys.toList()..sort((a, b) => b.compareTo(a));
@@ -54,17 +56,17 @@ class _UpdateHistoryPageState extends ConsumerState<UpdateHistoryPage> {
                           leading: Container(
                             padding: const EdgeInsets.all(10),
                             decoration: BoxDecoration(
-                              color: CustomColors.blue.withValues(alpha: 0.1),
+                              color: colors.primary.withValues(alpha: 0.1),
                               borderRadius: BorderRadius.circular(10),
                             ),
-                            child: const Icon(
+                            child: Icon(
                               Icons.history_rounded,
-                              color: CustomColors.blue,
+                              color: colors.primary,
                             ),
                           ),
                           title: Text(
                             "${appLocalizations.version} $version",
-                            style: const TextStyle(
+                            style: textTheme.titleMedium?.copyWith(
                               fontWeight: FontWeight.bold,
                               fontSize: 16,
                             ),
