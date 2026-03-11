@@ -1,6 +1,85 @@
 import 'package:expense_tracker/style.dart';
 import 'package:flutter/material.dart';
 
+enum AppThemeMode {
+  system,
+  light,
+  dark,
+}
+
+extension AppThemeModeExtension on AppThemeMode {
+  /// Returns the [ThemeData] associated with this [AppThemeMode].
+  ///
+  /// This is used for the "light mode" configuration of the application.
+  ThemeData get themeData {
+    switch (this) {
+      case AppThemeMode.system:
+        return AppTheme.light;
+      case AppThemeMode.light:
+        return AppTheme.light;
+      case AppThemeMode.dark:
+        return AppTheme.dark;
+    }
+  }
+
+  /// Returns the corresponding [ThemeData] to be used when the app is in dark mode.
+  ///
+  /// For [AppThemeMode.system], this returns the standard dark theme.
+  /// For fixed modes like [AppThemeMode.dark] or [AppThemeMode.green], it returns
+  /// the specific theme regardless of the platform brightness.
+  ThemeData get darkThemeData {
+    switch (this) {
+      case AppThemeMode.system:
+        return AppTheme.dark;
+      case AppThemeMode.dark:
+        return AppTheme.dark;
+      case AppThemeMode.light:
+        return AppTheme.light;
+    }
+  }
+
+  /// Maps the custom [AppThemeMode] to a standard Flutter [ThemeMode].
+  ///
+  /// This bridge function allows Flutter's [MaterialApp] to categorize custom
+  /// themes (like Green) into either light or dark buckets for internal logic.
+  ThemeMode get flutterThemeMode {
+    switch (this) {
+      case AppThemeMode.system:
+        return ThemeMode.system;
+      case AppThemeMode.light:
+        return ThemeMode.light;
+      case AppThemeMode.dark:
+        return ThemeMode.dark;
+    }
+  }
+
+  /// Returns a descriptive [IconData] representing the theme mode.
+  IconData get icon {
+    switch (this) {
+      case AppThemeMode.system:
+        return Icons.brightness_auto_rounded;
+      case AppThemeMode.light:
+        return Icons.light_mode_rounded;
+      case AppThemeMode.dark:
+        return Icons.dark_mode_rounded;
+    }
+  }
+
+  /// Returns the localized display name for the theme mode.
+  ///
+  /// Requires [appLocalizations] to provide translated strings.
+  String getName(dynamic appLocalizations) {
+    switch (this) {
+      case AppThemeMode.system:
+        return appLocalizations.systemTheme;
+      case AppThemeMode.light:
+        return appLocalizations.lightTheme;
+      case AppThemeMode.dark:
+        return appLocalizations.darkTheme;
+    }
+  }
+}
+
 class AppColors extends ThemeExtension<AppColors> {
   final Color primary;
   final Color onPrimary;
