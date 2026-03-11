@@ -28,7 +28,7 @@ class _UpdateHistoryPageState extends ConsumerState<UpdateHistoryPage> {
   @override
   Widget build(BuildContext context) {
     final appLocalizations = ref.watch(appLocalizationsProvider);
-    final colors = Theme.of(context).extension<AppColors>()!;
+    final colors = context.appColors;
     final textTheme = Theme.of(context).textTheme;
 
     // Sort versions - newest first (assuming version+build format or similar)

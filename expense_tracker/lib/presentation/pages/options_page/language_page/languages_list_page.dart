@@ -45,7 +45,7 @@ class _LanguagesListPageState extends ConsumerState<LanguagesListPage> {
               loader: AssetBytesLoader('assets/flags/World.svg'),
               fit: BoxFit.fill,
               colorFilter: ColorFilter.mode(
-                Theme.of(context).extension<AppColors>()!.secondary,
+                context.appColors.secondary,
                 BlendMode.srcIn,
               ),
             ),

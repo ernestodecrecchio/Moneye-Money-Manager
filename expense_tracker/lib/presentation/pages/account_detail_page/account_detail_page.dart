@@ -255,7 +255,7 @@ class _AccountDetailPageState extends ConsumerState<AccountDetailPage>
   }
 
   Widget _buildTabBar(AppLocalizations appLocalizations) {
-    final colors = Theme.of(context).extension<AppColors>()!;
+    final colors = context.appColors;
 
     return Stack(
       fit: StackFit.passthrough,
@@ -479,7 +479,7 @@ class DateBar extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final appLocalizations = ref.watch(appLocalizationsProvider);
 
-    final colors = Theme.of(context).extension<AppColors>()!;
+    final colors = context.appColors;
     final textTheme = Theme.of(context).textTheme;
 
     return Container(

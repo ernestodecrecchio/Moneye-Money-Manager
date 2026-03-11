@@ -311,3 +311,7 @@ class AppTheme {
     );
   }
 }
+
+extension ThemeExt on BuildContext {
+  AppColors get appColors => Theme.of(this).extension<AppColors>()!;
+}

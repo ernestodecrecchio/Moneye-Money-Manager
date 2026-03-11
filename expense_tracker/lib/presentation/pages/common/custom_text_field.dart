@@ -36,7 +36,7 @@ class CustomTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = Theme.of(context).extension<AppColors>()!;
+    final colors = context.appColors;
     final textTheme = Theme.of(context).textTheme;
 
     return Padding(

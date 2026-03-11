@@ -320,7 +320,7 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
   }
 
   Future<void> _selectDate() async {
-    final colors = Theme.of(context).extension<AppColors>()!;
+    final colors = context.appColors;
     final DateTime? picked = await showDatePicker(
         context: context,
         builder: (context, child) {
@@ -441,7 +441,8 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
   }
 
   Container _buildSegmentedBar(AppLocalizations appLocalizations) {
-    final colors = Theme.of(context).extension<AppColors>()!;
+    final colors = context.appColors;
+
     return Container(
       height: 54,
       decoration: BoxDecoration(

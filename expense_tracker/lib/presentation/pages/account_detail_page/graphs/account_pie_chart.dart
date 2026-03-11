@@ -133,7 +133,7 @@ class _AccountPieChartState extends ConsumerState<AccountPieChart> {
   @override
   Widget build(BuildContext context) {
     final appLocalizations = ref.watch(appLocalizationsProvider);
-    final colors = Theme.of(context).extension<AppColors>()!;
+    final colors = context.appColors;
     final (categoryTotalValuePairs, totalValue) =
         _calculateData(colors, appLocalizations);
 

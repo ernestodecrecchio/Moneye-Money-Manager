@@ -144,9 +144,7 @@ class AccountSection extends ConsumerWidget {
                               Text(
                                 appLocalizations.noAccountAdded,
                                 style: TextStyle(
-                                  color: Theme.of(context)
-                                      .extension<AppColors>()!
-                                      .textSecondary,
+                                  color: context.appColors.textSecondary,
                                 ),
                                 textAlign: TextAlign.start,
                               ),
@@ -202,8 +200,7 @@ class LastTransactionList extends ConsumerWidget {
               child: Text(
                 appLocalizations.noTransactions,
                 style: TextStyle(
-                  color:
-                      Theme.of(context).extension<AppColors>()!.textSecondary,
+                  color: context.appColors.textSecondary,
                 ),
               ),
             ),

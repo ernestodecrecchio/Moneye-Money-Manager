@@ -97,7 +97,7 @@ class _AccountSelectorContentState
   }
 
   ListTile _buildAddAccountTile(AppLocalizations appLocalizations) {
-    final colors = Theme.of(context).extension<AppColors>()!;
+    final colors = context.appColors;
     final textTheme = Theme.of(context).textTheme;
     return ListTile(
       leading: Container(
@@ -125,7 +125,7 @@ class _AccountSelectorContentState
 
   ListTile _buildAccountTile(Account account) {
     final textTheme = Theme.of(context).textTheme;
-    final colors = Theme.of(context).extension<AppColors>()!;
+    final colors = context.appColors;
     return ListTile(
       leading: Container(
         height: 32,

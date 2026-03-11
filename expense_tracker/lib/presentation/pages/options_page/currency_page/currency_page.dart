@@ -52,7 +52,7 @@ class _CurrencyPageState extends ConsumerState<CurrencyPage> {
   @override
   Widget build(BuildContext context) {
     final appLocalizations = ref.watch(appLocalizationsProvider);
-    final colors = Theme.of(context).extension<AppColors>()!;
+    final colors = context.appColors;
     final textTheme = Theme.of(context).textTheme;
 
     return Scaffold(

@@ -97,7 +97,7 @@ class AccountBarChartState extends ConsumerState<AccountBarChart> {
 
   @override
   Widget build(BuildContext context) {
-    final colors = Theme.of(context).extension<AppColors>()!;
+    final colors = context.appColors;
     final bottomTitlesStrings = _getBottomTitlesString();
     final (valueMap, rawMinValue, maxValue) = _calculateValues();
 
@@ -187,7 +187,7 @@ class AccountBarChartState extends ConsumerState<AccountBarChart> {
     final currentCurrency = ref.watch(currentCurrencyProvider);
     final currentCurrencyPosition =
         ref.watch(currentCurrencySymbolPositionProvider);
-    final colors = Theme.of(context).extension<AppColors>()!;
+    final colors = context.appColors;
     final textTheme = Theme.of(context).textTheme;
 
     final style = textTheme.labelSmall?.copyWith(
@@ -316,7 +316,7 @@ class AccountBarChartState extends ConsumerState<AccountBarChart> {
       return const SizedBox.shrink();
     }
 
-    final colors = Theme.of(context).extension<AppColors>()!;
+    final colors = context.appColors;
     final textTheme = Theme.of(context).textTheme;
 
     return SideTitleWidget(

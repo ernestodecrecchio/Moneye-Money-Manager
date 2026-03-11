@@ -93,7 +93,7 @@ class _CategorySelectorContentState
   }
 
   ListTile _buildAddCategoryTile(AppLocalizations appLocalizations) {
-    final colors = Theme.of(context).extension<AppColors>()!;
+    final colors = context.appColors;
     final textTheme = Theme.of(context).textTheme;
     return ListTile(
       leading: Container(
@@ -121,7 +121,7 @@ class _CategorySelectorContentState
 
   ListTile _buildCategoryTile(Category category) {
     final textTheme = Theme.of(context).textTheme;
-    final colors = Theme.of(context).extension<AppColors>()!;
+    final colors = context.appColors;
     return ListTile(
       leading: Container(
         height: 32,

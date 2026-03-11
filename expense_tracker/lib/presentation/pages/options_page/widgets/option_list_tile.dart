@@ -21,7 +21,7 @@ class OptionListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = Theme.of(context).extension<AppColors>()!;
+    final colors = context.appColors;
     final List<Widget> trailingChildren = [
       if (trailingWidgets != null) ...trailingWidgets!,
       if (enableRightArrow) const Icon(Icons.chevron_right_rounded),

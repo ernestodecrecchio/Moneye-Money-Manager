@@ -70,7 +70,7 @@ class _InlineIconPickerState extends State<InlineIconPicker> {
 
   @override
   Widget build(BuildContext context) {
-    final colors = Theme.of(context).extension<AppColors>()!;
+    final colors = context.appColors;
 
     return Container(
       height: 114,
@@ -117,8 +117,8 @@ class _InlineIconPickerState extends State<InlineIconPicker> {
           child: IconItem(
             iconPath: iconPath,
             isSelected: iconPath == widget.selectedIconPath,
-            backgroundColor: widget.backgroundColor ??
-                Theme.of(context).extension<AppColors>()!.secondary,
+            backgroundColor:
+                widget.backgroundColor ?? context.appColors.secondary,
             onTap: () => widget.onSelectedIcon(iconPath),
           ),
         );

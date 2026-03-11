@@ -38,7 +38,7 @@ class _InlineColorPickerState extends State<InlineColorPicker> {
 
   @override
   Widget build(BuildContext context) {
-    final colors = Theme.of(context).extension<AppColors>()!;
+    final colors = context.appColors;
 
     return Container(
       height: 114,

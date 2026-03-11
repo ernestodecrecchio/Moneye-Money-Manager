@@ -170,8 +170,7 @@ class OptionsPage extends ConsumerWidget {
               data: (packageInfo) => Text(
                 '${appLocalizations.version} ${packageInfo.version}',
                 style: TextStyle(
-                  color:
-                      Theme.of(context).extension<AppColors>()!.textSecondary,
+                  color: context.appColors.textSecondary,
                   fontSize: 12,
                 ),
               ),
