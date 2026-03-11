@@ -113,13 +113,7 @@ class OptionsPage extends ConsumerWidget {
             subtitle: appLocalizations.themeOptionDescription,
             leadingIcon: Icons.palette_outlined,
             trailingWidgets: [
-              Text(
-                currentThemeMode == ThemeMode.system
-                    ? appLocalizations.systemTheme
-                    : (currentThemeMode == ThemeMode.light
-                        ? appLocalizations.lightTheme
-                        : appLocalizations.darkTheme),
-              ),
+              Text(currentThemeMode.getName(appLocalizations)),
             ],
             onTap: () =>
                 Navigator.of(context).pushNamed(ThemeSelectionPage.routeName),

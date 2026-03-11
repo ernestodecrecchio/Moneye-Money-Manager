@@ -207,9 +207,9 @@ class MyApp extends r.ConsumerWidget {
         debugShowCheckedModeBanner: false,
         title: 'Moneye',
         navigatorObservers: [AnalyticsManager.observer],
-        theme: AppTheme.light,
-        darkTheme: AppTheme.dark,
-        themeMode: ref.watch(themeProvider),
+        theme: ref.watch(themeProvider).themeData,
+        darkTheme: ref.watch(themeProvider).darkThemeData,
+        themeMode: ref.watch(themeProvider).flutterThemeMode,
         locale: ref.watch(localeProvider),
         supportedLocales: L10n.all,
         localizationsDelegates: const [
