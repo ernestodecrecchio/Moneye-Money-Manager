@@ -5,7 +5,7 @@ import 'package:expense_tracker/l10n/app_localizations.dart';
 import 'package:expense_tracker/domain/models/category.dart';
 import 'package:expense_tracker/domain/models/transaction.dart';
 import 'package:expense_tracker/application/common/notifiers/currency_provider.dart';
-import 'package:expense_tracker/style.dart';
+import 'package:expense_tracker/style/app_theme.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -31,44 +31,134 @@ class AccountPieChart extends ConsumerStatefulWidget {
 class _AccountPieChartState extends ConsumerState<AccountPieChart> {
   int touchedIndex = -1;
 
-  Map<int, double> categoryTotalValueMap = {};
-  final List<CategoryTotalValue> categoryTotalValuePairs = [];
-  double totalValue = 0;
+  /// Processes the [widget.transactionList] and returns the calculated
+  /// [categoryTotalValuePairs] and the [totalValue].
+  (List<CategoryTotalValue> pairs, double total) _calculateData(
+      AppColors colors, AppLocalizations appLocalizations) {
+    final List<CategoryTotalValue> categoryTotalValuePairs = [];
+    double totalValue = 0;
 
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
+    if (widget.mode == AccountPieChartModeTransactionType.all) {
+      final incomeCategory = CategoryTotalValue(
+        category: Category(
+            id: -1,
+            name: appLocalizations.incomes,
+            colorValue: colors.income.toARGB32()),
+        totalValue: 0,
+      );
 
-    _loadData();
-  }
+      final expenseCategory = CategoryTotalValue(
+        category: Category(
+            id: -2,
+            name: appLocalizations.expenses,
+            colorValue: colors.expense.toARGB32()),
+        totalValue: 0,
+      );
 
-  @override
-  void didUpdateWidget(covariant AccountPieChart oldWidget) {
-    super.didUpdateWidget(oldWidget);
+      categoryTotalValuePairs.add(incomeCategory);
+      categoryTotalValuePairs.add(expenseCategory);
 
-    _loadData();
+      double absoluteTotal = 0;
+      for (var transaction in widget.transactionList) {
+        absoluteTotal += transaction.amount.abs();
+
+        if (transaction.amount >= 0) {
+          categoryTotalValuePairs[0].totalValue += transaction.amount;
+        } else {
+          categoryTotalValuePairs[1].totalValue += transaction.amount;
+        }
+      }
+
+      totalValue = absoluteTotal;
+      categoryTotalValuePairs[1].totalValue *= -1;
+    } else {
+      final categories = ref.watch(categoriesListProvider).asData?.value ?? [];
+
+      for (var transaction in widget.transactionList) {
+        totalValue += transaction.amount;
+
+        Category? category;
+        if (transaction.categoryId != null) {
+          category = categories.firstWhereOrNull(
+            (element) => element.id == transaction.categoryId,
+          );
+        }
+
+        if (category != null) {
+          final indexFound = categoryTotalValuePairs
+              .indexWhere((element) => element.category == category);
+
+          if (indexFound != -1) {
+            categoryTotalValuePairs[indexFound].totalValue +=
+                transaction.amount;
+          } else {
+            final newEntry = CategoryTotalValue(
+              category: category,
+              totalValue: transaction.amount,
+            );
+            categoryTotalValuePairs.add(newEntry);
+          }
+        } else {
+          // Handle "Other" category
+          final indexFound = categoryTotalValuePairs
+              .indexWhere((element) => element.category.id == null);
+
+          if (indexFound != -1) {
+            categoryTotalValuePairs[indexFound].totalValue +=
+                transaction.amount;
+          } else {
+            final otherEntry = CategoryTotalValue(
+                category: Category(
+                  name: appLocalizations.other,
+                  colorValue: colors.textSecondary.toARGB32(),
+                ),
+                totalValue: transaction.amount);
+            categoryTotalValuePairs.add(otherEntry);
+          }
+        }
+      }
+    }
+
+    if (widget.mode == AccountPieChartModeTransactionType.income) {
+      categoryTotalValuePairs
+          .sort((a, b) => a.totalValue < b.totalValue ? 1 : -1);
+    } else if (widget.mode == AccountPieChartModeTransactionType.expense) {
+      categoryTotalValuePairs
+          .sort((a, b) => a.totalValue > b.totalValue ? 1 : -1);
+    }
+
+    return (categoryTotalValuePairs, totalValue);
   }
 
   @override
   Widget build(BuildContext context) {
     final appLocalizations = ref.watch(appLocalizationsProvider);
+    final colors = Theme.of(context).extension<AppColors>()!;
+    final (categoryTotalValuePairs, totalValue) =
+        _calculateData(colors, appLocalizations);
 
     return Row(
       children: <Widget>[
         Expanded(
-          child: _buildGraph(appLocalizations),
+          child: _buildGraph(
+              appLocalizations, colors, categoryTotalValuePairs, totalValue),
         ),
         const SizedBox(
           width: 30,
         ),
         Expanded(
-          child: _buildIndicators(),
+          child: _buildIndicators(categoryTotalValuePairs),
         )
       ],
     );
   }
 
-  Padding _buildGraph(AppLocalizations appLocalizations) {
+  Padding _buildGraph(
+    AppLocalizations appLocalizations,
+    AppColors colors,
+    List<CategoryTotalValue> categoryTotalValuePairs,
+    double totalValue,
+  ) {
     final currentCurrency = ref.watch(currentCurrencyProvider);
     final currentCurrencyPosition =
         ref.watch(currentCurrencySymbolPositionProvider);
@@ -94,27 +184,28 @@ class _AccountPieChartState extends ConsumerState<AccountPieChart> {
                   Text(
                     appLocalizations.total,
                     textAlign: TextAlign.center,
-                    style: const TextStyle(
-                      fontSize: 14,
-                      color: CustomColors.grey,
-                    ),
+                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                          color: colors.textSecondary,
+                        ),
                   ),
                   FittedBox(
                     fit: BoxFit.fitWidth,
                     child: Text(
                       widget.mode == AccountPieChartModeTransactionType.all
-                          ? (categoryTotalValuePairs[0].totalValue -
-                                  categoryTotalValuePairs[1].totalValue)
-                              .toStringAsFixedRoundedWithCurrency(
-                                  2, currentCurrency, currentCurrencyPosition)
+                          ? (categoryTotalValuePairs.isNotEmpty
+                              ? (categoryTotalValuePairs[0].totalValue -
+                                      categoryTotalValuePairs[1].totalValue)
+                                  .toStringAsFixedRoundedWithCurrency(2,
+                                      currentCurrency, currentCurrencyPosition)
+                              : 0.0.toStringAsFixedRoundedWithCurrency(
+                                  2, currentCurrency, currentCurrencyPosition))
                           : totalValue.toStringAsFixedRoundedWithCurrency(
                               2, currentCurrency, currentCurrencyPosition),
                       textAlign: TextAlign.center,
                       maxLines: 1,
-                      style: const TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
+                      style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                            fontWeight: FontWeight.bold,
+                          ),
                     ),
                   ),
                 ],
@@ -143,7 +234,7 @@ class _AccountPieChartState extends ConsumerState<AccountPieChart> {
               ),
               sectionsSpace: 0,
               centerSpaceRadius: centerSpaceRadius,
-              sections: showingSections(),
+              sections: showingSections(categoryTotalValuePairs, totalValue),
             ),
           ),
         ],
@@ -151,26 +242,28 @@ class _AccountPieChartState extends ConsumerState<AccountPieChart> {
     );
   }
 
-  ListView _buildIndicators() {
+  /// Builds the list of indicators (category names and values) next to the chart.
+  ListView _buildIndicators(List<CategoryTotalValue> pairs) {
     return ListView.builder(
-        itemCount: categoryTotalValuePairs.length,
+        itemCount: pairs.length,
         itemBuilder: (context, index) {
-          final currentPair = categoryTotalValuePairs[index];
+          final currentPair = pairs[index];
 
           return Indicator(
             color: currentPair.category.color,
             text: currentPair.category.name,
-            // value: (e.totalValue / totalValue) * 100,
             value: currentPair.totalValue,
           );
         });
   }
 
-  List<PieChartSectionData> showingSections() {
+  /// Returns the section data for the [PieChart] based on the calculated [pairs].
+  List<PieChartSectionData> showingSections(
+      List<CategoryTotalValue> pairs, double totalValue) {
     return List.generate(
-      categoryTotalValuePairs.length,
+      pairs.length,
       (i) {
-        final currentCategoryTotalValuePair = categoryTotalValuePairs[i];
+        final currentCategoryTotalValuePair = pairs[i];
 
         final isTouched = i == touchedIndex;
         final fontSize = isTouched ? 25.0 : 16.0;
@@ -195,13 +288,12 @@ class _AccountPieChartState extends ConsumerState<AccountPieChart> {
                   style: const TextStyle(
                       color: Colors.white, fontWeight: FontWeight.bold),
                 )
-              : categoryTotalValuePairs[i].category.iconPath != null
+              : pairs[i].category.iconPath != null
                   ? SizedBox(
                       height: 20,
                       width: 20,
                       child: VectorGraphic(
-                        loader: AssetBytesLoader(
-                            categoryTotalValuePairs[i].category.iconPath!),
+                        loader: AssetBytesLoader(pairs[i].category.iconPath!),
                         colorFilter: const ColorFilter.mode(
                             Colors.white, BlendMode.srcIn),
                       ),
@@ -210,108 +302,6 @@ class _AccountPieChartState extends ConsumerState<AccountPieChart> {
         );
       },
     );
-  }
-
-  void _loadData() {
-    categoryTotalValuePairs.clear();
-    totalValue = 0;
-
-    final appLocalizations = ref.read(appLocalizationsProvider);
-
-    if (widget.mode == AccountPieChartModeTransactionType.all) {
-      final incomeCategory = CategoryTotalValue(
-        category: Category(
-            id: -1,
-            name: appLocalizations.incomes,
-            colorValue: CustomColors.income.toARGB32()),
-        totalValue: 0,
-      );
-
-      final expenseCategory = CategoryTotalValue(
-        category: Category(
-            id: -2,
-            name: appLocalizations.expenses,
-            colorValue: CustomColors.expense.toARGB32()),
-        totalValue: 0,
-      );
-
-      categoryTotalValuePairs.add(incomeCategory);
-      categoryTotalValuePairs.add(expenseCategory);
-
-      for (var transaction in widget.transactionList) {
-        totalValue += transaction.amount.abs();
-
-        if (transaction.amount >= 0) {
-          categoryTotalValuePairs[0].totalValue += transaction.amount;
-        } else {
-          categoryTotalValuePairs[1].totalValue += transaction.amount;
-        }
-      }
-
-      totalValue = totalValue.abs();
-      categoryTotalValuePairs[1].totalValue *= -1;
-    } else {
-      final categories = ref.read(categoriesListProvider).asData?.value ?? [];
-
-      categoryTotalValuePairs.clear();
-      totalValue = 0;
-
-      for (var transaction in widget.transactionList) {
-        totalValue += transaction.amount;
-
-        Category? category;
-
-        if (transaction.categoryId != null) {
-          category = categories.firstWhereOrNull(
-            (element) => element.id == transaction.categoryId,
-          );
-        }
-
-        if (category != null) {
-          final indexFound = categoryTotalValuePairs
-              .indexWhere((element) => element.category == category);
-
-          if (indexFound != -1) {
-            categoryTotalValuePairs[indexFound].totalValue +=
-                transaction.amount;
-          } else {
-            final newEntry = CategoryTotalValue(
-              category: category,
-              totalValue: transaction.amount,
-            );
-
-            categoryTotalValuePairs.add(newEntry);
-          }
-        } else {
-          _addToOtherCategoryIndicator(transaction, appLocalizations);
-        }
-      }
-    }
-
-    if (widget.mode == AccountPieChartModeTransactionType.income) {
-      categoryTotalValuePairs
-          .sort((a, b) => a.totalValue < b.totalValue ? 1 : 0);
-    } else if (widget.mode == AccountPieChartModeTransactionType.expense) {
-      categoryTotalValuePairs
-          .sort((a, b) => a.totalValue > b.totalValue ? 1 : 0);
-    }
-  }
-
-  void _addToOtherCategoryIndicator(
-      Transaction transaction, AppLocalizations appLocalizations) {
-    final indexFound = categoryTotalValuePairs
-        .indexWhere((element) => element.category.id == null);
-
-    if (indexFound != -1) {
-      categoryTotalValuePairs[indexFound].totalValue += transaction.amount;
-    } else {
-      final otherEntry = CategoryTotalValue(
-          category: Category(
-              name: appLocalizations.other, colorValue: Colors.grey.toARGB32()),
-          totalValue: transaction.amount);
-
-      categoryTotalValuePairs.add(otherEntry);
-    }
   }
 }
 
@@ -359,6 +349,7 @@ class Indicator extends ConsumerWidget {
           Expanded(
             child: Text(
               text,
+              style: Theme.of(context).textTheme.bodyMedium,
             ),
           ),
           if (value != null)
@@ -371,7 +362,9 @@ class Indicator extends ConsumerWidget {
                   currentCurrencyPosition,
                 ),
                 textAlign: TextAlign.end,
-                style: const TextStyle(fontWeight: FontWeight.bold),
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
               ),
             ),
         ],
