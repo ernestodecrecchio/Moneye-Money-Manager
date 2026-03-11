@@ -4,11 +4,12 @@ import 'package:expense_tracker/l10n/app_localizations.dart';
 import 'package:expense_tracker/domain/models/account.dart';
 import 'package:expense_tracker/presentation/pages/common/dialogs.dart';
 import 'package:expense_tracker/presentation/pages/options_page/accounts_page/new_edit_account_page.dart';
-import 'package:expense_tracker/style.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:vector_graphics/vector_graphics.dart';
+import 'package:expense_tracker/style/app_theme.dart';
 
 class AccountListCell extends ConsumerWidget {
   final Account account;
@@ -30,7 +31,7 @@ class AccountListCell extends ConsumerWidget {
           account.name,
           style: const TextStyle(fontSize: 16),
         ),
-        leading: _buildAccountIcon(account),
+        leading: _buildAccountIcon(context, account),
         trailing: const Icon(Icons.chevron_right_rounded),
       ),
     );
@@ -56,8 +57,8 @@ class AccountListCell extends ConsumerWidget {
   SlidableAction _buildDeleteSlidableAction(
       BuildContext context, WidgetRef ref, AppLocalizations appLocalizations) {
     return SlidableAction(
-      backgroundColor: CustomColors.swipeActionRed,
-      foregroundColor: Colors.white,
+      backgroundColor: context.appColors.expense,
+      foregroundColor: context.appColors.onPrimary,
       icon: Icons.delete,
       label: appLocalizations.delete,
       onPressed: (_) async {
@@ -73,13 +74,13 @@ class AccountListCell extends ConsumerWidget {
     );
   }
 
-  Container _buildAccountIcon(Account account) {
+  Container _buildAccountIcon(BuildContext context, Account account) {
     VectorGraphic? accountIcon;
     if (account.iconPath != null) {
       accountIcon = VectorGraphic(
         loader: AssetBytesLoader(account.iconPath!),
-        colorFilter: const ColorFilter.mode(
-          Colors.white,
+        colorFilter: ColorFilter.mode(
+          context.appColors.onPrimary,
           BlendMode.srcIn,
         ),
       );

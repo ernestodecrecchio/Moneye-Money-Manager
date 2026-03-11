@@ -75,8 +75,8 @@ class _InlineColorPickerState extends State<InlineColorPicker> {
     );
   }
 
-  InkWell _buildColorItem(Color color) {
-    return InkWell(
+  GestureDetector _buildColorItem(Color color) {
+    return GestureDetector(
       onTap: () {
         widget.onSelectedColor(color);
       },
@@ -96,35 +96,4 @@ class _InlineColorPickerState extends State<InlineColorPicker> {
       ),
     );
   }
-
-  // Widget _buildPageView() {
-  //   return PageView(
-  //     controller: _controller,
-  //     children: [
-  //       _buildPage1(),
-  //     ],
-  //   );
-  // }
-
-  // _buildPage1() {
-  //   return Wrap(
-  //     spacing: 18,
-  //     alignment: WrapAlignment.spaceEvenly,
-  //     runSpacing: 14,
-  //     children: [
-  //       _buildColorItem(CustomColors.red1),
-  //       _buildColorItem(CustomColors.blue1),
-  //       _buildColorItem(CustomColors.green1),
-  //       _buildColorItem(CustomColors.orange1),
-  //       _buildColorItem(CustomColors.brown1),
-  //       _buildColorItem(CustomColors.black),
-  //       _buildColorItem(CustomColors.red2),
-  //       _buildColorItem(CustomColors.blue2),
-  //       _buildColorItem(CustomColors.green2),
-  //       _buildColorItem(CustomColors.yellow1),
-  //       _buildColorItem(CustomColors.brown2),
-  //       _buildColorItem(CustomColors.grey),
-  //     ],
-  //   );
-  // }
 }

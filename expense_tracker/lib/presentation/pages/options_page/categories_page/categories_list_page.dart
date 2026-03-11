@@ -5,6 +5,7 @@ import 'package:expense_tracker/presentation/pages/options_page/categories_page/
 import 'package:expense_tracker/presentation/pages/options_page/categories_page/new_edit_category_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:expense_tracker/style/app_theme.dart';
 
 class CategoriesListPage extends ConsumerStatefulWidget {
   static const routeName = '/categoriesListPage';
@@ -45,7 +46,8 @@ class _CategoriesListPageState extends ConsumerState<CategoriesListPage> {
                       padding: const EdgeInsets.only(top: 8.0),
                       child: Text(
                         appLocalizations.noCategories,
-                        style: const TextStyle(color: Colors.grey),
+                        style:
+                            TextStyle(color: context.appColors.textSecondary),
                         textAlign: TextAlign.start,
                       ),
                     ),

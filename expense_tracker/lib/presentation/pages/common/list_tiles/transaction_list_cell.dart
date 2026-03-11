@@ -8,10 +8,11 @@ import 'package:expense_tracker/domain/models/transaction.dart';
 import 'package:expense_tracker/application/accounts/notifiers/queries/accounts_list_notifier.dart';
 import 'package:expense_tracker/application/common/notifiers/currency_provider.dart';
 import 'package:collection/collection.dart';
-import 'package:expense_tracker/style.dart';
+
 import 'package:expense_tracker/presentation/pages/new_edit_transaction_flow/new_edit_transaction_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:expense_tracker/style/app_theme.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:vector_graphics/vector_graphics.dart';
 
@@ -92,7 +93,6 @@ class TransactionListCell extends ConsumerWidget {
           onDismissed: () async => await _removeTransaction(context, ref)),
       children: [
         _buildDeleteAction(context, ref, appLocalizations),
-        // _buildEditAction(),
       ],
     );
   }
@@ -101,23 +101,12 @@ class TransactionListCell extends ConsumerWidget {
       BuildContext context, WidgetRef ref, AppLocalizations appLocalizations) {
     return SlidableAction(
       onPressed: (_) async => await _removeTransaction(context, ref),
-      backgroundColor: CustomColors.swipeActionRed,
-      foregroundColor: Colors.white,
+      backgroundColor: context.appColors.expense,
+      foregroundColor: context.appColors.onPrimary,
       icon: Icons.delete,
       label: appLocalizations.delete,
     );
   }
-
-  // SlidableAction _buildEditAction() {
-  //   return SlidableAction(
-  //     onPressed: (context) => Navigator.of(context)
-  //         .pushNamed(NewTransactionPage.routeName, arguments: transaction),
-  //     backgroundColor: const Color(0xFF21B7CA),
-  //     foregroundColor: Colors.white,
-  //     icon: Icons.edit,
-  //     label: 'Modifica',
-  //   );
-  // }
 
   Future _removeTransaction(BuildContext context, WidgetRef ref) async {
     await ref
@@ -140,16 +129,16 @@ class TransactionListCell extends ConsumerWidget {
     if (category != null && category.iconPath != null) {
       categoryIcon = VectorGraphic(
         loader: AssetBytesLoader(category.iconPath!),
-        colorFilter: const ColorFilter.mode(
-          Colors.white,
+        colorFilter: ColorFilter.mode(
+          context.appColors.onPrimary,
           BlendMode.srcIn,
         ),
       );
     } else {
       categoryIcon = VectorGraphic(
         loader: AssetBytesLoader('assets/icons/box.svg'),
-        colorFilter: const ColorFilter.mode(
-          Colors.white,
+        colorFilter: ColorFilter.mode(
+          context.appColors.onPrimary,
           BlendMode.srcIn,
         ),
       );
@@ -161,7 +150,9 @@ class TransactionListCell extends ConsumerWidget {
       padding: const EdgeInsets.all(8),
       decoration: BoxDecoration(
           shape: BoxShape.circle,
-          color: category != null ? category.color : Colors.grey),
+          color: category != null
+              ? category.color
+              : context.appColors.textSecondary),
       child: categoryIcon,
     );
   }
@@ -185,9 +176,9 @@ class TransactionListCell extends ConsumerWidget {
     return Flexible(
       child: Text(
         dateString,
-        style: const TextStyle(
+        style: TextStyle(
           fontSize: 12,
-          color: Colors.black54,
+          color: context.appColors.textSecondary,
         ),
       ),
     );
@@ -219,13 +210,16 @@ class TransactionListCell extends ConsumerWidget {
           style: TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.bold,
-            color: transaction.amount >= 0 ? Colors.green : Colors.red,
+            color: transaction.amount >= 0
+                ? context.appColors.income
+                : context.appColors.expense,
           ),
         ),
         if (showAccountLabel && account != null)
           Text(
             account.name,
-            style: const TextStyle(fontSize: 12, color: Colors.black54),
+            style:
+                TextStyle(fontSize: 12, color: context.appColors.textSecondary),
           ),
       ],
     );

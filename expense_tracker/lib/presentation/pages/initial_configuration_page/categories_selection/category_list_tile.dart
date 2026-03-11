@@ -1,6 +1,7 @@
 import 'package:expense_tracker/domain/models/category.dart';
 import 'package:flutter/material.dart';
 import 'package:vector_graphics/vector_graphics.dart';
+import 'package:expense_tracker/style/app_theme.dart';
 
 class CategoryListTile extends StatefulWidget {
   final Category category;
@@ -32,14 +33,16 @@ class _CategoryListTileState extends State<CategoryListTile> {
         },
         title: Text(
           widget.category.name,
-          style: const TextStyle(
-              fontSize: 20, color: Colors.white, fontWeight: FontWeight.w500),
+          style: TextStyle(
+              fontSize: 20,
+              color: context.appColors.textPrimary,
+              fontWeight: FontWeight.w500),
         ),
         leading: _buildCategoryIcon(widget.category),
         trailing: widget.selected
             ? Icon(
                 Icons.check_circle,
-                color: Colors.white,
+                color: context.appColors.primary,
               )
             : null,
       ),
@@ -51,8 +54,8 @@ class _CategoryListTileState extends State<CategoryListTile> {
     if (category.iconPath != null) {
       categoryIcon = VectorGraphic(
         loader: AssetBytesLoader(category.iconPath!),
-        colorFilter: const ColorFilter.mode(
-          Colors.white,
+        colorFilter: ColorFilter.mode(
+          context.appColors.onPrimary,
           BlendMode.srcIn,
         ),
       );
