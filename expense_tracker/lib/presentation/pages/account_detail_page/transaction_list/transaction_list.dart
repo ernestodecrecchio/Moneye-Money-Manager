@@ -151,10 +151,7 @@ class _TransactionListState extends ConsumerState<TransactionList> {
           final otherEntry = CategoryTotalValue(
               category: Category(
                 name: appLocalizations.other,
-                colorValue: Theme.of(context)
-                    .extension<AppColors>()!
-                    .textSecondary
-                    .toARGB32(),
+                colorValue: context.appColors.textSecondary.toARGB32(),
                 iconPath: 'assets/icons/box.svg',
               ),
               totalValue: transaction.amount);
@@ -231,9 +228,7 @@ class _TransactionListState extends ConsumerState<TransactionList> {
                       currentCurrencyPosition,
                     ),
                     style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                          color: Theme.of(context)
-                              .extension<AppColors>()!
-                              .textSecondary,
+                          color: context.appColors.textSecondary,
                         ),
                   ),
                 ],
@@ -253,8 +248,8 @@ class _TransactionListState extends ConsumerState<TransactionList> {
     if (category.iconPath != null) {
       categoryIcon = VectorGraphic(
         loader: AssetBytesLoader(category.iconPath!),
-        colorFilter: const ColorFilter.mode(
-          Colors.white,
+        colorFilter: ColorFilter.mode(
+          context.appColors.onPrimary,
           BlendMode.srcIn,
         ),
       );
