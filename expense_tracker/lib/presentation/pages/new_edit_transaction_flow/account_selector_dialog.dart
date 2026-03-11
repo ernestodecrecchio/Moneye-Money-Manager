@@ -4,7 +4,7 @@ import 'package:expense_tracker/domain/models/account.dart';
 import 'package:expense_tracker/application/accounts/notifiers/queries/accounts_list_notifier.dart';
 import 'package:expense_tracker/presentation/pages/common/custom_modal_bottom_sheet.dart';
 import 'package:expense_tracker/presentation/pages/options_page/accounts_page/new_edit_account_page.dart';
-import 'package:expense_tracker/style.dart';
+import 'package:expense_tracker/style/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:vector_graphics/vector_graphics.dart';
@@ -46,9 +46,9 @@ class _AccountSelectorContentState
   @override
   Widget build(BuildContext context) {
     final appLocalizations = ref.watch(appLocalizationsProvider);
+    final textTheme = Theme.of(context).textTheme;
 
-    return Container(
-      color: Colors.white,
+    return Padding(
       padding: const EdgeInsets.only(top: 10),
       child: Column(
         children: [
@@ -59,8 +59,7 @@ class _AccountSelectorContentState
               children: [
                 Text(
                   appLocalizations.selectAccount,
-                  style: const TextStyle(
-                      fontSize: 18, fontWeight: FontWeight.w600),
+                  style: textTheme.titleMedium?.copyWith(fontSize: 18),
                 ),
                 IconButton(
                   onPressed: () => Navigator.of(context).pop(),
@@ -98,23 +97,25 @@ class _AccountSelectorContentState
   }
 
   ListTile _buildAddAccountTile(AppLocalizations appLocalizations) {
+    final colors = Theme.of(context).extension<AppColors>()!;
+    final textTheme = Theme.of(context).textTheme;
     return ListTile(
       leading: Container(
         height: 32,
         width: 32,
         decoration: BoxDecoration(
           shape: BoxShape.circle,
-          border: Border.all(color: CustomColors.darkBlue, width: 2),
+          border: Border.all(color: colors.secondary, width: 2),
         ),
-        child: const Icon(
+        child: Icon(
           Icons.add,
-          color: CustomColors.darkBlue,
+          color: colors.secondary,
           size: 20,
         ),
       ),
       title: Text(
         appLocalizations.newAccount,
-        style: const TextStyle(fontSize: 18),
+        style: textTheme.bodyLarge?.copyWith(fontSize: 18),
       ),
       onTap: () {
         Navigator.of(context).pushNamed(NewEditAccountPage.routeName);
@@ -123,6 +124,8 @@ class _AccountSelectorContentState
   }
 
   ListTile _buildAccountTile(Account account) {
+    final textTheme = Theme.of(context).textTheme;
+    final colors = Theme.of(context).extension<AppColors>()!;
     return ListTile(
       leading: Container(
         height: 32,
@@ -144,11 +147,16 @@ class _AccountSelectorContentState
       ),
       trailing: _selectedAccount == account
           ? VectorGraphic(
-              loader: AssetBytesLoader('assets/icons/checkmark.svg'))
+              loader: const AssetBytesLoader('assets/icons/checkmark.svg'),
+              colorFilter: ColorFilter.mode(
+                colors.primary,
+                BlendMode.srcIn,
+              ),
+            )
           : null,
       title: Text(
         account.name,
-        style: const TextStyle(fontSize: 18),
+        style: textTheme.bodyLarge?.copyWith(fontSize: 18),
       ),
       onTap: () {
         _selectedAccount = account;
