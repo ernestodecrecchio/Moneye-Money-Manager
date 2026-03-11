@@ -230,7 +230,7 @@ class AppTheme {
       scaffoldBackgroundColor: colors.scaffoldBackground,
       appBarTheme: AppBarTheme(
         backgroundColor: colors.surface,
-        foregroundColor: colors.primary,
+        foregroundColor: colors.onSurface,
         elevation: 0,
         titleTextStyle: TextStyle(
           fontWeight: FontWeight.w500,
