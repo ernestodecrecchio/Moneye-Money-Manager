@@ -49,8 +49,9 @@ class _HomeFlexibleSpaceBarState extends ConsumerState<HomeFlexibleSpaceBar> {
         children: [
           Text(
             appLocalizations.financialOverviewForThisMonth,
-            style: const TextStyle(
-              color: Colors.white70,
+            style: TextStyle(
+              color:
+                  Theme.of(context).appBarTheme.foregroundColor?.withAlpha(180),
               fontSize: 16,
               fontWeight: FontWeight.w700,
             ),
@@ -60,8 +61,8 @@ class _HomeFlexibleSpaceBarState extends ConsumerState<HomeFlexibleSpaceBar> {
           ),
           Text(
             appLocalizations.totalBalance,
-            style: const TextStyle(
-              color: Colors.white,
+            style: TextStyle(
+              color: Theme.of(context).appBarTheme.foregroundColor,
               fontSize: 18,
               fontWeight: FontWeight.w400,
             ),
@@ -79,11 +80,12 @@ class _HomeFlexibleSpaceBarState extends ConsumerState<HomeFlexibleSpaceBar> {
                         data: (balance) => Text(
                           balance.toStringAsFixedRoundedWithCurrency(
                               2, currentCurrency, currentCurrencyPosition),
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 40,
                             overflow: TextOverflow.clip,
-                            color: Colors.white,
+                            color:
+                                Theme.of(context).appBarTheme.foregroundColor,
                           ),
                         ),
                         loading: () => const CircularProgressIndicator(
@@ -189,8 +191,10 @@ class _HomeFlexibleSpaceBarState extends ConsumerState<HomeFlexibleSpaceBar> {
                               children: [
                                 Text(
                                   appLocalizations.incomes,
-                                  style: const TextStyle(
-                                    color: Colors.white,
+                                  style: TextStyle(
+                                    color: Theme.of(context)
+                                        .appBarTheme
+                                        .foregroundColor,
                                     fontSize: 16,
                                     fontWeight: FontWeight.w300,
                                   ),
@@ -201,8 +205,10 @@ class _HomeFlexibleSpaceBarState extends ConsumerState<HomeFlexibleSpaceBar> {
                                           2,
                                           currentCurrency,
                                           currentCurrencyPosition),
-                                  style: const TextStyle(
-                                    color: Colors.white,
+                                  style: TextStyle(
+                                    color: Theme.of(context)
+                                        .appBarTheme
+                                        .foregroundColor,
                                     fontSize: 16,
                                     fontWeight: FontWeight.bold,
                                   ),
