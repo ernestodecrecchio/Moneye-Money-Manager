@@ -10,7 +10,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:vector_graphics/vector_graphics.dart';
-import 'package:expense_tracker/style/app_theme.dart';
 
 class AccountListCell extends ConsumerWidget {
   final Account account;

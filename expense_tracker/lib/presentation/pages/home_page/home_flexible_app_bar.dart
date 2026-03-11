@@ -147,6 +147,11 @@ class _HomeFlexibleSpaceBarState extends ConsumerState<HomeFlexibleSpaceBar> {
                             VectorGraphic(
                               loader: AssetBytesLoader(
                                   'assets/icons/pocket_out.svg'),
+                              colorFilter: ColorFilter.mode(
+                                Theme.of(context).appBarTheme.foregroundColor ??
+                                    Colors.white,
+                                BlendMode.srcIn,
+                              ),
                             ),
                             const SizedBox(
                               width: 12,
@@ -186,8 +191,14 @@ class _HomeFlexibleSpaceBarState extends ConsumerState<HomeFlexibleSpaceBar> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             VectorGraphic(
-                                loader: AssetBytesLoader(
-                                    'assets/icons/pocket_in.svg')),
+                              loader: AssetBytesLoader(
+                                  'assets/icons/pocket_in.svg'),
+                              colorFilter: ColorFilter.mode(
+                                Theme.of(context).appBarTheme.foregroundColor ??
+                                    Colors.white,
+                                BlendMode.srcIn,
+                              ),
+                            ),
                             const SizedBox(
                               width: 12,
                             ),
