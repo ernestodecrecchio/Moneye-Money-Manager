@@ -22,12 +22,15 @@ class CustomElevatedButton extends StatelessWidget {
     final colors = context.appColors;
     final textTheme = Theme.of(context).textTheme;
 
-    final backgroundColor = mode == CustomElevatedButtonMode.dark
-        ? colors.secondary
-        : colors.scaffoldBackground;
-    final foregroundColor = mode == CustomElevatedButtonMode.dark
-        ? colors.onSecondary
-        : colors.secondary;
+    final backgroundColor = switch (mode) {
+      CustomElevatedButtonMode.dark => colors.secondary,
+      CustomElevatedButtonMode.light => colors.scaffoldBackground
+    };
+
+    final foregroundColor = switch (mode) {
+      CustomElevatedButtonMode.dark => colors.onSecondary,
+      CustomElevatedButtonMode.light => colors.secondary
+    };
 
     return SizedBox(
       height: 50,
