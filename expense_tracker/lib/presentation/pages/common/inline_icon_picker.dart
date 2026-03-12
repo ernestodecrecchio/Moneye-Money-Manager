@@ -108,16 +108,20 @@ class _InlineIconPickerState extends State<InlineIconPicker> {
       itemCount: AppIcons.iconPathList.length,
       itemBuilder: (context, index) {
         final iconPath = AppIcons.iconPathList[index];
-        return IconItem(
-            iconPath: iconPath,
-            isSelected: iconPath == selectedIconPath,
-            backgroundColor:
-                widget.backgroundColor ?? context.appColors.secondary,
-            onTap: () {
-              widget.onSelectedIcon(iconPath);
-              selectedIconPath = iconPath;
-              setState(() {});
-            });
+
+        // Center widget to constrain the children size inside the grid
+        return Center(
+          child: IconItem(
+              iconPath: iconPath,
+              isSelected: iconPath == selectedIconPath,
+              backgroundColor:
+                  widget.backgroundColor ?? context.appColors.secondary,
+              onTap: () {
+                widget.onSelectedIcon(iconPath);
+                selectedIconPath = iconPath;
+                setState(() {});
+              }),
+        );
       },
     );
   }

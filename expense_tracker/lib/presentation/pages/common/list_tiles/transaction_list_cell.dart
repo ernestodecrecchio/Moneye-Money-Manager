@@ -8,14 +8,13 @@ import 'package:expense_tracker/domain/models/transaction.dart';
 import 'package:expense_tracker/application/accounts/notifiers/queries/accounts_list_notifier.dart';
 import 'package:expense_tracker/application/common/notifiers/currency_provider.dart';
 import 'package:collection/collection.dart';
-
+import 'package:expense_tracker/presentation/pages/common/widgets/icon_item.dart';
 import 'package:expense_tracker/presentation/pages/new_edit_transaction_flow/new_edit_transaction_page.dart';
 import 'package:expense_tracker/style/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:expense_tracker/style/app_theme.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:vector_graphics/vector_graphics.dart';
 
 class TransactionListCell extends ConsumerWidget {
   final Transaction transaction;
@@ -120,41 +119,15 @@ class TransactionListCell extends ConsumerWidget {
     );
   }
 
-  Container _buildCategoryIcon(BuildContext context, WidgetRef ref) {
+  Widget _buildCategoryIcon(BuildContext context, WidgetRef ref) {
     final categories = ref.watch(categoriesListProvider).asData?.value ?? [];
     final category = categories.firstWhereOrNull(
       (element) => element.id == transaction.categoryId,
     );
 
-    VectorGraphic? categoryIcon;
-    if (category != null && category.iconPath != null) {
-      categoryIcon = VectorGraphic(
-        loader: AssetBytesLoader(category.iconPath!),
-        colorFilter: const ColorFilter.mode(
-          Colors.white,
-          BlendMode.srcIn,
-        ),
-      );
-    } else {
-      categoryIcon = VectorGraphic(
-        loader: AssetBytesLoader('assets/icons/box.svg'),
-        colorFilter: ColorFilter.mode(
-          Colors.white,
-          BlendMode.srcIn,
-        ),
-      );
-    }
-
-    return Container(
-      width: 32,
-      height: 32,
-      padding: const EdgeInsets.all(8),
-      decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          color: category != null
-              ? category.color
-              : context.appColors.textSecondary),
-      child: categoryIcon,
+    return IconItem(
+      backgroundColor: category?.color ?? context.appColors.textSecondary,
+      iconPath: category?.iconPath ?? 'assets/icons/box.svg',
     );
   }
 

@@ -87,6 +87,8 @@ class _IconSelectorContentState extends ConsumerState<IconSelectorContent> {
                 itemCount: widget.iconPathList.length,
                 itemBuilder: (context, index) {
                   final path = widget.iconPathList[index];
+
+                  // Center widget to constrain the children size inside the grid
                   return Center(
                     child: IconItem(
                       iconPath: path,
