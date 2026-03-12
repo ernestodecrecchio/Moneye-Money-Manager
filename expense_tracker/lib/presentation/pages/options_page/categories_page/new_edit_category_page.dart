@@ -7,10 +7,9 @@ import 'package:expense_tracker/presentation/pages/common/custom_text_field.dart
 import 'package:expense_tracker/presentation/pages/common/dialogs.dart';
 import 'package:expense_tracker/presentation/pages/common/inline_color_picker.dart';
 import 'package:expense_tracker/presentation/pages/common/inline_icon_picker.dart';
-
+import 'package:expense_tracker/style/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:expense_tracker/style/app_theme.dart';
 
 class NewEditCategoryPage extends ConsumerStatefulWidget {
   static const routeName = '/newEditCategoryPage';
@@ -41,14 +40,6 @@ class _NewEditCategoryPageState extends ConsumerState<NewEditCategoryPage> {
   }
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    if (!editMode) {
-      selectedColor = context.appColors.secondary;
-    }
-  }
-
-  @override
   void initState() {
     super.initState();
 
@@ -57,6 +48,8 @@ class _NewEditCategoryPageState extends ConsumerState<NewEditCategoryPage> {
       descriptionInput.text = widget.initialCategorySettings!.description ?? '';
       selectedColor = widget.initialCategorySettings!.color;
       selectedIconPath = widget.initialCategorySettings!.iconPath;
+    } else {
+      selectedColor = CustomColors.defaultPickerColor;
     }
   }
 

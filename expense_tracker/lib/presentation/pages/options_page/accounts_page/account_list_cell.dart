@@ -3,13 +3,12 @@ import 'package:expense_tracker/application/common/notifiers/app_localizations_p
 import 'package:expense_tracker/l10n/app_localizations.dart';
 import 'package:expense_tracker/domain/models/account.dart';
 import 'package:expense_tracker/presentation/pages/common/dialogs.dart';
+import 'package:expense_tracker/presentation/pages/common/widgets/icon_item.dart';
 import 'package:expense_tracker/presentation/pages/options_page/accounts_page/new_edit_account_page.dart';
 import 'package:expense_tracker/style/style.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:vector_graphics/vector_graphics.dart';
 
 class AccountListCell extends ConsumerWidget {
   final Account account;
@@ -74,24 +73,10 @@ class AccountListCell extends ConsumerWidget {
     );
   }
 
-  Container _buildAccountIcon(BuildContext context, Account account) {
-    VectorGraphic? accountIcon;
-    if (account.iconPath != null) {
-      accountIcon = VectorGraphic(
-        loader: AssetBytesLoader(account.iconPath!),
-        colorFilter: const ColorFilter.mode(
-          Colors.white,
-          BlendMode.srcIn,
-        ),
-      );
-    }
-
-    return Container(
-      width: 32,
-      height: 32,
-      padding: const EdgeInsets.all(6),
-      decoration: BoxDecoration(shape: BoxShape.circle, color: account.color),
-      child: accountIcon,
+  Widget _buildAccountIcon(BuildContext context, Account account) {
+    return IconItem(
+      backgroundColor: account.color,
+      iconPath: account.iconPath,
     );
   }
 }

@@ -9,11 +9,10 @@ import 'package:expense_tracker/presentation/pages/common/custom_text_field.dart
 import 'package:expense_tracker/presentation/pages/common/dialogs.dart';
 import 'package:expense_tracker/presentation/pages/common/inline_color_picker.dart';
 import 'package:expense_tracker/presentation/pages/common/inline_icon_picker.dart';
-
+import 'package:expense_tracker/style/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:expense_tracker/style/app_theme.dart';
 
 class NewEditAccountPage extends ConsumerStatefulWidget {
   static const routeName = '/newEditAccountPage';
@@ -44,14 +43,6 @@ class _NewAccountPageState extends ConsumerState<NewEditAccountPage> {
   }
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    if (!editMode) {
-      selectedColor = context.appColors.secondary;
-    }
-  }
-
-  @override
   void initState() {
     super.initState();
 
@@ -60,6 +51,8 @@ class _NewAccountPageState extends ConsumerState<NewEditAccountPage> {
       descriptionInput.text = widget.initialAccountSettings!.description ?? '';
       selectedColor = widget.initialAccountSettings!.color;
       selectedIconPath = widget.initialAccountSettings!.iconPath;
+    } else {
+      selectedColor = CustomColors.defaultPickerColor;
     }
   }
 
@@ -168,12 +161,13 @@ class _NewAccountPageState extends ConsumerState<NewEditAccountPage> {
               ),
         ),
         InlineColorPicker(
-            selectedColor: selectedColor,
-            onSelectedColor: (newSelectedColor) {
-              selectedColor = newSelectedColor;
+          selectedColor: selectedColor,
+          onSelectedColor: (newSelectedColor) {
+            selectedColor = newSelectedColor;
 
-              setState(() {});
-            }),
+            setState(() {});
+          },
+        ),
       ],
     );
   }

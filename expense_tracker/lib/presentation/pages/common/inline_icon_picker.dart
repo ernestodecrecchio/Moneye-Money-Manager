@@ -3,6 +3,7 @@ import 'package:expense_tracker/presentation/pages/common/expand_hint_button.dar
 import 'package:expense_tracker/presentation/pages/common/widgets/icon_item.dart';
 import 'package:expense_tracker/presentation/pages/common/widgets/icon_selector_bottom_sheet.dart';
 import 'package:expense_tracker/style/app_theme.dart';
+import 'package:expense_tracker/style/style.dart';
 import 'package:flutter/material.dart';
 
 class InlineIconPicker extends StatefulWidget {
@@ -78,7 +79,8 @@ class _InlineIconPickerState extends State<InlineIconPicker> {
           ExpandHintButton(
             onTap: () => showIconBottomSheet(
                 context: context,
-                backgroundColor: widget.backgroundColor ?? colors.secondary,
+                backgroundColor:
+                    widget.backgroundColor ?? CustomColors.defaultPickerColor,
                 iconPathList: AppIcons.iconPathList,
                 onSelectedIcon: (newSelectedIconPath) {
                   widget.onSelectedIcon(newSelectedIconPath);
@@ -115,7 +117,7 @@ class _InlineIconPickerState extends State<InlineIconPicker> {
               iconPath: iconPath,
               isSelected: iconPath == selectedIconPath,
               backgroundColor:
-                  widget.backgroundColor ?? context.appColors.accent,
+                  widget.backgroundColor ?? CustomColors.defaultPickerColor,
               onTap: () {
                 widget.onSelectedIcon(iconPath);
                 selectedIconPath = iconPath;
