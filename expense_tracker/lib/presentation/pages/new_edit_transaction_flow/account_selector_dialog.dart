@@ -97,7 +97,6 @@ class _AccountSelectorContentState
   }
 
   ListTile _buildAddAccountTile(AppLocalizations appLocalizations) {
-    final colors = context.appColors;
     final textTheme = Theme.of(context).textTheme;
     return ListTile(
       leading: Container(
@@ -105,11 +104,10 @@ class _AccountSelectorContentState
         width: 32,
         decoration: BoxDecoration(
           shape: BoxShape.circle,
-          border: Border.all(color: colors.secondary, width: 2),
+          border: Border.all(width: 2, color: context.appColors.accent),
         ),
         child: Icon(
           Icons.add,
-          color: colors.secondary,
           size: 20,
         ),
       ),

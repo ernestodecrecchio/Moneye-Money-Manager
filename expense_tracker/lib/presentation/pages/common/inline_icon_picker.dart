@@ -115,7 +115,7 @@ class _InlineIconPickerState extends State<InlineIconPicker> {
               iconPath: iconPath,
               isSelected: iconPath == selectedIconPath,
               backgroundColor:
-                  widget.backgroundColor ?? context.appColors.secondary,
+                  widget.backgroundColor ?? context.appColors.accent,
               onTap: () {
                 widget.onSelectedIcon(iconPath);
                 selectedIconPath = iconPath;

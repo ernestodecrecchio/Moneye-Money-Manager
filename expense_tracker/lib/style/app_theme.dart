@@ -85,6 +85,7 @@ class AppColors extends ThemeExtension<AppColors> {
   final Color onPrimary;
   final Color secondary;
   final Color onSecondary;
+  final Color accent;
   final Color scaffoldBackground;
   final Color surface;
   final Color onSurface;
@@ -99,6 +100,7 @@ class AppColors extends ThemeExtension<AppColors> {
     required this.onPrimary,
     required this.secondary,
     required this.onSecondary,
+    required this.accent,
     required this.scaffoldBackground,
     required this.surface,
     required this.onSurface,
@@ -115,6 +117,7 @@ class AppColors extends ThemeExtension<AppColors> {
     Color? onPrimary,
     Color? secondary,
     Color? onSecondary,
+    Color? accent,
     Color? scaffoldBackground,
     Color? surface,
     Color? onSurface,
@@ -129,6 +132,7 @@ class AppColors extends ThemeExtension<AppColors> {
       onPrimary: onPrimary ?? this.onPrimary,
       secondary: secondary ?? this.secondary,
       onSecondary: onSecondary ?? this.onSecondary,
+      accent: accent ?? this.accent,
       scaffoldBackground: scaffoldBackground ?? this.scaffoldBackground,
       surface: surface ?? this.surface,
       onSurface: onSurface ?? this.onSurface,
@@ -148,6 +152,7 @@ class AppColors extends ThemeExtension<AppColors> {
       onPrimary: Color.lerp(onPrimary, other.onPrimary, t)!,
       secondary: Color.lerp(secondary, other.secondary, t)!,
       onSecondary: Color.lerp(onSecondary, other.onSecondary, t)!,
+      accent: Color.lerp(accent, other.accent, t)!,
       scaffoldBackground:
           Color.lerp(scaffoldBackground, other.scaffoldBackground, t)!,
       surface: Color.lerp(surface, other.surface, t)!,
@@ -165,6 +170,7 @@ class AppColors extends ThemeExtension<AppColors> {
     onPrimary: Colors.white,
     secondary: CustomColors.darkBlue,
     onSecondary: Colors.white,
+    accent: CustomColors.darkBlue,
     scaffoldBackground: Colors.white,
     surface: CustomColors.lightSurface,
     onSurface: CustomColors.lightBlack,
@@ -176,10 +182,11 @@ class AppColors extends ThemeExtension<AppColors> {
   );
 
   static const dark = AppColors(
-    primary: Colors.white,
-    onPrimary: Colors.black,
-    secondary: Colors.white,
-    onSecondary: Colors.black,
+    primary: Color.fromARGB(255, 100, 184, 252),
+    onPrimary: Colors.white,
+    secondary: Color.fromARGB(255, 100, 184, 252),
+    onSecondary: Colors.white,
+    accent: Color.fromARGB(255, 100, 184, 252),
     scaffoldBackground: CustomColors.darkScaffoldBackground,
     surface: CustomColors.darkSurface,
     onSurface: Colors.white,
@@ -205,8 +212,8 @@ class AppTheme {
         onPrimary: colors.onPrimary,
         secondary: colors.secondary,
         onSecondary: colors.onSecondary,
-        surface: colors.scaffoldBackground,
-        onSurface: colors.textPrimary,
+        surface: colors.surface,
+        onSurface: colors.onSurface,
         error: colors.expense,
       ),
       scaffoldBackgroundColor: colors.scaffoldBackground,
@@ -221,6 +228,9 @@ class AppTheme {
           color: Colors.white,
         ),
         iconTheme: const IconThemeData(color: Colors.white),
+      ),
+      listTileTheme: ListTileThemeData(
+        iconColor: colors.accent,
       ),
       floatingActionButtonTheme: FloatingActionButtonThemeData(
         backgroundColor: colors.secondary,
@@ -238,6 +248,7 @@ class AppTheme {
           textStyle: const TextStyle(fontFamily: fontFamily),
         ),
       ),
+      iconTheme: IconThemeData(color: colors.accent),
       checkboxTheme: CheckboxThemeData(
         fillColor: WidgetStateProperty.resolveWith((states) {
           if (states.contains(WidgetState.selected)) return colors.primary;
@@ -313,7 +324,7 @@ class AppTheme {
       scaffoldBackgroundColor: colors.scaffoldBackground,
       appBarTheme: AppBarTheme(
         backgroundColor: colors.surface,
-        foregroundColor: colors.onSurface,
+        foregroundColor: colors.accent,
         elevation: 0,
         titleTextStyle: TextStyle(
           fontWeight: FontWeight.w500,
@@ -322,6 +333,9 @@ class AppTheme {
           color: colors.primary,
         ),
         iconTheme: IconThemeData(color: colors.primary),
+      ),
+      listTileTheme: ListTileThemeData(
+        iconColor: colors.accent,
       ),
       floatingActionButtonTheme: FloatingActionButtonThemeData(
         backgroundColor: colors.primary,
@@ -339,6 +353,7 @@ class AppTheme {
           textStyle: const TextStyle(fontFamily: fontFamily),
         ),
       ),
+      iconTheme: IconThemeData(color: colors.accent),
       checkboxTheme: CheckboxThemeData(
         fillColor: WidgetStateProperty.resolveWith((states) {
           if (states.contains(WidgetState.selected)) return colors.primary;

@@ -30,14 +30,10 @@ class OptionListTile extends StatelessWidget {
     return ListTile(
       leading: SizedBox(
         height: double.infinity,
-        child: Icon(
-          leadingIcon,
-          color: colors.secondary,
-        ),
+        child: Icon(leadingIcon),
       ),
       title: Text(
         title,
-        style: TextStyle(color: colors.textPrimary),
       ),
       subtitle: subtitle != null
           ? Text(

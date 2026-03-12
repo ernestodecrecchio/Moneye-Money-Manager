@@ -26,7 +26,9 @@ class ThemeSelectionPage extends ConsumerWidget {
           return ListTile(
             title: Text(mode.getName(appLocalizations)),
             leading: Icon(mode.icon),
-            trailing: currentThemeMode == mode ? const Icon(Icons.check) : null,
+            trailing: currentThemeMode == mode
+                ? const Icon(Icons.check_rounded)
+                : null,
             onTap: () => ref.read(themeProvider.notifier).updateThemeMode(mode),
           );
         },

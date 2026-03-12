@@ -27,7 +27,7 @@ class IconItem extends StatelessWidget {
         decoration: BoxDecoration(
           color: isSelected
               ? backgroundColor
-              : backgroundColor.withValues(alpha: 0.5),
+              : backgroundColor.withValues(alpha: 0.30),
           shape: BoxShape.circle,
         ),
         child: VectorGraphic(
