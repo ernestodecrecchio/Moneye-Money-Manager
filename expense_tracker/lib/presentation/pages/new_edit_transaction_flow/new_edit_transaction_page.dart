@@ -189,6 +189,7 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
       child: Padding(
         padding: const EdgeInsets.only(top: 30.0),
         child: Column(
+          spacing: 14,
           children: [
             CustomTextField(
               controller: titleInput,
@@ -201,9 +202,6 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
                 return null;
               },
               focusNode: titleInputFocusNode,
-            ),
-            const SizedBox(
-              height: 14,
             ),
             CustomTextField(
               controller: valueInput,
@@ -221,13 +219,7 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
                 return null;
               },
             ),
-            const SizedBox(
-              height: 8,
-            ),
             _buildSegmentedBar(appLocalizations),
-            const SizedBox(
-              height: 14,
-            ),
             CustomTextField(
               controller: dateInput,
               label: appLocalizations.date,
@@ -235,9 +227,6 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
               icon: Icons.calendar_month_rounded,
               readOnly: true,
               onTap: () => _selectDate(),
-            ),
-            const SizedBox(
-              height: 14,
             ),
             CustomTextField(
               controller: categoryInput,
@@ -262,9 +251,6 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
                 }
               },
             ),
-            const SizedBox(
-              height: 14,
-            ),
             CustomTextField(
               controller: accountInput,
               label: appLocalizations.account,
@@ -288,14 +274,11 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
                 }
               },
             ),
-            const SizedBox(
-              height: 14,
-            ),
             Row(
               children: [
                 Text(
                   appLocalizations.includeInReports,
-                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
                         fontWeight: FontWeight.w600,
                       ),
                 ),
