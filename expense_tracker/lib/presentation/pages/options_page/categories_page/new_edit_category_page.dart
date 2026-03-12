@@ -146,15 +146,13 @@ class _NewEditCategoryPageState extends ConsumerState<NewEditCategoryPage> {
   Widget _buildColorPicker(AppLocalizations appLocalizations) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
+      spacing: 5,
       children: [
         Text(
           appLocalizations.color,
           style: Theme.of(context).textTheme.titleMedium?.copyWith(
                 fontWeight: FontWeight.bold,
               ),
-        ),
-        const SizedBox(
-          height: 5,
         ),
         InlineColorPicker(
             selectedColor: selectedColor,
@@ -170,6 +168,7 @@ class _NewEditCategoryPageState extends ConsumerState<NewEditCategoryPage> {
   Widget _buildIconPicker(AppLocalizations appLocalizations) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
+      spacing: 5,
       children: [
         Text(
           appLocalizations.icon,
@@ -177,17 +176,11 @@ class _NewEditCategoryPageState extends ConsumerState<NewEditCategoryPage> {
                 fontWeight: FontWeight.bold,
               ),
         ),
-        const SizedBox(
-          height: 5,
-        ),
         InlineIconPicker(
             selectedIconPath: selectedIconPath,
             backgroundColor: selectedColor,
-            onSelectedIcon: (newSelectedIconPath) {
-              selectedIconPath = newSelectedIconPath;
-
-              setState(() {});
-            }),
+            onSelectedIcon: (newSelectedIconPath) =>
+                selectedIconPath = newSelectedIconPath),
       ],
     );
   }

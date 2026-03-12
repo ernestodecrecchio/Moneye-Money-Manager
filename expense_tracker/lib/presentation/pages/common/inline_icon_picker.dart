@@ -24,23 +24,13 @@ class InlineIconPicker extends StatefulWidget {
 class _InlineIconPickerState extends State<InlineIconPicker> {
   late final ScrollController _scrollController;
 
+  String? selectedIconPath;
+
   @override
   void initState() {
     super.initState();
     _scrollController = ScrollController();
-
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _scrollToSelectedIcon();
-    });
-  }
-
-  @override
-  void didUpdateWidget(covariant InlineIconPicker oldWidget) {
-    super.didUpdateWidget(oldWidget);
-
-    if (widget.selectedIconPath != oldWidget.selectedIconPath) {
-      _scrollToSelectedIcon();
-    }
+    selectedIconPath = widget.selectedIconPath;
   }
 
   @override
@@ -50,9 +40,9 @@ class _InlineIconPickerState extends State<InlineIconPicker> {
   }
 
   void _scrollToSelectedIcon() {
-    if (widget.selectedIconPath == null) return;
+    if (selectedIconPath == null) return;
 
-    final index = AppIcons.iconPathList.indexOf(widget.selectedIconPath!);
+    final index = AppIcons.iconPathList.indexOf(selectedIconPath!);
     if (index == -1) return;
 
     // Each column (2 icons) has width 40 and spacing 14.
@@ -90,8 +80,13 @@ class _InlineIconPickerState extends State<InlineIconPicker> {
                 context: context,
                 backgroundColor: widget.backgroundColor ?? colors.secondary,
                 iconPathList: AppIcons.iconPathList,
-                onSelectedIcon: widget.onSelectedIcon,
-                initialSelectionIconPath: widget.selectedIconPath),
+                onSelectedIcon: (newSelectedIconPath) {
+                  widget.onSelectedIcon(newSelectedIconPath);
+                  selectedIconPath = newSelectedIconPath;
+                  setState(() {});
+                  _scrollToSelectedIcon();
+                },
+                initialSelectionIconPath: selectedIconPath),
             backgroundColor: colors.divider,
           )
         ],
@@ -114,12 +109,15 @@ class _InlineIconPickerState extends State<InlineIconPicker> {
       itemBuilder: (context, index) {
         final iconPath = AppIcons.iconPathList[index];
         return IconItem(
-          iconPath: iconPath,
-          isSelected: iconPath == widget.selectedIconPath,
-          backgroundColor:
-              widget.backgroundColor ?? context.appColors.secondary,
-          onTap: () => widget.onSelectedIcon(iconPath),
-        );
+            iconPath: iconPath,
+            isSelected: iconPath == selectedIconPath,
+            backgroundColor:
+                widget.backgroundColor ?? context.appColors.secondary,
+            onTap: () {
+              widget.onSelectedIcon(iconPath);
+              selectedIconPath = iconPath;
+              setState(() {});
+            });
       },
     );
   }
