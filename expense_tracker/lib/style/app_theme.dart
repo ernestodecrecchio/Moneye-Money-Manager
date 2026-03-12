@@ -193,10 +193,12 @@ class AppColors extends ThemeExtension<AppColors> {
 
 class AppTheme {
   static ThemeData get light {
-    final colors = AppColors.light;
+    const fontFamily = 'Ubuntu';
+    const colors = AppColors.light;
+
     return ThemeData(
       useMaterial3: true,
-      fontFamily: 'Ubuntu',
+      fontFamily: fontFamily,
       brightness: Brightness.light,
       colorScheme: ColorScheme.light(
         primary: colors.primary,
@@ -215,7 +217,7 @@ class AppTheme {
         titleTextStyle: const TextStyle(
           fontWeight: FontWeight.w500,
           fontSize: 20,
-          fontFamily: 'Ubuntu',
+          fontFamily: fontFamily,
           color: Colors.white,
         ),
         iconTheme: const IconThemeData(color: Colors.white),
@@ -233,7 +235,7 @@ class AppTheme {
       textButtonTheme: TextButtonThemeData(
         style: TextButton.styleFrom(
           foregroundColor: colors.primary,
-          textStyle: const TextStyle(fontFamily: 'Ubuntu'),
+          textStyle: const TextStyle(fontFamily: fontFamily),
         ),
       ),
       checkboxTheme: CheckboxThemeData(
@@ -278,10 +280,10 @@ class AppTheme {
         labelSmall: TextStyle(color: colors.textSecondary),
       ),
       tabBarTheme: TabBarThemeData(
-        labelStyle:
-            const TextStyle(fontFamily: 'Ubuntu', fontWeight: FontWeight.bold),
+        labelStyle: const TextStyle(
+            fontFamily: fontFamily, fontWeight: FontWeight.bold),
         unselectedLabelStyle: const TextStyle(
-            fontFamily: 'Ubuntu', fontWeight: FontWeight.normal),
+            fontFamily: fontFamily, fontWeight: FontWeight.normal),
         labelColor: colors.primary,
         unselectedLabelColor: colors.textSecondary,
         indicatorColor: colors.primary,
@@ -292,10 +294,12 @@ class AppTheme {
   }
 
   static ThemeData get dark {
-    final colors = AppColors.dark;
+    const fontFamily = 'Ubuntu';
+    const colors = AppColors.dark;
+
     return ThemeData(
       useMaterial3: true,
-      fontFamily: 'Ubuntu',
+      fontFamily: fontFamily,
       brightness: Brightness.dark,
       colorScheme: ColorScheme.dark(
         primary: colors.primary,
@@ -314,7 +318,7 @@ class AppTheme {
         titleTextStyle: TextStyle(
           fontWeight: FontWeight.w500,
           fontSize: 20,
-          fontFamily: 'Ubuntu',
+          fontFamily: fontFamily,
           color: colors.primary,
         ),
         iconTheme: IconThemeData(color: colors.primary),
@@ -332,7 +336,7 @@ class AppTheme {
       textButtonTheme: TextButtonThemeData(
         style: TextButton.styleFrom(
           foregroundColor: colors.primary,
-          textStyle: const TextStyle(fontFamily: 'Ubuntu'),
+          textStyle: const TextStyle(fontFamily: fontFamily),
         ),
       ),
       checkboxTheme: CheckboxThemeData(
@@ -377,10 +381,10 @@ class AppTheme {
         labelSmall: TextStyle(color: colors.textSecondary),
       ),
       tabBarTheme: TabBarThemeData(
-        labelStyle:
-            const TextStyle(fontFamily: 'Ubuntu', fontWeight: FontWeight.bold),
+        labelStyle: const TextStyle(
+            fontFamily: fontFamily, fontWeight: FontWeight.bold),
         unselectedLabelStyle: const TextStyle(
-            fontFamily: 'Ubuntu', fontWeight: FontWeight.normal),
+            fontFamily: fontFamily, fontWeight: FontWeight.normal),
         labelColor: colors.primary,
         unselectedLabelColor: colors.textSecondary,
         indicatorColor: colors.primary,
