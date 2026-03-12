@@ -1,7 +1,6 @@
 import 'package:expense_tracker/domain/models/account.dart';
 import 'package:flutter/material.dart';
 import 'package:vector_graphics/vector_graphics.dart';
-import 'package:expense_tracker/style/app_theme.dart';
 
 class AccountListTile extends StatefulWidget {
   final Account account;
@@ -33,16 +32,14 @@ class _AccountListTileState extends State<AccountListTile> {
         },
         title: Text(
           widget.account.name,
-          style: TextStyle(
-              fontSize: 20,
-              color: context.appColors.textPrimary,
-              fontWeight: FontWeight.w500),
+          style: const TextStyle(
+              fontSize: 20, color: Colors.white, fontWeight: FontWeight.w500),
         ),
         leading: _buildAccountIcon(widget.account),
         trailing: widget.selected
-            ? Icon(
+            ? const Icon(
                 Icons.check_circle,
-                color: context.appColors.primary,
+                color: Colors.white,
               )
             : null,
       ),
@@ -54,8 +51,8 @@ class _AccountListTileState extends State<AccountListTile> {
     if (account.iconPath != null) {
       accountIcon = VectorGraphic(
         loader: AssetBytesLoader(account.iconPath!),
-        colorFilter: ColorFilter.mode(
-          context.appColors.onPrimary,
+        colorFilter: const ColorFilter.mode(
+          Colors.white,
           BlendMode.srcIn,
         ),
       );

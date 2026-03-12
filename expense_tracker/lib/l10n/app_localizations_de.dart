@@ -238,16 +238,6 @@ class AppLocalizationsDe extends AppLocalizations {
   String get incomes => 'Einkommen';
 
   @override
-  String get info => 'Info';
-
-  @override
-  String get infoDescription =>
-      'Willkommen bei Moneye, einer von mir, Ernesto De Crecchio, entwickelten App mit dem Ziel, ein einfach zu bedienendes und effektives Werkzeug zur Verwaltung persönlicher Finanzen bereitzustellen.\n\nMit Moneye können Sie mühelos Ihre Ausgaben verfolgen, einblicke in Grafiken erhalten und ein besseres Verständnis Ihrer Ausgabegewohnheiten gewinnen.\n\nAls Entwickler der App bin ich bestrebt, ständig ihre Funktionen zu verbessern und habe neue Updates geplant, die in Zukunft veröffentlicht werden, um sicherzustellen, dass meine Benutzer Zugang zu den aktuellsten und umfassendsten Tools zur Verwaltung ihrer Finanzen haben.\n\nMein Ziel ist es, allen Benutzern ein intuitives Erlebnis zu bieten, und ich hoffe, dass Sie Moneye hilfreich finden, um Ihre finanziellen Ziele zu erreichen.';
-
-  @override
-  String get infoOptionDescription => 'App-Credits und andere Informationen';
-
-  @override
   String get initialBalance => 'Startguthaben';
 
   @override

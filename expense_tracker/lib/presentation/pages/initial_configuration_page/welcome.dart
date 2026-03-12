@@ -2,7 +2,6 @@ import 'package:expense_tracker/application/common/notifiers/app_localizations_p
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:vector_graphics/vector_graphics.dart';
-import 'package:expense_tracker/style/app_theme.dart';
 
 class Welcome extends ConsumerStatefulWidget {
   const Welcome({super.key});
@@ -23,18 +22,16 @@ class _WelcomeState extends ConsumerState<Welcome> {
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
+        spacing: 40,
         children: [
           Text(
             appLocalizations.welcomePageMsg1,
             textAlign: TextAlign.center,
-            style: TextStyle(
-              color: context.appColors.textPrimary,
+            style: const TextStyle(
+              color: Colors.white,
               fontSize: 34,
               fontWeight: FontWeight.w700,
             ),
-          ),
-          const SizedBox(
-            height: 40,
           ),
           SizedBox(
             height: 105,
@@ -42,14 +39,11 @@ class _WelcomeState extends ConsumerState<Welcome> {
             child: VectorGraphic(
                 loader: AssetBytesLoader('assets/logo/Moneye_logo.svg')),
           ),
-          const SizedBox(
-            height: 40,
-          ),
           Text(
             appLocalizations.welcomePageMsg2,
             textAlign: TextAlign.center,
-            style: TextStyle(
-              color: context.appColors.textPrimary,
+            style: const TextStyle(
+              color: Colors.white,
               fontSize: 20,
               fontWeight: FontWeight.w600,
             ),

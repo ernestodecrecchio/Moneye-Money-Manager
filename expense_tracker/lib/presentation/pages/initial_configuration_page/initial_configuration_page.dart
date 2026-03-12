@@ -13,7 +13,7 @@ import 'package:expense_tracker/presentation/pages/initial_configuration_page/cu
 import 'package:expense_tracker/presentation/pages/initial_configuration_page/floating_element.dart';
 import 'package:expense_tracker/presentation/pages/initial_configuration_page/welcome.dart';
 import 'package:expense_tracker/presentation/pages/tab_bar_page.dart';
-import 'package:expense_tracker/style/app_theme.dart';
+import 'package:expense_tracker/style/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -79,6 +79,7 @@ class _InitialConfigurationPageState
     final appLocalizations = ref.watch(appLocalizationsProvider);
 
     return Scaffold(
+      backgroundColor: CustomColors.darkBlue,
       extendBodyBehindAppBar: true,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
@@ -94,7 +95,7 @@ class _InitialConfigurationPageState
               },
               child: Text(
                 appLocalizations.skip,
-                style: TextStyle(color: context.appColors.primary),
+                style: TextStyle(color: Colors.white),
               ),
             ),
         ],
@@ -180,9 +181,7 @@ class _InitialConfigurationPageState
       width: isActive ? 20 : 5,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10 / 2),
-        color: isActive
-            ? context.appColors.primary
-            : context.appColors.textSecondary.withValues(alpha: 0.5),
+        color: isActive ? Colors.white : Colors.white.withValues(alpha: 0.5),
       ),
     );
   }
@@ -196,8 +195,7 @@ class _InitialConfigurationPageState
               '\$',
               style: TextStyle(
                   fontSize: 170,
-                  color:
-                      context.appColors.textSecondary.withValues(alpha: 0.05),
+                  color: Colors.white.withValues(alpha: 0.05),
                   fontWeight: FontWeight.w700),
             ),
             coordinateX: -10,
@@ -208,8 +206,7 @@ class _InitialConfigurationPageState
               '£',
               style: TextStyle(
                   fontSize: 150,
-                  color:
-                      context.appColors.textSecondary.withValues(alpha: 0.05),
+                  color: Colors.white.withValues(alpha: 0.05),
                   fontWeight: FontWeight.w700),
             ),
             coordinateX: MediaQuery.of(context).size.width * 0.8,
@@ -220,8 +217,7 @@ class _InitialConfigurationPageState
               '€',
               style: TextStyle(
                   fontSize: 100,
-                  color:
-                      context.appColors.textSecondary.withValues(alpha: 0.05),
+                  color: Colors.white.withValues(alpha: 0.05),
                   fontWeight: FontWeight.w700),
             ),
             coordinateX: MediaQuery.of(context).size.width * 0.15,
@@ -232,8 +228,7 @@ class _InitialConfigurationPageState
               '¥',
               style: TextStyle(
                   fontSize: 200,
-                  color:
-                      context.appColors.textSecondary.withValues(alpha: 0.05),
+                  color: Colors.white.withValues(alpha: 0.05),
                   fontWeight: FontWeight.w700),
             ),
             coordinateX: MediaQuery.of(context).size.width * 0.7,
@@ -244,8 +239,7 @@ class _InitialConfigurationPageState
               '₹',
               style: TextStyle(
                   fontSize: 180,
-                  color:
-                      context.appColors.textSecondary.withValues(alpha: 0.05),
+                  color: Colors.white.withValues(alpha: 0.05),
                   fontWeight: FontWeight.w700),
             ),
             coordinateX: MediaQuery.of(context).size.width * 0,
@@ -259,7 +253,7 @@ class _InitialConfigurationPageState
               loader: AssetBytesLoader('assets/icons/cash.svg'),
               height: 170,
               colorFilter: ColorFilter.mode(
-                context.appColors.textSecondary.withValues(alpha: 0.05),
+                Colors.white.withValues(alpha: 0.05),
                 BlendMode.srcIn,
               ),
             ),
@@ -271,8 +265,7 @@ class _InitialConfigurationPageState
               loader: AssetBytesLoader('assets/icons/credit_card.svg'),
               height: 150,
               colorFilter: ColorFilter.mode(
-                  context.appColors.textSecondary.withValues(alpha: 0.05),
-                  BlendMode.srcIn),
+                  Colors.white.withValues(alpha: 0.05), BlendMode.srcIn),
             ),
             coordinateX: MediaQuery.of(context).size.width * 0.8,
             coordinateY: MediaQuery.of(context).size.height * 0.2,
@@ -282,8 +275,7 @@ class _InitialConfigurationPageState
               loader: AssetBytesLoader('assets/icons/savings.svg'),
               height: 100,
               colorFilter: ColorFilter.mode(
-                  context.appColors.textSecondary.withValues(alpha: 0.05),
-                  BlendMode.srcIn),
+                  Colors.white.withValues(alpha: 0.05), BlendMode.srcIn),
             ),
             coordinateX: MediaQuery.of(context).size.width * 0.14,
             coordinateY: MediaQuery.of(context).size.height * 0.40,
@@ -293,8 +285,7 @@ class _InitialConfigurationPageState
               loader: AssetBytesLoader('assets/icons/savings.svg'),
               height: 200,
               colorFilter: ColorFilter.mode(
-                  context.appColors.textSecondary.withValues(alpha: 0.05),
-                  BlendMode.srcIn),
+                  Colors.white.withValues(alpha: 0.05), BlendMode.srcIn),
             ),
             coordinateX: MediaQuery.of(context).size.width * 0.7,
             coordinateY: MediaQuery.of(context).size.height * 0.6,
@@ -304,8 +295,7 @@ class _InitialConfigurationPageState
               loader: AssetBytesLoader('assets/icons/wallet.svg'),
               height: 180,
               colorFilter: ColorFilter.mode(
-                  context.appColors.textSecondary.withValues(alpha: 0.05),
-                  BlendMode.srcIn),
+                  Colors.white.withValues(alpha: 0.05), BlendMode.srcIn),
             ),
             coordinateX: MediaQuery.of(context).size.width * 0,
             coordinateY: MediaQuery.of(context).size.height * 0.75,
@@ -318,7 +308,7 @@ class _InitialConfigurationPageState
               loader: AssetBytesLoader('assets/icons/food.svg'),
               height: 170,
               colorFilter: ColorFilter.mode(
-                context.appColors.textSecondary.withValues(alpha: 0.05),
+                Colors.white.withValues(alpha: 0.05),
                 BlendMode.srcIn,
               ),
             ),
@@ -330,7 +320,7 @@ class _InitialConfigurationPageState
               loader: AssetBytesLoader('assets/icons/popcorn.svg'),
               height: 150,
               colorFilter: ColorFilter.mode(
-                context.appColors.textSecondary.withValues(alpha: 0.05),
+                Colors.white.withValues(alpha: 0.05),
                 BlendMode.srcIn,
               ),
             ),
@@ -342,7 +332,7 @@ class _InitialConfigurationPageState
               loader: AssetBytesLoader('assets/icons/bill.svg'),
               height: 100,
               colorFilter: ColorFilter.mode(
-                context.appColors.textSecondary.withValues(alpha: 0.05),
+                Colors.white.withValues(alpha: 0.05),
                 BlendMode.srcIn,
               ),
             ),
@@ -354,7 +344,7 @@ class _InitialConfigurationPageState
               loader: AssetBytesLoader('assets/icons/bus.svg'),
               height: 200,
               colorFilter: ColorFilter.mode(
-                context.appColors.textSecondary.withValues(alpha: 0.05),
+                Colors.white.withValues(alpha: 0.05),
                 BlendMode.srcIn,
               ),
             ),
@@ -366,7 +356,7 @@ class _InitialConfigurationPageState
               loader: AssetBytesLoader('assets/icons/paw.svg'),
               height: 180,
               colorFilter: ColorFilter.mode(
-                context.appColors.textSecondary.withValues(alpha: 0.05),
+                Colors.white.withValues(alpha: 0.05),
                 BlendMode.srcIn,
               ),
             ),

@@ -4,7 +4,6 @@ import 'package:expense_tracker/application/common/notifiers/currency_provider.d
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:expense_tracker/style/app_theme.dart';
 
 class CurrencySelectionPage extends ConsumerStatefulWidget {
   final Function(Currency) onCurrencySelected;
@@ -35,7 +34,7 @@ class _CurrencySelectionState extends ConsumerState<CurrencySelectionPage> {
                 appLocalizations.selectCurrencyMsg1,
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  color: context.appColors.textPrimary,
+                  color: Colors.white,
                   fontSize: 34,
                   fontWeight: FontWeight.w700,
                 ),
@@ -47,7 +46,7 @@ class _CurrencySelectionState extends ConsumerState<CurrencySelectionPage> {
                 appLocalizations.selectCurrencyMsg2,
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  color: context.appColors.textPrimary,
+                  color: Colors.white,
                   fontSize: 20,
                   fontWeight: FontWeight.w600,
                 ),
@@ -86,7 +85,7 @@ class _CurrencySelectionState extends ConsumerState<CurrencySelectionPage> {
                 alignment: Alignment.center,
                 child: Text(
                   '${element.code} - ${element.symbolNative}',
-                  style: TextStyle(color: context.appColors.textPrimary),
+                  style: TextStyle(color: Colors.white),
                   textAlign: TextAlign.center,
                 ),
               ));

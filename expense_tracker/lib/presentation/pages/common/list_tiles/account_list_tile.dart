@@ -37,6 +37,13 @@ class AccountListTile extends ConsumerWidget {
         decoration: BoxDecoration(
           color: account.color,
           borderRadius: BorderRadius.circular(10),
+          boxShadow: [
+            BoxShadow(
+              blurRadius: 8,
+              offset: Offset(0, 2),
+              color: account.color.withAlpha(125),
+            ),
+          ],
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

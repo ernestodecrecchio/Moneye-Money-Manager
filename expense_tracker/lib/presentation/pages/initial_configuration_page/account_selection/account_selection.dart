@@ -3,7 +3,6 @@ import 'package:expense_tracker/domain/models/account.dart';
 import 'package:expense_tracker/presentation/pages/initial_configuration_page/account_selection/account_list_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:expense_tracker/style/app_theme.dart';
 
 class AccountSelectionPage extends ConsumerStatefulWidget {
   final Function(List<Account>) onSelectedAccountListChanged;
@@ -66,8 +65,8 @@ class _AccountSelectionState extends ConsumerState<AccountSelectionPage> {
           Text(
             appLocalizations.selectAccountMsg1,
             textAlign: TextAlign.center,
-            style: TextStyle(
-              color: context.appColors.textPrimary,
+            style: const TextStyle(
+              color: Colors.white,
               fontSize: 28,
               fontWeight: FontWeight.w700,
             ),
@@ -78,8 +77,8 @@ class _AccountSelectionState extends ConsumerState<AccountSelectionPage> {
           Text(
             appLocalizations.selectAccountMsg2,
             textAlign: TextAlign.center,
-            style: TextStyle(
-              color: context.appColors.textPrimary,
+            style: const TextStyle(
+              color: Colors.white,
               fontSize: 20,
               fontWeight: FontWeight.w500,
             ),

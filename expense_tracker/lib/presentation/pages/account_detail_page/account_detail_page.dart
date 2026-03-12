@@ -14,7 +14,7 @@ import 'package:expense_tracker/presentation/pages/common/page_view_with_indicat
 import 'package:expense_tracker/presentation/pages/new_edit_transaction_flow/new_edit_transaction_page.dart';
 import 'package:expense_tracker/presentation/pages/options_page/accounts_page/new_edit_account_page.dart';
 import 'package:expense_tracker/style/app_theme.dart';
-import 'package:expense_tracker/style.dart';
+import 'package:expense_tracker/style/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:vector_graphics/vector_graphics.dart';

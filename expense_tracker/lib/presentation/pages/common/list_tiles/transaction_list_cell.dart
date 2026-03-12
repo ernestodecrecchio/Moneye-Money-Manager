@@ -10,7 +10,7 @@ import 'package:expense_tracker/application/common/notifiers/currency_provider.d
 import 'package:collection/collection.dart';
 
 import 'package:expense_tracker/presentation/pages/new_edit_transaction_flow/new_edit_transaction_page.dart';
-import 'package:expense_tracker/style.dart';
+import 'package:expense_tracker/style/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:expense_tracker/style/app_theme.dart';
@@ -139,7 +139,7 @@ class TransactionListCell extends ConsumerWidget {
       categoryIcon = VectorGraphic(
         loader: AssetBytesLoader('assets/icons/box.svg'),
         colorFilter: ColorFilter.mode(
-          context.appColors.onPrimary,
+          Colors.white,
           BlendMode.srcIn,
         ),
       );

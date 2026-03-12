@@ -35,8 +35,16 @@ class OptionListTile extends StatelessWidget {
           color: colors.secondary,
         ),
       ),
-      title: Text(title),
-      subtitle: subtitle != null ? Text(subtitle!) : null,
+      title: Text(
+        title,
+        style: TextStyle(color: colors.textPrimary),
+      ),
+      subtitle: subtitle != null
+          ? Text(
+              subtitle!,
+              style: TextStyle(color: colors.textSecondary),
+            )
+          : null,
       trailing: trailingChildren.isNotEmpty
           ? Row(
               mainAxisSize: MainAxisSize.min,
