@@ -51,7 +51,7 @@ class _HomeFlexibleSpaceBarState extends ConsumerState<HomeFlexibleSpaceBar> {
           Text(
             appLocalizations.financialOverviewForThisMonth,
             style: TextStyle(
-              color: context.appColors.onSurface.withAlpha(180),
+              color: context.appColors.onSurfaceAppBar.withAlpha(180),
               fontSize: 16,
               fontWeight: FontWeight.w700,
             ),
@@ -62,7 +62,7 @@ class _HomeFlexibleSpaceBarState extends ConsumerState<HomeFlexibleSpaceBar> {
           Text(
             appLocalizations.totalBalance,
             style: TextStyle(
-              color: context.appColors.onSurface,
+              color: context.appColors.onSurfaceAppBar,
               fontSize: 18,
               fontWeight: FontWeight.w400,
             ),
@@ -85,7 +85,7 @@ class _HomeFlexibleSpaceBarState extends ConsumerState<HomeFlexibleSpaceBar> {
                             fontWeight: FontWeight.bold,
                             fontSize: 40,
                             overflow: TextOverflow.clip,
-                            color: context.appColors.onSurface,
+                            color: context.appColors.onSurfaceAppBar,
                           ),
                         ),
                         loading: () => CircularProgressIndicator(
@@ -144,7 +144,7 @@ class _HomeFlexibleSpaceBarState extends ConsumerState<HomeFlexibleSpaceBar> {
                               loader: AssetBytesLoader(
                                   'assets/icons/pocket_out.svg'),
                               colorFilter: ColorFilter.mode(
-                                context.appColors.onSurface,
+                                context.appColors.onSurfaceAppBar,
                                 BlendMode.srcIn,
                               ),
                             ),
@@ -157,7 +157,7 @@ class _HomeFlexibleSpaceBarState extends ConsumerState<HomeFlexibleSpaceBar> {
                                 Text(
                                   appLocalizations.expenses,
                                   style: TextStyle(
-                                    color: context.appColors.onSurface,
+                                    color: context.appColors.onSurfaceAppBar,
                                     fontSize: 16,
                                     fontWeight: FontWeight.w300,
                                   ),
@@ -169,7 +169,7 @@ class _HomeFlexibleSpaceBarState extends ConsumerState<HomeFlexibleSpaceBar> {
                                           currentCurrency,
                                           currentCurrencyPosition),
                                   style: TextStyle(
-                                    color: context.appColors.onSurface,
+                                    color: context.appColors.onSurfaceAppBar,
                                     fontSize: 16,
                                     fontWeight: FontWeight.bold,
                                   ),
@@ -185,7 +185,7 @@ class _HomeFlexibleSpaceBarState extends ConsumerState<HomeFlexibleSpaceBar> {
                               loader: AssetBytesLoader(
                                   'assets/icons/pocket_in.svg'),
                               colorFilter: ColorFilter.mode(
-                                context.appColors.onSurface,
+                                context.appColors.onSurfaceAppBar,
                                 BlendMode.srcIn,
                               ),
                             ),
@@ -198,7 +198,7 @@ class _HomeFlexibleSpaceBarState extends ConsumerState<HomeFlexibleSpaceBar> {
                                 Text(
                                   appLocalizations.incomes,
                                   style: TextStyle(
-                                    color: context.appColors.onSurface,
+                                    color: context.appColors.onSurfaceAppBar,
                                     fontSize: 16,
                                     fontWeight: FontWeight.w300,
                                   ),
@@ -210,7 +210,7 @@ class _HomeFlexibleSpaceBarState extends ConsumerState<HomeFlexibleSpaceBar> {
                                           currentCurrency,
                                           currentCurrencyPosition),
                                   style: TextStyle(
-                                    color: context.appColors.onSurface,
+                                    color: context.appColors.onSurfaceAppBar,
                                     fontSize: 16,
                                     fontWeight: FontWeight.bold,
                                   ),
@@ -302,14 +302,14 @@ class _HomeFlexibleSpaceBarState extends ConsumerState<HomeFlexibleSpaceBar> {
                       diffPercentage >= 0
                           ? Icons.arrow_drop_up_rounded
                           : Icons.arrow_drop_down_rounded,
-                      color: context.appColors.onSurface,
+                      color: context.appColors.onSurfaceAppBar,
                     ),
                     Text(
                       '${diffPercentage.toStringAsFixedRounded(2)}%',
                       style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.bold,
-                        color: context.appColors.onSurface,
+                        color: context.appColors.onSurfaceAppBar,
                       ),
                     ),
                   ],

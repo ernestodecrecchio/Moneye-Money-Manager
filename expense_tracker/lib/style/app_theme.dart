@@ -1,11 +1,7 @@
 import 'package:expense_tracker/style/style.dart';
 import 'package:flutter/material.dart';
 
-enum AppThemeMode {
-  system,
-  light,
-  dark,
-}
+enum AppThemeMode { system, light, dark, darkBlue }
 
 extension AppThemeModeExtension on AppThemeMode {
   /// Returns the [ThemeData] associated with this [AppThemeMode].
@@ -19,6 +15,8 @@ extension AppThemeModeExtension on AppThemeMode {
         return AppTheme.light;
       case AppThemeMode.dark:
         return AppTheme.dark;
+      case AppThemeMode.darkBlue:
+        return AppTheme.dark;
     }
   }
 
@@ -31,10 +29,12 @@ extension AppThemeModeExtension on AppThemeMode {
     switch (this) {
       case AppThemeMode.system:
         return AppTheme.dark;
-      case AppThemeMode.dark:
-        return AppTheme.dark;
       case AppThemeMode.light:
         return AppTheme.light;
+      case AppThemeMode.dark:
+        return AppTheme.dark;
+      case AppThemeMode.darkBlue:
+        return AppTheme.darkBlue;
     }
   }
 
@@ -50,6 +50,8 @@ extension AppThemeModeExtension on AppThemeMode {
         return ThemeMode.light;
       case AppThemeMode.dark:
         return ThemeMode.dark;
+      case AppThemeMode.darkBlue:
+        return ThemeMode.dark;
     }
   }
 
@@ -61,6 +63,8 @@ extension AppThemeModeExtension on AppThemeMode {
       case AppThemeMode.light:
         return Icons.light_mode_rounded;
       case AppThemeMode.dark:
+        return Icons.dark_mode_rounded;
+      case AppThemeMode.darkBlue:
         return Icons.dark_mode_rounded;
     }
   }
@@ -76,6 +80,8 @@ extension AppThemeModeExtension on AppThemeMode {
         return appLocalizations.lightTheme;
       case AppThemeMode.dark:
         return appLocalizations.darkTheme;
+      case AppThemeMode.darkBlue:
+        return "Dark Blue";
     }
   }
 }
@@ -89,6 +95,7 @@ class AppColors extends ThemeExtension<AppColors> {
   final Color scaffoldBackground;
   final Color surface;
   final Color onSurface;
+  final Color onSurfaceAppBar;
   final Color textPrimary;
   final Color textSecondary;
   final Color divider;
@@ -104,6 +111,7 @@ class AppColors extends ThemeExtension<AppColors> {
     required this.scaffoldBackground,
     required this.surface,
     required this.onSurface,
+    required this.onSurfaceAppBar,
     required this.textPrimary,
     required this.textSecondary,
     required this.divider,
@@ -121,6 +129,7 @@ class AppColors extends ThemeExtension<AppColors> {
     Color? scaffoldBackground,
     Color? surface,
     Color? onSurface,
+    Color? onSurfaceAppBar,
     Color? textPrimary,
     Color? textSecondary,
     Color? divider,
@@ -136,6 +145,7 @@ class AppColors extends ThemeExtension<AppColors> {
       scaffoldBackground: scaffoldBackground ?? this.scaffoldBackground,
       surface: surface ?? this.surface,
       onSurface: onSurface ?? this.onSurface,
+      onSurfaceAppBar: onSurfaceAppBar ?? this.onSurfaceAppBar,
       textPrimary: textPrimary ?? this.textPrimary,
       textSecondary: textSecondary ?? this.textSecondary,
       divider: divider ?? this.divider,
@@ -157,6 +167,7 @@ class AppColors extends ThemeExtension<AppColors> {
           Color.lerp(scaffoldBackground, other.scaffoldBackground, t)!,
       surface: Color.lerp(surface, other.surface, t)!,
       onSurface: Color.lerp(onSurface, other.onSurface, t)!,
+      onSurfaceAppBar: Color.lerp(onSurfaceAppBar, other.onSurfaceAppBar, t)!,
       textPrimary: Color.lerp(textPrimary, other.textPrimary, t)!,
       textSecondary: Color.lerp(textSecondary, other.textSecondary, t)!,
       divider: Color.lerp(divider, other.divider, t)!,
@@ -174,6 +185,7 @@ class AppColors extends ThemeExtension<AppColors> {
     scaffoldBackground: Colors.white,
     surface: CustomColors.lightSurface,
     onSurface: CustomColors.lightBlack,
+    onSurfaceAppBar: Colors.white,
     textPrimary: CustomColors.lightBlack,
     textSecondary: CustomColors.clearGreyText,
     divider: CustomColors.clearGrey,
@@ -182,6 +194,23 @@ class AppColors extends ThemeExtension<AppColors> {
   );
 
   static const dark = AppColors(
+    primary: Colors.white,
+    onPrimary: Colors.black,
+    secondary: Colors.white,
+    onSecondary: Colors.black,
+    accent: Colors.white,
+    scaffoldBackground: CustomColors.darkScaffoldBackground,
+    surface: CustomColors.darkSurface,
+    onSurface: Colors.white,
+    onSurfaceAppBar: Colors.white,
+    textPrimary: Colors.white,
+    textSecondary: CustomColors.clearGreyText,
+    divider: CustomColors.darkDivider,
+    income: CustomColors.darkIncome,
+    expense: CustomColors.darkExpense,
+  );
+
+  static const darkBlue = AppColors(
     primary: Color.fromARGB(255, 100, 184, 252),
     onPrimary: Colors.white,
     secondary: Color.fromARGB(255, 100, 184, 252),
@@ -190,6 +219,7 @@ class AppColors extends ThemeExtension<AppColors> {
     scaffoldBackground: CustomColors.darkScaffoldBackground,
     surface: CustomColors.darkSurface,
     onSurface: Colors.white,
+    onSurfaceAppBar: Colors.white,
     textPrimary: Colors.white,
     textSecondary: CustomColors.clearGreyText,
     divider: CustomColors.darkDivider,
@@ -307,6 +337,111 @@ class AppTheme {
   static ThemeData get dark {
     const fontFamily = 'Ubuntu';
     const colors = AppColors.dark;
+
+    return ThemeData(
+      useMaterial3: true,
+      fontFamily: fontFamily,
+      brightness: Brightness.dark,
+      colorScheme: ColorScheme.dark(
+        primary: colors.primary,
+        onPrimary: colors.onPrimary,
+        secondary: colors.secondary,
+        onSecondary: colors.onSecondary,
+        surface: colors.surface,
+        onSurface: colors.onSurface,
+        error: colors.expense,
+      ),
+      scaffoldBackgroundColor: colors.scaffoldBackground,
+      appBarTheme: AppBarTheme(
+        backgroundColor: colors.surface,
+        foregroundColor: colors.accent,
+        elevation: 0,
+        titleTextStyle: TextStyle(
+          fontWeight: FontWeight.w500,
+          fontSize: 20,
+          fontFamily: fontFamily,
+          color: colors.primary,
+        ),
+        iconTheme: IconThemeData(color: colors.primary),
+      ),
+      listTileTheme: ListTileThemeData(
+        iconColor: colors.accent,
+      ),
+      floatingActionButtonTheme: FloatingActionButtonThemeData(
+        backgroundColor: colors.primary,
+        foregroundColor: colors.onPrimary,
+        shape: const CircleBorder(),
+      ),
+      dividerTheme: DividerThemeData(
+        color: colors.divider,
+        thickness: 1,
+        space: 0,
+      ),
+      textButtonTheme: TextButtonThemeData(
+        style: TextButton.styleFrom(
+          foregroundColor: colors.primary,
+          textStyle: const TextStyle(fontFamily: fontFamily),
+        ),
+      ),
+      iconTheme: IconThemeData(color: colors.accent),
+      checkboxTheme: CheckboxThemeData(
+        fillColor: WidgetStateProperty.resolveWith((states) {
+          if (states.contains(WidgetState.selected)) return colors.primary;
+          return null;
+        }),
+      ),
+      inputDecorationTheme: InputDecorationTheme(
+        filled: true,
+        fillColor: colors.surface,
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(40),
+          borderSide: BorderSide.none,
+        ),
+        hintStyle: TextStyle(color: colors.textSecondary.withAlpha(150)),
+      ),
+      textTheme: TextTheme(
+        displayLarge:
+            TextStyle(color: colors.textPrimary, fontWeight: FontWeight.bold),
+        displayMedium:
+            TextStyle(color: colors.textPrimary, fontWeight: FontWeight.bold),
+        displaySmall:
+            TextStyle(color: colors.textPrimary, fontWeight: FontWeight.bold),
+        headlineLarge:
+            TextStyle(color: colors.textPrimary, fontWeight: FontWeight.bold),
+        headlineMedium:
+            TextStyle(color: colors.textPrimary, fontWeight: FontWeight.bold),
+        headlineSmall:
+            TextStyle(color: colors.textPrimary, fontWeight: FontWeight.bold),
+        titleLarge:
+            TextStyle(color: colors.textPrimary, fontWeight: FontWeight.w600),
+        titleMedium:
+            TextStyle(color: colors.textPrimary, fontWeight: FontWeight.w600),
+        titleSmall:
+            TextStyle(color: colors.textPrimary, fontWeight: FontWeight.w600),
+        bodyLarge: TextStyle(color: colors.textPrimary),
+        bodyMedium: TextStyle(color: colors.textPrimary),
+        bodySmall: TextStyle(color: colors.textSecondary),
+        labelLarge: TextStyle(color: colors.textPrimary),
+        labelMedium: TextStyle(color: colors.textSecondary),
+        labelSmall: TextStyle(color: colors.textSecondary),
+      ),
+      tabBarTheme: TabBarThemeData(
+        labelStyle: const TextStyle(
+            fontFamily: fontFamily, fontWeight: FontWeight.bold),
+        unselectedLabelStyle: const TextStyle(
+            fontFamily: fontFamily, fontWeight: FontWeight.normal),
+        labelColor: colors.primary,
+        unselectedLabelColor: colors.textSecondary,
+        indicatorColor: colors.primary,
+        indicatorSize: TabBarIndicatorSize.tab,
+      ),
+      extensions: [colors],
+    );
+  }
+
+  static ThemeData get darkBlue {
+    const fontFamily = 'Ubuntu';
+    const colors = AppColors.darkBlue;
 
     return ThemeData(
       useMaterial3: true,
