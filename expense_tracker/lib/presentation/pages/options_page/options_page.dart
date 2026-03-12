@@ -14,7 +14,7 @@ import 'package:expense_tracker/presentation/pages/options_page/theme_page/theme
 import 'package:expense_tracker/presentation/pages/options_page/update_history_page/update_history_page.dart';
 import 'package:expense_tracker/application/common/notifiers/theme_provider.dart';
 import 'package:expense_tracker/style/app_theme.dart';
-import 'package:expense_tracker/presentation/pages/options_page/widgets/option_list_tile.dart';
+import 'package:expense_tracker/presentation/pages/common/list_tiles/option_list_tile.dart';
 import 'package:expense_tracker/presentation/pages/options_page/contacts_page/contacts_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
