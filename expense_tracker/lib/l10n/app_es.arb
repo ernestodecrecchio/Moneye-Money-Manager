@@ -142,7 +142,7 @@
     "themeOptionDescription": "Cambiar la apariencia de la aplicación",
     "lightTheme": "Claro",
     "darkTheme": "Oscuro",
-    "systemTheme": "Sistema",
+    "systemTheme": "Automático",
     "version": "Versión",
     "viewAll": "Ver todo",
     "week": "Semana",

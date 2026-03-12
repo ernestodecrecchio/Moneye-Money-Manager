@@ -142,7 +142,7 @@
     "themeOptionDescription": "Change the app appearance",
     "lightTheme": "Light",
     "darkTheme": "Dark",
-    "systemTheme": "System",
+    "systemTheme": "Automatic",
     "version": "Version",
     "viewAll": "View all",
     "week": "Week",

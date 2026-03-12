@@ -965,7 +965,7 @@ abstract class AppLocalizations {
   /// No description provided for @systemTheme.
   ///
   /// In en, this message translates to:
-  /// **'System'**
+  /// **'Automatic'**
   String get systemTheme;
 
   /// No description provided for @version.

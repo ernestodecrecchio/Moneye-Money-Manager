@@ -469,7 +469,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get darkTheme => 'Oscuro';
 
   @override
-  String get systemTheme => 'Sistema';
+  String get systemTheme => 'Automático';
 
   @override
   String get version => 'Versión';
