@@ -80,19 +80,21 @@ class _InlineColorPickerState extends State<InlineColorPicker> {
       onTap: () {
         widget.onSelectedColor(color);
       },
-      child: Container(
-        height: 35,
-        width: 35,
-        decoration: BoxDecoration(
-          color: color,
-          shape: BoxShape.circle,
+      child: Center(
+        child: Container(
+          height: 35,
+          width: 35,
+          decoration: BoxDecoration(
+            color: color,
+            shape: BoxShape.circle,
+          ),
+          child: color == widget.selectedColor
+              ? const Icon(
+                  Icons.check_rounded,
+                  color: Colors.white,
+                )
+              : null,
         ),
-        child: color == widget.selectedColor
-            ? const Icon(
-                Icons.check_rounded,
-                color: Colors.white,
-              )
-            : null,
       ),
     );
   }

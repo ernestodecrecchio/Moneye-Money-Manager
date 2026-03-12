@@ -159,15 +159,13 @@ class _NewAccountPageState extends ConsumerState<NewEditAccountPage> {
   Widget _buildColorPicker(AppLocalizations appLocalizations) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
+      spacing: 5,
       children: [
         Text(
           appLocalizations.color,
           style: Theme.of(context).textTheme.titleMedium?.copyWith(
                 fontWeight: FontWeight.bold,
               ),
-        ),
-        const SizedBox(
-          height: 5,
         ),
         InlineColorPicker(
             selectedColor: selectedColor,
@@ -183,15 +181,13 @@ class _NewAccountPageState extends ConsumerState<NewEditAccountPage> {
   Widget _buildIconPicker(AppLocalizations appLocalizations) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
+      spacing: 5,
       children: [
         Text(
           appLocalizations.icon,
           style: Theme.of(context).textTheme.titleMedium?.copyWith(
                 fontWeight: FontWeight.bold,
               ),
-        ),
-        const SizedBox(
-          height: 5,
         ),
         InlineIconPicker(
           selectedIconPath: selectedIconPath,
