@@ -9,7 +9,7 @@ class InlineColorPicker extends StatefulWidget {
   const InlineColorPicker({
     super.key,
     required this.onSelectedColor,
-    this.selectedColor,
+    this.selectedColor = CustomColors.defaultPickerColor,
   });
 
   @override
@@ -18,23 +18,6 @@ class InlineColorPicker extends StatefulWidget {
 
 class _InlineColorPickerState extends State<InlineColorPicker> {
   final _controller = PageController();
-
-  List<Color> colorList = [
-    CustomColors.red1,
-    CustomColors.red2,
-    CustomColors.pink1,
-    CustomColors.pink2,
-    CustomColors.blue1,
-    CustomColors.blue2,
-    CustomColors.green1,
-    CustomColors.green2,
-    CustomColors.orange1,
-    CustomColors.yellow1,
-    CustomColors.brown1,
-    CustomColors.brown2,
-    CustomColors.black,
-    CustomColors.grey,
-  ];
 
   @override
   Widget build(BuildContext context) {
@@ -68,9 +51,9 @@ class _InlineColorPickerState extends State<InlineColorPicker> {
       ),
       padding: const EdgeInsets.symmetric(horizontal: 22),
       scrollDirection: Axis.horizontal,
-      itemCount: colorList.length,
+      itemCount: CustomColors.pickerColorList.length,
       itemBuilder: (context, index) {
-        return _buildColorItem(colorList[index]);
+        return _buildColorItem(CustomColors.pickerColorList[index]);
       },
     );
   }

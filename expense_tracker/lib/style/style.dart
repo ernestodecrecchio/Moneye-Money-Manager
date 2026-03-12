@@ -64,6 +64,24 @@ class CustomColors {
   static const brown2 = Color.fromARGB(255, 172, 106, 82);
   static const black = Color.fromARGB(255, 0, 0, 0);
   static const grey = Color.fromARGB(255, 158, 158, 158);
+
+  static const Color defaultPickerColor = red1;
+  static const List<Color> pickerColorList = [
+    CustomColors.red1,
+    CustomColors.red2,
+    CustomColors.pink1,
+    CustomColors.pink2,
+    CustomColors.blue1,
+    CustomColors.blue2,
+    CustomColors.green1,
+    CustomColors.green2,
+    CustomColors.orange1,
+    CustomColors.yellow1,
+    CustomColors.brown1,
+    CustomColors.brown2,
+    CustomColors.black,
+    CustomColors.grey,
+  ];
 }
 
 extension ColorExtension on Color {
