@@ -1,7 +1,21 @@
 import 'package:expense_tracker/style/style.dart';
 import 'package:flutter/material.dart';
 
-enum AppThemeMode { system, light, dark, darkBlue }
+enum AppThemeMode {
+  system,
+  light,
+  dark,
+  darkBlue;
+
+  bool get isEnabled {
+    switch (this) {
+      case darkBlue:
+        return false;
+      default:
+        return true;
+    }
+  }
+}
 
 extension AppThemeModeExtension on AppThemeMode {
   /// Returns the [ThemeData] associated with this [AppThemeMode].
