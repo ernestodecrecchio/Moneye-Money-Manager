@@ -84,7 +84,6 @@ class _InlineIconPickerState extends State<InlineIconPicker> {
                 backgroundColor:
                     widget.backgroundColor ?? CustomColors.defaultPickerColor,
                 itemShape: widget.itemShape,
-                iconPathList: AppIcons.iconPathList,
                 onSelectedIcon: (newSelectedIconPath) {
                   widget.onSelectedIcon(newSelectedIconPath);
                   selectedIconPath = newSelectedIconPath;
