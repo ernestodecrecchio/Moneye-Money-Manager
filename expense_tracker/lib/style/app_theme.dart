@@ -96,6 +96,7 @@ class AppColors extends ThemeExtension<AppColors> {
   final Color surface;
   final Color onSurface;
   final Color onSurfaceAppBar;
+  final Color onSurfaceTextAppBar;
   final Color textPrimary;
   final Color textSecondary;
   final Color divider;
@@ -112,6 +113,7 @@ class AppColors extends ThemeExtension<AppColors> {
     required this.surface,
     required this.onSurface,
     required this.onSurfaceAppBar,
+    required this.onSurfaceTextAppBar,
     required this.textPrimary,
     required this.textSecondary,
     required this.divider,
@@ -130,6 +132,7 @@ class AppColors extends ThemeExtension<AppColors> {
     Color? surface,
     Color? onSurface,
     Color? onSurfaceAppBar,
+    Color? onSurfaceTextAppBar,
     Color? textPrimary,
     Color? textSecondary,
     Color? divider,
@@ -146,6 +149,7 @@ class AppColors extends ThemeExtension<AppColors> {
       surface: surface ?? this.surface,
       onSurface: onSurface ?? this.onSurface,
       onSurfaceAppBar: onSurfaceAppBar ?? this.onSurfaceAppBar,
+      onSurfaceTextAppBar: onSurfaceTextAppBar ?? this.onSurfaceTextAppBar,
       textPrimary: textPrimary ?? this.textPrimary,
       textSecondary: textSecondary ?? this.textSecondary,
       divider: divider ?? this.divider,
@@ -168,6 +172,8 @@ class AppColors extends ThemeExtension<AppColors> {
       surface: Color.lerp(surface, other.surface, t)!,
       onSurface: Color.lerp(onSurface, other.onSurface, t)!,
       onSurfaceAppBar: Color.lerp(onSurfaceAppBar, other.onSurfaceAppBar, t)!,
+      onSurfaceTextAppBar:
+          Color.lerp(onSurfaceTextAppBar, other.onSurfaceTextAppBar, t)!,
       textPrimary: Color.lerp(textPrimary, other.textPrimary, t)!,
       textSecondary: Color.lerp(textSecondary, other.textSecondary, t)!,
       divider: Color.lerp(divider, other.divider, t)!,
@@ -186,6 +192,7 @@ class AppColors extends ThemeExtension<AppColors> {
     surface: CustomColors.lightSurface,
     onSurface: CustomColors.lightBlack,
     onSurfaceAppBar: Colors.white,
+    onSurfaceTextAppBar: Colors.white,
     textPrimary: CustomColors.lightBlack,
     textSecondary: CustomColors.clearGreyText,
     divider: CustomColors.clearGrey,
@@ -203,6 +210,7 @@ class AppColors extends ThemeExtension<AppColors> {
     surface: CustomColors.darkSurface,
     onSurface: Colors.white,
     onSurfaceAppBar: Colors.white,
+    onSurfaceTextAppBar: Colors.white,
     textPrimary: Colors.white,
     textSecondary: CustomColors.clearGreyText,
     divider: CustomColors.darkDivider,
@@ -220,6 +228,7 @@ class AppColors extends ThemeExtension<AppColors> {
     surface: CustomColors.darkSurface,
     onSurface: Colors.white,
     onSurfaceAppBar: Colors.white,
+    onSurfaceTextAppBar: Color.fromARGB(255, 100, 184, 252),
     textPrimary: Colors.white,
     textSecondary: CustomColors.clearGreyText,
     divider: CustomColors.darkDivider,

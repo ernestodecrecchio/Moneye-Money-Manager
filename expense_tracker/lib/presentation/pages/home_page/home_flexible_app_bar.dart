@@ -51,7 +51,8 @@ class _HomeFlexibleSpaceBarState extends ConsumerState<HomeFlexibleSpaceBar> {
           Text(
             appLocalizations.financialOverviewForThisMonth,
             style: TextStyle(
-              color: context.appColors.onSurfaceAppBar.withAlpha(180),
+              color:
+                  context.appColors.onSurfaceTextAppBar.withValues(alpha: 0.75),
               fontSize: 16,
               fontWeight: FontWeight.w700,
             ),
@@ -286,7 +287,7 @@ class _HomeFlexibleSpaceBarState extends ConsumerState<HomeFlexibleSpaceBar> {
                 color: Theme.of(context)
                     .appBarTheme
                     .foregroundColor
-                    ?.withValues(alpha: 0.24),
+                    ?.withValues(alpha: 0.25),
                 borderRadius: BorderRadius.circular(10),
               ),
               child: Padding(
