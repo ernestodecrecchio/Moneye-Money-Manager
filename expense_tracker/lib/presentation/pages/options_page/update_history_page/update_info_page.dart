@@ -9,6 +9,44 @@ import 'package:expense_tracker/style/style.dart';
 import 'package:expense_tracker/style/app_theme.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
+enum UpdateCategory {
+  newFeature,
+  improvement,
+  ui,
+  theming,
+  icons,
+  translation,
+  stability,
+  analytics,
+  security,
+  communication,
+  performance,
+  bugFix,
+  other,
+}
+
+class UpdateCategoryIcon {
+  static const Map<UpdateCategory, IconData> icons = {
+    UpdateCategory.newFeature: Icons.auto_awesome_rounded,
+    UpdateCategory.improvement: Icons.upgrade_rounded,
+    UpdateCategory.ui: Icons.design_services_rounded,
+    UpdateCategory.theming: Icons.dark_mode_rounded,
+    UpdateCategory.icons: Icons.palette_rounded,
+    UpdateCategory.translation: Icons.language_rounded,
+    UpdateCategory.stability: Icons.security_rounded,
+    UpdateCategory.analytics: Icons.insights_rounded,
+    UpdateCategory.security: Icons.verified_user_rounded,
+    UpdateCategory.communication: Icons.alternate_email_rounded,
+    UpdateCategory.performance: Icons.speed_rounded,
+    UpdateCategory.bugFix: Icons.bug_report_rounded,
+    UpdateCategory.other: Icons.fiber_new_rounded,
+  };
+
+  static IconData get(UpdateCategory category) {
+    return icons[category] ?? Icons.fiber_new_rounded;
+  }
+}
+
 class UpdateInfoPage extends ConsumerStatefulWidget {
   static const routeName = '/update-info-page';
   final String? version;
@@ -180,7 +218,9 @@ class _UpdateInfoPageState extends ConsumerState<UpdateInfoPage>
                                   item['title'][locale] ?? item['title']['en'],
                               description: item['description'][locale] ??
                                   item['description']['en'],
-                              icon: _getIconData(item['icon']),
+                              icon: UpdateCategoryIcon.get(
+                                _parseCategory(item['category']),
+                              ),
                               delay: index * 0.1,
                             ),
                           ),
@@ -210,30 +250,34 @@ class _UpdateInfoPageState extends ConsumerState<UpdateInfoPage>
     );
   }
 
-  IconData _getIconData(String? iconName) {
-    switch (iconName) {
-      case 'save':
-        return Icons.save_rounded;
-      case 'auto_graph':
-        return Icons.auto_graph_rounded;
-      case 'notifications':
-        return Icons.notifications_active_rounded;
-      case 'brush':
-        return Icons.brush_rounded;
-      case 'history_update':
-        return Icons.history_rounded;
-      case 'palette_icons':
-        return Icons.palette_rounded;
-      case 'analytics_chart':
-        return Icons.insights_rounded;
-      case 'contact_support':
-        return Icons.alternate_email_rounded;
-      case 'shield_check':
-        return Icons.security_rounded;
-      case 'language':
-        return Icons.language_rounded;
+  UpdateCategory _parseCategory(String? value) {
+    switch (value) {
+      case 'new_feature':
+        return UpdateCategory.newFeature;
+      case 'improvement':
+        return UpdateCategory.improvement;
+      case 'ui':
+        return UpdateCategory.ui;
+      case 'theming':
+        return UpdateCategory.theming;
+      case 'icons':
+        return UpdateCategory.icons;
+      case 'translation':
+        return UpdateCategory.translation;
+      case 'stability':
+        return UpdateCategory.stability;
+      case 'analytics':
+        return UpdateCategory.analytics;
+      case 'security':
+        return UpdateCategory.security;
+      case 'communication':
+        return UpdateCategory.communication;
+      case 'performance':
+        return UpdateCategory.performance;
+      case 'bugfix':
+        return UpdateCategory.bugFix;
       default:
-        return Icons.fiber_new_rounded;
+        return UpdateCategory.other;
     }
   }
 }

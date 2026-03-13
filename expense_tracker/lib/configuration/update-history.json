@@ -1,4 +1,57 @@
 {
+  "1.0.6": [
+  {
+    "title": {
+      "en": "Light and Dark Theme",
+      "it": "Tema Chiaro e Scuro",
+      "es": "Tema Claro y Oscuro",
+      "de": "Helles und Dunkles Design",
+      "fr": "Thème Clair et Sombre"
+    },
+    "description": {
+      "en": "You can now choose between light and dark theme to match your preference and improve your experience in different lighting conditions.",
+      "it": "Ora puoi scegliere tra tema chiaro e scuro per adattare l'app alle tue preferenze e migliorare l'esperienza in diverse condizioni di luce.",
+      "es": "Ahora puedes elegir entre tema claro y oscuro para adaptarlo a tus preferencias y mejorar la experiencia en diferentes condiciones de luz.",
+      "de": "Du kannst jetzt zwischen hellem und dunklem Design wählen, um die App an deine Vorlieben und unterschiedliche Lichtverhältnisse anzupassen.",
+      "fr": "Vous pouvez désormais choisir entre un thème clair et sombre afin d’adapter l’application à vos préférences et aux différentes conditions de luminosité."
+    },
+    "category": "theming"
+  },
+  {
+    "title": {
+      "en": "UI Improvements",
+      "it": "Miglioramenti all'Interfaccia",
+      "es": "Mejoras en la Interfaz",
+      "de": "UI-Verbesserungen",
+      "fr": "Améliorations de l'Interface"
+    },
+    "description": {
+      "en": "Many small UI improvements have been introduced across the app. This update is a first preview of a future complete overhaul of the app interface.",
+      "it": "Sono stati introdotti molti piccoli miglioramenti all'interfaccia in tutta l'app. Questo aggiornamento è una prima anteprima di un futuro restyling completo dell'interfaccia.",
+      "es": "Se han introducido muchas pequeñas mejoras en la interfaz en toda la app. Esta actualización es una primera vista previa de una futura renovación completa de la interfaz.",
+      "de": "Viele kleine Verbesserungen an der Benutzeroberfläche wurden in der gesamten App eingeführt. Dieses Update ist eine erste Vorschau auf eine zukünftige komplette Überarbeitung der App-Oberfläche.",
+      "fr": "De nombreuses petites améliorations de l’interface ont été introduites dans toute l’application. Cette mise à jour est un premier aperçu d’une refonte complète de l’interface à venir."
+    },
+    "category": "ui"
+  },
+  {
+    "title": {
+      "en": "More Icons",
+      "it": "Nuove Icone",
+      "es": "Más Iconos",
+      "de": "Neue Icons",
+      "fr": "Nouvelles Icônes"
+    },
+    "description": {
+      "en": "Additional icons are now available to give you even more ways to personalize your accounts and categories.",
+      "it": "Sono disponibili nuove icone per offrirti ancora più possibilità di personalizzare conti e categorie.",
+      "es": "Nuevos iconos están disponibles para ofrecerte aún más formas de personalizar cuentas y categorías.",
+      "de": "Neue Icons sind verfügbar, um dir noch mehr Möglichkeiten zur Personalisierung von Konten und Kategorien zu bieten.",
+      "fr": "De nouvelles icônes sont désormais disponibles pour vous offrir encore plus de possibilités de personnaliser vos comptes et catégories."
+    },
+    "category": "icons"
+  }
+  ],
   "1.0.3": [
     {
       "title": {
@@ -15,7 +68,7 @@
         "de": "Du kannst jetzt den Entwickler direkt kontaktieren, um neue Funktionen vorzuschlagen oder Fehler und Probleme zu melden.",
         "fr": "Vous pouvez désormais contacter directement le développeur pour suggérer de nouvelles fonctionnalités ou signaler des bugs et des problèmes."
       },
-      "icon": "contact_support"
+      "category": "communication"
     },
     {
       "title": {
@@ -32,7 +85,7 @@
         "de": "Ein neues Crash-Überwachungssystem wurde eingeführt, um Probleme schneller zu erkennen und zu beheben, wodurch die App stabiler und zuverlässiger wird.",
         "fr": "Un nouveau système de surveillance des crashs a été introduit afin de détecter et corriger les problèmes plus rapidement, rendant l'application plus stable et fiable."
       },
-      "icon": "shield_check"
+      "category": "stability"
     },
     {
       "title": {
@@ -49,7 +102,7 @@
         "de": "Neue Icons sind verfügbar, um dir noch mehr Möglichkeiten zur Personalisierung von Konten und Kategorien zu bieten.",
         "fr": "De nouvelles icônes sont désormais disponibles pour vous offrir encore plus de possibilités de personnaliser vos comptes et catégories."
       },
-      "icon": "palette_icons"
+      "category": "icons"
     },
     {
       "title": {
@@ -66,7 +119,7 @@
         "de": "Die App ist jetzt auch auf Französisch verfügbar. Du kannst die Sprache in den Einstellungen ändern.",
         "fr": "L'application est désormais disponible en français. Vous pouvez changer la langue dans les paramètres."
       },
-      "icon": "language"
+      "category": "translation"
     }
   ],
   "1.0.2": [
@@ -83,7 +136,7 @@
         "es": "Cuando se lancen nuevas funciones, un mensaje emergente te mantendrá informado.",
         "de": "Bei neuen Funktionen wirst du über ein Popup über alle Neuigkeiten informiert."
       },
-      "icon": "history_update"
+      "category": "new_feature"
     },
     {
       "title": {
@@ -98,7 +151,7 @@
         "es": "Está disponible una nueva selección de iconos para personalizar cuentas y categorías. También está disponible una forma más cómoda de navegar y encontrar el icono perfecto.",
         "de": "Eine neue Auswahl an Icons ist verfügbar, um Konten und Kategorien besser anzupassen. Außerdem ist eine bequemere Möglichkeit verfügbar, um das passende Icon zu finden."
       },
-      "icon": "palette_icons"
+      "category": "icons"
     },
     {
       "title": {
@@ -113,7 +166,7 @@
         "es": "Analíticas opcionales y completamente anónimas ayudan a mejorar la app según el uso real.",
         "de": "Optionale und vollständig anonyme Analysen helfen, die App anhand der Nutzung zu verbessern."
       },
-      "icon": "analytics_chart"
+      "category": "analytics"
     }
   ]
 }
