@@ -262,7 +262,7 @@ class _InitialConfigurationPageState
           ),
           FloatingElement(
             widget: VectorGraphic(
-              loader: AssetBytesLoader('assets/icons/credit_card.svg'),
+              loader: AssetBytesLoader('assets/icons/credit-card.svg'),
               height: 150,
               colorFilter: ColorFilter.mode(
                   Colors.white.withValues(alpha: 0.05), BlendMode.srcIn),

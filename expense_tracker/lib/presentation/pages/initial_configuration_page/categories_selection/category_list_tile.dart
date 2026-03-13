@@ -1,6 +1,6 @@
 import 'package:expense_tracker/domain/models/category.dart';
+import 'package:expense_tracker/presentation/pages/common/widgets/icon_item.dart';
 import 'package:flutter/material.dart';
-import 'package:vector_graphics/vector_graphics.dart';
 
 class CategoryListTile extends StatefulWidget {
   final Category category;
@@ -40,33 +40,19 @@ class _CategoryListTileState extends State<CategoryListTile> {
             ? const Icon(
                 Icons.check_circle,
                 color: Colors.white,
+                size: 20,
               )
             : null,
       ),
     );
   }
 
-  Container _buildCategoryIcon(Category category) {
-    VectorGraphic? categoryIcon;
-    if (category.iconPath != null) {
-      categoryIcon = VectorGraphic(
-        loader: AssetBytesLoader(category.iconPath!),
-        colorFilter: const ColorFilter.mode(
-          Colors.white,
-          BlendMode.srcIn,
-        ),
-      );
-    }
-
-    return Container(
-      width: 40,
-      height: 40,
-      padding: const EdgeInsets.all(8),
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        color: category.color,
-      ),
-      child: categoryIcon,
+  Widget _buildCategoryIcon(Category category) {
+    return IconItem(
+      backgroundColor: category.color,
+      iconPath: category.iconPath,
+      shape: BoxShape.circle,
+      isSelected: widget.selected,
     );
   }
 }

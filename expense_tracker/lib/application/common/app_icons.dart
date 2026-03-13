@@ -52,6 +52,7 @@ class AppIcons {
           'assets/icons/paypal.svg',
           'assets/icons/revolut.svg',
           'assets/icons/bitcoin_logo.svg',
+          'assets/icons/savings.svg',
         ],
         'shopping': [
           'assets/icons/bag.svg',
