@@ -34,6 +34,10 @@ class _InlineIconPickerState extends State<InlineIconPicker> {
     super.initState();
     _scrollController = ScrollController();
     selectedIconPath = widget.selectedIconPath;
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _scrollToSelectedIcon();
+    });
   }
 
   @override
