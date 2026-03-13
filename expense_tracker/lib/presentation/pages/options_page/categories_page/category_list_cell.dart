@@ -77,6 +77,7 @@ class CategoryListCell extends ConsumerWidget {
   Widget _buildCategoryIcon(BuildContext context, Category category) {
     return IconItem(
       backgroundColor: category.color,
+      shape: BoxShape.circle,
       iconPath: category.iconPath,
     );
   }

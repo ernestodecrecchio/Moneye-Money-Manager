@@ -76,6 +76,7 @@ class AccountListCell extends ConsumerWidget {
   Widget _buildAccountIcon(BuildContext context, Account account) {
     return IconItem(
       backgroundColor: account.color,
+      shape: BoxShape.rectangle,
       iconPath: account.iconPath,
     );
   }

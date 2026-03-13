@@ -161,6 +161,7 @@ class _NewAccountPageState extends ConsumerState<NewEditAccountPage> {
               ),
         ),
         InlineColorPicker(
+          itemShape: BoxShape.rectangle,
           selectedColor: selectedColor,
           onSelectedColor: (newSelectedColor) {
             selectedColor = newSelectedColor;
@@ -186,6 +187,7 @@ class _NewAccountPageState extends ConsumerState<NewEditAccountPage> {
         InlineIconPicker(
           selectedIconPath: selectedIconPath,
           backgroundColor: selectedColor,
+          itemShape: BoxShape.rectangle,
           onSelectedIcon: (newSelectedIconPath) {
             selectedIconPath = newSelectedIconPath;
 

@@ -7,6 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 Future<void> showIconBottomSheet({
   required BuildContext context,
   required Color backgroundColor,
+  required BoxShape itemShape,
   required List<String> iconPathList,
   required Function(String selectedIconPath) onSelectedIcon,
   String? initialSelectionIconPath,
@@ -16,6 +17,7 @@ Future<void> showIconBottomSheet({
     builder: (context) {
       return IconSelectorContent(
         backgroundColor: backgroundColor,
+        itemShape: itemShape,
         iconPathList: iconPathList,
         currentSelectionIconPath: initialSelectionIconPath,
         onSelectedIcon: onSelectedIcon,
@@ -26,6 +28,7 @@ Future<void> showIconBottomSheet({
 
 class IconSelectorContent extends ConsumerStatefulWidget {
   final Color backgroundColor;
+  final BoxShape itemShape;
   final List<String> iconPathList;
   final String? currentSelectionIconPath;
   final Function(String selectedIconPath) onSelectedIcon;
@@ -33,6 +36,7 @@ class IconSelectorContent extends ConsumerStatefulWidget {
   const IconSelectorContent({
     super.key,
     required this.backgroundColor,
+    required this.itemShape,
     required this.iconPathList,
     required this.onSelectedIcon,
     this.currentSelectionIconPath,
@@ -92,6 +96,7 @@ class _IconSelectorContentState extends ConsumerState<IconSelectorContent> {
                   return Center(
                     child: IconItem(
                       iconPath: path,
+                      shape: widget.itemShape,
                       isSelected: path == _selectedIconPath,
                       backgroundColor: widget.backgroundColor,
                       onTap: () {

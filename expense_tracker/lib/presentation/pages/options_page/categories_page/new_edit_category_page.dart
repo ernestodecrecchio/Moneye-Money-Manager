@@ -148,6 +148,7 @@ class _NewEditCategoryPageState extends ConsumerState<NewEditCategoryPage> {
               ),
         ),
         InlineColorPicker(
+            itemShape: BoxShape.circle,
             selectedColor: selectedColor,
             onSelectedColor: (newSelectedColor) {
               selectedColor = newSelectedColor;
@@ -172,6 +173,7 @@ class _NewEditCategoryPageState extends ConsumerState<NewEditCategoryPage> {
         InlineIconPicker(
           selectedIconPath: selectedIconPath,
           backgroundColor: selectedColor,
+          itemShape: BoxShape.circle,
           onSelectedIcon: (newSelectedIconPath) =>
               selectedIconPath = newSelectedIconPath,
         ),

@@ -3,11 +3,13 @@ import 'package:expense_tracker/style/app_theme.dart';
 import 'package:flutter/material.dart';
 
 class InlineColorPicker extends StatefulWidget {
+  final BoxShape itemShape;
   final Color? selectedColor;
   final Function(Color selectedColor) onSelectedColor;
 
   const InlineColorPicker({
     super.key,
+    required this.itemShape,
     required this.onSelectedColor,
     this.selectedColor = CustomColors.defaultPickerColor,
   });
@@ -69,7 +71,10 @@ class _InlineColorPickerState extends State<InlineColorPicker> {
           width: 35,
           decoration: BoxDecoration(
             color: color,
-            shape: BoxShape.circle,
+            shape: widget.itemShape,
+            borderRadius: widget.itemShape == BoxShape.rectangle
+                ? BorderRadius.circular(8)
+                : null,
           ),
           child: color == widget.selectedColor
               ? const Icon(

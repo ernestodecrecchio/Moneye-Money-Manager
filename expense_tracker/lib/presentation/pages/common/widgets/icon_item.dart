@@ -3,6 +3,7 @@ import 'package:vector_graphics/vector_graphics.dart';
 
 class IconItem extends StatelessWidget {
   final Color backgroundColor;
+  final BoxShape shape;
   final String? iconPath;
   final bool isSelected;
   final VoidCallback? onTap;
@@ -10,6 +11,7 @@ class IconItem extends StatelessWidget {
   const IconItem({
     super.key,
     required this.backgroundColor,
+    required this.shape,
     this.iconPath,
     this.isSelected = true,
     this.onTap,
@@ -28,7 +30,9 @@ class IconItem extends StatelessWidget {
           color: isSelected
               ? backgroundColor
               : backgroundColor.withValues(alpha: 0.30),
-          shape: BoxShape.circle,
+          shape: shape,
+          borderRadius:
+              shape == BoxShape.rectangle ? BorderRadius.circular(8) : null,
         ),
         child: VectorGraphic(
           loader: AssetBytesLoader(iconPath ?? 'assets/icons/box.svg'),

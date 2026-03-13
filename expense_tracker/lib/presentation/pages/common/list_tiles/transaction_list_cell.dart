@@ -127,6 +127,7 @@ class TransactionListCell extends ConsumerWidget {
 
     return IconItem(
       backgroundColor: category?.color ?? context.appColors.textSecondary,
+      shape: BoxShape.circle,
       iconPath: category?.iconPath ?? 'assets/icons/box.svg',
     );
   }

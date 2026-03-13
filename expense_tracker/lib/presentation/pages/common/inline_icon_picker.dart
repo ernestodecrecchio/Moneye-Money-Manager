@@ -7,12 +7,14 @@ import 'package:expense_tracker/style/style.dart';
 import 'package:flutter/material.dart';
 
 class InlineIconPicker extends StatefulWidget {
+  final BoxShape itemShape;
   final String? selectedIconPath;
   final Function(String selectedIconPath) onSelectedIcon;
   final Color? backgroundColor;
 
   const InlineIconPicker({
     super.key,
+    required this.itemShape,
     required this.onSelectedIcon,
     this.selectedIconPath,
     this.backgroundColor,
@@ -81,6 +83,7 @@ class _InlineIconPickerState extends State<InlineIconPicker> {
                 context: context,
                 backgroundColor:
                     widget.backgroundColor ?? CustomColors.defaultPickerColor,
+                itemShape: widget.itemShape,
                 iconPathList: AppIcons.iconPathList,
                 onSelectedIcon: (newSelectedIconPath) {
                   widget.onSelectedIcon(newSelectedIconPath);
@@ -115,6 +118,7 @@ class _InlineIconPickerState extends State<InlineIconPicker> {
         return Center(
           child: IconItem(
               iconPath: iconPath,
+              shape: widget.itemShape,
               isSelected: iconPath == selectedIconPath,
               backgroundColor:
                   widget.backgroundColor ?? CustomColors.defaultPickerColor,
