@@ -41,5 +41,12 @@ class AppIcons {
     'assets/icons/doctor.svg',
     'assets/icons/tooth.svg',
     'assets/icons/calendar.svg',
+    'assets/icons/amazon.svg',
+    'assets/icons/american-football.svg',
+    'assets/icons/bodybuilding-muscles.svg',
+    'assets/icons/phone.svg',
+    'assets/icons/suitcase.svg',
+    'assets/icons/table-tennis.svg',
+    'assets/icons/tennis-ball.svg',
   ];
 }
