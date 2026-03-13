@@ -1,3 +1,4 @@
+import 'package:expense_tracker/configuration/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:vector_graphics/vector_graphics.dart';
 
@@ -23,8 +24,8 @@ class IconItem extends StatelessWidget {
       behavior: HitTestBehavior.opaque,
       onTap: onTap,
       child: Container(
-        height: 35,
-        width: 35,
+        height: iconItemHeight,
+        width: iconItemWidth,
         padding: const EdgeInsets.all(7),
         decoration: BoxDecoration(
           color: isSelected

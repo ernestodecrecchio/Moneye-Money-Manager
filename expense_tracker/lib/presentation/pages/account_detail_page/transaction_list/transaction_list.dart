@@ -10,9 +10,9 @@ import 'package:expense_tracker/presentation/pages/account_detail_page/transacti
 import 'package:expense_tracker/application/transactions/notifiers/queries/transactions_list_notifier.dart';
 import 'package:expense_tracker/presentation/pages/common/delete_transaction_snackbar.dart';
 import 'package:expense_tracker/presentation/pages/common/list_tiles/transaction_list_cell.dart';
+import 'package:expense_tracker/presentation/pages/common/widgets/icon_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:vector_graphics/vector_graphics.dart';
 import 'package:expense_tracker/style/app_theme.dart';
 import 'package:collection/collection.dart';
 
@@ -252,24 +252,11 @@ class _TransactionListState extends ConsumerState<TransactionList> {
     );
   }
 
-  Container _buildCategoryIcon(BuildContext context, Category category) {
-    VectorGraphic? categoryIcon;
-    if (category.iconPath != null) {
-      categoryIcon = VectorGraphic(
-        loader: AssetBytesLoader(category.iconPath!),
-        colorFilter: ColorFilter.mode(
-          context.appColors.onPrimary,
-          BlendMode.srcIn,
-        ),
-      );
-    }
-
-    return Container(
-      width: 32,
-      height: 32,
-      padding: const EdgeInsets.all(8),
-      decoration: BoxDecoration(shape: BoxShape.circle, color: category.color),
-      child: categoryIcon,
+  Widget _buildCategoryIcon(BuildContext context, Category category) {
+    return IconItem(
+      backgroundColor: category.color,
+      shape: BoxShape.circle,
+      iconPath: category.iconPath,
     );
   }
 }

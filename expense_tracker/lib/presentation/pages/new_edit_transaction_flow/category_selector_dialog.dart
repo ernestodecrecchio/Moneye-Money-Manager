@@ -1,8 +1,10 @@
 import 'package:expense_tracker/application/categories/notifiers/queries/categories_list_notifier.dart';
 import 'package:expense_tracker/application/common/notifiers/app_localizations_provider.dart';
+import 'package:expense_tracker/configuration/constants.dart';
 import 'package:expense_tracker/l10n/app_localizations.dart';
 import 'package:expense_tracker/domain/models/category.dart';
 import 'package:expense_tracker/presentation/pages/common/custom_modal_bottom_sheet.dart';
+import 'package:expense_tracker/presentation/pages/common/widgets/icon_item.dart';
 import 'package:expense_tracker/presentation/pages/options_page/categories_page/new_edit_category_page.dart';
 import 'package:expense_tracker/style/app_theme.dart';
 import 'package:flutter/material.dart';
@@ -97,8 +99,8 @@ class _CategorySelectorContentState
     final textTheme = Theme.of(context).textTheme;
     return ListTile(
       leading: Container(
-        height: 32,
-        width: 32,
+        height: iconItemHeight,
+        width: iconItemWidth,
         decoration: BoxDecoration(
           shape: BoxShape.circle,
           border: Border.all(color: colors.secondary, width: 2),
@@ -123,23 +125,10 @@ class _CategorySelectorContentState
     final textTheme = Theme.of(context).textTheme;
     final colors = context.appColors;
     return ListTile(
-      leading: Container(
-        height: 32,
-        width: 32,
-        padding: const EdgeInsets.all(8),
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          color: category.color,
-        ),
-        child: category.iconPath != null
-            ? VectorGraphic(
-                loader: AssetBytesLoader(category.iconPath!),
-                colorFilter: const ColorFilter.mode(
-                  Colors.white,
-                  BlendMode.srcIn,
-                ),
-              )
-            : null,
+      leading: IconItem(
+        backgroundColor: category.color,
+        shape: BoxShape.circle,
+        iconPath: category.iconPath,
       ),
       trailing: _selectedCategory == category
           ? VectorGraphic(

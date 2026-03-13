@@ -1,3 +1,4 @@
+import 'package:expense_tracker/configuration/constants.dart';
 import 'package:expense_tracker/style/style.dart';
 import 'package:expense_tracker/style/app_theme.dart';
 import 'package:flutter/material.dart';
@@ -67,8 +68,8 @@ class _InlineColorPickerState extends State<InlineColorPicker> {
       },
       child: Center(
         child: Container(
-          height: 35,
-          width: 35,
+          height: iconItemHeight,
+          width: iconItemWidth,
           decoration: BoxDecoration(
             color: color,
             shape: widget.itemShape,

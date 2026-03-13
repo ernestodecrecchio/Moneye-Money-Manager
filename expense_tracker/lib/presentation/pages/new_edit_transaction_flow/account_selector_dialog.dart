@@ -1,8 +1,10 @@
 import 'package:expense_tracker/application/common/notifiers/app_localizations_provider.dart';
+import 'package:expense_tracker/configuration/constants.dart';
 import 'package:expense_tracker/l10n/app_localizations.dart';
 import 'package:expense_tracker/domain/models/account.dart';
 import 'package:expense_tracker/application/accounts/notifiers/queries/accounts_list_notifier.dart';
 import 'package:expense_tracker/presentation/pages/common/custom_modal_bottom_sheet.dart';
+import 'package:expense_tracker/presentation/pages/common/widgets/icon_item.dart';
 import 'package:expense_tracker/presentation/pages/options_page/accounts_page/new_edit_account_page.dart';
 import 'package:expense_tracker/style/app_theme.dart';
 import 'package:flutter/material.dart';
@@ -100,11 +102,12 @@ class _AccountSelectorContentState
     final textTheme = Theme.of(context).textTheme;
     return ListTile(
       leading: Container(
-        height: 32,
-        width: 32,
+        height: iconItemHeight,
+        width: iconItemWidth,
         decoration: BoxDecoration(
-          shape: BoxShape.circle,
+          shape: BoxShape.rectangle,
           border: Border.all(width: 2, color: context.appColors.accent),
+          borderRadius: BorderRadius.circular(8),
         ),
         child: Icon(
           Icons.add,
@@ -125,23 +128,10 @@ class _AccountSelectorContentState
     final textTheme = Theme.of(context).textTheme;
     final colors = context.appColors;
     return ListTile(
-      leading: Container(
-        height: 32,
-        width: 32,
-        padding: const EdgeInsets.all(6),
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          color: account.color,
-        ),
-        child: account.iconPath != null
-            ? VectorGraphic(
-                loader: AssetBytesLoader(account.iconPath!),
-                colorFilter: const ColorFilter.mode(
-                  Colors.white,
-                  BlendMode.srcIn,
-                ),
-              )
-            : null,
+      leading: IconItem(
+        backgroundColor: account.color,
+        shape: BoxShape.rectangle,
+        iconPath: account.iconPath,
       ),
       trailing: _selectedAccount == account
           ? VectorGraphic(
