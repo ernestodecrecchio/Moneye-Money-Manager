@@ -509,4 +509,25 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get yourCategories => 'Your categories';
+
+  @override
+  String get health => 'Health';
+
+  @override
+  String get sports => 'Sports';
+
+  @override
+  String get finance => 'Finance';
+
+  @override
+  String get shopping => 'Shopping';
+
+  @override
+  String get work => 'Work';
+
+  @override
+  String get education => 'Education';
+
+  @override
+  String get bills => 'Bills';
 }
