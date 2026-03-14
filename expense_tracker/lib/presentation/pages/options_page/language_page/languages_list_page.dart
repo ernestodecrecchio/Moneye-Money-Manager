@@ -64,6 +64,7 @@ class _LanguagesListPageState extends ConsumerState<LanguagesListPage> {
             decoration: const BoxDecoration(shape: BoxShape.circle),
             child: SafeVectorGraphic(
               iconPath: 'assets/flags/United-Kingdom.svg',
+              colorFilterEnabled: false,
               fit: BoxFit.cover,
             ),
           ),
@@ -83,6 +84,7 @@ class _LanguagesListPageState extends ConsumerState<LanguagesListPage> {
             decoration: const BoxDecoration(shape: BoxShape.circle),
             child: SafeVectorGraphic(
               iconPath: 'assets/flags/Italy.svg',
+              colorFilterEnabled: false,
               fit: BoxFit.cover,
             ),
           ),
@@ -102,6 +104,7 @@ class _LanguagesListPageState extends ConsumerState<LanguagesListPage> {
             decoration: const BoxDecoration(shape: BoxShape.circle),
             child: SafeVectorGraphic(
               iconPath: 'assets/flags/Spain.svg',
+              colorFilterEnabled: false,
               fit: BoxFit.cover,
             ),
           ),
@@ -121,6 +124,7 @@ class _LanguagesListPageState extends ConsumerState<LanguagesListPage> {
             decoration: const BoxDecoration(shape: BoxShape.circle),
             child: SafeVectorGraphic(
               iconPath: 'assets/flags/Germany.svg',
+              colorFilterEnabled: false,
               fit: BoxFit.cover,
             ),
           ),
@@ -140,6 +144,7 @@ class _LanguagesListPageState extends ConsumerState<LanguagesListPage> {
             decoration: const BoxDecoration(shape: BoxShape.circle),
             child: SafeVectorGraphic(
               iconPath: 'assets/flags/France.svg',
+              colorFilterEnabled: false,
               fit: BoxFit.cover,
             ),
           ),

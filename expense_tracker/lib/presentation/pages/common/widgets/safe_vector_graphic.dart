@@ -5,6 +5,7 @@ import 'package:vector_graphics/vector_graphics.dart';
 class SafeVectorGraphic extends StatelessWidget {
   final String? iconPath;
   final double? height;
+  final bool colorFilterEnabled;
   final Color? color;
   final BoxFit? fit;
   final String fallback;
@@ -13,6 +14,7 @@ class SafeVectorGraphic extends StatelessWidget {
     super.key,
     required this.iconPath,
     this.height,
+    this.colorFilterEnabled = true,
     this.color,
     this.fit,
     this.fallback = 'assets/icons/box.svg',
@@ -27,10 +29,12 @@ class SafeVectorGraphic extends StatelessWidget {
     return VectorGraphic(
       loader: AssetBytesLoader(path),
       height: height,
-      colorFilter: ColorFilter.mode(
-        color ?? Colors.white,
-        BlendMode.srcIn,
-      ),
+      colorFilter: colorFilterEnabled
+          ? ColorFilter.mode(
+              color ?? Colors.white,
+              BlendMode.srcIn,
+            )
+          : null,
       fit: fit ?? BoxFit.contain,
     );
   }
