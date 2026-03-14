@@ -5,9 +5,9 @@ import 'package:expense_tracker/Services/widget_extension_service.dart';
 import 'package:expense_tracker/application/transactions/notifiers/queries/total_balance_notifier.dart';
 import 'package:expense_tracker/application/transactions/notifiers/queries/transactions_list_notifier.dart';
 import 'package:expense_tracker/application/common/notifiers/currency_provider.dart';
+import 'package:expense_tracker/presentation/pages/common/widgets/safe_vector_graphic.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:vector_graphics/vector_graphics.dart';
 import 'package:expense_tracker/style/app_theme.dart';
 
 class HomeFlexibleSpaceBar extends ConsumerStatefulWidget {
@@ -141,13 +141,9 @@ class _HomeFlexibleSpaceBarState extends ConsumerState<HomeFlexibleSpaceBar> {
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            VectorGraphic(
-                              loader: AssetBytesLoader(
-                                  'assets/icons/pocket_out.svg'),
-                              colorFilter: ColorFilter.mode(
-                                context.appColors.onSurfaceAppBar,
-                                BlendMode.srcIn,
-                              ),
+                            SafeVectorGraphic(
+                              iconPath: 'assets/icons/pocket_out.svg',
+                              color: context.appColors.onSurfaceAppBar,
                             ),
                             const SizedBox(
                               width: 12,
@@ -182,13 +178,9 @@ class _HomeFlexibleSpaceBarState extends ConsumerState<HomeFlexibleSpaceBar> {
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            VectorGraphic(
-                              loader: AssetBytesLoader(
-                                  'assets/icons/pocket_in.svg'),
-                              colorFilter: ColorFilter.mode(
-                                context.appColors.onSurfaceAppBar,
-                                BlendMode.srcIn,
-                              ),
+                            SafeVectorGraphic(
+                              iconPath: 'assets/icons/pocket_in.svg',
+                              color: context.appColors.onSurfaceAppBar,
                             ),
                             const SizedBox(
                               width: 12,

@@ -155,5 +155,12 @@
     "yes": "yes",
     "yesterday": "Yesterday",
     "yourAccounts": "Your accounts",
-    "yourCategories": "Your categories"
+    "yourCategories": "Your categories",
+    "health": "Health",
+    "sports": "Sports",
+    "finance": "Finance",
+    "shopping": "Shopping",
+    "work": "Work",
+    "education": "Education",
+    "bills": "Bills"
 }

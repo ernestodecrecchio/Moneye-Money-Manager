@@ -5,11 +5,11 @@ import 'package:expense_tracker/domain/models/account.dart';
 import 'package:expense_tracker/application/accounts/notifiers/queries/accounts_list_notifier.dart';
 import 'package:expense_tracker/presentation/pages/common/custom_modal_bottom_sheet.dart';
 import 'package:expense_tracker/presentation/pages/common/widgets/icon_item.dart';
+import 'package:expense_tracker/presentation/pages/common/widgets/safe_vector_graphic.dart';
 import 'package:expense_tracker/presentation/pages/options_page/accounts_page/new_edit_account_page.dart';
 import 'package:expense_tracker/style/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:vector_graphics/vector_graphics.dart';
 
 Future<Account?> showAccountBottomSheet(
     BuildContext context, Account? initialSelection) async {
@@ -134,12 +134,9 @@ class _AccountSelectorContentState
         iconPath: account.iconPath,
       ),
       trailing: _selectedAccount == account
-          ? VectorGraphic(
-              loader: const AssetBytesLoader('assets/icons/checkmark.svg'),
-              colorFilter: ColorFilter.mode(
-                colors.primary,
-                BlendMode.srcIn,
-              ),
+          ? SafeVectorGraphic(
+              iconPath: 'assets/icons/checkmark.svg',
+              color: colors.primary,
             )
           : null,
       title: Text(

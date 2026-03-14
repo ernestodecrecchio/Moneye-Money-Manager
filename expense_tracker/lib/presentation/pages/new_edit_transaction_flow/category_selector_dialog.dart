@@ -5,11 +5,11 @@ import 'package:expense_tracker/l10n/app_localizations.dart';
 import 'package:expense_tracker/domain/models/category.dart';
 import 'package:expense_tracker/presentation/pages/common/custom_modal_bottom_sheet.dart';
 import 'package:expense_tracker/presentation/pages/common/widgets/icon_item.dart';
+import 'package:expense_tracker/presentation/pages/common/widgets/safe_vector_graphic.dart';
 import 'package:expense_tracker/presentation/pages/options_page/categories_page/new_edit_category_page.dart';
 import 'package:expense_tracker/style/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:vector_graphics/vector_graphics.dart';
 
 Future<Category?> showCategoryBottomSheet(
     BuildContext context, Category? initialSelection) async {
@@ -131,12 +131,9 @@ class _CategorySelectorContentState
         iconPath: category.iconPath,
       ),
       trailing: _selectedCategory == category
-          ? VectorGraphic(
-              loader: const AssetBytesLoader('assets/icons/checkmark.svg'),
-              colorFilter: ColorFilter.mode(
-                colors.primary,
-                BlendMode.srcIn,
-              ),
+          ? SafeVectorGraphic(
+              iconPath: 'assets/icons/checkmark.svg',
+              color: colors.primary,
             )
           : null,
       title: Text(
