@@ -161,7 +161,6 @@ class PrivacySettingsPage extends ConsumerWidget {
       trailing: Switch.adaptive(
         value: value,
         onChanged: onChanged,
-        activeTrackColor: colors.primary,
       ),
     );
   }
