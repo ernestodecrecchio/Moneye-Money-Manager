@@ -3,10 +3,10 @@ import 'package:expense_tracker/l10n/app_localizations.dart';
 import 'package:expense_tracker/application/common/notifiers/currency_provider.dart';
 import 'package:expense_tracker/presentation/pages/common/custom_modal_bottom_sheet.dart';
 import 'package:expense_tracker/presentation/pages/common/custom_text_field.dart';
+import 'package:expense_tracker/presentation/pages/common/widgets/safe_vector_graphic.dart';
 import 'package:expense_tracker/style/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:vector_graphics/vector_graphics.dart';
 
 class CurrencyPage extends ConsumerStatefulWidget {
   static const routeName = '/currencyPage';
@@ -195,9 +195,9 @@ class _CurrencyPageState extends ConsumerState<CurrencyPage> {
                                     trailing: ref.watch(
                                                 currentCurrencyProvider) ==
                                             currency
-                                        ? VectorGraphic(
-                                            loader: AssetBytesLoader(
-                                                'assets/icons/checkmark.svg'))
+                                        ? SafeVectorGraphic(
+                                            iconPath:
+                                                'assets/icons/checkmark.svg')
                                         : null,
                                     onTap: () {
                                       ref
@@ -276,9 +276,8 @@ class _CurrencyPageState extends ConsumerState<CurrencyPage> {
                           title: Text(appLocalizations.none),
                           trailing: currentCurrencyPosition ==
                                   CurrencySymbolPosition.none
-                              ? VectorGraphic(
-                                  loader: AssetBytesLoader(
-                                      'assets/icons/checkmark.svg'))
+                              ? SafeVectorGraphic(
+                                  iconPath: 'assets/icons/checkmark.svg')
                               : null,
                           onTap: () {
                             currentCurrencyPositionProviderNotifier
@@ -297,9 +296,8 @@ class _CurrencyPageState extends ConsumerState<CurrencyPage> {
                           title: Text(appLocalizations.atTheStart),
                           trailing: currentCurrencyPosition ==
                                   CurrencySymbolPosition.leading
-                              ? VectorGraphic(
-                                  loader: AssetBytesLoader(
-                                      'assets/icons/checkmark.svg'))
+                              ? SafeVectorGraphic(
+                                  iconPath: 'assets/icons/checkmark.svg')
                               : null,
                           onTap: () {
                             currentCurrencyPositionProviderNotifier
@@ -317,9 +315,8 @@ class _CurrencyPageState extends ConsumerState<CurrencyPage> {
                           title: Text(appLocalizations.atTheEnd),
                           trailing: currentCurrencyPosition ==
                                   CurrencySymbolPosition.trailing
-                              ? VectorGraphic(
-                                  loader: AssetBytesLoader(
-                                      'assets/icons/checkmark.svg'))
+                              ? SafeVectorGraphic(
+                                  iconPath: 'assets/icons/checkmark.svg')
                               : null,
                           onTap: () {
                             currentCurrencyPositionProviderNotifier

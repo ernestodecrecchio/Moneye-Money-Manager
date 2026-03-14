@@ -11,13 +11,13 @@ import 'package:expense_tracker/presentation/pages/account_detail_page/graphs/ac
 import 'package:expense_tracker/presentation/pages/account_detail_page/transaction_list/transaction_list.dart';
 import 'package:expense_tracker/presentation/pages/common/custom_modal_bottom_sheet.dart';
 import 'package:expense_tracker/presentation/pages/common/page_view_with_indicators.dart';
+import 'package:expense_tracker/presentation/pages/common/widgets/safe_vector_graphic.dart';
 import 'package:expense_tracker/presentation/pages/new_edit_transaction_flow/new_edit_transaction_page.dart';
 import 'package:expense_tracker/presentation/pages/options_page/accounts_page/new_edit_account_page.dart';
 import 'package:expense_tracker/style/app_theme.dart';
 import 'package:expense_tracker/style/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:vector_graphics/vector_graphics.dart';
 
 enum AccountDetailTransactionTypeMode { income, expense, all }
 
@@ -536,13 +536,10 @@ class DateBar extends ConsumerWidget {
                                   title: Text(appLocalizations.day),
                                   trailing: selectedTransactionTimePeriod ==
                                           TransactionTimePeriod.day
-                                      ? VectorGraphic(
-                                          loader: const AssetBytesLoader(
-                                              'assets/icons/checkmark.svg'),
-                                          colorFilter: ColorFilter.mode(
-                                            colors.primary,
-                                            BlendMode.srcIn,
-                                          ),
+                                      ? SafeVectorGraphic(
+                                          iconPath:
+                                              'assets/icons/checkmark.svg',
+                                          color: colors.primary,
                                         )
                                       : null,
                                   onTap: () => onTransactionTimePeriodChanged(
@@ -553,13 +550,10 @@ class DateBar extends ConsumerWidget {
                                   title: Text(appLocalizations.week),
                                   trailing: selectedTransactionTimePeriod ==
                                           TransactionTimePeriod.week
-                                      ? VectorGraphic(
-                                          loader: const AssetBytesLoader(
-                                              'assets/icons/checkmark.svg'),
-                                          colorFilter: ColorFilter.mode(
-                                            colors.primary,
-                                            BlendMode.srcIn,
-                                          ),
+                                      ? SafeVectorGraphic(
+                                          iconPath:
+                                              'assets/icons/checkmark.svg',
+                                          color: colors.primary,
                                         )
                                       : null,
                                   onTap: () => onTransactionTimePeriodChanged(
@@ -570,13 +564,10 @@ class DateBar extends ConsumerWidget {
                                   title: Text(appLocalizations.month),
                                   trailing: selectedTransactionTimePeriod ==
                                           TransactionTimePeriod.month
-                                      ? VectorGraphic(
-                                          loader: const AssetBytesLoader(
-                                              'assets/icons/checkmark.svg'),
-                                          colorFilter: ColorFilter.mode(
-                                            colors.primary,
-                                            BlendMode.srcIn,
-                                          ),
+                                      ? SafeVectorGraphic(
+                                          iconPath:
+                                              'assets/icons/checkmark.svg',
+                                          color: colors.primary,
                                         )
                                       : null,
                                   onTap: () => onTransactionTimePeriodChanged(
@@ -587,13 +578,10 @@ class DateBar extends ConsumerWidget {
                                   title: Text(appLocalizations.year),
                                   trailing: selectedTransactionTimePeriod ==
                                           TransactionTimePeriod.year
-                                      ? VectorGraphic(
-                                          loader: const AssetBytesLoader(
-                                              'assets/icons/checkmark.svg'),
-                                          colorFilter: ColorFilter.mode(
-                                            colors.primary,
-                                            BlendMode.srcIn,
-                                          ),
+                                      ? SafeVectorGraphic(
+                                          iconPath:
+                                              'assets/icons/checkmark.svg',
+                                          color: colors.primary,
                                         )
                                       : null,
                                   onTap: () => onTransactionTimePeriodChanged(

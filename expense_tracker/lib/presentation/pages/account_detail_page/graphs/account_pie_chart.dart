@@ -5,11 +5,11 @@ import 'package:expense_tracker/l10n/app_localizations.dart';
 import 'package:expense_tracker/domain/models/category.dart';
 import 'package:expense_tracker/domain/models/transaction.dart';
 import 'package:expense_tracker/application/common/notifiers/currency_provider.dart';
+import 'package:expense_tracker/presentation/pages/common/widgets/safe_vector_graphic.dart';
 import 'package:expense_tracker/style/app_theme.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:vector_graphics/vector_graphics.dart';
 import 'package:collection/collection.dart';
 
 enum AccountPieChartModeTransactionType { income, expense, all }
@@ -295,10 +295,8 @@ class _AccountPieChartState extends ConsumerState<AccountPieChart> {
                   ? SizedBox(
                       height: 20,
                       width: 20,
-                      child: VectorGraphic(
-                        loader: AssetBytesLoader(pairs[i].category.iconPath!),
-                        colorFilter: const ColorFilter.mode(
-                            Colors.white, BlendMode.srcIn),
+                      child: SafeVectorGraphic(
+                        iconPath: pairs[i].category.iconPath!,
                       ),
                     )
                   : null,

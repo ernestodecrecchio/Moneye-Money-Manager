@@ -1,5 +1,5 @@
+import 'package:expense_tracker/presentation/pages/common/widgets/safe_vector_graphic.dart';
 import 'package:flutter/material.dart';
-import 'package:vector_graphics/vector_graphics.dart';
 import 'package:expense_tracker/style/app_theme.dart';
 
 class PageViewWithIndicators extends StatefulWidget {
@@ -91,14 +91,11 @@ class _PageViewWithIndicatorsState extends State<PageViewWithIndicators> {
         duration: const Duration(milliseconds: 150),
         margin: const EdgeInsets.symmetric(horizontal: 4.0),
         child: iconPath != null
-            ? VectorGraphic(
-                loader: AssetBytesLoader(iconPath),
-                colorFilter: ColorFilter.mode(
-                  isActive
-                      ? context.appColors.primary
-                      : context.appColors.textSecondary,
-                  BlendMode.srcIn,
-                ),
+            ? SafeVectorGraphic(
+                iconPath: iconPath,
+                color: isActive
+                    ? context.appColors.primary
+                    : context.appColors.textSecondary,
               )
             : null,
       ),
