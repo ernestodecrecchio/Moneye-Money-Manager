@@ -3,9 +3,9 @@ import 'package:expense_tracker/application/common/notifiers/app_localizations_p
 import 'package:expense_tracker/domain/models/account.dart';
 import 'package:expense_tracker/application/common/notifiers/currency_provider.dart';
 import 'package:expense_tracker/presentation/pages/account_detail_page/account_detail_page.dart';
+import 'package:expense_tracker/presentation/pages/common/widgets/safe_vector_graphic.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:vector_graphics/vector_graphics.dart';
 
 class AccountListTile extends ConsumerWidget {
   final Account account;
@@ -56,13 +56,7 @@ class AccountListTile extends ConsumerWidget {
                   SizedBox(
                     height: 14,
                     width: 14,
-                    child: VectorGraphic(
-                      loader: AssetBytesLoader(account.iconPath!),
-                      colorFilter: const ColorFilter.mode(
-                        Colors.white,
-                        BlendMode.srcIn,
-                      ),
-                    ),
+                    child: SafeVectorGraphic(iconPath: account.iconPath!),
                   ),
                 const SizedBox(
                   width: 4,

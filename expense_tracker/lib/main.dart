@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:expense_tracker/configuration/notification_manager.dart';
 import 'package:expense_tracker/configuration/analytics_manager.dart';
+import 'package:expense_tracker/services/asset_registry.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:expense_tracker/l10n/app_localizations.dart';
@@ -48,6 +49,9 @@ final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  // Initialize AssetRegistry to chache vector graphics (svg)
+  await AssetRegistry.instance.init();
 
   await Firebase.initializeApp();
 

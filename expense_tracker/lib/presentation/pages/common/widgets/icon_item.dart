@@ -1,6 +1,6 @@
 import 'package:expense_tracker/configuration/constants.dart';
+import 'package:expense_tracker/presentation/pages/common/widgets/safe_vector_graphic.dart';
 import 'package:flutter/material.dart';
-import 'package:vector_graphics/vector_graphics.dart';
 
 class IconItem extends StatelessWidget {
   final Color backgroundColor;
@@ -35,13 +35,7 @@ class IconItem extends StatelessWidget {
           borderRadius:
               shape == BoxShape.rectangle ? BorderRadius.circular(8) : null,
         ),
-        child: VectorGraphic(
-          loader: AssetBytesLoader(iconPath ?? 'assets/icons/box.svg'),
-          colorFilter: const ColorFilter.mode(
-            Colors.white,
-            BlendMode.srcIn,
-          ),
-        ),
+        child: SafeVectorGraphic(iconPath: iconPath),
       ),
     );
   }
