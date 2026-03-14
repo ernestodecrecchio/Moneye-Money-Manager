@@ -14,6 +14,7 @@ import 'package:expense_tracker/presentation/pages/initial_configuration_page/cu
 import 'package:expense_tracker/presentation/pages/initial_configuration_page/floating_element.dart';
 import 'package:expense_tracker/presentation/pages/initial_configuration_page/welcome.dart';
 import 'package:expense_tracker/presentation/pages/tab_bar_page.dart';
+import 'package:expense_tracker/style/app_theme.dart';
 import 'package:expense_tracker/style/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -77,89 +78,93 @@ class _InitialConfigurationPageState
   Widget build(BuildContext context) {
     final appLocalizations = ref.watch(appLocalizationsProvider);
 
-    return Scaffold(
-      backgroundColor: CustomColors.darkBlue,
-      extendBodyBehindAppBar: true,
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        actions: [
-          if (currentIndex != pages.length - 1)
-            TextButton(
-              onPressed: () async {
-                await onConfigurationEnd();
+    return Theme(
+      data: AppTheme.light,
+      child: Scaffold(
+        backgroundColor: CustomColors.darkBlue,
+        extendBodyBehindAppBar: true,
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          actions: [
+            if (currentIndex != pages.length - 1)
+              TextButton(
+                onPressed: () async {
+                  await onConfigurationEnd();
 
-                if (context.mounted) {
-                  Navigator.pushReplacementNamed(context, TabBarPage.routeName);
-                }
-              },
-              child: Text(
-                appLocalizations.skip,
-                style: TextStyle(color: Colors.white),
+                  if (context.mounted) {
+                    Navigator.pushReplacementNamed(
+                        context, TabBarPage.routeName);
+                  }
+                },
+                child: Text(
+                  appLocalizations.skip,
+                  style: TextStyle(color: Colors.white),
+                ),
+              ),
+          ],
+        ),
+        body: Stack(
+          children: [
+            ..._buildFloatingElements(),
+            SafeArea(
+              minimum: const EdgeInsets.symmetric(vertical: 20),
+              child: Column(
+                children: [
+                  Expanded(
+                    child: PageView(
+                      controller: pageController,
+                      onPageChanged: (index) {
+                        currentIndex = index;
+                        setState(() {});
+                      },
+                      children: pages,
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(
+                      left: horizontalPadding,
+                      right: horizontalPadding,
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        ..._buildPageIndicator(),
+                      ],
+                    ),
+                  ),
+                  Container(
+                    padding: EdgeInsets.only(
+                      left: horizontalPadding,
+                      right: horizontalPadding,
+                    ),
+                    margin: const EdgeInsets.only(top: 14),
+                    child: CustomElevatedButton(
+                      onPressed: () async {
+                        if (currentIndex != pages.length - 1) {
+                          pageController.nextPage(
+                              duration: const Duration(milliseconds: 500),
+                              curve: Curves.easeOut);
+                        } else {
+                          await onConfigurationEnd();
+
+                          if (context.mounted) {
+                            Navigator.pushReplacementNamed(
+                                context, TabBarPage.routeName);
+                          }
+                        }
+                      },
+                      isLoading: false,
+                      text: currentIndex == pages.length - 1
+                          ? appLocalizations.done
+                          : appLocalizations.continueCTA,
+                      mode: CustomElevatedButtonMode.light,
+                    ),
+                  ),
+                ],
               ),
             ),
-        ],
-      ),
-      body: Stack(
-        children: [
-          ..._buildFloatingElements(),
-          SafeArea(
-            minimum: const EdgeInsets.symmetric(vertical: 20),
-            child: Column(
-              children: [
-                Expanded(
-                  child: PageView(
-                    controller: pageController,
-                    onPageChanged: (index) {
-                      currentIndex = index;
-                      setState(() {});
-                    },
-                    children: pages,
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(
-                    left: horizontalPadding,
-                    right: horizontalPadding,
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      ..._buildPageIndicator(),
-                    ],
-                  ),
-                ),
-                Container(
-                  padding: EdgeInsets.only(
-                    left: horizontalPadding,
-                    right: horizontalPadding,
-                  ),
-                  margin: const EdgeInsets.only(top: 14),
-                  child: CustomElevatedButton(
-                    onPressed: () async {
-                      if (currentIndex != pages.length - 1) {
-                        pageController.nextPage(
-                            duration: const Duration(milliseconds: 500),
-                            curve: Curves.easeOut);
-                      } else {
-                        await onConfigurationEnd();
-
-                        if (context.mounted) {
-                          Navigator.pushReplacementNamed(
-                              context, TabBarPage.routeName);
-                        }
-                      }
-                    },
-                    isLoading: false,
-                    text: currentIndex == pages.length - 1
-                        ? appLocalizations.done
-                        : appLocalizations.continueCTA,
-                    mode: CustomElevatedButtonMode.light,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
