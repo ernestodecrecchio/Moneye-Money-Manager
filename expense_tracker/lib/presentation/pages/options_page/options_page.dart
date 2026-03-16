@@ -105,7 +105,8 @@ class OptionsPage extends ConsumerWidget {
             subtitle: appLocalizations.backupAndRestoreOptionDescription,
             leadingIcon: Icons.backup_rounded,
             enableRightArrow: true,
-            onTap: null,
+            onTap: () =>
+                _showBackupRestoreDialog(context, ref, appLocalizations),
           ),
           const Divider(),
           OptionListTile(

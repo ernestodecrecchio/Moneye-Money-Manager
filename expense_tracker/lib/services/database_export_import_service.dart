@@ -47,7 +47,14 @@ class DatabaseExportImportService {
     final file = File('${directory.path}/moneye_backup.json');
     await file.writeAsString(jsonString);
 
-    await Share.shareXFiles([XFile(file.path)], text: 'Moneye Backup');
+    await SharePlus.instance.share(
+      ShareParams(
+        text: 'Moneye Backup',
+        subject: 'subject',
+        title: 'title',
+        files: [XFile(file.path)],
+      ),
+    );
   }
 
   Future<bool> saveDatabaseLocally() async {
