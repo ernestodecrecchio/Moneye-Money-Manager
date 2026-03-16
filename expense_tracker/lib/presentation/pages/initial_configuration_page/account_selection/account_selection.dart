@@ -1,6 +1,7 @@
 import 'package:expense_tracker/application/common/notifiers/app_localizations_provider.dart';
 import 'package:expense_tracker/domain/models/account.dart';
 import 'package:expense_tracker/presentation/pages/initial_configuration_page/account_selection/account_list_tile.dart';
+import 'package:expense_tracker/style/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -29,22 +30,22 @@ class _AccountSelectionState extends ConsumerState<AccountSelectionPage> {
     accountList = [
       Account(
         name: appLocalizations.cash,
-        colorValue: 4278214515,
+        colorValue: CustomColors.pickerColorList[0].toARGB32(),
         iconPath: 'assets/icons/cash.svg',
       ),
       Account(
         name: appLocalizations.creditCard,
-        colorValue: 4291454722,
-        iconPath: 'assets/icons/credit_card.svg',
+        colorValue: CustomColors.pickerColorList[4].toARGB32(),
+        iconPath: 'assets/icons/credit-card.svg',
       ),
       Account(
         name: appLocalizations.debitCard,
-        colorValue: 4289472825,
-        iconPath: 'assets/icons/credit_card.svg',
+        colorValue: CustomColors.pickerColorList[6].toARGB32(),
+        iconPath: 'assets/icons/credit-card.svg',
       ),
       Account(
         name: appLocalizations.savings,
-        colorValue: 4283990359,
+        colorValue: CustomColors.pickerColorList[9].toARGB32(),
         iconPath: 'assets/icons/savings.svg',
       ),
     ];

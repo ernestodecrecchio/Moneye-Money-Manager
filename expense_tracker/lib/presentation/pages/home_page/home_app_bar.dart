@@ -6,10 +6,10 @@ class HomeAppBar extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return const Text(
+    return Text(
       'Dashboard',
       textAlign: TextAlign.center,
-      style: TextStyle(color: Colors.white),
+      style: TextStyle(color: Theme.of(context).appBarTheme.foregroundColor),
     );
   }
 }

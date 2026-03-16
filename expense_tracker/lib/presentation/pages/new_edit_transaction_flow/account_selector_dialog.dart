@@ -1,24 +1,19 @@
 import 'package:expense_tracker/application/common/notifiers/app_localizations_provider.dart';
+import 'package:expense_tracker/configuration/constants.dart';
 import 'package:expense_tracker/l10n/app_localizations.dart';
 import 'package:expense_tracker/domain/models/account.dart';
 import 'package:expense_tracker/application/accounts/notifiers/queries/accounts_list_notifier.dart';
+import 'package:expense_tracker/presentation/pages/common/custom_modal_bottom_sheet.dart';
+import 'package:expense_tracker/presentation/pages/common/widgets/icon_item.dart';
+import 'package:expense_tracker/presentation/pages/common/widgets/safe_vector_graphic.dart';
 import 'package:expense_tracker/presentation/pages/options_page/accounts_page/new_edit_account_page.dart';
-import 'package:expense_tracker/style.dart';
+import 'package:expense_tracker/style/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:vector_graphics/vector_graphics.dart';
 
 Future<Account?> showAccountBottomSheet(
     BuildContext context, Account? initialSelection) async {
-  return await showModalBottomSheet(
-    shape: const RoundedRectangleBorder(
-      borderRadius: BorderRadius.only(
-        topLeft: Radius.circular(34),
-        topRight: Radius.circular(34),
-      ),
-    ),
-    backgroundColor: Colors.white,
-    clipBehavior: Clip.antiAlias,
+  return await showCustomModalBottomSheet(
     context: context,
     builder: ((context) {
       return AccountSelectorContent(currentSelection: initialSelection);
@@ -53,9 +48,9 @@ class _AccountSelectorContentState
   @override
   Widget build(BuildContext context) {
     final appLocalizations = ref.watch(appLocalizationsProvider);
+    final textTheme = Theme.of(context).textTheme;
 
-    return Container(
-      color: Colors.white,
+    return Padding(
       padding: const EdgeInsets.only(top: 10),
       child: Column(
         children: [
@@ -66,8 +61,7 @@ class _AccountSelectorContentState
               children: [
                 Text(
                   appLocalizations.selectAccount,
-                  style: const TextStyle(
-                      fontSize: 18, fontWeight: FontWeight.w600),
+                  style: textTheme.titleMedium?.copyWith(fontSize: 18),
                 ),
                 IconButton(
                   onPressed: () => Navigator.of(context).pop(),
@@ -105,57 +99,49 @@ class _AccountSelectorContentState
   }
 
   ListTile _buildAddAccountTile(AppLocalizations appLocalizations) {
+    final textTheme = Theme.of(context).textTheme;
     return ListTile(
       leading: Container(
-        height: 32,
-        width: 32,
+        height: iconItemHeight,
+        width: iconItemWidth,
         decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          border: Border.all(color: CustomColors.darkBlue, width: 2),
+          shape: BoxShape.rectangle,
+          border: Border.all(width: 2, color: context.appColors.accent),
+          borderRadius: BorderRadius.circular(8),
         ),
-        child: const Icon(
+        child: Icon(
           Icons.add,
-          color: CustomColors.darkBlue,
           size: 20,
         ),
       ),
       title: Text(
         appLocalizations.newAccount,
-        style: const TextStyle(fontSize: 18),
+        style: textTheme.bodyLarge?.copyWith(fontSize: 18),
       ),
       onTap: () {
-        Navigator.of(context).pushNamed(NewAccountPage.routeName);
+        Navigator.of(context).pushNamed(NewEditAccountPage.routeName);
       },
     );
   }
 
   ListTile _buildAccountTile(Account account) {
+    final textTheme = Theme.of(context).textTheme;
+    final colors = context.appColors;
     return ListTile(
-      leading: Container(
-        height: 32,
-        width: 32,
-        padding: const EdgeInsets.all(6),
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          color: account.color,
-        ),
-        child: account.iconPath != null
-            ? VectorGraphic(
-                loader: AssetBytesLoader(account.iconPath!),
-                colorFilter: const ColorFilter.mode(
-                  Colors.white,
-                  BlendMode.srcIn,
-                ),
-              )
-            : null,
+      leading: IconItem(
+        backgroundColor: account.color,
+        shape: BoxShape.rectangle,
+        iconPath: account.iconPath,
       ),
       trailing: _selectedAccount == account
-          ? VectorGraphic(
-              loader: AssetBytesLoader('assets/icons/checkmark.svg'))
+          ? SafeVectorGraphic(
+              iconPath: 'assets/icons/checkmark.svg',
+              color: colors.primary,
+            )
           : null,
       title: Text(
         account.name,
-        style: const TextStyle(fontSize: 18),
+        style: textTheme.bodyLarge?.copyWith(fontSize: 18),
       ),
       onTap: () {
         _selectedAccount = account;

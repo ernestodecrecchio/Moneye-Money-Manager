@@ -1,12 +1,14 @@
+import 'package:expense_tracker/configuration/analytics_manager.dart';
+import 'package:expense_tracker/application/common/notifiers/analytics_consent_provider.dart';
 import 'package:expense_tracker/application/common/notifiers/app_localizations_provider.dart';
+import 'package:expense_tracker/presentation/pages/common/widgets/safe_vector_graphic.dart';
 import 'package:expense_tracker/presentation/pages/home_page/home_page.dart';
 import 'package:expense_tracker/presentation/pages/options_page/options_page.dart';
-import 'package:expense_tracker/style.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:expense_tracker/style/app_theme.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
-import 'package:vector_graphics/vector_graphics.dart';
 
 class TabBarPage extends ConsumerStatefulWidget {
   static const routeName = '/TabBarPage';
@@ -20,6 +22,21 @@ class TabBarPage extends ConsumerStatefulWidget {
 class _TabBarPageState extends ConsumerState<TabBarPage> {
   int index = 0;
 
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _checkAnalyticsConsent();
+    });
+  }
+
+  void _checkAnalyticsConsent() {
+    final consent = ref.read(analyticsConsentProvider);
+    if (consent == null) {
+      AnalyticsManager.showConsentDialog(context: context, ref: ref);
+    }
+  }
+
   final screen = [
     const HomePage(),
     const OptionsPage(),
@@ -32,18 +49,18 @@ class _TabBarPageState extends ConsumerState<TabBarPage> {
     return Scaffold(
         bottomNavigationBar: SalomonBottomBar(
           currentIndex: index,
-          selectedItemColor: CustomColors.blue,
-          unselectedItemColor: Colors.grey,
+          selectedItemColor: context.appColors.primary,
+          unselectedItemColor: context.appColors.textSecondary,
           onTap: (newIndex) {
             setState(() => index = newIndex);
           },
           items: [
             SalomonBottomBarItem(
-              icon: VectorGraphic(
-                loader: AssetBytesLoader('assets/icons/transactions.svg'),
-                colorFilter: ColorFilter.mode(
-                    index == 0 ? CustomColors.blue : Colors.grey,
-                    BlendMode.srcIn),
+              icon: SafeVectorGraphic(
+                iconPath: 'assets/icons/transactions.svg',
+                color: index == 0
+                    ? context.appColors.primary
+                    : context.appColors.textSecondary,
               ),
               title: const Text(
                 'Dashboard',

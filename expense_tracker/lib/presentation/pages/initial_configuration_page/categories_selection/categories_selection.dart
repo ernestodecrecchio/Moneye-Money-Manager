@@ -1,6 +1,7 @@
 import 'package:expense_tracker/application/common/notifiers/app_localizations_provider.dart';
 import 'package:expense_tracker/domain/models/category.dart';
 import 'package:expense_tracker/presentation/pages/initial_configuration_page/categories_selection/category_list_tile.dart';
+import 'package:expense_tracker/style/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -31,32 +32,32 @@ class _CategoriesSelectionState extends ConsumerState<CategoriesSelection> {
     categoryList = [
       Category(
         name: appLocalizations.foodAndDining,
-        colorValue: 4294944000,
+        colorValue: CustomColors.pickerColorList[9].toARGB32(),
         iconPath: 'assets/icons/food.svg',
       ),
       Category(
         name: appLocalizations.transportation,
-        colorValue: 4278223103,
+        colorValue: CustomColors.pickerColorList[11].toARGB32(),
         iconPath: 'assets/icons/bus.svg',
       ),
       Category(
         name: appLocalizations.entertainment,
-        colorValue: 4286578816,
+        colorValue: CustomColors.pickerColorList[6].toARGB32(),
         iconPath: 'assets/icons/popcorn.svg',
       ),
       Category(
         name: appLocalizations.billsAndUtilities,
-        colorValue: 4286611584,
+        colorValue: CustomColors.pickerColorList[8].toARGB32(),
         iconPath: 'assets/icons/bill.svg',
       ),
       Category(
         name: appLocalizations.petExpenses,
-        colorValue: 4294928820,
+        colorValue: CustomColors.pickerColorList[10].toARGB32(),
         iconPath: 'assets/icons/paw.svg',
       ),
       Category(
         name: appLocalizations.subscriptions,
-        colorValue: 4278222976,
+        colorValue: CustomColors.pickerColorList[0].toARGB32(),
         iconPath: 'assets/icons/calendar.svg',
       ),
     ];

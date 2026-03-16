@@ -1,24 +1,19 @@
 import 'package:expense_tracker/application/categories/notifiers/queries/categories_list_notifier.dart';
 import 'package:expense_tracker/application/common/notifiers/app_localizations_provider.dart';
+import 'package:expense_tracker/configuration/constants.dart';
 import 'package:expense_tracker/l10n/app_localizations.dart';
 import 'package:expense_tracker/domain/models/category.dart';
+import 'package:expense_tracker/presentation/pages/common/custom_modal_bottom_sheet.dart';
+import 'package:expense_tracker/presentation/pages/common/widgets/icon_item.dart';
+import 'package:expense_tracker/presentation/pages/common/widgets/safe_vector_graphic.dart';
 import 'package:expense_tracker/presentation/pages/options_page/categories_page/new_edit_category_page.dart';
-import 'package:expense_tracker/style.dart';
+import 'package:expense_tracker/style/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:vector_graphics/vector_graphics.dart';
 
 Future<Category?> showCategoryBottomSheet(
     BuildContext context, Category? initialSelection) async {
-  return await showModalBottomSheet(
-    shape: const RoundedRectangleBorder(
-      borderRadius: BorderRadius.only(
-        topLeft: Radius.circular(34),
-        topRight: Radius.circular(34),
-      ),
-    ),
-    backgroundColor: Colors.white,
-    clipBehavior: Clip.antiAlias,
+  return await showCustomModalBottomSheet(
     context: context,
     builder: ((context) {
       return CategorySelectorContent(currentSelection: initialSelection);
@@ -53,9 +48,9 @@ class _CategorySelectorContentState
   @override
   Widget build(BuildContext context) {
     final appLocalizations = ref.watch(appLocalizationsProvider);
+    final textTheme = Theme.of(context).textTheme;
 
-    return Container(
-      color: Colors.white,
+    return Padding(
       padding: const EdgeInsets.only(top: 10),
       child: Column(
         children: [
@@ -66,8 +61,7 @@ class _CategorySelectorContentState
               children: [
                 Text(
                   appLocalizations.selectCategory,
-                  style: const TextStyle(
-                      fontSize: 18, fontWeight: FontWeight.w600),
+                  style: textTheme.titleMedium?.copyWith(fontSize: 18),
                 ),
                 IconButton(
                   onPressed: () => Navigator.of(context).pop(),
@@ -101,23 +95,25 @@ class _CategorySelectorContentState
   }
 
   ListTile _buildAddCategoryTile(AppLocalizations appLocalizations) {
+    final colors = context.appColors;
+    final textTheme = Theme.of(context).textTheme;
     return ListTile(
       leading: Container(
-        height: 32,
-        width: 32,
+        height: iconItemHeight,
+        width: iconItemWidth,
         decoration: BoxDecoration(
           shape: BoxShape.circle,
-          border: Border.all(color: CustomColors.darkBlue, width: 2),
+          border: Border.all(color: colors.secondary, width: 2),
         ),
-        child: const Icon(
+        child: Icon(
           Icons.add,
-          color: CustomColors.darkBlue,
+          color: colors.secondary,
           size: 20,
         ),
       ),
       title: Text(
         appLocalizations.newCategory,
-        style: const TextStyle(fontSize: 18),
+        style: textTheme.bodyLarge?.copyWith(fontSize: 18),
       ),
       onTap: () {
         Navigator.of(context).pushNamed(NewEditCategoryPage.routeName);
@@ -126,32 +122,23 @@ class _CategorySelectorContentState
   }
 
   ListTile _buildCategoryTile(Category category) {
+    final textTheme = Theme.of(context).textTheme;
+    final colors = context.appColors;
     return ListTile(
-      leading: Container(
-        height: 32,
-        width: 32,
-        padding: const EdgeInsets.all(8),
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          color: category.color,
-        ),
-        child: category.iconPath != null
-            ? VectorGraphic(
-                loader: AssetBytesLoader(category.iconPath!),
-                colorFilter: const ColorFilter.mode(
-                  Colors.white,
-                  BlendMode.srcIn,
-                ),
-              )
-            : null,
+      leading: IconItem(
+        backgroundColor: category.color,
+        shape: BoxShape.circle,
+        iconPath: category.iconPath,
       ),
       trailing: _selectedCategory == category
-          ? VectorGraphic(
-              loader: AssetBytesLoader('assets/icons/checkmark.svg'))
+          ? SafeVectorGraphic(
+              iconPath: 'assets/icons/checkmark.svg',
+              color: colors.primary,
+            )
           : null,
       title: Text(
         category.name,
-        style: const TextStyle(fontSize: 18),
+        style: textTheme.bodyLarge?.copyWith(fontSize: 18),
       ),
       onTap: () {
         _selectedCategory = category;

@@ -6,35 +6,36 @@ import 'package:expense_tracker/application/transactions/notifiers/mutations/tra
 import 'package:expense_tracker/l10n/app_localizations.dart';
 import 'package:expense_tracker/presentation/pages/common/custom_elevated_button.dart';
 import 'package:expense_tracker/presentation/pages/common/custom_text_field.dart';
+import 'package:expense_tracker/presentation/pages/common/dialogs.dart';
 import 'package:expense_tracker/presentation/pages/common/inline_color_picker.dart';
 import 'package:expense_tracker/presentation/pages/common/inline_icon_picker.dart';
-import 'package:expense_tracker/style.dart';
+import 'package:expense_tracker/style/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class NewAccountPage extends ConsumerStatefulWidget {
+class NewEditAccountPage extends ConsumerStatefulWidget {
   static const routeName = '/newEditAccountPage';
 
   final Account? initialAccountSettings;
 
-  const NewAccountPage({
+  const NewEditAccountPage({
     super.key,
     this.initialAccountSettings,
   });
 
   @override
-  ConsumerState<NewAccountPage> createState() => _NewAccountPageState();
+  ConsumerState<NewEditAccountPage> createState() => _NewAccountPageState();
 }
 
-class _NewAccountPageState extends ConsumerState<NewAccountPage> {
+class _NewAccountPageState extends ConsumerState<NewEditAccountPage> {
   final _formKey = GlobalKey<FormState>();
 
   TextEditingController titleInput = TextEditingController();
   TextEditingController descriptionInput = TextEditingController();
   TextEditingController initialBalanceInput = TextEditingController();
 
-  Color selectedColor = CustomColors.darkBlue;
+  late Color selectedColor;
   String? selectedIconPath;
 
   bool get editMode {
@@ -50,6 +51,8 @@ class _NewAccountPageState extends ConsumerState<NewAccountPage> {
       descriptionInput.text = widget.initialAccountSettings!.description ?? '';
       selectedColor = widget.initialAccountSettings!.color;
       selectedIconPath = widget.initialAccountSettings!.iconPath;
+    } else {
+      selectedColor = CustomColors.defaultPickerColor;
     }
   }
 
@@ -66,12 +69,23 @@ class _NewAccountPageState extends ConsumerState<NewAccountPage> {
     final appLocalizations = ref.watch(appLocalizationsProvider);
     final isLoading = ref.watch(accountMutationProvider).isLoading;
 
+    final List<Widget> actions = [];
+
+    if (widget.initialAccountSettings != null) {
+      final account = widget.initialAccountSettings!;
+      actions.add(_buildDeleteAction(
+        context,
+        appLocalizations,
+        account,
+      ));
+    }
+
     return Scaffold(
       appBar: AppBar(
-        title: Text(editMode
-            ? appLocalizations.editAccount
-            : appLocalizations.newAccount),
-        backgroundColor: CustomColors.blue,
+        title: Text(
+          editMode ? appLocalizations.editAccount : appLocalizations.newAccount,
+        ),
+        actions: actions,
       ),
       body: SafeArea(
         minimum: const EdgeInsets.symmetric(horizontal: 17),
@@ -96,6 +110,7 @@ class _NewAccountPageState extends ConsumerState<NewAccountPage> {
       child: Padding(
         padding: const EdgeInsets.only(top: 30),
         child: Column(
+          spacing: 14,
           children: [
             CustomTextField(
               controller: titleInput,
@@ -108,16 +123,10 @@ class _NewAccountPageState extends ConsumerState<NewAccountPage> {
                 return null;
               },
             ),
-            const SizedBox(
-              height: 14,
-            ),
             CustomTextField(
               controller: descriptionInput,
               label: appLocalizations.description,
               hintText: appLocalizations.insertTheDescription,
-            ),
-            const SizedBox(
-              height: 14,
             ),
             if (!editMode)
               CustomTextField(
@@ -131,9 +140,6 @@ class _NewAccountPageState extends ConsumerState<NewAccountPage> {
                     signed: true, decimal: true),
               ),
             _buildColorPicker(appLocalizations),
-            const SizedBox(
-              height: 14,
-            ),
             _buildIconPicker(appLocalizations),
             const Spacer(),
             _buildSaveButton(appLocalizations, isLoading),
@@ -146,25 +152,23 @@ class _NewAccountPageState extends ConsumerState<NewAccountPage> {
   Widget _buildColorPicker(AppLocalizations appLocalizations) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
+      spacing: 5,
       children: [
         Text(
           appLocalizations.color,
-          style: const TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.w600,
-            color: CustomColors.lightBlack,
-          ),
-        ),
-        const SizedBox(
-          height: 5,
+          style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                fontWeight: FontWeight.bold,
+              ),
         ),
         InlineColorPicker(
-            selectedColor: selectedColor,
-            onSelectedColor: (newSelectedColor) {
-              selectedColor = newSelectedColor;
+          itemShape: BoxShape.rectangle,
+          selectedColor: selectedColor,
+          onSelectedColor: (newSelectedColor) {
+            selectedColor = newSelectedColor;
 
-              setState(() {});
-            }),
+            setState(() {});
+          },
+        ),
       ],
     );
   }
@@ -172,21 +176,18 @@ class _NewAccountPageState extends ConsumerState<NewAccountPage> {
   Widget _buildIconPicker(AppLocalizations appLocalizations) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
+      spacing: 5,
       children: [
         Text(
           appLocalizations.icon,
-          style: const TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.w600,
-            color: CustomColors.lightBlack,
-          ),
-        ),
-        const SizedBox(
-          height: 5,
+          style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                fontWeight: FontWeight.bold,
+              ),
         ),
         InlineIconPicker(
           selectedIconPath: selectedIconPath,
-          backgorundColor: selectedColor,
+          backgroundColor: selectedColor,
+          itemShape: BoxShape.rectangle,
           onSelectedIcon: (newSelectedIconPath) {
             selectedIconPath = newSelectedIconPath;
 
@@ -207,7 +208,7 @@ class _NewAccountPageState extends ConsumerState<NewAccountPage> {
         if (editMode) {
           await _editAccount();
         } else {
-          await _saveNewAccount();
+          await _saveNewAccount(appLocalizations);
         }
 
         if (!mounted) return;
@@ -216,7 +217,7 @@ class _NewAccountPageState extends ConsumerState<NewAccountPage> {
     );
   }
 
-  Future<void> _saveNewAccount() async {
+  Future<void> _saveNewAccount(AppLocalizations appLocalizations) async {
     final double? initialAmountValue =
         double.tryParse(initialBalanceInput.text);
 
@@ -231,13 +232,7 @@ class _NewAccountPageState extends ConsumerState<NewAccountPage> {
         await ref.read(accountMutationProvider.notifier).addAccount(newAccount);
 
     if (initialAmountValue != null) {
-      final currentContext = context;
-      String initialBalanceTitle = "Inital balance"; // TODO: Localize
-
-      if (currentContext.mounted) {
-        initialBalanceTitle =
-            AppLocalizations.of(currentContext)!.initialBalance;
-      }
+      String initialBalanceTitle = appLocalizations.initialBalance;
 
       final newTransaction = Transaction(
         accountId: addedAccount.id,
@@ -266,8 +261,31 @@ class _NewAccountPageState extends ConsumerState<NewAccountPage> {
     await ref
         .read(accountMutationProvider.notifier)
         .updateAccount(widget.initialAccountSettings!, modifiedAccount);
+  }
 
-    if (!mounted) return;
-    Navigator.of(context).pop();
+  Widget _buildDeleteAction(BuildContext context,
+      AppLocalizations appLocalizations, Account account) {
+    return TextButton(
+      child: Text(
+        appLocalizations.delete,
+        style: TextStyle(
+          color: Theme.of(context).appBarTheme.foregroundColor,
+        ),
+      ),
+      onPressed: () async {
+        final navigator = Navigator.of(context);
+
+        final confirmed =
+            await showDeleteAccountAlert(context, appLocalizations);
+
+        if (!mounted || !confirmed) return;
+
+        await ref.read(accountMutationProvider.notifier).deleteAccount(account);
+
+        if (!mounted) return;
+
+        navigator.pop('deleted');
+      },
+    );
   }
 }

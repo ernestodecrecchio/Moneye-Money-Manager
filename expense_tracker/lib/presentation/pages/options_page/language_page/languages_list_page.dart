@@ -1,10 +1,10 @@
 import 'package:expense_tracker/application/common/notifiers/app_localizations_provider.dart';
 import 'package:expense_tracker/l10n/app_localizations.dart';
 import 'package:expense_tracker/application/common/notifiers/locale_provider.dart';
-import 'package:expense_tracker/style.dart';
+import 'package:expense_tracker/presentation/pages/common/widgets/safe_vector_graphic.dart';
+import 'package:expense_tracker/style/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:vector_graphics/vector_graphics.dart';
 
 class LanguagesListPage extends ConsumerStatefulWidget {
   static const routeName = '/languagesListPage';
@@ -23,7 +23,6 @@ class _LanguagesListPageState extends ConsumerState<LanguagesListPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(appLocalizations.language),
-        backgroundColor: CustomColors.blue,
       ),
       body: _buildList(context, appLocalizations),
     );
@@ -42,13 +41,10 @@ class _LanguagesListPageState extends ConsumerState<LanguagesListPage> {
             height: 30,
             width: 30,
             decoration: const BoxDecoration(shape: BoxShape.circle),
-            child: VectorGraphic(
-              loader: AssetBytesLoader('assets/flags/World.svg'),
+            child: SafeVectorGraphic(
+              iconPath: 'assets/flags/World.svg',
               fit: BoxFit.fill,
-              colorFilter: const ColorFilter.mode(
-                CustomColors.darkBlue,
-                BlendMode.srcIn,
-              ),
+              color: context.appColors.secondary,
             ),
           ),
           trailing: currentLocale == null ? const Icon(Icons.check) : null,
@@ -66,8 +62,9 @@ class _LanguagesListPageState extends ConsumerState<LanguagesListPage> {
             height: 30,
             width: 30,
             decoration: const BoxDecoration(shape: BoxShape.circle),
-            child: VectorGraphic(
-              loader: AssetBytesLoader('assets/flags/United-Kingdom.svg'),
+            child: SafeVectorGraphic(
+              iconPath: 'assets/flags/United-Kingdom.svg',
+              colorFilterEnabled: false,
               fit: BoxFit.cover,
             ),
           ),
@@ -85,8 +82,9 @@ class _LanguagesListPageState extends ConsumerState<LanguagesListPage> {
             height: 30,
             width: 30,
             decoration: const BoxDecoration(shape: BoxShape.circle),
-            child: VectorGraphic(
-              loader: AssetBytesLoader('assets/flags/Italy.svg'),
+            child: SafeVectorGraphic(
+              iconPath: 'assets/flags/Italy.svg',
+              colorFilterEnabled: false,
               fit: BoxFit.cover,
             ),
           ),
@@ -104,8 +102,9 @@ class _LanguagesListPageState extends ConsumerState<LanguagesListPage> {
             height: 30,
             width: 30,
             decoration: const BoxDecoration(shape: BoxShape.circle),
-            child: VectorGraphic(
-              loader: AssetBytesLoader('assets/flags/Spain.svg'),
+            child: SafeVectorGraphic(
+              iconPath: 'assets/flags/Spain.svg',
+              colorFilterEnabled: false,
               fit: BoxFit.cover,
             ),
           ),
@@ -123,12 +122,33 @@ class _LanguagesListPageState extends ConsumerState<LanguagesListPage> {
             height: 30,
             width: 30,
             decoration: const BoxDecoration(shape: BoxShape.circle),
-            child: VectorGraphic(
-              loader: AssetBytesLoader('assets/flags/Germany.svg'),
+            child: SafeVectorGraphic(
+              iconPath: 'assets/flags/Germany.svg',
+              colorFilterEnabled: false,
               fit: BoxFit.cover,
             ),
           ),
           trailing: currentLocale?.languageCode == 'de'
+              ? const Icon(Icons.check)
+              : null,
+        ),
+        ListTile(
+          title: const Text('Français'),
+          onTap: () => ref
+              .read(localeProvider.notifier)
+              .updateLocale(const Locale('fr')),
+          leading: Container(
+            clipBehavior: Clip.antiAlias,
+            height: 30,
+            width: 30,
+            decoration: const BoxDecoration(shape: BoxShape.circle),
+            child: SafeVectorGraphic(
+              iconPath: 'assets/flags/France.svg',
+              colorFilterEnabled: false,
+              fit: BoxFit.cover,
+            ),
+          ),
+          trailing: currentLocale?.languageCode == 'fr'
               ? const Icon(Icons.check)
               : null,
         ),

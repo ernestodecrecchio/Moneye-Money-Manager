@@ -11,7 +11,7 @@ import 'package:expense_tracker/presentation/pages/common/custom_elevated_button
 import 'package:expense_tracker/presentation/pages/new_edit_transaction_flow/account_selector_dialog.dart';
 import 'package:expense_tracker/presentation/pages/common/custom_text_field.dart';
 import 'package:expense_tracker/presentation/pages/new_edit_transaction_flow/category_selector_dialog.dart';
-import 'package:expense_tracker/style.dart';
+import 'package:expense_tracker/style/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -189,6 +189,7 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
       child: Padding(
         padding: const EdgeInsets.only(top: 30.0),
         child: Column(
+          spacing: 14,
           children: [
             CustomTextField(
               controller: titleInput,
@@ -201,9 +202,6 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
                 return null;
               },
               focusNode: titleInputFocusNode,
-            ),
-            const SizedBox(
-              height: 14,
             ),
             CustomTextField(
               controller: valueInput,
@@ -221,13 +219,7 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
                 return null;
               },
             ),
-            const SizedBox(
-              height: 8,
-            ),
             _buildSegmentedBar(appLocalizations),
-            const SizedBox(
-              height: 14,
-            ),
             CustomTextField(
               controller: dateInput,
               label: appLocalizations.date,
@@ -235,9 +227,6 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
               icon: Icons.calendar_month_rounded,
               readOnly: true,
               onTap: () => _selectDate(),
-            ),
-            const SizedBox(
-              height: 14,
             ),
             CustomTextField(
               controller: categoryInput,
@@ -262,9 +251,6 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
                 }
               },
             ),
-            const SizedBox(
-              height: 14,
-            ),
             CustomTextField(
               controller: accountInput,
               label: appLocalizations.account,
@@ -288,23 +274,17 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
                 }
               },
             ),
-            const SizedBox(
-              height: 14,
-            ),
             Row(
               children: [
                 Text(
                   appLocalizations.includeInReports,
-                  style: const TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w600,
-                    color: CustomColors.lightBlack,
-                  ),
+                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                        fontWeight: FontWeight.w600,
+                      ),
                 ),
                 const Spacer(),
                 Checkbox(
                   value: includeInReportCheckboxValue,
-                  activeColor: CustomColors.blue,
                   onChanged: (_) {
                     includeInReportCheckboxValue =
                         !includeInReportCheckboxValue;
@@ -323,31 +303,32 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
   }
 
   Future<void> _selectDate() async {
+    final colors = context.appColors;
     final DateTime? picked = await showDatePicker(
         context: context,
         builder: (context, child) {
           return Theme(
             data: Theme.of(context).copyWith(
               datePickerTheme: DatePickerThemeData(
-                headerBackgroundColor: CustomColors.blue,
-                headerForegroundColor: Colors.white,
-                backgroundColor: Colors.white,
+                headerBackgroundColor: colors.primary,
+                headerForegroundColor: colors.onPrimary,
+                backgroundColor: colors.scaffoldBackground,
                 todayBackgroundColor: WidgetStateProperty.resolveWith(
                   (states) {
                     if (states.contains(WidgetState.selected)) {
-                      return CustomColors.blue; // OK
+                      return colors.primary;
                     }
 
-                    return Colors.transparent; //OK
+                    return Colors.transparent;
                   },
                 ),
                 dayBackgroundColor: WidgetStateProperty.resolveWith(
                   (states) {
                     if (states.contains(WidgetState.selected)) {
-                      return CustomColors.blue; // OK
+                      return colors.primary;
                     }
 
-                    return Colors.transparent; //OK
+                    return Colors.transparent;
                   },
                 ),
               ),
@@ -443,10 +424,12 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
   }
 
   Container _buildSegmentedBar(AppLocalizations appLocalizations) {
+    final colors = context.appColors;
+
     return Container(
       height: 54,
       decoration: BoxDecoration(
-        color: CustomColors.lightBlue,
+        color: colors.surface,
         borderRadius: BorderRadius.circular(54 / 2),
       ),
       child: TabBar(
@@ -469,11 +452,10 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
                 : Colors.transparent;
           },
         ),
-        unselectedLabelColor: CustomColors.clearGreyText,
-        labelColor: Colors.white,
+        unselectedLabelColor: colors.textSecondary,
+        labelColor: colors.onPrimary,
         indicator: BoxDecoration(
-            color: CustomColors.blue,
-            borderRadius: BorderRadius.circular(54 / 2)),
+            color: colors.primary, borderRadius: BorderRadius.circular(54 / 2)),
       ),
     );
   }

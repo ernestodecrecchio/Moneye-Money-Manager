@@ -19,6 +19,7 @@ abstract class TransactionsRepository {
     DateTime? startDate,
     DateTime? endDate,
     Account? forAccount,
+    int? categoryId,
     bool? includeIncomes,
     bool? includeExpenses,
     int? limit,

@@ -1,4 +1,5 @@
 import 'package:expense_tracker/application/accounts/notifiers/queries/accounts_with_balance_notifier.dart';
+import 'package:expense_tracker/configuration/analytics_manager.dart';
 import 'package:expense_tracker/application/transactions/notifiers/queries/transactions_list_notifier.dart';
 import 'package:expense_tracker/domain/models/transaction.dart';
 import 'package:expense_tracker/application/transactions/notifiers/queries/total_balance_notifier.dart';
@@ -20,10 +21,12 @@ class TransactionMutationNotifier extends AsyncNotifier<void> {
     state = await AsyncValue.guard(() async {
       inserted = await _repo.insertTransaction(transaction: transaction);
 
-      ref.invalidate(totalBalanceProvider(const TotalBalanceParams()));
+      ref.invalidate(totalBalanceProvider);
       ref.invalidate(transactionsListProvider);
       ref.invalidate(accountsWithBalanceProvider);
     });
+
+    await AnalyticsManager.logTransactionAdded();
 
     return inserted;
   }
@@ -36,10 +39,12 @@ class TransactionMutationNotifier extends AsyncNotifier<void> {
       await _repo.updateTransaction(
           transactionToEdit: original, editedTransaction: modified);
 
-      ref.invalidate(totalBalanceProvider(const TotalBalanceParams()));
+      ref.invalidate(totalBalanceProvider);
       ref.invalidate(transactionsListProvider);
       ref.invalidate(accountsWithBalanceProvider);
     });
+
+    await AnalyticsManager.logTransactionUpdated();
   }
 
   Future<void> deleteTransaction(Transaction transaction) async {
@@ -50,11 +55,13 @@ class TransactionMutationNotifier extends AsyncNotifier<void> {
           await _repo.deleteTransaction(transaction: transaction);
 
       if (removedTransactionCount > 0) {
-        ref.invalidate(totalBalanceProvider(const TotalBalanceParams()));
+        ref.invalidate(totalBalanceProvider);
         ref.invalidate(transactionsListProvider);
         ref.invalidate(accountsWithBalanceProvider);
       }
     });
+
+    await AnalyticsManager.logTransactionDeleted();
   }
 }
 

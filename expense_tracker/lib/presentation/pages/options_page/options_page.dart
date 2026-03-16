@@ -1,18 +1,23 @@
+import 'package:expense_tracker/application/common/notifiers/package_info_provider.dart';
 import 'package:expense_tracker/application/common/notifiers/app_localizations_provider.dart';
 import 'package:expense_tracker/application/common/notifiers/currency_provider.dart';
 import 'package:expense_tracker/application/common/notifiers/locale_provider.dart';
 import 'package:expense_tracker/application/common/notifiers/notification_provider.dart';
 import 'package:expense_tracker/l10n/app_localizations.dart';
-import 'package:expense_tracker/presentation/pages/options_page/about_page/about_page.dart';
 import 'package:expense_tracker/presentation/pages/options_page/accounts_page/accounts_list_page.dart';
 import 'package:expense_tracker/presentation/pages/options_page/categories_page/categories_list_page.dart';
 import 'package:expense_tracker/presentation/pages/options_page/currency_page/currency_page.dart';
 import 'package:expense_tracker/presentation/pages/options_page/language_page/languages_list_page.dart';
+import 'package:expense_tracker/presentation/pages/options_page/privacy_page/privacy_settings_page.dart';
 import 'package:expense_tracker/presentation/pages/options_page/notification_page/notification_page.dart';
-import 'package:expense_tracker/style.dart';
+import 'package:expense_tracker/presentation/pages/options_page/theme_page/theme_selection_page.dart';
+import 'package:expense_tracker/presentation/pages/options_page/update_history_page/update_history_page.dart';
+import 'package:expense_tracker/application/common/notifiers/theme_provider.dart';
 import 'package:expense_tracker/services/database_export_import_service.dart';
+import 'package:expense_tracker/style/app_theme.dart';
+import 'package:expense_tracker/presentation/pages/common/list_tiles/option_list_tile.dart';
+import 'package:expense_tracker/presentation/pages/options_page/contacts_page/contacts_page.dart';
 import 'package:flutter/material.dart';
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:in_app_review/in_app_review.dart';
 
@@ -26,7 +31,6 @@ class OptionsPage extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(appLocalizations.settings),
-        backgroundColor: CustomColors.blue,
       ),
       body: SafeArea(
         child: _buildBody(context, ref, appLocalizations),
@@ -38,150 +42,139 @@ class OptionsPage extends ConsumerWidget {
       BuildContext context, WidgetRef ref, AppLocalizations appLocalizations) {
     final currentCurrency = ref.watch(currentCurrencyProvider);
     final currentLocale = ref.watch(localeProvider);
+    final currentThemeMode = ref.watch(themeProvider);
+    final packageInfoAsync = ref.watch(packageInfoProvider);
 
-    return ListView(
-      children: [
-        ListTile(
-          leading: const SizedBox(
-            height: double.infinity,
-            child: Icon(
-              Icons.grid_view_rounded,
-              color: CustomColors.darkBlue,
-            ),
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          OptionListTile(
+            title: appLocalizations.categories,
+            subtitle: appLocalizations.categoriesOptionDescription,
+            leadingIcon: Icons.grid_view_rounded,
+            onTap: () =>
+                Navigator.of(context).pushNamed(CategoriesListPage.routeName),
           ),
-          title: Text(appLocalizations.categories),
-          subtitle: Text(appLocalizations.categoriesOptionDescription),
-          trailing: const Icon(Icons.chevron_right_rounded),
-          onTap: () =>
-              Navigator.of(context).pushNamed(CategoriesListPage.routeName),
-        ),
-        const Divider(),
-        ListTile(
-          leading: const SizedBox(
-            height: double.infinity,
-            child: Icon(
-              Icons.account_balance_rounded,
-              color: CustomColors.darkBlue,
-            ),
+          const Divider(),
+          OptionListTile(
+            title: appLocalizations.accounts,
+            subtitle: appLocalizations.accountsOptionDescription,
+            leadingIcon: Icons.account_balance_rounded,
+            onTap: () =>
+                Navigator.of(context).pushNamed(AccountsListPage.routeName),
           ),
-          title: Text(appLocalizations.accounts),
-          subtitle: Text(appLocalizations.accountsOptionDescription),
-          trailing: const Icon(Icons.chevron_right_rounded),
-          onTap: () =>
-              Navigator.of(context).pushNamed(AccountsListPage.routeName),
-        ),
-        const Divider(),
-        ListTile(
-          leading: const SizedBox(
-            height: double.infinity,
-            child: Icon(
-              Icons.translate_rounded,
-              color: CustomColors.darkBlue,
-            ),
-          ),
-          title: Text(appLocalizations.language),
-          subtitle: Text(appLocalizations.languageOptionDescription),
-          trailing: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              if (currentLocale != null) Text(currentLocale.languageCode),
-              const Icon(Icons.chevron_right_rounded),
+          const Divider(),
+          OptionListTile(
+            title: appLocalizations.language,
+            subtitle: appLocalizations.languageOptionDescription,
+            leadingIcon: Icons.translate_rounded,
+            trailingWidgets: [
+              if (currentLocale != null) Text(currentLocale.languageCode)
             ],
+            onTap: () =>
+                Navigator.of(context).pushNamed(LanguagesListPage.routeName),
           ),
-          onTap: () =>
-              Navigator.of(context).pushNamed(LanguagesListPage.routeName),
-        ),
-        const Divider(),
-        ListTile(
-          leading: const SizedBox(
-            height: double.infinity,
-            child: Icon(
-              Icons.currency_exchange_outlined,
-              color: CustomColors.darkBlue,
-            ),
-          ),
-          title: Text(appLocalizations.currency),
-          subtitle: Text(appLocalizations.selectCurrency),
-          trailing: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
+          const Divider(),
+          OptionListTile(
+            title: appLocalizations.currency,
+            subtitle: appLocalizations.selectCurrency,
+            leadingIcon: Icons.currency_exchange_outlined,
+            trailingWidgets: [
               if (currentCurrency != null) Text(currentCurrency.symbolNative),
-              const Icon(Icons.chevron_right_rounded),
             ],
+            onTap: () =>
+                Navigator.of(context).pushNamed(CurrencyPage.routeName),
           ),
-          onTap: () => Navigator.of(context).pushNamed(CurrencyPage.routeName),
-        ),
-        const Divider(),
-        ListTile(
-          leading: const SizedBox(
-            height: double.infinity,
-            child: Icon(
-              Icons.notifications_active_rounded,
-              color: CustomColors.darkBlue,
-            ),
-          ),
-          title: Text(appLocalizations.reminder),
-          subtitle: Text(appLocalizations.reminderOptionDescription),
-          trailing: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
+          const Divider(),
+          OptionListTile(
+            title: appLocalizations.reminder,
+            subtitle: appLocalizations.reminderOptionDescription,
+            leadingIcon: Icons.notifications_active_rounded,
+            trailingWidgets: [
               Text(ref.watch(notificationsEnabledProvider) != null &&
                       ref.watch(notificationsEnabledProvider) == true
                   ? appLocalizations.yes
                   : appLocalizations.no),
-              const Icon(Icons.chevron_right_rounded),
             ],
+            onTap: () =>
+                Navigator.of(context).pushNamed(ReminderPage.routeName),
           ),
-          onTap: () => Navigator.of(context).pushNamed(ReminderPage.routeName),
-        ),
-        const Divider(),
-        ListTile(
-          leading: const SizedBox(
-            height: double.infinity,
-            child: Icon(
-              Icons.star_rounded,
-              color: CustomColors.darkBlue,
+          const Divider(),
+          OptionListTile(
+            title: appLocalizations.backupAndRestore,
+            subtitle: appLocalizations.backupAndRestoreOptionDescription,
+            leadingIcon: Icons.backup_rounded,
+            enableRightArrow: true,
+            onTap: null,
+          ),
+          const Divider(),
+          OptionListTile(
+            title: appLocalizations.updateHistory,
+            subtitle: appLocalizations.updateHistoryOptionDescription,
+            leadingIcon: Icons.auto_awesome_rounded,
+            onTap: () =>
+                Navigator.of(context).pushNamed(UpdateHistoryPage.routeName),
+          ),
+          const Divider(),
+          OptionListTile(
+            title: appLocalizations.theme,
+            subtitle: appLocalizations.themeOptionDescription,
+            leadingIcon: Icons.palette_outlined,
+            trailingWidgets: [
+              Text(currentThemeMode.getName(appLocalizations)),
+            ],
+            onTap: () =>
+                Navigator.of(context).pushNamed(ThemeSelectionPage.routeName),
+          ),
+          const Divider(),
+          OptionListTile(
+            title: appLocalizations.contacts,
+            subtitle: appLocalizations.contactsDescription,
+            leadingIcon: Icons.alternate_email_rounded,
+            onTap: () =>
+                Navigator.of(context).pushNamed(ContactsPage.routeName),
+          ),
+          const Divider(),
+          OptionListTile(
+            title: appLocalizations.privacy,
+            subtitle: appLocalizations.privacyOptionDescription,
+            leadingIcon: Icons.security_outlined,
+            onTap: () =>
+                Navigator.of(context).pushNamed(PrivacySettingsPage.routeName),
+          ),
+          const Divider(),
+          OptionListTile(
+            title: appLocalizations.feedback,
+            subtitle: appLocalizations.feedbackAndReviewOptionDescription,
+            leadingIcon: Icons.star_rounded,
+            enableRightArrow: false,
+            onTap: () {
+              final InAppReview inAppReview = InAppReview.instance;
+              inAppReview.openStoreListing(
+                appStoreId: '6447369037',
+              );
+            },
+          ),
+          const Divider(),
+          SizedBox(
+            height: 40,
+          ),
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: packageInfoAsync.when(
+              data: (packageInfo) => Text(
+                '${appLocalizations.version} ${packageInfo.version}',
+                style: TextStyle(
+                  color: context.appColors.textSecondary,
+                  fontSize: 12,
+                ),
+              ),
+              error: (_, __) => const SizedBox.shrink(),
+              loading: () => const SizedBox.shrink(),
             ),
           ),
-          title: Text(appLocalizations.feedback),
-          subtitle: Text(appLocalizations.feedbackAndReviewOptionDescription),
-          onTap: () {
-            final InAppReview inAppReview = InAppReview.instance;
-
-            inAppReview.openStoreListing(
-              appStoreId: '6447369037',
-            );
-          },
-        ),
-        const Divider(),
-        ListTile(
-          leading: const SizedBox(
-            height: double.infinity,
-            child: Icon(
-              Icons.info_outline,
-              color: CustomColors.darkBlue,
-            ),
-          ),
-          title: Text(appLocalizations.info),
-          subtitle: Text(appLocalizations.infoOptionDescription),
-          trailing: const Icon(Icons.chevron_right_rounded),
-          onTap: () => Navigator.of(context).pushNamed(AboutPage.routeName),
-        ),
-        const Divider(),
-        ListTile(
-          leading: const SizedBox(
-            height: double.infinity,
-            child: Icon(
-              Icons.backup_rounded,
-              color: CustomColors.darkBlue,
-            ),
-          ),
-          title: Text(appLocalizations.backupAndRestore),
-          subtitle: Text(appLocalizations.backupAndRestoreOptionDescription),
-          trailing: const Icon(Icons.chevron_right_rounded),
-          onTap: () => _showBackupRestoreDialog(context, ref, appLocalizations),
-        ),
-      ],
+        ],
+      ),
     );
   }
 

@@ -5,9 +5,10 @@ import 'package:expense_tracker/Services/widget_extension_service.dart';
 import 'package:expense_tracker/application/transactions/notifiers/queries/total_balance_notifier.dart';
 import 'package:expense_tracker/application/transactions/notifiers/queries/transactions_list_notifier.dart';
 import 'package:expense_tracker/application/common/notifiers/currency_provider.dart';
+import 'package:expense_tracker/presentation/pages/common/widgets/safe_vector_graphic.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:vector_graphics/vector_graphics.dart';
+import 'package:expense_tracker/style/app_theme.dart';
 
 class HomeFlexibleSpaceBar extends ConsumerStatefulWidget {
   const HomeFlexibleSpaceBar({super.key});
@@ -49,8 +50,9 @@ class _HomeFlexibleSpaceBarState extends ConsumerState<HomeFlexibleSpaceBar> {
         children: [
           Text(
             appLocalizations.financialOverviewForThisMonth,
-            style: const TextStyle(
-              color: Colors.white70,
+            style: TextStyle(
+              color:
+                  context.appColors.onSurfaceTextAppBar.withValues(alpha: 0.75),
               fontSize: 16,
               fontWeight: FontWeight.w700,
             ),
@@ -60,13 +62,14 @@ class _HomeFlexibleSpaceBarState extends ConsumerState<HomeFlexibleSpaceBar> {
           ),
           Text(
             appLocalizations.totalBalance,
-            style: const TextStyle(
-              color: Colors.white,
+            style: TextStyle(
+              color: context.appColors.onSurfaceAppBar,
               fontSize: 18,
               fontWeight: FontWeight.w400,
             ),
           ),
           Row(
+            spacing: 28,
             children: [
               Flexible(
                 child: FittedBox(
@@ -79,29 +82,26 @@ class _HomeFlexibleSpaceBarState extends ConsumerState<HomeFlexibleSpaceBar> {
                         data: (balance) => Text(
                           balance.toStringAsFixedRoundedWithCurrency(
                               2, currentCurrency, currentCurrencyPosition),
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 40,
                             overflow: TextOverflow.clip,
-                            color: Colors.white,
+                            color: context.appColors.onSurfaceAppBar,
                           ),
                         ),
-                        loading: () => const CircularProgressIndicator(
-                          color: Colors.white,
+                        loading: () => CircularProgressIndicator(
+                          color: Theme.of(context).appBarTheme.foregroundColor,
                         ),
                         error: (err, _) => Text(
                           'Error',
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 40,
-                            color: Colors.red,
+                            color: context.appColors.expense,
                           ),
                         ),
                       ),
                 ),
-              ),
-              const SizedBox(
-                width: 28,
               ),
               _buildPercentageDifference()
             ],
@@ -141,9 +141,9 @@ class _HomeFlexibleSpaceBarState extends ConsumerState<HomeFlexibleSpaceBar> {
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            VectorGraphic(
-                              loader: AssetBytesLoader(
-                                  'assets/icons/pocket_out.svg'),
+                            SafeVectorGraphic(
+                              iconPath: 'assets/icons/pocket_out.svg',
+                              color: context.appColors.onSurfaceAppBar,
                             ),
                             const SizedBox(
                               width: 12,
@@ -153,8 +153,8 @@ class _HomeFlexibleSpaceBarState extends ConsumerState<HomeFlexibleSpaceBar> {
                               children: [
                                 Text(
                                   appLocalizations.expenses,
-                                  style: const TextStyle(
-                                    color: Colors.white,
+                                  style: TextStyle(
+                                    color: context.appColors.onSurfaceAppBar,
                                     fontSize: 16,
                                     fontWeight: FontWeight.w300,
                                   ),
@@ -165,8 +165,8 @@ class _HomeFlexibleSpaceBarState extends ConsumerState<HomeFlexibleSpaceBar> {
                                           2,
                                           currentCurrency,
                                           currentCurrencyPosition),
-                                  style: const TextStyle(
-                                    color: Colors.white,
+                                  style: TextStyle(
+                                    color: context.appColors.onSurfaceAppBar,
                                     fontSize: 16,
                                     fontWeight: FontWeight.bold,
                                   ),
@@ -178,9 +178,10 @@ class _HomeFlexibleSpaceBarState extends ConsumerState<HomeFlexibleSpaceBar> {
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            VectorGraphic(
-                                loader: AssetBytesLoader(
-                                    'assets/icons/pocket_in.svg')),
+                            SafeVectorGraphic(
+                              iconPath: 'assets/icons/pocket_in.svg',
+                              color: context.appColors.onSurfaceAppBar,
+                            ),
                             const SizedBox(
                               width: 12,
                             ),
@@ -189,8 +190,8 @@ class _HomeFlexibleSpaceBarState extends ConsumerState<HomeFlexibleSpaceBar> {
                               children: [
                                 Text(
                                   appLocalizations.incomes,
-                                  style: const TextStyle(
-                                    color: Colors.white,
+                                  style: TextStyle(
+                                    color: context.appColors.onSurfaceAppBar,
                                     fontSize: 16,
                                     fontWeight: FontWeight.w300,
                                   ),
@@ -201,8 +202,8 @@ class _HomeFlexibleSpaceBarState extends ConsumerState<HomeFlexibleSpaceBar> {
                                           2,
                                           currentCurrency,
                                           currentCurrencyPosition),
-                                  style: const TextStyle(
-                                    color: Colors.white,
+                                  style: TextStyle(
+                                    color: context.appColors.onSurfaceAppBar,
                                     fontSize: 16,
                                     fontWeight: FontWeight.bold,
                                   ),
@@ -214,15 +215,15 @@ class _HomeFlexibleSpaceBarState extends ConsumerState<HomeFlexibleSpaceBar> {
                       ],
                     );
                   },
-                  loading: () => const CircularProgressIndicator(
-                    color: Colors.white,
+                  loading: () => CircularProgressIndicator(
+                    color: Theme.of(context).appBarTheme.foregroundColor,
                   ),
                   error: (err, _) => Text(
                     'Error',
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 40,
-                      color: Colors.red,
+                      color: context.appColors.expense,
                     ),
                   ),
                 ),
@@ -233,104 +234,102 @@ class _HomeFlexibleSpaceBarState extends ConsumerState<HomeFlexibleSpaceBar> {
   }
 
   Widget _buildPercentageDifference() {
-    return Consumer(
-      builder: (context, ref, child) {
-        final now = DateTime.now();
+    final now = DateTime.now();
 
-        // Full current month
-        final currMonthStart = currentMonthFirstDay(now);
-        final currMonthEnd = currentMonthLastDay(now);
+    final currMonthEnd = currentMonthLastDay(now);
+    final prevMonthEnd = previousMonthLastDay(now);
 
-        // Full previous month
-        final prevMonthStart = previousMonthFirstDay(now);
-        final prevMonthEnd = previousMonthLastDay(now);
+    final currMonthTotalBalanceParams = TotalBalanceParams(
+      startDate: null,
+      endDate: currMonthEnd,
+      account: null,
+    );
 
-        final currMonthTotalBalanceParams = TotalBalanceParams(
-          startDate: currMonthStart,
-          endDate: currMonthEnd,
-          account: null,
-        );
+    final prevMonthTotalBalanceParams = TotalBalanceParams(
+      startDate: null,
+      endDate: prevMonthEnd,
+      account: null,
+    );
 
-        final prevMonthTotalBalanceParams = TotalBalanceParams(
-          startDate: prevMonthStart,
-          endDate: prevMonthEnd,
-          account: null,
-        );
+    final currentMonthBalanceAsync = ref.watch(
+      totalBalanceProvider(currMonthTotalBalanceParams),
+    );
 
-        final currentMonthBalanceAsync = ref.watch(
-          totalBalanceProvider(currMonthTotalBalanceParams),
-        );
+    final previousMonthBalanceAsync = ref.watch(
+      totalBalanceProvider(prevMonthTotalBalanceParams),
+    );
 
-        final previousMonthBalanceAsync = ref.watch(
-          totalBalanceProvider(prevMonthTotalBalanceParams),
-        );
+    return currentMonthBalanceAsync.when(
+      data: (currBalance) {
+        return previousMonthBalanceAsync.when(
+          data: (prevBalance) {
+            if (prevBalance == 0) {
+              return const SizedBox.shrink();
+            }
 
-        return currentMonthBalanceAsync.when(
-          data: (currBalance) {
-            return previousMonthBalanceAsync.when(
-              data: (prevBalance) {
-                if (prevBalance == 0) {
-                  return const SizedBox.shrink();
-                }
+            final diffPercentage =
+                ((currBalance - prevBalance) / prevBalance) * 100;
 
-                final diffPercentage =
-                    ((currBalance - prevBalance) / prevBalance) * 100;
+            if (diffPercentage == 0) {
+              return const SizedBox.shrink();
+            }
 
-                return Container(
-                  decoration: BoxDecoration(
-                    color: Colors.white24,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.only(
-                      left: 10,
-                      right: 20,
-                      top: 8,
-                      bottom: 8,
+            return Container(
+              decoration: BoxDecoration(
+                color: Theme.of(context)
+                    .appBarTheme
+                    .foregroundColor
+                    ?.withValues(alpha: 0.25),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.only(
+                  left: 10,
+                  right: 20,
+                  top: 8,
+                  bottom: 8,
+                ),
+                child: Row(
+                  children: [
+                    Icon(
+                      diffPercentage >= 0
+                          ? Icons.arrow_drop_up_rounded
+                          : Icons.arrow_drop_down_rounded,
+                      color: context.appColors.onSurfaceAppBar,
                     ),
-                    child: Row(
-                      children: [
-                        Icon(
-                          diffPercentage >= 0
-                              ? Icons.arrow_drop_up_rounded
-                              : Icons.arrow_drop_down_rounded,
-                          color: Colors.white,
-                        ),
-                        Text(
-                          '${diffPercentage.toStringAsFixedRounded(2)}%',
-                          style: const TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ],
+                    Text(
+                      '${diffPercentage.toStringAsFixedRounded(2)}%',
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                        color: context.appColors.onSurfaceAppBar,
+                      ),
                     ),
-                  ),
-                );
-              },
-              loading: () => const SizedBox(
-                height: 20,
-                width: 20,
-                child: CircularProgressIndicator(
-                  strokeWidth: 2,
-                  color: Colors.white,
+                  ],
                 ),
               ),
-              error: (_, __) => const SizedBox.shrink(),
             );
           },
-          loading: () => const SizedBox(
+          loading: () => SizedBox(
             height: 20,
             width: 20,
             child: CircularProgressIndicator(
               strokeWidth: 2,
-              color: Colors.white,
+              color: Theme.of(context).appBarTheme.foregroundColor,
             ),
           ),
           error: (_, __) => const SizedBox.shrink(),
         );
       },
+      loading: () => SizedBox(
+        height: 20,
+        width: 20,
+        child: CircularProgressIndicator(
+          strokeWidth: 2,
+          color: Theme.of(context).appBarTheme.foregroundColor,
+        ),
+      ),
+      error: (_, __) => const SizedBox.shrink(),
     );
   }
 }

@@ -3,7 +3,6 @@ import 'package:expense_tracker/application/common/notifiers/app_localizations_p
 import 'package:expense_tracker/l10n/app_localizations.dart';
 import 'package:expense_tracker/presentation/pages/options_page/accounts_page/account_list_cell.dart';
 import 'package:expense_tracker/presentation/pages/options_page/accounts_page/new_edit_account_page.dart';
-import 'package:expense_tracker/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -24,7 +23,6 @@ class _AccountsListPageState extends ConsumerState<AccountsListPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(appLocalizations.yourAccounts),
-        backgroundColor: CustomColors.blue,
       ),
       floatingActionButton: _buildFloatingActionButton(context),
       body: _buildList(appLocalizations),
@@ -63,10 +61,9 @@ class _AccountsListPageState extends ConsumerState<AccountsListPage> {
 
   Widget _buildFloatingActionButton(BuildContext context) {
     return FloatingActionButton(
-      backgroundColor: CustomColors.darkBlue,
-      shape: const CircleBorder(),
       child: const Icon(Icons.add),
-      onPressed: () => Navigator.pushNamed(context, NewAccountPage.routeName),
+      onPressed: () =>
+          Navigator.pushNamed(context, NewEditAccountPage.routeName),
     );
   }
 }

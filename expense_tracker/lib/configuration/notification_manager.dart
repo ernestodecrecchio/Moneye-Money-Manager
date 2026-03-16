@@ -32,6 +32,9 @@ class NotificationManager {
   /// Defines a iOS/MacOS notification category for plain actions.
   static String darwinNotificationCategoryPlain = 'plainCategory';
 
+  /// Channel ID for daily reminders
+  static const String dailyReminderChannelId = 'daily_reminder_channel';
+
   @pragma('vm:entry-point')
   static void notificationTapBackground(
       NotificationResponse notificationResponse) {
@@ -87,7 +90,7 @@ class NotificationManager {
     );
 
     await flutterLocalNotificationsPlugin.initialize(
-      initializationSettings,
+      settings: initializationSettings,
       onDidReceiveNotificationResponse:
           (NotificationResponse notificationResponse) {
         switch (notificationResponse.notificationResponseType) {
@@ -103,6 +106,25 @@ class NotificationManager {
       },
       onDidReceiveBackgroundNotificationResponse: notificationTapBackground,
     );
+
+    if (Platform.isAndroid) {
+      final androidPlugin =
+          flutterLocalNotificationsPlugin.resolvePlatformSpecificImplementation<
+              AndroidFlutterLocalNotificationsPlugin>();
+
+      AppLocalizations localizations = await AppLocalizations.delegate.load(
+        Locale(Intl.shortLocale(Intl.getCurrentLocale().toString())),
+      );
+
+      final AndroidNotificationChannel channel = AndroidNotificationChannel(
+        dailyReminderChannelId,
+        localizations.dailyReminderChannelName,
+        description: localizations.dailyReminderChannelDescription,
+        importance: Importance.max,
+      );
+
+      await androidPlugin?.createNotificationChannel(channel);
+    }
   }
 
   static Future<bool?> requestNotificationPermissions() async {
@@ -130,10 +152,34 @@ class NotificationManager {
               .resolvePlatformSpecificImplementation<
                   AndroidFlutterLocalNotificationsPlugin>();
 
-      return await androidImplementation?.requestNotificationsPermission();
+      // Ensure notifications are permitted on Android 13+
+      await androidImplementation?.requestNotificationsPermission();
+
+      // Check for exact alarm permission
+      var hasExactAlarmPermission =
+          await androidImplementation?.canScheduleExactNotifications() ?? false;
+
+      if (!hasExactAlarmPermission) {
+        // This will redirect the user to the system settings page for "Alarms & Reminders"
+        await androidImplementation?.requestExactAlarmsPermission();
+      }
+
+      // Return the overall status of notifications (true if granted, false/null otherwise)
+      return await androidImplementation?.areNotificationsEnabled();
     }
 
     return false;
+  }
+
+  static Future<bool> isExactAlarmPermissionGranted() async {
+    if (Platform.isAndroid) {
+      final androidImplementation =
+          flutterLocalNotificationsPlugin.resolvePlatformSpecificImplementation<
+              AndroidFlutterLocalNotificationsPlugin>();
+      return await androidImplementation?.canScheduleExactNotifications() ??
+          false;
+    }
+    return true;
   }
 
   static Future clearAllNotifications() async {
@@ -143,31 +189,95 @@ class NotificationManager {
   static Future<void> scheduleDailyNotification({
     required TimeOfDay atTime,
   }) async {
-    AppLocalizations localizations = await AppLocalizations.delegate.load(
-      Locale(Intl.shortLocale(Intl.getCurrentLocale().toString())),
-    );
+    try {
+      AppLocalizations localizations = await AppLocalizations.delegate.load(
+        Locale(Intl.shortLocale(Intl.getCurrentLocale().toString())),
+      );
 
-    await flutterLocalNotificationsPlugin.zonedSchedule(
-        0,
-        localizations.notificationTitle,
-        localizations.notificationSubtitle,
-        _nextInstanceOfTwelveAM(time: atTime),
-        const NotificationDetails(
-          android: AndroidNotificationDetails(
-            'daily notification channel id',
-            'daily notification channel name',
-            channelDescription: 'daily notification description',
-            importance: Importance.max,
-            priority: Priority.high,
-            icon:
-                '@drawable/ic_stat_logo_transparent', // Icon for the notification in android status bar
+      AndroidScheduleMode scheduleMode =
+          AndroidScheduleMode.exactAllowWhileIdle;
+
+      await flutterLocalNotificationsPlugin.zonedSchedule(
+          id: 0,
+          title: localizations.notificationTitle,
+          body: localizations.notificationSubtitle,
+          scheduledDate: _nextInstanceOfTimeOfDay(time: atTime),
+          notificationDetails: NotificationDetails(
+            android: AndroidNotificationDetails(
+              dailyReminderChannelId,
+              localizations.dailyReminderChannelName,
+              channelDescription: localizations.dailyReminderChannelDescription,
+              importance: Importance.max,
+              priority: Priority.high,
+              icon: 'ic_stat_logo_transparent',
+            ),
           ),
-        ),
-        androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
-        matchDateTimeComponents: DateTimeComponents.time);
+          androidScheduleMode: scheduleMode,
+          matchDateTimeComponents: DateTimeComponents.time);
+    } catch (e) {
+      if (kDebugMode) {
+        print('Error scheduling notification: $e');
+      }
+    }
   }
 
-  static TZDateTime _nextInstanceOfTwelveAM({required TimeOfDay time}) {
+  /// Sends a notification immediately for testing purposes.
+  static Future<void> showInstantNotification() async {
+    try {
+      AppLocalizations localizations = await AppLocalizations.delegate.load(
+        Locale(Intl.shortLocale(Intl.getCurrentLocale().toString())),
+      );
+
+      await flutterLocalNotificationsPlugin.show(
+        id: 1, // Unique ID for test notification
+        title: localizations.notificationTitle,
+        body: localizations.notificationSubtitle,
+        notificationDetails: NotificationDetails(
+          android: AndroidNotificationDetails(
+            dailyReminderChannelId,
+            localizations.dailyReminderChannelName,
+            channelDescription: localizations.dailyReminderChannelDescription,
+            importance: Importance.max,
+            priority: Priority.high,
+            icon: 'ic_stat_logo_transparent',
+          ),
+        ),
+      );
+    } catch (e) {
+      if (kDebugMode) {
+        print('Error showing instant notification: $e');
+      }
+    }
+  }
+
+  /// Updates all scheduled notifications with current localization settings.
+  /// This should be called when the app's locale changes.
+  static Future<void> updateScheduledNotifications({
+    required TimeOfDay atTime,
+  }) async {
+    await clearAllNotifications();
+    await scheduleDailyNotification(atTime: atTime);
+  }
+
+  /// Returns the next future occurrence of the given [TimeOfDay],
+  /// calculated in the local timezone.
+  ///
+  /// The resulting date will be:
+  /// - **today** at the specified time, if that time has not passed yet
+  /// - **tomorrow** at the same time, if it has already passed today
+  ///
+  /// Useful for scheduling daily recurring events
+  /// (e.g. local notifications, background tasks, reminders).
+  ///
+  /// Example:
+  /// - Current time: 3:30 PM
+  /// - [time]: 12:00 PM
+  /// → Result: tomorrow at 12:00 PM
+  ///
+  /// - Current time: 9:00 AM
+  /// - [time]: 12:00 PM
+  /// → Result: today at 12:00 PM
+  static TZDateTime _nextInstanceOfTimeOfDay({required TimeOfDay time}) {
     final TZDateTime now = TZDateTime.now(local);
     TZDateTime scheduledDate =
         TZDateTime(local, now.year, now.month, now.day, time.hour, time.minute);

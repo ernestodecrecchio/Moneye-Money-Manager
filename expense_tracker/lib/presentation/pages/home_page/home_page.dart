@@ -10,7 +10,7 @@ import 'package:expense_tracker/presentation/pages/home_page/home_app_bar.dart';
 import 'package:expense_tracker/presentation/pages/options_page/accounts_page/new_edit_account_page.dart';
 import 'package:expense_tracker/presentation/pages/new_edit_transaction_flow/new_edit_transaction_page.dart';
 import 'package:expense_tracker/presentation/pages/common/list_tiles/account_list_tile.dart';
-import 'package:expense_tracker/style.dart';
+import 'package:expense_tracker/style/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -42,7 +42,6 @@ class _HomePageState extends ConsumerState<HomePage> {
       body: CustomScrollView(
         slivers: <Widget>[
           SliverAppBar(
-            backgroundColor: CustomColors.blue,
             pinned: true,
             automaticallyImplyLeading: false,
             expandedHeight: 190,
@@ -80,7 +79,6 @@ class _HomePageState extends ConsumerState<HomePage> {
 
   Widget _buildFloatingActionButton() {
     return FloatingActionButton(
-      backgroundColor: CustomColors.darkBlue,
       shape: const CircleBorder(),
       onPressed: () =>
           Navigator.pushNamed(context, NewEditTransactionPage.routeName),
@@ -145,7 +143,9 @@ class AccountSection extends ConsumerWidget {
                             children: [
                               Text(
                                 appLocalizations.noAccountAdded,
-                                style: const TextStyle(color: Colors.grey),
+                                style: TextStyle(
+                                  color: context.appColors.textSecondary,
+                                ),
                                 textAlign: TextAlign.start,
                               ),
                               TextButton(
@@ -156,7 +156,7 @@ class AccountSection extends ConsumerWidget {
                                           MaterialTapTargetSize.shrinkWrap,
                                       alignment: Alignment.center),
                                   onPressed: () => Navigator.of(context)
-                                      .pushNamed(NewAccountPage.routeName),
+                                      .pushNamed(NewEditAccountPage.routeName),
                                   child: Text(appLocalizations.addOne)),
                             ],
                           ),
@@ -199,13 +199,16 @@ class LastTransactionList extends ConsumerWidget {
               padding: const EdgeInsets.only(top: 8.0),
               child: Text(
                 appLocalizations.noTransactions,
-                style: const TextStyle(color: Colors.grey),
+                style: TextStyle(
+                  color: context.appColors.textSecondary,
+                ),
               ),
             ),
           );
         }
 
         return Column(
+          spacing: 8,
           children: [
             Padding(
               padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
@@ -242,7 +245,6 @@ class LastTransactionList extends ConsumerWidget {
                 ],
               ),
             ),
-            const SizedBox(height: 8),
             ListView.separated(
               padding: EdgeInsets.zero,
               shrinkWrap: true,

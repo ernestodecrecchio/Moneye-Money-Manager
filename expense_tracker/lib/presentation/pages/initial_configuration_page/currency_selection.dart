@@ -33,7 +33,7 @@ class _CurrencySelectionState extends ConsumerState<CurrencySelectionPage> {
               Text(
                 appLocalizations.selectCurrencyMsg1,
                 textAlign: TextAlign.center,
-                style: const TextStyle(
+                style: TextStyle(
                   color: Colors.white,
                   fontSize: 34,
                   fontWeight: FontWeight.w700,
@@ -45,7 +45,7 @@ class _CurrencySelectionState extends ConsumerState<CurrencySelectionPage> {
               Text(
                 appLocalizations.selectCurrencyMsg2,
                 textAlign: TextAlign.center,
-                style: const TextStyle(
+                style: TextStyle(
                   color: Colors.white,
                   fontSize: 20,
                   fontWeight: FontWeight.w600,
@@ -85,7 +85,7 @@ class _CurrencySelectionState extends ConsumerState<CurrencySelectionPage> {
                 alignment: Alignment.center,
                 child: Text(
                   '${element.code} - ${element.symbolNative}',
-                  style: const TextStyle(color: Colors.white),
+                  style: TextStyle(color: Colors.white),
                   textAlign: TextAlign.center,
                 ),
               ));

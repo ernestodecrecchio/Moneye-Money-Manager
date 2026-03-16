@@ -4,9 +4,10 @@ import 'package:expense_tracker/l10n/app_localizations.dart';
 import 'package:expense_tracker/domain/models/category.dart';
 import 'package:expense_tracker/presentation/pages/common/custom_elevated_button.dart';
 import 'package:expense_tracker/presentation/pages/common/custom_text_field.dart';
+import 'package:expense_tracker/presentation/pages/common/dialogs.dart';
 import 'package:expense_tracker/presentation/pages/common/inline_color_picker.dart';
 import 'package:expense_tracker/presentation/pages/common/inline_icon_picker.dart';
-import 'package:expense_tracker/style.dart';
+import 'package:expense_tracker/style/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -31,7 +32,7 @@ class _NewEditCategoryPageState extends ConsumerState<NewEditCategoryPage> {
   TextEditingController titleInput = TextEditingController();
   TextEditingController descriptionInput = TextEditingController();
 
-  Color selectedColor = CustomColors.darkBlue;
+  late Color selectedColor;
   String? selectedIconPath;
 
   bool get editMode {
@@ -47,6 +48,8 @@ class _NewEditCategoryPageState extends ConsumerState<NewEditCategoryPage> {
       descriptionInput.text = widget.initialCategorySettings!.description ?? '';
       selectedColor = widget.initialCategorySettings!.color;
       selectedIconPath = widget.initialCategorySettings!.iconPath;
+    } else {
+      selectedColor = CustomColors.defaultPickerColor;
     }
   }
 
@@ -63,12 +66,25 @@ class _NewEditCategoryPageState extends ConsumerState<NewEditCategoryPage> {
     final appLocalizations = ref.watch(appLocalizationsProvider);
     final isLoading = ref.watch(categoryMutationProvider).isLoading;
 
+    final List<Widget> actions = [];
+
+    if (widget.initialCategorySettings != null) {
+      final cateogry = widget.initialCategorySettings!;
+      actions.add(_buildDeleteAction(
+        context,
+        appLocalizations,
+        cateogry,
+      ));
+    }
+
     return Scaffold(
       appBar: AppBar(
-        title: Text(editMode
-            ? appLocalizations.editCategory
-            : appLocalizations.newCategory),
-        backgroundColor: CustomColors.blue,
+        title: Text(
+          editMode
+              ? appLocalizations.editCategory
+              : appLocalizations.newCategory,
+        ),
+        actions: actions,
       ),
       body: SafeArea(
         minimum: const EdgeInsets.symmetric(horizontal: 17),
@@ -92,6 +108,7 @@ class _NewEditCategoryPageState extends ConsumerState<NewEditCategoryPage> {
       child: Padding(
         padding: const EdgeInsets.only(top: 30),
         child: Column(
+          spacing: 14,
           children: [
             CustomTextField(
               controller: titleInput,
@@ -104,21 +121,12 @@ class _NewEditCategoryPageState extends ConsumerState<NewEditCategoryPage> {
                 return null;
               },
             ),
-            const SizedBox(
-              height: 14,
-            ),
             CustomTextField(
               controller: descriptionInput,
               label: appLocalizations.description,
               hintText: appLocalizations.insertTheDescription,
             ),
-            const SizedBox(
-              height: 14,
-            ),
             _buildColorPicker(appLocalizations),
-            const SizedBox(
-              height: 14,
-            ),
             _buildIconPicker(appLocalizations),
             const Spacer(),
             _buildSaveButton(appLocalizations, isLoading),
@@ -131,19 +139,16 @@ class _NewEditCategoryPageState extends ConsumerState<NewEditCategoryPage> {
   Widget _buildColorPicker(AppLocalizations appLocalizations) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
+      spacing: 5,
       children: [
         Text(
           appLocalizations.color,
-          style: const TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.w600,
-            color: CustomColors.lightBlack,
-          ),
-        ),
-        const SizedBox(
-          height: 5,
+          style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                fontWeight: FontWeight.bold,
+              ),
         ),
         InlineColorPicker(
+            itemShape: BoxShape.circle,
             selectedColor: selectedColor,
             onSelectedColor: (newSelectedColor) {
               selectedColor = newSelectedColor;
@@ -157,26 +162,21 @@ class _NewEditCategoryPageState extends ConsumerState<NewEditCategoryPage> {
   Widget _buildIconPicker(AppLocalizations appLocalizations) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
+      spacing: 5,
       children: [
         Text(
           appLocalizations.icon,
-          style: const TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.w600,
-            color: CustomColors.lightBlack,
-          ),
-        ),
-        const SizedBox(
-          height: 5,
+          style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                fontWeight: FontWeight.bold,
+              ),
         ),
         InlineIconPicker(
-            selectedIconPath: selectedIconPath,
-            backgorundColor: selectedColor,
-            onSelectedIcon: (newSelectedIconPath) {
-              selectedIconPath = newSelectedIconPath;
-
-              setState(() {});
-            }),
+          selectedIconPath: selectedIconPath,
+          backgroundColor: selectedColor,
+          itemShape: BoxShape.circle,
+          onSelectedIcon: (newSelectedIconPath) =>
+              selectedIconPath = newSelectedIconPath,
+        ),
       ],
     );
   }
@@ -224,5 +224,33 @@ class _NewEditCategoryPageState extends ConsumerState<NewEditCategoryPage> {
           widget.initialCategorySettings!,
           modifiedCategory,
         );
+  }
+
+  Widget _buildDeleteAction(BuildContext context,
+      AppLocalizations appLocalizations, Category category) {
+    return TextButton(
+      child: Text(
+        appLocalizations.delete,
+        style: TextStyle(
+          color: Theme.of(context).appBarTheme.foregroundColor,
+        ),
+      ),
+      onPressed: () async {
+        final navigator = Navigator.of(context);
+
+        final confirmed =
+            await showDeleteCategoryAlert(context, appLocalizations);
+
+        if (!mounted || !confirmed) return;
+
+        await ref
+            .read(categoryMutationProvider.notifier)
+            .deleteCategory(category);
+
+        if (!mounted) return;
+
+        navigator.pop();
+      },
+    );
   }
 }

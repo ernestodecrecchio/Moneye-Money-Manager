@@ -1,6 +1,8 @@
-import 'package:expense_tracker/style.dart';
+import 'package:equatable/equatable.dart';
+import 'package:expense_tracker/style/style.dart';
 import 'package:flutter/material.dart';
 
+const int otherAccountId = -1;
 const String accountsTable = 'accounts';
 
 class AccountFields {
@@ -19,7 +21,7 @@ class AccountFields {
   static const String iconPath = 'iconPath';
 }
 
-class Account {
+class Account extends Equatable {
   final int? id;
   final String name;
   final String? description;
@@ -30,6 +32,10 @@ class Account {
     return colorValue != null ? Color(colorValue!) : CustomColors.darkBlue;
   }
 
+  bool get isOtherAccount {
+    return id == otherAccountId;
+  }
+
   const Account({
     this.id,
     required this.name,
@@ -37,6 +43,9 @@ class Account {
     this.colorValue,
     this.iconPath,
   });
+
+  @override
+  List<Object?> get props => [id, name, description, colorValue, iconPath];
 
   Account copy({
     int? id,

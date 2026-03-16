@@ -168,6 +168,7 @@ class DatabaseTransactionHelper {
 
     // sqflite returns: [{ "total_balance": 123.45 }] OR [{ "total_balance": null }]
     final value = result.first['total_balance'];
+
     return (value is num) ? value.toDouble() : 0.0;
   }
 
@@ -175,6 +176,7 @@ class DatabaseTransactionHelper {
     DateTime? startDate,
     DateTime? endDate,
     Account? forAccount,
+    int? categoryId,
     bool? includeIncomes, // null = default = true
     bool? includeExpenses, // null = default = true
     int? limit,
@@ -201,9 +203,17 @@ class DatabaseTransactionHelper {
     }
 
     // Account filter
-    if (forAccount != null) {
+    if (forAccount?.isOtherAccount == true) {
+      conditions.add('${TransactionFields.accountId} IS NULL');
+    } else if (forAccount != null) {
       conditions.add('${TransactionFields.accountId} = ?');
       args.add(forAccount.id);
+    }
+
+    // Category filter
+    if (categoryId != null) {
+      conditions.add('${TransactionFields.categoryId} = ?');
+      args.add(categoryId);
     }
 
     // Income/Expense filtering

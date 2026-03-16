@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:expense_tracker/configuration/analytics_manager.dart';
 import 'package:expense_tracker/domain/models/currency.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -9,7 +10,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 final currencyListProvider = FutureProvider<List<Currency>>((ref) async {
   try {
     String jsonString =
-        await rootBundle.loadString('lib/Configuration/currencies.json');
+        await rootBundle.loadString('lib/configuration/currencies.json');
 
     final Map<String, dynamic> jsonData = json.decode(jsonString);
 
@@ -56,6 +57,8 @@ class CurrentCurrencyNotifier extends Notifier<Currency?> {
     state = newCurrency;
 
     final prefs = await SharedPreferences.getInstance();
+
+    await AnalyticsManager.logCurrencyChanged(newCurrency.code);
 
     return await prefs.setString(
         'selected_currency', jsonEncode(newCurrency.toJson()));
