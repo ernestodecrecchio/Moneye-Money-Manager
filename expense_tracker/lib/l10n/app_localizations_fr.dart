@@ -63,7 +63,17 @@ class AppLocalizationsFr extends AppLocalizations {
   String get back => 'Retour';
 
   @override
+  String get backupAndRestore => 'Sauvegarde et Restauration';
+
+  @override
+  String get backupAndRestoreOptionDescription =>
+      'Exportez ou importez vos données';
+
+  @override
   String get balance => 'Solde';
+
+  @override
+  String get bills => 'Factures';
 
   @override
   String get billsAndUtilities => 'Factures et services publics';
@@ -92,6 +102,17 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get color => 'Couleur';
+
+  @override
+  String get contacts => 'Contacts';
+
+  @override
+  String get contactsDescription =>
+      'Contactez le développeur pour signaler un bug ou suggérer une fonctionnalité';
+
+  @override
+  String get contactsPageHeader =>
+      'Vous pouvez me contacter pour signaler un bug, suggérer une fonctionnalité ou tout ce que vous voulez !';
 
   @override
   String get continueCTA => 'Continuer';
@@ -128,6 +149,9 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get dailyReminderChannelName => 'Rappels quotidiens';
+
+  @override
+  String get darkTheme => 'Sombre';
 
   @override
   String get date => 'Date';
@@ -171,6 +195,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get editTransaction => 'Modifier la transaction';
 
   @override
+  String get education => 'Éducation';
+
+  @override
   String get endConfigurationMsg1 =>
       'Félicitations ! Moneye est maintenant configurée et prête à vous aider à gérer vos dépenses efficacement.';
 
@@ -195,6 +222,16 @@ class AppLocalizationsFr extends AppLocalizations {
   String get expenses => 'Dépenses';
 
   @override
+  String get exportData => 'Exporter les données';
+
+  @override
+  String get exportError =>
+      'Une erreur est survenue lors de l\'exportation des données';
+
+  @override
+  String get exportSuccess => 'Données exportées avec succès';
+
+  @override
   String get feedback => 'Avis';
 
   @override
@@ -202,21 +239,7 @@ class AppLocalizationsFr extends AppLocalizations {
       'Vous aimez Moneye ? Faites-le nous savoir !';
 
   @override
-  String get contacts => 'Contacts';
-
-  @override
-  String get contactsDescription =>
-      'Contactez le développeur pour signaler un bug ou suggérer une fonctionnalité';
-
-  @override
-  String get contactsPageHeader =>
-      'Vous pouvez me contacter pour signaler un bug, suggérer une fonctionnalité ou tout ce que vous voulez !';
-
-  @override
-  String get reportBug => 'Signaler un bug';
-
-  @override
-  String get suggestFeature => 'Suggérer une fonctionnalité';
+  String get finance => 'Finance';
 
   @override
   String get financialOverviewForThisMonth => 'Aperçu financier de ce mois';
@@ -225,7 +248,24 @@ class AppLocalizationsFr extends AppLocalizations {
   String get foodAndDining => 'Alimentation et restaurants';
 
   @override
+  String get health => 'Santé';
+
+  @override
   String get icon => 'Icône';
+
+  @override
+  String get importData => 'Importer les données';
+
+  @override
+  String get importError =>
+      'Une erreur est survenue lors de l\'importation des données';
+
+  @override
+  String get importSuccess => 'Données importées avec succès';
+
+  @override
+  String get importWarning =>
+      'L\'importation d\'une sauvegarde supprimera toutes les données actuelles. Êtes-vous sûr de vouloir continuer ?';
 
   @override
   String get includeInReports => 'Inclure dans les rapports';
@@ -270,6 +310,9 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get lastTransactions => 'Dernières transactions';
+
+  @override
+  String get lightTheme => 'Clair';
 
   @override
   String get month => 'Mois';
@@ -347,7 +390,27 @@ class AppLocalizationsFr extends AppLocalizations {
       'Définir un rappel pour se souvenir d’ajouter de nouvelles transactions';
 
   @override
+  String get reportBug => 'Signaler un bug';
+
+  @override
+  String get resetData => 'Réinitialiser les données';
+
+  @override
+  String get resetError =>
+      'Une erreur est survenue lors de la réinitialisation des données';
+
+  @override
+  String get resetSuccess => 'Données réinitialisées avec succès';
+
+  @override
+  String get resetWarning =>
+      'Toutes vos données seront définitivement supprimées. Cette action est irréversible. Êtes-vous sûr de vouloir continuer ?';
+
+  @override
   String get save => 'Enregistrer';
+
+  @override
+  String get saveToDevice => 'Enregistrer sur l\'appareil';
 
   @override
   String get savings => 'Épargne';
@@ -404,16 +467,37 @@ class AppLocalizationsFr extends AppLocalizations {
   String get settings => 'Paramètres';
 
   @override
+  String get shareBackup => 'Partager la sauvegarde';
+
+  @override
+  String get shopping => 'Shopping';
+
+  @override
   String get skip => 'Passer';
+
+  @override
+  String get sports => 'Sports';
 
   @override
   String get subscriptions => 'Abonnements';
 
   @override
+  String get suggestFeature => 'Suggérer une fonctionnalité';
+
+  @override
   String get systemLanguageOption => 'Automatique (basé sur le système)';
 
   @override
+  String get systemTheme => 'Automatique';
+
+  @override
   String get testNotificationSent => 'Notification de test envoyée !';
+
+  @override
+  String get theme => 'Thème';
+
+  @override
+  String get themeOptionDescription => 'Changer l\'apparence de l\'application';
 
   @override
   String get thisMonth => 'Ce mois-ci';
@@ -459,21 +543,6 @@ class AppLocalizationsFr extends AppLocalizations {
   String get usageData => 'Modèles d\'utilisation de base';
 
   @override
-  String get theme => 'Thème';
-
-  @override
-  String get themeOptionDescription => 'Changer l\'apparence de l\'application';
-
-  @override
-  String get lightTheme => 'Clair';
-
-  @override
-  String get darkTheme => 'Sombre';
-
-  @override
-  String get systemTheme => 'Automatique';
-
-  @override
   String get version => 'Version';
 
   @override
@@ -499,6 +568,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get whatsNew => 'Quoi de neuf';
 
   @override
+  String get work => 'Travail';
+
+  @override
   String get year => 'Année';
 
   @override
@@ -512,76 +584,4 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get yourCategories => 'Vos catégories';
-
-  @override
-  String get health => 'Santé';
-
-  @override
-  String get sports => 'Sports';
-
-  @override
-  String get finance => 'Finance';
-
-  @override
-  String get shopping => 'Shopping';
-
-  @override
-  String get work => 'Travail';
-
-  @override
-  String get education => 'Éducation';
-
-  @override
-  String get bills => 'Factures';
-
-  @override
-  String get backupAndRestore => 'Sauvegarde et Restauration';
-
-  @override
-  String get backupAndRestoreOptionDescription =>
-      'Exportez ou importez vos données';
-
-  @override
-  String get exportData => 'Exporter les données';
-
-  @override
-  String get importData => 'Importer les données';
-
-  @override
-  String get importWarning =>
-      'L\'importation d\'une sauvegarde supprimera toutes les données actuelles. Êtes-vous sûr de vouloir continuer ?';
-
-  @override
-  String get importSuccess => 'Données importées avec succès';
-
-  @override
-  String get exportSuccess => 'Données exportées avec succès';
-
-  @override
-  String get importError =>
-      'Une erreur est survenue lors de l\'importation des données';
-
-  @override
-  String get exportError =>
-      'Une erreur est survenue lors de l\'exportation des données';
-
-  @override
-  String get saveToDevice => 'Enregistrer sur l\'appareil';
-
-  @override
-  String get shareBackup => 'Partager la sauvegarde';
-
-  @override
-  String get resetData => 'Réinitialiser les données';
-
-  @override
-  String get resetWarning =>
-      'Toutes vos données seront définitivement supprimées. Cette action est irréversible. Êtes-vous sûr de vouloir continuer ?';
-
-  @override
-  String get resetSuccess => 'Données réinitialisées avec succès';
-
-  @override
-  String get resetError =>
-      'Une erreur est survenue lors de la réinitialisation des données';
 }

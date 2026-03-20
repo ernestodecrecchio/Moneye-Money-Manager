@@ -63,7 +63,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get back => 'Back';
 
   @override
+  String get backupAndRestore => 'Backup & Restore';
+
+  @override
+  String get backupAndRestoreOptionDescription => 'Export or import your data';
+
+  @override
   String get balance => 'Balance';
+
+  @override
+  String get bills => 'Bills';
 
   @override
   String get billsAndUtilities => 'Bills & Utilities';
@@ -92,6 +101,17 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get color => 'Color';
+
+  @override
+  String get contacts => 'Contacts';
+
+  @override
+  String get contactsDescription =>
+      'Contact the developer to report a bug or suggest a feature';
+
+  @override
+  String get contactsPageHeader =>
+      'You can contact me to report a bug, suggest a feature, or whatever you want!';
 
   @override
   String get continueCTA => 'Continue';
@@ -128,6 +148,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get dailyReminderChannelName => 'Daily Reminders';
+
+  @override
+  String get darkTheme => 'Dark';
 
   @override
   String get date => 'Date';
@@ -171,6 +194,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get editTransaction => 'Edit transaction';
 
   @override
+  String get education => 'Education';
+
+  @override
   String get endConfigurationMsg1 =>
       'Congratulations! Moneye is now configured and ready to help you manage your expenses efficiently.';
 
@@ -195,6 +221,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String get expenses => 'Expenses';
 
   @override
+  String get exportData => 'Export data';
+
+  @override
+  String get exportError => 'An error occurred while exporting data';
+
+  @override
+  String get exportSuccess => 'Data exported successfully';
+
+  @override
   String get feedback => 'Feedback';
 
   @override
@@ -202,21 +237,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'Do you like Moneye? Let us know!';
 
   @override
-  String get contacts => 'Contacts';
-
-  @override
-  String get contactsDescription =>
-      'Contact the developer to report a bug or suggest a feature';
-
-  @override
-  String get contactsPageHeader =>
-      'You can contact me to report a bug, suggest a feature, or whatever you want!';
-
-  @override
-  String get reportBug => 'Report a bug';
-
-  @override
-  String get suggestFeature => 'Suggest a feature';
+  String get finance => 'Finance';
 
   @override
   String get financialOverviewForThisMonth =>
@@ -226,7 +247,23 @@ class AppLocalizationsEn extends AppLocalizations {
   String get foodAndDining => 'Food & Dining';
 
   @override
+  String get health => 'Health';
+
+  @override
   String get icon => 'Icon';
+
+  @override
+  String get importData => 'Import data';
+
+  @override
+  String get importError => 'An error occurred while importing data';
+
+  @override
+  String get importSuccess => 'Data imported successfully';
+
+  @override
+  String get importWarning =>
+      'Importing a backup will delete all current data. Are you sure you want to proceed?';
 
   @override
   String get includeInReports => 'Include in reports';
@@ -269,6 +306,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get lastTransactions => 'Last transactions';
+
+  @override
+  String get lightTheme => 'Light';
 
   @override
   String get month => 'Month';
@@ -346,7 +386,26 @@ class AppLocalizationsEn extends AppLocalizations {
       'Set a reminder to remember to insert new transactions';
 
   @override
+  String get reportBug => 'Report a bug';
+
+  @override
+  String get resetData => 'Reset data';
+
+  @override
+  String get resetError => 'An error occurred while resetting data';
+
+  @override
+  String get resetSuccess => 'Data reset successfully';
+
+  @override
+  String get resetWarning =>
+      'All your data will be permanently deleted. This action cannot be undone. Are you sure you want to proceed?';
+
+  @override
   String get save => 'Save';
+
+  @override
+  String get saveToDevice => 'Save to device';
 
   @override
   String get savings => 'Savings';
@@ -401,16 +460,37 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settings => 'Settings';
 
   @override
+  String get shareBackup => 'Share backup';
+
+  @override
+  String get shopping => 'Shopping';
+
+  @override
   String get skip => 'Skip';
+
+  @override
+  String get sports => 'Sports';
 
   @override
   String get subscriptions => 'Subscriptions';
 
   @override
+  String get suggestFeature => 'Suggest a feature';
+
+  @override
   String get systemLanguageOption => 'Automatic (based on the system)';
 
   @override
+  String get systemTheme => 'Automatic';
+
+  @override
   String get testNotificationSent => 'Test notification sent!';
+
+  @override
+  String get theme => 'Theme';
+
+  @override
+  String get themeOptionDescription => 'Change the app appearance';
 
   @override
   String get thisMonth => 'This month';
@@ -456,21 +536,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get usageData => 'Basic usage patterns';
 
   @override
-  String get theme => 'Theme';
-
-  @override
-  String get themeOptionDescription => 'Change the app appearance';
-
-  @override
-  String get lightTheme => 'Light';
-
-  @override
-  String get darkTheme => 'Dark';
-
-  @override
-  String get systemTheme => 'Automatic';
-
-  @override
   String get version => 'Version';
 
   @override
@@ -496,6 +561,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get whatsNew => 'What\'s new';
 
   @override
+  String get work => 'Work';
+
+  @override
   String get year => 'Year';
 
   @override
@@ -509,72 +577,4 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get yourCategories => 'Your categories';
-
-  @override
-  String get health => 'Health';
-
-  @override
-  String get sports => 'Sports';
-
-  @override
-  String get finance => 'Finance';
-
-  @override
-  String get shopping => 'Shopping';
-
-  @override
-  String get work => 'Work';
-
-  @override
-  String get education => 'Education';
-
-  @override
-  String get bills => 'Bills';
-
-  @override
-  String get backupAndRestore => 'Backup & Restore';
-
-  @override
-  String get backupAndRestoreOptionDescription => 'Export or import your data';
-
-  @override
-  String get exportData => 'Export data';
-
-  @override
-  String get importData => 'Import data';
-
-  @override
-  String get importWarning =>
-      'Importing a backup will delete all current data. Are you sure you want to proceed?';
-
-  @override
-  String get importSuccess => 'Data imported successfully';
-
-  @override
-  String get exportSuccess => 'Data exported successfully';
-
-  @override
-  String get importError => 'An error occurred while importing data';
-
-  @override
-  String get exportError => 'An error occurred while exporting data';
-
-  @override
-  String get saveToDevice => 'Save to device';
-
-  @override
-  String get shareBackup => 'Share backup';
-
-  @override
-  String get resetData => 'Reset data';
-
-  @override
-  String get resetWarning =>
-      'All your data will be permanently deleted. This action cannot be undone. Are you sure you want to proceed?';
-
-  @override
-  String get resetSuccess => 'Data reset successfully';
-
-  @override
-  String get resetError => 'An error occurred while resetting data';
 }
