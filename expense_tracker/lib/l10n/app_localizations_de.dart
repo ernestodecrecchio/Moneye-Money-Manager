@@ -587,26 +587,26 @@ class AppLocalizationsDe extends AppLocalizations {
   String get yourCategories => 'Ihre Kategorien';
 
   @override
-  String get repeatTransaction => 'Repeat transaction';
+  String get repeatTransaction => 'Transaktion wiederholen';
 
   @override
-  String get frequency => 'Frequency';
+  String get frequency => 'Häufigkeit';
 
   @override
-  String get daily => 'Daily';
+  String get daily => 'Täglich';
 
   @override
-  String get weekly => 'Weekly';
+  String get weekly => 'Wöchentlich';
 
   @override
-  String get monthly => 'Monthly';
+  String get monthly => 'Monatlich';
 
   @override
-  String get yearly => 'Yearly';
+  String get yearly => 'Jährlich';
 
   @override
-  String get interval => 'Interval';
+  String get interval => 'Intervall';
 
   @override
-  String get recurringTransactions => 'Recurring Transactions';
+  String get recurringTransactions => 'Wiederkehrende Transaktionen';
 }

@@ -177,5 +177,13 @@
     "yes": "sí",
     "yesterday": "Ayer",
     "yourAccounts": "Tus cuentas",
-    "yourCategories": "Tus categorías"
+    "yourCategories": "Tus categorías",
+    "repeatTransaction": "Repetir transacción",
+    "frequency": "Frecuencia",
+    "daily": "Diariamente",
+    "weekly": "Semanalmente",
+    "monthly": "Mensualmente",
+    "yearly": "Anualmente",
+    "interval": "Intervalo",
+    "recurringTransactions": "Transacciones recurrentes"
 }
