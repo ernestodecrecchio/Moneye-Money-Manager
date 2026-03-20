@@ -177,5 +177,20 @@
     "yes": "si",
     "yesterday": "Ieri",
     "yourAccounts": "I tuoi conti",
-    "yourCategories": "Le tue categorie"
+    "yourCategories": "Le tue categorie",
+    "health": "Salute",
+    "sports": "Sport",
+    "finance": "Finanza",
+    "shopping": "Shopping",
+    "work": "Lavoro",
+    "education": "Istruzione",
+    "bills": "Bollette",
+    "repeatTransaction": "Ripeti transazione",
+    "frequency": "Frequenza",
+    "daily": "Giornaliera",
+    "weekly": "Settimanale",
+    "monthly": "Mensile",
+    "yearly": "Annuale",
+    "interval": "Ogni",
+    "recurringTransactions": "Transazioni Ricorrenti"
 }

@@ -24,10 +24,10 @@ import 'package:expense_tracker/presentation/pages/new_edit_transaction_flow/new
 import 'package:expense_tracker/presentation/pages/options_page/currency_page/currency_page.dart';
 import 'package:expense_tracker/presentation/pages/options_page/language_page/languages_list_page.dart';
 import 'package:expense_tracker/presentation/pages/options_page/notification_page/notification_page.dart';
+import 'package:expense_tracker/presentation/pages/tab_bar_page.dart';
 import 'package:expense_tracker/presentation/pages/options_page/privacy_page/privacy_settings_page.dart';
 import 'package:expense_tracker/presentation/pages/options_page/theme_page/theme_selection_page.dart';
 import 'package:expense_tracker/presentation/pages/options_page/contacts_page/contacts_page.dart';
-import 'package:expense_tracker/presentation/pages/options_page/backup_restore_page/backup_restore_page.dart';
 import 'package:expense_tracker/presentation/pages/tab_bar_page.dart';
 import 'package:expense_tracker/application/common/notifiers/analytics_consent_provider.dart';
 import 'package:expense_tracker/application/common/notifiers/theme_provider.dart';
@@ -133,6 +133,11 @@ Future main() async {
 
   await NotificationManager.initNotificationManager();
 
+  // GENERATE RECURRING TRANSACTIONS
+  await container
+      .read(recurringTransactionGenerationServiceProvider)
+      .generateMissingTransactions();
+
   // VERSION CHECK
   final packageInfo = await PackageInfo.fromPlatform();
   final currentVersion = packageInfo.version;
@@ -235,13 +240,14 @@ class MyApp extends r.ConsumerWidget {
           LanguagesListPage.routeName: (context) => const LanguagesListPage(),
           CurrencyPage.routeName: (context) => const CurrencyPage(),
           ReminderPage.routeName: (context) => const ReminderPage(),
+          RecurringTransactionsListPage.routeName: (context) =>
+              const RecurringTransactionsListPage(),
           UpdateInfoPage.routeName: (context) => const UpdateInfoPage(),
           UpdateHistoryPage.routeName: (context) => const UpdateHistoryPage(),
           PrivacySettingsPage.routeName: (context) =>
               const PrivacySettingsPage(),
           ThemeSelectionPage.routeName: (context) => const ThemeSelectionPage(),
           ContactsPage.routeName: (context) => const ContactsPage(),
-          BackupRestorePage.routeName: (context) => const BackupRestorePage(),
         },
         onGenerateRoute: (settings) {
           switch (settings.name) {

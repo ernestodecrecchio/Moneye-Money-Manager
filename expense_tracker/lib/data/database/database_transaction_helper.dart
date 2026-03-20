@@ -3,6 +3,8 @@ import 'package:expense_tracker/data/database/database_types.dart';
 import 'package:expense_tracker/domain/models/account.dart';
 import 'package:expense_tracker/domain/models/category.dart';
 import 'package:expense_tracker/domain/models/transaction.dart';
+import 'package:expense_tracker/domain/models/recurring_rule.dart';
+import 'package:expense_tracker/data/database/database_recurring_rule_helper.dart';
 import 'package:expense_tracker/domain/models/transaction.dart' as trans;
 import 'package:expense_tracker/helper/date_time_helper.dart';
 import 'package:intl/intl.dart';
@@ -25,10 +27,17 @@ class DatabaseTransactionHelper {
       ${TransactionFields.accountId} ${DatabaseTypes.integerTypeNullable},
       ${TransactionFields.includeInReports} ${DatabaseTypes.integerType} DEFAULT 1,
       ${TransactionFields.isHidden} ${DatabaseTypes.integerType} DEFAULT 0,
+      ${TransactionFields.recurringId} ${DatabaseTypes.integerTypeNullable},
+      ${TransactionFields.isGenerated} ${DatabaseTypes.integerType} DEFAULT 0,
+      ${TransactionFields.originalDate} ${DatabaseTypes.textTypeNullable},
       FOREIGN KEY (${TransactionFields.categoryId}) REFERENCES $categoriesTable (${CategoryFields.id}) ON DELETE SET NULL ON UPDATE NO ACTION,
-      FOREIGN KEY (${TransactionFields.accountId}) REFERENCES $accountsTable (${AccountFields.id}) ON DELETE CASCADE ON UPDATE NO ACTION
+      FOREIGN KEY (${TransactionFields.accountId}) REFERENCES $accountsTable (${AccountFields.id}) ON DELETE CASCADE ON UPDATE NO ACTION,
+      FOREIGN KEY (${TransactionFields.recurringId}) REFERENCES $recurringRulesTable (${RecurringRuleFields.id}) ON DELETE SET NULL ON UPDATE NO ACTION
       )
     ''');
+
+    await db.execute(
+        'CREATE UNIQUE INDEX idx_recurring_unique ON $transactionsTable(${TransactionFields.recurringId}, ${TransactionFields.originalDate})');
   }
 
   // Update DB functions
@@ -39,6 +48,122 @@ class DatabaseTransactionHelper {
         '''ALTER TABLE $transactionsTable ADD ${TransactionFields.includeInReports} ${DatabaseTypes.integerType} DEFAULT 1''');
     batch.execute(
         '''ALTER TABLE $transactionsTable ADD ${TransactionFields.isHidden} ${DatabaseTypes.integerType} DEFAULT 0''');
+  }
+
+  static void updateTransactionTableV2toV3(Batch batch) {
+    batch.execute('''
+    CREATE TABLE transactions_migration (
+      ${TransactionFields.id} ${DatabaseTypes.idType},
+      ${TransactionFields.title} ${DatabaseTypes.textType},
+      ${TransactionFields.description} ${DatabaseTypes.textTypeNullable},
+      ${TransactionFields.amount} ${DatabaseTypes.realType},
+      ${TransactionFields.date} ${DatabaseTypes.dateTimeType},
+      ${TransactionFields.categoryId} ${DatabaseTypes.integerTypeNullable},
+      ${TransactionFields.accountId} ${DatabaseTypes.integerTypeNullable},
+      ${TransactionFields.includeInReports} ${DatabaseTypes.integerType} DEFAULT 1,
+      ${TransactionFields.isHidden} ${DatabaseTypes.integerType} DEFAULT 0,
+      ${TransactionFields.recurringId} ${DatabaseTypes.integerTypeNullable},
+      ${TransactionFields.isGenerated} ${DatabaseTypes.integerType} DEFAULT 0,
+      ${TransactionFields.originalDate} ${DatabaseTypes.textTypeNullable},
+      FOREIGN KEY (${TransactionFields.categoryId}) REFERENCES $categoriesTable (${CategoryFields.id}) ON DELETE SET NULL ON UPDATE NO ACTION,
+      FOREIGN KEY (${TransactionFields.accountId}) REFERENCES $accountsTable (${AccountFields.id}) ON DELETE CASCADE ON UPDATE NO ACTION,
+      FOREIGN KEY (${TransactionFields.recurringId}) REFERENCES $recurringRulesTable (${RecurringRuleFields.id}) ON DELETE SET NULL ON UPDATE NO ACTION
+      )
+    ''');
+
+    batch.execute('''
+    INSERT INTO transactions_migration (
+      ${TransactionFields.id}, ${TransactionFields.title}, ${TransactionFields.description}, ${TransactionFields.amount},
+      ${TransactionFields.date}, ${TransactionFields.categoryId}, ${TransactionFields.accountId},
+      ${TransactionFields.includeInReports}, ${TransactionFields.isHidden}, 
+      ${TransactionFields.isGenerated}
+    )
+    SELECT 
+      ${TransactionFields.id}, ${TransactionFields.title}, ${TransactionFields.description}, ${TransactionFields.amount},
+      ${TransactionFields.date}, ${TransactionFields.categoryId}, ${TransactionFields.accountId},
+      ${TransactionFields.includeInReports}, ${TransactionFields.isHidden}, 
+      0
+    FROM $transactionsTable
+    ''');
+
+    batch.execute('DROP TABLE $transactionsTable');
+
+    batch.execute('ALTER TABLE transactions_migration RENAME TO $transactionsTable');
+
+    batch.execute(
+        'CREATE UNIQUE INDEX idx_recurring_unique ON $transactionsTable(${TransactionFields.recurringId}, ${TransactionFields.originalDate})');
+  }
+
+  DateTime _computeNextOccurrence(RecurringRule rule, DateTime currentDate) {
+    switch (rule.frequency) {
+      case 'daily':
+        return currentDate.add(Duration(days: rule.frequencyInterval));
+      case 'weekly':
+        return currentDate.add(Duration(days: 7 * rule.frequencyInterval));
+      case 'monthly':
+        final nextMonth = DateTime(currentDate.year,
+            currentDate.month + rule.frequencyInterval, currentDate.day);
+        if (nextMonth.month !=
+                (currentDate.month + rule.frequencyInterval) % 12 &&
+            nextMonth.month != 12) {
+          return DateTime(currentDate.year,
+              currentDate.month + rule.frequencyInterval + 1, 0);
+        }
+        return nextMonth;
+      case 'yearly':
+        return DateTime(currentDate.year + rule.frequencyInterval,
+            currentDate.month, currentDate.day);
+      default:
+        return currentDate;
+    }
+  }
+
+  Future<void> generateRecurringTransactionsUntil(DateTime targetDate) async {
+    final rules =
+        await DatabaseRecurringRuleHelper.instance.getRecurringRules();
+    final db = await DatabaseHelper.instance.database;
+
+    for (var rule in rules) {
+      DateTime currentTarget = rule.lastGeneratedDate != null
+          ? _computeNextOccurrence(rule, rule.lastGeneratedDate!)
+          : rule.startDate;
+
+      bool generatedAny = false;
+
+      while (currentTarget.isBefore(targetDate) ||
+          currentTarget.isAtSameMomentAs(targetDate)) {
+        if (rule.endDate != null && currentTarget.isAfter(rule.endDate!)) break;
+
+        final transaction = trans.Transaction(
+          title: rule.title,
+          description: rule.description,
+          amount: rule.amount,
+          date: currentTarget,
+          categoryId: rule.categoryId,
+          accountId: rule.accountId,
+          includeInReports: rule.includeInReports,
+          isHidden: rule.isHidden,
+          recurringId: rule.id,
+          isGenerated: true,
+          originalDate: currentTarget,
+        );
+
+        try {
+          await db.insert(transactionsTable, transaction.toJson());
+        } on DatabaseException catch (e) {
+          if (!e.isUniqueConstraintError()) rethrow;
+        }
+
+        generatedAny = true;
+        rule.lastGeneratedDate = currentTarget;
+        currentTarget = _computeNextOccurrence(rule, currentTarget);
+      }
+
+      if (generatedAny) {
+        await DatabaseRecurringRuleHelper.instance
+            .updateRecurringRule(original: rule, modified: rule);
+      }
+    }
   }
 
   Future<trans.Transaction> insertTransaction(

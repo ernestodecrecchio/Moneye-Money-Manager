@@ -6,6 +6,7 @@ import 'package:expense_tracker/application/common/notifiers/notification_provid
 import 'package:expense_tracker/l10n/app_localizations.dart';
 import 'package:expense_tracker/presentation/pages/options_page/accounts_page/accounts_list_page.dart';
 import 'package:expense_tracker/presentation/pages/options_page/backup_restore_page/backup_restore_page.dart';
+import 'package:expense_tracker/presentation/pages/options_page/recurring_rules_page/recurring_rules_list_page.dart';
 import 'package:expense_tracker/presentation/pages/options_page/categories_page/categories_list_page.dart';
 import 'package:expense_tracker/presentation/pages/options_page/currency_page/currency_page.dart';
 import 'package:expense_tracker/presentation/pages/options_page/language_page/languages_list_page.dart';
@@ -65,6 +66,13 @@ class OptionsPage extends ConsumerWidget {
           ),
           const Divider(),
           OptionListTile(
+            title: appLocalizations.recurringTransactions,
+            leadingIcon: Icons.repeat_rounded,
+            onTap: () => Navigator.of(context)
+                .pushNamed(RecurringRulesListPage.routeName),
+          ),
+          const Divider(),
+          OptionListTile(
             title: appLocalizations.language,
             subtitle: appLocalizations.languageOptionDescription,
             leadingIcon: Icons.translate_rounded,
@@ -105,7 +113,8 @@ class OptionsPage extends ConsumerWidget {
             subtitle: appLocalizations.backupAndRestoreOptionDescription,
             leadingIcon: Icons.backup_rounded,
             enableRightArrow: true,
-            onTap: () => Navigator.of(context).pushNamed(BackupRestorePage.routeName),
+            onTap: () =>
+                Navigator.of(context).pushNamed(BackupRestorePage.routeName),
           ),
           const Divider(),
           OptionListTile(

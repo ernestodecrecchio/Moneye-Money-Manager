@@ -1,0 +1,105 @@
+const String recurringRulesTable = 'recurring_rules';
+
+class RecurringRuleFields {
+  static final List<String> values = [
+    id,
+    title,
+    description,
+    amount,
+    categoryId,
+    accountId,
+    includeInReports,
+    isHidden,
+    frequency,
+    frequencyInterval,
+    startDate,
+    endDate,
+    lastGeneratedDate,
+  ];
+
+  static const String id = '_id';
+  static const String title = 'title';
+  static const String description = 'description';
+  static const String amount = 'amount';
+  static const String categoryId = 'categoryId';
+  static const String accountId = 'accountId';
+  static const String includeInReports = 'includeInReports';
+  static const String isHidden = 'isHidden';
+  static const String frequency = 'frequency';
+  static const String frequencyInterval = 'frequencyInterval';
+  static const String startDate = 'startDate';
+  static const String endDate = 'endDate';
+  static const String lastGeneratedDate = 'lastGeneratedDate';
+}
+
+class RecurringRule {
+  int? id;
+  String title;
+  String? description;
+  double amount;
+  int? categoryId;
+  int? accountId;
+  bool includeInReports;
+  bool isHidden;
+  String frequency;
+  int frequencyInterval;
+  DateTime startDate;
+  DateTime? endDate;
+  DateTime? lastGeneratedDate;
+
+  RecurringRule({
+    this.id,
+    required this.title,
+    this.description,
+    required this.amount,
+    this.categoryId,
+    this.accountId,
+    this.includeInReports = true,
+    this.isHidden = false,
+    required this.frequency,
+    required this.frequencyInterval,
+    required this.startDate,
+    this.endDate,
+    this.lastGeneratedDate,
+  });
+
+  static RecurringRule fromJson(Map<String, Object?> json) => RecurringRule(
+        id: json[RecurringRuleFields.id] as int?,
+        title: json[RecurringRuleFields.title] as String,
+        description: json[RecurringRuleFields.description] as String?,
+        amount: json[RecurringRuleFields.amount] as double,
+        categoryId: json[RecurringRuleFields.categoryId] as int?,
+        accountId: json[RecurringRuleFields.accountId] as int?,
+        includeInReports:
+            (json[RecurringRuleFields.includeInReports] as int) == 1,
+        isHidden: (json[RecurringRuleFields.isHidden] as int) == 1,
+        frequency: json[RecurringRuleFields.frequency] as String,
+        frequencyInterval: json[RecurringRuleFields.frequencyInterval] as int,
+        startDate:
+            DateTime.parse(json[RecurringRuleFields.startDate] as String),
+        endDate: json[RecurringRuleFields.endDate] != null
+            ? DateTime.parse(json[RecurringRuleFields.endDate] as String)
+            : null,
+        lastGeneratedDate: json[RecurringRuleFields.lastGeneratedDate] != null
+            ? DateTime.parse(json[RecurringRuleFields.lastGeneratedDate] as String)
+            : null,
+      );
+
+  Map<String, Object?> toJson() => {
+        RecurringRuleFields.id: id,
+        RecurringRuleFields.title: title,
+        RecurringRuleFields.description: description,
+        RecurringRuleFields.amount: amount,
+        RecurringRuleFields.categoryId: categoryId,
+        RecurringRuleFields.accountId: accountId,
+        RecurringRuleFields.includeInReports: includeInReports ? 1 : 0,
+        RecurringRuleFields.isHidden: isHidden ? 1 : 0,
+        RecurringRuleFields.frequency: frequency,
+        RecurringRuleFields.frequencyInterval: frequencyInterval,
+        RecurringRuleFields.startDate: startDate.toIso8601String(),
+        if (endDate != null)
+          RecurringRuleFields.endDate: endDate!.toIso8601String(),
+        if (lastGeneratedDate != null)
+          RecurringRuleFields.lastGeneratedDate: lastGeneratedDate!.toIso8601String(),
+      };
+}

@@ -1,6 +1,7 @@
 import 'package:expense_tracker/data/database/database_account_helper.dart';
 import 'package:expense_tracker/data/database/database_category_helper.dart';
 import 'package:expense_tracker/data/database/database_transaction_helper.dart';
+import 'package:expense_tracker/data/database/database_recurring_rule_helper.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -22,7 +23,7 @@ class DatabaseHelper {
     final path = join(dbPath, 'moneye_db.db');
 
     return await openDatabase(path,
-        version: 2,
+        version: 3,
         onConfigure: _configureDB,
         onCreate: _createDB,
         onUpgrade: _upgradeDB);
@@ -36,18 +37,27 @@ class DatabaseHelper {
     await DatabaseCategoryHelper.inizializeTable(db);
     await DatabaseAccountHelper.inizializeTable(db);
     await DatabaseTransactionHelper.inizializeTable(db);
+    await DatabaseRecurringRuleHelper.inizializeTable(db);
   }
 
   Future _upgradeDB(Database db, int oldVersion, int newVersion) async {
     var batch = db.batch();
 
-    if (oldVersion == 1) {
+    if (oldVersion < 2) {
       _updateDBV1toV2(batch);
-      await batch.commit();
     }
+    if (oldVersion < 3) {
+      _updateDBV2toV3(batch);
+    }
+    await batch.commit();
   }
 
   void _updateDBV1toV2(Batch batch) {
     DatabaseTransactionHelper.updateTransactionTableV1toV2(batch);
+  }
+
+  void _updateDBV2toV3(Batch batch) {
+    DatabaseTransactionHelper.updateTransactionTableV2toV3(batch);
+    DatabaseRecurringRuleHelper.createTableV2toV3(batch);
   }
 }

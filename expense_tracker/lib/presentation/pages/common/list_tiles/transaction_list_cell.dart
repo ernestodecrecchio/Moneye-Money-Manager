@@ -10,6 +10,7 @@ import 'package:expense_tracker/application/common/notifiers/currency_provider.d
 import 'package:collection/collection.dart';
 import 'package:expense_tracker/presentation/pages/common/widgets/icon_item.dart';
 import 'package:expense_tracker/presentation/pages/new_edit_transaction_flow/new_edit_transaction_page.dart';
+import 'package:expense_tracker/application/recurring_rules/notifiers/queries/recurring_rules_list_notifier.dart';
 import 'package:expense_tracker/style/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -41,11 +42,58 @@ class TransactionListCell extends ConsumerWidget {
       startActionPane: _buildDeleteActionPane(context, ref, appLocalizations),
       endActionPane: _buildDeleteActionPane(context, ref, appLocalizations),
       child: InkWell(
-        onTap: () => Navigator.of(context).pushNamed(
-          NewEditTransactionPage.routeName,
-          arguments:
-              NewEditTransactionPageScreenArguments(transaction: transaction),
-        ),
+        onTap: () async {
+          if (transaction.isGenerated && transaction.recurringId != null) {
+            showModalBottomSheet(
+              context: context,
+              builder: (ctx) {
+                return SafeArea(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      ListTile(
+                        leading: const Icon(Icons.edit),
+                        title: Text(appLocalizations.editTransaction),
+                        onTap: () {
+                          Navigator.pop(ctx);
+                          Navigator.of(context).pushNamed(
+                            NewEditTransactionPage.routeName,
+                            arguments: NewEditTransactionPageScreenArguments(
+                                transaction: transaction),
+                          );
+                        },
+                      ),
+                      ListTile(
+                        leading: const Icon(Icons.repeat),
+                        title: const Text('Edit recurring rule'),
+                        onTap: () async {
+                          Navigator.pop(ctx);
+                          final ruleList =
+                              await ref.read(recurringRulesListProvider.future);
+                          final rule = ruleList.firstWhereOrNull(
+                              (r) => r.id == transaction.recurringId);
+                          if (rule != null && context.mounted) {
+                            Navigator.of(context).pushNamed(
+                              NewEditTransactionPage.routeName,
+                              arguments: NewEditTransactionPageScreenArguments(
+                                  recurringRule: rule),
+                            );
+                          }
+                        },
+                      ),
+                    ],
+                  ),
+                );
+              },
+            );
+          } else {
+            Navigator.of(context).pushNamed(
+              NewEditTransactionPage.routeName,
+              arguments: NewEditTransactionPageScreenArguments(
+                  transaction: transaction),
+            );
+          }
+        },
         child: Container(
           height: 64,
           padding:
@@ -149,12 +197,26 @@ class TransactionListCell extends ConsumerWidget {
     }
 
     return Flexible(
-      child: Text(
-        dateString,
-        style: TextStyle(
-          fontSize: 12,
-          color: context.appColors.textSecondary,
-        ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        spacing: 4,
+        children: [
+          if (transaction.isGenerated)
+            Icon(
+              Icons.repeat,
+              size: 14,
+              color: context.appColors.textSecondary,
+            ),
+          Flexible(
+            child: Text(
+              dateString,
+              style: TextStyle(
+                fontSize: 12,
+                color: context.appColors.textSecondary,
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

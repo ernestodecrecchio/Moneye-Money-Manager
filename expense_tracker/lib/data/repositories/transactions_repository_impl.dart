@@ -62,9 +62,8 @@ class TransactionsRepositoryImpl implements TransactionsRepository {
     );
   }
 
-  /// Returns a Map where for each month of the year, there is a sum of all the transactions amount
-  /* @override
-  Future<Map<int, double>> getMonthlyBalanceForYear({required int year}) async {
-    return dbHelper.getMonthlyBalanceForYear(year);
-  }*/
+  @override
+  Future<void> generateRecurringTransactionsUntil(DateTime targetDate) async {
+    return dbHelper.generateRecurringTransactionsUntil(targetDate);
+  }
 }

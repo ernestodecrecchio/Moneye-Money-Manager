@@ -6,11 +6,14 @@ import 'package:expense_tracker/l10n/app_localizations.dart';
 import 'package:expense_tracker/domain/models/account.dart';
 import 'package:expense_tracker/domain/models/category.dart';
 import 'package:expense_tracker/domain/models/transaction.dart';
+import 'package:expense_tracker/domain/models/recurring_rule.dart';
+import 'package:expense_tracker/application/recurring_rules/notifiers/mutations/recurring_rules_mutation_notifier.dart';
 import 'package:expense_tracker/application/accounts/notifiers/queries/accounts_list_notifier.dart';
 import 'package:expense_tracker/presentation/pages/common/custom_elevated_button.dart';
 import 'package:expense_tracker/presentation/pages/new_edit_transaction_flow/account_selector_dialog.dart';
 import 'package:expense_tracker/presentation/pages/common/custom_text_field.dart';
 import 'package:expense_tracker/presentation/pages/new_edit_transaction_flow/category_selector_dialog.dart';
+import 'package:expense_tracker/presentation/pages/common/custom_dropdown_button_form_field.dart';
 import 'package:expense_tracker/style/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -21,10 +24,11 @@ import 'package:intl/intl.dart';
 class NewEditTransactionPageScreenArguments {
   final bool? incomePreset;
   final Transaction? transaction;
+  final RecurringRule? recurringRule;
   final Account? account;
 
   NewEditTransactionPageScreenArguments(
-      {this.incomePreset, this.transaction, this.account});
+      {this.incomePreset, this.transaction, this.recurringRule, this.account});
 }
 
 class NewEditTransactionPage extends ConsumerStatefulWidget {
@@ -32,12 +36,14 @@ class NewEditTransactionPage extends ConsumerStatefulWidget {
 
   final bool? incomePreset;
   final Transaction? initialTransactionSettings;
+  final RecurringRule? initialRecurringRule;
   final Account? initialAccountSettings;
 
   const NewEditTransactionPage({
     super.key,
     this.incomePreset,
     this.initialTransactionSettings,
+    this.initialRecurringRule,
     this.initialAccountSettings,
   });
 
@@ -49,7 +55,8 @@ class NewEditTransactionPage extends ConsumerStatefulWidget {
 class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
     with SingleTickerProviderStateMixin {
   bool get editMode {
-    return widget.initialTransactionSettings != null;
+    return widget.initialTransactionSettings != null ||
+        widget.initialRecurringRule != null;
   }
 
   final _formKey = GlobalKey<FormState>();
@@ -64,6 +71,10 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
   TextEditingController dateInput = TextEditingController();
   TextEditingController categoryInput = TextEditingController();
   TextEditingController accountInput = TextEditingController();
+  TextEditingController intervalInput = TextEditingController(text: '1');
+
+  bool _isRecurring = false;
+  String _frequency = 'monthly';
 
   Category? selectedCategory;
   Account? selectedAccount;
@@ -78,7 +89,7 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
 
     _transactionTypeTabController = TabController(length: 2, vsync: this);
 
-    if (editMode) {
+    if (widget.initialTransactionSettings != null) {
       final initialTransaction = widget.initialTransactionSettings!;
 
       titleInput.text = initialTransaction.title;
@@ -116,6 +127,46 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
       }
 
       includeInReportCheckboxValue = initialTransaction.includeInReports;
+    } else if (widget.initialRecurringRule != null) {
+      _isRecurring = true;
+      final initialRule = widget.initialRecurringRule!;
+
+      titleInput.text = initialRule.title;
+      descriptionInput.text = initialRule.description ?? '';
+      valueInput.text = initialRule.amount.abs().toString();
+      dateInput.text = dateFormatter.format(initialRule.startDate).toString();
+      selectedDate = initialRule.startDate;
+
+      _transactionTypeTabController.index = initialRule.amount >= 0 ? 0 : 1;
+
+      if (initialRule.categoryId != null) {
+        selectedCategory = ref
+            .read(categoriesListProvider)
+            .asData
+            ?.value
+            .firstWhereOrNull(
+                (element) => element.id == initialRule.categoryId);
+
+        if (selectedCategory != null) {
+          categoryInput.text = selectedCategory!.name;
+        }
+      }
+
+      if (initialRule.accountId != null) {
+        selectedAccount = ref.read(accountsListProvider).maybeWhen(
+              data: (accountsList) => accountsList.firstWhereOrNull(
+                  (element) => element.id == initialRule.accountId!),
+              orElse: () => null,
+            );
+
+        if (selectedAccount != null) {
+          accountInput.text = selectedAccount!.name;
+        }
+      }
+
+      includeInReportCheckboxValue = initialRule.includeInReports;
+      _frequency = initialRule.frequency;
+      intervalInput.text = initialRule.frequencyInterval.toString();
     } else {
       titleInputFocusNode.requestFocus();
       dateInput.text = dateFormatter.format(selectedDate).toString();
@@ -149,6 +200,7 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
     dateInput.dispose();
     categoryInput.dispose();
     accountInput.dispose();
+    intervalInput.dispose();
 
     super.dispose();
   }
@@ -156,7 +208,10 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
   @override
   Widget build(BuildContext context) {
     final appLocalizations = ref.watch(appLocalizationsProvider);
-    final isLoading = ref.watch(transactionMutationProvider).isLoading;
+    final isTransactionLoading =
+        ref.watch(transactionMutationProvider).isLoading;
+    final isRuleLoading = ref.watch(recurringRulesMutationProvider).isLoading;
+    final isLoading = isTransactionLoading || isRuleLoading;
 
     return Scaffold(
       appBar: AppBar(
@@ -228,6 +283,70 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
               readOnly: true,
               onTap: () => _selectDate(),
             ),
+            if (!editMode || widget.initialRecurringRule != null)
+              Row(
+                children: [
+                  Text(
+                    appLocalizations.repeatTransaction,
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                          fontWeight: FontWeight.w600,
+                        ),
+                  ),
+                  const Spacer(),
+                  Switch(
+                    value: _isRecurring,
+                    onChanged: widget.initialRecurringRule != null
+                        ? null
+                        : (val) {
+                            setState(() {
+                              _isRecurring = val;
+                            });
+                          },
+                  )
+                ],
+              ),
+            if (_isRecurring) ...[
+              Row(
+                spacing: 14,
+                children: [
+                  Expanded(
+                    flex: 1,
+                    child: CustomTextField(
+                      controller: intervalInput,
+                      label: appLocalizations.interval,
+                      hintText: '1',
+                      keyboardType: TextInputType.number,
+                    ),
+                  ),
+                  Expanded(
+                    flex: 2,
+                    child: CustomDropdownButtonFormField<String>(
+                      label: appLocalizations.frequency,
+                      value: _frequency,
+                      items: [
+                        DropdownMenuItem(
+                            value: 'daily',
+                            child: Text(appLocalizations.daily)),
+                        DropdownMenuItem(
+                            value: 'weekly',
+                            child: Text(appLocalizations.weekly)),
+                        DropdownMenuItem(
+                            value: 'monthly',
+                            child: Text(appLocalizations.monthly)),
+                        DropdownMenuItem(
+                            value: 'yearly',
+                            child: Text(appLocalizations.yearly)),
+                      ],
+                      onChanged: widget.initialRecurringRule != null
+                          ? null
+                          : (val) {
+                              if (val != null) setState(() => _frequency = val);
+                            },
+                    ),
+                  ),
+                ],
+              ),
+            ],
             CustomTextField(
               controller: categoryInput,
               label: appLocalizations.category,
@@ -386,9 +505,28 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
         includeInReports: includeInReportCheckboxValue,
         isHidden: false);
 
-    await ref
-        .read(transactionMutationProvider.notifier)
-        .addTransaction(newTransaction);
+    if (_isRecurring) {
+      final newRule = RecurringRule(
+        title: titleInput.text,
+        description: descriptionInput.text,
+        amount: transactionValue,
+        startDate: selectedDate,
+        categoryId: selectedCategory?.id,
+        accountId: selectedAccount?.id,
+        includeInReports: includeInReportCheckboxValue,
+        isHidden: false,
+        frequency: _frequency,
+        frequencyInterval: int.tryParse(intervalInput.text) ?? 1,
+      );
+
+      await ref
+          .read(recurringRulesMutationProvider.notifier)
+          .addRecurringRule(newRule);
+    } else {
+      await ref
+          .read(transactionMutationProvider.notifier)
+          .addTransaction(newTransaction);
+    }
 
     final InAppReview inAppReview = InAppReview.instance;
 
@@ -418,8 +556,28 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
         isHidden: false,
       );
 
-      await ref.read(transactionMutationProvider.notifier).updateTransaction(
-          widget.initialTransactionSettings!, modifiedTransaction);
+      if (widget.initialRecurringRule != null) {
+        final modifiedRule = RecurringRule(
+          title: titleInput.text,
+          description: descriptionInput.text,
+          amount: transactionValue,
+          startDate: selectedDate,
+          categoryId: selectedCategory?.id,
+          accountId: selectedAccount?.id,
+          includeInReports: includeInReportCheckboxValue,
+          isHidden: false,
+          frequency: _frequency,
+          frequencyInterval: int.tryParse(intervalInput.text) ?? 1,
+        );
+        modifiedRule.id = widget.initialRecurringRule!.id;
+
+        await ref
+            .read(recurringRulesMutationProvider.notifier)
+            .updateRecurringRule(widget.initialRecurringRule!, modifiedRule);
+      } else {
+        await ref.read(transactionMutationProvider.notifier).updateTransaction(
+            widget.initialTransactionSettings!, modifiedTransaction);
+      }
     }
   }
 
