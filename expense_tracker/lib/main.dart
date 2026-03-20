@@ -41,6 +41,7 @@ import 'presentation/pages/account_detail_page/transaction_list_for_category_pag
 import 'package:timezone/data/latest_all.dart';
 import 'package:expense_tracker/presentation/pages/options_page/update_history_page/update_history_page.dart';
 import 'package:expense_tracker/presentation/pages/options_page/update_history_page/update_info_page.dart';
+import 'package:expense_tracker/presentation/pages/options_page/recurring_rules_page/recurring_rules_list_page.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:flutter_timezone/flutter_timezone.dart';
 import 'package:timezone/timezone.dart';
@@ -240,6 +241,8 @@ class MyApp extends r.ConsumerWidget {
               const PrivacySettingsPage(),
           ThemeSelectionPage.routeName: (context) => const ThemeSelectionPage(),
           ContactsPage.routeName: (context) => const ContactsPage(),
+          RecurringRulesListPage.routeName: (context) =>
+              const RecurringRulesListPage(),
         },
         onGenerateRoute: (settings) {
           switch (settings.name) {
@@ -273,6 +276,7 @@ class MyApp extends r.ConsumerWidget {
 
                 final incomePreset = args?.incomePreset;
                 final transaction = args?.transaction;
+                final recurringRule = args?.recurringRule;
                 final account = args?.account;
 
                 return MaterialPageRoute(
@@ -280,6 +284,7 @@ class MyApp extends r.ConsumerWidget {
                   builder: (context) => NewEditTransactionPage(
                     incomePreset: incomePreset,
                     initialTransactionSettings: transaction,
+                    initialRecurringRule: recurringRule,
                     initialAccountSettings: account,
                   ),
                 );

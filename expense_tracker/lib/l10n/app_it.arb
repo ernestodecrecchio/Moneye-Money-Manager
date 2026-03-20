@@ -162,5 +162,13 @@
     "shopping": "Shopping",
     "work": "Lavoro",
     "education": "Istruzione",
-    "bills": "Bollette"
+    "bills": "Bollette",
+    "repeatTransaction": "Ripeti transazione",
+    "frequency": "Frequenza",
+    "daily": "Giornaliera",
+    "weekly": "Settimanale",
+    "monthly": "Mensile",
+    "yearly": "Annuale",
+    "interval": "Ogni",
+    "recurringTransactions": "Transazioni Ricorrenti"
 }

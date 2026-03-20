@@ -11,7 +11,20 @@ class RecurringRulesRepositoryImpl implements RecurringRulesRepository {
   }
 
   @override
-  Future<RecurringRule> insertRecurringRule({required RecurringRule rule}) async {
+  Future<RecurringRule> insertRecurringRule(
+      {required RecurringRule rule}) async {
     return dbHelper.insertRecurringRule(rule: rule);
+  }
+
+  @override
+  Future<bool> updateRecurringRule(
+      {required RecurringRule original,
+      required RecurringRule modified}) async {
+    return dbHelper.updateRecurringRule(original: original, modified: modified);
+  }
+
+  @override
+  Future<int> deleteRecurringRule({required RecurringRule rule}) async {
+    return dbHelper.deleteRecurringRule(rule: rule);
   }
 }

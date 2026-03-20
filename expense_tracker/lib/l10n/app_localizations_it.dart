@@ -531,4 +531,28 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get bills => 'Bollette';
+
+  @override
+  String get repeatTransaction => 'Ripeti transazione';
+
+  @override
+  String get frequency => 'Frequenza';
+
+  @override
+  String get daily => 'Giornaliera';
+
+  @override
+  String get weekly => 'Settimanale';
+
+  @override
+  String get monthly => 'Mensile';
+
+  @override
+  String get yearly => 'Annuale';
+
+  @override
+  String get interval => 'Ogni';
+
+  @override
+  String get recurringTransactions => 'Transazioni Ricorrenti';
 }

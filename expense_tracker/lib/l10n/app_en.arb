@@ -162,5 +162,13 @@
     "shopping": "Shopping",
     "work": "Work",
     "education": "Education",
-    "bills": "Bills"
+    "bills": "Bills",
+    "repeatTransaction": "Repeat transaction",
+    "frequency": "Frequency",
+    "daily": "Daily",
+    "weekly": "Weekly",
+    "monthly": "Monthly",
+    "yearly": "Yearly",
+    "interval": "Interval",
+    "recurringTransactions": "Recurring Transactions"
 }

@@ -25,6 +25,7 @@ class DatabaseRecurringRuleHelper {
       ${RecurringRuleFields.frequencyInterval} ${DatabaseTypes.integerType},
       ${RecurringRuleFields.startDate} ${DatabaseTypes.dateTimeType},
       ${RecurringRuleFields.endDate} ${DatabaseTypes.textTypeNullable},
+      ${RecurringRuleFields.lastGeneratedDate} ${DatabaseTypes.textTypeNullable},
       FOREIGN KEY (${RecurringRuleFields.categoryId}) REFERENCES $categoriesTable (${CategoryFields.id}) ON DELETE SET NULL ON UPDATE NO ACTION,
       FOREIGN KEY (${RecurringRuleFields.accountId}) REFERENCES $accountsTable (${AccountFields.id}) ON DELETE CASCADE ON UPDATE NO ACTION
     )
@@ -46,6 +47,7 @@ class DatabaseRecurringRuleHelper {
       ${RecurringRuleFields.frequencyInterval} ${DatabaseTypes.integerType},
       ${RecurringRuleFields.startDate} ${DatabaseTypes.dateTimeType},
       ${RecurringRuleFields.endDate} ${DatabaseTypes.textTypeNullable},
+      ${RecurringRuleFields.lastGeneratedDate} ${DatabaseTypes.textTypeNullable},
       FOREIGN KEY (${RecurringRuleFields.categoryId}) REFERENCES $categoriesTable (${CategoryFields.id}) ON DELETE SET NULL ON UPDATE NO ACTION,
       FOREIGN KEY (${RecurringRuleFields.accountId}) REFERENCES $accountsTable (${AccountFields.id}) ON DELETE CASCADE ON UPDATE NO ACTION
     )
@@ -65,5 +67,29 @@ class DatabaseRecurringRuleHelper {
 
     rule.id = id;
     return rule;
+  }
+
+  Future<bool> updateRecurringRule({
+    required RecurringRule original,
+    required RecurringRule modified,
+  }) async {
+    final db = await DatabaseHelper.instance.database;
+    final values = modified.toJson();
+    values.remove(RecurringRuleFields
+        .id); // Remove id from values to avoid error while updating the recurring rule avoiding to update the id
+
+    if (await db.update(recurringRulesTable, values,
+            where: '${RecurringRuleFields.id} = ?', whereArgs: [original.id]) >
+        0) {
+      return true;
+    }
+    return false;
+  }
+
+  Future<int> deleteRecurringRule({required RecurringRule rule}) async {
+    final db = await DatabaseHelper.instance.database;
+
+    return db.delete(recurringRulesTable,
+        where: '${RecurringRuleFields.id} = ?', whereArgs: [rule.id]);
   }
 }

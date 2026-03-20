@@ -5,6 +5,7 @@ import 'package:expense_tracker/application/common/notifiers/currency_provider.d
 import 'package:expense_tracker/application/common/notifiers/locale_provider.dart';
 import 'package:expense_tracker/application/common/notifiers/notification_provider.dart';
 import 'package:expense_tracker/presentation/pages/options_page/accounts_page/accounts_list_page.dart';
+import 'package:expense_tracker/presentation/pages/options_page/recurring_rules_page/recurring_rules_list_page.dart';
 import 'package:expense_tracker/presentation/pages/options_page/categories_page/categories_list_page.dart';
 import 'package:expense_tracker/presentation/pages/options_page/currency_page/currency_page.dart';
 import 'package:expense_tracker/presentation/pages/options_page/language_page/languages_list_page.dart';
@@ -61,6 +62,13 @@ class OptionsPage extends ConsumerWidget {
             leadingIcon: Icons.account_balance_rounded,
             onTap: () =>
                 Navigator.of(context).pushNamed(AccountsListPage.routeName),
+          ),
+          const Divider(),
+          OptionListTile(
+            title: appLocalizations.recurringTransactions,
+            leadingIcon: Icons.repeat_rounded,
+            onTap: () => Navigator.of(context)
+                .pushNamed(RecurringRulesListPage.routeName),
           ),
           const Divider(),
           OptionListTile(

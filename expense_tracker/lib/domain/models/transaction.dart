@@ -101,8 +101,8 @@ class Transaction {
             (json[TransactionFields.isHidden] as int) == 1, // cast to bool
         recurringId: json[TransactionFields.recurringId] as int?,
         isGenerated: (json[TransactionFields.isGenerated] as int?) == 1,
-        originalDate: json[TransactionFields.originalDate] != null 
-            ? DateTime.parse(json[TransactionFields.originalDate] as String) 
+        originalDate: json[TransactionFields.originalDate] != null
+            ? DateTime.parse(json[TransactionFields.originalDate] as String)
             : null,
       );
 
@@ -118,15 +118,27 @@ class Transaction {
         TransactionFields.isHidden: isHidden ? 1 : 0,
         TransactionFields.recurringId: recurringId,
         TransactionFields.isGenerated: isGenerated ? 1 : 0,
-        if (originalDate != null) TransactionFields.originalDate: originalDate!.toIso8601String(),
+        if (originalDate != null)
+          TransactionFields.originalDate: originalDate!.toIso8601String(),
       };
 
   @override
   operator ==(other) => other is Transaction && other.id == id;
 
   @override
-  int get hashCode => Object.hash(id, title, description, amount, date,
-      categoryId, accountId, includeInReports, isHidden, recurringId, isGenerated, originalDate);
+  int get hashCode => Object.hash(
+      id,
+      title,
+      description,
+      amount,
+      date,
+      categoryId,
+      accountId,
+      includeInReports,
+      isHidden,
+      recurringId,
+      isGenerated,
+      originalDate);
 
   @override
   String toString() {

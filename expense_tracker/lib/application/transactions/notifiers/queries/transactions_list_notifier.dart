@@ -15,6 +15,9 @@ class TransactionsListNotifier extends AsyncNotifier<List<Transaction>> {
 
   @override
   Future<List<Transaction>> build() async {
+    // Trigger lazy generation of recurring transactions up to today
+    await _repo.generateRecurringTransactionsUntil(DateTime.now());
+
     return _repo.getTransactions(
       startDate: params.startDate,
       endDate: params.endDate,
