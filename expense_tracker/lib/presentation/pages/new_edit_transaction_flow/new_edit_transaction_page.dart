@@ -13,6 +13,7 @@ import 'package:expense_tracker/presentation/pages/common/custom_elevated_button
 import 'package:expense_tracker/presentation/pages/new_edit_transaction_flow/account_selector_dialog.dart';
 import 'package:expense_tracker/presentation/pages/common/custom_text_field.dart';
 import 'package:expense_tracker/presentation/pages/new_edit_transaction_flow/category_selector_dialog.dart';
+import 'package:expense_tracker/presentation/pages/common/custom_dropdown_button_form_field.dart';
 import 'package:expense_tracker/style/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -319,16 +320,9 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
                   ),
                   Expanded(
                     flex: 2,
-                    child: DropdownButtonFormField<String>(
-                      decoration: InputDecoration(
-                        labelText: appLocalizations.frequency,
-                        labelStyle: TextStyle(
-                            color: Theme.of(context).colorScheme.primary),
-                        border: const OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(10)),
-                        ),
-                      ),
-                      initialValue: _frequency,
+                    child: CustomDropdownButtonFormField<String>(
+                      label: appLocalizations.frequency,
+                      value: _frequency,
                       items: [
                         DropdownMenuItem(
                             value: 'daily',

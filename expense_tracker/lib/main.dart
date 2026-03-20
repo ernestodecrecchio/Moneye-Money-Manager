@@ -56,6 +56,7 @@ Future main() async {
 
   await Firebase.initializeApp();
 
+  // SETTING UP CRASHLYTICS
   // Explicitly enable Crashlytics for app stability diagnostics
   await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(true);
 
