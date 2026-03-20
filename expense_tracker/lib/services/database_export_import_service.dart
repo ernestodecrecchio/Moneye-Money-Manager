@@ -4,9 +4,11 @@ import 'dart:typed_data';
 import 'package:expense_tracker/data/database/database_account_helper.dart';
 import 'package:expense_tracker/data/database/database_category_helper.dart';
 import 'package:expense_tracker/data/database/database_transaction_helper.dart';
+import 'package:expense_tracker/data/database/database_recurring_rule_helper.dart';
 import 'package:expense_tracker/data/database/database_helper.dart';
 import 'package:expense_tracker/domain/models/account.dart';
 import 'package:expense_tracker/domain/models/category.dart';
+import 'package:expense_tracker/domain/models/recurring_rule.dart';
 import 'package:expense_tracker/domain/models/transaction.dart' as trans;
 import 'package:archive/archive.dart';
 import 'package:file_picker/file_picker.dart';
@@ -31,6 +33,8 @@ class DatabaseExportImportService {
       true,
       null,
     );
+    final recurringRules =
+        await DatabaseRecurringRuleHelper.instance.getRecurringRules();
 
     final backupData = {
       'version': 1,
@@ -39,6 +43,7 @@ class DatabaseExportImportService {
       'data': {
         'categories': categories.map((e) => e.toJson()).toList(),
         'accounts': accounts.map((e) => e.toJson()).toList(),
+        'recurringRules': recurringRules.map((e) => e.toJson()).toList(),
         'transactions': transactions.map((e) => e.toJson()).toList(),
       },
     };
@@ -141,7 +146,8 @@ class DatabaseExportImportService {
 
     if (!data.containsKey('categories') ||
         !data.containsKey('accounts') ||
-        !data.containsKey('transactions')) {
+        !data.containsKey('transactions') ||
+        !data.containsKey('recurringRules')) {
       throw Exception('Backup file is missing required data components');
     }
 
@@ -150,6 +156,7 @@ class DatabaseExportImportService {
     await db.transaction((txn) async {
       // Clear existing data
       await txn.delete(trans.transactionsTable);
+      await txn.delete(recurringRulesTable);
       await txn.delete(accountsTable);
       await txn.delete(categoriesTable);
 
@@ -163,6 +170,12 @@ class DatabaseExportImportService {
       final accountsJson = data['accounts'] as List;
       for (var accJson in accountsJson) {
         await txn.insert(accountsTable, accJson as Map<String, dynamic>);
+      }
+
+      // Import Recurring Rules
+      final recurringRulesJson = data['recurringRules'] as List;
+      for (var ruleJson in recurringRulesJson) {
+        await txn.insert(recurringRulesTable, ruleJson as Map<String, dynamic>);
       }
 
       // Import Transactions
@@ -181,6 +194,7 @@ class DatabaseExportImportService {
 
     await db.transaction((txn) async {
       await txn.delete(trans.transactionsTable);
+      await txn.delete(recurringRulesTable);
       await txn.delete(accountsTable);
       await txn.delete(categoriesTable);
     });
