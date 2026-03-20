@@ -94,29 +94,7 @@ class DatabaseTransactionHelper {
         'CREATE UNIQUE INDEX idx_recurring_unique ON $transactionsTable(${TransactionFields.recurringId}, ${TransactionFields.originalDate})');
   }
 
-  DateTime _computeNextOccurrence(RecurringRule rule, DateTime currentDate) {
-    switch (rule.frequency) {
-      case 'daily':
-        return currentDate.add(Duration(days: rule.frequencyInterval));
-      case 'weekly':
-        return currentDate.add(Duration(days: 7 * rule.frequencyInterval));
-      case 'monthly':
-        final nextMonth = DateTime(currentDate.year,
-            currentDate.month + rule.frequencyInterval, currentDate.day);
-        if (nextMonth.month !=
-                (currentDate.month + rule.frequencyInterval) % 12 &&
-            nextMonth.month != 12) {
-          return DateTime(currentDate.year,
-              currentDate.month + rule.frequencyInterval + 1, 0);
-        }
-        return nextMonth;
-      case 'yearly':
-        return DateTime(currentDate.year + rule.frequencyInterval,
-            currentDate.month, currentDate.day);
-      default:
-        return currentDate;
-    }
-  }
+
 
   Future<void> generateRecurringTransactionsUntil(DateTime targetDate) async {
     final rules =
@@ -124,28 +102,21 @@ class DatabaseTransactionHelper {
     final db = await DatabaseHelper.instance.database;
 
     for (var rule in rules) {
-      DateTime currentTarget = rule.lastGeneratedDate != null
-          ? _computeNextOccurrence(rule, rule.lastGeneratedDate!)
-          : rule.startDate;
-
       bool generatedAny = false;
 
-      while (currentTarget.isBefore(targetDate) ||
-          currentTarget.isAtSameMomentAs(targetDate)) {
-        if (rule.endDate != null && currentTarget.isAfter(rule.endDate!)) break;
-
+      for (final occurrenceDate in rule.generateOccurrences(until: targetDate)) {
         final transaction = trans.Transaction(
           title: rule.title,
           description: rule.description,
           amount: rule.amount,
-          date: currentTarget,
+          date: occurrenceDate,
           categoryId: rule.categoryId,
           accountId: rule.accountId,
           includeInReports: rule.includeInReports,
           isHidden: rule.isHidden,
           recurringId: rule.id,
           isGenerated: true,
-          originalDate: currentTarget,
+          originalDate: occurrenceDate,
         );
 
         try {
@@ -155,8 +126,7 @@ class DatabaseTransactionHelper {
         }
 
         generatedAny = true;
-        rule.lastGeneratedDate = currentTarget;
-        currentTarget = _computeNextOccurrence(rule, currentTarget);
+        rule.lastGeneratedDate = occurrenceDate;
       }
 
       if (generatedAny) {

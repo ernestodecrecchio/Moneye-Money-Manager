@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:expense_tracker/configuration/notification_manager.dart';
 import 'package:expense_tracker/configuration/analytics_manager.dart';
+import 'package:expense_tracker/presentation/pages/options_page/backup_restore_page/backup_restore_page.dart';
 import 'package:expense_tracker/presentation/pages/options_page/recurring_rules_page/recurring_rules_list_page.dart';
 import 'package:expense_tracker/services/asset_registry.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -243,6 +244,7 @@ class MyApp extends r.ConsumerWidget {
               const PrivacySettingsPage(),
           ThemeSelectionPage.routeName: (context) => const ThemeSelectionPage(),
           ContactsPage.routeName: (context) => const ContactsPage(),
+          BackupRestorePage.routeName: (context) => const BackupRestorePage(),
         },
         onGenerateRoute: (settings) {
           switch (settings.name) {

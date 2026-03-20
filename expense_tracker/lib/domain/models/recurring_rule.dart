@@ -100,6 +100,43 @@ class RecurringRule {
         if (endDate != null)
           RecurringRuleFields.endDate: endDate!.toIso8601String(),
         if (lastGeneratedDate != null)
-          RecurringRuleFields.lastGeneratedDate: lastGeneratedDate!.toIso8601String(),
+          RecurringRuleFields.lastGeneratedDate:
+              lastGeneratedDate!.toIso8601String(),
       };
+
+  DateTime _getNextOccurrenceFrom(DateTime from) {
+    switch (frequency) {
+      case 'daily':
+        return from.add(Duration(days: frequencyInterval));
+      case 'weekly':
+        return from.add(Duration(days: 7 * frequencyInterval));
+      case 'monthly':
+        final nextMonth =
+            DateTime(from.year, from.month + frequencyInterval, from.day);
+        if (nextMonth.month != (from.month + frequencyInterval) % 12 &&
+            nextMonth.month != 12) {
+          return DateTime(from.year, from.month + frequencyInterval + 1, 0);
+        }
+        return nextMonth;
+      case 'yearly':
+        return DateTime(from.year + frequencyInterval, from.month, from.day);
+      default:
+        return from;
+    }
+  }
+
+  DateTime get nextOccurrence {
+    return lastGeneratedDate != null
+        ? _getNextOccurrenceFrom(lastGeneratedDate!)
+        : startDate;
+  }
+
+  Iterable<DateTime> generateOccurrences({required DateTime until}) sync* {
+    DateTime current = nextOccurrence;
+    while (current.isBefore(until) || current.isAtSameMomentAs(until)) {
+      if (endDate != null && current.isAfter(endDate!)) break;
+      yield current;
+      current = _getNextOccurrenceFrom(current);
+    }
+  }
 }

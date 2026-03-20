@@ -101,7 +101,7 @@ class RecurringRulesListPage extends ConsumerWidget {
           style: const TextStyle(fontWeight: FontWeight.bold),
         ),
         subtitle: Text(
-            '$frequencyText\nStart: ${dateFormatter.format(rule.startDate)}'),
+            '$frequencyText\nStart: ${dateFormatter.format(rule.startDate)}\nNext: ${dateFormatter.format(rule.nextOccurrence)}'),
         isThreeLine: true,
         trailing: Text(
           rule.amount.toStringAsFixedRoundedWithCurrency(
