@@ -57,7 +57,7 @@ class DatabaseHelper {
   }
 
   void _updateDBV2toV3(Batch batch) {
-    DatabaseTransactionHelper.updateTransactionTableV2toV3(batch);
     DatabaseRecurringRuleHelper.createTableV2toV3(batch);
+    DatabaseTransactionHelper.updateTransactionTableV2toV3(batch);
   }
 }
