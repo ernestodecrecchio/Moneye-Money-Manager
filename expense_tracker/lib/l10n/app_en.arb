@@ -173,5 +173,9 @@
     "importError": "An error occurred while importing data",
     "exportError": "An error occurred while exporting data",
     "saveToDevice": "Save to device",
-    "shareBackup": "Share backup"
+    "shareBackup": "Share backup",
+    "resetData": "Reset data",
+    "resetWarning": "All your data will be permanently deleted. This action cannot be undone. Are you sure you want to proceed?",
+    "resetSuccess": "Data reset successfully",
+    "resetError": "An error occurred while resetting data"
 }

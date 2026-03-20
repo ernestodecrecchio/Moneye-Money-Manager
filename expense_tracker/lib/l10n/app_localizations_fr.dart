@@ -535,36 +535,53 @@ class AppLocalizationsFr extends AppLocalizations {
   String get bills => 'Factures';
 
   @override
-  String get backupAndRestore => 'Backup & Restore';
+  String get backupAndRestore => 'Sauvegarde et Restauration';
 
   @override
-  String get backupAndRestoreOptionDescription => 'Export or import your data';
+  String get backupAndRestoreOptionDescription =>
+      'Exportez ou importez vos données';
 
   @override
-  String get exportData => 'Export data';
+  String get exportData => 'Exporter les données';
 
   @override
-  String get importData => 'Import data';
+  String get importData => 'Importer les données';
 
   @override
   String get importWarning =>
-      'Importing a backup will delete all current data. Are you sure you want to proceed?';
+      'L\'importation d\'une sauvegarde supprimera toutes les données actuelles. Êtes-vous sûr de vouloir continuer ?';
 
   @override
-  String get importSuccess => 'Data imported successfully';
+  String get importSuccess => 'Données importées avec succès';
 
   @override
-  String get exportSuccess => 'Data exported successfully';
+  String get exportSuccess => 'Données exportées avec succès';
 
   @override
-  String get importError => 'An error occurred while importing data';
+  String get importError =>
+      'Une erreur est survenue lors de l\'importation des données';
 
   @override
-  String get exportError => 'An error occurred while exporting data';
+  String get exportError =>
+      'Une erreur est survenue lors de l\'exportation des données';
 
   @override
-  String get saveToDevice => 'Save to device';
+  String get saveToDevice => 'Enregistrer sur l\'appareil';
 
   @override
-  String get shareBackup => 'Share backup';
+  String get shareBackup => 'Partager la sauvegarde';
+
+  @override
+  String get resetData => 'Réinitialiser les données';
+
+  @override
+  String get resetWarning =>
+      'Toutes vos données seront définitivement supprimées. Cette action est irréversible. Êtes-vous sûr de vouloir continuer ?';
+
+  @override
+  String get resetSuccess => 'Données réinitialisées avec succès';
+
+  @override
+  String get resetError =>
+      'Une erreur est survenue lors de la réinitialisation des données';
 }

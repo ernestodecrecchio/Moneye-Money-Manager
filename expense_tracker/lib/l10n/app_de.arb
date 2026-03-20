@@ -162,5 +162,20 @@
     "shopping": "Shopping",
     "work": "Arbeit",
     "education": "Bildung",
-    "bills": "Rechnungen"
+    "bills": "Rechnungen",
+    "backupAndRestore": "Sichern & Wiederherstellen",
+    "backupAndRestoreOptionDescription": "Exportieren oder importieren Sie Ihre Daten",
+    "exportData": "Daten exportieren",
+    "importData": "Daten importieren",
+    "importWarning": "Das Importieren eines Backups löscht alle aktuellen Daten. Möchten Sie wirklich fortfahren?",
+    "importSuccess": "Daten erfolgreich importiert",
+    "exportSuccess": "Daten erfolgreich exportiert",
+    "importError": "Beim Importieren der Daten ist ein Fehler aufgetreten",
+    "exportError": "Beim Exportieren der Daten ist ein Fehler aufgetreten",
+    "saveToDevice": "Auf dem Gerät speichern",
+    "shareBackup": "Backup teilen",
+    "resetData": "Daten zurücksetzen",
+    "resetWarning": "Alle Ihre Daten werden dauerhaft gelöscht. Diese Aktion kann nicht rückgängig gemacht werden. Möchten Sie wirklich fortfahren?",
+    "resetSuccess": "Daten erfolgreich zurückgesetzt",
+    "resetError": "Beim Zurücksetzen der Daten ist ein Fehler aufgetreten"
 }

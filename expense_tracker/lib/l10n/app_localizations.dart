@@ -1153,6 +1153,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Share backup'**
   String get shareBackup;
+
+  /// No description provided for @resetData.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset data'**
+  String get resetData;
+
+  /// No description provided for @resetWarning.
+  ///
+  /// In en, this message translates to:
+  /// **'All your data will be permanently deleted. This action cannot be undone. Are you sure you want to proceed?'**
+  String get resetWarning;
+
+  /// No description provided for @resetSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Data reset successfully'**
+  String get resetSuccess;
+
+  /// No description provided for @resetError.
+  ///
+  /// In en, this message translates to:
+  /// **'An error occurred while resetting data'**
+  String get resetError;
 }
 
 class _AppLocalizationsDelegate

@@ -536,36 +536,53 @@ class AppLocalizationsDe extends AppLocalizations {
   String get bills => 'Rechnungen';
 
   @override
-  String get backupAndRestore => 'Backup & Restore';
+  String get backupAndRestore => 'Sichern & Wiederherstellen';
 
   @override
-  String get backupAndRestoreOptionDescription => 'Export or import your data';
+  String get backupAndRestoreOptionDescription =>
+      'Exportieren oder importieren Sie Ihre Daten';
 
   @override
-  String get exportData => 'Export data';
+  String get exportData => 'Daten exportieren';
 
   @override
-  String get importData => 'Import data';
+  String get importData => 'Daten importieren';
 
   @override
   String get importWarning =>
-      'Importing a backup will delete all current data. Are you sure you want to proceed?';
+      'Das Importieren eines Backups löscht alle aktuellen Daten. Möchten Sie wirklich fortfahren?';
 
   @override
-  String get importSuccess => 'Data imported successfully';
+  String get importSuccess => 'Daten erfolgreich importiert';
 
   @override
-  String get exportSuccess => 'Data exported successfully';
+  String get exportSuccess => 'Daten erfolgreich exportiert';
 
   @override
-  String get importError => 'An error occurred while importing data';
+  String get importError =>
+      'Beim Importieren der Daten ist ein Fehler aufgetreten';
 
   @override
-  String get exportError => 'An error occurred while exporting data';
+  String get exportError =>
+      'Beim Exportieren der Daten ist ein Fehler aufgetreten';
 
   @override
-  String get saveToDevice => 'Save to device';
+  String get saveToDevice => 'Auf dem Gerät speichern';
 
   @override
-  String get shareBackup => 'Share backup';
+  String get shareBackup => 'Backup teilen';
+
+  @override
+  String get resetData => 'Daten zurücksetzen';
+
+  @override
+  String get resetWarning =>
+      'Alle Ihre Daten werden dauerhaft gelöscht. Diese Aktion kann nicht rückgängig gemacht werden. Möchten Sie wirklich fortfahren?';
+
+  @override
+  String get resetSuccess => 'Daten erfolgreich zurückgesetzt';
+
+  @override
+  String get resetError =>
+      'Beim Zurücksetzen der Daten ist ein Fehler aufgetreten';
 }

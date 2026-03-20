@@ -533,36 +533,49 @@ class AppLocalizationsEs extends AppLocalizations {
   String get bills => 'Facturas';
 
   @override
-  String get backupAndRestore => 'Backup & Restore';
+  String get backupAndRestore => 'Copia de Seguridad y Restauración';
 
   @override
-  String get backupAndRestoreOptionDescription => 'Export or import your data';
+  String get backupAndRestoreOptionDescription => 'Exporta o importa tus datos';
 
   @override
-  String get exportData => 'Export data';
+  String get exportData => 'Exportar datos';
 
   @override
-  String get importData => 'Import data';
+  String get importData => 'Importar datos';
 
   @override
   String get importWarning =>
-      'Importing a backup will delete all current data. Are you sure you want to proceed?';
+      'Importar una copia de seguridad eliminará todos los datos actuales. ¿Estás seguro de que quieres continuar?';
 
   @override
-  String get importSuccess => 'Data imported successfully';
+  String get importSuccess => 'Datos importados con éxito';
 
   @override
-  String get exportSuccess => 'Data exported successfully';
+  String get exportSuccess => 'Datos exportados con éxito';
 
   @override
-  String get importError => 'An error occurred while importing data';
+  String get importError => 'Ocurrió un error al importar los datos';
 
   @override
-  String get exportError => 'An error occurred while exporting data';
+  String get exportError => 'Ocurrió un error al exportar los datos';
 
   @override
-  String get saveToDevice => 'Save to device';
+  String get saveToDevice => 'Guardar en el dispositivo';
 
   @override
-  String get shareBackup => 'Share backup';
+  String get shareBackup => 'Compartir copia de seguridad';
+
+  @override
+  String get resetData => 'Restablecer datos';
+
+  @override
+  String get resetWarning =>
+      'Todos tus datos se eliminarán de forma permanente. Esta action no se puede deshacer. ¿Estás seguro de que quieres continuar?';
+
+  @override
+  String get resetSuccess => 'Datos restablecidos con éxito';
+
+  @override
+  String get resetError => 'Ocurrió un error al restablecer los datos';
 }

@@ -568,4 +568,18 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get shareBackup => 'Condividi backup';
+
+  @override
+  String get resetData => 'Ripristina dati';
+
+  @override
+  String get resetWarning =>
+      'Tutti i tuoi dati verranno cancellati in modo permanente. Questa azione non può essere annullata. Sei sicuro di voler procedere?';
+
+  @override
+  String get resetSuccess => 'Dati ripristinati con successo';
+
+  @override
+  String get resetError =>
+      'Si è verificato un errore durante il ripristino dei dati';
 }

@@ -162,5 +162,20 @@
     "shopping": "Shopping",
     "work": "Travail",
     "education": "Éducation",
-    "bills": "Factures"
+    "bills": "Factures",
+    "backupAndRestore": "Sauvegarde et Restauration",
+    "backupAndRestoreOptionDescription": "Exportez ou importez vos données",
+    "exportData": "Exporter les données",
+    "importData": "Importer les données",
+    "importWarning": "L'importation d'une sauvegarde supprimera toutes les données actuelles. Êtes-vous sûr de vouloir continuer ?",
+    "importSuccess": "Données importées avec succès",
+    "exportSuccess": "Données exportées avec succès",
+    "importError": "Une erreur est survenue lors de l'importation des données",
+    "exportError": "Une erreur est survenue lors de l'exportation des données",
+    "saveToDevice": "Enregistrer sur l'appareil",
+    "shareBackup": "Partager la sauvegarde",
+    "resetData": "Réinitialiser les données",
+    "resetWarning": "Toutes vos données seront définitivement supprimées. Cette action est irréversible. Êtes-vous sûr de vouloir continuer ?",
+    "resetSuccess": "Données réinitialisées avec succès",
+    "resetError": "Une erreur est survenue lors de la réinitialisation des données"
 }

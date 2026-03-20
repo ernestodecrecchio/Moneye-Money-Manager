@@ -162,5 +162,20 @@
     "shopping": "Compras",
     "work": "Trabajo",
     "education": "Educación",
-    "bills": "Facturas"
+    "bills": "Facturas",
+    "backupAndRestore": "Copia de Seguridad y Restauración",
+    "backupAndRestoreOptionDescription": "Exporta o importa tus datos",
+    "exportData": "Exportar datos",
+    "importData": "Importar datos",
+    "importWarning": "Importar una copia de seguridad eliminará todos los datos actuales. ¿Estás seguro de que quieres continuar?",
+    "importSuccess": "Datos importados con éxito",
+    "exportSuccess": "Datos exportados con éxito",
+    "importError": "Ocurrió un error al importar los datos",
+    "exportError": "Ocurrió un error al exportar los datos",
+    "saveToDevice": "Guardar en el dispositivo",
+    "shareBackup": "Compartir copia de seguridad",
+    "resetData": "Restablecer datos",
+    "resetWarning": "Todos tus datos se eliminarán de forma permanente. Esta action no se puede deshacer. ¿Estás seguro de que quieres continuar?",
+    "resetSuccess": "Datos restablecidos con éxito",
+    "resetError": "Ocurrió un error al restablecer los datos"
 }

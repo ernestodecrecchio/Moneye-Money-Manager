@@ -564,4 +564,17 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get shareBackup => 'Share backup';
+
+  @override
+  String get resetData => 'Reset data';
+
+  @override
+  String get resetWarning =>
+      'All your data will be permanently deleted. This action cannot be undone. Are you sure you want to proceed?';
+
+  @override
+  String get resetSuccess => 'Data reset successfully';
+
+  @override
+  String get resetError => 'An error occurred while resetting data';
 }
