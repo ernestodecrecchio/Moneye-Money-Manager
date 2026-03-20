@@ -1,56 +1,75 @@
 {
+  "1.0.7": [
+    {
+      "title": {
+        "en": "Backup and Restore",
+        "it": "Backup e Ripristino",
+        "es": "Copia de Seguridad y Restauración",
+        "de": "Backup und Wiederherstellung",
+        "fr": "Sauvegarde et Restauration"
+      },
+      "description": {
+        "en": "You can now create backups of your data and restore them later. This is useful for migrating to a new device or recovering from data loss.",
+        "it": "Ora puoi creare backup dei tuoi dati e ripristinarli in seguito. Questo è utile per migrare a un nuovo dispositivo o recuperare da una perdita di dati.",
+        "es": "Ahora puedes crear copias de seguridad de tus datos y restaurarlas más tarde. Esto es útil para migrar a un nuevo dispositivo o recuperarte de una pérdida de datos.",
+        "de": "Du kannst jetzt Backups deiner Daten erstellen und sie später wiederherstellen. Dies ist nützlich für die Migration zu einem neuen Gerät oder zur Wiederherstellung nach Datenverlust.",
+        "fr": "Vous pouvez désormais créer des sauvegardes de vos données et les restaurer ultérieurement. Ceci est utile pour migrer vers un nouvel appareil ou pour récupérer après une perte de données."
+      },
+      "category": "new_feature"
+    }
+  ],
   "1.0.6": [
-  {
-    "title": {
-      "en": "Light and Dark Theme",
-      "it": "Tema Chiaro e Scuro",
-      "es": "Tema Claro y Oscuro",
-      "de": "Helles und Dunkles Design",
-      "fr": "Thème Clair et Sombre"
+    {
+      "title": {
+        "en": "Light and Dark Theme",
+        "it": "Tema Chiaro e Scuro",
+        "es": "Tema Claro y Oscuro",
+        "de": "Helles und Dunkles Design",
+        "fr": "Thème Clair et Sombre"
+      },
+      "description": {
+        "en": "You can now choose between light and dark theme to match your preference and improve your experience in different lighting conditions.",
+        "it": "Ora puoi scegliere tra tema chiaro e scuro per adattare l'app alle tue preferenze e migliorare l'esperienza in diverse condizioni di luce.",
+        "es": "Ahora puedes elegir entre tema claro y oscuro para adaptarlo a tus preferencias y mejorar la experiencia en diferentes condiciones de luz.",
+        "de": "Du kannst jetzt zwischen hellem und dunklem Design wählen, um die App an deine Vorlieben und unterschiedliche Lichtverhältnisse anzupassen.",
+        "fr": "Vous pouvez désormais choisir entre un thème clair et sombre afin d’adapter l’application à vos préférences et aux différentes conditions de luminosité."
+      },
+      "category": "theming"
     },
-    "description": {
-      "en": "You can now choose between light and dark theme to match your preference and improve your experience in different lighting conditions.",
-      "it": "Ora puoi scegliere tra tema chiaro e scuro per adattare l'app alle tue preferenze e migliorare l'esperienza in diverse condizioni di luce.",
-      "es": "Ahora puedes elegir entre tema claro y oscuro para adaptarlo a tus preferencias y mejorar la experiencia en diferentes condiciones de luz.",
-      "de": "Du kannst jetzt zwischen hellem und dunklem Design wählen, um die App an deine Vorlieben und unterschiedliche Lichtverhältnisse anzupassen.",
-      "fr": "Vous pouvez désormais choisir entre un thème clair et sombre afin d’adapter l’application à vos préférences et aux différentes conditions de luminosité."
+    {
+      "title": {
+        "en": "UI Improvements",
+        "it": "Miglioramenti all'Interfaccia",
+        "es": "Mejoras en la Interfaz",
+        "de": "UI-Verbesserungen",
+        "fr": "Améliorations de l'Interface"
+      },
+      "description": {
+        "en": "Many small UI improvements have been introduced across the app. This update is a first preview of a future complete overhaul of the app interface.",
+        "it": "Sono stati introdotti molti piccoli miglioramenti all'interfaccia in tutta l'app. Questo aggiornamento è una prima anteprima di un futuro restyling completo dell'interfaccia.",
+        "es": "Se han introducido muchas pequeñas mejoras en la interfaz en toda la app. Esta actualización es una primera vista previa de una futura renovación completa de la interfaz.",
+        "de": "Viele kleine Verbesserungen an der Benutzeroberfläche wurden in der gesamten App eingeführt. Dieses Update ist eine erste Vorschau auf eine zukünftige komplette Überarbeitung der App-Oberfläche.",
+        "fr": "De nombreuses petites améliorations de l’interface ont été introduites dans toute l’application. Cette mise à jour est un premier aperçu d’une refonte complète de l’interface à venir."
+      },
+      "category": "ui"
     },
-    "category": "theming"
-  },
-  {
-    "title": {
-      "en": "UI Improvements",
-      "it": "Miglioramenti all'Interfaccia",
-      "es": "Mejoras en la Interfaz",
-      "de": "UI-Verbesserungen",
-      "fr": "Améliorations de l'Interface"
-    },
-    "description": {
-      "en": "Many small UI improvements have been introduced across the app. This update is a first preview of a future complete overhaul of the app interface.",
-      "it": "Sono stati introdotti molti piccoli miglioramenti all'interfaccia in tutta l'app. Questo aggiornamento è una prima anteprima di un futuro restyling completo dell'interfaccia.",
-      "es": "Se han introducido muchas pequeñas mejoras en la interfaz en toda la app. Esta actualización es una primera vista previa de una futura renovación completa de la interfaz.",
-      "de": "Viele kleine Verbesserungen an der Benutzeroberfläche wurden in der gesamten App eingeführt. Dieses Update ist eine erste Vorschau auf eine zukünftige komplette Überarbeitung der App-Oberfläche.",
-      "fr": "De nombreuses petites améliorations de l’interface ont été introduites dans toute l’application. Cette mise à jour est un premier aperçu d’une refonte complète de l’interface à venir."
-    },
-    "category": "ui"
-  },
-  {
-    "title": {
-      "en": "More Icons",
-      "it": "Nuove Icone",
-      "es": "Más Iconos",
-      "de": "Neue Icons",
-      "fr": "Nouvelles Icônes"
-    },
-    "description": {
-      "en": "Additional icons are now available to give you even more ways to personalize your accounts and categories.",
-      "it": "Sono disponibili nuove icone per offrirti ancora più possibilità di personalizzare conti e categorie.",
-      "es": "Nuevos iconos están disponibles para ofrecerte aún más formas de personalizar cuentas y categorías.",
-      "de": "Neue Icons sind verfügbar, um dir noch mehr Möglichkeiten zur Personalisierung von Konten und Kategorien zu bieten.",
-      "fr": "De nouvelles icônes sont désormais disponibles pour vous offrir encore plus de possibilités de personnaliser vos comptes et catégories."
-    },
-    "category": "icons"
-  }
+    {
+      "title": {
+        "en": "More Icons",
+        "it": "Nuove Icone",
+        "es": "Más Iconos",
+        "de": "Neue Icons",
+        "fr": "Nouvelles Icônes"
+      },
+      "description": {
+        "en": "Additional icons are now available to give you even more ways to personalize your accounts and categories.",
+        "it": "Sono disponibili nuove icone per offrirti ancora più possibilità di personalizzare conti e categorie.",
+        "es": "Nuevos iconos están disponibles para ofrecerte aún más formas de personalizar cuentas y categorías.",
+        "de": "Neue Icons sind verfügbar, um dir noch mehr Möglichkeiten zur Personalisierung von Konten und Kategorien zu bieten.",
+        "fr": "De nouvelles icônes sont désormais disponibles pour vous offrir encore plus de possibilités de personnaliser vos comptes et catégories."
+      },
+      "category": "icons"
+    }
   ],
   "1.0.3": [
     {

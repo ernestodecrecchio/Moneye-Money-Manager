@@ -5,6 +5,7 @@ import 'package:expense_tracker/application/common/notifiers/locale_provider.dar
 import 'package:expense_tracker/application/common/notifiers/notification_provider.dart';
 import 'package:expense_tracker/l10n/app_localizations.dart';
 import 'package:expense_tracker/presentation/pages/options_page/accounts_page/accounts_list_page.dart';
+import 'package:expense_tracker/presentation/pages/options_page/backup_restore_page/backup_restore_page.dart';
 import 'package:expense_tracker/presentation/pages/options_page/categories_page/categories_list_page.dart';
 import 'package:expense_tracker/presentation/pages/options_page/currency_page/currency_page.dart';
 import 'package:expense_tracker/presentation/pages/options_page/language_page/languages_list_page.dart';
@@ -13,7 +14,6 @@ import 'package:expense_tracker/presentation/pages/options_page/notification_pag
 import 'package:expense_tracker/presentation/pages/options_page/theme_page/theme_selection_page.dart';
 import 'package:expense_tracker/presentation/pages/options_page/update_history_page/update_history_page.dart';
 import 'package:expense_tracker/application/common/notifiers/theme_provider.dart';
-import 'package:expense_tracker/services/database_export_import_service.dart';
 import 'package:expense_tracker/style/app_theme.dart';
 import 'package:expense_tracker/presentation/pages/common/list_tiles/option_list_tile.dart';
 import 'package:expense_tracker/presentation/pages/options_page/contacts_page/contacts_page.dart';
@@ -105,8 +105,7 @@ class OptionsPage extends ConsumerWidget {
             subtitle: appLocalizations.backupAndRestoreOptionDescription,
             leadingIcon: Icons.backup_rounded,
             enableRightArrow: true,
-            onTap: () =>
-                _showBackupRestoreDialog(context, ref, appLocalizations),
+            onTap: () => Navigator.of(context).pushNamed(BackupRestorePage.routeName),
           ),
           const Divider(),
           OptionListTile(
@@ -175,107 +174,6 @@ class OptionsPage extends ConsumerWidget {
             ),
           ),
         ],
-      ),
-    );
-  }
-
-  void _showBackupRestoreDialog(
-      BuildContext context, WidgetRef ref, AppLocalizations appLocalizations) {
-    showModalBottomSheet(
-      context: context,
-      builder: (context) => SafeArea(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            ListTile(
-              leading: const Icon(Icons.share_rounded),
-              title: Text(appLocalizations.shareBackup),
-              onTap: () async {
-                Navigator.pop(context);
-                try {
-                  await DatabaseExportImportService.instance.exportDatabase();
-                  if (context.mounted) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text(appLocalizations.exportSuccess)),
-                    );
-                  }
-                } catch (e) {
-                  if (context.mounted) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text(appLocalizations.exportError)),
-                    );
-                  }
-                }
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.save_rounded),
-              title: Text(appLocalizations.saveToDevice),
-              onTap: () async {
-                Navigator.pop(context);
-                try {
-                  final success = await DatabaseExportImportService.instance
-                      .saveDatabaseLocally();
-                  if (success && context.mounted) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text(appLocalizations.exportSuccess)),
-                    );
-                  }
-                } catch (e) {
-                  if (context.mounted) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text(appLocalizations.exportError)),
-                    );
-                  }
-                }
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.file_download_rounded),
-              title: Text(appLocalizations.importData),
-              onTap: () async {
-                Navigator.pop(context);
-                final proceed = await showDialog<bool>(
-                  context: context,
-                  builder: (context) => AlertDialog(
-                    title: Text(appLocalizations.areYouSure),
-                    content: Text(appLocalizations.importWarning),
-                    actions: [
-                      TextButton(
-                        onPressed: () => Navigator.pop(context, false),
-                        child: Text(appLocalizations.cancel),
-                      ),
-                      TextButton(
-                        onPressed: () => Navigator.pop(context, true),
-                        child: Text(appLocalizations.delete),
-                      ),
-                    ],
-                  ),
-                );
-
-                if (proceed == true) {
-                  try {
-                    final success = await DatabaseExportImportService.instance
-                        .importDatabase();
-                    if (success && context.mounted) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text(appLocalizations.importSuccess)),
-                      );
-                      // Ideally we would trigger a global state refresh here.
-                      // Depending on how Riverpod is set up, we might need to invalidate providers.
-                    }
-                  } catch (e) {
-                    if (context.mounted) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text(appLocalizations.importError)),
-                      );
-                    }
-                  }
-                }
-              },
-            ),
-          ],
-        ),
       ),
     );
   }

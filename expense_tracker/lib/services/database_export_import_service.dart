@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:typed_data';
 import 'package:expense_tracker/data/database/database_account_helper.dart';
 import 'package:expense_tracker/data/database/database_category_helper.dart';
 import 'package:expense_tracker/data/database/database_transaction_helper.dart';
@@ -7,6 +8,7 @@ import 'package:expense_tracker/data/database/database_helper.dart';
 import 'package:expense_tracker/domain/models/account.dart';
 import 'package:expense_tracker/domain/models/category.dart';
 import 'package:expense_tracker/domain/models/transaction.dart' as trans;
+import 'package:archive/archive.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
@@ -30,28 +32,42 @@ class DatabaseExportImportService {
       null,
     );
 
-    final data = {
-      'categories': categories.map((e) => e.toJson()).toList(),
-      'accounts': accounts.map((e) => e.toJson()).toList(),
-      'transactions': transactions.map((e) => e.toJson()).toList(),
-      'exportDate': DateTime.now().toIso8601String(),
+    final backupData = {
       'version': 1,
+      'exportedAt': DateTime.now().toIso8601String(),
+      'app': 'Moneye',
+      'data': {
+        'categories': categories.map((e) => e.toJson()).toList(),
+        'accounts': accounts.map((e) => e.toJson()).toList(),
+        'transactions': transactions.map((e) => e.toJson()).toList(),
+      },
     };
 
-    return jsonEncode(data);
+    return jsonEncode(backupData);
   }
 
   Future<void> exportDatabase() async {
     final jsonString = await _generateBackupJson();
+    final jsonBytes = utf8.encode(jsonString);
+    final timestamp = getTimestamp();
+
+    // Create ZIP archive
+    final archive = Archive();
+    archive.addFile(
+      ArchiveFile('moneye_backup_$timestamp.json', jsonBytes.length, jsonBytes),
+    );
+
+    final zipBytes = ZipEncoder().encode(archive);
+
     final directory = await getTemporaryDirectory();
-    final file = File('${directory.path}/moneye_backup.json');
-    await file.writeAsString(jsonString);
+    final file = File('${directory.path}/moneye_backup_$timestamp.zip');
+    await file.writeAsBytes(zipBytes);
 
     await SharePlus.instance.share(
       ShareParams(
         text: 'Moneye Backup',
-        subject: 'subject',
-        title: 'title',
+        subject: 'Moneye Backup',
+        title: 'Moneye Backup',
         files: [XFile(file.path)],
       ),
     );
@@ -59,13 +75,23 @@ class DatabaseExportImportService {
 
   Future<bool> saveDatabaseLocally() async {
     final jsonString = await _generateBackupJson();
+    final jsonBytes = utf8.encode(jsonString);
+    final timestamp = getTimestamp();
+
+    // Create ZIP archive
+    final archive = Archive();
+    archive.addFile(
+      ArchiveFile('moneye_backup_$timestamp.json', jsonBytes.length, jsonBytes),
+    );
+
+    final zipBytes = ZipEncoder().encode(archive);
 
     final result = await FilePicker.platform.saveFile(
       dialogTitle: 'Save Moneye Backup',
-      fileName: 'moneye_backup.json',
+      fileName: 'moneye_backup_$timestamp.zip',
       type: FileType.custom,
-      allowedExtensions: ['json'],
-      bytes: utf8.encode(jsonString),
+      allowedExtensions: ['zip'],
+      bytes: Uint8List.fromList(zipBytes),
     );
 
     return result != null;
@@ -74,7 +100,7 @@ class DatabaseExportImportService {
   Future<bool> importDatabase() async {
     final result = await FilePicker.platform.pickFiles(
       type: FileType.custom,
-      allowedExtensions: ['json'],
+      allowedExtensions: ['zip'],
     );
 
     if (result == null || result.files.single.path == null) {
@@ -82,13 +108,41 @@ class DatabaseExportImportService {
     }
 
     final file = File(result.files.single.path!);
-    final jsonString = await file.readAsString();
-    final data = jsonDecode(jsonString) as Map<String, dynamic>;
+    final zipBytes = await file.readAsBytes();
+
+    // Decompress ZIP archive
+    final archive = ZipDecoder().decodeBytes(zipBytes);
+
+    // Find the backup JSON file (it should match moneye_backup_*.json)
+    ArchiveFile? jsonFile;
+    try {
+      jsonFile = archive.files.firstWhere(
+        (file) =>
+            (file.name.startsWith('moneye_backup_')) &&
+            file.name.endsWith('.json'),
+      );
+    } catch (_) {
+      // Fallback for older backups or if naming convention changed slightly
+      jsonFile = archive.findFile('moneye_backup.json');
+    }
+
+    if (jsonFile == null) {
+      throw Exception('Invalid backup: Backup JSON file not found in ZIP');
+    }
+
+    final jsonString = utf8.decode(jsonFile.content as List<int>);
+    final backup = jsonDecode(jsonString) as Map<String, dynamic>;
+
+    if (!backup.containsKey('data') || backup['app'] != 'Moneye') {
+      throw Exception('Invalid or incompatible backup file');
+    }
+
+    final data = backup['data'] as Map<String, dynamic>;
 
     if (!data.containsKey('categories') ||
         !data.containsKey('accounts') ||
         !data.containsKey('transactions')) {
-      throw Exception('Invalid backup file');
+      throw Exception('Backup file is missing required data components');
     }
 
     final db = await DatabaseHelper.instance.database;
@@ -120,5 +174,20 @@ class DatabaseExportImportService {
     });
 
     return true;
+  }
+
+  Future<void> resetDatabase() async {
+    final db = await DatabaseHelper.instance.database;
+
+    await db.transaction((txn) async {
+      await txn.delete(trans.transactionsTable);
+      await txn.delete(accountsTable);
+      await txn.delete(categoriesTable);
+    });
+  }
+
+  String getTimestamp() {
+    final now = DateTime.now().toIso8601String();
+    return now.replaceAll(':', '-').split('.').first;
   }
 }
