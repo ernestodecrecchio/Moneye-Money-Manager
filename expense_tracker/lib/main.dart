@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:expense_tracker/configuration/notification_manager.dart';
 import 'package:expense_tracker/configuration/analytics_manager.dart';
+import 'package:expense_tracker/presentation/pages/options_page/recurring_rules_page/recurring_rules_list_page.dart';
 import 'package:expense_tracker/services/asset_registry.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
@@ -28,7 +29,6 @@ import 'package:expense_tracker/presentation/pages/tab_bar_page.dart';
 import 'package:expense_tracker/presentation/pages/options_page/privacy_page/privacy_settings_page.dart';
 import 'package:expense_tracker/presentation/pages/options_page/theme_page/theme_selection_page.dart';
 import 'package:expense_tracker/presentation/pages/options_page/contacts_page/contacts_page.dart';
-import 'package:expense_tracker/presentation/pages/tab_bar_page.dart';
 import 'package:expense_tracker/application/common/notifiers/analytics_consent_provider.dart';
 import 'package:expense_tracker/application/common/notifiers/theme_provider.dart';
 import 'package:expense_tracker/style/app_theme.dart';
@@ -133,11 +133,6 @@ Future main() async {
 
   await NotificationManager.initNotificationManager();
 
-  // GENERATE RECURRING TRANSACTIONS
-  await container
-      .read(recurringTransactionGenerationServiceProvider)
-      .generateMissingTransactions();
-
   // VERSION CHECK
   final packageInfo = await PackageInfo.fromPlatform();
   final currentVersion = packageInfo.version;
@@ -240,8 +235,8 @@ class MyApp extends r.ConsumerWidget {
           LanguagesListPage.routeName: (context) => const LanguagesListPage(),
           CurrencyPage.routeName: (context) => const CurrencyPage(),
           ReminderPage.routeName: (context) => const ReminderPage(),
-          RecurringTransactionsListPage.routeName: (context) =>
-              const RecurringTransactionsListPage(),
+          RecurringRulesListPage.routeName: (context) =>
+              const RecurringRulesListPage(),
           UpdateInfoPage.routeName: (context) => const UpdateInfoPage(),
           UpdateHistoryPage.routeName: (context) => const UpdateHistoryPage(),
           PrivacySettingsPage.routeName: (context) =>

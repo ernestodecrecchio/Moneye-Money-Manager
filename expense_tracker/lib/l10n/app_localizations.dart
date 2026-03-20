@@ -1177,6 +1177,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Your categories'**
   String get yourCategories;
+
+  /// No description provided for @repeatTransaction.
+  ///
+  /// In en, this message translates to:
+  /// **'Repeat transaction'**
+  String get repeatTransaction;
+
+  /// No description provided for @frequency.
+  ///
+  /// In en, this message translates to:
+  /// **'Frequency'**
+  String get frequency;
+
+  /// No description provided for @daily.
+  ///
+  /// In en, this message translates to:
+  /// **'Daily'**
+  String get daily;
+
+  /// No description provided for @weekly.
+  ///
+  /// In en, this message translates to:
+  /// **'Weekly'**
+  String get weekly;
+
+  /// No description provided for @monthly.
+  ///
+  /// In en, this message translates to:
+  /// **'Monthly'**
+  String get monthly;
+
+  /// No description provided for @yearly.
+  ///
+  /// In en, this message translates to:
+  /// **'Yearly'**
+  String get yearly;
+
+  /// No description provided for @interval.
+  ///
+  /// In en, this message translates to:
+  /// **'Interval'**
+  String get interval;
+
+  /// No description provided for @recurringTransactions.
+  ///
+  /// In en, this message translates to:
+  /// **'Recurring Transactions'**
+  String get recurringTransactions;
 }
 
 class _AppLocalizationsDelegate
