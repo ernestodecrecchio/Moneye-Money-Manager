@@ -63,7 +63,17 @@ class AppLocalizationsDe extends AppLocalizations {
   String get back => 'Zurück';
 
   @override
+  String get backupAndRestore => 'Sichern & Wiederherstellen';
+
+  @override
+  String get backupAndRestoreOptionDescription =>
+      'Exportieren oder importieren Sie Ihre Daten';
+
+  @override
   String get balance => 'Saldo';
+
+  @override
+  String get bills => 'Rechnungen';
 
   @override
   String get billsAndUtilities => 'Rechnungen und Dienstprogramme';
@@ -92,6 +102,17 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get color => 'Farbe';
+
+  @override
+  String get contacts => 'Kontakte';
+
+  @override
+  String get contactsDescription =>
+      'Kontaktieren Sie den Entwickler, um einen Fehler zu melden oder eine Funktion vorzuschlagen';
+
+  @override
+  String get contactsPageHeader =>
+      'Du kannst mich kontaktieren, um einen Fehler zu melden, eine Funktion vorzuschlagen oder was auch immer du willst!';
 
   @override
   String get continueCTA => 'Weiter';
@@ -128,6 +149,9 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get dailyReminderChannelName => 'Tägliche Erinnerungen';
+
+  @override
+  String get darkTheme => 'Dunkel';
 
   @override
   String get date => 'Datum';
@@ -171,6 +195,9 @@ class AppLocalizationsDe extends AppLocalizations {
   String get editTransaction => 'Transaktion bearbeiten';
 
   @override
+  String get education => 'Bildung';
+
+  @override
   String get endConfigurationMsg1 =>
       'Herzlichen Glückwunsch! Moneye ist jetzt konfiguriert und bereit, dir bei der effizienten Ausgabenverwaltung zu helfen.';
 
@@ -195,6 +222,16 @@ class AppLocalizationsDe extends AppLocalizations {
   String get expenses => 'Ausgaben';
 
   @override
+  String get exportData => 'Daten exportieren';
+
+  @override
+  String get exportError =>
+      'Beim Exportieren der Daten ist ein Fehler aufgetreten';
+
+  @override
+  String get exportSuccess => 'Daten erfolgreich exportiert';
+
+  @override
   String get feedback => 'Rückmeldung';
 
   @override
@@ -202,21 +239,7 @@ class AppLocalizationsDe extends AppLocalizations {
       'Magst du Moneye? Lass es uns wissen!';
 
   @override
-  String get contacts => 'Kontakte';
-
-  @override
-  String get contactsDescription =>
-      'Kontaktieren Sie den Entwickler, um einen Fehler zu melden oder eine Funktion vorzuschlagen';
-
-  @override
-  String get contactsPageHeader =>
-      'Du kannst mich kontaktieren, um einen Fehler zu melden, eine Funktion vorzuschlagen oder was auch immer du willst!';
-
-  @override
-  String get reportBug => 'Einen Fehler melden';
-
-  @override
-  String get suggestFeature => 'Eine Funktion vorschlagen';
+  String get finance => 'Finanzen';
 
   @override
   String get financialOverviewForThisMonth =>
@@ -226,7 +249,24 @@ class AppLocalizationsDe extends AppLocalizations {
   String get foodAndDining => 'Essen und Gastronomie';
 
   @override
+  String get health => 'Gesundheit';
+
+  @override
   String get icon => 'Symbol';
+
+  @override
+  String get importData => 'Daten importieren';
+
+  @override
+  String get importError =>
+      'Beim Importieren der Daten ist ein Fehler aufgetreten';
+
+  @override
+  String get importSuccess => 'Daten erfolgreich importiert';
+
+  @override
+  String get importWarning =>
+      'Das Importieren eines Backups löscht alle aktuellen Daten. Möchten Sie wirklich fortfahren?';
 
   @override
   String get includeInReports => 'In Berichte einbeziehen';
@@ -271,6 +311,9 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get lastTransactions => 'Letzte Transaktionen';
+
+  @override
+  String get lightTheme => 'Hell';
 
   @override
   String get month => 'Monat';
@@ -348,7 +391,27 @@ class AppLocalizationsDe extends AppLocalizations {
       'Stellen Sie eine Erinnerung ein, um sich an das Einfügen neuer Transaktionen zu erinnern';
 
   @override
+  String get reportBug => 'Einen Fehler melden';
+
+  @override
+  String get resetData => 'Daten zurücksetzen';
+
+  @override
+  String get resetError =>
+      'Beim Zurücksetzen der Daten ist ein Fehler aufgetreten';
+
+  @override
+  String get resetSuccess => 'Daten erfolgreich zurückgesetzt';
+
+  @override
+  String get resetWarning =>
+      'Alle Ihre Daten werden dauerhaft gelöscht. Diese Aktion kann nicht rückgängig gemacht werden. Möchten Sie wirklich fortfahren?';
+
+  @override
   String get save => 'Speichern';
+
+  @override
+  String get saveToDevice => 'Auf dem Gerät speichern';
 
   @override
   String get savings => 'Ersparnisse';
@@ -405,16 +468,37 @@ class AppLocalizationsDe extends AppLocalizations {
   String get settings => 'Einstellungen';
 
   @override
+  String get shareBackup => 'Backup teilen';
+
+  @override
+  String get shopping => 'Shopping';
+
+  @override
   String get skip => 'Überspringen';
+
+  @override
+  String get sports => 'Sport';
 
   @override
   String get subscriptions => 'Abonnements';
 
   @override
+  String get suggestFeature => 'Eine Funktion vorschlagen';
+
+  @override
   String get systemLanguageOption => 'Automatisch (basierend auf dem System)';
 
   @override
+  String get systemTheme => 'Automatisch';
+
+  @override
   String get testNotificationSent => 'Testbenachrichtigung gesendet!';
+
+  @override
+  String get theme => 'Thema';
+
+  @override
+  String get themeOptionDescription => 'App-Erscheinungsbild ändern';
 
   @override
   String get thisMonth => 'Deze maand';
@@ -460,21 +544,6 @@ class AppLocalizationsDe extends AppLocalizations {
   String get usageData => 'Grundlegende Nutzungsmuster';
 
   @override
-  String get theme => 'Thema';
-
-  @override
-  String get themeOptionDescription => 'App-Erscheinungsbild ändern';
-
-  @override
-  String get lightTheme => 'Hell';
-
-  @override
-  String get darkTheme => 'Dunkel';
-
-  @override
-  String get systemTheme => 'Automatisch';
-
-  @override
   String get version => 'Version';
 
   @override
@@ -500,6 +569,9 @@ class AppLocalizationsDe extends AppLocalizations {
   String get whatsNew => 'Neuigkeiten';
 
   @override
+  String get work => 'Arbeit';
+
+  @override
   String get year => 'Jahr';
 
   @override
@@ -513,25 +585,4 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get yourCategories => 'Ihre Kategorien';
-
-  @override
-  String get health => 'Gesundheit';
-
-  @override
-  String get sports => 'Sport';
-
-  @override
-  String get finance => 'Finanzen';
-
-  @override
-  String get shopping => 'Shopping';
-
-  @override
-  String get work => 'Arbeit';
-
-  @override
-  String get education => 'Bildung';
-
-  @override
-  String get bills => 'Rechnungen';
 }

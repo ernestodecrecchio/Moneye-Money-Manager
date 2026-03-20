@@ -1,0 +1,251 @@
+import 'package:expense_tracker/common/widgets/adaptive_dialog_action.dart';
+import 'package:expense_tracker/application/accounts/notifiers/queries/accounts_list_notifier.dart';
+import 'package:expense_tracker/application/categories/notifiers/queries/categories_list_notifier.dart';
+import 'package:expense_tracker/application/common/notifiers/app_localizations_provider.dart';
+import 'package:expense_tracker/application/transactions/notifiers/queries/total_balance_notifier.dart';
+import 'package:expense_tracker/application/transactions/notifiers/queries/transactions_list_notifier.dart';
+import 'package:expense_tracker/application/accounts/notifiers/queries/accounts_with_balance_notifier.dart';
+import 'package:expense_tracker/services/database_export_import_service.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+class BackupRestorePage extends ConsumerStatefulWidget {
+  static const String routeName = '/backup-restore';
+
+  const BackupRestorePage({super.key});
+
+  @override
+  ConsumerState<BackupRestorePage> createState() => _BackupRestorePageState();
+}
+
+class _BackupRestorePageState extends ConsumerState<BackupRestorePage> {
+  bool _isLoading = false;
+
+  @override
+  Widget build(BuildContext context) {
+    final appLocalizations = ref.watch(appLocalizationsProvider);
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(appLocalizations.backupAndRestore),
+      ),
+      body: Stack(
+        children: [
+          SafeArea(
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  ListTile(
+                    leading: const Icon(Icons.share_rounded),
+                    title: Text(appLocalizations.shareBackup),
+                    enabled: !_isLoading,
+                    onTap: _isLoading
+                        ? null
+                        : () async {
+                            setState(() => _isLoading = true);
+                            try {
+                              await DatabaseExportImportService.instance
+                                  .exportDatabase();
+                              if (context.mounted) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                      content:
+                                          Text(appLocalizations.exportSuccess)),
+                                );
+                              }
+                            } catch (e) {
+                              if (context.mounted) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                      content:
+                                          Text(appLocalizations.exportError)),
+                                );
+                              }
+                            } finally {
+                              if (context.mounted) {
+                                setState(() => _isLoading = false);
+                              }
+                            }
+                          },
+                  ),
+                  const Divider(),
+                  ListTile(
+                    leading: const Icon(Icons.save_rounded),
+                    title: Text(appLocalizations.saveToDevice),
+                    enabled: !_isLoading,
+                    onTap: _isLoading
+                        ? null
+                        : () async {
+                            setState(() => _isLoading = true);
+                            try {
+                              final success = await DatabaseExportImportService
+                                  .instance
+                                  .saveDatabaseLocally();
+                              if (success && context.mounted) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                      content:
+                                          Text(appLocalizations.exportSuccess)),
+                                );
+                              }
+                            } catch (e) {
+                              if (context.mounted) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                      content:
+                                          Text(appLocalizations.exportError)),
+                                );
+                              }
+                            } finally {
+                              if (context.mounted) {
+                                setState(() => _isLoading = false);
+                              }
+                            }
+                          },
+                  ),
+                  const Divider(),
+                  ListTile(
+                    leading: const Icon(Icons.file_download_rounded),
+                    title: Text(appLocalizations.importData),
+                    enabled: !_isLoading,
+                    onTap: _isLoading
+                        ? null
+                        : () async {
+                            final proceed = await showAdaptiveDialog<bool>(
+                              context: context,
+                              builder: (context) => AlertDialog.adaptive(
+                                title: Text(appLocalizations.areYouSure),
+                                content: Text(appLocalizations.importWarning),
+                                actions: [
+                                  adaptiveAction(
+                                    context: context,
+                                    onPressed: () =>
+                                        Navigator.pop(context, false),
+                                    child: Text(appLocalizations.cancel),
+                                  ),
+                                  adaptiveAction(
+                                    context: context,
+                                    onPressed: () =>
+                                        Navigator.pop(context, true),
+                                    isDestructiveAction: true,
+                                    child: Text(appLocalizations.delete),
+                                  ),
+                                ],
+                              ),
+                            );
+
+                            if (proceed == true && context.mounted) {
+                              setState(() => _isLoading = true);
+                              try {
+                                final success =
+                                    await DatabaseExportImportService.instance
+                                        .importDatabase();
+                                if (success && context.mounted) {
+                                  _refreshAppState();
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                        content: Text(
+                                            appLocalizations.importSuccess)),
+                                  );
+                                }
+                              } catch (e) {
+                                if (context.mounted) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                        content:
+                                            Text(appLocalizations.importError)),
+                                  );
+                                }
+                              } finally {
+                                if (context.mounted) {
+                                  setState(() => _isLoading = false);
+                                }
+                              }
+                            }
+                          },
+                  ),
+                  const Divider(),
+                  ListTile(
+                    leading: Icon(Icons.delete_forever_rounded),
+                    title: Text(appLocalizations.resetData),
+                    enabled: !_isLoading,
+                    onTap: _isLoading
+                        ? null
+                        : () async {
+                            final proceed = await showAdaptiveDialog<bool>(
+                              context: context,
+                              builder: (context) => AlertDialog.adaptive(
+                                title: Text(appLocalizations.areYouSure),
+                                content: Text(appLocalizations.resetWarning),
+                                actions: [
+                                  adaptiveAction(
+                                    context: context,
+                                    onPressed: () =>
+                                        Navigator.pop(context, false),
+                                    child: Text(appLocalizations.cancel),
+                                  ),
+                                  adaptiveAction(
+                                    context: context,
+                                    onPressed: () =>
+                                        Navigator.pop(context, true),
+                                    isDestructiveAction: true,
+                                    child: Text(appLocalizations.delete),
+                                  ),
+                                ],
+                              ),
+                            );
+
+                            if (proceed == true && context.mounted) {
+                              setState(() => _isLoading = true);
+                              try {
+                                await DatabaseExportImportService.instance
+                                    .resetDatabase();
+                                if (context.mounted) {
+                                  _refreshAppState();
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                        content: Text(
+                                            appLocalizations.resetSuccess)),
+                                  );
+                                }
+                              } catch (e) {
+                                if (context.mounted) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                        content:
+                                            Text(appLocalizations.resetError)),
+                                  );
+                                }
+                              } finally {
+                                if (context.mounted) {
+                                  setState(() => _isLoading = false);
+                                }
+                              }
+                            }
+                          },
+                  ),
+                ],
+              ),
+            ),
+          ),
+          if (_isLoading)
+            Container(
+              color: Colors.black26,
+              child: const Center(
+                child: CircularProgressIndicator(),
+              ),
+            ),
+        ],
+      ),
+    );
+  }
+
+  void _refreshAppState() {
+    ref.invalidate(accountsListProvider);
+    ref.invalidate(categoriesListProvider);
+    ref.invalidate(transactionsListProvider);
+    ref.invalidate(totalBalanceProvider);
+    ref.invalidate(accountsWithBalanceProvider);
+  }
+}

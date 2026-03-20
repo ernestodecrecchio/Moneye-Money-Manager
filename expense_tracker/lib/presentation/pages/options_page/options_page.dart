@@ -1,10 +1,11 @@
 import 'package:expense_tracker/application/common/notifiers/package_info_provider.dart';
 import 'package:expense_tracker/application/common/notifiers/app_localizations_provider.dart';
-import 'package:expense_tracker/l10n/app_localizations.dart';
 import 'package:expense_tracker/application/common/notifiers/currency_provider.dart';
 import 'package:expense_tracker/application/common/notifiers/locale_provider.dart';
 import 'package:expense_tracker/application/common/notifiers/notification_provider.dart';
+import 'package:expense_tracker/l10n/app_localizations.dart';
 import 'package:expense_tracker/presentation/pages/options_page/accounts_page/accounts_list_page.dart';
+import 'package:expense_tracker/presentation/pages/options_page/backup_restore_page/backup_restore_page.dart';
 import 'package:expense_tracker/presentation/pages/options_page/categories_page/categories_list_page.dart';
 import 'package:expense_tracker/presentation/pages/options_page/currency_page/currency_page.dart';
 import 'package:expense_tracker/presentation/pages/options_page/language_page/languages_list_page.dart';
@@ -97,6 +98,14 @@ class OptionsPage extends ConsumerWidget {
             ],
             onTap: () =>
                 Navigator.of(context).pushNamed(ReminderPage.routeName),
+          ),
+          const Divider(),
+          OptionListTile(
+            title: appLocalizations.backupAndRestore,
+            subtitle: appLocalizations.backupAndRestoreOptionDescription,
+            leadingIcon: Icons.backup_rounded,
+            enableRightArrow: true,
+            onTap: () => Navigator.of(context).pushNamed(BackupRestorePage.routeName),
           ),
           const Divider(),
           OptionListTile(

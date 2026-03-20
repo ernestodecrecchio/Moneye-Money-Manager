@@ -62,7 +62,17 @@ class AppLocalizationsIt extends AppLocalizations {
   String get back => 'Indietro';
 
   @override
+  String get backupAndRestore => 'Backup e Ripristino';
+
+  @override
+  String get backupAndRestoreOptionDescription =>
+      'Esporta o importa i tuoi dati';
+
+  @override
   String get balance => 'Bilancio';
+
+  @override
+  String get bills => 'Bollette';
 
   @override
   String get billsAndUtilities => 'Bollette e Servizi Pubblici';
@@ -91,6 +101,17 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get color => 'Colore';
+
+  @override
+  String get contacts => 'Contatti';
+
+  @override
+  String get contactsDescription =>
+      'Contatta lo sviluppatore per segnalare un bug o suggerire una funzionalità';
+
+  @override
+  String get contactsPageHeader =>
+      'Puoi contattarmi per segnalare un bug, suggerire una funzionalità o qualunque altra cosa!';
 
   @override
   String get continueCTA => 'Continua';
@@ -127,6 +148,9 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get dailyReminderChannelName => 'Promemoria Giornalieri';
+
+  @override
+  String get darkTheme => 'Scuro';
 
   @override
   String get date => 'Data';
@@ -170,6 +194,9 @@ class AppLocalizationsIt extends AppLocalizations {
   String get editTransaction => 'Modifica transazione';
 
   @override
+  String get education => 'Istruzione';
+
+  @override
   String get endConfigurationMsg1 =>
       'Congratulazioni! Moneye è ora configurato e pronto ad aiutarti a gestire le tue spese in modo efficiente.';
 
@@ -194,6 +221,16 @@ class AppLocalizationsIt extends AppLocalizations {
   String get expenses => 'Spese';
 
   @override
+  String get exportData => 'Esporta dati';
+
+  @override
+  String get exportError =>
+      'Si è verificato un errore durante l\'esportazione dei dati';
+
+  @override
+  String get exportSuccess => 'Dati esportati con successo';
+
+  @override
   String get feedback => 'Feedback';
 
   @override
@@ -201,21 +238,7 @@ class AppLocalizationsIt extends AppLocalizations {
       'Ti piace Moneye? Faccelo sapere!';
 
   @override
-  String get contacts => 'Contatti';
-
-  @override
-  String get contactsDescription =>
-      'Contatta lo sviluppatore per segnalare un bug o suggerire una funzionalità';
-
-  @override
-  String get contactsPageHeader =>
-      'Puoi contattarmi per segnalare un bug, suggerire una funzionalità o qualunque altra cosa!';
-
-  @override
-  String get reportBug => 'Segnala un bug';
-
-  @override
-  String get suggestFeature => 'Suggerisci una funzionalità';
+  String get finance => 'Finanza';
 
   @override
   String get financialOverviewForThisMonth =>
@@ -225,7 +248,24 @@ class AppLocalizationsIt extends AppLocalizations {
   String get foodAndDining => 'Cibo e Ristorazione';
 
   @override
+  String get health => 'Salute';
+
+  @override
   String get icon => 'Icona';
+
+  @override
+  String get importData => 'Importa dati';
+
+  @override
+  String get importError =>
+      'Si è verificato un errore durante l\'importazione dei dati';
+
+  @override
+  String get importSuccess => 'Dati importati con successo';
+
+  @override
+  String get importWarning =>
+      'L\'importazione di un backup eliminerà tutti i dati correnti. Sei sicuro di voler procedere?';
 
   @override
   String get includeInReports => 'Includi nei rapporti';
@@ -269,6 +309,9 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get lastTransactions => 'Ultime transazioni';
+
+  @override
+  String get lightTheme => 'Chiaro';
 
   @override
   String get month => 'Mese';
@@ -346,7 +389,27 @@ class AppLocalizationsIt extends AppLocalizations {
       'Imposta un promemoria per ricordarti di inserire nuove transazioni';
 
   @override
+  String get reportBug => 'Segnala un bug';
+
+  @override
+  String get resetData => 'Ripristina dati';
+
+  @override
+  String get resetError =>
+      'Si è verificato un errore durante il ripristino dei dati';
+
+  @override
+  String get resetSuccess => 'Dati ripristinati con successo';
+
+  @override
+  String get resetWarning =>
+      'Tutti i tuoi dati verranno cancellati in modo permanente. Questa azione non può essere annullata. Sei sicuro di voler procedere?';
+
+  @override
   String get save => 'Salva';
+
+  @override
+  String get saveToDevice => 'Salva sul dispositivo';
 
   @override
   String get savings => 'Risparmi';
@@ -402,16 +465,37 @@ class AppLocalizationsIt extends AppLocalizations {
   String get settings => 'Opzioni';
 
   @override
+  String get shareBackup => 'Condividi backup';
+
+  @override
+  String get shopping => 'Shopping';
+
+  @override
   String get skip => 'Salta';
+
+  @override
+  String get sports => 'Sport';
 
   @override
   String get subscriptions => 'Abbonamenti';
 
   @override
+  String get suggestFeature => 'Suggerisci una funzionalità';
+
+  @override
   String get systemLanguageOption => 'Automatico (basato sul sistema)';
 
   @override
+  String get systemTheme => 'Automatico';
+
+  @override
   String get testNotificationSent => 'Notifica di test inviata!';
+
+  @override
+  String get theme => 'Tema';
+
+  @override
+  String get themeOptionDescription => 'Cambia l\'aspetto dell\'app';
 
   @override
   String get thisMonth => 'Questo mese';
@@ -457,21 +541,6 @@ class AppLocalizationsIt extends AppLocalizations {
   String get usageData => 'Modelli di utilizzo di base';
 
   @override
-  String get theme => 'Tema';
-
-  @override
-  String get themeOptionDescription => 'Cambia l\'aspetto dell\'app';
-
-  @override
-  String get lightTheme => 'Chiaro';
-
-  @override
-  String get darkTheme => 'Scuro';
-
-  @override
-  String get systemTheme => 'Automatico';
-
-  @override
   String get version => 'Versione';
 
   @override
@@ -497,6 +566,9 @@ class AppLocalizationsIt extends AppLocalizations {
   String get whatsNew => 'Novità';
 
   @override
+  String get work => 'Lavoro';
+
+  @override
   String get year => 'Anno';
 
   @override
@@ -510,25 +582,4 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get yourCategories => 'Le tue categorie';
-
-  @override
-  String get health => 'Salute';
-
-  @override
-  String get sports => 'Sport';
-
-  @override
-  String get finance => 'Finanza';
-
-  @override
-  String get shopping => 'Shopping';
-
-  @override
-  String get work => 'Lavoro';
-
-  @override
-  String get education => 'Istruzione';
-
-  @override
-  String get bills => 'Bollette';
 }

@@ -27,6 +27,7 @@ import 'package:expense_tracker/presentation/pages/options_page/notification_pag
 import 'package:expense_tracker/presentation/pages/options_page/privacy_page/privacy_settings_page.dart';
 import 'package:expense_tracker/presentation/pages/options_page/theme_page/theme_selection_page.dart';
 import 'package:expense_tracker/presentation/pages/options_page/contacts_page/contacts_page.dart';
+import 'package:expense_tracker/presentation/pages/options_page/backup_restore_page/backup_restore_page.dart';
 import 'package:expense_tracker/presentation/pages/tab_bar_page.dart';
 import 'package:expense_tracker/application/common/notifiers/analytics_consent_provider.dart';
 import 'package:expense_tracker/application/common/notifiers/theme_provider.dart';
@@ -240,6 +241,7 @@ class MyApp extends r.ConsumerWidget {
               const PrivacySettingsPage(),
           ThemeSelectionPage.routeName: (context) => const ThemeSelectionPage(),
           ContactsPage.routeName: (context) => const ContactsPage(),
+          BackupRestorePage.routeName: (context) => const BackupRestorePage(),
         },
         onGenerateRoute: (settings) {
           switch (settings.name) {

@@ -206,11 +206,29 @@ abstract class AppLocalizations {
   /// **'Back'**
   String get back;
 
+  /// No description provided for @backupAndRestore.
+  ///
+  /// In en, this message translates to:
+  /// **'Backup & Restore'**
+  String get backupAndRestore;
+
+  /// No description provided for @backupAndRestoreOptionDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Export or import your data'**
+  String get backupAndRestoreOptionDescription;
+
   /// No description provided for @balance.
   ///
   /// In en, this message translates to:
   /// **'Balance'**
   String get balance;
+
+  /// No description provided for @bills.
+  ///
+  /// In en, this message translates to:
+  /// **'Bills'**
+  String get bills;
 
   /// No description provided for @billsAndUtilities.
   ///
@@ -265,6 +283,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Color'**
   String get color;
+
+  /// No description provided for @contacts.
+  ///
+  /// In en, this message translates to:
+  /// **'Contacts'**
+  String get contacts;
+
+  /// No description provided for @contactsDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Contact the developer to report a bug or suggest a feature'**
+  String get contactsDescription;
+
+  /// No description provided for @contactsPageHeader.
+  ///
+  /// In en, this message translates to:
+  /// **'You can contact me to report a bug, suggest a feature, or whatever you want!'**
+  String get contactsPageHeader;
 
   /// No description provided for @continueCTA.
   ///
@@ -331,6 +367,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Daily Reminders'**
   String get dailyReminderChannelName;
+
+  /// No description provided for @darkTheme.
+  ///
+  /// In en, this message translates to:
+  /// **'Dark'**
+  String get darkTheme;
 
   /// No description provided for @date.
   ///
@@ -410,6 +452,12 @@ abstract class AppLocalizations {
   /// **'Edit transaction'**
   String get editTransaction;
 
+  /// No description provided for @education.
+  ///
+  /// In en, this message translates to:
+  /// **'Education'**
+  String get education;
+
   /// No description provided for @endConfigurationMsg1.
   ///
   /// In en, this message translates to:
@@ -452,6 +500,24 @@ abstract class AppLocalizations {
   /// **'Expenses'**
   String get expenses;
 
+  /// No description provided for @exportData.
+  ///
+  /// In en, this message translates to:
+  /// **'Export data'**
+  String get exportData;
+
+  /// No description provided for @exportError.
+  ///
+  /// In en, this message translates to:
+  /// **'An error occurred while exporting data'**
+  String get exportError;
+
+  /// No description provided for @exportSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Data exported successfully'**
+  String get exportSuccess;
+
   /// No description provided for @feedback.
   ///
   /// In en, this message translates to:
@@ -464,35 +530,11 @@ abstract class AppLocalizations {
   /// **'Do you like Moneye? Let us know!'**
   String get feedbackAndReviewOptionDescription;
 
-  /// No description provided for @contacts.
+  /// No description provided for @finance.
   ///
   /// In en, this message translates to:
-  /// **'Contacts'**
-  String get contacts;
-
-  /// No description provided for @contactsDescription.
-  ///
-  /// In en, this message translates to:
-  /// **'Contact the developer to report a bug or suggest a feature'**
-  String get contactsDescription;
-
-  /// No description provided for @contactsPageHeader.
-  ///
-  /// In en, this message translates to:
-  /// **'You can contact me to report a bug, suggest a feature, or whatever you want!'**
-  String get contactsPageHeader;
-
-  /// No description provided for @reportBug.
-  ///
-  /// In en, this message translates to:
-  /// **'Report a bug'**
-  String get reportBug;
-
-  /// No description provided for @suggestFeature.
-  ///
-  /// In en, this message translates to:
-  /// **'Suggest a feature'**
-  String get suggestFeature;
+  /// **'Finance'**
+  String get finance;
 
   /// No description provided for @financialOverviewForThisMonth.
   ///
@@ -506,11 +548,41 @@ abstract class AppLocalizations {
   /// **'Food & Dining'**
   String get foodAndDining;
 
+  /// No description provided for @health.
+  ///
+  /// In en, this message translates to:
+  /// **'Health'**
+  String get health;
+
   /// No description provided for @icon.
   ///
   /// In en, this message translates to:
   /// **'Icon'**
   String get icon;
+
+  /// No description provided for @importData.
+  ///
+  /// In en, this message translates to:
+  /// **'Import data'**
+  String get importData;
+
+  /// No description provided for @importError.
+  ///
+  /// In en, this message translates to:
+  /// **'An error occurred while importing data'**
+  String get importError;
+
+  /// No description provided for @importSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Data imported successfully'**
+  String get importSuccess;
+
+  /// No description provided for @importWarning.
+  ///
+  /// In en, this message translates to:
+  /// **'Importing a backup will delete all current data. Are you sure you want to proceed?'**
+  String get importWarning;
 
   /// No description provided for @includeInReports.
   ///
@@ -589,6 +661,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Last transactions'**
   String get lastTransactions;
+
+  /// No description provided for @lightTheme.
+  ///
+  /// In en, this message translates to:
+  /// **'Light'**
+  String get lightTheme;
 
   /// No description provided for @month.
   ///
@@ -728,11 +806,47 @@ abstract class AppLocalizations {
   /// **'Set a reminder to remember to insert new transactions'**
   String get reminderOptionDescription;
 
+  /// No description provided for @reportBug.
+  ///
+  /// In en, this message translates to:
+  /// **'Report a bug'**
+  String get reportBug;
+
+  /// No description provided for @resetData.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset data'**
+  String get resetData;
+
+  /// No description provided for @resetError.
+  ///
+  /// In en, this message translates to:
+  /// **'An error occurred while resetting data'**
+  String get resetError;
+
+  /// No description provided for @resetSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Data reset successfully'**
+  String get resetSuccess;
+
+  /// No description provided for @resetWarning.
+  ///
+  /// In en, this message translates to:
+  /// **'All your data will be permanently deleted. This action cannot be undone. Are you sure you want to proceed?'**
+  String get resetWarning;
+
   /// No description provided for @save.
   ///
   /// In en, this message translates to:
   /// **'Save'**
   String get save;
+
+  /// No description provided for @saveToDevice.
+  ///
+  /// In en, this message translates to:
+  /// **'Save to device'**
+  String get saveToDevice;
 
   /// No description provided for @savings.
   ///
@@ -830,11 +944,29 @@ abstract class AppLocalizations {
   /// **'Settings'**
   String get settings;
 
+  /// No description provided for @shareBackup.
+  ///
+  /// In en, this message translates to:
+  /// **'Share backup'**
+  String get shareBackup;
+
+  /// No description provided for @shopping.
+  ///
+  /// In en, this message translates to:
+  /// **'Shopping'**
+  String get shopping;
+
   /// No description provided for @skip.
   ///
   /// In en, this message translates to:
   /// **'Skip'**
   String get skip;
+
+  /// No description provided for @sports.
+  ///
+  /// In en, this message translates to:
+  /// **'Sports'**
+  String get sports;
 
   /// No description provided for @subscriptions.
   ///
@@ -842,17 +974,41 @@ abstract class AppLocalizations {
   /// **'Subscriptions'**
   String get subscriptions;
 
+  /// No description provided for @suggestFeature.
+  ///
+  /// In en, this message translates to:
+  /// **'Suggest a feature'**
+  String get suggestFeature;
+
   /// No description provided for @systemLanguageOption.
   ///
   /// In en, this message translates to:
   /// **'Automatic (based on the system)'**
   String get systemLanguageOption;
 
+  /// No description provided for @systemTheme.
+  ///
+  /// In en, this message translates to:
+  /// **'Automatic'**
+  String get systemTheme;
+
   /// No description provided for @testNotificationSent.
   ///
   /// In en, this message translates to:
   /// **'Test notification sent!'**
   String get testNotificationSent;
+
+  /// No description provided for @theme.
+  ///
+  /// In en, this message translates to:
+  /// **'Theme'**
+  String get theme;
+
+  /// No description provided for @themeOptionDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Change the app appearance'**
+  String get themeOptionDescription;
 
   /// No description provided for @thisMonth.
   ///
@@ -938,36 +1094,6 @@ abstract class AppLocalizations {
   /// **'Basic usage patterns'**
   String get usageData;
 
-  /// No description provided for @theme.
-  ///
-  /// In en, this message translates to:
-  /// **'Theme'**
-  String get theme;
-
-  /// No description provided for @themeOptionDescription.
-  ///
-  /// In en, this message translates to:
-  /// **'Change the app appearance'**
-  String get themeOptionDescription;
-
-  /// No description provided for @lightTheme.
-  ///
-  /// In en, this message translates to:
-  /// **'Light'**
-  String get lightTheme;
-
-  /// No description provided for @darkTheme.
-  ///
-  /// In en, this message translates to:
-  /// **'Dark'**
-  String get darkTheme;
-
-  /// No description provided for @systemTheme.
-  ///
-  /// In en, this message translates to:
-  /// **'Automatic'**
-  String get systemTheme;
-
   /// No description provided for @version.
   ///
   /// In en, this message translates to:
@@ -1016,6 +1142,12 @@ abstract class AppLocalizations {
   /// **'What\'s new'**
   String get whatsNew;
 
+  /// No description provided for @work.
+  ///
+  /// In en, this message translates to:
+  /// **'Work'**
+  String get work;
+
   /// No description provided for @year.
   ///
   /// In en, this message translates to:
@@ -1045,48 +1177,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Your categories'**
   String get yourCategories;
-
-  /// No description provided for @health.
-  ///
-  /// In en, this message translates to:
-  /// **'Health'**
-  String get health;
-
-  /// No description provided for @sports.
-  ///
-  /// In en, this message translates to:
-  /// **'Sports'**
-  String get sports;
-
-  /// No description provided for @finance.
-  ///
-  /// In en, this message translates to:
-  /// **'Finance'**
-  String get finance;
-
-  /// No description provided for @shopping.
-  ///
-  /// In en, this message translates to:
-  /// **'Shopping'**
-  String get shopping;
-
-  /// No description provided for @work.
-  ///
-  /// In en, this message translates to:
-  /// **'Work'**
-  String get work;
-
-  /// No description provided for @education.
-  ///
-  /// In en, this message translates to:
-  /// **'Education'**
-  String get education;
-
-  /// No description provided for @bills.
-  ///
-  /// In en, this message translates to:
-  /// **'Bills'**
-  String get bills;
 }
 
 class _AppLocalizationsDelegate
