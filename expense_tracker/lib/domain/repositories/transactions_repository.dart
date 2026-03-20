@@ -24,4 +24,6 @@ abstract class TransactionsRepository {
     bool? includeExpenses,
     int? limit,
   });
+
+  Future<void> generateRecurringTransactionsUntil(DateTime targetDate);
 }

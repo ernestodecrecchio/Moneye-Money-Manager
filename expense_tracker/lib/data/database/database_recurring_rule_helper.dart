@@ -1,0 +1,69 @@
+import 'package:expense_tracker/data/database/database_helper.dart';
+import 'package:expense_tracker/data/database/database_types.dart';
+import 'package:expense_tracker/domain/models/account.dart';
+import 'package:expense_tracker/domain/models/category.dart';
+import 'package:expense_tracker/domain/models/recurring_rule.dart';
+import 'package:sqflite/sqlite_api.dart';
+
+class DatabaseRecurringRuleHelper {
+  static final DatabaseRecurringRuleHelper instance =
+      DatabaseRecurringRuleHelper._init();
+  DatabaseRecurringRuleHelper._init();
+
+  static Future inizializeTable(Database db) async {
+    await db.execute('''
+    CREATE TABLE $recurringRulesTable (
+      ${RecurringRuleFields.id} ${DatabaseTypes.idType},
+      ${RecurringRuleFields.title} ${DatabaseTypes.textType},
+      ${RecurringRuleFields.description} ${DatabaseTypes.textTypeNullable},
+      ${RecurringRuleFields.amount} ${DatabaseTypes.realType},
+      ${RecurringRuleFields.categoryId} ${DatabaseTypes.integerTypeNullable},
+      ${RecurringRuleFields.accountId} ${DatabaseTypes.integerTypeNullable},
+      ${RecurringRuleFields.includeInReports} ${DatabaseTypes.integerType} DEFAULT 1,
+      ${RecurringRuleFields.isHidden} ${DatabaseTypes.integerType} DEFAULT 0,
+      ${RecurringRuleFields.frequency} ${DatabaseTypes.textType},
+      ${RecurringRuleFields.frequencyInterval} ${DatabaseTypes.integerType},
+      ${RecurringRuleFields.startDate} ${DatabaseTypes.dateTimeType},
+      ${RecurringRuleFields.endDate} ${DatabaseTypes.textTypeNullable},
+      FOREIGN KEY (${RecurringRuleFields.categoryId}) REFERENCES $categoriesTable (${CategoryFields.id}) ON DELETE SET NULL ON UPDATE NO ACTION,
+      FOREIGN KEY (${RecurringRuleFields.accountId}) REFERENCES $accountsTable (${AccountFields.id}) ON DELETE CASCADE ON UPDATE NO ACTION
+    )
+    ''');
+  }
+
+  static void createTableV2toV3(Batch batch) {
+    batch.execute('''
+    CREATE TABLE $recurringRulesTable (
+      ${RecurringRuleFields.id} ${DatabaseTypes.idType},
+      ${RecurringRuleFields.title} ${DatabaseTypes.textType},
+      ${RecurringRuleFields.description} ${DatabaseTypes.textTypeNullable},
+      ${RecurringRuleFields.amount} ${DatabaseTypes.realType},
+      ${RecurringRuleFields.categoryId} ${DatabaseTypes.integerTypeNullable},
+      ${RecurringRuleFields.accountId} ${DatabaseTypes.integerTypeNullable},
+      ${RecurringRuleFields.includeInReports} ${DatabaseTypes.integerType} DEFAULT 1,
+      ${RecurringRuleFields.isHidden} ${DatabaseTypes.integerType} DEFAULT 0,
+      ${RecurringRuleFields.frequency} ${DatabaseTypes.textType},
+      ${RecurringRuleFields.frequencyInterval} ${DatabaseTypes.integerType},
+      ${RecurringRuleFields.startDate} ${DatabaseTypes.dateTimeType},
+      ${RecurringRuleFields.endDate} ${DatabaseTypes.textTypeNullable},
+      FOREIGN KEY (${RecurringRuleFields.categoryId}) REFERENCES $categoriesTable (${CategoryFields.id}) ON DELETE SET NULL ON UPDATE NO ACTION,
+      FOREIGN KEY (${RecurringRuleFields.accountId}) REFERENCES $accountsTable (${AccountFields.id}) ON DELETE CASCADE ON UPDATE NO ACTION
+    )
+    ''');
+  }
+
+  Future<List<RecurringRule>> getRecurringRules() async {
+    final db = await DatabaseHelper.instance.database;
+    final result = await db.query(recurringRulesTable);
+    return result.map((json) => RecurringRule.fromJson(json)).toList();
+  }
+
+  Future<RecurringRule> insertRecurringRule(
+      {required RecurringRule rule}) async {
+    final db = await DatabaseHelper.instance.database;
+    final id = await db.insert(recurringRulesTable, rule.toJson());
+
+    rule.id = id;
+    return rule;
+  }
+}

@@ -3,6 +3,8 @@ import 'package:expense_tracker/data/database/database_types.dart';
 import 'package:expense_tracker/domain/models/account.dart';
 import 'package:expense_tracker/domain/models/category.dart';
 import 'package:expense_tracker/domain/models/transaction.dart';
+import 'package:expense_tracker/domain/models/recurring_rule.dart';
+import 'package:expense_tracker/data/database/database_recurring_rule_helper.dart';
 import 'package:expense_tracker/domain/models/transaction.dart' as trans;
 import 'package:expense_tracker/helper/date_time_helper.dart';
 import 'package:intl/intl.dart';
@@ -39,6 +41,73 @@ class DatabaseTransactionHelper {
         '''ALTER TABLE $transactionsTable ADD ${TransactionFields.includeInReports} ${DatabaseTypes.integerType} DEFAULT 1''');
     batch.execute(
         '''ALTER TABLE $transactionsTable ADD ${TransactionFields.isHidden} ${DatabaseTypes.integerType} DEFAULT 0''');
+  }
+
+  static void updateTransactionTableV2toV3(Batch batch) {
+    batch.execute('ALTER TABLE $transactionsTable ADD ${TransactionFields.recurringId} ${DatabaseTypes.integerTypeNullable}');
+    batch.execute('ALTER TABLE $transactionsTable ADD ${TransactionFields.isGenerated} ${DatabaseTypes.integerType} DEFAULT 0');
+    batch.execute('ALTER TABLE $transactionsTable ADD ${TransactionFields.originalDate} ${DatabaseTypes.textTypeNullable}');
+    
+    // Set default value for existing rows
+    batch.execute('UPDATE $transactionsTable SET ${TransactionFields.isGenerated} = 0');
+
+    batch.execute('CREATE UNIQUE INDEX idx_recurring_unique ON $transactionsTable(${TransactionFields.recurringId}, ${TransactionFields.originalDate})');
+  }
+
+
+  DateTime computeNextOccurrence(RecurringRule rule, DateTime currentDate) {
+    switch (rule.frequency) {
+      case 'daily':
+        return currentDate.add(Duration(days: rule.frequencyInterval));
+      case 'weekly':
+        return currentDate.add(Duration(days: 7 * rule.frequencyInterval));
+      case 'monthly':
+        final nextMonth = DateTime(currentDate.year, currentDate.month + rule.frequencyInterval, currentDate.day);
+        if (nextMonth.month != (currentDate.month + rule.frequencyInterval) % 12 && nextMonth.month != 12) {
+          return DateTime(currentDate.year, currentDate.month + rule.frequencyInterval + 1, 0); 
+        }
+        return nextMonth;
+      case 'yearly':
+        return DateTime(currentDate.year + rule.frequencyInterval, currentDate.month, currentDate.day);
+      default:
+        return currentDate;
+    }
+  }
+
+  Future<void> generateRecurringTransactionsUntil(DateTime targetDate) async {
+    final rules = await DatabaseRecurringRuleHelper.instance.getRecurringRules();
+    final db = await DatabaseHelper.instance.database;
+
+    for (var rule in rules) {
+      DateTime currentTarget = rule.startDate;
+      
+      while (currentTarget.isBefore(targetDate) || currentTarget.isAtSameMomentAs(targetDate)) {
+        if (rule.endDate != null && currentTarget.isAfter(rule.endDate!)) break;
+
+        
+        final transaction = trans.Transaction(
+          title: rule.title,
+          description: rule.description,
+          amount: rule.amount,
+          date: currentTarget,
+          categoryId: rule.categoryId,
+          accountId: rule.accountId,
+          includeInReports: rule.includeInReports,
+          isHidden: rule.isHidden,
+          recurringId: rule.id,
+          isGenerated: true,
+          originalDate: currentTarget,
+        );
+
+        try {
+          await db.insert(transactionsTable, transaction.toJson());
+        } on DatabaseException catch (e) {
+          if (!e.isUniqueConstraintError()) rethrow;
+        }
+
+        currentTarget = computeNextOccurrence(rule, currentTarget);
+      }
+    }
   }
 
   Future<trans.Transaction> insertTransaction(
