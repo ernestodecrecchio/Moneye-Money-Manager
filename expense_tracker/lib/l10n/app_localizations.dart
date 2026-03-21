@@ -1225,6 +1225,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Recurring Transactions'**
   String get recurringTransactions;
+
+  /// No description provided for @endDate.
+  ///
+  /// In en, this message translates to:
+  /// **'End date'**
+  String get endDate;
 }
 
 class _AppLocalizationsDelegate

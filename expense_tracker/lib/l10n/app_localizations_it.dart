@@ -606,4 +606,7 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get recurringTransactions => 'Transazioni Ricorrenti';
+
+  @override
+  String get endDate => 'Data di fine';
 }

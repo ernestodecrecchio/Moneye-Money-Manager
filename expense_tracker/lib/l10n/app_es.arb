@@ -185,5 +185,6 @@
     "monthly": "Mensualmente",
     "yearly": "Anualmente",
     "interval": "Intervalo",
-    "recurringTransactions": "Transacciones recurrentes"
+    "recurringTransactions": "Transacciones recurrentes",
+    "endDate": "Fecha final"
 }

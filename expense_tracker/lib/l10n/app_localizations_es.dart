@@ -602,4 +602,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get recurringTransactions => 'Transacciones recurrentes';
+
+  @override
+  String get endDate => 'Fecha final';
 }
