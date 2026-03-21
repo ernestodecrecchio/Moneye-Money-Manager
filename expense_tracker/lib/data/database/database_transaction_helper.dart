@@ -32,7 +32,7 @@ class DatabaseTransactionHelper {
       ${TransactionFields.originalDate} ${DatabaseTypes.textTypeNullable},
       FOREIGN KEY (${TransactionFields.categoryId}) REFERENCES $categoriesTable (${CategoryFields.id}) ON DELETE SET NULL ON UPDATE NO ACTION,
       FOREIGN KEY (${TransactionFields.accountId}) REFERENCES $accountsTable (${AccountFields.id}) ON DELETE CASCADE ON UPDATE NO ACTION,
-      FOREIGN KEY (${TransactionFields.recurringId}) REFERENCES $recurringRulesTable (${RecurringRuleFields.id}) ON DELETE SET NULL ON UPDATE NO ACTION
+      FOREIGN KEY (${TransactionFields.recurringId}) REFERENCES $recurringRulesTable (${RecurringRuleFields.id}) ON DELETE NO ACTION ON UPDATE NO ACTION
       )
     ''');
 
@@ -88,23 +88,24 @@ class DatabaseTransactionHelper {
 
     batch.execute('DROP TABLE $transactionsTable');
 
-    batch.execute('ALTER TABLE transactions_migration RENAME TO $transactionsTable');
+    batch.execute(
+        'ALTER TABLE transactions_migration RENAME TO $transactionsTable');
 
     batch.execute(
         'CREATE UNIQUE INDEX idx_recurring_unique ON $transactionsTable(${TransactionFields.recurringId}, ${TransactionFields.originalDate})');
   }
 
-
-
   Future<void> generateRecurringTransactionsUntil(DateTime targetDate) async {
+    final db = await DatabaseHelper.instance.database;
+
     final rules =
         await DatabaseRecurringRuleHelper.instance.getRecurringRules();
-    final db = await DatabaseHelper.instance.database;
 
     for (var rule in rules) {
       bool generatedAny = false;
 
-      for (final occurrenceDate in rule.generateOccurrences(until: targetDate)) {
+      for (final occurrenceDate
+          in rule.generateOccurrences(until: targetDate)) {
         final transaction = trans.Transaction(
           title: rule.title,
           description: rule.description,

@@ -17,4 +17,5 @@ class DatabaseTypes {
 
   // Datetime
   static const dateTimeType = 'DATETIME NOT NULL';
+  static const dateTimeTypeNullable = 'DATETIME';
 }

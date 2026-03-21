@@ -72,6 +72,7 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
   TextEditingController categoryInput = TextEditingController();
   TextEditingController accountInput = TextEditingController();
   TextEditingController intervalInput = TextEditingController(text: '1');
+  TextEditingController endDateInput = TextEditingController();
 
   bool _isRecurring = false;
   String _frequency = 'monthly';
@@ -79,6 +80,7 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
   Category? selectedCategory;
   Account? selectedAccount;
   DateTime selectedDate = DateTime.now();
+  DateTime? selectedEndDate;
   bool includeInReportCheckboxValue = true;
 
   final dateFormatter = DateFormat('dd/MM/yyyy');
@@ -136,6 +138,12 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
       valueInput.text = initialRule.amount.abs().toString();
       dateInput.text = dateFormatter.format(initialRule.startDate).toString();
       selectedDate = initialRule.startDate;
+
+      if (initialRule.endDate != null) {
+        selectedEndDate = initialRule.endDate;
+        endDateInput.text =
+            dateFormatter.format(initialRule.endDate!).toString();
+      }
 
       _transactionTypeTabController.index = initialRule.amount >= 0 ? 0 : 1;
 
@@ -201,6 +209,7 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
     categoryInput.dispose();
     accountInput.dispose();
     intervalInput.dispose();
+    endDateInput.dispose();
 
     super.dispose();
   }
@@ -346,6 +355,36 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
                   ),
                 ],
               ),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Expanded(
+                    child: CustomTextField(
+                      controller: endDateInput,
+                      label: appLocalizations.endDate,
+                      icon: Icons.calendar_month_rounded,
+                      readOnly: true,
+                      onTap: () => _selectEndDate(),
+                    ),
+                  ),
+                  if (selectedEndDate != null) ...[
+                    const SizedBox(width: 8),
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 6.0),
+                      child: IconButton(
+                        icon:
+                            Icon(Icons.clear, color: context.appColors.primary),
+                        onPressed: () {
+                          setState(() {
+                            selectedEndDate = null;
+                            endDateInput.clear();
+                          });
+                        },
+                      ),
+                    ),
+                  ],
+                ],
+              ),
             ],
             CustomTextField(
               controller: categoryInput,
@@ -468,6 +507,52 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
     }
   }
 
+  Future<void> _selectEndDate() async {
+    final colors = context.appColors;
+    final DateTime? picked = await showDatePicker(
+        context: context,
+        builder: (context, child) {
+          return Theme(
+            data: Theme.of(context).copyWith(
+              datePickerTheme: DatePickerThemeData(
+                headerBackgroundColor: colors.primary,
+                headerForegroundColor: colors.onPrimary,
+                backgroundColor: colors.scaffoldBackground,
+                todayBackgroundColor: WidgetStateProperty.resolveWith(
+                  (states) {
+                    if (states.contains(WidgetState.selected)) {
+                      return colors.primary;
+                    }
+
+                    return Colors.transparent;
+                  },
+                ),
+                dayBackgroundColor: WidgetStateProperty.resolveWith(
+                  (states) {
+                    if (states.contains(WidgetState.selected)) {
+                      return colors.primary;
+                    }
+
+                    return Colors.transparent;
+                  },
+                ),
+              ),
+            ),
+            child: child!,
+          );
+        },
+        initialDate: selectedEndDate ?? selectedDate,
+        firstDate: selectedDate,
+        lastDate: DateTime(2101));
+
+    if (picked != null && picked != selectedEndDate) {
+      setState(() {
+        endDateInput.text = dateFormatter.format(picked).toString();
+        selectedEndDate = picked;
+      });
+    }
+  }
+
   Widget _buildSaveButton(AppLocalizations appLocalizations, bool isLoading) {
     return CustomElevatedButton(
       text: editMode ? appLocalizations.applyChanges : appLocalizations.save,
@@ -511,6 +596,7 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
         description: descriptionInput.text,
         amount: transactionValue,
         startDate: selectedDate,
+        endDate: selectedEndDate,
         categoryId: selectedCategory?.id,
         accountId: selectedAccount?.id,
         includeInReports: includeInReportCheckboxValue,
@@ -562,12 +648,19 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
           description: descriptionInput.text,
           amount: transactionValue,
           startDate: selectedDate,
+          endDate: selectedEndDate,
           categoryId: selectedCategory?.id,
           accountId: selectedAccount?.id,
           includeInReports: includeInReportCheckboxValue,
           isHidden: false,
           frequency: _frequency,
           frequencyInterval: int.tryParse(intervalInput.text) ?? 1,
+          lastGeneratedDate: (widget.initialRecurringRule!.lastGeneratedDate !=
+                      null &&
+                  !selectedDate
+                      .isAfter(widget.initialRecurringRule!.lastGeneratedDate!))
+              ? widget.initialRecurringRule!.lastGeneratedDate
+              : null,
         );
         modifiedRule.id = widget.initialRecurringRule!.id;
 
