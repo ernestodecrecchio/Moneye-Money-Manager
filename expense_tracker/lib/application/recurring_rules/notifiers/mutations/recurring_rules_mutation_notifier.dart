@@ -3,6 +3,7 @@ import 'package:expense_tracker/application/recurring_rules/notifiers/recurring_
 import 'package:expense_tracker/domain/models/recurring_rule.dart';
 import 'package:expense_tracker/domain/repositories/recurring_rules_repository.dart';
 import 'package:expense_tracker/application/transactions/notifiers/queries/transactions_list_notifier.dart';
+import 'package:expense_tracker/application/transactions/notifiers/transactions_repository_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class RecurringRulesMutationNotifier extends AsyncNotifier<void> {
@@ -18,6 +19,10 @@ class RecurringRulesMutationNotifier extends AsyncNotifier<void> {
 
     state = await AsyncValue.guard(() async {
       inserted = await _repo.insertRecurringRule(rule: rule);
+      
+      // Trigger generation for the new rule
+      await ref.read(transactionsRepositoryProvider).generateRecurringTransactionsUntil(DateTime.now());
+
       ref.invalidate(recurringRulesListProvider);
       ref.invalidate(transactionsListProvider);
     });
@@ -30,6 +35,10 @@ class RecurringRulesMutationNotifier extends AsyncNotifier<void> {
     state = const AsyncLoading();
     state = await AsyncValue.guard(() async {
       await _repo.updateRecurringRule(original: original, modified: modified);
+
+      // Trigger generation for the updated rule
+      await ref.read(transactionsRepositoryProvider).generateRecurringTransactionsUntil(DateTime.now());
+
       ref.invalidate(recurringRulesListProvider);
       ref.invalidate(transactionsListProvider);
     });
