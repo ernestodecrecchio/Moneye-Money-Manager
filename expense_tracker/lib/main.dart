@@ -46,6 +46,7 @@ import 'package:expense_tracker/presentation/pages/options_page/update_history_p
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:flutter_timezone/flutter_timezone.dart';
 import 'package:timezone/timezone.dart';
+import 'package:expense_tracker/application/transactions/notifiers/transactions_repository_provider.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
@@ -170,6 +171,11 @@ Future main() async {
   final themeModeString = prefs.getString('theme_mode');
   final themeProviderNotifier = container.read(themeProvider.notifier);
   themeProviderNotifier.setFromLocalStorage(themeModeString);
+
+  // Trigger lazy generation of recurring transactions on app startup
+  await container
+      .read(transactionsRepositoryProvider)
+      .generateRecurringTransactionsUntil(DateTime.now());
 
   // SETTING UP NEEDS CONFIGURATION
   runApp(
