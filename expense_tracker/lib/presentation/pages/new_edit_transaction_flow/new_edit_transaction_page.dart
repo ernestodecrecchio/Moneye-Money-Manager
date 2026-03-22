@@ -81,7 +81,7 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
   Account? selectedAccount;
   DateTime selectedDate = DateTime.now();
   DateTime? selectedEndDate;
-  bool includeInReportCheckboxValue = true;
+  bool _includeInReport = true;
 
   final dateFormatter = DateFormat('dd/MM/yyyy');
 
@@ -128,7 +128,7 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
         }
       }
 
-      includeInReportCheckboxValue = initialTransaction.includeInReports;
+      _includeInReport = initialTransaction.includeInReports;
     } else if (widget.initialRecurringRule != null) {
       _isRecurring = true;
       final initialRule = widget.initialRecurringRule!;
@@ -172,7 +172,7 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
         }
       }
 
-      includeInReportCheckboxValue = initialRule.includeInReports;
+      _includeInReport = initialRule.includeInReports;
       _frequency = initialRule.frequency;
       intervalInput.text = initialRule.frequencyInterval.toString();
     } else {
@@ -302,7 +302,7 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
                         ),
                   ),
                   const Spacer(),
-                  Switch(
+                  Switch.adaptive(
                     value: _isRecurring,
                     onChanged: widget.initialRecurringRule != null
                         ? null
@@ -441,11 +441,10 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
                       ),
                 ),
                 const Spacer(),
-                Checkbox(
-                  value: includeInReportCheckboxValue,
+                Switch.adaptive(
+                  value: _includeInReport,
                   onChanged: (_) {
-                    includeInReportCheckboxValue =
-                        !includeInReportCheckboxValue;
+                    _includeInReport = !_includeInReport;
 
                     setState(() {});
                   },
@@ -587,7 +586,7 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
         date: selectedDate,
         categoryId: selectedCategory?.id,
         accountId: selectedAccount?.id,
-        includeInReports: includeInReportCheckboxValue,
+        includeInReports: _includeInReport,
         isHidden: false);
 
     if (_isRecurring) {
@@ -599,7 +598,7 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
         endDate: selectedEndDate,
         categoryId: selectedCategory?.id,
         accountId: selectedAccount?.id,
-        includeInReports: includeInReportCheckboxValue,
+        includeInReports: _includeInReport,
         isHidden: false,
         frequency: _frequency,
         frequencyInterval: int.tryParse(intervalInput.text) ?? 1,
@@ -638,7 +637,7 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
         date: selectedDate,
         categoryId: selectedCategory?.id,
         accountId: selectedAccount?.id,
-        includeInReports: includeInReportCheckboxValue,
+        includeInReports: _includeInReport,
         isHidden: false,
       );
 
@@ -651,7 +650,7 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
           endDate: selectedEndDate,
           categoryId: selectedCategory?.id,
           accountId: selectedAccount?.id,
-          includeInReports: includeInReportCheckboxValue,
+          includeInReports: _includeInReport,
           isHidden: false,
           frequency: _frequency,
           frequencyInterval: int.tryParse(intervalInput.text) ?? 1,
