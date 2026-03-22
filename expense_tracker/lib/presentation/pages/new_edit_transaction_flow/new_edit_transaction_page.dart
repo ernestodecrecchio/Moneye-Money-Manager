@@ -14,6 +14,7 @@ import 'package:expense_tracker/presentation/pages/new_edit_transaction_flow/acc
 import 'package:expense_tracker/presentation/pages/common/custom_text_field.dart';
 import 'package:expense_tracker/presentation/pages/new_edit_transaction_flow/category_selector_dialog.dart';
 import 'package:expense_tracker/presentation/pages/common/custom_dropdown_button_form_field.dart';
+import 'package:expense_tracker/presentation/pages/common/custom_form_switch.dart';
 import 'package:expense_tracker/style/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -339,24 +340,14 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
               },
             ),
             _buildRepeatTransactionSection(appLocalizations),
-            Row(
-              children: [
-                Text(
-                  appLocalizations.includeInReports,
-                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                        fontWeight: FontWeight.w600,
-                      ),
-                ),
-                const Spacer(),
-                Switch.adaptive(
-                  value: _includeInReport,
-                  onChanged: (_) {
-                    _includeInReport = !_includeInReport;
+            CustomFormSwitch(
+              label: appLocalizations.includeInReports,
+              value: _includeInReport,
+              onChanged: (_) {
+                _includeInReport = !_includeInReport;
 
-                    setState(() {});
-                  },
-                )
-              ],
+                setState(() {});
+              },
             ),
             const Spacer(),
             _buildSaveButton(appLocalizations, isLoading),
@@ -370,26 +361,16 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
     return Column(
       children: [
         if (!editMode || widget.initialRecurringRule != null)
-          Row(
-            children: [
-              Text(
-                localizations.repeatTransaction,
-                style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                      fontWeight: FontWeight.w600,
-                    ),
-              ),
-              const Spacer(),
-              Switch.adaptive(
-                value: _isRecurring,
-                onChanged: widget.initialRecurringRule != null
-                    ? null
-                    : (val) {
-                        setState(() {
-                          _isRecurring = val;
-                        });
-                      },
-              )
-            ],
+          CustomFormSwitch(
+            label: localizations.repeatTransaction,
+            value: _isRecurring,
+            onChanged: widget.initialRecurringRule != null
+                ? null
+                : (val) {
+                    setState(() {
+                      _isRecurring = val;
+                    });
+                  },
           ),
         if (_isRecurring) ...[
           Row(

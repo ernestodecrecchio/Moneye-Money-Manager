@@ -2,6 +2,7 @@ import 'package:expense_tracker/application/common/notifiers/analytics_consent_p
 import 'package:expense_tracker/application/common/notifiers/app_localizations_provider.dart';
 import 'package:expense_tracker/configuration/analytics_manager.dart';
 import 'package:expense_tracker/l10n/app_localizations.dart';
+import 'package:expense_tracker/presentation/pages/common/custom_form_switch.dart';
 import 'package:expense_tracker/style/app_theme.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -23,56 +24,54 @@ class PrivacySettingsPage extends ConsumerWidget {
       appBar: AppBar(
         title: Text(appLocalizations.privacy),
       ),
-      body: ListView(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Text(
+      body: SafeArea(
+        minimum: const EdgeInsets.only(left: 16.0, right: 16, top: 8),
+        child: ListView(
+          children: [
+            Text(
               appLocalizations.privacyIntroduction,
               style: textTheme.bodyLarge?.copyWith(
                 fontSize: 16,
               ),
             ),
-          ),
-          _buildPrivacyAssurance(appLocalizations, colors, textTheme),
-          const SizedBox(height: 8),
-          _buildSettingsSection(
-            context,
-            colors: colors,
-            textTheme: textTheme,
-            title: appLocalizations.essentialDataOptionTitle,
-            description: appLocalizations.essentialDataOptionDescription,
-            value: true,
-            isLocked: true,
-            onChanged: null,
-          ),
-          const Divider(height: 1),
-          _buildSettingsSection(
-            context,
-            colors: colors,
-            textTheme: textTheme,
-            title: appLocalizations.analyticsOptionTitle,
-            description: appLocalizations.analyticsOptionDescription,
-            value: consent ?? false,
-            isLocked: false,
-            onChanged: (value) {
-              ref.read(analyticsConsentProvider.notifier).updateConsent(value);
-            },
-          ),
-          if (kDebugMode) ...[
-            Padding(
-              padding: const EdgeInsets.fromLTRB(16, 32, 16, 8),
-              child: Text(
+            const SizedBox(height: 16),
+            _buildPrivacyAssurance(appLocalizations, colors, textTheme),
+            const SizedBox(height: 24),
+            CustomFormSwitch(
+              label: appLocalizations.essentialDataOptionTitle,
+              subtitle: appLocalizations.essentialDataOptionDescription,
+              value: true,
+              onChanged: null,
+            ),
+            const Padding(
+              padding: EdgeInsets.symmetric(vertical: 16),
+              child: Divider(
+                height: 1,
+              ),
+            ),
+            CustomFormSwitch(
+              label: appLocalizations.analyticsOptionTitle,
+              subtitle: appLocalizations.analyticsOptionDescription,
+              value: consent ?? false,
+              onChanged: (value) {
+                ref
+                    .read(analyticsConsentProvider.notifier)
+                    .updateConsent(value);
+              },
+            ),
+            if (kDebugMode) ...[
+              const SizedBox(
+                height: 32,
+              ),
+              Text(
                 "Debug",
                 style: textTheme.titleMedium?.copyWith(
                   fontWeight: FontWeight.bold,
                   fontSize: 18,
                 ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: SizedBox(
+              const SizedBox(height: 12),
+              SizedBox(
                 width: double.infinity,
                 child: ElevatedButton.icon(
                   onPressed: () => AnalyticsManager.crashApp(),
@@ -84,9 +83,9 @@ class PrivacySettingsPage extends ConsumerWidget {
                   ),
                 ),
               ),
-            ),
+            ],
           ],
-        ],
+        ),
       ),
     );
   }
@@ -94,7 +93,6 @@ class PrivacySettingsPage extends ConsumerWidget {
   Widget _buildPrivacyAssurance(AppLocalizations appLocalizations,
       AppColors colors, TextTheme textTheme) {
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: colors.primary.withValues(alpha: 0.1),
@@ -103,11 +101,12 @@ class PrivacySettingsPage extends ConsumerWidget {
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
+        spacing: 12,
         children: [
           Row(
+            spacing: 8,
             children: [
               Icon(Icons.privacy_tip, color: colors.primary, size: 20),
-              const SizedBox(width: 8),
               Text(
                 appLocalizations.privacyAssuranceLabel,
                 style: textTheme.bodyMedium?.copyWith(
@@ -117,7 +116,6 @@ class PrivacySettingsPage extends ConsumerWidget {
               ),
             ],
           ),
-          const SizedBox(height: 12),
           Text(
             appLocalizations.privacyAssurance,
             style: textTheme.bodyMedium?.copyWith(
@@ -126,41 +124,6 @@ class PrivacySettingsPage extends ConsumerWidget {
             ),
           ),
         ],
-      ),
-    );
-  }
-
-  Widget _buildSettingsSection(
-    BuildContext context, {
-    required AppColors colors,
-    required TextTheme textTheme,
-    required String title,
-    required String description,
-    required bool value,
-    required bool isLocked,
-    required ValueChanged<bool>? onChanged,
-  }) {
-    return ListTile(
-      title: Text(
-        title,
-        style: textTheme.titleMedium?.copyWith(
-          fontWeight: FontWeight.bold,
-          fontSize: 16,
-        ),
-      ),
-      subtitle: Padding(
-        padding: const EdgeInsets.only(top: 4),
-        child: Text(
-          description,
-          style: textTheme.bodyMedium?.copyWith(
-            fontSize: 14,
-            color: colors.textSecondary,
-          ),
-        ),
-      ),
-      trailing: Switch.adaptive(
-        value: value,
-        onChanged: onChanged,
       ),
     );
   }
