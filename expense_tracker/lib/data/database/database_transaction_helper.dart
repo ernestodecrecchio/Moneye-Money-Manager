@@ -28,7 +28,7 @@ class DatabaseTransactionHelper {
       ${TransactionFields.includeInReports} ${DatabaseTypes.integerType} DEFAULT 1,
       ${TransactionFields.isHidden} ${DatabaseTypes.integerType} DEFAULT 0,
       ${TransactionFields.recurringId} ${DatabaseTypes.textTypeNullable},
-      ${TransactionFields.isGenerated} ${DatabaseTypes.integerType} DEFAULT 0,
+
       ${TransactionFields.originalDate} ${DatabaseTypes.textTypeNullable},
       FOREIGN KEY (${TransactionFields.categoryId}) REFERENCES $categoriesTable (${CategoryFields.id}) ON DELETE SET NULL ON UPDATE NO ACTION,
       FOREIGN KEY (${TransactionFields.accountId}) REFERENCES $accountsTable (${AccountFields.id}) ON DELETE CASCADE ON UPDATE NO ACTION,
@@ -63,7 +63,7 @@ class DatabaseTransactionHelper {
       ${TransactionFields.includeInReports} ${DatabaseTypes.integerType} DEFAULT 1,
       ${TransactionFields.isHidden} ${DatabaseTypes.integerType} DEFAULT 0,
       ${TransactionFields.recurringId} ${DatabaseTypes.textTypeNullable},
-      ${TransactionFields.isGenerated} ${DatabaseTypes.integerType} DEFAULT 0,
+
       ${TransactionFields.originalDate} ${DatabaseTypes.textTypeNullable},
       FOREIGN KEY (${TransactionFields.categoryId}) REFERENCES $categoriesTable (${CategoryFields.id}) ON DELETE SET NULL ON UPDATE NO ACTION,
       FOREIGN KEY (${TransactionFields.accountId}) REFERENCES $accountsTable (${AccountFields.id}) ON DELETE CASCADE ON UPDATE NO ACTION,
@@ -73,16 +73,26 @@ class DatabaseTransactionHelper {
 
     batch.execute('''
     INSERT INTO transactions_migration (
-      ${TransactionFields.id}, ${TransactionFields.title}, ${TransactionFields.description}, ${TransactionFields.amount},
-      ${TransactionFields.date}, ${TransactionFields.categoryId}, ${TransactionFields.accountId},
-      ${TransactionFields.includeInReports}, ${TransactionFields.isHidden}, 
-      ${TransactionFields.isGenerated}
+      ${TransactionFields.id}, 
+      ${TransactionFields.title}, 
+      ${TransactionFields.description}, 
+      ${TransactionFields.amount},
+      ${TransactionFields.date}, 
+      ${TransactionFields.categoryId},
+       ${TransactionFields.accountId},
+      ${TransactionFields.includeInReports}, 
+      ${TransactionFields.isHidden}
     )
     SELECT 
-      ${TransactionFields.id}, ${TransactionFields.title}, ${TransactionFields.description}, ${TransactionFields.amount},
-      ${TransactionFields.date}, ${TransactionFields.categoryId}, ${TransactionFields.accountId},
-      ${TransactionFields.includeInReports}, ${TransactionFields.isHidden}, 
-      0
+      ${TransactionFields.id}, 
+      ${TransactionFields.title}, 
+      ${TransactionFields.description}, 
+      ${TransactionFields.amount},
+      ${TransactionFields.date}, 
+      ${TransactionFields.categoryId}, 
+      ${TransactionFields.accountId},
+      ${TransactionFields.includeInReports}, 
+      ${TransactionFields.isHidden}
     FROM $transactionsTable
     ''');
 
@@ -116,7 +126,6 @@ class DatabaseTransactionHelper {
           includeInReports: rule.includeInReports,
           isHidden: rule.isHidden,
           recurringId: rule.id,
-          isGenerated: true,
           originalDate: occurrenceDate,
         );
 

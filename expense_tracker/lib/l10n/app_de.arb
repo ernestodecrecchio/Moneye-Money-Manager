@@ -190,5 +190,8 @@
     "endDateInfo": "Das Datum, nach dem keine weiteren Transaktionen dieser Art automatisch generiert werden.",
     "selectEndDate": "Enddatum auswählen",
     "newRecurringTransaction": "Neue wiederkehrende Transaktion",
-    "editRecurringTransaction": "Wiederkehrende Transaktion bearbeiten"
+    "editRecurringTransaction": "Wiederkehrende Transaktion bearbeiten",
+    "transactionGeneratedByRule": "Diese Transaktion wurde automatisch durch eine wiederkehrende Regel generiert. Die Bearbeitung hat keine Auswirkungen auf zukünftig generierte.",
+    "transactionGeneratedByDeletedRule": "Diese Transaktion wurde durch eine wiederkehrende Regel generiert, die inzwischen gelöscht wurde.",
+    "editRule": "Regel bearbeiten"
 }

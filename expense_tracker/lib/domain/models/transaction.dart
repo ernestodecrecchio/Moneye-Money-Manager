@@ -12,7 +12,6 @@ class TransactionFields {
     includeInReports,
     isHidden,
     recurringId,
-    isGenerated,
     originalDate,
   ];
 
@@ -26,7 +25,7 @@ class TransactionFields {
   static const String includeInReports = 'includeInReports';
   static const String isHidden = 'isHidden';
   static const String recurringId = 'recurringId';
-  static const String isGenerated = 'isGenerated';
+
   static const String originalDate = 'originalDate';
 }
 
@@ -41,7 +40,7 @@ class Transaction {
   bool includeInReports;
   bool isHidden;
   String? recurringId;
-  bool isGenerated;
+  bool get isGenerated => recurringId != null;
   DateTime? originalDate;
 
   Transaction(
@@ -55,7 +54,6 @@ class Transaction {
       this.includeInReports = true,
       this.isHidden = false,
       this.recurringId,
-      this.isGenerated = false,
       this.originalDate});
 
   Transaction copy({
@@ -69,7 +67,6 @@ class Transaction {
     bool? includeInReports,
     bool? isHidden,
     String? recurringId,
-    bool? isGenerated,
     DateTime? originalDate,
   }) =>
       Transaction(
@@ -83,7 +80,6 @@ class Transaction {
         includeInReports: includeInReports ?? this.includeInReports,
         isHidden: isHidden ?? this.isHidden,
         recurringId: recurringId ?? this.recurringId,
-        isGenerated: isGenerated ?? this.isGenerated,
         originalDate: originalDate ?? this.originalDate,
       );
 
@@ -100,7 +96,7 @@ class Transaction {
         isHidden:
             (json[TransactionFields.isHidden] as int) == 1, // cast to bool
         recurringId: json[TransactionFields.recurringId]?.toString(),
-        isGenerated: (json[TransactionFields.isGenerated] as int?) == 1,
+
         originalDate: json[TransactionFields.originalDate] != null
             ? DateTime.parse(json[TransactionFields.originalDate] as String)
             : null,
@@ -117,7 +113,6 @@ class Transaction {
         TransactionFields.includeInReports: includeInReports ? 1 : 0,
         TransactionFields.isHidden: isHidden ? 1 : 0,
         TransactionFields.recurringId: recurringId,
-        TransactionFields.isGenerated: isGenerated ? 1 : 0,
         if (originalDate != null)
           TransactionFields.originalDate: originalDate!.toIso8601String(),
       };
@@ -137,7 +132,6 @@ class Transaction {
       includeInReports,
       isHidden,
       recurringId,
-      isGenerated,
       originalDate);
 
   @override

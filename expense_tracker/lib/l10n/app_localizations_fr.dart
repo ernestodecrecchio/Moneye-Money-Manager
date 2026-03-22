@@ -624,4 +624,15 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get editRecurringTransaction => 'Modifier la transaction récurrente';
+
+  @override
+  String get transactionGeneratedByRule =>
+      'Cette transaction a été générée automatiquement par une règle récurrente. La modification de cette transaction n\'affectera pas les futures.';
+
+  @override
+  String get transactionGeneratedByDeletedRule =>
+      'Cette transaction a été générée par une règle récurrente qui a depuis été supprimée.';
+
+  @override
+  String get editRule => 'Modifier la règle';
 }

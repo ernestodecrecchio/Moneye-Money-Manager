@@ -43,7 +43,7 @@ class TransactionListCell extends ConsumerWidget {
       endActionPane: _buildDeleteActionPane(context, ref, appLocalizations),
       child: InkWell(
         onTap: () async {
-          if (transaction.isGenerated && transaction.recurringId != null) {
+          if (transaction.isGenerated) {
             showModalBottomSheet(
               context: context,
               builder: (ctx) {

@@ -8,6 +8,7 @@ import 'package:expense_tracker/domain/models/category.dart';
 import 'package:expense_tracker/domain/models/transaction.dart';
 import 'package:expense_tracker/domain/models/recurring_rule.dart';
 import 'package:expense_tracker/application/recurring_rules/notifiers/mutations/recurring_rules_mutation_notifier.dart';
+import 'package:expense_tracker/application/recurring_rules/notifiers/queries/recurring_rules_list_notifier.dart';
 import 'package:expense_tracker/application/accounts/notifiers/queries/accounts_list_notifier.dart';
 import 'package:expense_tracker/presentation/pages/common/custom_elevated_button.dart';
 import 'package:expense_tracker/presentation/pages/new_edit_transaction_flow/account_selector_dialog.dart';
@@ -236,6 +237,24 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
     final isRuleLoading = ref.watch(recurringRulesMutationProvider).isLoading;
     final isLoading = isTransactionLoading || isRuleLoading;
 
+    final rulesAsync = ref.watch(recurringRulesListProvider);
+    final originalTx = widget.initialTransactionSettings;
+    final isGenerated = originalTx?.isGenerated == true;
+    final ruleId = originalTx?.recurringId;
+
+    RecurringRule? generatedRule;
+    bool isRuleDeleted = false;
+
+    if (isGenerated && ruleId != null && rulesAsync.hasValue) {
+      final rules = rulesAsync.value;
+      if (rules != null) {
+        generatedRule = rules.firstWhereOrNull((r) => r.id == ruleId);
+        if (generatedRule == null) {
+          isRuleDeleted = true;
+        }
+      }
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -254,7 +273,8 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
           slivers: [
             SliverFillRemaining(
               hasScrollBody: false,
-              child: _buildForm(appLocalizations, isLoading),
+              child: _buildForm(
+                  appLocalizations, isLoading, generatedRule, isRuleDeleted),
             ),
           ],
         ),
@@ -262,7 +282,83 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
     );
   }
 
-  Widget _buildForm(AppLocalizations appLocalizations, bool isLoading) {
+  Widget _buildGeneratedInfoBox(AppLocalizations appLocalizations,
+      RecurringRule? generatedRule, bool isRuleDeleted) {
+    print(isRuleDeleted);
+
+    final colorScheme = Theme.of(context).colorScheme;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
+    final bgColor = isRuleDeleted
+        ? colorScheme.errorContainer.withAlpha(80)
+        : Colors.amber.withAlpha(isDark ? 30 : 50);
+
+    final onColor =
+        isRuleDeleted ? colorScheme.onErrorContainer : colorScheme.onSurface;
+
+    final iconColor = isRuleDeleted
+        ? colorScheme.onErrorContainer
+        : (isDark ? Colors.amber.shade300 : Colors.amber.shade800);
+
+    return Container(
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: bgColor,
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Icon(
+                isRuleDeleted
+                    ? Icons.warning_amber_rounded
+                    : Icons.info_outline,
+                color: iconColor,
+                size: 20,
+              ),
+              const SizedBox(width: 8),
+              Expanded(
+                child: Text(
+                  isRuleDeleted
+                      ? appLocalizations.transactionGeneratedByDeletedRule
+                      : appLocalizations.transactionGeneratedByRule,
+                  style: TextStyle(color: onColor, fontSize: 13),
+                ),
+              ),
+            ],
+          ),
+          if (generatedRule != null) ...[
+            const SizedBox(height: 8),
+            Align(
+              alignment: Alignment.centerRight,
+              child: TextButton(
+                style: TextButton.styleFrom(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  minimumSize: Size.zero,
+                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                ),
+                onPressed: () {
+                  Navigator.of(context).pushNamed(
+                    NewEditTransactionPage.routeName,
+                    arguments: NewEditTransactionPageScreenArguments(
+                        recurringRule: generatedRule),
+                  );
+                },
+                child: Text(appLocalizations.editRule),
+              ),
+            ),
+          ]
+        ],
+      ),
+    );
+  }
+
+  Widget _buildForm(AppLocalizations appLocalizations, bool isLoading,
+      RecurringRule? generatedRule, bool isRuleDeleted) {
     return Form(
       key: _formKey,
       child: Padding(
@@ -270,6 +366,9 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
         child: Column(
           spacing: elementSpacing,
           children: [
+            if (generatedRule != null || isRuleDeleted)
+              _buildGeneratedInfoBox(
+                  appLocalizations, generatedRule, isRuleDeleted),
             _buildSegmentedBar(appLocalizations),
             CustomTextField(
               controller: titleInput,
@@ -617,6 +716,8 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
         accountId: selectedAccount?.id,
         includeInReports: _includeInReport,
         isHidden: false,
+        recurringId: widget.initialTransactionSettings?.recurringId,
+        originalDate: widget.initialTransactionSettings?.originalDate,
       );
 
       if (widget.initialRecurringRule != null) {
