@@ -4,6 +4,7 @@ import 'package:expense_tracker/domain/models/account.dart';
 import 'package:expense_tracker/domain/models/category.dart';
 import 'package:expense_tracker/domain/models/recurring_rule.dart';
 import 'package:sqflite/sqlite_api.dart';
+import 'package:uuid/uuid.dart';
 
 class DatabaseRecurringRuleHelper {
   static final DatabaseRecurringRuleHelper instance =
@@ -13,7 +14,7 @@ class DatabaseRecurringRuleHelper {
   static Future inizializeTable(Database db) async {
     await db.execute('''
     CREATE TABLE $recurringRulesTable (
-      ${RecurringRuleFields.id} ${DatabaseTypes.idType},
+      ${RecurringRuleFields.id} ${DatabaseTypes.textIdType},
       ${RecurringRuleFields.title} ${DatabaseTypes.textType},
       ${RecurringRuleFields.description} ${DatabaseTypes.textTypeNullable},
       ${RecurringRuleFields.amount} ${DatabaseTypes.realType},
@@ -35,7 +36,7 @@ class DatabaseRecurringRuleHelper {
   static void createTableV2toV3(Batch batch) {
     batch.execute('''
     CREATE TABLE $recurringRulesTable (
-      ${RecurringRuleFields.id} ${DatabaseTypes.idType},
+      ${RecurringRuleFields.id} ${DatabaseTypes.textIdType},
       ${RecurringRuleFields.title} ${DatabaseTypes.textType},
       ${RecurringRuleFields.description} ${DatabaseTypes.textTypeNullable},
       ${RecurringRuleFields.amount} ${DatabaseTypes.realType},
@@ -60,12 +61,15 @@ class DatabaseRecurringRuleHelper {
     return result.map((json) => RecurringRule.fromJson(json)).toList();
   }
 
-  Future<RecurringRule> insertRecurringRule(
-      {required RecurringRule rule}) async {
+  Future<RecurringRule> insertRecurringRule({
+    required RecurringRule rule,
+  }) async {
     final db = await DatabaseHelper.instance.database;
-    final id = await db.insert(recurringRulesTable, rule.toJson());
 
-    rule.id = id;
+    rule.id ??= const Uuid().v4();
+    await db.insert(recurringRulesTable, rule.toJson());
+
+    print(rule.id);
     return rule;
   }
 
@@ -89,7 +93,10 @@ class DatabaseRecurringRuleHelper {
   Future<int> deleteRecurringRule({required RecurringRule rule}) async {
     final db = await DatabaseHelper.instance.database;
 
-    return db.delete(recurringRulesTable,
-        where: '${RecurringRuleFields.id} = ?', whereArgs: [rule.id]);
+    return await db.delete(
+      recurringRulesTable,
+      where: '${RecurringRuleFields.id} = ?',
+      whereArgs: [rule.id],
+    );
   }
 }

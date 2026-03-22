@@ -19,9 +19,11 @@ class RecurringRulesMutationNotifier extends AsyncNotifier<void> {
 
     state = await AsyncValue.guard(() async {
       inserted = await _repo.insertRecurringRule(rule: rule);
-      
+
       // Trigger generation for the new rule
-      await ref.read(transactionsRepositoryProvider).generateRecurringTransactionsUntil(DateTime.now());
+      await ref
+          .read(transactionsRepositoryProvider)
+          .generateRecurringTransactionsUntil(DateTime.now());
 
       ref.invalidate(recurringRulesListProvider);
       ref.invalidate(transactionsListProvider);
@@ -37,7 +39,9 @@ class RecurringRulesMutationNotifier extends AsyncNotifier<void> {
       await _repo.updateRecurringRule(original: original, modified: modified);
 
       // Trigger generation for the updated rule
-      await ref.read(transactionsRepositoryProvider).generateRecurringTransactionsUntil(DateTime.now());
+      await ref
+          .read(transactionsRepositoryProvider)
+          .generateRecurringTransactionsUntil(DateTime.now());
 
       ref.invalidate(recurringRulesListProvider);
       ref.invalidate(transactionsListProvider);
@@ -45,11 +49,15 @@ class RecurringRulesMutationNotifier extends AsyncNotifier<void> {
   }
 
   Future<void> deleteRecurringRule(RecurringRule rule) async {
-    state = const AsyncLoading();
+    state = AsyncLoading();
+
     state = await AsyncValue.guard(() async {
-      await _repo.deleteRecurringRule(rule: rule);
-      ref.invalidate(recurringRulesListProvider);
-      ref.invalidate(transactionsListProvider);
+      final removedRulesCount = await _repo.deleteRecurringRule(rule: rule);
+
+      if (removedRulesCount > 0) {
+        ref.invalidate(recurringRulesListProvider);
+        ref.invalidate(transactionsListProvider);
+      }
     });
   }
 }

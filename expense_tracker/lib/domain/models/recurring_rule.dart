@@ -33,7 +33,7 @@ class RecurringRuleFields {
 }
 
 class RecurringRule {
-  int? id;
+  String? id;
   String title;
   String? description;
   double amount;
@@ -64,7 +64,7 @@ class RecurringRule {
   });
 
   static RecurringRule fromJson(Map<String, Object?> json) => RecurringRule(
-        id: json[RecurringRuleFields.id] as int?,
+        id: json[RecurringRuleFields.id]?.toString(),
         title: json[RecurringRuleFields.title] as String,
         description: json[RecurringRuleFields.description] as String?,
         amount: json[RecurringRuleFields.amount] as double,

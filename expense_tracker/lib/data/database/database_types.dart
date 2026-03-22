@@ -3,6 +3,7 @@ class DatabaseTypes {
 
   // ID
   static const idType = 'INTEGER PRIMARY KEY AUTOINCREMENT';
+  static const textIdType = 'TEXT PRIMARY KEY';
 
   // Integer
   static const integerType = 'INTEGER NOT NULL';

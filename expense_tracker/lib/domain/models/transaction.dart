@@ -40,7 +40,7 @@ class Transaction {
   int? accountId;
   bool includeInReports;
   bool isHidden;
-  int? recurringId;
+  String? recurringId;
   bool isGenerated;
   DateTime? originalDate;
 
@@ -68,7 +68,7 @@ class Transaction {
     int? accountId,
     bool? includeInReports,
     bool? isHidden,
-    int? recurringId,
+    String? recurringId,
     bool? isGenerated,
     DateTime? originalDate,
   }) =>
@@ -99,7 +99,7 @@ class Transaction {
             1, // cast to bool
         isHidden:
             (json[TransactionFields.isHidden] as int) == 1, // cast to bool
-        recurringId: json[TransactionFields.recurringId] as int?,
+        recurringId: json[TransactionFields.recurringId]?.toString(),
         isGenerated: (json[TransactionFields.isGenerated] as int?) == 1,
         originalDate: json[TransactionFields.originalDate] != null
             ? DateTime.parse(json[TransactionFields.originalDate] as String)

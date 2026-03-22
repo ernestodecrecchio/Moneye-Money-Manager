@@ -27,12 +27,12 @@ class DatabaseTransactionHelper {
       ${TransactionFields.accountId} ${DatabaseTypes.integerTypeNullable},
       ${TransactionFields.includeInReports} ${DatabaseTypes.integerType} DEFAULT 1,
       ${TransactionFields.isHidden} ${DatabaseTypes.integerType} DEFAULT 0,
-      ${TransactionFields.recurringId} ${DatabaseTypes.integerTypeNullable},
+      ${TransactionFields.recurringId} ${DatabaseTypes.textTypeNullable},
       ${TransactionFields.isGenerated} ${DatabaseTypes.integerType} DEFAULT 0,
       ${TransactionFields.originalDate} ${DatabaseTypes.textTypeNullable},
       FOREIGN KEY (${TransactionFields.categoryId}) REFERENCES $categoriesTable (${CategoryFields.id}) ON DELETE SET NULL ON UPDATE NO ACTION,
       FOREIGN KEY (${TransactionFields.accountId}) REFERENCES $accountsTable (${AccountFields.id}) ON DELETE CASCADE ON UPDATE NO ACTION,
-      FOREIGN KEY (${TransactionFields.recurringId}) REFERENCES $recurringRulesTable (${RecurringRuleFields.id}) ON DELETE NO ACTION ON UPDATE NO ACTION
+      FOREIGN KEY (${TransactionFields.recurringId}) REFERENCES $recurringRulesTable (${RecurringRuleFields.id}) ON DELETE SET NULL ON UPDATE NO ACTION
       )
     ''');
 
@@ -62,7 +62,7 @@ class DatabaseTransactionHelper {
       ${TransactionFields.accountId} ${DatabaseTypes.integerTypeNullable},
       ${TransactionFields.includeInReports} ${DatabaseTypes.integerType} DEFAULT 1,
       ${TransactionFields.isHidden} ${DatabaseTypes.integerType} DEFAULT 0,
-      ${TransactionFields.recurringId} ${DatabaseTypes.integerTypeNullable},
+      ${TransactionFields.recurringId} ${DatabaseTypes.textTypeNullable},
       ${TransactionFields.isGenerated} ${DatabaseTypes.integerType} DEFAULT 0,
       ${TransactionFields.originalDate} ${DatabaseTypes.textTypeNullable},
       FOREIGN KEY (${TransactionFields.categoryId}) REFERENCES $categoriesTable (${CategoryFields.id}) ON DELETE SET NULL ON UPDATE NO ACTION,
