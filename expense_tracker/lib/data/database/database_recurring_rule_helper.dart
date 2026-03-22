@@ -69,7 +69,6 @@ class DatabaseRecurringRuleHelper {
     rule.id ??= const Uuid().v4();
     await db.insert(recurringRulesTable, rule.toJson());
 
-    print(rule.id);
     return rule;
   }
 
