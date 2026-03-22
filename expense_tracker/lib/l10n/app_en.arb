@@ -193,5 +193,7 @@
     "yearly": "Yearly",
     "interval": "Interval",
     "recurringTransactions": "Recurring Transactions",
-    "endDate": "End date"
+    "endDate": "End date",
+    "endDateInfo": "The date after which no other transactions of this kind will be automatically generated.",
+    "selectEndDate": "Select end date"
 }

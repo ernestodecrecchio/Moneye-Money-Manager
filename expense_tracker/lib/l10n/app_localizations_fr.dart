@@ -611,4 +611,11 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get endDate => 'Date de fin';
+
+  @override
+  String get endDateInfo =>
+      'La date après laquelle aucune autre transaction de ce type ne sera générée automatiquement.';
+
+  @override
+  String get selectEndDate => 'Sélectionner la date de fin';
 }

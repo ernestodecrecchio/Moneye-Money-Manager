@@ -186,5 +186,7 @@
     "yearly": "Anualmente",
     "interval": "Intervalo",
     "recurringTransactions": "Transacciones recurrentes",
-    "endDate": "Fecha final"
+    "endDate": "Fecha final",
+    "endDateInfo": "La fecha después de la cual no se generarán automáticamente más transacciones de este tipo.",
+    "selectEndDate": "Seleccionar fecha final"
 }

@@ -431,7 +431,8 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
                 child: CustomTextField(
                   controller: endDateInput,
                   label: localizations.endDate,
-                  hintText: 'Select the end date of the repeating transaction',
+                  hintText: localizations.selectEndDate,
+                  infoText: localizations.endDateInfo,
                   icon: Icons.calendar_month_rounded,
                   readOnly: true,
                   onTap: () => _handleDateSelection(

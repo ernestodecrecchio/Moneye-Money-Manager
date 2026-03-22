@@ -6,6 +6,7 @@ class CustomTextField extends StatelessWidget {
   final TextEditingController? controller;
   final String? label;
   final String? hintText;
+  final String? infoText;
   final IconData? icon;
   final Function()? onTap;
   final Function(String newText)? onTextChanged;
@@ -23,6 +24,7 @@ class CustomTextField extends StatelessWidget {
     this.controller,
     this.label,
     this.hintText,
+    this.infoText,
     this.icon,
     this.onTap,
     this.onTextChanged,
@@ -46,11 +48,47 @@ class CustomTextField extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           if (label != null)
-            Text(
-              label!,
-              style: textTheme.titleMedium?.copyWith(
-                fontWeight: FontWeight.w600,
-              ),
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              spacing: 8,
+              children: [
+                Text(
+                  label!,
+                  style: textTheme.titleMedium?.copyWith(
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                if (infoText != null)
+                  Tooltip(
+                    message: infoText!,
+                    triggerMode: TooltipTriggerMode.tap,
+                    showDuration: const Duration(seconds: 4),
+                    margin: const EdgeInsets.symmetric(horizontal: 16),
+                    padding: const EdgeInsets.all(12),
+                    textStyle: textTheme.bodyMedium?.copyWith(
+                      color: colors.textPrimary,
+                    ),
+                    decoration: BoxDecoration(
+                      color: colors.surface,
+                      borderRadius: BorderRadius.circular(8),
+                      border: Border.all(
+                        color: colors.primary.withAlpha(50),
+                      ),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withAlpha(20),
+                          blurRadius: 10,
+                          offset: const Offset(0, 4),
+                        ),
+                      ],
+                    ),
+                    child: Icon(
+                      Icons.info_outline_rounded,
+                      size: 20,
+                      color: colors.primary,
+                    ),
+                  ),
+              ],
             ),
           const SizedBox(
             height: 5,

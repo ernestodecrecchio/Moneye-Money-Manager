@@ -1231,6 +1231,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'End date'**
   String get endDate;
+
+  /// No description provided for @endDateInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'The date after which no other transactions of this kind will be automatically generated.'**
+  String get endDateInfo;
+
+  /// No description provided for @selectEndDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Select end date'**
+  String get selectEndDate;
 }
 
 class _AppLocalizationsDelegate
