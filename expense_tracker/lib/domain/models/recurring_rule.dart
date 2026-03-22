@@ -1,3 +1,5 @@
+import 'package:expense_tracker/l10n/app_localizations.dart';
+
 const String recurringRulesTable = 'recurring_rules';
 
 class RecurringRuleFields {
@@ -144,6 +146,25 @@ class RecurringRule {
       if (endDate != null && current.isAfter(endDate!)) break;
       yield current;
       current = _getNextOccurrenceFrom(current);
+    }
+  }
+
+  String getFrequencyDescription(AppLocalizations l10n) {
+    if (frequencyInterval == 1) {
+      switch (frequency) {
+        case 'daily':
+          return l10n.daily;
+        case 'weekly':
+          return l10n.weekly;
+        case 'monthly':
+          return l10n.monthly;
+        case 'yearly':
+          return l10n.yearly;
+        default:
+          return frequency;
+      }
+    } else {
+      return '${l10n.interval} $frequencyInterval $frequency';
     }
   }
 }

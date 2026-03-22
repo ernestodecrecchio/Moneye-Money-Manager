@@ -645,4 +645,7 @@ class AppLocalizationsDe extends AppLocalizations {
   @override
   String get recurringTransactionsOptionDescription =>
       'Verwalten Sie Ihre wiederkehrenden Transaktionsregeln';
+
+  @override
+  String get nextDate => 'Nächstes Datum';
 }

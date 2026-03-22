@@ -1285,6 +1285,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Manage your recurring transaction rules'**
   String get recurringTransactionsOptionDescription;
+
+  /// No description provided for @nextDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Next date'**
+  String get nextDate;
 }
 
 class _AppLocalizationsDelegate

@@ -45,8 +45,8 @@ class TransactionListCell extends ConsumerWidget {
         onTap: () async {
           Navigator.of(context).pushNamed(
             NewEditTransactionPage.routeName,
-            arguments: NewEditTransactionPageScreenArguments(
-                transaction: transaction),
+            arguments:
+                NewEditTransactionPageScreenArguments(transaction: transaction),
           );
         },
         child: Container(
@@ -131,7 +131,7 @@ class TransactionListCell extends ConsumerWidget {
     return IconItem(
       backgroundColor: category?.color ?? context.appColors.textSecondary,
       shape: BoxShape.circle,
-      iconPath: category?.iconPath ?? 'assets/icons/box.svg',
+      iconPath: category?.iconPath,
     );
   }
 

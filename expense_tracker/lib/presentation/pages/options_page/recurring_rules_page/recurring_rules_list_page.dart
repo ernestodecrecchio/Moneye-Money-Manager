@@ -1,8 +1,11 @@
+import 'package:expense_tracker/application/accounts/notifiers/queries/accounts_list_notifier.dart';
+import 'package:expense_tracker/application/categories/notifiers/queries/categories_list_notifier.dart';
 import 'package:expense_tracker/application/common/notifiers/app_localizations_provider.dart';
 import 'package:expense_tracker/application/common/notifiers/currency_provider.dart';
 import 'package:expense_tracker/application/recurring_rules/notifiers/queries/recurring_rules_list_notifier.dart';
 import 'package:expense_tracker/application/recurring_rules/notifiers/mutations/recurring_rules_mutation_notifier.dart';
 import 'package:expense_tracker/domain/models/recurring_rule.dart';
+import 'package:expense_tracker/presentation/pages/common/widgets/icon_item.dart';
 import 'package:expense_tracker/presentation/pages/new_edit_transaction_flow/new_edit_transaction_page.dart';
 import 'package:expense_tracker/style/app_theme.dart';
 import 'package:expense_tracker/style/style.dart';
@@ -11,6 +14,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:intl/intl.dart';
+import 'package:collection/collection.dart';
 
 class RecurringRulesListPage extends ConsumerWidget {
   static const routeName = '/recurringRulesListPage';
@@ -78,9 +82,17 @@ class RecurringRulesListPage extends ConsumerWidget {
     final currentCurrencyPosition =
         ref.watch(currentCurrencySymbolPositionProvider);
 
+    final categories = ref.watch(categoriesListProvider).asData?.value ?? [];
+    final category = categories.firstWhereOrNull(
+      (element) => element.id == rule.categoryId,
+    );
+
+    final accounts = ref.watch(accountsListProvider).asData?.value ?? [];
+    final account = accounts.firstWhereOrNull(
+      (element) => element.id == rule.accountId,
+    );
+
     final dateFormatter = DateFormat('dd/MM/yyyy');
-    final frequencyText =
-        '${appLocalizations.interval} ${rule.frequencyInterval} ${rule.frequency}';
 
     return Slidable(
       key: ValueKey(rule.id),
@@ -100,25 +112,7 @@ class RecurringRulesListPage extends ConsumerWidget {
           ),
         ],
       ),
-      child: ListTile(
-        title: Text(
-          rule.title,
-          style: const TextStyle(fontWeight: FontWeight.bold),
-        ),
-        subtitle: Text(
-            '$frequencyText\nStart: ${dateFormatter.format(rule.startDate)}\nNext: ${dateFormatter.format(rule.nextOccurrence)}'),
-        isThreeLine: true,
-        trailing: Text(
-          rule.amount.toStringAsFixedRoundedWithCurrency(
-              2, currentCurrency, currentCurrencyPosition),
-          style: TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
-            color: rule.amount >= 0
-                ? context.appColors.income
-                : context.appColors.expense,
-          ),
-        ),
+      child: InkWell(
         onTap: () {
           Navigator.of(context).pushNamed(
             NewEditTransactionPage.routeName,
@@ -126,6 +120,79 @@ class RecurringRulesListPage extends ConsumerWidget {
                 recurringRule: rule, isRecurringPreset: true),
           );
         },
+        child: Container(
+          padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 17),
+          child: Row(
+            children: [
+              IconItem(
+                backgroundColor:
+                    category?.color ?? context.appColors.textSecondary,
+                shape: BoxShape.circle,
+                iconPath: category?.iconPath,
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      rule.title,
+                      maxLines: 1,
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      rule.getFrequencyDescription(appLocalizations),
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: context.appColors.textSecondary,
+                      ),
+                    ),
+                    const SizedBox(height: 2),
+                    Text(
+                      '${appLocalizations.nextDate}: ${dateFormatter.format(rule.nextOccurrence)}',
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: context.appColors.textSecondary,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(width: 8),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Text(
+                    rule.amount.toStringAsFixedRoundedWithCurrency(
+                        2, currentCurrency, currentCurrencyPosition),
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: rule.amount >= 0
+                          ? context.appColors.income
+                          : context.appColors.expense,
+                    ),
+                  ),
+                  if (account != null)
+                    Text(
+                      account.name,
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: context.appColors.textSecondary,
+                      ),
+                    ),
+                ],
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

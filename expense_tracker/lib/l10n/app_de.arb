@@ -187,6 +187,7 @@
     "interval": "Intervall",
     "recurringTransactions": "Wiederkehrende Transaktionen",
     "endDate": "Enddatum",
+    "nextDate": "Nächstes Datum",
     "endDateInfo": "Das Datum, nach dem keine weiteren Transaktionen dieser Art automatisch generiert werden.",
     "selectEndDate": "Enddatum auswählen",
     "newRecurringTransaction": "Neue wiederkehrende Transaktion",
