@@ -84,6 +84,7 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
   DateTime? selectedEndDate;
   bool _includeInReport = true;
 
+  final elementSpacing = 14.0;
   final dateFormatter = DateFormat('dd/MM/yyyy');
 
   @override
@@ -237,10 +238,7 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
           slivers: [
             SliverFillRemaining(
               hasScrollBody: false,
-              child: Padding(
-                padding: const EdgeInsets.only(bottom: 10.0),
-                child: _buildForm(appLocalizations, isLoading),
-              ),
+              child: _buildForm(appLocalizations, isLoading),
             ),
           ],
         ),
@@ -254,8 +252,9 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
       child: Padding(
         padding: const EdgeInsets.only(top: 30.0),
         child: Column(
-          spacing: 14,
+          spacing: elementSpacing,
           children: [
+            _buildSegmentedBar(appLocalizations),
             CustomTextField(
               controller: titleInput,
               label: '${appLocalizations.title}*',
@@ -284,7 +283,6 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
                 return null;
               },
             ),
-            _buildSegmentedBar(appLocalizations),
             CustomTextField(
               controller: dateInput,
               label: appLocalizations.date,
@@ -339,6 +337,10 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
                 }
               },
             ),
+            const Padding(
+              padding: EdgeInsets.symmetric(vertical: 8),
+              child: Divider(height: 1),
+            ),
             _buildRepeatTransactionSection(appLocalizations),
             CustomFormSwitch(
               label: appLocalizations.includeInReports,
@@ -359,6 +361,7 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
 
   Widget _buildRepeatTransactionSection(AppLocalizations localizations) {
     return Column(
+      spacing: elementSpacing,
       children: [
         if (!editMode || widget.initialRecurringRule != null)
           CustomFormSwitch(
@@ -424,17 +427,14 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
                 ),
               ),
               if (selectedEndDate != null) ...[
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 6.0),
-                  child: IconButton(
-                    icon: Icon(Icons.clear, color: context.appColors.primary),
-                    onPressed: () {
-                      setState(() {
-                        selectedEndDate = null;
-                        endDateInput.clear();
-                      });
-                    },
-                  ),
+                IconButton(
+                  icon: Icon(Icons.clear, color: context.appColors.primary),
+                  onPressed: () {
+                    setState(() {
+                      selectedEndDate = null;
+                      endDateInput.clear();
+                    });
+                  },
                 ),
               ],
             ],

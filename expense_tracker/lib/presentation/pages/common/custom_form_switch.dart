@@ -24,6 +24,7 @@ class CustomFormSwitch extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
+            spacing: 4,
             children: [
               Text(
                 label,
@@ -32,8 +33,7 @@ class CustomFormSwitch extends StatelessWidget {
                       fontSize: 16,
                     ),
               ),
-              if (subtitle != null) ...[
-                const SizedBox(height: 4),
+              if (subtitle != null)
                 Text(
                   subtitle!,
                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(
@@ -41,7 +41,6 @@ class CustomFormSwitch extends StatelessWidget {
                         color: context.appColors.textSecondary,
                       ),
                 ),
-              ],
             ],
           ),
         ),
