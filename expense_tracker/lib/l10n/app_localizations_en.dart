@@ -632,4 +632,8 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get editRuleInfo =>
       'Changes to this recurring rule will not affect transactions that have already been generated.';
+
+  @override
+  String get recurringTransactionsOptionDescription =>
+      'Manage your recurring transaction rules';
 }

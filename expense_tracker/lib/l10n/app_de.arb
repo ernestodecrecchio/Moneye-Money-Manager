@@ -194,5 +194,6 @@
     "transactionGeneratedByRule": "Diese Transaktion wurde automatisch durch eine wiederkehrende Regel generiert. Die Bearbeitung hat keine Auswirkungen auf zukünftig generierte.",
     "transactionGeneratedByDeletedRule": "Diese Transaktion wurde durch eine wiederkehrende Regel generiert, die inzwischen gelöscht wurde.",
     "editRule": "Regel bearbeiten",
-    "editRuleInfo": "Änderungen an dieser wiederkehrenden Regel wirken sich nicht auf bereits generierte Transaktionen aus."
+    "editRuleInfo": "Änderungen an dieser wiederkehrenden Regel wirken sich nicht auf bereits generierte Transaktionen aus.",
+    "recurringTransactionsOptionDescription": "Verwalten Sie Ihre wiederkehrenden Transaktionsregeln"
 }

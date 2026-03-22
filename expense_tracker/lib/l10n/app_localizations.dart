@@ -1279,6 +1279,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Changes to this recurring rule will not affect transactions that have already been generated.'**
   String get editRuleInfo;
+
+  /// No description provided for @recurringTransactionsOptionDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage your recurring transaction rules'**
+  String get recurringTransactionsOptionDescription;
 }
 
 class _AppLocalizationsDelegate

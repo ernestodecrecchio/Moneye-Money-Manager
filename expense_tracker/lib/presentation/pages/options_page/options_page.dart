@@ -67,6 +67,7 @@ class OptionsPage extends ConsumerWidget {
           const Divider(),
           OptionListTile(
             title: appLocalizations.recurringTransactions,
+            subtitle: appLocalizations.recurringTransactionsOptionDescription,
             leadingIcon: Icons.repeat_rounded,
             onTap: () => Navigator.of(context)
                 .pushNamed(RecurringRulesListPage.routeName),

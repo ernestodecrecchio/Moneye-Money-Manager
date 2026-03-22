@@ -16,6 +16,23 @@
         "fr": "Vous pouvez désormais créer des sauvegardes de vos données et les restaurer ultérieurement. Ceci est utile pour migrer vers un nouvel appareil ou pour récupérer après une perte de données."
       },
       "category": "new_feature"
+    },
+    {
+      "title": {
+        "en": "Recurring Transactions",
+        "it": "Transazioni Ricorrenti",
+        "es": "Transacciones Recurrentes",
+        "de": "Wiederkehrende Transaktionen",
+        "fr": "Transactions Récurrentes"
+      },
+      "description": {
+        "en": "Automate your finances with recurring transactions! Set up rules for your regular expenses and let Moneye handle the generation for you.",
+        "it": "Automatizza le tue finanze con le transazioni ricorrenti! Imposta regole per le tue spese regolari e lascia che Moneye gestisca la generazione per te.",
+        "es": "¡Automatiza tus finanzas con transacciones recurrentes! Configura reglas para tus gastos habituales y deja que Moneye se encargue de la generación por ti.",
+        "de": "Automatisieren Sie Ihre Finanzen mit wiederkehrenden Transaktionen! Erstellen Sie Regeln für Ihre regelmäßigen Ausgaben und lassen Sie Moneye die Generierung für Sie übernehmen.",
+        "fr": "Automatisez vos finances avec des transactions récurrentes ! Configurez des règles pour vos dépenses régulières et laissez Moneye s'occuper de la génération pour vous."
+      },
+      "category": "new_feature"
     }
   ],
   "1.0.6": [
