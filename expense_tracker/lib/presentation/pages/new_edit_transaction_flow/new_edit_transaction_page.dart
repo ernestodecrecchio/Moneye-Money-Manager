@@ -284,21 +284,12 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
 
   Widget _buildGeneratedInfoBox(AppLocalizations appLocalizations,
       RecurringRule? generatedRule, bool isRuleDeleted) {
-    print(isRuleDeleted);
-
     final colorScheme = Theme.of(context).colorScheme;
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
-    final bgColor = isRuleDeleted
-        ? colorScheme.errorContainer.withAlpha(80)
-        : Colors.amber.withAlpha(isDark ? 30 : 50);
-
-    final onColor =
-        isRuleDeleted ? colorScheme.onErrorContainer : colorScheme.onSurface;
-
-    final iconColor = isRuleDeleted
-        ? colorScheme.onErrorContainer
-        : (isDark ? Colors.amber.shade300 : Colors.amber.shade800);
+    final bgColor = Colors.amber.withAlpha(isDark ? 30 : 50);
+    final onColor = colorScheme.onSurface;
+    final iconColor = isDark ? Colors.amber.shade300 : Colors.amber.shade800;
 
     return Container(
       padding: const EdgeInsets.all(12),
@@ -308,9 +299,11 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
+        spacing: 8,
         children: [
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
+            spacing: 8,
             children: [
               Icon(
                 isRuleDeleted
@@ -319,7 +312,6 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
                 color: iconColor,
                 size: 20,
               ),
-              const SizedBox(width: 8),
               Expanded(
                 child: Text(
                   isRuleDeleted
@@ -330,8 +322,7 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
               ),
             ],
           ),
-          if (generatedRule != null) ...[
-            const SizedBox(height: 8),
+          if (generatedRule != null)
             Align(
               alignment: Alignment.centerRight,
               child: TextButton(
@@ -351,7 +342,6 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
                 child: Text(appLocalizations.editRule),
               ),
             ),
-          ]
         ],
       ),
     );

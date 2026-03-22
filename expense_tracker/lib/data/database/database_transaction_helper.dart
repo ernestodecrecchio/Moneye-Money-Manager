@@ -3,7 +3,6 @@ import 'package:expense_tracker/data/database/database_types.dart';
 import 'package:expense_tracker/domain/models/account.dart';
 import 'package:expense_tracker/domain/models/category.dart';
 import 'package:expense_tracker/domain/models/transaction.dart';
-import 'package:expense_tracker/domain/models/recurring_rule.dart';
 import 'package:expense_tracker/data/database/database_recurring_rule_helper.dart';
 import 'package:expense_tracker/domain/models/transaction.dart' as trans;
 import 'package:expense_tracker/helper/date_time_helper.dart';
@@ -31,8 +30,7 @@ class DatabaseTransactionHelper {
 
       ${TransactionFields.originalDate} ${DatabaseTypes.textTypeNullable},
       FOREIGN KEY (${TransactionFields.categoryId}) REFERENCES $categoriesTable (${CategoryFields.id}) ON DELETE SET NULL ON UPDATE NO ACTION,
-      FOREIGN KEY (${TransactionFields.accountId}) REFERENCES $accountsTable (${AccountFields.id}) ON DELETE CASCADE ON UPDATE NO ACTION,
-      FOREIGN KEY (${TransactionFields.recurringId}) REFERENCES $recurringRulesTable (${RecurringRuleFields.id}) ON DELETE SET NULL ON UPDATE NO ACTION
+      FOREIGN KEY (${TransactionFields.accountId}) REFERENCES $accountsTable (${AccountFields.id}) ON DELETE CASCADE ON UPDATE NO ACTION
       )
     ''');
 
@@ -66,8 +64,7 @@ class DatabaseTransactionHelper {
 
       ${TransactionFields.originalDate} ${DatabaseTypes.textTypeNullable},
       FOREIGN KEY (${TransactionFields.categoryId}) REFERENCES $categoriesTable (${CategoryFields.id}) ON DELETE SET NULL ON UPDATE NO ACTION,
-      FOREIGN KEY (${TransactionFields.accountId}) REFERENCES $accountsTable (${AccountFields.id}) ON DELETE CASCADE ON UPDATE NO ACTION,
-      FOREIGN KEY (${TransactionFields.recurringId}) REFERENCES $recurringRulesTable (${RecurringRuleFields.id}) ON DELETE SET NULL ON UPDATE NO ACTION
+      FOREIGN KEY (${TransactionFields.accountId}) REFERENCES $accountsTable (${AccountFields.id}) ON DELETE CASCADE ON UPDATE NO ACTION
       )
     ''');
 
