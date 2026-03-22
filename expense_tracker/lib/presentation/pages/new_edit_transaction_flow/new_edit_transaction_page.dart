@@ -289,7 +289,18 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
               hintText: appLocalizations.selectDate,
               icon: Icons.calendar_month_rounded,
               readOnly: true,
-              onTap: () => _selectDate(),
+              onTap: () => _handleDateSelection(
+                initialDate: selectedDate,
+                firstDate: DateTime(1999, 1),
+                onSelectedDate: (picked) {
+                  if (picked != selectedDate) {
+                    setState(() {
+                      dateInput.text = dateFormatter.format(picked).toString();
+                      selectedDate = picked;
+                    });
+                  }
+                },
+              ),
             ),
             CustomTextField(
               controller: categoryInput,
@@ -423,12 +434,25 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
                   hintText: 'Select the end date of the repeating transaction',
                   icon: Icons.calendar_month_rounded,
                   readOnly: true,
-                  onTap: () => _selectEndDate(),
+                  onTap: () => _handleDateSelection(
+                    initialDate: selectedEndDate ?? selectedDate,
+                    firstDate: selectedDate,
+                    onSelectedDate: (picked) {
+                      if (picked != selectedEndDate) {
+                        setState(() {
+                          endDateInput.text =
+                              dateFormatter.format(picked).toString();
+                          selectedEndDate = picked;
+                        });
+                      }
+                    },
+                  ),
                 ),
               ),
-              if (selectedEndDate != null) ...[
+              if (selectedEndDate != null)
                 IconButton(
-                  icon: Icon(Icons.clear, color: context.appColors.primary),
+                  icon: Icon(Icons.clear_rounded,
+                      color: context.appColors.primary),
                   onPressed: () {
                     setState(() {
                       selectedEndDate = null;
@@ -436,7 +460,6 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
                     });
                   },
                 ),
-              ],
             ],
           ),
         ],
@@ -444,7 +467,11 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
     );
   }
 
-  Future<void> _selectDate() async {
+  Future<void> _handleDateSelection({
+    required DateTime initialDate,
+    required DateTime firstDate,
+    required ValueChanged<DateTime> onSelectedDate,
+  }) async {
     final colors = context.appColors;
     final DateTime? picked = await showDatePicker(
         context: context,
@@ -478,62 +505,12 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
             child: child!,
           );
         },
-        initialDate: selectedDate,
-        firstDate: DateTime(2015, 8),
+        initialDate: initialDate,
+        firstDate: firstDate,
         lastDate: DateTime(2101));
 
-    if (picked != null && picked != selectedDate) {
-      setState(() {
-        dateInput.text = dateFormatter.format(picked).toString();
-
-        selectedDate = picked;
-      });
-    }
-  }
-
-  Future<void> _selectEndDate() async {
-    final colors = context.appColors;
-    final DateTime? picked = await showDatePicker(
-        context: context,
-        builder: (context, child) {
-          return Theme(
-            data: Theme.of(context).copyWith(
-              datePickerTheme: DatePickerThemeData(
-                headerBackgroundColor: colors.primary,
-                headerForegroundColor: colors.onPrimary,
-                backgroundColor: colors.scaffoldBackground,
-                todayBackgroundColor: WidgetStateProperty.resolveWith(
-                  (states) {
-                    if (states.contains(WidgetState.selected)) {
-                      return colors.primary;
-                    }
-
-                    return Colors.transparent;
-                  },
-                ),
-                dayBackgroundColor: WidgetStateProperty.resolveWith(
-                  (states) {
-                    if (states.contains(WidgetState.selected)) {
-                      return colors.primary;
-                    }
-
-                    return Colors.transparent;
-                  },
-                ),
-              ),
-            ),
-            child: child!,
-          );
-        },
-        initialDate: selectedEndDate ?? selectedDate,
-        firstDate: selectedDate,
-        lastDate: DateTime(2101));
-
-    if (picked != null && picked != selectedEndDate) {
-      setState(() {
-        endDateInput.text = dateFormatter.format(picked).toString();
-        selectedEndDate = picked;
-      });
+    if (picked != null) {
+      onSelectedDate(picked);
     }
   }
 
