@@ -292,100 +292,6 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
               readOnly: true,
               onTap: () => _selectDate(),
             ),
-            if (!editMode || widget.initialRecurringRule != null)
-              Row(
-                children: [
-                  Text(
-                    appLocalizations.repeatTransaction,
-                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                          fontWeight: FontWeight.w600,
-                        ),
-                  ),
-                  const Spacer(),
-                  Switch.adaptive(
-                    value: _isRecurring,
-                    onChanged: widget.initialRecurringRule != null
-                        ? null
-                        : (val) {
-                            setState(() {
-                              _isRecurring = val;
-                            });
-                          },
-                  )
-                ],
-              ),
-            if (_isRecurring) ...[
-              Row(
-                spacing: 14,
-                children: [
-                  Expanded(
-                    flex: 1,
-                    child: CustomTextField(
-                      controller: intervalInput,
-                      label: appLocalizations.interval,
-                      hintText: '1',
-                      keyboardType: TextInputType.number,
-                    ),
-                  ),
-                  Expanded(
-                    flex: 2,
-                    child: CustomDropdownButtonFormField<String>(
-                      label: appLocalizations.frequency,
-                      value: _frequency,
-                      items: [
-                        DropdownMenuItem(
-                            value: 'daily',
-                            child: Text(appLocalizations.daily)),
-                        DropdownMenuItem(
-                            value: 'weekly',
-                            child: Text(appLocalizations.weekly)),
-                        DropdownMenuItem(
-                            value: 'monthly',
-                            child: Text(appLocalizations.monthly)),
-                        DropdownMenuItem(
-                            value: 'yearly',
-                            child: Text(appLocalizations.yearly)),
-                      ],
-                      onChanged: widget.initialRecurringRule != null
-                          ? null
-                          : (val) {
-                              if (val != null) setState(() => _frequency = val);
-                            },
-                    ),
-                  ),
-                ],
-              ),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Expanded(
-                    child: CustomTextField(
-                      controller: endDateInput,
-                      label: appLocalizations.endDate,
-                      icon: Icons.calendar_month_rounded,
-                      readOnly: true,
-                      onTap: () => _selectEndDate(),
-                    ),
-                  ),
-                  if (selectedEndDate != null) ...[
-                    const SizedBox(width: 8),
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 6.0),
-                      child: IconButton(
-                        icon:
-                            Icon(Icons.clear, color: context.appColors.primary),
-                        onPressed: () {
-                          setState(() {
-                            selectedEndDate = null;
-                            endDateInput.clear();
-                          });
-                        },
-                      ),
-                    ),
-                  ],
-                ],
-              ),
-            ],
             CustomTextField(
               controller: categoryInput,
               label: appLocalizations.category,
@@ -432,6 +338,7 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
                 }
               },
             ),
+            _buildRepeatTransactionSection(appLocalizations),
             Row(
               children: [
                 Text(
@@ -456,6 +363,103 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
           ],
         ),
       ),
+    );
+  }
+
+  Widget _buildRepeatTransactionSection(AppLocalizations localizations) {
+    return Column(
+      children: [
+        if (!editMode || widget.initialRecurringRule != null)
+          Row(
+            children: [
+              Text(
+                localizations.repeatTransaction,
+                style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                      fontWeight: FontWeight.w600,
+                    ),
+              ),
+              const Spacer(),
+              Switch.adaptive(
+                value: _isRecurring,
+                onChanged: widget.initialRecurringRule != null
+                    ? null
+                    : (val) {
+                        setState(() {
+                          _isRecurring = val;
+                        });
+                      },
+              )
+            ],
+          ),
+        if (_isRecurring) ...[
+          Row(
+            spacing: 14,
+            children: [
+              Expanded(
+                flex: 1,
+                child: CustomTextField(
+                  controller: intervalInput,
+                  label: localizations.interval,
+                  hintText: '1',
+                  keyboardType: TextInputType.number,
+                ),
+              ),
+              Expanded(
+                flex: 2,
+                child: CustomDropdownButtonFormField<String>(
+                  label: localizations.frequency,
+                  value: _frequency,
+                  items: [
+                    DropdownMenuItem(
+                        value: 'daily', child: Text(localizations.daily)),
+                    DropdownMenuItem(
+                        value: 'weekly', child: Text(localizations.weekly)),
+                    DropdownMenuItem(
+                        value: 'monthly', child: Text(localizations.monthly)),
+                    DropdownMenuItem(
+                        value: 'yearly', child: Text(localizations.yearly)),
+                  ],
+                  onChanged: widget.initialRecurringRule != null
+                      ? null
+                      : (val) {
+                          if (val != null) setState(() => _frequency = val);
+                        },
+                ),
+              ),
+            ],
+          ),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            spacing: 8,
+            children: [
+              Expanded(
+                child: CustomTextField(
+                  controller: endDateInput,
+                  label: localizations.endDate,
+                  hintText: 'Select the end date of the repeating transaction',
+                  icon: Icons.calendar_month_rounded,
+                  readOnly: true,
+                  onTap: () => _selectEndDate(),
+                ),
+              ),
+              if (selectedEndDate != null) ...[
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 6.0),
+                  child: IconButton(
+                    icon: Icon(Icons.clear, color: context.appColors.primary),
+                    onPressed: () {
+                      setState(() {
+                        selectedEndDate = null;
+                        endDateInput.clear();
+                      });
+                    },
+                  ),
+                ),
+              ],
+            ],
+          ),
+        ],
+      ],
     );
   }
 
