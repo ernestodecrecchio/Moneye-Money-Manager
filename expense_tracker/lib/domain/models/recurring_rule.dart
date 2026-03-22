@@ -33,6 +33,13 @@ class RecurringRuleFields {
 }
 
 class RecurringRule {
+  /// The unique identifier for this rule, represented as a UUID string.
+  ///
+  /// Using a UUID (instead of a standard integer) ensures global uniqueness and
+  /// data integrity across backups or future synchronization features.
+  /// This allows associated transactions to safely maintain a historical link
+  /// to this rule's ID even if the rule itself is deleted, preventing ID
+  /// collisions if new rules are created or imported in the future.
   String? id;
   String title;
   String? description;
