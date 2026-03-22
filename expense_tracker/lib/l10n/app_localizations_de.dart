@@ -619,4 +619,11 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get selectEndDate => 'Enddatum auswählen';
+
+  @override
+  String get newRecurringTransaction => 'Neue wiederkehrende Transaktion';
+
+  @override
+  String get editRecurringTransaction =>
+      'Wiederkehrende Transaktion bearbeiten';
 }

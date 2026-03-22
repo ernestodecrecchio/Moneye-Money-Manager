@@ -28,7 +28,12 @@ class RecurringRulesListPage extends ConsumerWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.of(context).pushNamed(NewEditTransactionPage.routeName);
+          Navigator.of(context).pushNamed(
+            NewEditTransactionPage.routeName,
+            arguments: NewEditTransactionPageScreenArguments(
+              isRecurringPreset: true,
+            ),
+          );
         },
         child: const Icon(Icons.add),
       ),

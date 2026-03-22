@@ -27,9 +27,15 @@ class NewEditTransactionPageScreenArguments {
   final Transaction? transaction;
   final RecurringRule? recurringRule;
   final Account? account;
+  final bool isRecurringPreset;
 
-  NewEditTransactionPageScreenArguments(
-      {this.incomePreset, this.transaction, this.recurringRule, this.account});
+  NewEditTransactionPageScreenArguments({
+    this.incomePreset,
+    this.transaction,
+    this.recurringRule,
+    this.account,
+    this.isRecurringPreset = false,
+  });
 }
 
 class NewEditTransactionPage extends ConsumerStatefulWidget {
@@ -39,6 +45,7 @@ class NewEditTransactionPage extends ConsumerStatefulWidget {
   final Transaction? initialTransactionSettings;
   final RecurringRule? initialRecurringRule;
   final Account? initialAccountSettings;
+  final bool isRecurringPreset;
 
   const NewEditTransactionPage({
     super.key,
@@ -46,6 +53,7 @@ class NewEditTransactionPage extends ConsumerStatefulWidget {
     this.initialTransactionSettings,
     this.initialRecurringRule,
     this.initialAccountSettings,
+    this.isRecurringPreset = false,
   });
 
   @override
@@ -181,6 +189,10 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
       titleInputFocusNode.requestFocus();
       dateInput.text = dateFormatter.format(selectedDate).toString();
 
+      if (widget.isRecurringPreset) {
+        _isRecurring = true;
+      }
+
       final incomePreset = widget.incomePreset;
 
       _transactionTypeTabController.index =
@@ -228,8 +240,12 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
       appBar: AppBar(
         title: Text(
           editMode
-              ? appLocalizations.editTransaction
-              : appLocalizations.newTransaction,
+              ? (widget.initialRecurringRule != null
+                  ? appLocalizations.editRecurringTransaction
+                  : appLocalizations.editTransaction)
+              : (widget.isRecurringPreset
+                  ? appLocalizations.newRecurringTransaction
+                  : appLocalizations.newTransaction),
         ),
       ),
       body: SafeArea(
@@ -349,10 +365,11 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
               },
             ),
             const Padding(
-              padding: EdgeInsets.symmetric(vertical: 8),
+              padding: EdgeInsets.only(top: 8),
               child: Divider(height: 1),
             ),
-            _buildRepeatTransactionSection(appLocalizations),
+            if (!widget.isRecurringPreset && !editMode)
+              _buildRepeatTransactionSection(appLocalizations),
             CustomFormSwitch(
               label: appLocalizations.includeInReports,
               value: _includeInReport,
@@ -374,17 +391,15 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
     return Column(
       spacing: elementSpacing,
       children: [
-        if (!editMode || widget.initialRecurringRule != null)
+        if (!editMode && !widget.isRecurringPreset)
           CustomFormSwitch(
             label: localizations.repeatTransaction,
             value: _isRecurring,
-            onChanged: widget.initialRecurringRule != null
-                ? null
-                : (val) {
-                    setState(() {
-                      _isRecurring = val;
-                    });
-                  },
+            onChanged: (val) {
+              setState(() {
+                _isRecurring = val;
+              });
+            },
           ),
         if (_isRecurring) ...[
           Row(

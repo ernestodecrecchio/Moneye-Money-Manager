@@ -1243,6 +1243,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Select end date'**
   String get selectEndDate;
+
+  /// No description provided for @newRecurringTransaction.
+  ///
+  /// In en, this message translates to:
+  /// **'New repeating transaction'**
+  String get newRecurringTransaction;
+
+  /// No description provided for @editRecurringTransaction.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit repeating transaction'**
+  String get editRecurringTransaction;
 }
 
 class _AppLocalizationsDelegate

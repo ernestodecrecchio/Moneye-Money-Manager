@@ -285,6 +285,8 @@ class MyApp extends r.ConsumerWidget {
                 final incomePreset = args?.incomePreset;
                 final transaction = args?.transaction;
                 final account = args?.account;
+                final recurringRule = args?.recurringRule;
+                final isRecurringPreset = args?.isRecurringPreset ?? false;
 
                 return MaterialPageRoute(
                   settings: settings,
@@ -292,6 +294,8 @@ class MyApp extends r.ConsumerWidget {
                     incomePreset: incomePreset,
                     initialTransactionSettings: transaction,
                     initialAccountSettings: account,
+                    initialRecurringRule: recurringRule,
+                    isRecurringPreset: isRecurringPreset,
                   ),
                 );
               }

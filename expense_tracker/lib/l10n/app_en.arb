@@ -195,5 +195,7 @@
     "recurringTransactions": "Recurring Transactions",
     "endDate": "End date",
     "endDateInfo": "The date after which no other transactions of this kind will be automatically generated.",
-    "selectEndDate": "Select end date"
+    "selectEndDate": "Select end date",
+    "newRecurringTransaction": "New repeating transaction",
+    "editRecurringTransaction": "Edit repeating transaction"
 }

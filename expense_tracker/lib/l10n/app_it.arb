@@ -195,5 +195,7 @@
     "recurringTransactions": "Transazioni Ricorrenti",
     "endDate": "Data di fine",
     "endDateInfo": "La data dopo la quale non verranno più generate automaticamente altre transazioni di questo tipo.",
-    "selectEndDate": "Seleziona la data di fine"
+    "selectEndDate": "Seleziona la data di fine",
+    "newRecurringTransaction": "Nuova transazione ricorrente",
+    "editRecurringTransaction": "Modifica transazione ricorrente"
 }

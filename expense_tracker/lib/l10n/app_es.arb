@@ -188,5 +188,7 @@
     "recurringTransactions": "Transacciones recurrentes",
     "endDate": "Fecha final",
     "endDateInfo": "La fecha después de la cual no se generarán automáticamente más transacciones de este tipo.",
-    "selectEndDate": "Seleccionar fecha final"
+    "selectEndDate": "Seleccionar fecha final",
+    "newRecurringTransaction": "Nueva transacción recurrente",
+    "editRecurringTransaction": "Editar transacción recurrente"
 }
