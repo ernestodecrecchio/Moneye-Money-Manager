@@ -635,4 +635,8 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get editRule => 'Modifier la règle';
+
+  @override
+  String get editRuleInfo =>
+      'Les modifications apportées à cette règle récurrente n\'affecteront pas les transactions déjà générées.';
 }

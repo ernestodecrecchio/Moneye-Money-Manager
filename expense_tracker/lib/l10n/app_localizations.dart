@@ -1273,6 +1273,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Edit rule'**
   String get editRule;
+
+  /// No description provided for @editRuleInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'Changes to this recurring rule will not affect transactions that have already been generated.'**
+  String get editRuleInfo;
 }
 
 class _AppLocalizationsDelegate

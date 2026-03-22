@@ -122,8 +122,8 @@ class RecurringRulesListPage extends ConsumerWidget {
         onTap: () {
           Navigator.of(context).pushNamed(
             NewEditTransactionPage.routeName,
-            arguments:
-                NewEditTransactionPageScreenArguments(recurringRule: rule),
+            arguments: NewEditTransactionPageScreenArguments(
+                recurringRule: rule, isRecurringPreset: true),
           );
         },
       ),

@@ -283,13 +283,23 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
   }
 
   Widget _buildGeneratedInfoBox(AppLocalizations appLocalizations,
-      RecurringRule? generatedRule, bool isRuleDeleted) {
+      RecurringRule? generatedRule, bool isRuleDeleted,
+      {bool isEditingRule = false}) {
     final colorScheme = Theme.of(context).colorScheme;
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
     final bgColor = Colors.amber.withAlpha(isDark ? 30 : 50);
     final onColor = colorScheme.onSurface;
     final iconColor = isDark ? Colors.amber.shade300 : Colors.amber.shade800;
+
+    String message;
+    if (isEditingRule) {
+      message = appLocalizations.editRuleInfo;
+    } else if (isRuleDeleted) {
+      message = appLocalizations.transactionGeneratedByDeletedRule;
+    } else {
+      message = appLocalizations.transactionGeneratedByRule;
+    }
 
     return Container(
       padding: const EdgeInsets.all(12),
@@ -306,7 +316,7 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
             spacing: 8,
             children: [
               Icon(
-                isRuleDeleted
+                (isRuleDeleted || isEditingRule)
                     ? Icons.warning_amber_rounded
                     : Icons.info_outline,
                 color: iconColor,
@@ -314,9 +324,7 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
               ),
               Expanded(
                 child: Text(
-                  isRuleDeleted
-                      ? appLocalizations.transactionGeneratedByDeletedRule
-                      : appLocalizations.transactionGeneratedByRule,
+                  message,
                   style: TextStyle(color: onColor, fontSize: 13),
                 ),
               ),
@@ -356,9 +364,12 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
         child: Column(
           spacing: elementSpacing,
           children: [
-            if (generatedRule != null || isRuleDeleted)
+            if (generatedRule != null ||
+                isRuleDeleted ||
+                widget.initialRecurringRule != null)
               _buildGeneratedInfoBox(
-                  appLocalizations, generatedRule, isRuleDeleted),
+                  appLocalizations, generatedRule, isRuleDeleted,
+                  isEditingRule: widget.initialRecurringRule != null),
             _buildSegmentedBar(appLocalizations),
             CustomTextField(
               controller: titleInput,
@@ -457,7 +468,7 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
               padding: EdgeInsets.only(top: 8),
               child: Divider(height: 1),
             ),
-            if (!widget.isRecurringPreset && !editMode)
+            if (!editMode || widget.isRecurringPreset)
               _buildRepeatTransactionSection(appLocalizations),
             CustomFormSwitch(
               label: appLocalizations.includeInReports,
@@ -480,7 +491,9 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
     return Column(
       spacing: elementSpacing,
       children: [
-        if (!editMode && !widget.isRecurringPreset)
+        if (!editMode &&
+            !widget.isRecurringPreset &&
+            widget.initialRecurringRule == null)
           CustomFormSwitch(
             label: localizations.repeatTransaction,
             value: _isRecurring,

@@ -637,4 +637,8 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get editRule => 'Regel bearbeiten';
+
+  @override
+  String get editRuleInfo =>
+      'Änderungen an dieser wiederkehrenden Regel wirken sich nicht auf bereits generierte Transaktionen aus.';
 }

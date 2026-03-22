@@ -628,4 +628,8 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get editRule => 'Edit rule';
+
+  @override
+  String get editRuleInfo =>
+      'Changes to this recurring rule will not affect transactions that have already been generated.';
 }

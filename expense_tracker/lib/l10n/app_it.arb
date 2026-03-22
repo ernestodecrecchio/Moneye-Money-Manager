@@ -200,5 +200,6 @@
     "editRecurringTransaction": "Modifica transazione ricorrente",
     "transactionGeneratedByRule": "Questa transazione è stata generata automaticamente da una regola ricorrente. La modifica di questa transazione non influenzerà quelle future.",
     "transactionGeneratedByDeletedRule": "Questa transazione è stata generata da una regola ricorrente che è stata eliminata.",
-    "editRule": "Modifica regola"
+    "editRule": "Modifica regola",
+    "editRuleInfo": "Le modifiche a questa regola ricorrente non influiranno sulle transazioni che sono già state generate."
 }
