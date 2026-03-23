@@ -26,8 +26,8 @@ class IconItem extends StatelessWidget {
       behavior: HitTestBehavior.opaque,
       onTap: onTap,
       child: Container(
-        height: size ?? defaultIconItemHeight,
-        width: size ?? defaultIconItemWidth,
+        height: size ?? Constants.defaultIconItemHeight,
+        width: size ?? Constants.defaultIconItemWidth,
         padding: const EdgeInsets.all(7),
         decoration: BoxDecoration(
           color: isSelected

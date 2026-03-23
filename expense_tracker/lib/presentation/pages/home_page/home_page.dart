@@ -2,6 +2,7 @@ import 'package:expense_tracker/Services/widget_extension_service.dart';
 import 'package:expense_tracker/application/accounts/notifiers/queries/accounts_with_balance_notifier.dart';
 import 'package:expense_tracker/application/transactions/notifiers/queries/transactions_list_notifier.dart';
 import 'package:expense_tracker/application/common/notifiers/app_localizations_provider.dart';
+import 'package:expense_tracker/configuration/constants.dart';
 import 'package:expense_tracker/presentation/pages/account_detail_page/account_detail_page.dart';
 import 'package:expense_tracker/presentation/pages/common/delete_transaction_snackbar.dart';
 import 'package:expense_tracker/presentation/pages/common/list_tiles/transaction_list_cell.dart';
@@ -251,13 +252,16 @@ class LastTransactionList extends ConsumerWidget {
               physics: const NeverScrollableScrollPhysics(),
               itemCount: lastTransactionList.length,
               itemBuilder: (_, index) {
-                return TransactionListCell(
-                  transaction: lastTransactionList[index],
-                  horizontalPadding: horizontalPadding,
-                  onTransactionDelete: (transaction) {
-                    showDeleteTransactionSnackbar(
-                        context, ref, transaction, index);
-                  },
+                return Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: Constants.horizontalPadding),
+                  child: TransactionListCell(
+                    transaction: lastTransactionList[index],
+                    onTransactionDelete: (transaction) {
+                      showDeleteTransactionSnackbar(
+                          context, ref, transaction, index);
+                    },
+                  ),
                 );
               },
               separatorBuilder: (_, __) => const Divider(),

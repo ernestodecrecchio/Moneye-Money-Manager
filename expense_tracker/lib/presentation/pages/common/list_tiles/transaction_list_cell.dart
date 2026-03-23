@@ -19,7 +19,6 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 
 class TransactionListCell extends ConsumerWidget {
   final Transaction transaction;
-  final double horizontalPadding;
   final bool showAccountLabel;
 
   final Function(Transaction transactionDeleted) onTransactionDelete;
@@ -28,7 +27,6 @@ class TransactionListCell extends ConsumerWidget {
     super.key,
     required this.transaction,
     bool? dismissible = true,
-    this.horizontalPadding = 17,
     this.showAccountLabel = true,
     required this.onTransactionDelete,
   });
@@ -38,7 +36,7 @@ class TransactionListCell extends ConsumerWidget {
     final appLocalizations = ref.watch(appLocalizationsProvider);
 
     return Slidable(
-      key: UniqueKey(), // Key(transaction.id.toString()),
+      key: UniqueKey(),
       startActionPane: _buildDeleteActionPane(context, ref, appLocalizations),
       endActionPane: _buildDeleteActionPane(context, ref, appLocalizations),
       child: InkWell(
@@ -51,8 +49,7 @@ class TransactionListCell extends ConsumerWidget {
         },
         child: Container(
           height: 64,
-          padding:
-              EdgeInsets.symmetric(vertical: 8, horizontal: horizontalPadding),
+          padding: EdgeInsets.symmetric(vertical: 8),
           child: Row(
             children: [
               _buildCategoryIcon(context, ref),

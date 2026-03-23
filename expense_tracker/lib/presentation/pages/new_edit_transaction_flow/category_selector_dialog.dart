@@ -99,8 +99,8 @@ class _CategorySelectorContentState
     final textTheme = Theme.of(context).textTheme;
     return ListTile(
       leading: Container(
-        height: defaultIconItemHeight,
-        width: defaultIconItemWidth,
+        height: Constants.defaultIconItemHeight,
+        width: Constants.defaultIconItemWidth,
         decoration: BoxDecoration(
           shape: BoxShape.circle,
           border: Border.all(color: colors.secondary, width: 2),
