@@ -167,23 +167,12 @@ class RecurringRuleDetailPage extends ConsumerWidget {
                           : context.appColors.expense,
                     ),
               ),
-              Row(
-                mainAxisSize: MainAxisSize.min,
-                spacing: 4,
-                children: [
-                  Icon(
-                    Icons.account_balance_wallet_outlined,
-                    size: 14,
-                    color: context.appColors.textSecondary,
-                  ),
-                  Text(
-                    account?.name ?? '',
-                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                          color: context.appColors.textSecondary,
-                          fontWeight: FontWeight.w500,
-                        ),
-                  ),
-                ],
+              Text(
+                account?.name ?? '',
+                style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                      color: context.appColors.textSecondary,
+                      fontWeight: FontWeight.w500,
+                    ),
               ),
             ],
           ),
