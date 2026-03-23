@@ -2,7 +2,6 @@ import 'package:collection/collection.dart';
 import 'package:expense_tracker/Helper/date_time_helper.dart';
 import 'package:expense_tracker/application/common/notifiers/app_localizations_provider.dart';
 import 'package:expense_tracker/application/transactions/notifiers/queries/transactions_list_notifier.dart';
-import 'package:expense_tracker/configuration/constants.dart';
 import 'package:expense_tracker/l10n/app_localizations.dart';
 import 'package:expense_tracker/domain/models/account.dart';
 import 'package:expense_tracker/domain/models/transaction.dart';
@@ -453,22 +452,18 @@ class _ScrollableTabViewState extends ConsumerState<ScrollableTabView> {
 
   Widget _buildTransactionListSection(
       List<Transaction> transactionList, AppLocalizations appLocalizations) {
-    return Padding(
-      padding:
-          const EdgeInsets.symmetric(horizontal: Constants.horizontalPadding),
-      child: TransactionList(
-        title: appLocalizations.transactionList,
-        transactionsListParams: TransactionsListParams(
-          startDate: widget.startDate,
-          endDate: widget.endDate,
-          account: widget.account,
-          includeIncomes:
-              widget.transactionType == AccountDetailTransactionTypeMode.income,
-          includeExpenses: widget.transactionType ==
-              AccountDetailTransactionTypeMode.expense,
-        ),
-        topWidgetRef: ref,
+    return TransactionList(
+      title: appLocalizations.transactionList,
+      transactionsListParams: TransactionsListParams(
+        startDate: widget.startDate,
+        endDate: widget.endDate,
+        account: widget.account,
+        includeIncomes:
+            widget.transactionType == AccountDetailTransactionTypeMode.income,
+        includeExpenses:
+            widget.transactionType == AccountDetailTransactionTypeMode.expense,
       ),
+      topWidgetRef: ref,
     );
   }
 }

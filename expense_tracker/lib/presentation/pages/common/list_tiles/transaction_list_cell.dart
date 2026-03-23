@@ -2,6 +2,7 @@ import 'package:expense_tracker/Helper/double_helper.dart';
 import 'package:expense_tracker/application/categories/notifiers/queries/categories_list_notifier.dart';
 import 'package:expense_tracker/application/common/notifiers/app_localizations_provider.dart';
 import 'package:expense_tracker/application/transactions/notifiers/mutations/transaction_mutation_notifier.dart';
+import 'package:expense_tracker/configuration/constants.dart';
 import 'package:expense_tracker/l10n/app_localizations.dart';
 import 'package:expense_tracker/domain/models/account.dart';
 import 'package:expense_tracker/domain/models/transaction.dart';
@@ -49,7 +50,8 @@ class TransactionListCell extends ConsumerWidget {
         },
         child: Container(
           height: 64,
-          padding: EdgeInsets.symmetric(vertical: 8),
+          padding: EdgeInsets.symmetric(
+              vertical: 8, horizontal: Constants.horizontalPadding),
           child: Row(
             children: [
               _buildCategoryIcon(context, ref),

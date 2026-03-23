@@ -252,16 +252,12 @@ class LastTransactionList extends ConsumerWidget {
               physics: const NeverScrollableScrollPhysics(),
               itemCount: lastTransactionList.length,
               itemBuilder: (_, index) {
-                return Padding(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: Constants.horizontalPadding),
-                  child: TransactionListCell(
-                    transaction: lastTransactionList[index],
-                    onTransactionDelete: (transaction) {
-                      showDeleteTransactionSnackbar(
-                          context, ref, transaction, index);
-                    },
-                  ),
+                return TransactionListCell(
+                  transaction: lastTransactionList[index],
+                  onTransactionDelete: (transaction) {
+                    showDeleteTransactionSnackbar(
+                        context, ref, transaction, index);
+                  },
                 );
               },
               separatorBuilder: (_, __) => const Divider(),
