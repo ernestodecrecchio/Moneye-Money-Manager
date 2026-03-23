@@ -133,8 +133,9 @@ class RecurringRuleDetailPage extends ConsumerWidget {
                   padding:
                       const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                   decoration: BoxDecoration(
-                    color: (category?.color as Color?)?.withOpacity(0.12) ??
-                        context.appColors.textSecondary.withOpacity(0.12),
+                    color: (category?.color as Color?)
+                            ?.withValues(alpha: 0.12) ??
+                        context.appColors.textSecondary.withValues(alpha: 0.12),
                     borderRadius: BorderRadius.circular(6),
                   ),
                   child: Text(
@@ -203,10 +204,10 @@ class RecurringRuleDetailPage extends ConsumerWidget {
               color: Theme.of(context)
                   .colorScheme
                   .surfaceContainerHighest
-                  .withOpacity(0.3),
+                  .withValues(alpha: 0.3),
               borderRadius: BorderRadius.circular(12),
               border: Border.all(
-                color: Theme.of(context).dividerColor.withOpacity(0.05),
+                color: Theme.of(context).dividerColor.withValues(alpha: 0.05),
               ),
             ),
             child: Column(
@@ -258,7 +259,7 @@ class RecurringRuleDetailPage extends ConsumerWidget {
         Container(
           padding: const EdgeInsets.all(8),
           decoration: BoxDecoration(
-            color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
+            color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.1),
             borderRadius: BorderRadius.circular(8),
           ),
           child: Icon(
