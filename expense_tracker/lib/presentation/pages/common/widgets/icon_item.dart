@@ -7,6 +7,7 @@ class IconItem extends StatelessWidget {
   final BoxShape shape;
   final String? iconPath;
   final bool isSelected;
+  final double? size;
   final VoidCallback? onTap;
 
   const IconItem({
@@ -15,6 +16,7 @@ class IconItem extends StatelessWidget {
     required this.shape,
     this.iconPath,
     this.isSelected = true,
+    this.size,
     this.onTap,
   });
 
@@ -24,8 +26,8 @@ class IconItem extends StatelessWidget {
       behavior: HitTestBehavior.opaque,
       onTap: onTap,
       child: Container(
-        height: iconItemHeight,
-        width: iconItemWidth,
+        height: size ?? defaultIconItemHeight,
+        width: size ?? defaultIconItemWidth,
         padding: const EdgeInsets.all(7),
         decoration: BoxDecoration(
           color: isSelected

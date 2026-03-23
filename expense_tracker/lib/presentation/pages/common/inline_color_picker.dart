@@ -68,8 +68,8 @@ class _InlineColorPickerState extends State<InlineColorPicker> {
       },
       child: Center(
         child: Container(
-          height: iconItemHeight,
-          width: iconItemWidth,
+          height: defaultIconItemHeight,
+          width: defaultIconItemWidth,
           decoration: BoxDecoration(
             color: color,
             shape: widget.itemShape,

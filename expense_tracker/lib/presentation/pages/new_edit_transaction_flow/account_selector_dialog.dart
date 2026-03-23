@@ -102,8 +102,8 @@ class _AccountSelectorContentState
     final textTheme = Theme.of(context).textTheme;
     return ListTile(
       leading: Container(
-        height: iconItemHeight,
-        width: iconItemWidth,
+        height: defaultIconItemHeight,
+        width: defaultIconItemWidth,
         decoration: BoxDecoration(
           shape: BoxShape.rectangle,
           border: Border.all(width: 2, color: context.appColors.accent),

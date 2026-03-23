@@ -90,7 +90,8 @@ class RecurringRule {
             ? DateTime.parse(json[RecurringRuleFields.endDate] as String)
             : null,
         lastGeneratedDate: json[RecurringRuleFields.lastGeneratedDate] != null
-            ? DateTime.parse(json[RecurringRuleFields.lastGeneratedDate] as String)
+            ? DateTime.parse(
+                json[RecurringRuleFields.lastGeneratedDate] as String)
             : null,
       );
 
