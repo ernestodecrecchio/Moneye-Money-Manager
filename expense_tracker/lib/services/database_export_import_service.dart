@@ -32,6 +32,7 @@ class DatabaseExportImportService {
       true,
       true,
       null,
+      null,
     );
     final recurringRules =
         await DatabaseRecurringRuleHelper.instance.getRecurringRules();

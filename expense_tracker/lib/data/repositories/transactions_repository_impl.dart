@@ -50,6 +50,7 @@ class TransactionsRepositoryImpl implements TransactionsRepository {
     bool? includeIncomes,
     bool? includeExpenses,
     int? limit,
+    String? recurringId,
   }) async {
     return dbHelper.getTransactions(
       startDate,
@@ -59,6 +60,7 @@ class TransactionsRepositoryImpl implements TransactionsRepository {
       includeIncomes,
       includeExpenses,
       limit,
+      recurringId,
     );
   }
 

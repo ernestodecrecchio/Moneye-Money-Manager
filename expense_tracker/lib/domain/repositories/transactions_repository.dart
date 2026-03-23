@@ -23,6 +23,7 @@ abstract class TransactionsRepository {
     bool? includeIncomes,
     bool? includeExpenses,
     int? limit,
+    String? recurringId,
   });
 
   Future<void> generateRecurringTransactionsUntil(DateTime targetDate);

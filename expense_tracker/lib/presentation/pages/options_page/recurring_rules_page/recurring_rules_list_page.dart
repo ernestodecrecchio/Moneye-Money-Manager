@@ -7,6 +7,7 @@ import 'package:expense_tracker/application/recurring_rules/notifiers/mutations/
 import 'package:expense_tracker/domain/models/recurring_rule.dart';
 import 'package:expense_tracker/presentation/pages/common/widgets/icon_item.dart';
 import 'package:expense_tracker/presentation/pages/new_edit_transaction_flow/new_edit_transaction_page.dart';
+import 'package:expense_tracker/presentation/pages/options_page/recurring_rules_page/recurring_rule_detail_page.dart';
 import 'package:expense_tracker/style/app_theme.dart';
 import 'package:expense_tracker/style/style.dart';
 import 'package:expense_tracker/Helper/double_helper.dart';
@@ -115,9 +116,8 @@ class RecurringRulesListPage extends ConsumerWidget {
       child: InkWell(
         onTap: () {
           Navigator.of(context).pushNamed(
-            NewEditTransactionPage.routeName,
-            arguments: NewEditTransactionPageScreenArguments(
-                recurringRule: rule, isRecurringPreset: true),
+            RecurringRuleDetailPage.routeName,
+            arguments: rule,
           );
         },
         child: Container(

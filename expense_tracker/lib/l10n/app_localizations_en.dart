@@ -639,4 +639,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get nextDate => 'Next date';
+
+  @override
+  String get ruleDetails => 'Rule details';
+
+  @override
+  String get generatedTransactions => 'Generated transactions';
+
+  @override
+  String get recurrenceLogic => 'Recurrence logic';
 }

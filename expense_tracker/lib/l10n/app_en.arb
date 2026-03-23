@@ -203,5 +203,8 @@
     "editRule": "Edit rule",
     "editRuleInfo": "Changes to this recurring rule will not affect transactions that have already been generated.",
     "recurringTransactionsOptionDescription": "Manage your recurring transaction rules",
-    "nextDate": "Next date"
+    "nextDate": "Next date",
+    "ruleDetails": "Rule details",
+    "generatedTransactions": "Generated transactions",
+    "recurrenceLogic": "Recurrence logic"
 }

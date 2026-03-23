@@ -23,6 +23,7 @@ class TransactionsListNotifier extends AsyncNotifier<List<Transaction>> {
       includeIncomes: params.includeIncomes,
       includeExpenses: params.includeExpenses,
       limit: params.limit,
+      recurringId: params.recurringId,
     );
   }
 
@@ -44,6 +45,7 @@ class TransactionsListParams extends Equatable {
   final bool? includeIncomes;
   final bool? includeExpenses;
   final int? limit;
+  final String? recurringId;
 
   const TransactionsListParams({
     this.startDate,
@@ -53,6 +55,7 @@ class TransactionsListParams extends Equatable {
     this.includeIncomes,
     this.includeExpenses,
     this.limit,
+    this.recurringId,
   });
 
   TransactionsListParams copyWith({
@@ -63,6 +66,7 @@ class TransactionsListParams extends Equatable {
     bool? includeIncomes,
     bool? includeExpenses,
     int? limit,
+    String? recurringId,
   }) {
     return TransactionsListParams(
       startDate: startDate ?? this.startDate,
@@ -72,6 +76,7 @@ class TransactionsListParams extends Equatable {
       includeIncomes: includeIncomes ?? this.includeIncomes,
       includeExpenses: includeExpenses ?? this.includeExpenses,
       limit: limit ?? this.limit,
+      recurringId: recurringId ?? this.recurringId,
     );
   }
 
@@ -84,5 +89,6 @@ class TransactionsListParams extends Equatable {
         includeIncomes,
         includeExpenses,
         limit,
+        recurringId,
       ];
 }

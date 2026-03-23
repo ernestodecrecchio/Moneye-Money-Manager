@@ -22,12 +22,16 @@ enum AccountDetailTransactionListMode {
 }
 
 class TransactionList extends ConsumerStatefulWidget {
+  final String title;
   final TransactionsListParams transactionsListParams;
+  final bool showListModeButton;
   final WidgetRef topWidgetRef;
 
   const TransactionList({
     super.key,
+    required this.title,
     required this.transactionsListParams,
+    this.showListModeButton = true,
     required this.topWidgetRef,
   });
 
@@ -54,42 +58,44 @@ class _TransactionListState extends ConsumerState<TransactionList> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        appLocalizations.transactionList,
-                        style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                              fontWeight: FontWeight.bold,
-                            ),
+                        widget.title,
+                        style:
+                            Theme.of(context).textTheme.titleMedium?.copyWith(
+                                  fontWeight: FontWeight.bold,
+                                ),
                       ),
-                      TextButton(
-                        onPressed: () {
-                          transactionListMode = transactionListMode ==
-                                  AccountDetailTransactionListMode
-                                      .transactionList
-                              ? AccountDetailTransactionListMode.forCategory
-                              : AccountDetailTransactionListMode
-                                  .transactionList;
+                      if (widget.showListModeButton)
+                        TextButton(
+                          onPressed: () {
+                            transactionListMode = transactionListMode ==
+                                    AccountDetailTransactionListMode
+                                        .transactionList
+                                ? AccountDetailTransactionListMode.forCategory
+                                : AccountDetailTransactionListMode
+                                    .transactionList;
 
-                          setState(() {});
-                        },
-                        style: TextButton.styleFrom(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 0, vertical: 10),
-                            minimumSize: Size.zero,
-                            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                            alignment: Alignment.centerLeft),
-                        child: Text(
-                          transactionListMode ==
-                                  AccountDetailTransactionListMode
-                                      .transactionList
-                              ? appLocalizations.byList
-                              : appLocalizations.byCategory,
-                          style: Theme.of(context)
-                              .textTheme
-                              .labelLarge
-                              ?.copyWith(
-                                color: Theme.of(context).colorScheme.primary,
-                              ),
+                            setState(() {});
+                          },
+                          style: TextButton.styleFrom(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 0, vertical: 10),
+                              minimumSize: Size.zero,
+                              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                              alignment: Alignment.centerLeft),
+                          child: Text(
+                            transactionListMode ==
+                                    AccountDetailTransactionListMode
+                                        .transactionList
+                                ? appLocalizations.byList
+                                : appLocalizations.byCategory,
+                            style: Theme.of(context)
+                                .textTheme
+                                .labelLarge
+                                ?.copyWith(
+                                  color: Theme.of(context).colorScheme.primary,
+                                ),
+                          ),
                         ),
-                      ),
                     ]),
               ),
               transactionListMode ==

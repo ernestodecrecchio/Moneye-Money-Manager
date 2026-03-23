@@ -640,4 +640,13 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get nextDate => 'Próxima fecha';
+
+  @override
+  String get ruleDetails => 'Rule details';
+
+  @override
+  String get generatedTransactions => 'Generated transactions';
+
+  @override
+  String get recurrenceLogic => 'Recurrence logic';
 }

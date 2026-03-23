@@ -644,4 +644,13 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get nextDate => 'Prossima data';
+
+  @override
+  String get ruleDetails => 'Dettagli regola';
+
+  @override
+  String get generatedTransactions => 'Transazioni generate';
+
+  @override
+  String get recurrenceLogic => 'Logica di ricorrenza';
 }

@@ -5,6 +5,7 @@ import 'package:expense_tracker/configuration/notification_manager.dart';
 import 'package:expense_tracker/configuration/analytics_manager.dart';
 import 'package:expense_tracker/presentation/pages/options_page/backup_restore_page/backup_restore_page.dart';
 import 'package:expense_tracker/presentation/pages/options_page/recurring_rules_page/recurring_rules_list_page.dart';
+import 'package:expense_tracker/presentation/pages/options_page/recurring_rules_page/recurring_rule_detail_page.dart';
 import 'package:expense_tracker/services/asset_registry.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
@@ -12,6 +13,7 @@ import 'package:expense_tracker/l10n/app_localizations.dart';
 import 'package:expense_tracker/l10n/l10n.dart';
 import 'package:expense_tracker/domain/models/account.dart';
 import 'package:expense_tracker/domain/models/category.dart' as c;
+import 'package:expense_tracker/domain/models/recurring_rule.dart';
 import 'package:expense_tracker/application/common/notifiers/currency_provider.dart';
 import 'package:expense_tracker/application/common/notifiers/locale_provider.dart';
 import 'package:expense_tracker/application/common/notifiers/notification_provider.dart';
@@ -318,6 +320,17 @@ class MyApp extends r.ConsumerWidget {
                   settings: settings,
                   builder: (context) => NewEditCategoryPage(
                     initialCategorySettings: args,
+                  ),
+                );
+              }
+            case RecurringRuleDetailPage.routeName:
+              {
+                final args = settings.arguments as RecurringRule;
+
+                return MaterialPageRoute(
+                  settings: settings,
+                  builder: (context) => RecurringRuleDetailPage(
+                    rule: args,
                   ),
                 );
               }

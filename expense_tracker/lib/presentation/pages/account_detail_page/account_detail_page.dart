@@ -410,7 +410,10 @@ class _ScrollableTabViewState extends ConsumerState<ScrollableTabView> {
                             height: 4,
                           ),
                         ],
-                        _buildTransactionListSection(transactionsList),
+                        _buildTransactionListSection(
+                          transactionsList,
+                          appLocalizations,
+                        ),
                       ],
                     ),
                   );
@@ -447,8 +450,10 @@ class _ScrollableTabViewState extends ConsumerState<ScrollableTabView> {
     );
   }
 
-  Widget _buildTransactionListSection(List<Transaction> transactionList) {
+  Widget _buildTransactionListSection(
+      List<Transaction> transactionList, AppLocalizations appLocalizations) {
     return TransactionList(
+      title: appLocalizations.transactionList,
       transactionsListParams: TransactionsListParams(
         startDate: widget.startDate,
         endDate: widget.endDate,

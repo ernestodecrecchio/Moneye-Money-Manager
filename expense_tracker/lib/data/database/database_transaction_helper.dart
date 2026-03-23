@@ -282,6 +282,7 @@ class DatabaseTransactionHelper {
     bool? includeIncomes, // null = default = true
     bool? includeExpenses, // null = default = true
     int? limit,
+    String? recurringId,
   ) async {
     final dbInstance = await DatabaseHelper.instance.database;
 
@@ -316,6 +317,11 @@ class DatabaseTransactionHelper {
     if (categoryId != null) {
       conditions.add('${TransactionFields.categoryId} = ?');
       args.add(categoryId);
+    }
+
+    if (recurringId != null) {
+      conditions.add('${TransactionFields.recurringId} = ?');
+      args.add(recurringId);
     }
 
     // Income/Expense filtering

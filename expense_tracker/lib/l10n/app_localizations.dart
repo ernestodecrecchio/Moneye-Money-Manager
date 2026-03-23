@@ -1291,6 +1291,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Next date'**
   String get nextDate;
+
+  /// No description provided for @ruleDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'Rule details'**
+  String get ruleDetails;
+
+  /// No description provided for @generatedTransactions.
+  ///
+  /// In en, this message translates to:
+  /// **'Generated transactions'**
+  String get generatedTransactions;
+
+  /// No description provided for @recurrenceLogic.
+  ///
+  /// In en, this message translates to:
+  /// **'Recurrence logic'**
+  String get recurrenceLogic;
 }
 
 class _AppLocalizationsDelegate
