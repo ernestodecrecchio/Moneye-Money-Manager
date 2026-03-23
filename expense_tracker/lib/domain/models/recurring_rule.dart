@@ -143,8 +143,20 @@ class RecurringRule {
 
   Iterable<DateTime> generateOccurrences({required DateTime until}) sync* {
     DateTime current = nextOccurrence;
-    while (current.isBefore(until) || current.isAtSameMomentAs(until)) {
-      if (endDate != null && current.isAfter(endDate!)) break;
+    // Normalize until date to the end of the day to be inclusive
+    final inclusiveUntil =
+        DateTime(until.year, until.month, until.day, 23, 59, 59);
+
+    while (current.isBefore(inclusiveUntil) ||
+        current.isAtSameMomentAs(inclusiveUntil)) {
+      if (endDate != null) {
+        // Normalize comparison to the start of the day
+        final normalizedCurrent =
+            DateTime(current.year, current.month, current.day);
+        final normalizedEndDate =
+            DateTime(endDate!.year, endDate!.month, endDate!.day);
+        if (normalizedCurrent.isAfter(normalizedEndDate)) break;
+      }
       yield current;
       current = _getNextOccurrenceFrom(current);
     }
