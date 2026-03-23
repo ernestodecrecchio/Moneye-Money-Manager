@@ -1,9 +1,10 @@
 import 'package:expense_tracker/Services/widget_extension_service.dart';
 import 'package:expense_tracker/application/accounts/notifiers/queries/accounts_with_balance_notifier.dart';
+import 'package:expense_tracker/application/transactions/notifiers/mutations/transaction_mutation_notifier.dart';
 import 'package:expense_tracker/application/transactions/notifiers/queries/transactions_list_notifier.dart';
 import 'package:expense_tracker/application/common/notifiers/app_localizations_provider.dart';
 import 'package:expense_tracker/presentation/pages/account_detail_page/account_detail_page.dart';
-import 'package:expense_tracker/presentation/pages/common/delete_transaction_snackbar.dart';
+import 'package:expense_tracker/presentation/pages/common/widgets/custom_snackbar.dart';
 import 'package:expense_tracker/presentation/pages/common/list_tiles/transaction_list_cell.dart';
 import 'package:expense_tracker/presentation/pages/home_page/home_flexible_app_bar.dart';
 import 'package:expense_tracker/presentation/pages/home_page/home_app_bar.dart';
@@ -254,8 +255,17 @@ class LastTransactionList extends ConsumerWidget {
                 return TransactionListCell(
                   transaction: lastTransactionList[index],
                   onTransactionDelete: (transaction) {
-                    showDeleteTransactionSnackbar(
-                        context, ref, transaction, index);
+                    CustomSnackBar.show(
+                      context,
+                      message: appLocalizations.transactionDeleted,
+                      type: SnackBarType.success,
+                      actionLabel: appLocalizations.cancel,
+                      onActionPressed: () async {
+                        await ref
+                            .read(transactionMutationProvider.notifier)
+                            .addTransaction(transaction);
+                      },
+                    );
                   },
                 );
               },

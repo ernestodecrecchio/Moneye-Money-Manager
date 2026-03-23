@@ -4,6 +4,7 @@ import 'package:expense_tracker/application/common/notifiers/app_localizations_p
 import 'package:expense_tracker/application/common/notifiers/notification_provider.dart';
 import 'package:expense_tracker/presentation/pages/common/custom_elevated_button.dart';
 import 'package:expense_tracker/style/app_theme.dart';
+import 'package:expense_tracker/presentation/pages/common/widgets/custom_snackbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -128,11 +129,10 @@ class ReminderPage extends ConsumerWidget {
                           onPressed: () async {
                             await NotificationManager.showInstantNotification();
                             if (context.mounted) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text(
-                                      appLocalizations.testNotificationSent),
-                                ),
+                              CustomSnackBar.show(
+                                context,
+                                message: appLocalizations.testNotificationSent,
+                                type: SnackBarType.success,
                               );
                             }
                           },

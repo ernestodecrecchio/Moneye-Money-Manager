@@ -1,5 +1,7 @@
+import 'package:expense_tracker/application/common/notifiers/app_localizations_provider.dart';
+import 'package:expense_tracker/application/transactions/notifiers/mutations/transaction_mutation_notifier.dart';
 import 'package:expense_tracker/domain/models/transaction.dart';
-import 'package:expense_tracker/presentation/pages/common/delete_transaction_snackbar.dart';
+import 'package:expense_tracker/presentation/pages/common/widgets/custom_snackbar.dart';
 import 'package:expense_tracker/presentation/pages/common/list_tiles/transaction_list_cell.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -48,11 +50,16 @@ class TransactionListForCategoryPage extends ConsumerWidget {
         return TransactionListCell(
           transaction: transactionList[index],
           onTransactionDelete: (transaction) {
-            showDeleteTransactionSnackbar(
+            CustomSnackBar.show(
               context,
-              ref,
-              transaction,
-              index,
+              message: ref.read(appLocalizationsProvider).transactionDeleted,
+              type: SnackBarType.success,
+              actionLabel: ref.read(appLocalizationsProvider).cancel,
+              onActionPressed: () async {
+                await ref
+                    .read(transactionMutationProvider.notifier)
+                    .addTransaction(transaction);
+              },
             );
           },
         );

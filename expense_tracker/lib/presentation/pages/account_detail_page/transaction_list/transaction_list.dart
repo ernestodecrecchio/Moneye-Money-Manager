@@ -1,4 +1,5 @@
 import 'package:expense_tracker/Helper/double_helper.dart';
+import 'package:expense_tracker/application/transactions/notifiers/mutations/transaction_mutation_notifier.dart';
 import 'package:expense_tracker/application/common/notifiers/app_localizations_provider.dart';
 import 'package:expense_tracker/configuration/constants.dart';
 import 'package:expense_tracker/l10n/app_localizations.dart';
@@ -9,7 +10,7 @@ import 'package:expense_tracker/application/common/notifiers/currency_provider.d
 import 'package:expense_tracker/presentation/pages/account_detail_page/graphs/account_pie_chart.dart';
 import 'package:expense_tracker/presentation/pages/account_detail_page/transaction_list_for_category_page.dart';
 import 'package:expense_tracker/application/transactions/notifiers/queries/transactions_list_notifier.dart';
-import 'package:expense_tracker/presentation/pages/common/delete_transaction_snackbar.dart';
+import 'package:expense_tracker/presentation/pages/common/widgets/custom_snackbar.dart';
 import 'package:expense_tracker/presentation/pages/common/list_tiles/transaction_list_cell.dart';
 import 'package:expense_tracker/presentation/pages/common/widgets/icon_item.dart';
 import 'package:flutter/material.dart';
@@ -124,12 +125,16 @@ class _TransactionListState extends ConsumerState<TransactionList> {
         transaction: transactionList[index],
         showAccountLabel: widget.showAccountLabel,
         onTransactionDelete: (transaction) {
-          showDeleteTransactionSnackbar(
-            super
-                .context, // Passing the super.context because, if the transaction list becomes empty,the widget itself will be disposed and the snackbar action will not work with the transaction list context.
-            widget.topWidgetRef,
-            transaction,
-            index,
+          CustomSnackBar.show(
+            context,
+            message: ref.read(appLocalizationsProvider).transactionDeleted,
+            type: SnackBarType.success,
+            actionLabel: ref.read(appLocalizationsProvider).cancel,
+            onActionPressed: () async {
+              await widget.topWidgetRef
+                  .read(transactionMutationProvider.notifier)
+                  .addTransaction(transaction);
+            },
           );
         },
       ),

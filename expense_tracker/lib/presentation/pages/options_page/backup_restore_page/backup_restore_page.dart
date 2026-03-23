@@ -6,6 +6,7 @@ import 'package:expense_tracker/application/transactions/notifiers/queries/total
 import 'package:expense_tracker/application/transactions/notifiers/queries/transactions_list_notifier.dart';
 import 'package:expense_tracker/application/accounts/notifiers/queries/accounts_with_balance_notifier.dart';
 import 'package:expense_tracker/services/database_export_import_service.dart';
+import 'package:expense_tracker/presentation/pages/common/widgets/custom_snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -48,18 +49,18 @@ class _BackupRestorePageState extends ConsumerState<BackupRestorePage> {
                               await DatabaseExportImportService.instance
                                   .exportDatabase();
                               if (context.mounted) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                      content:
-                                          Text(appLocalizations.exportSuccess)),
+                                CustomSnackBar.show(
+                                  context,
+                                  message: appLocalizations.exportSuccess,
+                                  type: SnackBarType.success,
                                 );
                               }
                             } catch (e) {
                               if (context.mounted) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                      content:
-                                          Text(appLocalizations.exportError)),
+                                CustomSnackBar.show(
+                                  context,
+                                  message: appLocalizations.exportError,
+                                  type: SnackBarType.error,
                                 );
                               }
                             } finally {
@@ -83,18 +84,18 @@ class _BackupRestorePageState extends ConsumerState<BackupRestorePage> {
                                   .instance
                                   .saveDatabaseLocally();
                               if (success && context.mounted) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                      content:
-                                          Text(appLocalizations.exportSuccess)),
+                                CustomSnackBar.show(
+                                  context,
+                                  message: appLocalizations.exportSuccess,
+                                  type: SnackBarType.success,
                                 );
                               }
                             } catch (e) {
                               if (context.mounted) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                      content:
-                                          Text(appLocalizations.exportError)),
+                                CustomSnackBar.show(
+                                  context,
+                                  message: appLocalizations.exportError,
+                                  type: SnackBarType.error,
                                 );
                               }
                             } finally {
@@ -143,18 +144,18 @@ class _BackupRestorePageState extends ConsumerState<BackupRestorePage> {
                                         .importDatabase();
                                 if (success && context.mounted) {
                                   _refreshAppState();
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                        content: Text(
-                                            appLocalizations.importSuccess)),
+                                  CustomSnackBar.show(
+                                    context,
+                                    message: appLocalizations.importSuccess,
+                                    type: SnackBarType.success,
                                   );
                                 }
                               } catch (e) {
                                 if (context.mounted) {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                        content:
-                                            Text(appLocalizations.importError)),
+                                  CustomSnackBar.show(
+                                    context,
+                                    message: appLocalizations.importError,
+                                    type: SnackBarType.error,
                                   );
                                 }
                               } finally {
@@ -203,18 +204,18 @@ class _BackupRestorePageState extends ConsumerState<BackupRestorePage> {
                                     .resetDatabase();
                                 if (context.mounted) {
                                   _refreshAppState();
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                        content: Text(
-                                            appLocalizations.resetSuccess)),
+                                  CustomSnackBar.show(
+                                    context,
+                                    message: appLocalizations.resetSuccess,
+                                    type: SnackBarType.success,
                                   );
                                 }
                               } catch (e) {
                                 if (context.mounted) {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                        content:
-                                            Text(appLocalizations.resetError)),
+                                  CustomSnackBar.show(
+                                    context,
+                                    message: appLocalizations.resetError,
+                                    type: SnackBarType.error,
                                   );
                                 }
                               } finally {
