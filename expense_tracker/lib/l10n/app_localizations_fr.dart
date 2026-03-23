@@ -648,11 +648,11 @@ class AppLocalizationsFr extends AppLocalizations {
   String get nextDate => 'Prochaine date';
 
   @override
-  String get ruleDetails => 'Rule details';
+  String get ruleDetails => 'Détails de la règle';
 
   @override
-  String get generatedTransactions => 'Generated transactions';
+  String get generatedTransactions => 'Transactions générées';
 
   @override
-  String get recurrenceLogic => 'Recurrence logic';
+  String get recurrenceLogic => 'Logique de récurrence';
 }

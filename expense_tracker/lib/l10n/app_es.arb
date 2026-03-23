@@ -196,5 +196,8 @@
     "transactionGeneratedByDeletedRule": "Esta transacción fue generada por una regla recurrente que ha sido eliminada.",
     "editRule": "Editar regla",
     "editRuleInfo": "Los cambios en esta regla recurrente no afectarán a las transacciones que ya se hayan generado.",
-    "recurringTransactionsOptionDescription": "Gestiona tus reglas de transacciones recurrentes"
+    "recurringTransactionsOptionDescription": "Gestiona tus reglas de transacciones recurrentes",
+    "ruleDetails": "Detalles de la regla",
+    "generatedTransactions": "Transacciones generadas",
+    "recurrenceLogic": "Lógica de recurrencia"
 }

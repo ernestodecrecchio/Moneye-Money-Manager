@@ -650,11 +650,11 @@ class AppLocalizationsDe extends AppLocalizations {
   String get nextDate => 'Nächstes Datum';
 
   @override
-  String get ruleDetails => 'Rule details';
+  String get ruleDetails => 'Regeldetails';
 
   @override
-  String get generatedTransactions => 'Generated transactions';
+  String get generatedTransactions => 'Generierte Transaktionen';
 
   @override
-  String get recurrenceLogic => 'Recurrence logic';
+  String get recurrenceLogic => 'Wiederholungslogik';
 }
