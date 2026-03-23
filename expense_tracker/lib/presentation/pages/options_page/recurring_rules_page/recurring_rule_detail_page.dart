@@ -41,21 +41,28 @@ class RecurringRuleDetailPage extends ConsumerWidget {
       ),
       body: SafeArea(
         child: SingleChildScrollView(
-          padding:
-              EdgeInsets.symmetric(horizontal: Constants.horizontalPadding),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _buildRuleHeader(
-                  context, ref, category, account, appLocalizations),
-              Divider(),
-              _buildLogicSection(context, appLocalizations),
+              Padding(
+                padding: EdgeInsets.symmetric(
+                    horizontal: Constants.horizontalPadding),
+                child: Column(
+                  children: [
+                    _buildRuleHeader(
+                        context, ref, category, account, appLocalizations),
+                    Divider(),
+                    _buildLogicSection(context, appLocalizations),
+                  ],
+                ),
+              ),
               TransactionList(
                 title: appLocalizations.generatedTransactions,
                 transactionsListParams: TransactionsListParams(
                   recurringId: rule.id,
                 ),
                 showListModeButton: false,
+                showAccountLabel: true,
                 topWidgetRef: ref,
               ),
               const SizedBox(height: 32),
@@ -94,7 +101,10 @@ class RecurringRuleDetailPage extends ConsumerWidget {
         ref.watch(currentCurrencySymbolPositionProvider);
 
     return Padding(
-      padding: const EdgeInsets.only(top: 12, bottom: 18),
+      padding: const EdgeInsets.only(
+        top: 12,
+        bottom: 18,
+      ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
@@ -143,6 +153,7 @@ class RecurringRuleDetailPage extends ConsumerWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             mainAxisSize: MainAxisSize.min,
+            spacing: 4,
             children: [
               Text(
                 rule.amount.toStringAsFixedRoundedWithCurrency(
@@ -156,16 +167,15 @@ class RecurringRuleDetailPage extends ConsumerWidget {
                           : context.appColors.expense,
                     ),
               ),
-              const SizedBox(height: 4),
               Row(
                 mainAxisSize: MainAxisSize.min,
+                spacing: 4,
                 children: [
                   Icon(
                     Icons.account_balance_wallet_outlined,
                     size: 14,
                     color: context.appColors.textSecondary,
                   ),
-                  const SizedBox(width: 4),
                   Text(
                     account?.name ?? '',
                     style: Theme.of(context).textTheme.bodySmall?.copyWith(

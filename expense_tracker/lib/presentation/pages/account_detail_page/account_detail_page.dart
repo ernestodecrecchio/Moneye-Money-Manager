@@ -2,6 +2,7 @@ import 'package:collection/collection.dart';
 import 'package:expense_tracker/Helper/date_time_helper.dart';
 import 'package:expense_tracker/application/common/notifiers/app_localizations_provider.dart';
 import 'package:expense_tracker/application/transactions/notifiers/queries/transactions_list_notifier.dart';
+import 'package:expense_tracker/configuration/constants.dart';
 import 'package:expense_tracker/l10n/app_localizations.dart';
 import 'package:expense_tracker/domain/models/account.dart';
 import 'package:expense_tracker/domain/models/transaction.dart';
@@ -381,7 +382,11 @@ class _ScrollableTabViewState extends ConsumerState<ScrollableTabView> {
                           Container(
                             height: 200,
                             margin: const EdgeInsets.only(
-                                top: 10, bottom: 0, left: 18, right: 18),
+                              top: 10,
+                              bottom: 0,
+                              left: Constants.horizontalPadding,
+                              right: Constants.horizontalPadding,
+                            ),
                             child: PageViewWithIndicators(
                               widgetList: [
                                 _buildPieChart(includeInReportTransactionsList,
@@ -463,6 +468,7 @@ class _ScrollableTabViewState extends ConsumerState<ScrollableTabView> {
         includeExpenses:
             widget.transactionType == AccountDetailTransactionTypeMode.expense,
       ),
+      showAccountLabel: false,
       topWidgetRef: ref,
     );
   }

@@ -26,6 +26,7 @@ class TransactionList extends ConsumerStatefulWidget {
   final String title;
   final TransactionsListParams transactionsListParams;
   final bool showListModeButton;
+  final bool showAccountLabel;
   final WidgetRef topWidgetRef;
 
   const TransactionList({
@@ -33,6 +34,7 @@ class TransactionList extends ConsumerStatefulWidget {
     required this.title,
     required this.transactionsListParams,
     this.showListModeButton = true,
+    required this.showAccountLabel,
     required this.topWidgetRef,
   });
 
@@ -120,7 +122,7 @@ class _TransactionListState extends ConsumerState<TransactionList> {
       itemCount: transactionList.length,
       itemBuilder: (_, index) => TransactionListCell(
         transaction: transactionList[index],
-        showAccountLabel: false,
+        showAccountLabel: widget.showAccountLabel,
         onTransactionDelete: (transaction) {
           showDeleteTransactionSnackbar(
             super
