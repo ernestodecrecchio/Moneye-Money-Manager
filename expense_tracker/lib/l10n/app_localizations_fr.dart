@@ -634,9 +634,6 @@ class AppLocalizationsFr extends AppLocalizations {
       'Cette transaction a été générée par une règle récurrente qui a depuis été supprimée.';
 
   @override
-  String get editRule => 'Modifier la règle';
-
-  @override
   String get editRuleInfo =>
       'Les modifications apportées à cette règle récurrente n\'affecteront pas les transactions déjà générées.';
 
@@ -655,4 +652,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get recurrenceLogic => 'Logique de récurrence';
+
+  @override
+  String get viewRule => 'Voir la règle';
 }

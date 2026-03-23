@@ -16,6 +16,7 @@ import 'package:expense_tracker/presentation/pages/common/custom_text_field.dart
 import 'package:expense_tracker/presentation/pages/new_edit_transaction_flow/category_selector_dialog.dart';
 import 'package:expense_tracker/presentation/pages/common/custom_dropdown_button_form_field.dart';
 import 'package:expense_tracker/presentation/pages/common/custom_form_switch.dart';
+import 'package:expense_tracker/presentation/pages/options_page/recurring_rules_page/recurring_rule_detail_page.dart';
 import 'package:expense_tracker/style/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -342,12 +343,11 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
                 ),
                 onPressed: () {
                   Navigator.of(context).pushNamed(
-                    NewEditTransactionPage.routeName,
-                    arguments: NewEditTransactionPageScreenArguments(
-                        recurringRule: generatedRule),
+                    RecurringRuleDetailPage.routeName,
+                    arguments: generatedRule,
                   );
                 },
-                child: Text(appLocalizations.editRule),
+                child: Text(appLocalizations.viewRule),
               ),
             ),
         ],

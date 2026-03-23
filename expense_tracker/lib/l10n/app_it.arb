@@ -198,13 +198,13 @@
     "ruleDetails": "Dettagli regola",
     "generatedTransactions": "Transazioni generate",
     "recurrenceLogic": "Logica di ricorrenza",
+    "viewRule": "Vedi regola",
     "endDateInfo": "La data dopo la quale non verranno più generate automaticamente altre transazioni di questo tipo.",
     "selectEndDate": "Seleziona la data di fine",
     "newRecurringTransaction": "Nuova transazione ricorrente",
     "editRecurringTransaction": "Modifica transazione ricorrente",
     "transactionGeneratedByRule": "Questa transazione è stata generata automaticamente da una regola ricorrente. La modifica di questa transazione non influenzerà quelle future.",
     "transactionGeneratedByDeletedRule": "Questa transazione è stata generata da una regola ricorrente che è stata eliminata.",
-    "editRule": "Modifica regola",
     "editRuleInfo": "Le modifiche a questa regola ricorrente non influiranno sulle transazioni che sono già state generate.",
     "recurringTransactionsOptionDescription": "Gestisci le tue regole per le transazioni ricorrenti"
 }

@@ -636,9 +636,6 @@ class AppLocalizationsDe extends AppLocalizations {
       'Diese Transaktion wurde durch eine wiederkehrende Regel generiert, die inzwischen gelöscht wurde.';
 
   @override
-  String get editRule => 'Regel bearbeiten';
-
-  @override
   String get editRuleInfo =>
       'Änderungen an dieser wiederkehrenden Regel wirken sich nicht auf bereits generierte Transaktionen aus.';
 
@@ -657,4 +654,7 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get recurrenceLogic => 'Wiederholungslogik';
+
+  @override
+  String get viewRule => 'Regel anzeigen';
 }
