@@ -102,8 +102,9 @@ class DatabaseTransactionHelper {
         'CREATE UNIQUE INDEX idx_recurring_unique ON $transactionsTable(${TransactionFields.recurringId}, ${TransactionFields.originalDate})');
   }
 
-  Future<void> generateRecurringTransactionsUntil(DateTime targetDate) async {
+  Future<int> generateRecurringTransactionsUntil(DateTime targetDate) async {
     final db = await DatabaseHelper.instance.database;
+    int generatedCount = 0;
 
     final rules =
         await DatabaseRecurringRuleHelper.instance.getRecurringRules();
@@ -128,6 +129,7 @@ class DatabaseTransactionHelper {
 
         try {
           await db.insert(transactionsTable, transaction.toJson());
+          generatedCount++;
         } on DatabaseException catch (e) {
           if (!e.isUniqueConstraintError()) rethrow;
         }
@@ -141,6 +143,8 @@ class DatabaseTransactionHelper {
             .updateRecurringRule(original: rule, modified: rule);
       }
     }
+
+    return generatedCount;
   }
 
   Future<trans.Transaction> insertTransaction(

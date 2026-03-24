@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:expense_tracker/configuration/notification_manager.dart';
 import 'package:expense_tracker/configuration/analytics_manager.dart';
 import 'package:expense_tracker/presentation/pages/options_page/backup_restore_page/backup_restore_page.dart';
+import 'package:expense_tracker/presentation/pages/common/widgets/custom_snackbar.dart';
 import 'package:expense_tracker/presentation/pages/options_page/recurring_rules_page/recurring_rules_list_page.dart';
 import 'package:expense_tracker/presentation/pages/options_page/recurring_rules_page/recurring_rule_detail_page.dart';
 import 'package:expense_tracker/services/asset_registry.dart';
@@ -175,7 +176,7 @@ Future main() async {
   themeProviderNotifier.setFromLocalStorage(themeModeString);
 
   // Trigger lazy generation of recurring transactions on app startup
-  await container
+  final generatedCount = await container
       .read(transactionsRepositoryProvider)
       .generateRecurringTransactionsUntil(DateTime.now());
 
@@ -189,6 +190,22 @@ Future main() async {
       ),
     ),
   );
+
+  if (generatedCount > 0) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      // Delaying slightly to ensure the context is fully mounted and themed
+      Future.delayed(const Duration(milliseconds: 500), () {
+        final context = navigatorKey.currentContext;
+        if (context != null && context.mounted) {
+          CustomSnackBar.show(
+            context,
+            message: AppLocalizations.of(context)!
+                .generatedTransactionsSnackbar(generatedCount),
+          );
+        }
+      });
+    });
+  }
 }
 
 Future<void> _configureLocalTimeZone() async {

@@ -26,5 +26,5 @@ abstract class TransactionsRepository {
     String? recurringId,
   });
 
-  Future<void> generateRecurringTransactionsUntil(DateTime targetDate);
+  Future<int> generateRecurringTransactionsUntil(DateTime targetDate);
 }

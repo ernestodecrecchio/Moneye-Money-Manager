@@ -206,5 +206,13 @@
     "transactionGeneratedByRule": "Questa transazione è stata generata automaticamente da una regola ricorrente. La modifica di questa transazione non influenzerà quelle future.",
     "transactionGeneratedByDeletedRule": "Questa transazione è stata generata da una regola ricorrente che è stata eliminata.",
     "editRuleInfo": "Le modifiche a questa regola ricorrente non influiranno sulle transazioni che sono già state generate.",
-    "recurringTransactionsOptionDescription": "Gestisci le tue regole per le transazioni ricorrenti"
+    "recurringTransactionsOptionDescription": "Gestisci le tue regole per le transazioni ricorrenti",
+    "generatedTransactionsSnackbar": "{count, plural, =1{1 transazione ricorrente generata} other{{count} transazioni ricorrenti generate}}",
+    "@generatedTransactionsSnackbar": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    }
 }

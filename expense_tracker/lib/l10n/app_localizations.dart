@@ -1309,6 +1309,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'View rule'**
   String get viewRule;
+
+  /// No description provided for @generatedTransactionsSnackbar.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 recurring transaction generated} other{{count} recurring transactions generated}}'**
+  String generatedTransactionsSnackbar(int count);
 }
 
 class _AppLocalizationsDelegate

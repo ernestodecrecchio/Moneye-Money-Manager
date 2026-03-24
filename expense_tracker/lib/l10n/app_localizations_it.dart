@@ -653,4 +653,15 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get viewRule => 'Vedi regola';
+
+  @override
+  String generatedTransactionsSnackbar(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count transazioni ricorrenti generate',
+      one: '1 transazione ricorrente generata',
+    );
+    return '$_temp0';
+  }
 }

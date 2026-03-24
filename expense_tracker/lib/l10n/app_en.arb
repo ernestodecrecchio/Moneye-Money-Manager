@@ -206,5 +206,13 @@
     "ruleDetails": "Rule details",
     "generatedTransactions": "Generated transactions",
     "recurrenceLogic": "Recurrence logic",
-    "viewRule": "View rule"
+    "viewRule": "View rule",
+    "generatedTransactionsSnackbar": "{count, plural, =1{1 recurring transaction generated} other{{count} recurring transactions generated}}",
+    "@generatedTransactionsSnackbar": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    }
 }

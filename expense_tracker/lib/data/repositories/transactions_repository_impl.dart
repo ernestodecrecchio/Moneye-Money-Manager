@@ -65,7 +65,7 @@ class TransactionsRepositoryImpl implements TransactionsRepository {
   }
 
   @override
-  Future<void> generateRecurringTransactionsUntil(DateTime targetDate) async {
+  Future<int> generateRecurringTransactionsUntil(DateTime targetDate) async {
     return dbHelper.generateRecurringTransactionsUntil(targetDate);
   }
 }

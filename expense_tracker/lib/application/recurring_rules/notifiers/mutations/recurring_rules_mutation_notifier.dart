@@ -4,6 +4,10 @@ import 'package:expense_tracker/domain/models/recurring_rule.dart';
 import 'package:expense_tracker/domain/repositories/recurring_rules_repository.dart';
 import 'package:expense_tracker/application/transactions/notifiers/queries/transactions_list_notifier.dart';
 import 'package:expense_tracker/application/transactions/notifiers/transactions_repository_provider.dart';
+import 'package:expense_tracker/main.dart';
+import 'package:expense_tracker/presentation/pages/common/widgets/custom_snackbar.dart';
+import 'package:expense_tracker/l10n/app_localizations.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class RecurringRulesMutationNotifier extends AsyncNotifier<void> {
@@ -20,9 +24,22 @@ class RecurringRulesMutationNotifier extends AsyncNotifier<void> {
       final inserted = await _repo.insertRecurringRule(rule: rule);
 
       // Trigger generation for the new rule
-      await ref
+      final generatedCount = await ref
           .read(transactionsRepositoryProvider)
           .generateRecurringTransactionsUntil(DateTime.now());
+
+      if (generatedCount > 0) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          final context = navigatorKey.currentContext;
+          if (context != null) {
+            CustomSnackBar.show(
+              context,
+              message: AppLocalizations.of(context)!
+                  .generatedTransactionsSnackbar(generatedCount),
+            );
+          }
+        });
+      }
 
       ref.invalidate(recurringRulesListProvider);
       ref.invalidate(transactionsListProvider);
@@ -42,9 +59,22 @@ class RecurringRulesMutationNotifier extends AsyncNotifier<void> {
       await _repo.updateRecurringRule(original: original, modified: modified);
 
       // Trigger generation for the updated rule
-      await ref
+      final generatedCount = await ref
           .read(transactionsRepositoryProvider)
           .generateRecurringTransactionsUntil(DateTime.now());
+
+      if (generatedCount > 0) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          final context = navigatorKey.currentContext;
+          if (context != null) {
+            CustomSnackBar.show(
+              context,
+              message: AppLocalizations.of(context)!
+                  .generatedTransactionsSnackbar(generatedCount),
+            );
+          }
+        });
+      }
 
       ref.invalidate(recurringRulesListProvider);
       ref.invalidate(transactionsListProvider);
