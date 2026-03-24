@@ -103,6 +103,7 @@ class RecurringRuleDetailPage extends ConsumerWidget {
 
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
+      spacing: 12,
       children: [
         IconItem(
           backgroundColor: category?.color ?? context.appColors.textSecondary,
@@ -110,17 +111,17 @@ class RecurringRuleDetailPage extends ConsumerWidget {
           iconPath: category?.iconPath,
           size: 56,
         ),
-        const SizedBox(width: 20),
-        Text(
-          rule.title,
-          style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                fontWeight: FontWeight.bold,
-                letterSpacing: -0.5,
-              ),
-          maxLines: 2,
-          overflow: TextOverflow.ellipsis,
+        Expanded(
+          child: Text(
+            rule.title,
+            style: Theme.of(context)
+                .textTheme
+                .headlineSmall
+                ?.copyWith(fontWeight: FontWeight.bold),
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+          ),
         ),
-        Spacer(),
         Column(
           crossAxisAlignment: CrossAxisAlignment.end,
           mainAxisSize: MainAxisSize.min,

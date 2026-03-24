@@ -95,7 +95,6 @@ class RecurringRulesListPage extends ConsumerWidget {
 
     final dateFormatter = DateFormat.yMd(appLocalizations.localeName);
 
-    ///final dateFormatter = DateFormat('dd/MM/yyyy');
     return Slidable(
       key: ValueKey(rule.id),
       endActionPane: ActionPane(
@@ -139,7 +138,7 @@ class RecurringRulesListPage extends ConsumerWidget {
                   children: [
                     Text(
                       rule.title,
-                      maxLines: 1,
+                      maxLines: 2,
                       style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
