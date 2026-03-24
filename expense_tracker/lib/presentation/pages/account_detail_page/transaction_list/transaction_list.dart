@@ -103,10 +103,23 @@ class _TransactionListState extends ConsumerState<TransactionList> {
                         ),
                     ]),
               ),
-              transactionListMode ==
-                      AccountDetailTransactionListMode.transactionList
-                  ? _buildTransactionList(context, transactionList)
-                  : _buildCategoryList(transactionList, appLocalizations)
+              if (transactionList.isEmpty)
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 32),
+                  child: Center(
+                    child: Text(
+                      appLocalizations.noTransactions,
+                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                            color: context.appColors.textSecondary,
+                          ),
+                    ),
+                  ),
+                )
+              else
+                transactionListMode ==
+                        AccountDetailTransactionListMode.transactionList
+                    ? _buildTransactionList(context, transactionList)
+                    : _buildCategoryList(transactionList, appLocalizations)
             ],
           ),
           loading: () => const Center(child: CircularProgressIndicator()),

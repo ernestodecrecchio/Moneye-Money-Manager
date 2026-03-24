@@ -392,14 +392,14 @@ class AppLocalizationsIt extends AppLocalizations {
   String get reportBug => 'Segnala un bug';
 
   @override
-  String get resetData => 'Ripristina dati';
+  String get resetData => 'Cancella tutti i dati';
 
   @override
   String get resetError =>
-      'Si è verificato un errore durante il ripristino dei dati';
+      'Si è verificato un errore durante la cancellazione dei dati';
 
   @override
-  String get resetSuccess => 'Dati ripristinati con successo';
+  String get resetSuccess => 'Tutti i dati sono stati cancellati con successo';
 
   @override
   String get resetWarning =>

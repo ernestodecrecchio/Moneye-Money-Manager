@@ -393,14 +393,14 @@ class AppLocalizationsFr extends AppLocalizations {
   String get reportBug => 'Signaler un bug';
 
   @override
-  String get resetData => 'Réinitialiser les données';
+  String get resetData => 'Effacer toutes les données';
 
   @override
   String get resetError =>
-      'Une erreur est survenue lors de la réinitialisation des données';
+      'Une erreur est survenue lors de l\'effacement des données';
 
   @override
-  String get resetSuccess => 'Données réinitialisées avec succès';
+  String get resetSuccess => 'Toutes les données ont été effacées avec succès';
 
   @override
   String get resetWarning =>

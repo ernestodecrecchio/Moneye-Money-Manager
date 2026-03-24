@@ -389,17 +389,17 @@ class AppLocalizationsEs extends AppLocalizations {
   String get reportBug => 'Informar un error';
 
   @override
-  String get resetData => 'Restablecer datos';
+  String get resetData => 'Borrar todos los datos';
 
   @override
-  String get resetError => 'Ocurrió un error al restablecer los datos';
+  String get resetError => 'Ocurrió un error al borrar los datos';
 
   @override
-  String get resetSuccess => 'Datos restablecidos con éxito';
+  String get resetSuccess => 'Todos los datos se borraron con éxito';
 
   @override
   String get resetWarning =>
-      'Todos tus datos se eliminarán de forma permanente. Esta action no se puede deshacer. ¿Estás seguro de que quieres continuar?';
+      'Todos tus datos se eliminarán de forma permanente. Esta acción no se puede deshacer. ¿Estás seguro de que quieres continuar?';
 
   @override
   String get save => 'Guardar';

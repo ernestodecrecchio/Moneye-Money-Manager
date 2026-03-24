@@ -374,7 +374,13 @@ class _ScrollableTabViewState extends ConsumerState<ScrollableTabView> {
                 .toList();
 
             return transactionsList.isEmpty
-                ? Align(child: Text(appLocalizations.noTransactions))
+                ? Align(
+                    child: Text(
+                    appLocalizations.noTransactions,
+                    style: TextStyle(
+                      color: context.appColors.textSecondary,
+                    ),
+                  ))
                 : SingleChildScrollView(
                     child: Column(
                       children: [

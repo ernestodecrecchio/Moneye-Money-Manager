@@ -394,14 +394,13 @@ class AppLocalizationsDe extends AppLocalizations {
   String get reportBug => 'Einen Fehler melden';
 
   @override
-  String get resetData => 'Daten zurücksetzen';
+  String get resetData => 'Alle Daten löschen';
 
   @override
-  String get resetError =>
-      'Beim Zurücksetzen der Daten ist ein Fehler aufgetreten';
+  String get resetError => 'Beim Löschen der Daten ist ein Fehler aufgetreten';
 
   @override
-  String get resetSuccess => 'Daten erfolgreich zurückgesetzt';
+  String get resetSuccess => 'Alle Daten erfolgreich gelöscht';
 
   @override
   String get resetWarning =>

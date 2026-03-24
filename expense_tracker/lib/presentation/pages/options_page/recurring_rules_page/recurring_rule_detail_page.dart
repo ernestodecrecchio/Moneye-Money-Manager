@@ -128,25 +128,6 @@ class RecurringRuleDetailPage extends ConsumerWidget {
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                 ),
-                const SizedBox(height: 6),
-                Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                  decoration: BoxDecoration(
-                    color: (category?.color as Color?)
-                            ?.withValues(alpha: 0.12) ??
-                        context.appColors.textSecondary.withValues(alpha: 0.12),
-                    borderRadius: BorderRadius.circular(6),
-                  ),
-                  child: Text(
-                    category?.name ?? appLocalizations.other,
-                    style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                          color: category?.color ??
-                              context.appColors.textSecondary,
-                          fontWeight: FontWeight.bold,
-                        ),
-                  ),
-                ),
               ],
             ),
           ),

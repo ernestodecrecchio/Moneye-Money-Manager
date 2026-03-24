@@ -815,19 +815,19 @@ abstract class AppLocalizations {
   /// No description provided for @resetData.
   ///
   /// In en, this message translates to:
-  /// **'Reset data'**
+  /// **'Erase all data'**
   String get resetData;
 
   /// No description provided for @resetError.
   ///
   /// In en, this message translates to:
-  /// **'An error occurred while resetting data'**
+  /// **'An error occurred while erasing data'**
   String get resetError;
 
   /// No description provided for @resetSuccess.
   ///
   /// In en, this message translates to:
-  /// **'Data reset successfully'**
+  /// **'All data erased successfully'**
   String get resetSuccess;
 
   /// No description provided for @resetWarning.

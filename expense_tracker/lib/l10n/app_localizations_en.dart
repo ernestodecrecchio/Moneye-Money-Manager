@@ -389,13 +389,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get reportBug => 'Report a bug';
 
   @override
-  String get resetData => 'Reset data';
+  String get resetData => 'Erase all data';
 
   @override
-  String get resetError => 'An error occurred while resetting data';
+  String get resetError => 'An error occurred while erasing data';
 
   @override
-  String get resetSuccess => 'Data reset successfully';
+  String get resetSuccess => 'All data erased successfully';
 
   @override
   String get resetWarning =>
