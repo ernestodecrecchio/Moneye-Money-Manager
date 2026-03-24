@@ -660,11 +660,14 @@ class DateBar extends ConsumerWidget {
                 fit: BoxFit.scaleDown,
                 child: Text(
                   switch (selectedTransactionTimePeriod) {
-                    TransactionTimePeriod.day => ddMMMyyyyFormatter(startDate),
+                    TransactionTimePeriod.day =>
+                      ddMMMyyyyFormatter(startDate, appLocalizations.localeName),
                     TransactionTimePeriod.week =>
-                      '${ddMMMyyFormatter(startDate)} - ${ddMMMyyFormatter(endDate)}',
-                    TransactionTimePeriod.month => MMMyyyyFormatter(startDate),
-                    TransactionTimePeriod.year => yyyyFormatter(startDate),
+                      '${ddMMMyyFormatter(startDate, appLocalizations.localeName)} - ${ddMMMyyFormatter(endDate, appLocalizations.localeName)}',
+                    TransactionTimePeriod.month =>
+                      MMMyyyyFormatter(startDate, appLocalizations.localeName),
+                    TransactionTimePeriod.year =>
+                      yyyyFormatter(startDate, appLocalizations.localeName),
                     TransactionTimePeriod.custom =>
                       '${startDate.day} ${startDate.month} - ${endDate.day} ${endDate.month}',
                   },

@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:collection/collection.dart';
 import 'package:expense_tracker/application/categories/notifiers/queries/categories_list_notifier.dart';
 import 'package:expense_tracker/application/common/notifiers/app_localizations_provider.dart';
@@ -95,7 +96,6 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
   bool _includeInReport = true;
 
   final elementSpacing = 14.0;
-  final dateFormatter = DateFormat('dd/MM/yyyy');
 
   @override
   void initState() {
@@ -109,7 +109,9 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
       titleInput.text = initialTransaction.title;
       descriptionInput.text = initialTransaction.description ?? '';
       valueInput.text = initialTransaction.amount.abs().toString();
-      dateInput.text = dateFormatter.format(initialTransaction.date).toString();
+      dateInput.text = DateFormat.yMd(Platform.localeName)
+          .format(initialTransaction.date)
+          .toString();
       selectedDate = initialTransaction.date;
 
       _transactionTypeTabController.index =
@@ -148,13 +150,16 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
       titleInput.text = initialRule.title;
       descriptionInput.text = initialRule.description ?? '';
       valueInput.text = initialRule.amount.abs().toString();
-      dateInput.text = dateFormatter.format(initialRule.startDate).toString();
+      dateInput.text = DateFormat.yMd(Platform.localeName)
+          .format(initialRule.startDate)
+          .toString();
       selectedDate = initialRule.startDate;
 
       if (initialRule.endDate != null) {
         selectedEndDate = initialRule.endDate;
-        endDateInput.text =
-            dateFormatter.format(initialRule.endDate!).toString();
+        endDateInput.text = DateFormat.yMd(Platform.localeName)
+            .format(initialRule.endDate!)
+            .toString();
       }
 
       _transactionTypeTabController.index = initialRule.amount >= 0 ? 0 : 1;
@@ -189,7 +194,7 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
       intervalInput.text = initialRule.frequencyInterval.toString();
     } else {
       titleInputFocusNode.requestFocus();
-      dateInput.text = dateFormatter.format(selectedDate).toString();
+      dateInput.text = DateFormat.yMd(Platform.localeName).format(selectedDate).toString();
 
       if (widget.isRecurringPreset) {
         _isRecurring = true;
@@ -411,7 +416,9 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
                 onSelectedDate: (picked) {
                   if (picked != selectedDate) {
                     setState(() {
-                      dateInput.text = dateFormatter.format(picked).toString();
+                      dateInput.text = DateFormat.yMd(appLocalizations.localeName)
+                          .format(picked)
+                          .toString();
                       selectedDate = picked;
                     });
                   }
@@ -559,7 +566,9 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
                       if (picked != selectedEndDate) {
                         setState(() {
                           endDateInput.text =
-                              dateFormatter.format(picked).toString();
+                              DateFormat.yMd(localizations.localeName)
+                                  .format(picked)
+                                  .toString();
                           selectedEndDate = picked;
                         });
                       }

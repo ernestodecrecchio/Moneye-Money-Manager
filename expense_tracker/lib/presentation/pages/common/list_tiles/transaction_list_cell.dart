@@ -1,3 +1,4 @@
+import 'package:intl/intl.dart';
 import 'package:expense_tracker/Helper/double_helper.dart';
 import 'package:expense_tracker/application/categories/notifiers/queries/categories_list_notifier.dart';
 import 'package:expense_tracker/application/common/notifiers/app_localizations_provider.dart';
@@ -137,7 +138,9 @@ class TransactionListCell extends ConsumerWidget {
     final today = DateTime(now.year, now.month, now.day);
     final yesterday = DateTime(now.year, now.month, now.day - 1);
 
-    String dateString = transaction.date.toIso8601String().substring(0, 10);
+    String dateString = DateFormat.yMd(appLocalizations.localeName)
+        .format(transaction.date)
+        .toString();
 
     DateTime dateToCheck = DateTime(
         transaction.date.year, transaction.date.month, transaction.date.day);

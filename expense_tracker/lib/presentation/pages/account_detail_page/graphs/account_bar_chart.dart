@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:expense_tracker/Helper/date_time_helper.dart';
+import 'package:expense_tracker/application/common/notifiers/app_localizations_provider.dart';
 import 'package:expense_tracker/Helper/double_helper.dart';
 import 'package:expense_tracker/domain/models/transaction.dart';
 import 'package:expense_tracker/application/common/notifiers/currency_provider.dart';
@@ -98,7 +99,8 @@ class AccountBarChartState extends ConsumerState<AccountBarChart> {
   @override
   Widget build(BuildContext context) {
     final colors = context.appColors;
-    final bottomTitlesStrings = _getBottomTitlesString();
+    final appLocalizations = ref.watch(appLocalizationsProvider);
+    final bottomTitlesStrings = _getBottomTitlesString(appLocalizations.localeName);
     final (valueMap, rawMinValue, maxValue) = _calculateValues();
 
     final minValue = rawMinValue * -1;
@@ -226,27 +228,27 @@ class AccountBarChartState extends ConsumerState<AccountBarChart> {
   /// BOTTOM TITLE MANAGEMENT
 
   /// Generates the weekday labels for a week-long period (e.g., "dd/MM").
-  List<String> _getWeekdayBottomTitlesString() {
+  List<String> _getWeekdayBottomTitlesString(String locale) {
     return [
-      DateFormat("dd/MM").format(widget.startDate!),
-      DateFormat("dd/MM")
+      DateFormat("dd/MM", locale).format(widget.startDate!),
+      DateFormat("dd/MM", locale)
           .format(widget.startDate!.add(const Duration(days: 1))),
-      DateFormat("dd/MM")
+      DateFormat("dd/MM", locale)
           .format(widget.startDate!.add(const Duration(days: 2))),
-      DateFormat("dd/MM")
+      DateFormat("dd/MM", locale)
           .format(widget.startDate!.add(const Duration(days: 3))),
-      DateFormat("dd/MM")
+      DateFormat("dd/MM", locale)
           .format(widget.startDate!.add(const Duration(days: 4))),
-      DateFormat("dd/MM")
+      DateFormat("dd/MM", locale)
           .format(widget.startDate!.add(const Duration(days: 5))),
-      DateFormat("dd/MM")
+      DateFormat("dd/MM", locale)
           .format(widget.startDate!.add(const Duration(days: 6))),
     ];
   }
 
   /// Generates the week-interval labels for a month-long period (e.g., "01 - 07").
-  List<String> _getWeekIntervalBottomTitlesString() {
-    final ddDateFormat = DateFormat("dd");
+  List<String> _getWeekIntervalBottomTitlesString(String locale) {
+    final ddDateFormat = DateFormat("dd", locale);
     final List<String> weekDatesList = [];
 
     final DateTime start = currentMonthFirstDay(widget.startDate!);
@@ -286,24 +288,24 @@ class AccountBarChartState extends ConsumerState<AccountBarChart> {
   }
 
   /// Generates month labels for a year-long period (e.g., "Jan", "Feb").
-  List<String> _getMonthBottomTitlesString() {
+  List<String> _getMonthBottomTitlesString(String locale) {
     return List.generate(12, (i) {
-      return DateFormat("MMM").format(
+      return DateFormat("MMM", locale).format(
           DateTime(widget.startDate!.year, widget.startDate!.month + i));
     });
   }
 
   /// Returns the appropriate list of title strings based on [widget.transactionTimePeriod].
-  List<String> _getBottomTitlesString() {
+  List<String> _getBottomTitlesString(String locale) {
     switch (widget.transactionTimePeriod) {
       case TransactionTimePeriod.day:
         return [];
       case TransactionTimePeriod.week:
-        return _getWeekdayBottomTitlesString();
+        return _getWeekdayBottomTitlesString(locale);
       case TransactionTimePeriod.month:
-        return _getWeekIntervalBottomTitlesString();
+        return _getWeekIntervalBottomTitlesString(locale);
       case TransactionTimePeriod.year:
-        return _getMonthBottomTitlesString();
+        return _getMonthBottomTitlesString(locale);
       default:
         return [];
     }

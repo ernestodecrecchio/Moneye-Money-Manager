@@ -184,7 +184,8 @@ class RecurringRuleDetailPage extends ConsumerWidget {
               context,
               Icons.event_outlined,
               appLocalizations.nextDate,
-              DateFormat('dd MMMM yyyy').format(rule.nextOccurrence),
+              DateFormat.yMMMMd(appLocalizations.localeName)
+                  .format(rule.nextOccurrence),
             ),
           ],
           if (rule.endDate != null) ...[
@@ -196,7 +197,8 @@ class RecurringRuleDetailPage extends ConsumerWidget {
               context,
               Icons.event_busy_outlined,
               appLocalizations.endDate,
-              DateFormat('dd MMMM yyyy').format(rule.endDate!),
+              DateFormat.yMMMMd(appLocalizations.localeName)
+                  .format(rule.endDate!),
             ),
           ],
         ],

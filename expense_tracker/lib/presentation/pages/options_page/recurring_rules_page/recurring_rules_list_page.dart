@@ -93,8 +93,9 @@ class RecurringRulesListPage extends ConsumerWidget {
       (element) => element.id == rule.accountId,
     );
 
-    final dateFormatter = DateFormat('dd/MM/yyyy');
+    final dateFormatter = DateFormat.yMd(appLocalizations.localeName);
 
+    ///final dateFormatter = DateFormat('dd/MM/yyyy');
     return Slidable(
       key: ValueKey(rule.id),
       endActionPane: ActionPane(
