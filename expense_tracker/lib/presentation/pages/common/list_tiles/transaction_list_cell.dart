@@ -62,6 +62,7 @@ class TransactionListCell extends ConsumerWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
+                  spacing: 2,
                   children: [
                     Text(
                       transaction.title,
@@ -71,9 +72,6 @@ class TransactionListCell extends ConsumerWidget {
                         fontWeight: FontWeight.bold,
                         overflow: TextOverflow.ellipsis,
                       ),
-                    ),
-                    const SizedBox(
-                      height: 2,
                     ),
                     _buildDate(context, appLocalizations),
                   ],

@@ -234,6 +234,7 @@ class _TransactionListState extends ConsumerState<TransactionList> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
+                spacing: 2,
                 children: [
                   Text(
                     category.name,
@@ -241,9 +242,6 @@ class _TransactionListState extends ConsumerState<TransactionList> {
                     style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                           fontWeight: FontWeight.bold,
                         ),
-                  ),
-                  const SizedBox(
-                    height: 2,
                   ),
                   Text(
                     totalValue.toStringAsFixedRoundedWithCurrency(
