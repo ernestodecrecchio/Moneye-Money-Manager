@@ -1,3 +1,4 @@
+import 'package:intl/intl.dart';
 import 'package:collection/collection.dart';
 import 'package:expense_tracker/Helper/date_time_helper.dart';
 import 'package:expense_tracker/application/common/notifiers/app_localizations_provider.dart';
@@ -660,14 +661,14 @@ class DateBar extends ConsumerWidget {
                 fit: BoxFit.scaleDown,
                 child: Text(
                   switch (selectedTransactionTimePeriod) {
-                    TransactionTimePeriod.day =>
-                      ddMMMyyyyFormatter(startDate, appLocalizations.localeName),
+                    TransactionTimePeriod.day => 
+                      DateFormat.yMMMMd(appLocalizations.localeName).format(startDate),
                     TransactionTimePeriod.week =>
-                      '${ddMMMyyFormatter(startDate, appLocalizations.localeName)} - ${ddMMMyyFormatter(endDate, appLocalizations.localeName)}',
-                    TransactionTimePeriod.month =>
-                      MMMyyyyFormatter(startDate, appLocalizations.localeName),
-                    TransactionTimePeriod.year =>
-                      yyyyFormatter(startDate, appLocalizations.localeName),
+                      '${DateFormat.yMMMd(appLocalizations.localeName).format(startDate)} - ${DateFormat.yMMMd(appLocalizations.localeName).format(endDate)}',
+                    TransactionTimePeriod.month => 
+                      DateFormat.yMMMM(appLocalizations.localeName).format(startDate),
+                    TransactionTimePeriod.year => 
+                      DateFormat.y(appLocalizations.localeName).format(startDate),
                     TransactionTimePeriod.custom =>
                       '${startDate.day} ${startDate.month} - ${endDate.day} ${endDate.month}',
                   },

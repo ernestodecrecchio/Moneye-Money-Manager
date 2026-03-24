@@ -7,23 +7,6 @@ String formatDate(DateTime date) {
   return DateFormat('yyyy-MM-dd').format(date);
 }
 
-String ddMMMyyyyFormatter(DateTime date, [String? locale]) {
-  return DateFormat.yMMMMd(locale).format(date);
-}
-
-String ddMMMyyFormatter(DateTime date, [String? locale]) {
-  return DateFormat.yMMMd(locale).format(date);
-}
-
-// ignore: non_constant_identifier_names
-String MMMyyyyFormatter(DateTime date, [String? locale]) {
-  return DateFormat.yMMMM(locale).format(date);
-}
-
-String yyyyFormatter(DateTime date, [String? locale]) {
-  return DateFormat.y(locale).format(date);
-}
-
 /// Calculates number of weeks for a given year as per https://en.wikipedia.org/wiki/ISO_week_date#Weeks_per_year
 int numOfWeeks(int year) {
   DateTime dec28 = DateTime(year, 12, 28);
