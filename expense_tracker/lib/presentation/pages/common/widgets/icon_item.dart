@@ -22,13 +22,18 @@ class IconItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final effectiveWidth = size ?? Constants.defaultIconItemWidth;
+    final effectiveHeight = size ?? Constants.defaultIconItemHeight;
+    // Calculate padding as 20% of the smaller dimension (which is proportional to 7 padding for a 35 size)
+    final paddingValue = (effectiveWidth < effectiveHeight ? effectiveWidth : effectiveHeight) * 0.2;
+
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
       onTap: onTap,
       child: Container(
-        height: size ?? Constants.defaultIconItemHeight,
-        width: size ?? Constants.defaultIconItemWidth,
-        padding: const EdgeInsets.all(7),
+        height: effectiveHeight,
+        width: effectiveWidth,
+        padding: EdgeInsets.all(paddingValue),
         decoration: BoxDecoration(
           color: isSelected
               ? backgroundColor
