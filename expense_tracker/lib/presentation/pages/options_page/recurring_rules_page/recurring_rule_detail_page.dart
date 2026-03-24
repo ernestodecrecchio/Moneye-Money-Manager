@@ -26,18 +26,23 @@ class RecurringRuleDetailPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    RecurringRule? referenceRule = ref.watch(recurringRulesListProvider).maybeWhen(
+          data: (rules) => rules.firstWhereOrNull((r) => r.id == rule.id),
+          orElse: () => null,
+        );
+    final currentRule = referenceRule ?? rule;
+
     final appLocalizations = ref.watch(appLocalizationsProvider);
 
-    final rules = ref.watch(recurringRulesListProvider).asData?.value ?? [];
-    final currentRule =
-        rules.firstWhereOrNull((r) => r.id == rule.id) ?? rule;
+    final category = ref.watch(categoriesListProvider).maybeWhen(
+          data: (categories) => categories.firstWhereOrNull((c) => c.id == currentRule.categoryId),
+          orElse: () => null,
+        );
 
-    final categories = ref.watch(categoriesListProvider).asData?.value ?? [];
-    final category =
-        categories.firstWhereOrNull((c) => c.id == currentRule.categoryId);
-
-    final accounts = ref.watch(accountsListProvider).asData?.value ?? [];
-    final account = accounts.firstWhereOrNull((a) => a.id == currentRule.accountId);
+    final account = ref.watch(accountsListProvider).maybeWhen(
+          data: (accounts) => accounts.firstWhereOrNull((a) => a.id == currentRule.accountId),
+          orElse: () => null,
+        );
 
     return Scaffold(
       appBar: AppBar(
