@@ -198,7 +198,7 @@
     "recurringTransactionsOptionDescription": "Verwalten Sie Ihre wiederkehrenden Transaktionsregeln",
     "ruleDetails": "Regeldetails",
     "generatedTransactions": "Generierte Transaktionen",
-    "recurrenceLogic": "Wiederholungslogik",
+  
     "viewRule": "Regel anzeigen",
     "generatedTransactionsSnackbar": "{count, plural, =1{1 wiederkehrende Transaktion generiert} other{{count} wiederkehrende Transaktionen generiert}}",
     "@generatedTransactionsSnackbar": {

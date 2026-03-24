@@ -1298,12 +1298,6 @@ abstract class AppLocalizations {
   /// **'Generated transactions'**
   String get generatedTransactions;
 
-  /// No description provided for @recurrenceLogic.
-  ///
-  /// In en, this message translates to:
-  /// **'Recurrence logic'**
-  String get recurrenceLogic;
-
   /// No description provided for @viewRule.
   ///
   /// In en, this message translates to:

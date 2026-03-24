@@ -644,9 +644,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get generatedTransactions => 'Generated transactions';
 
   @override
-  String get recurrenceLogic => 'Recurrence logic';
-
-  @override
   String get viewRule => 'View rule';
 
   @override

@@ -40,14 +40,17 @@ class RecurringRuleDetailPage extends ConsumerWidget {
         actions: [_buildEditAction(context, appLocalizations)],
       ),
       body: SafeArea(
+        minimum: EdgeInsets.only(top: 18),
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
+            spacing: 16,
             children: [
               Padding(
                 padding: EdgeInsets.symmetric(
                     horizontal: Constants.horizontalPadding),
                 child: Column(
+                  spacing: 12,
                   children: [
                     _buildRuleHeader(
                         context, ref, category, account, appLocalizations),
@@ -65,7 +68,6 @@ class RecurringRuleDetailPage extends ConsumerWidget {
                 showAccountLabel: true,
                 topWidgetRef: ref,
               ),
-              const SizedBox(height: 32),
             ],
           ),
         ),
@@ -80,7 +82,6 @@ class RecurringRuleDetailPage extends ConsumerWidget {
         appLocalizations.edit,
         style: TextStyle(
           color: Theme.of(context).appBarTheme.foregroundColor,
-          fontWeight: FontWeight.bold,
         ),
       ),
       onPressed: () async {
@@ -100,134 +101,104 @@ class RecurringRuleDetailPage extends ConsumerWidget {
     final currentCurrencyPosition =
         ref.watch(currentCurrencySymbolPositionProvider);
 
-    return Padding(
-      padding: const EdgeInsets.only(
-        top: 12,
-        bottom: 18,
-      ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          IconItem(
-            backgroundColor: category?.color ?? context.appColors.textSecondary,
-            shape: BoxShape.circle,
-            iconPath: category?.iconPath,
-            size: 56,
-          ),
-          const SizedBox(width: 20),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  rule.title,
-                  style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                        fontWeight: FontWeight.bold,
-                        letterSpacing: -0.5,
-                      ),
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ],
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        IconItem(
+          backgroundColor: category?.color ?? context.appColors.textSecondary,
+          shape: BoxShape.circle,
+          iconPath: category?.iconPath,
+          size: 56,
+        ),
+        const SizedBox(width: 20),
+        Text(
+          rule.title,
+          style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                fontWeight: FontWeight.bold,
+                letterSpacing: -0.5,
+              ),
+          maxLines: 2,
+          overflow: TextOverflow.ellipsis,
+        ),
+        Spacer(),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          mainAxisSize: MainAxisSize.min,
+          spacing: 4,
+          children: [
+            Text(
+              rule.amount.toStringAsFixedRoundedWithCurrency(
+                2,
+                currentCurrency,
+                currentCurrencyPosition,
+              ),
+              style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                    color: rule.amount >= 0
+                        ? context.appColors.income
+                        : context.appColors.expense,
+                  ),
             ),
-          ),
-          const SizedBox(width: 12),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            mainAxisSize: MainAxisSize.min,
-            spacing: 4,
-            children: [
-              Text(
-                rule.amount.toStringAsFixedRoundedWithCurrency(
-                  2,
-                  currentCurrency,
-                  currentCurrencyPosition,
-                ),
-                style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                      color: rule.amount >= 0
-                          ? context.appColors.income
-                          : context.appColors.expense,
-                    ),
-              ),
-              Text(
-                account?.name ?? '',
-                style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      color: context.appColors.textSecondary,
-                      fontWeight: FontWeight.w500,
-                    ),
-              ),
-            ],
-          ),
-        ],
-      ),
+            Text(
+              account?.name ?? '',
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                    color: context.appColors.textSecondary,
+                    fontWeight: FontWeight.w500,
+                  ),
+            ),
+          ],
+        ),
+      ],
     );
   }
 
   Widget _buildLogicSection(
       BuildContext context, AppLocalizations appLocalizations) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Theme.of(context)
+            .colorScheme
+            .surfaceContainerHighest
+            .withValues(alpha: 0.3),
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(
+          color: Theme.of(context).dividerColor.withValues(alpha: 0.05),
+        ),
+      ),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            appLocalizations.recurrenceLogic,
-            style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                  color: context.appColors.textSecondary,
-                  fontWeight: FontWeight.bold,
-                  letterSpacing: 0.5,
-                ),
+          _buildLogicItem(
+            context,
+            Icons.repeat_rounded,
+            appLocalizations.frequency,
+            rule.getFrequencyDescription(appLocalizations),
           ),
-          const SizedBox(height: 12),
-          Container(
-            padding: const EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              color: Theme.of(context)
-                  .colorScheme
-                  .surfaceContainerHighest
-                  .withValues(alpha: 0.3),
-              borderRadius: BorderRadius.circular(12),
-              border: Border.all(
-                color: Theme.of(context).dividerColor.withValues(alpha: 0.05),
-              ),
+          if (rule.endDate == null ||
+              rule.nextOccurrence.isBefore(rule.endDate!) ||
+              rule.nextOccurrence.isAtSameMomentAs(rule.endDate!)) ...[
+            const Padding(
+              padding: EdgeInsets.symmetric(vertical: 8.0),
+              child: Divider(height: 1),
             ),
-            child: Column(
-              children: [
-                _buildLogicItem(
-                  context,
-                  Icons.repeat_rounded,
-                  appLocalizations.frequency,
-                  rule.getFrequencyDescription(appLocalizations),
-                ),
-                if (rule.endDate == null ||
-                    rule.nextOccurrence.isBefore(rule.endDate!) ||
-                    rule.nextOccurrence.isAtSameMomentAs(rule.endDate!)) ...[
-                  const Padding(
-                    padding: EdgeInsets.symmetric(vertical: 8.0),
-                    child: Divider(height: 1),
-                  ),
-                  _buildLogicItem(
-                    context,
-                    Icons.event_outlined,
-                    appLocalizations.nextDate,
-                    DateFormat('dd MMMM yyyy').format(rule.nextOccurrence),
-                  ),
-                ],
-                if (rule.endDate != null) ...[
-                  const Padding(
-                    padding: EdgeInsets.symmetric(vertical: 8.0),
-                    child: Divider(height: 1),
-                  ),
-                  _buildLogicItem(
-                    context,
-                    Icons.event_busy_outlined,
-                    appLocalizations.endDate,
-                    DateFormat('dd MMMM yyyy').format(rule.endDate!),
-                  ),
-                ],
-              ],
+            _buildLogicItem(
+              context,
+              Icons.event_outlined,
+              appLocalizations.nextDate,
+              DateFormat('dd MMMM yyyy').format(rule.nextOccurrence),
             ),
-          ),
+          ],
+          if (rule.endDate != null) ...[
+            const Padding(
+              padding: EdgeInsets.symmetric(vertical: 8.0),
+              child: Divider(height: 1),
+            ),
+            _buildLogicItem(
+              context,
+              Icons.event_busy_outlined,
+              appLocalizations.endDate,
+              DateFormat('dd MMMM yyyy').format(rule.endDate!),
+            ),
+          ],
         ],
       ),
     );
