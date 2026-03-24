@@ -1,6 +1,7 @@
 import 'package:expense_tracker/Helper/double_helper.dart';
 import 'package:expense_tracker/application/accounts/notifiers/queries/accounts_list_notifier.dart';
 import 'package:expense_tracker/application/categories/notifiers/queries/categories_list_notifier.dart';
+import 'package:expense_tracker/application/recurring_rules/notifiers/queries/recurring_rules_list_notifier.dart';
 import 'package:expense_tracker/application/common/notifiers/app_localizations_provider.dart';
 import 'package:expense_tracker/application/common/notifiers/currency_provider.dart';
 import 'package:expense_tracker/application/transactions/notifiers/queries/transactions_list_notifier.dart';
@@ -27,17 +28,21 @@ class RecurringRuleDetailPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final appLocalizations = ref.watch(appLocalizationsProvider);
 
+    final rules = ref.watch(recurringRulesListProvider).asData?.value ?? [];
+    final currentRule =
+        rules.firstWhereOrNull((r) => r.id == rule.id) ?? rule;
+
     final categories = ref.watch(categoriesListProvider).asData?.value ?? [];
     final category =
-        categories.firstWhereOrNull((c) => c.id == rule.categoryId);
+        categories.firstWhereOrNull((c) => c.id == currentRule.categoryId);
 
     final accounts = ref.watch(accountsListProvider).asData?.value ?? [];
-    final account = accounts.firstWhereOrNull((a) => a.id == rule.accountId);
+    final account = accounts.firstWhereOrNull((a) => a.id == currentRule.accountId);
 
     return Scaffold(
       appBar: AppBar(
         title: Text(appLocalizations.ruleDetails),
-        actions: [_buildEditAction(context, appLocalizations)],
+        actions: [_buildEditAction(context, appLocalizations, currentRule)],
       ),
       body: SafeArea(
         minimum: EdgeInsets.only(top: 18),
@@ -53,16 +58,16 @@ class RecurringRuleDetailPage extends ConsumerWidget {
                   spacing: 12,
                   children: [
                     _buildRuleHeader(
-                        context, ref, category, account, appLocalizations),
+                        context, ref, category, account, appLocalizations, currentRule),
                     Divider(),
-                    _buildLogicSection(context, appLocalizations),
+                    _buildLogicSection(context, appLocalizations, currentRule),
                   ],
                 ),
               ),
               TransactionList(
                 title: appLocalizations.generatedTransactions,
                 transactionsListParams: TransactionsListParams(
-                  recurringId: rule.id,
+                  recurringId: currentRule.id,
                 ),
                 showListModeButton: false,
                 showAccountLabel: true,
@@ -76,7 +81,7 @@ class RecurringRuleDetailPage extends ConsumerWidget {
   }
 
   Widget _buildEditAction(
-      BuildContext context, AppLocalizations appLocalizations) {
+      BuildContext context, AppLocalizations appLocalizations, RecurringRule currentRule) {
     return TextButton(
       child: Text(
         appLocalizations.edit,
@@ -88,7 +93,7 @@ class RecurringRuleDetailPage extends ConsumerWidget {
         Navigator.of(context).pushNamed(
           NewEditTransactionPage.routeName,
           arguments: NewEditTransactionPageScreenArguments(
-            recurringRule: rule,
+            recurringRule: currentRule,
           ),
         );
       },
@@ -96,7 +101,7 @@ class RecurringRuleDetailPage extends ConsumerWidget {
   }
 
   Widget _buildRuleHeader(BuildContext context, WidgetRef ref, dynamic category,
-      dynamic account, AppLocalizations appLocalizations) {
+      dynamic account, AppLocalizations appLocalizations, RecurringRule currentRule) {
     final currentCurrency = ref.watch(currentCurrencyProvider);
     final currentCurrencyPosition =
         ref.watch(currentCurrencySymbolPositionProvider);
@@ -113,7 +118,7 @@ class RecurringRuleDetailPage extends ConsumerWidget {
         ),
         Expanded(
           child: Text(
-            rule.title,
+            currentRule.title,
             style: Theme.of(context)
                 .textTheme
                 .headlineSmall
@@ -128,13 +133,13 @@ class RecurringRuleDetailPage extends ConsumerWidget {
           spacing: 4,
           children: [
             Text(
-              rule.amount.toStringAsFixedRoundedWithCurrency(
+              currentRule.amount.toStringAsFixedRoundedWithCurrency(
                 2,
                 currentCurrency,
                 currentCurrencyPosition,
               ),
               style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                    color: rule.amount >= 0
+                    color: currentRule.amount >= 0
                         ? context.appColors.income
                         : context.appColors.expense,
                   ),
@@ -153,7 +158,7 @@ class RecurringRuleDetailPage extends ConsumerWidget {
   }
 
   Widget _buildLogicSection(
-      BuildContext context, AppLocalizations appLocalizations) {
+      BuildContext context, AppLocalizations appLocalizations, RecurringRule currentRule) {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -172,11 +177,11 @@ class RecurringRuleDetailPage extends ConsumerWidget {
             context,
             Icons.repeat_rounded,
             appLocalizations.frequency,
-            rule.getFrequencyDescription(appLocalizations),
+            currentRule.getFrequencyDescription(appLocalizations),
           ),
-          if (rule.endDate == null ||
-              rule.nextOccurrence.isBefore(rule.endDate!) ||
-              rule.nextOccurrence.isAtSameMomentAs(rule.endDate!)) ...[
+          if (currentRule.endDate == null ||
+              currentRule.nextOccurrence.isBefore(currentRule.endDate!) ||
+              currentRule.nextOccurrence.isAtSameMomentAs(currentRule.endDate!)) ...[
             const Padding(
               padding: EdgeInsets.symmetric(vertical: 8.0),
               child: Divider(height: 1),
@@ -186,10 +191,10 @@ class RecurringRuleDetailPage extends ConsumerWidget {
               Icons.event_outlined,
               appLocalizations.nextDate,
               DateFormat.yMMMMd(appLocalizations.localeName)
-                  .format(rule.nextOccurrence),
+                  .format(currentRule.nextOccurrence),
             ),
           ],
-          if (rule.endDate != null) ...[
+          if (currentRule.endDate != null) ...[
             const Padding(
               padding: EdgeInsets.symmetric(vertical: 8.0),
               child: Divider(height: 1),
@@ -199,7 +204,7 @@ class RecurringRuleDetailPage extends ConsumerWidget {
               Icons.event_busy_outlined,
               appLocalizations.endDate,
               DateFormat.yMMMMd(appLocalizations.localeName)
-                  .format(rule.endDate!),
+                  .format(currentRule.endDate!),
             ),
           ],
         ],
