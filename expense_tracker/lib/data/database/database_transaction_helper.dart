@@ -6,7 +6,6 @@ import 'package:expense_tracker/domain/models/transaction.dart';
 import 'package:expense_tracker/data/database/database_recurring_rule_helper.dart';
 import 'package:expense_tracker/domain/models/transaction.dart' as trans;
 import 'package:expense_tracker/helper/date_time_helper.dart';
-import 'package:intl/intl.dart';
 import 'package:sqflite/sqlite_api.dart';
 
 class DatabaseTransactionHelper {
@@ -214,8 +213,8 @@ class DatabaseTransactionHelper {
         orderBy: orderBy,
         where: "date(${TransactionFields.date}) BETWEEN ? AND ?",
         whereArgs: [
-          DateFormat('yyyy-MM-dd').format(startDate).toString(),
-          DateFormat('yyyy-MM-dd').format(endDate).toString(),
+          formatDate(startDate),
+          formatDate(endDate),
         ]);
 
     return result.map((json) => trans.Transaction.fromJson(json)).toList();
