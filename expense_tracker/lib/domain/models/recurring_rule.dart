@@ -17,6 +17,7 @@ class RecurringRuleFields {
     startDate,
     endDate,
     lastGeneratedDate,
+    isEnabled,
   ];
 
   static const String id = '_id';
@@ -32,6 +33,7 @@ class RecurringRuleFields {
   static const String startDate = 'startDate';
   static const String endDate = 'endDate';
   static const String lastGeneratedDate = 'lastGeneratedDate';
+  static const String isEnabled = 'isEnabled';
 }
 
 class RecurringRule {
@@ -55,6 +57,7 @@ class RecurringRule {
   DateTime startDate;
   DateTime? endDate;
   DateTime? lastGeneratedDate;
+  bool isEnabled;
 
   RecurringRule({
     this.id,
@@ -70,6 +73,7 @@ class RecurringRule {
     required this.startDate,
     this.endDate,
     this.lastGeneratedDate,
+    this.isEnabled = true,
   });
 
   static RecurringRule fromJson(Map<String, Object?> json) => RecurringRule(
@@ -93,6 +97,9 @@ class RecurringRule {
             ? DateTime.parse(
                 json[RecurringRuleFields.lastGeneratedDate] as String)
             : null,
+        isEnabled: json[RecurringRuleFields.isEnabled] == null
+            ? true
+            : (json[RecurringRuleFields.isEnabled] as int) == 1,
       );
 
   Map<String, Object?> toJson() => {
@@ -112,6 +119,7 @@ class RecurringRule {
         if (lastGeneratedDate != null)
           RecurringRuleFields.lastGeneratedDate:
               lastGeneratedDate!.toIso8601String(),
+        RecurringRuleFields.isEnabled: isEnabled ? 1 : 0,
       };
 
   DateTime _getNextOccurrenceFrom(DateTime from) {
