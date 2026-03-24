@@ -22,6 +22,8 @@ enum UpdateCategory {
   communication,
   performance,
   bugFix,
+  backup,
+  recurring,
   other,
 }
 
@@ -39,6 +41,8 @@ class UpdateCategoryIcon {
     UpdateCategory.communication: Icons.alternate_email_rounded,
     UpdateCategory.performance: Icons.speed_rounded,
     UpdateCategory.bugFix: Icons.bug_report_rounded,
+    UpdateCategory.backup: Icons.backup_rounded,
+    UpdateCategory.recurring: Icons.repeat_rounded,
     UpdateCategory.other: Icons.fiber_new_rounded,
   };
 
@@ -276,6 +280,10 @@ class _UpdateInfoPageState extends ConsumerState<UpdateInfoPage>
         return UpdateCategory.performance;
       case 'bugfix':
         return UpdateCategory.bugFix;
+      case 'backup':
+        return UpdateCategory.backup;
+      case 'recurring':
+        return UpdateCategory.recurring;
       default:
         return UpdateCategory.other;
     }
