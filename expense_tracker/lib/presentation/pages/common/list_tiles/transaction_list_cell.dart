@@ -49,8 +49,7 @@ class TransactionListCell extends ConsumerWidget {
                 NewEditTransactionPageScreenArguments(transaction: transaction),
           );
         },
-        child: Container(
-          height: 64,
+        child: Padding(
           padding: EdgeInsets.symmetric(
               vertical: 8, horizontal: Constants.horizontalPadding),
           child: Row(
@@ -63,11 +62,12 @@ class TransactionListCell extends ConsumerWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
                   spacing: 2,
                   children: [
                     Text(
                       transaction.title,
-                      maxLines: 1,
+                      maxLines: 2,
                       style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
