@@ -24,9 +24,9 @@ class DatabaseRecurringRuleHelper {
       ${RecurringRuleFields.isHidden} ${DatabaseTypes.integerType} DEFAULT 0,
       ${RecurringRuleFields.frequency} ${DatabaseTypes.textType},
       ${RecurringRuleFields.frequencyInterval} ${DatabaseTypes.integerType},
-      ${RecurringRuleFields.startDate} ${DatabaseTypes.dateTimeType},
-      ${RecurringRuleFields.endDate} ${DatabaseTypes.dateTimeTypeNullable},
-      ${RecurringRuleFields.lastGeneratedDate} ${DatabaseTypes.dateTimeTypeNullable},
+      ${RecurringRuleFields.startDate} ${DatabaseTypes.textType},
+      ${RecurringRuleFields.endDate} ${DatabaseTypes.textTypeNullable},
+      ${RecurringRuleFields.lastGeneratedDate} ${DatabaseTypes.textTypeNullable},
       FOREIGN KEY (${RecurringRuleFields.categoryId}) REFERENCES $categoriesTable (${CategoryFields.id}) ON DELETE SET NULL ON UPDATE NO ACTION,
       FOREIGN KEY (${RecurringRuleFields.accountId}) REFERENCES $accountsTable (${AccountFields.id}) ON DELETE CASCADE ON UPDATE NO ACTION
     )
@@ -46,9 +46,9 @@ class DatabaseRecurringRuleHelper {
       ${RecurringRuleFields.isHidden} ${DatabaseTypes.integerType} DEFAULT 0,
       ${RecurringRuleFields.frequency} ${DatabaseTypes.textType},
       ${RecurringRuleFields.frequencyInterval} ${DatabaseTypes.integerType},
-      ${RecurringRuleFields.startDate} ${DatabaseTypes.dateTimeType},
-      ${RecurringRuleFields.endDate} ${DatabaseTypes.dateTimeTypeNullable},
-      ${RecurringRuleFields.lastGeneratedDate} ${DatabaseTypes.dateTimeTypeNullable},
+      ${RecurringRuleFields.startDate} ${DatabaseTypes.textType},
+      ${RecurringRuleFields.endDate} ${DatabaseTypes.textTypeNullable},
+      ${RecurringRuleFields.lastGeneratedDate} ${DatabaseTypes.textTypeNullable},
       FOREIGN KEY (${RecurringRuleFields.categoryId}) REFERENCES $categoriesTable (${CategoryFields.id}) ON DELETE SET NULL ON UPDATE NO ACTION,
       FOREIGN KEY (${RecurringRuleFields.accountId}) REFERENCES $accountsTable (${AccountFields.id}) ON DELETE CASCADE ON UPDATE NO ACTION
     )

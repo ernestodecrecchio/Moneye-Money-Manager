@@ -14,11 +14,10 @@ class RecurringRulesMutationNotifier extends AsyncNotifier<void> {
   Future<void> build() async {}
 
   Future<RecurringRule> addRecurringRule(RecurringRule rule) async {
-    late final RecurringRule inserted;
     state = const AsyncLoading();
 
-    state = await AsyncValue.guard(() async {
-      inserted = await _repo.insertRecurringRule(rule: rule);
+    try {
+      final inserted = await _repo.insertRecurringRule(rule: rule);
 
       // Trigger generation for the new rule
       await ref
@@ -27,9 +26,13 @@ class RecurringRulesMutationNotifier extends AsyncNotifier<void> {
 
       ref.invalidate(recurringRulesListProvider);
       ref.invalidate(transactionsListProvider);
-    });
 
-    return inserted;
+      state = const AsyncData(null);
+      return inserted;
+    } catch (e, st) {
+      state = AsyncError(e, st);
+      rethrow;
+    }
   }
 
   Future<void> updateRecurringRule(
