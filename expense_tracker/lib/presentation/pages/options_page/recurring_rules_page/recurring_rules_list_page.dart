@@ -145,7 +145,6 @@ class RecurringRulesListPage extends ConsumerWidget {
                         overflow: TextOverflow.ellipsis,
                       ),
                     ),
-                    const SizedBox(height: 4),
                     Text(
                       rule.getFrequencyDescription(appLocalizations),
                       style: TextStyle(
@@ -153,7 +152,6 @@ class RecurringRulesListPage extends ConsumerWidget {
                         color: context.appColors.textSecondary,
                       ),
                     ),
-                    const SizedBox(height: 2),
                     Text(
                       '${appLocalizations.nextDate}: ${dateFormatter.format(rule.nextOccurrence)}',
                       style: TextStyle(
