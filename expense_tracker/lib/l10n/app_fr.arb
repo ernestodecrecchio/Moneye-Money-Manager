@@ -219,6 +219,14 @@
     "interval": "Intervalle",
     "recurringTransactions": "Transactions récurrentes",
     "endDate": "Date de fin",
+    "endedOn": "Terminée le {date}",
+    "@endedOn": {
+        "placeholders": {
+            "date": {
+                "type": "String"
+            }
+        }
+    },
     "nextDate": "Prochaine date",
     "endDateInfo": "La date après laquelle aucune autre transaction de ce type ne sera générée automatiquement.",
     "selectEndDate": "Sélectionner la date de fin",

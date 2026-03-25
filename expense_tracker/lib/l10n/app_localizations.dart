@@ -1256,6 +1256,12 @@ abstract class AppLocalizations {
   /// **'End date'**
   String get endDate;
 
+  /// No description provided for @endedOn.
+  ///
+  /// In en, this message translates to:
+  /// **'Ended on {date}'**
+  String endedOn(String date);
+
   /// No description provided for @endDateInfo.
   ///
   /// In en, this message translates to:

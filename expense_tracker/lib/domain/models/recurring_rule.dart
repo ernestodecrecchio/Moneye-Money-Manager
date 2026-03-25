@@ -149,6 +149,15 @@ class RecurringRule {
         : startDate;
   }
 
+  bool get isEnded {
+    if (endDate == null) return false;
+    final normalizedNext =
+        DateTime(nextOccurrence.year, nextOccurrence.month, nextOccurrence.day);
+    final normalizedEnd =
+        DateTime(endDate!.year, endDate!.month, endDate!.day);
+    return normalizedNext.isAfter(normalizedEnd);
+  }
+
   Iterable<DateTime> generateOccurrences({required DateTime until}) sync* {
     DateTime current = nextOccurrence;
     // Normalize until date to the end of the day to be inclusive

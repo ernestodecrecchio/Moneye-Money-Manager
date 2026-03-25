@@ -657,6 +657,11 @@ class AppLocalizationsDe extends AppLocalizations {
   String get endDate => 'Enddatum';
 
   @override
+  String endedOn(String date) {
+    return 'Beendet am $date';
+  }
+
+  @override
   String get endDateInfo =>
       'Das Datum, nach dem keine weiteren Transaktionen dieser Art automatisch generiert werden.';
 

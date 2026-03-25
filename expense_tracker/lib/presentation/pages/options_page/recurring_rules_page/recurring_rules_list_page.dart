@@ -60,11 +60,17 @@ class RecurringRulesListPage extends ConsumerWidget {
               );
             }
 
+            final sortedRules = [...rules]..sort((a, b) {
+                if (a.isEnded && !b.isEnded) return 1;
+                if (!a.isEnded && b.isEnded) return -1;
+                return a.nextOccurrence.compareTo(b.nextOccurrence);
+              });
+
             return ListView.separated(
-              itemCount: rules.length,
+              itemCount: sortedRules.length,
               separatorBuilder: (context, index) => const Divider(height: 1),
               itemBuilder: (context, index) {
-                final rule = rules[index];
+                final rule = sortedRules[index];
                 return _buildRuleCell(context, ref, rule);
               },
             );
@@ -122,73 +128,79 @@ class RecurringRulesListPage extends ConsumerWidget {
         },
         child: Container(
           padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 17),
-          child: Row(
-            children: [
-              IconItem(
-                backgroundColor:
-                    category?.color ?? context.appColors.textSecondary,
-                shape: BoxShape.circle,
-                iconPath: category?.iconPath,
-              ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: Column(
+          child: Opacity(
+            opacity: rule.isEnded ? 0.5 : 1.0,
+            child: Row(
+              children: [
+                IconItem(
+                  backgroundColor:
+                      category?.color ?? context.appColors.textSecondary,
+                  shape: BoxShape.circle,
+                  iconPath: category?.iconPath,
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        rule.title,
+                        maxLines: 2,
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                      Text(
+                        rule.getFrequencyDescription(appLocalizations),
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: context.appColors.textSecondary,
+                        ),
+                      ),
+                      Text(
+                        rule.isEnded
+                            ? appLocalizations
+                                .endedOn(dateFormatter.format(rule.endDate!))
+                            : '${appLocalizations.nextDate}: ${dateFormatter.format(rule.nextOccurrence)}',
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: context.appColors.textSecondary,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(width: 8),
+                Column(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Text(
-                      rule.title,
-                      maxLines: 2,
-                      style: const TextStyle(
+                      rule.amount.toStringAsFixedRoundedWithCurrency(
+                          2, currentCurrency, currentCurrencyPosition),
+                      style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
-                        overflow: TextOverflow.ellipsis,
+                        color: rule.amount >= 0
+                            ? context.appColors.income
+                            : context.appColors.expense,
                       ),
                     ),
-                    Text(
-                      rule.getFrequencyDescription(appLocalizations),
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: context.appColors.textSecondary,
+                    if (account != null)
+                      Text(
+                        account.name,
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: context.appColors.textSecondary,
+                        ),
                       ),
-                    ),
-                    Text(
-                      '${appLocalizations.nextDate}: ${dateFormatter.format(rule.nextOccurrence)}',
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: context.appColors.textSecondary,
-                      ),
-                    ),
                   ],
                 ),
-              ),
-              const SizedBox(width: 8),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Text(
-                    rule.amount.toStringAsFixedRoundedWithCurrency(
-                        2, currentCurrency, currentCurrencyPosition),
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: rule.amount >= 0
-                          ? context.appColors.income
-                          : context.appColors.expense,
-                    ),
-                  ),
-                  if (account != null)
-                    Text(
-                      account.name,
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: context.appColors.textSecondary,
-                      ),
-                    ),
-                ],
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

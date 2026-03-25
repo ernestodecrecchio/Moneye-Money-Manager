@@ -226,6 +226,14 @@
     "interval": "Ogni",
     "recurringTransactions": "Transazioni Ricorrenti",
     "endDate": "Data di fine",
+    "endedOn": "Terminata il {date}",
+    "@endedOn": {
+        "placeholders": {
+            "date": {
+                "type": "String"
+            }
+        }
+    },
     "nextDate": "Prossima data",
     "ruleDetails": "Dettagli regola",
     "generatedTransactions": "Transazioni generate",
