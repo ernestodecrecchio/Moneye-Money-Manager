@@ -41,10 +41,10 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get analyticsOptionDescription =>
-      'Anonymous data about feature usage used to plan future developments.\nNo personal data is collected.';
+      'Dati anonimi sull\'utilizzo delle funzionalità utilizzati per pianificare sviluppi futuri.\nNon vengono raccolti dati personali.';
 
   @override
-  String get analyticsOptionTitle => 'Anonymous usage statistics';
+  String get analyticsOptionTitle => 'Statistiche anonime di utilizzo';
 
   @override
   String get applyChanges => 'Salva modifiche';
