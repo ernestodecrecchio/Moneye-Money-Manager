@@ -171,21 +171,17 @@ class RecurringRule {
   }
 
   String getFrequencyDescription(AppLocalizations l10n) {
-    if (frequencyInterval == 1) {
-      switch (frequency) {
-        case 'daily':
-          return l10n.daily;
-        case 'weekly':
-          return l10n.weekly;
-        case 'monthly':
-          return l10n.monthly;
-        case 'yearly':
-          return l10n.yearly;
-        default:
-          return frequency;
-      }
-    } else {
-      return '${l10n.interval} $frequencyInterval $frequency';
+    switch (frequency) {
+      case 'daily':
+        return l10n.dailyInterval(frequencyInterval);
+      case 'weekly':
+        return l10n.weeklyInterval(frequencyInterval);
+      case 'monthly':
+        return l10n.monthlyInterval(frequencyInterval);
+      case 'yearly':
+        return l10n.yearlyInterval(frequencyInterval);
+      default:
+        return frequency;
     }
   }
 }

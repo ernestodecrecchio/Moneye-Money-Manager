@@ -181,9 +181,41 @@
     "repeatTransaction": "Repetir transacción",
     "frequency": "Frecuencia",
     "daily": "Diariamente",
+    "dailyInterval": "{count, plural, =1{Diariamente} other{Cada {count} días}}",
+    "@dailyInterval": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
     "weekly": "Semanalmente",
+    "weeklyInterval": "{count, plural, =1{Semanalmente} other{Cada {count} semanas}}",
+    "@weeklyInterval": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
     "monthly": "Mensualmente",
+    "monthlyInterval": "{count, plural, =1{Mensualmente} other{Cada {count} meses}}",
+    "@monthlyInterval": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
     "yearly": "Anualmente",
+    "yearlyInterval": "{count, plural, =1{Anualmente} other{Cada {count} años}}",
+    "@yearlyInterval": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
     "interval": "Intervalo",
     "recurringTransactions": "Transacciones recurrentes",
     "endDate": "Fecha final",

@@ -593,13 +593,57 @@ class AppLocalizationsIt extends AppLocalizations {
   String get daily => 'Giornaliera';
 
   @override
+  String dailyInterval(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Ogni $count giorni',
+      one: 'Giornaliera',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String get weekly => 'Settimanale';
+
+  @override
+  String weeklyInterval(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Ogni $count settimane',
+      one: 'Settimanale',
+    );
+    return '$_temp0';
+  }
 
   @override
   String get monthly => 'Mensile';
 
   @override
+  String monthlyInterval(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Ogni $count mesi',
+      one: 'Mensile',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String get yearly => 'Annuale';
+
+  @override
+  String yearlyInterval(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Ogni $count anni',
+      one: 'Annuale',
+    );
+    return '$_temp0';
+  }
 
   @override
   String get interval => 'Ogni';

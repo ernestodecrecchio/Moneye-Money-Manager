@@ -1196,11 +1196,23 @@ abstract class AppLocalizations {
   /// **'Daily'**
   String get daily;
 
+  /// No description provided for @dailyInterval.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{Daily} other{Every {count} days}}'**
+  String dailyInterval(int count);
+
   /// No description provided for @weekly.
   ///
   /// In en, this message translates to:
   /// **'Weekly'**
   String get weekly;
+
+  /// No description provided for @weeklyInterval.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{Weekly} other{Every {count} weeks}}'**
+  String weeklyInterval(int count);
 
   /// No description provided for @monthly.
   ///
@@ -1208,11 +1220,23 @@ abstract class AppLocalizations {
   /// **'Monthly'**
   String get monthly;
 
+  /// No description provided for @monthlyInterval.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{Monthly} other{Every {count} months}}'**
+  String monthlyInterval(int count);
+
   /// No description provided for @yearly.
   ///
   /// In en, this message translates to:
   /// **'Yearly'**
   String get yearly;
+
+  /// No description provided for @yearlyInterval.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{Yearly} other{Every {count} years}}'**
+  String yearlyInterval(int count);
 
   /// No description provided for @interval.
   ///

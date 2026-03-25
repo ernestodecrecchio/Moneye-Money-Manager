@@ -188,9 +188,41 @@
     "repeatTransaction": "Repeat transaction",
     "frequency": "Frequency",
     "daily": "Daily",
+    "dailyInterval": "{count, plural, =1{Daily} other{Every {count} days}}",
+    "@dailyInterval": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
     "weekly": "Weekly",
+    "weeklyInterval": "{count, plural, =1{Weekly} other{Every {count} weeks}}",
+    "@weeklyInterval": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
     "monthly": "Monthly",
+    "monthlyInterval": "{count, plural, =1{Monthly} other{Every {count} months}}",
+    "@monthlyInterval": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
     "yearly": "Yearly",
+    "yearlyInterval": "{count, plural, =1{Yearly} other{Every {count} years}}",
+    "@yearlyInterval": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
     "interval": "Interval",
     "recurringTransactions": "Recurring Transactions",
     "endDate": "End date",
