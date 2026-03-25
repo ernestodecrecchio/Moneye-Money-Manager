@@ -1106,6 +1106,30 @@ abstract class AppLocalizations {
   /// **'View all'**
   String get viewAll;
 
+  /// No description provided for @management.
+  ///
+  /// In en, this message translates to:
+  /// **'Management'**
+  String get management;
+
+  /// No description provided for @personalization.
+  ///
+  /// In en, this message translates to:
+  /// **'Personalization'**
+  String get personalization;
+
+  /// No description provided for @dataAndPrivacy.
+  ///
+  /// In en, this message translates to:
+  /// **'Data & Privacy'**
+  String get dataAndPrivacy;
+
+  /// No description provided for @aboutAndSupport.
+  ///
+  /// In en, this message translates to:
+  /// **'About & Support'**
+  String get aboutAndSupport;
+
   /// No description provided for @week.
   ///
   /// In en, this message translates to:

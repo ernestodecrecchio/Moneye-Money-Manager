@@ -547,6 +547,18 @@ class AppLocalizationsIt extends AppLocalizations {
   String get viewAll => 'Vedi tutte';
 
   @override
+  String get management => 'Gestione';
+
+  @override
+  String get personalization => 'Personalizzazione';
+
+  @override
+  String get dataAndPrivacy => 'Dati e Privacy';
+
+  @override
+  String get aboutAndSupport => 'Info e Supporto';
+
+  @override
   String get week => 'Settimana';
 
   @override

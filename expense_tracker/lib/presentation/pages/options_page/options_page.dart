@@ -48,7 +48,9 @@ class OptionsPage extends ConsumerWidget {
 
     return SingleChildScrollView(
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          _buildSectionHeader(context, appLocalizations.management),
           OptionListTile(
             title: appLocalizations.categories,
             subtitle: appLocalizations.categoriesOptionDescription,
@@ -72,16 +74,16 @@ class OptionsPage extends ConsumerWidget {
             onTap: () => Navigator.of(context)
                 .pushNamed(RecurringRulesListPage.routeName),
           ),
-          const Divider(),
+          _buildSectionHeader(context, appLocalizations.personalization),
           OptionListTile(
-            title: appLocalizations.language,
-            subtitle: appLocalizations.languageOptionDescription,
-            leadingIcon: Icons.translate_rounded,
+            title: appLocalizations.theme,
+            subtitle: appLocalizations.themeOptionDescription,
+            leadingIcon: Icons.palette_outlined,
             trailingWidgets: [
-              if (currentLocale != null) Text(currentLocale.languageCode)
+              Text(currentThemeMode.getName(appLocalizations)),
             ],
             onTap: () =>
-                Navigator.of(context).pushNamed(LanguagesListPage.routeName),
+                Navigator.of(context).pushNamed(ThemeSelectionPage.routeName),
           ),
           const Divider(),
           OptionListTile(
@@ -96,19 +98,30 @@ class OptionsPage extends ConsumerWidget {
           ),
           const Divider(),
           OptionListTile(
+            title: appLocalizations.language,
+            subtitle: appLocalizations.languageOptionDescription,
+            leadingIcon: Icons.translate_rounded,
+            trailingWidgets: [
+              if (currentLocale != null) Text(currentLocale.languageCode)
+            ],
+            onTap: () =>
+                Navigator.of(context).pushNamed(LanguagesListPage.routeName),
+          ),
+          const Divider(),
+          OptionListTile(
             title: appLocalizations.reminder,
             subtitle: appLocalizations.reminderOptionDescription,
             leadingIcon: Icons.notifications_active_rounded,
             trailingWidgets: [
-              Text(ref.watch(notificationsEnabledProvider) != null &&
-                      ref.watch(notificationsEnabledProvider) == true
-                  ? appLocalizations.yes
-                  : appLocalizations.no),
+              if (ref.watch(notificationsEnabledProvider) != null)
+                Text(ref.watch(notificationsEnabledProvider) == true
+                    ? appLocalizations.yes
+                    : appLocalizations.no),
             ],
             onTap: () =>
                 Navigator.of(context).pushNamed(ReminderPage.routeName),
           ),
-          const Divider(),
+          _buildSectionHeader(context, appLocalizations.dataAndPrivacy),
           OptionListTile(
             title: appLocalizations.backupAndRestore,
             subtitle: appLocalizations.backupAndRestoreOptionDescription,
@@ -119,6 +132,14 @@ class OptionsPage extends ConsumerWidget {
           ),
           const Divider(),
           OptionListTile(
+            title: appLocalizations.privacy,
+            subtitle: appLocalizations.privacyOptionDescription,
+            leadingIcon: Icons.security_outlined,
+            onTap: () =>
+                Navigator.of(context).pushNamed(PrivacySettingsPage.routeName),
+          ),
+          _buildSectionHeader(context, appLocalizations.aboutAndSupport),
+          OptionListTile(
             title: appLocalizations.updateHistory,
             subtitle: appLocalizations.updateHistoryOptionDescription,
             leadingIcon: Icons.auto_awesome_rounded,
@@ -127,30 +148,11 @@ class OptionsPage extends ConsumerWidget {
           ),
           const Divider(),
           OptionListTile(
-            title: appLocalizations.theme,
-            subtitle: appLocalizations.themeOptionDescription,
-            leadingIcon: Icons.palette_outlined,
-            trailingWidgets: [
-              Text(currentThemeMode.getName(appLocalizations)),
-            ],
-            onTap: () =>
-                Navigator.of(context).pushNamed(ThemeSelectionPage.routeName),
-          ),
-          const Divider(),
-          OptionListTile(
             title: appLocalizations.contacts,
             subtitle: appLocalizations.contactsDescription,
             leadingIcon: Icons.alternate_email_rounded,
             onTap: () =>
                 Navigator.of(context).pushNamed(ContactsPage.routeName),
-          ),
-          const Divider(),
-          OptionListTile(
-            title: appLocalizations.privacy,
-            subtitle: appLocalizations.privacyOptionDescription,
-            leadingIcon: Icons.security_outlined,
-            onTap: () =>
-                Navigator.of(context).pushNamed(PrivacySettingsPage.routeName),
           ),
           const Divider(),
           OptionListTile(
@@ -165,25 +167,39 @@ class OptionsPage extends ConsumerWidget {
               );
             },
           ),
-          const Divider(),
-          SizedBox(
-            height: 40,
-          ),
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: packageInfoAsync.when(
-              data: (packageInfo) => Text(
-                '${appLocalizations.version} ${packageInfo.version}',
-                style: TextStyle(
-                  color: context.appColors.textSecondary,
-                  fontSize: 12,
+          const SizedBox(height: 40),
+          Center(
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: packageInfoAsync.when(
+                data: (packageInfo) => Text(
+                  '${appLocalizations.version} ${packageInfo.version}',
+                  style: TextStyle(
+                    color: context.appColors.textSecondary,
+                    fontSize: 12,
+                  ),
                 ),
+                error: (_, __) => const SizedBox.shrink(),
+                loading: () => const SizedBox.shrink(),
               ),
-              error: (_, __) => const SizedBox.shrink(),
-              loading: () => const SizedBox.shrink(),
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildSectionHeader(BuildContext context, String title) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 17, top: 24, bottom: 8),
+      child: Text(
+        title.toUpperCase(),
+        style: TextStyle(
+          fontSize: 12,
+          fontWeight: FontWeight.bold,
+          color: context.appColors.primary,
+          letterSpacing: 1.1,
+        ),
       ),
     );
   }
