@@ -62,7 +62,8 @@ Future main() async {
   await Firebase.initializeApp();
 
   // Explicitly enable Crashlytics for app stability diagnostics
-  await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(true);
+  await FirebaseCrashlytics.instance
+      .setCrashlyticsCollectionEnabled(!kDebugMode);
 
   // Pass all uncaught "fatal" errors from the framework to Crashlytics
   FlutterError.onError = (errorDetails) {
