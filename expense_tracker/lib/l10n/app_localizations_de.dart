@@ -448,8 +448,7 @@ class AppLocalizationsDe extends AppLocalizations {
       'Keine Sorge, du kannst sie später jederzeit ändern, um sie an deine Bedürfnisse anzupassen.';
 
   @override
-  String get selectCurrencyPosition =>
-      'Wählen Sie die Position des Währungssymbols';
+  String get selectColor => 'Farbe wählen';
 
   @override
   String get selectDate => 'Datum auswählen';

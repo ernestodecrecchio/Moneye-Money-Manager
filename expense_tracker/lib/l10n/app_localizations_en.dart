@@ -442,7 +442,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'Don\'t worry, you can always change it later to match your needs.';
 
   @override
-  String get selectCurrencyPosition => 'Select the currency symbol position';
+  String get selectColor => 'Select color';
 
   @override
   String get selectDate => 'Select the date';

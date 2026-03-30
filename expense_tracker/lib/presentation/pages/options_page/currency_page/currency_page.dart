@@ -256,7 +256,7 @@ class _CurrencyPageState extends ConsumerState<CurrencyPage> {
                       children: [
                         Flexible(
                           child: Text(
-                            appLocalizations.selectCurrencyPosition,
+                            appLocalizations.currencyPosition,
                             style: textTheme.titleMedium?.copyWith(
                                 fontSize: 18, fontWeight: FontWeight.w600),
                           ),

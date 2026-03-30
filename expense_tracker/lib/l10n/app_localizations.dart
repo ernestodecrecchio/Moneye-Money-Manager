@@ -908,11 +908,11 @@ abstract class AppLocalizations {
   /// **'Don\'t worry, you can always change it later to match your needs.'**
   String get selectCurrencyMsg2;
 
-  /// No description provided for @selectCurrencyPosition.
+  /// No description provided for @selectColor.
   ///
   /// In en, this message translates to:
-  /// **'Select the currency symbol position'**
-  String get selectCurrencyPosition;
+  /// **'Select color'**
+  String get selectColor;
 
   /// No description provided for @selectDate.
   ///
