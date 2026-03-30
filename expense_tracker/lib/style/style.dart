@@ -49,38 +49,104 @@ class CustomColors {
   /// #7589A2 (Chart Labels Gray)
   static const chartLabelsGray = Color(0xFF7589A2);
 
-  // Picker Colors
-  static const red1 = Color.fromARGB(255, 244, 67, 54);
-  static const red2 = Color.fromARGB(255, 233, 30, 99);
-  static const pink1 = Color.fromARGB(255, 255, 153, 187);
-  static const pink2 = Color.fromARGB(255, 236, 87, 137);
-  static const blue1 = Color.fromARGB(255, 63, 81, 181);
-  static const blue2 = Color.fromARGB(255, 33, 150, 243);
-  static const green1 = Color.fromARGB(255, 0, 150, 136);
-  static const green2 = Color.fromARGB(255, 76, 175, 80);
-  static const orange1 = Color.fromARGB(255, 255, 152, 0);
-  static const yellow1 = Color.fromARGB(255, 255, 193, 7);
-  static const brown1 = Color.fromARGB(255, 121, 85, 72);
-  static const brown2 = Color.fromARGB(255, 172, 106, 82);
-  static const black = Color.fromARGB(255, 0, 0, 0);
-  static const grey = Color.fromARGB(255, 158, 158, 158);
+  // Picker Colors - Organized by shade/hue
+  static const red300 = Color(0xFFE57373);
+  static const red500 = Color(0xFFF44336);
+  static const red700 = Color(0xFFD32F2F);
 
-  static const Color defaultPickerColor = red1;
+  static const pink300 = Color(0xFFF06292);
+  static const pink500 = Color(0xFFE91E63);
+  static const pink700 = Color(0xFFC2185B);
+
+  static const deepOrange300 = Color(0xFFFF8A65);
+  static const deepOrange500 = Color(0xFFFF5722);
+  static const deepOrange700 = Color(0xFFE64A19);
+
+  static const orange300 = Color(0xFFFFB74D);
+  static const orange500 = Color(0xFFFF9800);
+  static const orange700 = Color(0xFFF57C00);
+
+  static const amber500 = Color(0xFFFFC107);
+  static const yellow500 = Color(0xFFFFEB3B);
+
+  static const lime300 = Color(0xFFDCE775);
+  static const lime500 = Color(0xFFCDDC39);
+  static const lime700 = Color(0xFFAFB42B);
+
+  static const lightGreen300 = Color(0xFFAED581);
+  static const lightGreen500 = Color(0xFF8BC34A);
+  static const lightGreen700 = Color(0xFF689F38);
+
+  static const green300 = Color(0xFF81C784);
+  static const green500 = Color(0xFF4CAF50);
+  static const green700 = Color(0xFF388E3C);
+
+  static const teal300 = Color(0xFF4DB6AC);
+  static const teal500 = Color(0xFF009688);
+  static const teal700 = Color(0xFF00796B);
+
+  static const cyan300 = Color(0xFF4DD0E1);
+  static const cyan500 = Color(0xFF00BCD4);
+  static const cyan700 = Color(0xFF0097A7);
+
+  static const blue300 = Color(0xFF64B5F6);
+  static const blue500 = Color(0xFF2196F3);
+  static const blue700 = Color(0xFF1976D2);
+
+  static const indigo300 = Color(0xFF7986CB);
+  static const indigo500 = Color(0xFF3F51B5);
+  static const indigo700 = Color(0xFF303F9F);
+
+  static const deepPurple300 = Color(0xFF9575CD);
+  static const deepPurple500 = Color(0xFF673AB7);
+  static const deepPurple700 = Color(0xFF512DA8);
+
+  static const purple300 = Color(0xFFBA68C8);
+  static const purple500 = Color(0xFF9C27B0);
+  static const purple700 = Color(0xFF7B1FA2);
+
+  static const brown300 = Color(0xFFA1887F);
+  static const brown500 = Color(0xFF795548);
+  static const brown700 = Color(0xFF5D4037);
+
+  static const blueGrey300 = Color(0xFF90A4AE);
+  static const blueGrey500 = Color(0xFF607D8B);
+  static const blueGrey700 = Color(0xFF455A64);
+
+  static const grey300 = Color(0xFFE0E0E0);
+  static const grey500 = Color(0xFF9E9E9E);
+  static const grey700 = Color(0xFF616161);
+
+  static const black = Color(0xFF000000);
+
+  static const Color defaultPickerColor = red500;
   static const List<Color> pickerColorList = [
-    CustomColors.red1,
-    CustomColors.red2,
-    CustomColors.pink1,
-    CustomColors.pink2,
-    CustomColors.blue1,
-    CustomColors.blue2,
-    CustomColors.green1,
-    CustomColors.green2,
-    CustomColors.orange1,
-    CustomColors.yellow1,
-    CustomColors.brown1,
-    CustomColors.brown2,
-    CustomColors.black,
-    CustomColors.grey,
+    // Reds
+    red300, red500, red700,
+    // Pinks
+    pink300, pink500, pink700,
+    // Oranges
+    deepOrange300, deepOrange500, deepOrange700,
+    orange300, orange500, orange700,
+    // Yellows
+    amber500, yellow500,
+    // Greens
+    lime300, lime500, lime700,
+    lightGreen300, lightGreen500, lightGreen700,
+    green300, green500, green700,
+    teal300, teal500, teal700,
+    // Blues
+    cyan300, cyan500, cyan700,
+    blue300, blue500, blue700,
+    indigo300, indigo500, indigo700,
+    // Purples
+    deepPurple300, deepPurple500, deepPurple700,
+    purple300, purple500, purple700,
+    // Neutrals
+    brown300, brown500, brown700,
+    blueGrey300, blueGrey500, blueGrey700,
+    grey300, grey500, grey700,
+    black,
   ];
 }
 
