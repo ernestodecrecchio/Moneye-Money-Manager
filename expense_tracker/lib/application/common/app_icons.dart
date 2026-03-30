@@ -59,6 +59,7 @@ class AppIcons {
           'assets/icons/shirt.svg',
           'assets/icons/present.svg',
           'assets/icons/amazon.svg',
+          'assets/icons/vinted.svg',
         ],
         'work': [
           'assets/icons/calendar.svg',
