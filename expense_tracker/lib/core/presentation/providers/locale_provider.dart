@@ -30,31 +30,31 @@ class LocaleNotifier extends Notifier<Locale?> {
   }
 
   /// Updates the application locale and persists the change to SharedPreferences.
-  Future<bool> updateLocale(Locale newLocale) async {
+  Future<void> updateLocale(Locale newLocale) async {
     state = newLocale;
 
     Intl.defaultLocale = newLocale.languageCode;
 
     final prefs = await SharedPreferences.getInstance();
 
+    await prefs.setString('locale', newLocale.languageCode);
+
     await AnalyticsManager.logLanguageChanged(newLocale.languageCode);
 
     await _rescheduleNotifications();
-
-    return await prefs.setString('locale', newLocale.languageCode);
   }
 
   /// Resets the locale to the system default and removes the persisted setting.
-  Future<bool> resetLocale() async {
+  Future<void> resetLocale() async {
     state = null;
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
+    await prefs.remove('locale');
+
     Intl.defaultLocale = Intl.shortLocale(Platform.localeName);
 
     await _rescheduleNotifications();
-
-    return prefs.remove('locale');
   }
 
   Future<void> _rescheduleNotifications() async {
