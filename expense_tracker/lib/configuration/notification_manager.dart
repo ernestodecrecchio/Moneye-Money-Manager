@@ -6,6 +6,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:intl/intl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:timezone/timezone.dart';
 
 class NotificationManager {
@@ -48,6 +49,15 @@ class NotificationManager {
       print(
           'notification action tapped with input: ${notificationResponse.input}');
     }
+  }
+
+  static Future<Locale> _getCurrentLocale() async {
+    final prefs = await SharedPreferences.getInstance();
+    final localeStr = prefs.getString('locale');
+    if (localeStr != null && localeStr.isNotEmpty) {
+      return Locale(localeStr);
+    }
+    return Locale(Intl.shortLocale(Platform.localeName));
   }
 
   static Future initNotificationManager() async {
@@ -112,9 +122,8 @@ class NotificationManager {
           flutterLocalNotificationsPlugin.resolvePlatformSpecificImplementation<
               AndroidFlutterLocalNotificationsPlugin>();
 
-      AppLocalizations localizations = await AppLocalizations.delegate.load(
-        Locale(Intl.shortLocale(Intl.getCurrentLocale().toString())),
-      );
+      final locale = await _getCurrentLocale();
+      AppLocalizations localizations = await AppLocalizations.delegate.load(locale);
 
       final AndroidNotificationChannel channel = AndroidNotificationChannel(
         dailyReminderChannelId,
@@ -190,9 +199,8 @@ class NotificationManager {
     required TimeOfDay atTime,
   }) async {
     try {
-      AppLocalizations localizations = await AppLocalizations.delegate.load(
-        Locale(Intl.shortLocale(Intl.getCurrentLocale().toString())),
-      );
+      final locale = await _getCurrentLocale();
+      AppLocalizations localizations = await AppLocalizations.delegate.load(locale);
 
       AndroidScheduleMode scheduleMode =
           AndroidScheduleMode.exactAllowWhileIdle;
@@ -224,9 +232,8 @@ class NotificationManager {
   /// Sends a notification immediately for testing purposes.
   static Future<void> showInstantNotification() async {
     try {
-      AppLocalizations localizations = await AppLocalizations.delegate.load(
-        Locale(Intl.shortLocale(Intl.getCurrentLocale().toString())),
-      );
+      final locale = await _getCurrentLocale();
+      AppLocalizations localizations = await AppLocalizations.delegate.load(locale);
 
       await flutterLocalNotificationsPlugin.show(
         id: 1, // Unique ID for test notification
