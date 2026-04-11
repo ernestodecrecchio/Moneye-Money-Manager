@@ -1,4 +1,6 @@
 import 'package:expense_tracker/configuration/constants.dart';
+import 'package:expense_tracker/presentation/pages/common/expand_hint_button.dart';
+import 'package:expense_tracker/presentation/pages/common/widgets/color_selector_bottom_sheet.dart';
 import 'package:expense_tracker/style/style.dart';
 import 'package:expense_tracker/style/app_theme.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +22,43 @@ class InlineColorPicker extends StatefulWidget {
 }
 
 class _InlineColorPickerState extends State<InlineColorPicker> {
-  final _controller = PageController();
+  late final ScrollController _scrollController;
+  Color? _selectedColor;
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController = ScrollController();
+    _selectedColor = widget.selectedColor;
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _scrollToSelectedColor();
+    });
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  void _scrollToSelectedColor() {
+    if (_selectedColor == null) return;
+
+    final index = CustomColors.pickerColorList.indexOf(_selectedColor!);
+    if (index == -1) return;
+
+    // Each column (2 colors) has width 40 and spacing 14.
+    final scrollOffset = (index ~/ 2) * (40 + 14).toDouble();
+
+    if (_scrollController.hasClients) {
+      _scrollController.animateTo(
+        scrollOffset,
+        duration: const Duration(milliseconds: 250),
+        curve: Curves.easeOutQuint,
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,24 +67,40 @@ class _InlineColorPickerState extends State<InlineColorPicker> {
     return Container(
       height: 114,
       clipBehavior: Clip.antiAlias,
-      padding: const EdgeInsets.only(top: 10, bottom: 10),
       decoration: BoxDecoration(
         color: colors.surface,
         borderRadius: BorderRadius.circular(25),
       ),
-      child: _buildGridView(),
+      child: Stack(
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(top: 10, bottom: 10),
+            child: _buildGridView(),
+          ),
+          ExpandHintButton(
+            onTap: () => showColorBottomSheet(
+              context: context,
+              itemShape: widget.itemShape,
+              onSelectedColor: (newColor) {
+                widget.onSelectedColor(newColor);
+                setState(() {
+                  _selectedColor = newColor;
+                });
+                _scrollToSelectedColor();
+              },
+              initialSelectedColor: _selectedColor,
+            ),
+            backgroundColor: colors.divider,
+          ),
+        ],
+      ),
     );
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-
-    super.dispose();
   }
 
   Widget _buildGridView() {
     return GridView.builder(
+      controller: _scrollController,
+      physics: const ClampingScrollPhysics(),
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
         crossAxisSpacing: 14,
@@ -65,6 +119,9 @@ class _InlineColorPickerState extends State<InlineColorPicker> {
     return GestureDetector(
       onTap: () {
         widget.onSelectedColor(color);
+        setState(() {
+          _selectedColor = color;
+        });
       },
       child: Center(
         child: Container(
@@ -77,7 +134,7 @@ class _InlineColorPickerState extends State<InlineColorPicker> {
                 ? BorderRadius.circular(8)
                 : null,
           ),
-          child: color == widget.selectedColor
+          child: color == _selectedColor
               ? const Icon(
                   Icons.check_rounded,
                   color: Colors.white,

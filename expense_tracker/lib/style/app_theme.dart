@@ -1,4 +1,5 @@
 import 'package:expense_tracker/style/style.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 enum AppThemeMode {
@@ -10,7 +11,7 @@ enum AppThemeMode {
   bool get isEnabled {
     switch (this) {
       case darkBlue:
-        return false;
+        return kDebugMode;
       default:
         return true;
     }

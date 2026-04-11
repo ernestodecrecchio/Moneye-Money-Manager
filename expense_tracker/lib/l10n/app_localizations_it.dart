@@ -446,8 +446,7 @@ class AppLocalizationsIt extends AppLocalizations {
       'Niente paura, potrai sempre cambiarla in seguito per soddisfare le tue esigenze';
 
   @override
-  String get selectCurrencyPosition =>
-      'Seleziona la posizione del simbolo della valuta';
+  String get selectColor => 'Seleziona colore';
 
   @override
   String get selectDate => 'Seleziona la data';
