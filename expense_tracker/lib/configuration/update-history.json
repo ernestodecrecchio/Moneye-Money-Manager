@@ -1,4 +1,82 @@
 {
+  "1.0.8": [
+    {
+      "title": {
+        "en": "Turkish Language Support",
+        "it": "Supporto alla Lingua Turca",
+        "es": "Compatibilidad con el Idioma Turco",
+        "de": "Unterstützung für Türkisch",
+        "fr": "Support de la Langue Turque",
+        "tr": "Türkçe Dil Desteği"
+      },
+      "description": {
+        "en": "Moneye is now available in Turkish! You can switch to Turkish from the language settings.",
+        "it": "Moneye è ora disponibile in turco! Puoi passare al turco dalle impostazioni della lingua.",
+        "es": "¡Moneye ahora está disponible en turco! Puedes cambiar al turco desde la configuración de idioma.",
+        "de": "Moneye ist jetzt auch auf Türkisch verfügbar! Du kannst die Sprache in den Einstellungen auf Türkisch umstellen.",
+        "fr": "Moneye est désormais disponible en turc ! Vous pouvez changer la langue dans les paramètres.",
+        "tr": "Moneye artık Türkçe'yi destekliyor! Dil ayarlarından Türkçe'ye geçiş yapabilirsiniz."
+      },
+      "category": "translation"
+    },
+    {
+      "title": {
+        "en": "UI Improvements",
+        "it": "Miglioramenti dell'interfaccia",
+        "es": "Mejoras en la interfaz",
+        "de": "UI-Verbesserungen",
+        "fr": "Améliorations de l'interface",
+        "tr": "UI İyileştirmeleri"
+      },
+      "description": {
+        "en": "Numerous improvements have been introduced across the app to enhance usability and make Moneye more intuitive and enjoyable to use.",
+        "it": "Sono stati introdotti numerosi miglioramenti in tutta l'app per migliorare l'usabilità e rendere Moneye più intuitiva e piacevole da usare.",
+        "es": "Se han introducido numerosas mejoras en toda la aplicación para mejorar la usabilidad y hacer que Moneye sea más intuitiva y agradable de usar.",
+        "de": "Es wurden zahlreiche Verbesserungen in der gesamten App eingeführt, um die Benutzerfreundlichkeit zu erhöhen und Moneye intuitiver und angenehmer zu gestalten.",
+        "fr": "De nombreuses améliorations ont été apportées dans toute l'application afin d'améliorer l'expérience utilisateur et de rendre Moneye plus intuitive et agréable à utiliser.",
+        "tr": "Moneye'yi daha sezgisel ve kullanımı keyifli hale getirmek için uygulama genelinde sayısız iyileştirme yapıldı."
+      },
+      "category": "ui"
+    },
+    {
+      "title": {
+        "en": "Bug Fixes",
+        "it": "Correzioni di Bug",
+        "es": "Corrección de Errores",
+        "de": "Fehlerbehebungen",
+        "fr": "Corrections de bugs",
+        "tr": "Hata Düzeltmeleri"
+      },
+      "description": {
+        "en": "Stability improvements and bug fixes for a smoother experience.",
+        "it": "Miglioramenti della stabilità e correzioni di bug per un'esperienza più fluida.",
+        "es": "Mejoras de estabilidad y corrección de errores para una experiencia más fluida.",
+        "de": "Stabilitätsverbesserungen und Fehlerbehebungen für ein reibungsloseres Erlebnis.",
+        "fr": "Améliorations de la stabilité et corrections de bugs pour une expérience plus fluide.",
+        "tr": "Daha sorunsuz bir deneyim için kararlılık iyileştirmeleri ve hata düzeltmeleri."
+      },
+      "category": "stability"
+    },
+    {
+      "title": {
+        "en": "More Icons",
+        "it": "Nuove Icone",
+        "es": "Más Iconos",
+        "de": "Neue Icons",
+        "fr": "Nouvelles Icônes",
+        "tr": "Yeni Simgeler"
+      },
+      "description": {
+        "en": "Additional icons are now available to give you even more ways to personalize your accounts and categories.",
+        "it": "Sono disponibili nuove icone per offrirti ancora più possibilità di personalizzare conti e categorie.",
+        "es": "Nuevos iconos están disponibles para ofrecerte aún más formas de personalizar cuentas y categorías.",
+        "de": "Neue Icons sind verfügbar, um dir noch mehr Möglichkeiten zur Personalisierung von Konten und Kategorien zu bieten.",
+        "fr": "De nouvelles icônes sont désormais disponibles pour vous offrir encore plus de possibilités de personnaliser vos comptes et catégories.",
+        "tr": "Hesaplarınızı ve kategorilerinizi daha fazla kişiselleştirmeniz için yeni simgeler eklendi."
+      },
+      "category": "icons"
+    }
+  ],
   "1.0.7": [
     {
       "title": {
