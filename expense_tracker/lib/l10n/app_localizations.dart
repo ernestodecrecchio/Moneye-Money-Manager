@@ -106,6 +106,12 @@ abstract class AppLocalizations {
     Locale('tr')
   ];
 
+  /// No description provided for @aboutAndSupport.
+  ///
+  /// In en, this message translates to:
+  /// **'About & Support'**
+  String get aboutAndSupport;
+
   /// No description provided for @accept.
   ///
   /// In en, this message translates to:
@@ -352,6 +358,18 @@ abstract class AppLocalizations {
   /// **'Position of the currency symbol'**
   String get currencyPosition;
 
+  /// No description provided for @daily.
+  ///
+  /// In en, this message translates to:
+  /// **'Daily'**
+  String get daily;
+
+  /// No description provided for @dailyInterval.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{Daily} other{Every {count} days}}'**
+  String dailyInterval(int count);
+
   /// No description provided for @dailyReminder.
   ///
   /// In en, this message translates to:
@@ -375,6 +393,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Dark'**
   String get darkTheme;
+
+  /// No description provided for @dataAndPrivacy.
+  ///
+  /// In en, this message translates to:
+  /// **'Data & Privacy'**
+  String get dataAndPrivacy;
 
   /// No description provided for @date.
   ///
@@ -448,6 +472,18 @@ abstract class AppLocalizations {
   /// **'Edit category'**
   String get editCategory;
 
+  /// No description provided for @editRecurringTransaction.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit repeating transaction'**
+  String get editRecurringTransaction;
+
+  /// No description provided for @editRuleInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'Changes to this recurring rule will not affect transactions that have already been generated.'**
+  String get editRuleInfo;
+
   /// No description provided for @editTransaction.
   ///
   /// In en, this message translates to:
@@ -471,6 +507,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Don\'t forget to explore other exciting features to optimize your financial journey.'**
   String get endConfigurationMsg2;
+
+  /// No description provided for @endDate.
+  ///
+  /// In en, this message translates to:
+  /// **'End date'**
+  String get endDate;
+
+  /// No description provided for @endDateInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'The date after which no other transactions of this kind will be automatically generated.'**
+  String get endDateInfo;
+
+  /// No description provided for @endedOn.
+  ///
+  /// In en, this message translates to:
+  /// **'Ended on {date}'**
+  String endedOn(String date);
 
   /// No description provided for @entertainment.
   ///
@@ -549,6 +603,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Food & Dining'**
   String get foodAndDining;
+
+  /// No description provided for @frequency.
+  ///
+  /// In en, this message translates to:
+  /// **'Frequency'**
+  String get frequency;
+
+  /// No description provided for @generatedTransactions.
+  ///
+  /// In en, this message translates to:
+  /// **'Generated transactions'**
+  String get generatedTransactions;
+
+  /// No description provided for @generatedTransactionsSnackbar.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 recurring transaction generated} other{{count} recurring transactions generated}}'**
+  String generatedTransactionsSnackbar(int count);
 
   /// No description provided for @health.
   ///
@@ -646,6 +718,12 @@ abstract class AppLocalizations {
   /// **'Insert the title of the trasnaction'**
   String get insertTheTitleOfTheTransaction;
 
+  /// No description provided for @interval.
+  ///
+  /// In en, this message translates to:
+  /// **'Interval'**
+  String get interval;
+
   /// No description provided for @language.
   ///
   /// In en, this message translates to:
@@ -670,11 +748,29 @@ abstract class AppLocalizations {
   /// **'Light'**
   String get lightTheme;
 
+  /// No description provided for @management.
+  ///
+  /// In en, this message translates to:
+  /// **'Management'**
+  String get management;
+
   /// No description provided for @month.
   ///
   /// In en, this message translates to:
   /// **'Month'**
   String get month;
+
+  /// No description provided for @monthly.
+  ///
+  /// In en, this message translates to:
+  /// **'Monthly'**
+  String get monthly;
+
+  /// No description provided for @monthlyInterval.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{Monthly} other{Every {count} months}}'**
+  String monthlyInterval(int count);
 
   /// No description provided for @newAccount.
   ///
@@ -688,11 +784,23 @@ abstract class AppLocalizations {
   /// **'New category'**
   String get newCategory;
 
+  /// No description provided for @newRecurringTransaction.
+  ///
+  /// In en, this message translates to:
+  /// **'New repeating transaction'**
+  String get newRecurringTransaction;
+
   /// No description provided for @newTransaction.
   ///
   /// In en, this message translates to:
   /// **'New transaction'**
   String get newTransaction;
+
+  /// No description provided for @nextDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Next date'**
+  String get nextDate;
 
   /// No description provided for @no.
   ///
@@ -754,6 +862,12 @@ abstract class AppLocalizations {
   /// **'Personal information'**
   String get personalInfo;
 
+  /// No description provided for @personalization.
+  ///
+  /// In en, this message translates to:
+  /// **'Personalization'**
+  String get personalization;
+
   /// No description provided for @petExpenses.
   ///
   /// In en, this message translates to:
@@ -790,6 +904,18 @@ abstract class AppLocalizations {
   /// **'Configure how data is collected and used'**
   String get privacyOptionDescription;
 
+  /// No description provided for @recurringTransactions.
+  ///
+  /// In en, this message translates to:
+  /// **'Recurring Transactions'**
+  String get recurringTransactions;
+
+  /// No description provided for @recurringTransactionsOptionDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage your recurring transaction rules'**
+  String get recurringTransactionsOptionDescription;
+
   /// No description provided for @reminder.
   ///
   /// In en, this message translates to:
@@ -807,6 +933,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Set a reminder to remember to insert new transactions'**
   String get reminderOptionDescription;
+
+  /// No description provided for @repeatTransaction.
+  ///
+  /// In en, this message translates to:
+  /// **'Repeat transaction'**
+  String get repeatTransaction;
 
   /// No description provided for @reportBug.
   ///
@@ -837,6 +969,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'All your data will be permanently deleted. This action cannot be undone. Are you sure you want to proceed?'**
   String get resetWarning;
+
+  /// No description provided for @ruleDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'Rule details'**
+  String get ruleDetails;
 
   /// No description provided for @save.
   ///
@@ -892,6 +1030,12 @@ abstract class AppLocalizations {
   /// **'Select from the preconfigured list or create your custom categories later'**
   String get selectCategoryMsg2;
 
+  /// No description provided for @selectColor.
+  ///
+  /// In en, this message translates to:
+  /// **'Select color'**
+  String get selectColor;
+
   /// No description provided for @selectCurrency.
   ///
   /// In en, this message translates to:
@@ -910,17 +1054,17 @@ abstract class AppLocalizations {
   /// **'Don\'t worry, you can always change it later to match your needs.'**
   String get selectCurrencyMsg2;
 
-  /// No description provided for @selectColor.
-  ///
-  /// In en, this message translates to:
-  /// **'Select color'**
-  String get selectColor;
-
   /// No description provided for @selectDate.
   ///
   /// In en, this message translates to:
   /// **'Select the date'**
   String get selectDate;
+
+  /// No description provided for @selectEndDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Select end date'**
+  String get selectEndDate;
 
   /// No description provided for @selectIcon.
   ///
@@ -1060,6 +1204,18 @@ abstract class AppLocalizations {
   /// **'Transaction deleted'**
   String get transactionDeleted;
 
+  /// No description provided for @transactionGeneratedByDeletedRule.
+  ///
+  /// In en, this message translates to:
+  /// **'This transaction was generated by a recurring rule that has since been deleted.'**
+  String get transactionGeneratedByDeletedRule;
+
+  /// No description provided for @transactionGeneratedByRule.
+  ///
+  /// In en, this message translates to:
+  /// **'This transaction was generated automatically by a recurring rule. Editing this transaction will not affect future generated ones.'**
+  String get transactionGeneratedByRule;
+
   /// No description provided for @transactionList.
   ///
   /// In en, this message translates to:
@@ -1108,35 +1264,29 @@ abstract class AppLocalizations {
   /// **'View all'**
   String get viewAll;
 
-  /// No description provided for @management.
+  /// No description provided for @viewRule.
   ///
   /// In en, this message translates to:
-  /// **'Management'**
-  String get management;
-
-  /// No description provided for @personalization.
-  ///
-  /// In en, this message translates to:
-  /// **'Personalization'**
-  String get personalization;
-
-  /// No description provided for @dataAndPrivacy.
-  ///
-  /// In en, this message translates to:
-  /// **'Data & Privacy'**
-  String get dataAndPrivacy;
-
-  /// No description provided for @aboutAndSupport.
-  ///
-  /// In en, this message translates to:
-  /// **'About & Support'**
-  String get aboutAndSupport;
+  /// **'View rule'**
+  String get viewRule;
 
   /// No description provided for @week.
   ///
   /// In en, this message translates to:
   /// **'Week'**
   String get week;
+
+  /// No description provided for @weekly.
+  ///
+  /// In en, this message translates to:
+  /// **'Weekly'**
+  String get weekly;
+
+  /// No description provided for @weeklyInterval.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{Weekly} other{Every {count} weeks}}'**
+  String weeklyInterval(int count);
 
   /// No description provided for @welcomePageMsg1.
   ///
@@ -1180,6 +1330,18 @@ abstract class AppLocalizations {
   /// **'Year'**
   String get year;
 
+  /// No description provided for @yearly.
+  ///
+  /// In en, this message translates to:
+  /// **'Yearly'**
+  String get yearly;
+
+  /// No description provided for @yearlyInterval.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{Yearly} other{Every {count} years}}'**
+  String yearlyInterval(int count);
+
   /// No description provided for @yes.
   ///
   /// In en, this message translates to:
@@ -1203,168 +1365,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Your categories'**
   String get yourCategories;
-
-  /// No description provided for @repeatTransaction.
-  ///
-  /// In en, this message translates to:
-  /// **'Repeat transaction'**
-  String get repeatTransaction;
-
-  /// No description provided for @frequency.
-  ///
-  /// In en, this message translates to:
-  /// **'Frequency'**
-  String get frequency;
-
-  /// No description provided for @daily.
-  ///
-  /// In en, this message translates to:
-  /// **'Daily'**
-  String get daily;
-
-  /// No description provided for @dailyInterval.
-  ///
-  /// In en, this message translates to:
-  /// **'{count, plural, =1{Daily} other{Every {count} days}}'**
-  String dailyInterval(int count);
-
-  /// No description provided for @weekly.
-  ///
-  /// In en, this message translates to:
-  /// **'Weekly'**
-  String get weekly;
-
-  /// No description provided for @weeklyInterval.
-  ///
-  /// In en, this message translates to:
-  /// **'{count, plural, =1{Weekly} other{Every {count} weeks}}'**
-  String weeklyInterval(int count);
-
-  /// No description provided for @monthly.
-  ///
-  /// In en, this message translates to:
-  /// **'Monthly'**
-  String get monthly;
-
-  /// No description provided for @monthlyInterval.
-  ///
-  /// In en, this message translates to:
-  /// **'{count, plural, =1{Monthly} other{Every {count} months}}'**
-  String monthlyInterval(int count);
-
-  /// No description provided for @yearly.
-  ///
-  /// In en, this message translates to:
-  /// **'Yearly'**
-  String get yearly;
-
-  /// No description provided for @yearlyInterval.
-  ///
-  /// In en, this message translates to:
-  /// **'{count, plural, =1{Yearly} other{Every {count} years}}'**
-  String yearlyInterval(int count);
-
-  /// No description provided for @interval.
-  ///
-  /// In en, this message translates to:
-  /// **'Interval'**
-  String get interval;
-
-  /// No description provided for @recurringTransactions.
-  ///
-  /// In en, this message translates to:
-  /// **'Recurring Transactions'**
-  String get recurringTransactions;
-
-  /// No description provided for @endDate.
-  ///
-  /// In en, this message translates to:
-  /// **'End date'**
-  String get endDate;
-
-  /// No description provided for @endedOn.
-  ///
-  /// In en, this message translates to:
-  /// **'Ended on {date}'**
-  String endedOn(String date);
-
-  /// No description provided for @endDateInfo.
-  ///
-  /// In en, this message translates to:
-  /// **'The date after which no other transactions of this kind will be automatically generated.'**
-  String get endDateInfo;
-
-  /// No description provided for @selectEndDate.
-  ///
-  /// In en, this message translates to:
-  /// **'Select end date'**
-  String get selectEndDate;
-
-  /// No description provided for @newRecurringTransaction.
-  ///
-  /// In en, this message translates to:
-  /// **'New repeating transaction'**
-  String get newRecurringTransaction;
-
-  /// No description provided for @editRecurringTransaction.
-  ///
-  /// In en, this message translates to:
-  /// **'Edit repeating transaction'**
-  String get editRecurringTransaction;
-
-  /// No description provided for @transactionGeneratedByRule.
-  ///
-  /// In en, this message translates to:
-  /// **'This transaction was generated automatically by a recurring rule. Editing this transaction will not affect future generated ones.'**
-  String get transactionGeneratedByRule;
-
-  /// No description provided for @transactionGeneratedByDeletedRule.
-  ///
-  /// In en, this message translates to:
-  /// **'This transaction was generated by a recurring rule that has since been deleted.'**
-  String get transactionGeneratedByDeletedRule;
-
-  /// No description provided for @editRuleInfo.
-  ///
-  /// In en, this message translates to:
-  /// **'Changes to this recurring rule will not affect transactions that have already been generated.'**
-  String get editRuleInfo;
-
-  /// No description provided for @recurringTransactionsOptionDescription.
-  ///
-  /// In en, this message translates to:
-  /// **'Manage your recurring transaction rules'**
-  String get recurringTransactionsOptionDescription;
-
-  /// No description provided for @nextDate.
-  ///
-  /// In en, this message translates to:
-  /// **'Next date'**
-  String get nextDate;
-
-  /// No description provided for @ruleDetails.
-  ///
-  /// In en, this message translates to:
-  /// **'Rule details'**
-  String get ruleDetails;
-
-  /// No description provided for @generatedTransactions.
-  ///
-  /// In en, this message translates to:
-  /// **'Generated transactions'**
-  String get generatedTransactions;
-
-  /// No description provided for @viewRule.
-  ///
-  /// In en, this message translates to:
-  /// **'View rule'**
-  String get viewRule;
-
-  /// No description provided for @generatedTransactionsSnackbar.
-  ///
-  /// In en, this message translates to:
-  /// **'{count, plural, =1{1 recurring transaction generated} other{{count} recurring transactions generated}}'**
-  String generatedTransactionsSnackbar(int count);
 }
 
 class _AppLocalizationsDelegate

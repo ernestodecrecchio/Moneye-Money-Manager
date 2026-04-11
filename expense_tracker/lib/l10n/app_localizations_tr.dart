@@ -9,6 +9,9 @@ class AppLocalizationsTr extends AppLocalizations {
   AppLocalizationsTr([String locale = 'tr']) : super(locale);
 
   @override
+  String get aboutAndSupport => 'Hakkında ve Destek';
+
+  @override
   String get accept => 'Kabul et';
 
   @override
@@ -141,6 +144,20 @@ class AppLocalizationsTr extends AppLocalizations {
   String get currencyPosition => 'Para birimi simgesinin konumu';
 
   @override
+  String get daily => 'Günlük';
+
+  @override
+  String dailyInterval(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Her $count günde bir',
+      one: 'Günlük',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String get dailyReminder => 'Günlük hatırlatıcı';
 
   @override
@@ -152,6 +169,9 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get darkTheme => 'Koyu';
+
+  @override
+  String get dataAndPrivacy => 'Veri ve Gizlilik';
 
   @override
   String get date => 'Tarih';
@@ -192,6 +212,13 @@ class AppLocalizationsTr extends AppLocalizations {
   String get editCategory => 'Kategoriyi düzenle';
 
   @override
+  String get editRecurringTransaction => 'Tekrarlanan işlemi düzenle';
+
+  @override
+  String get editRuleInfo =>
+      'Bu tekrarlanan kuraldaki değişiklikler, zaten oluşturulmuş olan işlemleri etkilemez.';
+
+  @override
   String get editTransaction => 'İşlemi düzenle';
 
   @override
@@ -204,6 +231,18 @@ class AppLocalizationsTr extends AppLocalizations {
   @override
   String get endConfigurationMsg2 =>
       'Finansal yolculuğunuzu optimize etmek için diğer heyecan verici özellikleri keşfetmeyi unutmayın.';
+
+  @override
+  String get endDate => 'Bitiş tarihi';
+
+  @override
+  String get endDateInfo =>
+      'Bu tarihten sonra bu türden daha fazla işlem otomatik olarak oluşturulmaz.';
+
+  @override
+  String endedOn(String date) {
+    return '$date tarihinde sona erdi';
+  }
 
   @override
   String get entertainment => 'Eğlence';
@@ -245,6 +284,23 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get foodAndDining => 'Yiyecek ve İçecek';
+
+  @override
+  String get frequency => 'Sıklık';
+
+  @override
+  String get generatedTransactions => 'Oluşturulan işlemler';
+
+  @override
+  String generatedTransactionsSnackbar(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count tekrarlanan işlem oluşturuldu',
+      one: '1 tekrarlanan işlem oluşturuldu',
+    );
+    return '$_temp0';
+  }
 
   @override
   String get health => 'Sağlık';
@@ -296,6 +352,9 @@ class AppLocalizationsTr extends AppLocalizations {
   String get insertTheTitleOfTheTransaction => 'İşlemin başlığını girin';
 
   @override
+  String get interval => 'Her';
+
+  @override
   String get language => 'Dil';
 
   @override
@@ -308,7 +367,24 @@ class AppLocalizationsTr extends AppLocalizations {
   String get lightTheme => 'Açık';
 
   @override
+  String get management => 'Yönetim';
+
+  @override
   String get month => 'Ay';
+
+  @override
+  String get monthly => 'Aylık';
+
+  @override
+  String monthlyInterval(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Her $count ayda bir',
+      one: 'Aylık',
+    );
+    return '$_temp0';
+  }
 
   @override
   String get newAccount => 'Yeni hesap';
@@ -317,7 +393,13 @@ class AppLocalizationsTr extends AppLocalizations {
   String get newCategory => 'Yeni kategori';
 
   @override
+  String get newRecurringTransaction => 'Yeni tekrarlanan işlem';
+
+  @override
   String get newTransaction => 'Yeni işlem';
+
+  @override
+  String get nextDate => 'Sonraki tarih';
 
   @override
   String get no => 'hayır';
@@ -350,6 +432,9 @@ class AppLocalizationsTr extends AppLocalizations {
   String get personalInfo => 'Kişisel bilgiler';
 
   @override
+  String get personalization => 'Kişiselleştirme';
+
+  @override
   String get petExpenses => 'Evcil Hayvan Giderleri';
 
   @override
@@ -371,6 +456,13 @@ class AppLocalizationsTr extends AppLocalizations {
       'Verilerin nasıl toplanıp kullanıldığını yapılandırın';
 
   @override
+  String get recurringTransactions => 'Tekrarlanan İşlemler';
+
+  @override
+  String get recurringTransactionsOptionDescription =>
+      'Tekrarlanan işlemler için kurallarınızı yönetin';
+
+  @override
   String get reminder => 'Hatırlatıcı';
 
   @override
@@ -380,6 +472,9 @@ class AppLocalizationsTr extends AppLocalizations {
   @override
   String get reminderOptionDescription =>
       'Yeni işlemler girmeyi hatırlatmak için bir hatırlatıcı ayarlayın';
+
+  @override
+  String get repeatTransaction => 'İşlemi tekrarla';
 
   @override
   String get reportBug => 'Bir hata bildirin';
@@ -396,6 +491,9 @@ class AppLocalizationsTr extends AppLocalizations {
   @override
   String get resetWarning =>
       'Tüm verileriniz kalıcı olarak silinecektir. Bu işlem geri alınamaz. Devam etmek istediğinizden emin misiniz?';
+
+  @override
+  String get ruleDetails => 'Kural detayları';
 
   @override
   String get save => 'Kaydet';
@@ -428,6 +526,9 @@ class AppLocalizationsTr extends AppLocalizations {
       'Önceden yapılandırılmış listeden seçin veya daha sonra kendi özel kategorilerinizi oluşturun.';
 
   @override
+  String get selectColor => 'Renk seç';
+
+  @override
   String get selectCurrency => 'Para birimi seç';
 
   @override
@@ -438,10 +539,10 @@ class AppLocalizationsTr extends AppLocalizations {
       'Endişelenmeyin, ihtiyaçlarınızı karşılamak için daha sonra her zaman değiştirebilirsiniz';
 
   @override
-  String get selectCurrencyPosition => 'Para birimi simgesinin konumunu seçin';
+  String get selectDate => 'Tarih seç';
 
   @override
-  String get selectDate => 'Tarih seç';
+  String get selectEndDate => 'Bitiş tarihini seç';
 
   @override
   String get selectIcon => 'İkon seç';
@@ -513,6 +614,14 @@ class AppLocalizationsTr extends AppLocalizations {
   String get transactionDeleted => 'İşlem silindi';
 
   @override
+  String get transactionGeneratedByDeletedRule =>
+      'Bu işlem, silinmiş olan tekrarlanan bir kural tarafından oluşturulmuştur.';
+
+  @override
+  String get transactionGeneratedByRule =>
+      'Bu işlem, tekrarlanan bir kural tarafından otomatik olarak oluşturulmuştur. Bu işlemi düzenlemek gelecekteki işlemleri etkilemez.';
+
+  @override
   String get transactionList => 'İşlem listesi';
 
   @override
@@ -538,19 +647,24 @@ class AppLocalizationsTr extends AppLocalizations {
   String get viewAll => 'Hepsini gör';
 
   @override
-  String get management => 'Yönetim';
-
-  @override
-  String get personalization => 'Kişiselleştirme';
-
-  @override
-  String get dataAndPrivacy => 'Veri ve Gizlilik';
-
-  @override
-  String get aboutAndSupport => 'Hakkında ve Destek';
+  String get viewRule => 'Kuralı gör';
 
   @override
   String get week => 'Hafta';
+
+  @override
+  String get weekly => 'Haftalık';
+
+  @override
+  String weeklyInterval(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Her $count haftada bir',
+      one: 'Haftalık',
+    );
+    return '$_temp0';
+  }
 
   @override
   String get welcomePageMsg1 => 'Moneye\'ye hoş geldiniz!';
@@ -575,66 +689,6 @@ class AppLocalizationsTr extends AppLocalizations {
   String get year => 'Yıl';
 
   @override
-  String get yes => 'evet';
-
-  @override
-  String get yesterday => 'Dün';
-
-  @override
-  String get yourAccounts => 'Hesaplarınız';
-
-  @override
-  String get yourCategories => 'Kategorileriniz';
-
-  @override
-  String get repeatTransaction => 'İşlemi tekrarla';
-
-  @override
-  String get frequency => 'Sıklık';
-
-  @override
-  String get daily => 'Günlük';
-
-  @override
-  String dailyInterval(int count) {
-    String _temp0 = intl.Intl.pluralLogic(
-      count,
-      locale: localeName,
-      other: 'Her $count günde bir',
-      one: 'Günlük',
-    );
-    return '$_temp0';
-  }
-
-  @override
-  String get weekly => 'Haftalık';
-
-  @override
-  String weeklyInterval(int count) {
-    String _temp0 = intl.Intl.pluralLogic(
-      count,
-      locale: localeName,
-      other: 'Her $count haftada bir',
-      one: 'Haftalık',
-    );
-    return '$_temp0';
-  }
-
-  @override
-  String get monthly => 'Aylık';
-
-  @override
-  String monthlyInterval(int count) {
-    String _temp0 = intl.Intl.pluralLogic(
-      count,
-      locale: localeName,
-      other: 'Her $count ayda bir',
-      one: 'Aylık',
-    );
-    return '$_temp0';
-  }
-
-  @override
   String get yearly => 'Yıllık';
 
   @override
@@ -649,68 +703,14 @@ class AppLocalizationsTr extends AppLocalizations {
   }
 
   @override
-  String get interval => 'Her';
+  String get yes => 'evet';
 
   @override
-  String get recurringTransactions => 'Tekrarlanan İşlemler';
+  String get yesterday => 'Dün';
 
   @override
-  String get endDate => 'Bitiş tarihi';
+  String get yourAccounts => 'Hesaplarınız';
 
   @override
-  String endedOn(String date) {
-    return '$date tarihinde sona erdi';
-  }
-
-  @override
-  String get endDateInfo =>
-      'Bu tarihten sonra bu türden daha fazla işlem otomatik olarak oluşturulmaz.';
-
-  @override
-  String get selectEndDate => 'Bitiş tarihini seç';
-
-  @override
-  String get newRecurringTransaction => 'Yeni tekrarlanan işlem';
-
-  @override
-  String get editRecurringTransaction => 'Tekrarlanan işlemi düzenle';
-
-  @override
-  String get transactionGeneratedByRule =>
-      'Bu işlem, tekrarlanan bir kural tarafından otomatik olarak oluşturulmuştur. Bu işlemi düzenlemek gelecekteki işlemleri etkilemez.';
-
-  @override
-  String get transactionGeneratedByDeletedRule =>
-      'Bu işlem, silinmiş olan tekrarlanan bir kural tarafından oluşturulmuştur.';
-
-  @override
-  String get editRuleInfo =>
-      'Bu tekrarlanan kuraldaki değişiklikler, zaten oluşturulmuş olan işlemleri etkilemez.';
-
-  @override
-  String get recurringTransactionsOptionDescription =>
-      'Tekrarlanan işlemler için kurallarınızı yönetin';
-
-  @override
-  String get nextDate => 'Sonraki tarih';
-
-  @override
-  String get ruleDetails => 'Kural detayları';
-
-  @override
-  String get generatedTransactions => 'Oluşturulan işlemler';
-
-  @override
-  String get viewRule => 'Kuralı gör';
-
-  @override
-  String generatedTransactionsSnackbar(int count) {
-    String _temp0 = intl.Intl.pluralLogic(
-      count,
-      locale: localeName,
-      other: '$count tekrarlanan işlem oluşturuldu',
-      one: '1 tekrarlanan işlem oluşturuldu',
-    );
-    return '$_temp0';
-  }
+  String get yourCategories => 'Kategorileriniz';
 }

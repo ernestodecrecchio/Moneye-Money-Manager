@@ -1,4 +1,47 @@
 {
+    "@dailyInterval": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "@endedOn": {
+        "placeholders": {
+            "date": {
+                "type": "String"
+            }
+        }
+    },
+    "@generatedTransactionsSnackbar": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "@monthlyInterval": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "@weeklyInterval": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "@yearlyInterval": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "aboutAndSupport": "About & Support",
     "accept": "Accept",
     "account": "Account",
     "accounts": "Accounts",
@@ -40,10 +83,13 @@
     "currencyConversionDisclaimer": "Note: Changing the currency displayed in the app will not result in transaction amount conversions.",
     "currencyOptionDescription": "Select and customize the used currency",
     "currencyPosition": "Position of the currency symbol",
+    "daily": "Daily",
+    "dailyInterval": "{count, plural, =1{Daily} other{Every {count} days}}",
     "dailyReminder": "Daily reminder",
     "dailyReminderChannelDescription": "Notifications to remind you to enter your daily transactions.",
     "dailyReminderChannelName": "Daily Reminders",
     "darkTheme": "Dark",
+    "dataAndPrivacy": "Data & Privacy",
     "date": "Date",
     "day": "Day",
     "debitCard": "Debit Card",
@@ -56,10 +102,15 @@
     "edit": "Edit",
     "editAccount": "Edit account",
     "editCategory": "Edit category",
+    "editRecurringTransaction": "Edit repeating transaction",
+    "editRuleInfo": "Changes to this recurring rule will not affect transactions that have already been generated.",
     "editTransaction": "Edit transaction",
     "education": "Education",
     "endConfigurationMsg1": "Congratulations! Moneye is now configured and ready to help you manage your expenses efficiently.",
     "endConfigurationMsg2": "Don't forget to explore other exciting features to optimize your financial journey.",
+    "endDate": "End date",
+    "endDateInfo": "The date after which no other transactions of this kind will be automatically generated.",
+    "endedOn": "Ended on {date}",
     "entertainment": "Entertainment",
     "essentialDataOptionDescription": "Anonymous data about crashes and errors used to ensure the proper functioning of the app.",
     "essentialDataOptionTitle": "Essential technical data",
@@ -73,6 +124,9 @@
     "finance": "Finance",
     "financialOverviewForThisMonth": "The financial overview for this month",
     "foodAndDining": "Food & Dining",
+    "frequency": "Frequency",
+    "generatedTransactions": "Generated transactions",
+    "generatedTransactionsSnackbar": "{count, plural, =1{1 recurring transaction generated} other{{count} recurring transactions generated}}",
     "health": "Health",
     "icon": "Icon",
     "importData": "Import data",
@@ -89,14 +143,20 @@
     "insertTheDescription": "Insert a description",
     "insertTheTitleOfTheCategory": "Insert the title of the category",
     "insertTheTitleOfTheTransaction": "Insert the title of the trasnaction",
+    "interval": "Interval",
     "language": "Language",
     "languageOptionDescription": "Select the language used in the app",
     "lastTransactions": "Last transactions",
     "lightTheme": "Light",
+    "management": "Management",
     "month": "Month",
+    "monthly": "Monthly",
+    "monthlyInterval": "{count, plural, =1{Monthly} other{Every {count} months}}",
     "newAccount": "New account",
     "newCategory": "New category",
+    "newRecurringTransaction": "New repeating transaction",
     "newTransaction": "New transaction",
+    "nextDate": "Next date",
     "no": "no",
     "noAccountAdded": "No account added,",
     "noAccounts": "No accounts",
@@ -107,20 +167,25 @@
     "noTransactions": "No transactions",
     "other": "Other",
     "personalInfo": "Personal information",
+    "personalization": "Personalization",
     "petExpenses": "Pet Expenses",
     "privacy": "Privacy",
     "privacyAssurance": "Privacy is a priority. Names, emails, transaction amounts, or any data that could identify the user are never collected. All reports are strictly anonymous.",
     "privacyAssuranceLabel": "Privacy Assurance",
     "privacyIntroduction": "Choose which data can be collected to help improve the app and ensure its stability.",
     "privacyOptionDescription": "Configure how data is collected and used",
+    "recurringTransactions": "Recurring Transactions",
+    "recurringTransactionsOptionDescription": "Manage your recurring transaction rules",
     "reminder": "Reminder",
     "reminderDescription": "Moneye will remind you every day, at a set time, to enter new transactions.\n\nYou will never forget to keep your data updated!",
     "reminderOptionDescription": "Set a reminder to remember to insert new transactions",
+    "repeatTransaction": "Repeat transaction",
     "reportBug": "Report a bug",
     "resetData": "Erase all data",
     "resetError": "An error occurred while erasing data",
     "resetSuccess": "All data erased successfully",
     "resetWarning": "All your data will be permanently deleted. This action cannot be undone. Are you sure you want to proceed?",
+    "ruleDetails": "Rule details",
     "save": "Save",
     "saveToDevice": "Save to device",
     "savings": "Savings",
@@ -130,11 +195,12 @@
     "selectCategory": "Select the category",
     "selectCategoryMsg1": "Make the most of Moneye by categorizing your transactions",
     "selectCategoryMsg2": "Select from the preconfigured list or create your custom categories later",
+    "selectColor": "Select color",
     "selectCurrency": "Select the currency",
     "selectCurrencyMsg1": "Select your preferred currency",
     "selectCurrencyMsg2": "Don't worry, you can always change it later to match your needs.",
-    "selectColor": "Select color",
     "selectDate": "Select the date",
+    "selectEndDate": "Select end date",
     "selectIcon": "Select icon",
     "selectTimeInterval": "Select the time interval",
     "sendTestNotification": "Show me how it will appear",
@@ -158,6 +224,8 @@
     "totalBalance": "Total balance",
     "transactionData": "Transaction amounts and details",
     "transactionDeleted": "Transaction deleted",
+    "transactionGeneratedByDeletedRule": "This transaction was generated by a recurring rule that has since been deleted.",
+    "transactionGeneratedByRule": "This transaction was generated automatically by a recurring rule. Editing this transaction will not affect future generated ones.",
     "transactionList": "Transaction list",
     "transportation": "Transportation",
     "updateHistory": "Update history",
@@ -166,11 +234,10 @@
     "usageData": "Basic usage patterns",
     "version": "Version",
     "viewAll": "View all",
-    "management": "Management",
-    "personalization": "Personalization",
-    "dataAndPrivacy": "Data & Privacy",
-    "aboutAndSupport": "About & Support",
+    "viewRule": "View rule",
     "week": "Week",
+    "weekly": "Weekly",
+    "weeklyInterval": "{count, plural, =1{Weekly} other{Every {count} weeks}}",
     "welcomePageMsg1": "Welcome to Moneye!",
     "welcomePageMsg2": "Let's get you started on your journey towards financial control.\nI’ll help you configure the app in just a few steps.",
     "whatIsNotTracked": "What is NOT tracked:",
@@ -178,85 +245,10 @@
     "whatsNew": "What's new",
     "work": "Work",
     "year": "Year",
+    "yearly": "Yearly",
+    "yearlyInterval": "{count, plural, =1{Yearly} other{Every {count} years}}",
     "yes": "yes",
     "yesterday": "Yesterday",
     "yourAccounts": "Your accounts",
-    "yourCategories": "Your categories",
-    "health": "Health",
-    "sports": "Sports",
-    "finance": "Finance",
-    "shopping": "Shopping",
-    "work": "Work",
-    "education": "Education",
-    "bills": "Bills",
-    "repeatTransaction": "Repeat transaction",
-    "frequency": "Frequency",
-    "daily": "Daily",
-    "dailyInterval": "{count, plural, =1{Daily} other{Every {count} days}}",
-    "@dailyInterval": {
-        "placeholders": {
-            "count": {
-                "type": "int"
-            }
-        }
-    },
-    "weekly": "Weekly",
-    "weeklyInterval": "{count, plural, =1{Weekly} other{Every {count} weeks}}",
-    "@weeklyInterval": {
-        "placeholders": {
-            "count": {
-                "type": "int"
-            }
-        }
-    },
-    "monthly": "Monthly",
-    "monthlyInterval": "{count, plural, =1{Monthly} other{Every {count} months}}",
-    "@monthlyInterval": {
-        "placeholders": {
-            "count": {
-                "type": "int"
-            }
-        }
-    },
-    "yearly": "Yearly",
-    "yearlyInterval": "{count, plural, =1{Yearly} other{Every {count} years}}",
-    "@yearlyInterval": {
-        "placeholders": {
-            "count": {
-                "type": "int"
-            }
-        }
-    },
-    "interval": "Interval",
-    "recurringTransactions": "Recurring Transactions",
-    "endDate": "End date",
-    "endedOn": "Ended on {date}",
-    "@endedOn": {
-        "placeholders": {
-            "date": {
-                "type": "String"
-            }
-        }
-    },
-    "endDateInfo": "The date after which no other transactions of this kind will be automatically generated.",
-    "selectEndDate": "Select end date",
-    "newRecurringTransaction": "New repeating transaction",
-    "editRecurringTransaction": "Edit repeating transaction",
-    "transactionGeneratedByRule": "This transaction was generated automatically by a recurring rule. Editing this transaction will not affect future generated ones.",
-    "transactionGeneratedByDeletedRule": "This transaction was generated by a recurring rule that has since been deleted.",
-    "editRuleInfo": "Changes to this recurring rule will not affect transactions that have already been generated.",
-    "recurringTransactionsOptionDescription": "Manage your recurring transaction rules",
-    "nextDate": "Next date",
-    "ruleDetails": "Rule details",
-    "generatedTransactions": "Generated transactions",
-  
-    "viewRule": "View rule",
-    "generatedTransactionsSnackbar": "{count, plural, =1{1 recurring transaction generated} other{{count} recurring transactions generated}}",
-    "@generatedTransactionsSnackbar": {
-        "placeholders": {
-            "count": {
-                "type": "int"
-            }
-        }
-    }
+    "yourCategories": "Your categories"
 }

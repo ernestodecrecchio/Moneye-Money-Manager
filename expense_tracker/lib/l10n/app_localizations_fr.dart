@@ -9,6 +9,9 @@ class AppLocalizationsFr extends AppLocalizations {
   AppLocalizationsFr([String locale = 'fr']) : super(locale);
 
   @override
+  String get aboutAndSupport => 'Infos et Assistance';
+
+  @override
   String get accept => 'Accepter';
 
   @override
@@ -141,6 +144,20 @@ class AppLocalizationsFr extends AppLocalizations {
   String get currencyPosition => 'Position du symbole de la devise';
 
   @override
+  String get daily => 'Quotidien';
+
+  @override
+  String dailyInterval(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Tous les $count jours',
+      one: 'Quotidien',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String get dailyReminder => 'Rappel quotidien';
 
   @override
@@ -152,6 +169,9 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get darkTheme => 'Sombre';
+
+  @override
+  String get dataAndPrivacy => 'Données et Confidentialité';
 
   @override
   String get date => 'Date';
@@ -192,6 +212,13 @@ class AppLocalizationsFr extends AppLocalizations {
   String get editCategory => 'Modifier la catégorie';
 
   @override
+  String get editRecurringTransaction => 'Modifier la transaction récurrente';
+
+  @override
+  String get editRuleInfo =>
+      'Les modifications apportées à cette règle récurrente n\'affecteront pas les transactions déjà générées.';
+
+  @override
   String get editTransaction => 'Modifier la transaction';
 
   @override
@@ -204,6 +231,18 @@ class AppLocalizationsFr extends AppLocalizations {
   @override
   String get endConfigurationMsg2 =>
       'N\'oubliez pas d\'explorer les autres fonctionnalités passionnantes pour optimiser votre parcours financier.';
+
+  @override
+  String get endDate => 'Date de fin';
+
+  @override
+  String get endDateInfo =>
+      'La date après laquelle aucune autre transaction de ce type ne sera générée automatiquement.';
+
+  @override
+  String endedOn(String date) {
+    return 'Terminée le $date';
+  }
 
   @override
   String get entertainment => 'Divertissement';
@@ -246,6 +285,23 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get foodAndDining => 'Alimentation et restaurants';
+
+  @override
+  String get frequency => 'Fréquence';
+
+  @override
+  String get generatedTransactions => 'Transactions générées';
+
+  @override
+  String generatedTransactionsSnackbar(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count transactions récurrentes générées',
+      one: '1 transaction récurrente générée',
+    );
+    return '$_temp0';
+  }
 
   @override
   String get health => 'Santé';
@@ -302,6 +358,9 @@ class AppLocalizationsFr extends AppLocalizations {
       'Saisissez le titre de la transaction';
 
   @override
+  String get interval => 'Intervalle';
+
+  @override
   String get language => 'Langue';
 
   @override
@@ -315,7 +374,24 @@ class AppLocalizationsFr extends AppLocalizations {
   String get lightTheme => 'Clair';
 
   @override
+  String get management => 'Gestion';
+
+  @override
   String get month => 'Mois';
+
+  @override
+  String get monthly => 'Mensuel';
+
+  @override
+  String monthlyInterval(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Tous les $count mois',
+      one: 'Mensuel',
+    );
+    return '$_temp0';
+  }
 
   @override
   String get newAccount => 'Nouveau compte';
@@ -324,7 +400,13 @@ class AppLocalizationsFr extends AppLocalizations {
   String get newCategory => 'Nouvelle catégorie';
 
   @override
+  String get newRecurringTransaction => 'Nouvelle transaction récurrente';
+
+  @override
   String get newTransaction => 'Nouvelle transaction';
+
+  @override
+  String get nextDate => 'Prochaine date';
 
   @override
   String get no => 'non';
@@ -358,6 +440,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get personalInfo => 'Informations personnelles';
 
   @override
+  String get personalization => 'Personnalisation';
+
+  @override
   String get petExpenses => 'Dépenses pour animaux';
 
   @override
@@ -379,6 +464,13 @@ class AppLocalizationsFr extends AppLocalizations {
       'Configurer la collecte et l\'utilisation des données';
 
   @override
+  String get recurringTransactions => 'Transactions récurrentes';
+
+  @override
+  String get recurringTransactionsOptionDescription =>
+      'Gérez vos règles de transactions récurrentes';
+
+  @override
   String get reminder => 'Rappel';
 
   @override
@@ -388,6 +480,9 @@ class AppLocalizationsFr extends AppLocalizations {
   @override
   String get reminderOptionDescription =>
       'Définir un rappel pour se souvenir d’ajouter de nouvelles transactions';
+
+  @override
+  String get repeatTransaction => 'Répéter la transaction';
 
   @override
   String get reportBug => 'Signaler un bug';
@@ -405,6 +500,9 @@ class AppLocalizationsFr extends AppLocalizations {
   @override
   String get resetWarning =>
       'Toutes vos données seront définitivement supprimées. Cette action est irréversible. Êtes-vous sûr de vouloir continuer ?';
+
+  @override
+  String get ruleDetails => 'Détails de la règle';
 
   @override
   String get save => 'Enregistrer';
@@ -438,6 +536,9 @@ class AppLocalizationsFr extends AppLocalizations {
       'Sélectionnez dans la liste préconfigurée ou créez vos catégories personnalisées plus tard';
 
   @override
+  String get selectColor => 'Sélectionner une couleur';
+
+  @override
   String get selectCurrency => 'Sélectionner la devise';
 
   @override
@@ -448,10 +549,10 @@ class AppLocalizationsFr extends AppLocalizations {
       'Ne vous inquiétez pas, vous pourrez toujours la modifier plus tard selon vos besoins.';
 
   @override
-  String get selectColor => 'Sélectionner une couleur';
+  String get selectDate => 'Sélectionner la date';
 
   @override
-  String get selectDate => 'Sélectionner la date';
+  String get selectEndDate => 'Sélectionner la date de fin';
 
   @override
   String get selectIcon => 'Sélectionner une icône';
@@ -523,6 +624,14 @@ class AppLocalizationsFr extends AppLocalizations {
   String get transactionDeleted => 'Transaction supprimée';
 
   @override
+  String get transactionGeneratedByDeletedRule =>
+      'Cette transaction a été générée par une règle récurrente qui a depuis été supprimée.';
+
+  @override
+  String get transactionGeneratedByRule =>
+      'Cette transaction a été générée automatiquement par une règle récurrente. La modification de cette transaction n\'affectera pas les futures.';
+
+  @override
   String get transactionList => 'Liste des transactions';
 
   @override
@@ -548,19 +657,24 @@ class AppLocalizationsFr extends AppLocalizations {
   String get viewAll => 'Voir tout';
 
   @override
-  String get management => 'Gestion';
-
-  @override
-  String get personalization => 'Personnalisation';
-
-  @override
-  String get dataAndPrivacy => 'Données et Confidentialité';
-
-  @override
-  String get aboutAndSupport => 'Infos et Assistance';
+  String get viewRule => 'Voir la règle';
 
   @override
   String get week => 'Semaine';
+
+  @override
+  String get weekly => 'Hebdomadaire';
+
+  @override
+  String weeklyInterval(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Toutes les $count semaines',
+      one: 'Hebdomadaire',
+    );
+    return '$_temp0';
+  }
 
   @override
   String get welcomePageMsg1 => 'Bienvenue sur Moneye !';
@@ -585,66 +699,6 @@ class AppLocalizationsFr extends AppLocalizations {
   String get year => 'Année';
 
   @override
-  String get yes => 'oui';
-
-  @override
-  String get yesterday => 'Hier';
-
-  @override
-  String get yourAccounts => 'Vos comptes';
-
-  @override
-  String get yourCategories => 'Vos catégories';
-
-  @override
-  String get repeatTransaction => 'Répéter la transaction';
-
-  @override
-  String get frequency => 'Fréquence';
-
-  @override
-  String get daily => 'Quotidien';
-
-  @override
-  String dailyInterval(int count) {
-    String _temp0 = intl.Intl.pluralLogic(
-      count,
-      locale: localeName,
-      other: 'Tous les $count jours',
-      one: 'Quotidien',
-    );
-    return '$_temp0';
-  }
-
-  @override
-  String get weekly => 'Hebdomadaire';
-
-  @override
-  String weeklyInterval(int count) {
-    String _temp0 = intl.Intl.pluralLogic(
-      count,
-      locale: localeName,
-      other: 'Toutes les $count semaines',
-      one: 'Hebdomadaire',
-    );
-    return '$_temp0';
-  }
-
-  @override
-  String get monthly => 'Mensuel';
-
-  @override
-  String monthlyInterval(int count) {
-    String _temp0 = intl.Intl.pluralLogic(
-      count,
-      locale: localeName,
-      other: 'Tous les $count mois',
-      one: 'Mensuel',
-    );
-    return '$_temp0';
-  }
-
-  @override
   String get yearly => 'Annuel';
 
   @override
@@ -659,68 +713,14 @@ class AppLocalizationsFr extends AppLocalizations {
   }
 
   @override
-  String get interval => 'Intervalle';
+  String get yes => 'oui';
 
   @override
-  String get recurringTransactions => 'Transactions récurrentes';
+  String get yesterday => 'Hier';
 
   @override
-  String get endDate => 'Date de fin';
+  String get yourAccounts => 'Vos comptes';
 
   @override
-  String endedOn(String date) {
-    return 'Terminée le $date';
-  }
-
-  @override
-  String get endDateInfo =>
-      'La date après laquelle aucune autre transaction de ce type ne sera générée automatiquement.';
-
-  @override
-  String get selectEndDate => 'Sélectionner la date de fin';
-
-  @override
-  String get newRecurringTransaction => 'Nouvelle transaction récurrente';
-
-  @override
-  String get editRecurringTransaction => 'Modifier la transaction récurrente';
-
-  @override
-  String get transactionGeneratedByRule =>
-      'Cette transaction a été générée automatiquement par une règle récurrente. La modification de cette transaction n\'affectera pas les futures.';
-
-  @override
-  String get transactionGeneratedByDeletedRule =>
-      'Cette transaction a été générée par une règle récurrente qui a depuis été supprimée.';
-
-  @override
-  String get editRuleInfo =>
-      'Les modifications apportées à cette règle récurrente n\'affecteront pas les transactions déjà générées.';
-
-  @override
-  String get recurringTransactionsOptionDescription =>
-      'Gérez vos règles de transactions récurrentes';
-
-  @override
-  String get nextDate => 'Prochaine date';
-
-  @override
-  String get ruleDetails => 'Détails de la règle';
-
-  @override
-  String get generatedTransactions => 'Transactions générées';
-
-  @override
-  String get viewRule => 'Voir la règle';
-
-  @override
-  String generatedTransactionsSnackbar(int count) {
-    String _temp0 = intl.Intl.pluralLogic(
-      count,
-      locale: localeName,
-      other: '$count transactions récurrentes générées',
-      one: '1 transaction récurrente générée',
-    );
-    return '$_temp0';
-  }
+  String get yourCategories => 'Vos catégories';
 }
