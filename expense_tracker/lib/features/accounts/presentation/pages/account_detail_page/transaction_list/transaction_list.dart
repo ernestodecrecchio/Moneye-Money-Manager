@@ -197,6 +197,7 @@ class _TransactionListState extends ConsumerState<TransactionList> {
                 name: appLocalizations.other,
                 colorValue: context.appColors.textSecondary.toARGB32(),
                 iconPath: 'assets/icons/box.svg',
+                isOtherCategory: true,
               ),
               totalValue: transaction.amount);
 

@@ -19,7 +19,7 @@ class TransactionsListNotifier extends AsyncNotifier<List<Transaction>> {
       startDate: params.startDate,
       endDate: params.endDate,
       forAccount: params.account,
-      categoryId: params.category?.id,
+      forCategory: params.category,
       includeIncomes: params.includeIncomes,
       includeExpenses: params.includeExpenses,
       limit: params.limit,

@@ -1,4 +1,5 @@
 import 'package:expense_tracker/features/accounts/domain/models/account.dart';
+import 'package:expense_tracker/features/categories/domain/models/category.dart';
 import 'package:expense_tracker/features/transactions/data/database/database_transaction_helper.dart';
 import 'package:expense_tracker/features/transactions/domain/models/transaction.dart';
 import 'package:expense_tracker/features/transactions/domain/repositories/transactions_repository.dart';
@@ -46,7 +47,7 @@ class TransactionsRepositoryImpl implements TransactionsRepository {
     DateTime? startDate,
     DateTime? endDate,
     Account? forAccount,
-    int? categoryId,
+    Category? forCategory,
     bool? includeIncomes,
     bool? includeExpenses,
     int? limit,
@@ -56,7 +57,7 @@ class TransactionsRepositoryImpl implements TransactionsRepository {
       startDate,
       endDate,
       forAccount,
-      categoryId,
+      forCategory,
       includeIncomes,
       includeExpenses,
       limit,

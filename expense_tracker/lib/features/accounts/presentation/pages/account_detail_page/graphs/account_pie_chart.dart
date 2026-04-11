@@ -119,6 +119,7 @@ class _AccountPieChartState extends ConsumerState<AccountPieChart> {
                   category: Category(
                     name: appLocalizations.other,
                     colorValue: colors.textSecondary.toARGB32(),
+                    isOtherCategory: true,
                   ),
                   totalValue: transaction.amount);
               categoryTotalValuePairs.add(otherEntry);

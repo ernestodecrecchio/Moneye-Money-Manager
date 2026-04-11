@@ -1,4 +1,5 @@
 import 'package:expense_tracker/features/accounts/domain/models/account.dart';
+import 'package:expense_tracker/features/categories/domain/models/category.dart';
 import 'package:expense_tracker/features/transactions/domain/models/transaction.dart';
 
 abstract class TransactionsRepository {
@@ -19,7 +20,7 @@ abstract class TransactionsRepository {
     DateTime? startDate,
     DateTime? endDate,
     Account? forAccount,
-    int? categoryId,
+    Category? forCategory,
     bool? includeIncomes,
     bool? includeExpenses,
     int? limit,

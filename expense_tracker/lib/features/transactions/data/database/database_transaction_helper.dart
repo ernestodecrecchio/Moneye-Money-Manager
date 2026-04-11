@@ -6,6 +6,7 @@ import 'package:expense_tracker/features/recurring_rules/data/database/database_
 import 'package:expense_tracker/features/transactions/domain/models/transaction.dart' as trans;
 import 'package:expense_tracker/core/utils/date_time_helper.dart';
 import 'package:expense_tracker/features/categories/data/database/database_category_helper.dart';
+import 'package:expense_tracker/features/categories/domain/models/category.dart';
 import 'package:sqflite/sqlite_api.dart';
 
 const String transactionsTable = 'transactions';
@@ -346,7 +347,7 @@ class DatabaseTransactionHelper {
     DateTime? startDate,
     DateTime? endDate,
     Account? forAccount,
-    int? categoryId,
+    Category? forCategory,
     bool? includeIncomes, // null = default = true
     bool? includeExpenses, // null = default = true
     int? limit,
@@ -382,9 +383,11 @@ class DatabaseTransactionHelper {
     }
 
     // Category filter
-    if (categoryId != null) {
+    if (forCategory?.isOtherCategory == true) {
+      conditions.add('${TransactionFields.categoryId} IS NULL');
+    } else if (forCategory != null) {
       conditions.add('${TransactionFields.categoryId} = ?');
-      args.add(categoryId);
+      args.add(forCategory.id);
     }
 
     if (recurringId != null) {

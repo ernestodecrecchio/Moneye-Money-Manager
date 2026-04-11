@@ -8,6 +8,7 @@ class Category extends Equatable {
   final String? description;
   final int? colorValue;
   final String? iconPath;
+  final bool isOtherCategory;
 
   const Category({
     this.id,
@@ -15,6 +16,7 @@ class Category extends Equatable {
     this.description,
     this.colorValue,
     this.iconPath,
+    this.isOtherCategory = false,
   });
 
   Category copy({
@@ -23,6 +25,7 @@ class Category extends Equatable {
     String? description,
     int? colorValue,
     String? iconPath,
+    bool? isOtherCategory,
   }) {
     return Category(
       id: id ?? this.id,
@@ -30,9 +33,11 @@ class Category extends Equatable {
       description: description ?? this.description,
       colorValue: colorValue ?? this.colorValue,
       iconPath: iconPath ?? this.iconPath,
+      isOtherCategory: isOtherCategory ?? this.isOtherCategory,
     );
   }
 
   @override
-  List<Object?> get props => [id, name, description, colorValue, iconPath];
+  List<Object?> get props =>
+      [id, name, description, colorValue, iconPath, isOtherCategory];
 }
