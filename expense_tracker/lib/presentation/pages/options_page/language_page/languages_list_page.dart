@@ -152,6 +152,26 @@ class _LanguagesListPageState extends ConsumerState<LanguagesListPage> {
               ? const Icon(Icons.check)
               : null,
         ),
+        ListTile(
+          title: const Text('Türkçe'),
+          onTap: () => ref
+              .read(localeProvider.notifier)
+              .updateLocale(const Locale('tr')),
+          leading: Container(
+            clipBehavior: Clip.antiAlias,
+            height: 30,
+            width: 30,
+            decoration: const BoxDecoration(shape: BoxShape.circle),
+            child: SafeVectorGraphic(
+              iconPath: 'assets/flags/Turkey.svg',
+              colorFilterEnabled: false,
+              fit: BoxFit.cover,
+            ),
+          ),
+          trailing: currentLocale?.languageCode == 'tr'
+              ? const Icon(Icons.check)
+              : null,
+        ),
       ],
     );
   }
