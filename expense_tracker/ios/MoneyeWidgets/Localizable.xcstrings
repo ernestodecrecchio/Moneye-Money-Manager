@@ -33,6 +33,12 @@
             "state" : "translated",
             "value" : "Spesa"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gider"
+          }
         }
       }
     },
@@ -69,6 +75,12 @@
             "state" : "translated",
             "value" : "-123,45 €"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "-123,45 ₺"
+          }
         }
       }
     },
@@ -103,6 +115,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Entrata"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gelir"
           }
         }
       }
@@ -140,6 +158,12 @@
             "state" : "translated",
             "value" : "123,45 €"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "123,45 ₺"
+          }
         }
       }
     },
@@ -173,6 +197,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Tieni traccia delle tue spese mensili"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aylık giderlerinizi takip edin"
           }
         }
       }
@@ -208,6 +238,12 @@
             "state" : "translated",
             "value" : "Resoconto delle spese mensile"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aylık gider özeti"
+          }
         }
       }
     },
@@ -242,6 +278,12 @@
             "state" : "translated",
             "value" : "Tieni traccia delle tue entrate e spese mensili"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aylık gelir ve giderlerinizi takip edin"
+          }
         }
       }
     },
@@ -275,6 +317,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Riepilogo mensile"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aylık özet"
           }
         }
       }
@@ -311,6 +359,12 @@
             "state" : "translated",
             "value" : "Aggiungi velocemente transazioni in entrata o in uscita"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hızlıca gelir ve gider işlemlerini ekleyin"
+          }
         }
       }
     },
@@ -346,6 +400,12 @@
             "state" : "translated",
             "value" : "Tasti Rapidi"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kısayol düğmeleri"
+          }
         }
       }
     },
@@ -379,6 +439,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Questo mese"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu ay"
           }
         }
       }
