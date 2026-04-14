@@ -697,7 +697,7 @@ abstract class AppLocalizations {
   /// No description provided for @insertTheAmountOfTheTransaction.
   ///
   /// In en, this message translates to:
-  /// **'Insert the amount of the trasnaction'**
+  /// **'Insert the amount of the transaction'**
   String get insertTheAmountOfTheTransaction;
 
   /// No description provided for @insertTheDescription.
@@ -715,7 +715,7 @@ abstract class AppLocalizations {
   /// No description provided for @insertTheTitleOfTheTransaction.
   ///
   /// In en, this message translates to:
-  /// **'Insert the title of the trasnaction'**
+  /// **'Insert the title of the transaction'**
   String get insertTheTitleOfTheTransaction;
 
   /// No description provided for @interval.

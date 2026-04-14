@@ -342,7 +342,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get insertTheAmountOfTheTransaction =>
-      'Insert the amount of the trasnaction';
+      'Insert the amount of the transaction';
 
   @override
   String get insertTheDescription => 'Insert a description';
@@ -352,7 +352,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get insertTheTitleOfTheTransaction =>
-      'Insert the title of the trasnaction';
+      'Insert the title of the transaction';
 
   @override
   String get interval => 'Interval';
