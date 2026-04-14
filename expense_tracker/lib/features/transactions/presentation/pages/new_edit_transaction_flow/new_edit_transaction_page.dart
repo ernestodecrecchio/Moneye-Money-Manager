@@ -102,6 +102,10 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
     super.initState();
 
     _transactionTypeTabController = TabController(length: 2, vsync: this);
+    _transactionTypeTabController.addListener(() {
+      if (_transactionTypeTabController.indexIsChanging) return;
+      setState(() {});
+    });
 
     if (widget.initialTransactionSettings != null) {
       final initialTransaction = widget.initialTransactionSettings!;
@@ -194,7 +198,8 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
       intervalInput.text = initialRule.frequencyInterval.toString();
     } else {
       titleInputFocusNode.requestFocus();
-      dateInput.text = DateFormat.yMd(Platform.localeName).format(selectedDate).toString();
+      dateInput.text =
+          DateFormat.yMd(Platform.localeName).format(selectedDate).toString();
 
       if (widget.isRecurringPreset) {
         _isRecurring = true;
@@ -403,6 +408,9 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
                 }
                 return null;
               },
+              prefix: _transactionTypeTabController.index == 1
+                  ? Text('-', style: Theme.of(context).textTheme.bodyLarge)
+                  : null,
             ),
             CustomTextField(
               controller: dateInput,
@@ -416,9 +424,10 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
                 onSelectedDate: (picked) {
                   if (picked != selectedDate) {
                     setState(() {
-                      dateInput.text = DateFormat.yMd(appLocalizations.localeName)
-                          .format(picked)
-                          .toString();
+                      dateInput.text =
+                          DateFormat.yMd(appLocalizations.localeName)
+                              .format(picked)
+                              .toString();
                       selectedDate = picked;
                     });
                   }

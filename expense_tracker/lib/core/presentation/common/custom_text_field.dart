@@ -14,6 +14,7 @@ class CustomTextField extends StatelessWidget {
   final TextInputType? keyboardType;
   final bool readOnly;
   final String? Function(String?)? validator;
+  final Widget? prefix;
   final int? maxLines;
   final FocusNode? focusNode;
 
@@ -32,6 +33,7 @@ class CustomTextField extends StatelessWidget {
     this.keyboardType,
     this.readOnly = false,
     this.validator,
+    this.prefix,
     this.maxLines = 1,
     this.focusNode,
   });
@@ -115,10 +117,21 @@ class CustomTextField extends StatelessWidget {
                 color: colors.textSecondary.withAlpha(150),
               ),
               filled: true,
-              fillColor: colors.surface,
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(borderRadius),
-                borderSide: BorderSide.none,
+              prefixIcon: prefix != null
+                  ? Padding(
+                      padding: const EdgeInsets.only(left: 20),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          prefix!,
+                        ],
+                      ),
+                    )
+                  : null,
+              prefixIconConstraints: const BoxConstraints(
+                minWidth: 0,
+                minHeight: 0,
               ),
               suffixIcon: icon != null
                   ? Icon(
