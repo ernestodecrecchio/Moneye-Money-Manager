@@ -32,32 +32,32 @@ class _CategoriesSelectionState extends ConsumerState<CategoriesSelection> {
     categoryList = [
       Category(
         name: appLocalizations.foodAndDining,
-        colorValue: CustomColors.pickerColorList[9].toARGB32(),
+        colorValue: CustomColors.orange500.toARGB32(),
         iconPath: 'assets/icons/food.svg',
       ),
       Category(
         name: appLocalizations.transportation,
-        colorValue: CustomColors.pickerColorList[11].toARGB32(),
+        colorValue: CustomColors.blue500.toARGB32(),
         iconPath: 'assets/icons/bus.svg',
       ),
       Category(
         name: appLocalizations.entertainment,
-        colorValue: CustomColors.pickerColorList[6].toARGB32(),
+        colorValue: CustomColors.pink500.toARGB32(),
         iconPath: 'assets/icons/popcorn.svg',
       ),
       Category(
         name: appLocalizations.billsAndUtilities,
-        colorValue: CustomColors.pickerColorList[8].toARGB32(),
+        colorValue: CustomColors.indigo500.toARGB32(),
         iconPath: 'assets/icons/bill.svg',
       ),
       Category(
         name: appLocalizations.petExpenses,
-        colorValue: CustomColors.pickerColorList[10].toARGB32(),
+        colorValue: CustomColors.green500.toARGB32(),
         iconPath: 'assets/icons/paw.svg',
       ),
       Category(
         name: appLocalizations.subscriptions,
-        colorValue: CustomColors.pickerColorList[0].toARGB32(),
+        colorValue: CustomColors.purple500.toARGB32(),
         iconPath: 'assets/icons/calendar.svg',
       ),
     ];

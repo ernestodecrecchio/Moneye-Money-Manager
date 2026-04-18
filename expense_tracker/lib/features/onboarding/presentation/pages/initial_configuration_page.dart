@@ -10,15 +10,18 @@ import 'package:expense_tracker/core/presentation/common/widgets/safe_vector_gra
 import 'package:expense_tracker/features/onboarding/presentation/pages/account_selection/account_selection.dart';
 import 'package:expense_tracker/features/onboarding/presentation/pages/categories_selection/categories_selection.dart';
 import 'package:expense_tracker/features/onboarding/presentation/pages/configuration_complete.dart';
-import 'package:expense_tracker/features/onboarding/presentation/pages/currency_selection.dart';
 import 'package:expense_tracker/features/onboarding/presentation/pages/floating_element.dart';
 import 'package:expense_tracker/features/onboarding/presentation/pages/welcome.dart';
 import 'package:expense_tracker/features/home/presentation/pages/tab_bar_page.dart';
 import 'package:expense_tracker/core/style/app_theme.dart';
 import 'package:expense_tracker/core/style/style.dart';
+import 'package:flutter/foundation.dart' hide Category;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:intl/intl.dart';
+import 'package:collection/collection.dart';
+import 'dart:io';
 
 class InitialConfigurationPage extends ConsumerStatefulWidget {
   static const routeName = '/initialConfigurationPage';
@@ -49,11 +52,6 @@ class _InitialConfigurationPageState
 
     pages = [
       const Welcome(),
-      CurrencySelectionPage(
-        onCurrencySelected: (newCurrency) {
-          selectedCurrency = newCurrency;
-        },
-      ),
       AccountSelectionPage(
         onSelectedAccountListChanged: (newList) {
           selectedAccounts = newList;
@@ -66,6 +64,40 @@ class _InitialConfigurationPageState
       ),
       const ConfigurationComplete(),
     ];
+
+    _initializeSmartCurrency();
+  }
+
+  Future<void> _initializeSmartCurrency() async {
+    final currencyList = await ref.read(currencyListProvider.future);
+    if (currencyList.isEmpty) return;
+
+    try {
+      // Normalize locale for intl (e.g. it-IT to it_IT)
+      final locale = Platform.localeName.replaceAll('-', '_');
+
+      // Detect currency code from the normalized system locale
+      final systemCurrencyCode = NumberFormat(null, locale).currencyName;
+
+      if (systemCurrencyCode != null) {
+        final match = currencyList.firstWhereOrNull(
+          (c) => c.code.toUpperCase() == systemCurrencyCode.toUpperCase(),
+        );
+
+        if (match != null) {
+          selectedCurrency = match;
+
+          if (kDebugMode) {
+            print(
+                'Smart initialization: Matched system currency $systemCurrencyCode from locale $locale');
+          }
+        }
+      }
+    } catch (e) {
+      if (kDebugMode) {
+        print('Smart initialization error: $e');
+      }
+    }
   }
 
   @override
@@ -195,64 +227,6 @@ class _InitialConfigurationPageState
       case 1:
         return [
           FloatingElement(
-            widget: Text(
-              '\$',
-              style: TextStyle(
-                  fontSize: 170,
-                  color: Colors.white.withValues(alpha: 0.05),
-                  fontWeight: FontWeight.w700),
-            ),
-            coordinateX: -10,
-            coordinateY: 0,
-          ),
-          FloatingElement(
-            widget: Text(
-              '£',
-              style: TextStyle(
-                  fontSize: 150,
-                  color: Colors.white.withValues(alpha: 0.05),
-                  fontWeight: FontWeight.w700),
-            ),
-            coordinateX: MediaQuery.of(context).size.width * 0.8,
-            coordinateY: MediaQuery.of(context).size.height * 0.2,
-          ),
-          FloatingElement(
-            widget: Text(
-              '€',
-              style: TextStyle(
-                  fontSize: 100,
-                  color: Colors.white.withValues(alpha: 0.05),
-                  fontWeight: FontWeight.w700),
-            ),
-            coordinateX: MediaQuery.of(context).size.width * 0.15,
-            coordinateY: MediaQuery.of(context).size.height * 0.40,
-          ),
-          FloatingElement(
-            widget: Text(
-              '¥',
-              style: TextStyle(
-                  fontSize: 200,
-                  color: Colors.white.withValues(alpha: 0.05),
-                  fontWeight: FontWeight.w700),
-            ),
-            coordinateX: MediaQuery.of(context).size.width * 0.7,
-            coordinateY: MediaQuery.of(context).size.height * 0.6,
-          ),
-          FloatingElement(
-            widget: Text(
-              '₹',
-              style: TextStyle(
-                  fontSize: 180,
-                  color: Colors.white.withValues(alpha: 0.05),
-                  fontWeight: FontWeight.w700),
-            ),
-            coordinateX: MediaQuery.of(context).size.width * 0,
-            coordinateY: MediaQuery.of(context).size.height * 0.75,
-          ),
-        ];
-      case 2:
-        return [
-          FloatingElement(
             widget: SafeVectorGraphic(
               iconPath: 'assets/icons/cash.svg',
               height: 170,
@@ -295,7 +269,7 @@ class _InitialConfigurationPageState
             coordinateY: MediaQuery.of(context).size.height * 0.75,
           ),
         ];
-      case 3:
+      case 2:
         return [
           FloatingElement(
             widget: SafeVectorGraphic(

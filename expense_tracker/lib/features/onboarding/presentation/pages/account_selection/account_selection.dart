@@ -30,22 +30,22 @@ class _AccountSelectionState extends ConsumerState<AccountSelectionPage> {
     accountList = [
       Account(
         name: appLocalizations.cash,
-        colorValue: CustomColors.pickerColorList[0].toARGB32(),
+        colorValue: CustomColors.green300.toARGB32(),
         iconPath: 'assets/icons/cash.svg',
       ),
       Account(
         name: appLocalizations.creditCard,
-        colorValue: CustomColors.pickerColorList[4].toARGB32(),
+        colorValue: CustomColors.teal500.toARGB32(),
         iconPath: 'assets/icons/credit-card.svg',
       ),
       Account(
         name: appLocalizations.debitCard,
-        colorValue: CustomColors.pickerColorList[6].toARGB32(),
+        colorValue: CustomColors.orange300.toARGB32(),
         iconPath: 'assets/icons/credit-card.svg',
       ),
       Account(
         name: appLocalizations.savings,
-        colorValue: CustomColors.pickerColorList[9].toARGB32(),
+        colorValue: CustomColors.red300.toARGB32(),
         iconPath: 'assets/icons/savings.svg',
       ),
     ];
