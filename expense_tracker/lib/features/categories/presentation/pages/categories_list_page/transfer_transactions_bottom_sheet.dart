@@ -48,7 +48,6 @@ class _TransferTransactionsBottomSheetState
   Widget build(BuildContext context) {
     final appLocalizations = ref.watch(appLocalizationsProvider);
     final textTheme = Theme.of(context).textTheme;
-    final colors = context.appColors;
 
     return Padding(
       padding: const EdgeInsets.only(top: 10),
@@ -74,8 +73,8 @@ class _TransferTransactionsBottomSheetState
                   ],
                 ),
                 Text(
-                  appLocalizations.transferTransactionsMessage(
-                      widget.transactionCount),
+                  appLocalizations
+                      .transferTransactionsMessage(widget.transactionCount),
                   style: textTheme.bodySmall,
                 ),
               ],

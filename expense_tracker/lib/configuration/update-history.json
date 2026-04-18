@@ -1,4 +1,44 @@
 {
+  "1.0.9": [
+    {
+      "title": {
+        "en": "Transfer Category Transactions",
+        "it": "Trasferimento Transazioni di Categoria",
+        "es": "Transferir Transacciones de Categoría",
+        "de": "Kategorie-Transaktionen übertragen",
+        "fr": "Transférer les Transactions de Catégorie",
+        "tr": "Kategori İşlemlerini Aktar"
+      },
+      "description": {
+        "en": "When deleting a category that contains transactions, you can now choose to transfer them to another category instead of losing them. This gives you more control over your data when reorganizing your categories.",
+        "it": "Quando elimini una categoria che contiene transazioni, ora puoi scegliere di trasferirle in un'altra categoria anziché perderle. Questo ti dà maggiore controllo sui tuoi dati quando riorganizzi le categorie.",
+        "es": "Al eliminar una categoría que contiene transacciones, ahora puedes elegir transferirlas a otra categoría en lugar de perderlas. Esto te da más control sobre tus datos al reorganizar tus categorías.",
+        "de": "Wenn du eine Kategorie löschst, die Transaktionen enthält, kannst du diese nun in eine andere Kategorie übertragen, anstatt sie zu verlieren. Das gibt dir mehr Kontrolle über deine Daten beim Umorganisieren deiner Kategorien.",
+        "fr": "Lorsque vous supprimez une catégorie contenant des transactions, vous pouvez désormais choisir de les transférer vers une autre catégorie au lieu de les perdre. Cela vous donne plus de contrôle sur vos données lors de la réorganisation de vos catégories.",
+        "tr": "İşlem içeren bir kategoriyi silerken, artık işlemleri kaybetmek yerine başka bir kategoriye aktarmayı seçebilirsiniz. Bu, kategorilerinizi yeniden düzenlerken verileriniz üzerinde daha fazla kontrol sağlar."
+      },
+      "category": "new_feature"
+    },
+    {
+      "title": {
+        "en": "UI/UX Improvements",
+        "it": "Miglioramenti UI/UX",
+        "es": "Mejoras de UI/UX",
+        "de": "UI/UX-Verbesserungen",
+        "fr": "Améliorations UI/UX",
+        "tr": "UI/UX İyileştirmeleri"
+      },
+      "description": {
+        "en": "Several refinements have been made across the app to improve the overall look and feel, making Moneye even more polished and pleasant to use.",
+        "it": "Sono stati apportati diversi miglioramenti in tutta l'app per migliorare l'aspetto generale, rendendo Moneye ancora più curata e piacevole da usare.",
+        "es": "Se han realizado varias mejoras en toda la aplicación para mejorar el aspecto general, haciendo que Moneye sea aún más pulida y agradable de usar.",
+        "de": "In der gesamten App wurden verschiedene Verfeinerungen vorgenommen, um das Erscheinungsbild zu verbessern und Moneye noch ansprechender und angenehmer zu gestalten.",
+        "fr": "Plusieurs améliorations ont été apportées dans toute l'application pour en améliorer l'aspect général, rendant Moneye encore plus soignée et agréable à utiliser.",
+        "tr": "Moneye'yi daha da şık ve kullanımı keyifli hale getirmek için uygulama genelinde çeşitli iyileştirmeler yapıldı."
+      },
+      "category": "ui"
+    }
+  ],
   "1.0.8": [
     {
       "title": {
