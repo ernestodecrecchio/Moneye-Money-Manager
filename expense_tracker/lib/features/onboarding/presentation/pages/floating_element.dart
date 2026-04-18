@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'dart:math' as math;
 
 class FloatingElement extends ConsumerStatefulWidget {
   final Widget widget;
@@ -26,19 +27,8 @@ class _FloatingElementState extends ConsumerState<FloatingElement>
     super.initState();
     _animationController = AnimationController(
       vsync: this,
-      duration: const Duration(seconds: 5), // Adjust the duration as needed
-    )..addStatusListener(
-        (status) {
-          if (status == AnimationStatus.completed) {
-            _animationController.reverse();
-          } else if (status == AnimationStatus.dismissed) {
-            _animationController.forward();
-          }
-        },
-      );
-
-    // Start the animation
-    _animationController.forward();
+      duration: const Duration(seconds: 4), // Breathing rhythm
+    )..repeat();
   }
 
   @override
@@ -56,9 +46,13 @@ class _FloatingElementState extends ConsumerState<FloatingElement>
       child: AnimatedBuilder(
         animation: _animationController,
         builder: (context, child) {
-          final translateX = (40) * _animationController.value;
+          // Organic bobbing motion using Sine waves
+          final angle = _animationController.value * 2 * math.pi;
+          final dy = math.sin(angle) * 15;
+          final dx = math.cos(angle) * 10;
+          
           return Transform.translate(
-            offset: Offset(translateX, 0),
+            offset: Offset(dx, dy),
             child: Container(
               alignment: Alignment.center,
               child: widget.widget,
