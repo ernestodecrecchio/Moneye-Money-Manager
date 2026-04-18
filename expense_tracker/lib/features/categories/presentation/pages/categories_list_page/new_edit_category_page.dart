@@ -13,6 +13,7 @@ import 'package:expense_tracker/core/style/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:expense_tracker/core/presentation/common/extensions/category_extensions.dart';
+import 'package:expense_tracker/core/configuration/constants.dart';
 
 class NewEditCategoryPage extends ConsumerStatefulWidget {
   static const routeName = '/newEditCategoryPage';
@@ -89,16 +90,27 @@ class _NewEditCategoryPageState extends ConsumerState<NewEditCategoryPage> {
         actions: actions,
       ),
       body: SafeArea(
-        minimum: const EdgeInsets.symmetric(horizontal: 17),
-        child: CustomScrollView(
-          slivers: [
-            SliverFillRemaining(
-              hasScrollBody: false,
-              child: Padding(
-                  padding: const EdgeInsets.only(bottom: 10),
-                  child: _buildForm(appLocalizations, isLoading)),
-            ),
-          ],
+        bottom: false,
+        child: Scrollbar(
+          child: CustomScrollView(
+            slivers: [
+              SliverPadding(
+                padding: const EdgeInsets.symmetric(
+                    horizontal: Constants.horizontalPadding),
+                sliver: SliverFillRemaining(
+                  hasScrollBody: false,
+                  child: _buildForm(appLocalizations, isLoading),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+      bottomNavigationBar: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(
+              Constants.horizontalPadding, 8, Constants.horizontalPadding, 8),
+          child: _buildSaveButton(appLocalizations, isLoading),
         ),
       ),
     );
@@ -130,8 +142,6 @@ class _NewEditCategoryPageState extends ConsumerState<NewEditCategoryPage> {
             ),
             _buildColorPicker(appLocalizations),
             _buildIconPicker(appLocalizations),
-            const Spacer(),
-            _buildSaveButton(appLocalizations, isLoading),
           ],
         ),
       ),

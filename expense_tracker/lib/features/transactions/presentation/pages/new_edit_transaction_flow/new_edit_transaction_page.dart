@@ -23,6 +23,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:in_app_review/in_app_review.dart';
+import 'package:expense_tracker/core/configuration/constants.dart';
 import 'package:intl/intl.dart';
 
 class NewEditTransactionPageScreenArguments {
@@ -228,7 +229,6 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
   void dispose() {
     titleInput.dispose();
     titleInputFocusNode.dispose();
-
     descriptionInput.dispose();
     valueInput.dispose();
     dateInput.dispose();
@@ -279,15 +279,28 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
         ),
       ),
       body: SafeArea(
-        minimum: const EdgeInsets.symmetric(horizontal: 17),
-        child: CustomScrollView(
-          slivers: [
-            SliverFillRemaining(
-              hasScrollBody: false,
-              child: _buildForm(
-                  appLocalizations, isLoading, generatedRule, isRuleDeleted),
-            ),
-          ],
+        bottom: false,
+        child: Scrollbar(
+          child: CustomScrollView(
+            slivers: [
+              SliverPadding(
+                padding: const EdgeInsets.symmetric(
+                    horizontal: Constants.horizontalPadding),
+                sliver: SliverFillRemaining(
+                  hasScrollBody: false,
+                  child: _buildForm(appLocalizations, isLoading, generatedRule,
+                      isRuleDeleted),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+      bottomNavigationBar: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(
+              Constants.horizontalPadding, 8, Constants.horizontalPadding, 8),
+          child: _buildSaveButton(appLocalizations, isLoading),
         ),
       ),
     );
@@ -495,8 +508,6 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
                 setState(() {});
               },
             ),
-            const Spacer(),
-            _buildSaveButton(appLocalizations, isLoading),
           ],
         ),
       ),
