@@ -197,6 +197,20 @@ class AppLocalizationsTr extends AppLocalizations {
       'Bir kategoriyi silmek, onunla ilişkili işlemleri kaldırmaz';
 
   @override
+  String get deleteCategoryTitle => 'Kategoriyi Sil';
+
+  @override
+  String deleteCategoryTransactionsMessage(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Bu kategori $count işlem içeriyor',
+      one: 'Bu kategori 1 işlem içeriyor',
+    );
+    return '$_temp0. Ne yapmak istersiniz?';
+  }
+
+  @override
   String get description => 'Açıklama';
 
   @override
@@ -548,7 +562,21 @@ class AppLocalizationsTr extends AppLocalizations {
   String get selectIcon => 'İkon seç';
 
   @override
+  String get selectTargetCategory => 'Hedef kategoriyi seç';
+
+  @override
   String get selectTimeInterval => 'Dönemi seç';
+
+  @override
+  String transferTransactionsMessage(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count işlemi aktar',
+      one: '1 işlemi aktar',
+    );
+    return '$_temp0:';
+  }
 
   @override
   String get sendTestNotification => 'Nasıl görüneceğini bana göster';
@@ -626,6 +654,9 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get transportation => 'Ulaşım';
+
+  @override
+  String get transferTransactions => 'İşlemleri Aktar';
 
   @override
   String get updateHistory => 'Güncelleme geçmişi';

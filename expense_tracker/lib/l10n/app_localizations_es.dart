@@ -196,6 +196,20 @@ class AppLocalizationsEs extends AppLocalizations {
       'Eliminar una categoría no eliminará las transacciones asociadas a ella.';
 
   @override
+  String get deleteCategoryTitle => 'Eliminar Categoría';
+
+  @override
+  String deleteCategoryTransactionsMessage(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Esta categoría contiene $count transacciones',
+      one: 'Esta categoría contiene 1 transacción',
+    );
+    return '$_temp0. ¿Qué deseas hacer?';
+  }
+
+  @override
   String get description => 'Descripción';
 
   @override
@@ -552,7 +566,21 @@ class AppLocalizationsEs extends AppLocalizations {
   String get selectIcon => 'Seleccionar ícono';
 
   @override
+  String get selectTargetCategory => 'Seleccionar categoría de destino';
+
+  @override
   String get selectTimeInterval => 'Seleccione el intervalo de tiempo';
+
+  @override
+  String transferTransactionsMessage(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Transferir $count transacciones',
+      one: 'Transferir 1 transacción',
+    );
+    return '$_temp0 a:';
+  }
 
   @override
   String get sendTestNotification => 'Muéstrame cómo aparecerá';
@@ -630,6 +658,9 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get transportation => 'Transporte';
+
+  @override
+  String get transferTransactions => 'Transferir Transacciones';
 
   @override
   String get updateHistory => 'Historial de actualizaciones';

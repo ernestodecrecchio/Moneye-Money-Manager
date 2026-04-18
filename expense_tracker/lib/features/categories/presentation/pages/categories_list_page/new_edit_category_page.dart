@@ -7,6 +7,8 @@ import 'package:expense_tracker/core/presentation/common/custom_text_field.dart'
 import 'package:expense_tracker/core/presentation/common/dialogs.dart';
 import 'package:expense_tracker/core/presentation/common/inline_color_picker.dart';
 import 'package:expense_tracker/core/presentation/common/inline_icon_picker.dart';
+import 'package:expense_tracker/features/categories/presentation/pages/categories_list_page/transfer_transactions_bottom_sheet.dart';
+import 'package:expense_tracker/features/transactions/presentation/providers/transactions_repository_provider.dart';
 import 'package:expense_tracker/core/style/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -72,7 +74,6 @@ class _NewEditCategoryPageState extends ConsumerState<NewEditCategoryPage> {
     if (widget.initialCategorySettings != null) {
       final cateogry = widget.initialCategorySettings!;
       actions.add(_buildDeleteAction(
-        context,
         appLocalizations,
         cateogry,
       ));
@@ -227,7 +228,7 @@ class _NewEditCategoryPageState extends ConsumerState<NewEditCategoryPage> {
         );
   }
 
-  Widget _buildDeleteAction(BuildContext context,
+  Widget _buildDeleteAction(
       AppLocalizations appLocalizations, Category category) {
     return TextButton(
       child: Text(
@@ -238,18 +239,51 @@ class _NewEditCategoryPageState extends ConsumerState<NewEditCategoryPage> {
       ),
       onPressed: () async {
         final navigator = Navigator.of(context);
+        final transactionsRepo = ref.read(transactionsRepositoryProvider);
 
-        final confirmed =
-            await showDeleteCategoryAlert(context, appLocalizations);
-
-        if (!mounted || !confirmed) return;
-
-        await ref
-            .read(categoryMutationProvider.notifier)
-            .deleteCategory(category);
+        final count = await transactionsRepo.getTransactionsCount(
+          forCategory: category,
+        );
 
         if (!mounted) return;
 
+        final result = await showDeleteCategoryAlert(
+          context: context,
+          appLocalizations: appLocalizations,
+          transactionCount: count,
+        );
+
+        if (!mounted) return;
+
+        switch (result) {
+          case CategoryDeletionResult.cancel:
+            return;
+          case CategoryDeletionResult.deleteCategoryAndTransactions:
+            await ref
+                .read(categoryMutationProvider.notifier)
+                .deleteCategoryAndTransactions(category);
+            break;
+          case CategoryDeletionResult.transferTransactions:
+            final targetCategory = await showTransferTransactionsBottomSheet(
+              context: context,
+              categoryToDelete: category,
+              transactionCount: count,
+            );
+
+            if (targetCategory != null && mounted) {
+              await ref
+                  .read(categoryMutationProvider.notifier)
+                  .reassignTransactionsAndDelete(
+                    source: category,
+                    target: targetCategory,
+                  );
+            } else {
+              return;
+            }
+            break;
+        }
+
+        if (!mounted) return;
         navigator.pop();
       },
     );

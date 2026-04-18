@@ -29,6 +29,12 @@ class TransactionsRepositoryImpl implements TransactionsRepository {
   }
 
   @override
+  Future<int> getTransactionsCount(
+      {Category? forCategory, Account? forAccount}) async {
+    return dbHelper.getTransactionsCount(forCategory, forAccount);
+  }
+
+  @override
   Future<double> getTotalBalance({
     DateTime? startDate,
     DateTime? endDate,
@@ -63,6 +69,17 @@ class TransactionsRepositoryImpl implements TransactionsRepository {
       limit,
       recurringId,
     );
+  }
+
+  @override
+  Future<int> deleteTransactionsByCategory({required Category category}) async {
+    return dbHelper.deleteTransactionsByCategory(category);
+  }
+
+  @override
+  Future<int> transferTransactions(
+      {required Category from, required Category to}) async {
+    return dbHelper.transferTransactions(from, to);
   }
 
   @override

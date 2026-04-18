@@ -196,6 +196,20 @@ class AppLocalizationsEn extends AppLocalizations {
       'Deleting a category will not remove the transactions associated with it.';
 
   @override
+  String get deleteCategoryTitle => 'Delete Category';
+
+  @override
+  String deleteCategoryTransactionsMessage(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count transactions',
+      one: '1 transaction',
+    );
+    return 'This category contains $_temp0. What would you like to do?';
+  }
+
+  @override
   String get description => 'Description';
 
   @override
@@ -552,7 +566,21 @@ class AppLocalizationsEn extends AppLocalizations {
   String get selectIcon => 'Select icon';
 
   @override
+  String get selectTargetCategory => 'Select target category';
+
+  @override
   String get selectTimeInterval => 'Select the time interval';
+
+  @override
+  String transferTransactionsMessage(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count transactions',
+      one: '1 transaction',
+    );
+    return 'Transfer $_temp0 to:';
+  }
 
   @override
   String get sendTestNotification => 'Show me how it will appear';
@@ -630,6 +658,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get transportation => 'Transportation';
+
+  @override
+  String get transferTransactions => 'Transfer Transactions';
 
   @override
   String get updateHistory => 'Update history';

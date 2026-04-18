@@ -97,6 +97,15 @@
     "delete": "Sil",
     "deleteAccountAlertBody": "Bir hesabı silmek, onunla ilişkili işlemleri kaldırmaz",
     "deleteCategoryAlertBody": "Bir kategoriyi silmek, onunla ilişkili işlemleri kaldırmaz",
+    "deleteCategoryTitle": "Kategoriyi Sil",
+    "deleteCategoryTransactionsMessage": "{count, plural, =1{Bu kategori 1 işlem içeriyor} other{Bu kategori {count} işlem içeriyor}}. Ne yapmak istersiniz?",
+    "@deleteCategoryTransactionsMessage": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
     "description": "Açıklama",
     "done": "Bitti!",
     "edit": "Düzenle",
@@ -202,7 +211,16 @@
     "selectDate": "Tarih seç",
     "selectEndDate": "Bitiş tarihini seç",
     "selectIcon": "İkon seç",
+    "selectTargetCategory": "Hedef kategoriyi seç",
     "selectTimeInterval": "Dönemi seç",
+    "transferTransactionsMessage": "{count, plural, =1{1 işlemi aktar} other{{count} işlemi aktar}}:",
+    "@transferTransactionsMessage": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
     "sendTestNotification": "Nasıl görüneceğini bana göster",
     "settings": "Ayarlar",
     "shareBackup": "Yedeği paylaş",
@@ -228,6 +246,7 @@
     "transactionGeneratedByRule": "Bu işlem, tekrarlanan bir kural tarafından otomatik olarak oluşturulmuştur. Bu işlemi düzenlemek gelecekteki işlemleri etkilemez.",
     "transactionList": "İşlem listesi",
     "transportation": "Ulaşım",
+    "transferTransactions": "İşlemleri Aktar",
     "updateHistory": "Güncelleme geçmişi",
     "updateHistoryEmptyList": "Hiçbir güncelleme bulunamadı.",
     "updateHistoryOptionDescription": "En son özellikleri ve güncellemeleri görüntüle",

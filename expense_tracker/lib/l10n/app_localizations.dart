@@ -442,6 +442,18 @@ abstract class AppLocalizations {
   /// **'Deleting a category will not remove the transactions associated with it.'**
   String get deleteCategoryAlertBody;
 
+  /// No description provided for @deleteCategoryTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Category'**
+  String get deleteCategoryTitle;
+
+  /// No description provided for @deleteCategoryTransactionsMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'This category contains {count, plural, =1{1 transaction} other{{count} transactions}}. What would you like to do?'**
+  String deleteCategoryTransactionsMessage(int count);
+
   /// No description provided for @description.
   ///
   /// In en, this message translates to:
@@ -1072,11 +1084,23 @@ abstract class AppLocalizations {
   /// **'Select icon'**
   String get selectIcon;
 
+  /// No description provided for @selectTargetCategory.
+  ///
+  /// In en, this message translates to:
+  /// **'Select target category'**
+  String get selectTargetCategory;
+
   /// No description provided for @selectTimeInterval.
   ///
   /// In en, this message translates to:
   /// **'Select the time interval'**
   String get selectTimeInterval;
+
+  /// No description provided for @transferTransactionsMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Transfer {count, plural, =1{1 transaction} other{{count} transactions}} to:'**
+  String transferTransactionsMessage(int count);
 
   /// No description provided for @sendTestNotification.
   ///
@@ -1227,6 +1251,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Transportation'**
   String get transportation;
+
+  /// No description provided for @transferTransactions.
+  ///
+  /// In en, this message translates to:
+  /// **'Transfer Transactions'**
+  String get transferTransactions;
 
   /// No description provided for @updateHistory.
   ///

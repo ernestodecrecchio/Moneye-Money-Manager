@@ -3,11 +3,12 @@ import 'package:expense_tracker/features/accounts/domain/models/account.dart';
 import 'package:expense_tracker/core/database/database_helper.dart';
 import 'package:expense_tracker/core/database/database_types.dart';
 import 'package:expense_tracker/features/recurring_rules/data/database/database_recurring_rule_helper.dart';
-import 'package:expense_tracker/features/transactions/domain/models/transaction.dart' as trans;
+import 'package:expense_tracker/features/transactions/domain/models/transaction.dart'
+    as trans;
 import 'package:expense_tracker/core/utils/date_time_helper.dart';
 import 'package:expense_tracker/features/categories/data/database/database_category_helper.dart';
 import 'package:expense_tracker/features/categories/domain/models/category.dart';
-import 'package:sqflite/sqlite_api.dart';
+import 'package:sqflite/sqflite.dart';
 
 const String transactionsTable = 'transactions';
 
@@ -41,7 +42,8 @@ class TransactionFields {
 }
 
 class TransactionMapper {
-  static trans.Transaction fromJson(Map<String, Object?> json) => trans.Transaction(
+  static trans.Transaction fromJson(Map<String, Object?> json) =>
+      trans.Transaction(
         id: json[TransactionFields.id] as int?,
         title: json[TransactionFields.title] as String,
         description: json[TransactionFields.description] as String?,
@@ -49,7 +51,8 @@ class TransactionMapper {
         date: DateTime.parse(json[TransactionFields.date] as String),
         categoryId: json[TransactionFields.categoryId] as int?,
         accountId: json[TransactionFields.accountId] as int?,
-        includeInReports: (json[TransactionFields.includeInReports] as int) == 1,
+        includeInReports:
+            (json[TransactionFields.includeInReports] as int) == 1,
         isHidden: (json[TransactionFields.isHidden] as int) == 1,
         recurringId: json[TransactionFields.recurringId]?.toString(),
         originalDate: json[TransactionFields.originalDate] != null
@@ -65,11 +68,13 @@ class TransactionMapper {
         TransactionFields.date: transaction.date.toIso8601String(),
         TransactionFields.categoryId: transaction.categoryId,
         TransactionFields.accountId: transaction.accountId,
-        TransactionFields.includeInReports: transaction.includeInReports ? 1 : 0,
+        TransactionFields.includeInReports:
+            transaction.includeInReports ? 1 : 0,
         TransactionFields.isHidden: transaction.isHidden ? 1 : 0,
         TransactionFields.recurringId: transaction.recurringId,
         if (transaction.originalDate != null)
-          TransactionFields.originalDate: transaction.originalDate!.toIso8601String(),
+          TransactionFields.originalDate:
+              transaction.originalDate!.toIso8601String(),
       };
 }
 
@@ -193,7 +198,8 @@ class DatabaseTransactionHelper {
         );
 
         try {
-          await db.insert(transactionsTable, TransactionMapper.toJson(transaction));
+          await db.insert(
+              transactionsTable, TransactionMapper.toJson(transaction));
           generatedCount++;
         } on DatabaseException catch (e) {
           if (!e.isUniqueConstraintError()) rethrow;
@@ -217,7 +223,8 @@ class DatabaseTransactionHelper {
       {required trans.Transaction transaction}) async {
     final db = await DatabaseHelper.instance.database;
 
-    final id = await db.insert(transactionsTable, TransactionMapper.toJson(transaction));
+    final id = await db.insert(
+        transactionsTable, TransactionMapper.toJson(transaction));
 
     return transaction.copy(id: id);
   }
@@ -228,7 +235,8 @@ class DatabaseTransactionHelper {
     final db = await DatabaseHelper.instance.database;
 
     final values = TransactionMapper.toJson(modifiedTransaction);
-    values.remove(TransactionFields.id); // Remove id from values to avoid error while updating the transaction avoiding to update the id
+    values.remove(TransactionFields
+        .id); // Remove id from values to avoid error while updating the transaction avoiding to update the id
 
     if (await db.update(transactionsTable, values,
             where: '${TransactionFields.id} = ?',
@@ -250,6 +258,34 @@ class DatabaseTransactionHelper {
       where: '${TransactionFields.id} = ?',
       whereArgs: [transaction.id],
     );
+  }
+
+  Future<int> getTransactionsCount(Category? category, Account? account) async {
+    final db = await DatabaseHelper.instance.database;
+
+    String query = 'SELECT COUNT(*) as count FROM $transactionsTable WHERE 1=1';
+    List<dynamic> args = [];
+
+    if (category != null) {
+      if (category.isOtherCategory) {
+        query += ' AND ${TransactionFields.categoryId} IS NULL';
+      } else {
+        query += ' AND ${TransactionFields.categoryId} = ?';
+        args.add(category.id);
+      }
+    }
+
+    if (account != null) {
+      if (account.isOtherAccount) {
+        query += ' AND ${TransactionFields.accountId} IS NULL';
+      } else {
+        query += ' AND ${TransactionFields.accountId} = ?';
+        args.add(account.id);
+      }
+    }
+
+    final result = await db.rawQuery(query, args);
+    return Sqflite.firstIntValue(result) ?? 0;
   }
 
   Future<trans.Transaction> getTransactionFromId(int id) async {
@@ -417,5 +453,26 @@ class DatabaseTransactionHelper {
     );
 
     return result.map((json) => TransactionMapper.fromJson(json)).toList();
+  }
+
+  Future<int> deleteTransactionsByCategory(Category category) async {
+    final db = await DatabaseHelper.instance.database;
+
+    return db.delete(
+      transactionsTable,
+      where: '${TransactionFields.categoryId} = ?',
+      whereArgs: [category.id],
+    );
+  }
+
+  Future<int> transferTransactions(Category from, Category to) async {
+    final db = await DatabaseHelper.instance.database;
+
+    return db.update(
+      transactionsTable,
+      {TransactionFields.categoryId: to.id},
+      where: '${TransactionFields.categoryId} = ?',
+      whereArgs: [from.id],
+    );
   }
 }

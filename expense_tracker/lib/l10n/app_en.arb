@@ -97,6 +97,15 @@
     "delete": "Delete",
     "deleteAccountAlertBody": "Deleting an account will not remove the transactions associated with it.",
     "deleteCategoryAlertBody": "Deleting a category will not remove the transactions associated with it.",
+    "deleteCategoryTitle": "Delete Category",
+    "@deleteCategoryTransactionsMessage": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "deleteCategoryTransactionsMessage": "This category contains {count, plural, =1{1 transaction} other{{count} transactions}}. What would you like to do?",
     "description": "Description",
     "done": "Done!",
     "edit": "Edit",
@@ -202,7 +211,16 @@
     "selectDate": "Select the date",
     "selectEndDate": "Select end date",
     "selectIcon": "Select icon",
+    "selectTargetCategory": "Select target category",
     "selectTimeInterval": "Select the time interval",
+    "transferTransactionsMessage": "Transfer {count, plural, =1{1 transaction} other{{count} transactions}} to:",
+    "@transferTransactionsMessage": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
     "sendTestNotification": "Show me how it will appear",
     "settings": "Settings",
     "shareBackup": "Share backup",
@@ -228,6 +246,7 @@
     "transactionGeneratedByRule": "This transaction was generated automatically by a recurring rule. Editing this transaction will not affect future generated ones.",
     "transactionList": "Transaction list",
     "transportation": "Transportation",
+    "transferTransactions": "Transfer Transactions",
     "updateHistory": "Update history",
     "updateHistoryEmptyList": "No updates found.",
     "updateHistoryOptionDescription": "View the latest features and updates",

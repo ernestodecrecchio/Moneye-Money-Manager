@@ -51,6 +51,15 @@
     "delete": "Eliminar",
     "deleteAccountAlertBody": "Eliminar una cuenta no eliminará las transacciones asociadas a ella.",
     "deleteCategoryAlertBody": "Eliminar una categoría no eliminará las transacciones asociadas a ella.",
+    "deleteCategoryTitle": "Eliminar Categoría",
+    "deleteCategoryTransactionsMessage": "{count, plural, =1{Esta categoría contiene 1 transacción} other{Esta categoría contiene {count} transacciones}}. ¿Qué deseas hacer?",
+    "@deleteCategoryTransactionsMessage": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
     "description": "Descripción",
     "done": "Hecho",
     "edit": "Editar",
@@ -136,7 +145,16 @@
     "selectColor": "Seleccionar color",
     "selectDate": "Selecciona la fecha",
     "selectIcon": "Seleccionar ícono",
+    "selectTargetCategory": "Seleccionar categoría de destino",
     "selectTimeInterval": "Seleccione el intervalo de tiempo",
+    "transferTransactionsMessage": "{count, plural, =1{Transferir 1 transacción} other{Transferir {count} transacciones}} a:",
+    "@transferTransactionsMessage": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
     "sendTestNotification": "Muéstrame cómo aparecerá",
     "settings": "Configuración",
     "shareBackup": "Compartir copia de seguridad",
@@ -160,6 +178,7 @@
     "transactionDeleted": "Transacción eliminada",
     "transactionList": "Lista de transacciones",
     "transportation": "Transporte",
+    "transferTransactions": "Transferir Transacciones",
     "updateHistory": "Historial de actualizaciones",
     "updateHistoryEmptyList": "No se encontraron actualizaciones.",
     "updateHistoryOptionDescription": "Ver las últimas funciones y actualizaciones",

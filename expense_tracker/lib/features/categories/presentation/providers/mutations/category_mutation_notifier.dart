@@ -2,6 +2,8 @@ import 'package:expense_tracker/features/categories/presentation/providers/categ
 import 'package:expense_tracker/features/categories/presentation/providers/queries/categories_list_notifier.dart';
 import 'package:expense_tracker/features/categories/domain/models/category.dart';
 import 'package:expense_tracker/features/categories/domain/repositories/categories_repository.dart';
+import 'package:expense_tracker/features/transactions/presentation/providers/transactions_repository_provider.dart';
+import 'package:expense_tracker/features/transactions/presentation/providers/queries/transactions_list_notifier.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class CategoryMutationNotifier extends AsyncNotifier<void> {
@@ -30,6 +32,29 @@ class CategoryMutationNotifier extends AsyncNotifier<void> {
   Future<void> deleteCategory(Category category) async {
     await _repo.deleteCategory(category: category);
     ref.invalidate(categoriesListProvider);
+  }
+
+  Future<void> deleteCategoryAndTransactions(Category category) async {
+    final transactionsRepo = ref.read(transactionsRepositoryProvider);
+
+    await transactionsRepo.deleteTransactionsByCategory(category: category);
+    await _repo.deleteCategory(category: category);
+
+    ref.invalidate(categoriesListProvider);
+    ref.invalidate(transactionsListProvider);
+  }
+
+  Future<void> reassignTransactionsAndDelete({
+    required Category source,
+    required Category target,
+  }) async {
+    final transactionsRepo = ref.read(transactionsRepositoryProvider);
+
+    await transactionsRepo.transferTransactions(from: source, to: target);
+    await _repo.deleteCategory(category: source);
+
+    ref.invalidate(categoriesListProvider);
+    ref.invalidate(transactionsListProvider);
   }
 }
 

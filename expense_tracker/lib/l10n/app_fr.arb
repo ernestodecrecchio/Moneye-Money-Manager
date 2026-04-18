@@ -50,7 +50,16 @@
     "decline": "Refuser",
     "delete": "Supprimer",
     "deleteAccountAlertBody": "La suppression d’un compte ne supprimera pas les transactions qui y sont associées.",
-    "deleteCategoryAlertBody": "La suppression d’une catégorie ne supprimera pas les transactions qui y sont associées.",
+    "deleteCategoryAlertBody": "La suppression d'une catégorie ne supprimera pas les transactions qui y sont associées.",
+    "deleteCategoryTitle": "Supprimer la catégorie",
+    "deleteCategoryTransactionsMessage": "{count, plural, =1{Cette catégorie contient 1 transaction} other{Cette catégorie contient {count} transactions}}. Que souhaitez-vous faire ?",
+    "@deleteCategoryTransactionsMessage": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
     "description": "Description",
     "done": "Terminé !",
     "edit": "Modifier",
@@ -136,7 +145,16 @@
     "selectColor": "Sélectionner une couleur",
     "selectDate": "Sélectionner la date",
     "selectIcon": "Sélectionner une icône",
+    "selectTargetCategory": "Sélectionner la catégorie cible",
     "selectTimeInterval": "Sélectionner l'intervalle de temps",
+    "transferTransactionsMessage": "{count, plural, =1{Transférer 1 transaction} other{Transférer {count} transactions}} vers :",
+    "@transferTransactionsMessage": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
     "sendTestNotification": "Voir comment elle apparaîtra",
     "settings": "Paramètres",
     "shareBackup": "Partager la sauvegarde",
@@ -160,6 +178,7 @@
     "transactionDeleted": "Transaction supprimée",
     "transactionList": "Liste des transactions",
     "transportation": "Transport",
+    "transferTransactions": "Transférer les transactions",
     "updateHistory": "Historique des mises à jour",
     "updateHistoryEmptyList": "Aucune mise à jour trouvée.",
     "updateHistoryOptionDescription": "Voir les dernières fonctionnalités et mises à jour",

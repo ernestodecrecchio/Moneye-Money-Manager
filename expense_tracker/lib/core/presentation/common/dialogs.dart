@@ -36,36 +36,57 @@ Future<bool> showDeleteAccountAlert(
   return result ?? false;
 }
 
-Future<bool> showDeleteCategoryAlert(
-    BuildContext context, AppLocalizations appLocalizations) async {
-  final result = await showAdaptiveDialog(
+enum CategoryDeletionResult {
+  cancel,
+  deleteCategoryAndTransactions,
+  transferTransactions,
+}
+
+Future<CategoryDeletionResult> showDeleteCategoryAlert({
+  required BuildContext context,
+  required AppLocalizations appLocalizations,
+  required int transactionCount,
+}) async {
+  final hasTransactions = transactionCount > 0;
+
+  final result = await showAdaptiveDialog<CategoryDeletionResult>(
     context: context,
     builder: (context) => AlertDialog.adaptive(
       title: Text(
-        appLocalizations.areYouSure,
+        hasTransactions
+            ? appLocalizations.deleteCategoryTitle
+            : appLocalizations.areYouSure,
       ),
       content: Text(
-        appLocalizations.deleteCategoryAlertBody,
+        hasTransactions
+            ? appLocalizations
+                .deleteCategoryTransactionsMessage(transactionCount)
+            : appLocalizations.deleteCategoryAlertBody,
       ),
       actions: [
         adaptiveAction(
           context: context,
-          onPressed: () => Navigator.of(context).pop(false),
-          child: Text(
-            appLocalizations.cancel,
-          ),
+          onPressed: () =>
+              Navigator.of(context).pop(CategoryDeletionResult.cancel),
+          child: Text(appLocalizations.cancel),
         ),
+        if (hasTransactions)
+          adaptiveAction(
+            context: context,
+            onPressed: () => Navigator.of(context)
+                .pop(CategoryDeletionResult.transferTransactions),
+            child: Text(appLocalizations.transferTransactions),
+          ),
         adaptiveAction(
           context: context,
-          onPressed: () => Navigator.of(context).pop(true),
+          onPressed: () => Navigator.of(context)
+              .pop(CategoryDeletionResult.deleteCategoryAndTransactions),
           isDestructiveAction: true,
-          child: Text(
-            appLocalizations.delete,
-          ),
-        )
+          child: Text(appLocalizations.delete),
+        ),
       ],
     ),
   );
 
-  return result ?? false;
+  return result ?? CategoryDeletionResult.cancel;
 }

@@ -10,6 +10,8 @@ abstract class TransactionsRepository {
   });
   Future<int> deleteTransaction({required Transaction transaction});
 
+  Future<int> getTransactionsCount({Category? forCategory, Account? forAccount});
+
   Future<double> getTotalBalance({
     DateTime? startDate,
     DateTime? endDate,
@@ -26,6 +28,9 @@ abstract class TransactionsRepository {
     int? limit,
     String? recurringId,
   });
+
+  Future<int> deleteTransactionsByCategory({required Category category});
+  Future<int> transferTransactions({required Category from, required Category to});
 
   Future<int> generateRecurringTransactionsUntil(DateTime targetDate);
 }

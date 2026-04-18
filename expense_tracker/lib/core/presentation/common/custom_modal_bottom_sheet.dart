@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-Future showCustomModalBottomSheet({
+Future<T?> showCustomModalBottomSheet<T>({
   required BuildContext context,
   required Widget Function(BuildContext) builder,
 }) async {
-  return await showModalBottomSheet(
+  return await showModalBottomSheet<T>(
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(34),

@@ -5,6 +5,8 @@ import 'package:expense_tracker/features/categories/domain/models/category.dart'
 import 'package:expense_tracker/core/presentation/common/dialogs.dart';
 import 'package:expense_tracker/core/presentation/common/widgets/icon_item.dart';
 import 'package:expense_tracker/features/categories/presentation/pages/categories_list_page/new_edit_category_page.dart';
+import 'package:expense_tracker/features/categories/presentation/pages/categories_list_page/transfer_transactions_bottom_sheet.dart';
+import 'package:expense_tracker/features/transactions/presentation/providers/transactions_repository_provider.dart';
 import 'package:expense_tracker/core/style/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -42,37 +44,73 @@ class CategoryListCell extends ConsumerWidget {
     return ActionPane(
       motion: const ScrollMotion(),
       dismissible: DismissiblePane(
-        confirmDismiss: () =>
-            showDeleteCategoryAlert(context, appLocalizations),
-        closeOnCancel: true,
-        onDismissed: () async => await ref
-            .read(categoryMutationProvider.notifier)
-            .deleteCategory(category),
+        confirmDismiss: () async {
+          return await _handleDeleteCategory(context, ref, appLocalizations);
+        },
+        onDismissed: () {
+          // Handled in _handleDeleteCategory
+        },
       ),
       children: [
-        _buildDeleteSlidableAction(context, ref, appLocalizations),
+        SlidableAction(
+          backgroundColor: CustomColors.swipeActionRed,
+          foregroundColor: Colors.white,
+          icon: Icons.delete,
+          label: appLocalizations.delete,
+          onPressed: (context) async {
+            await _handleDeleteCategory(context, ref, appLocalizations);
+          },
+        ),
       ],
     );
   }
 
-  SlidableAction _buildDeleteSlidableAction(
-      BuildContext context, WidgetRef ref, AppLocalizations appLocalizations) {
-    return SlidableAction(
-      backgroundColor: CustomColors.swipeActionRed,
-      foregroundColor: Colors.white,
-      icon: Icons.delete,
-      label: appLocalizations.delete,
-      onPressed: (_) async {
-        final isDeleteConfirmed =
-            await showDeleteCategoryAlert(context, appLocalizations);
+  Future<bool> _handleDeleteCategory(
+    BuildContext context,
+    WidgetRef ref,
+    AppLocalizations appLocalizations,
+  ) async {
+    final transactionsRepo = ref.read(transactionsRepositoryProvider);
+    final count = await transactionsRepo.getTransactionsCount(
+      forCategory: category,
+    );
 
-        if (context.mounted && isDeleteConfirmed) {
+    if (!context.mounted) return false;
+
+    final result = await showDeleteCategoryAlert(
+      context: context,
+      appLocalizations: appLocalizations,
+      transactionCount: count,
+    );
+
+    if (!context.mounted) return false;
+
+    switch (result) {
+      case CategoryDeletionResult.cancel:
+        return false;
+      case CategoryDeletionResult.deleteCategoryAndTransactions:
+        await ref
+            .read(categoryMutationProvider.notifier)
+            .deleteCategoryAndTransactions(category);
+        return true;
+      case CategoryDeletionResult.transferTransactions:
+        final targetCategory = await showTransferTransactionsBottomSheet(
+          context: context,
+          categoryToDelete: category,
+          transactionCount: count,
+        );
+
+        if (targetCategory != null && context.mounted) {
           await ref
               .read(categoryMutationProvider.notifier)
-              .deleteCategory(category);
+              .reassignTransactionsAndDelete(
+                source: category,
+                target: targetCategory,
+              );
+          return true;
         }
-      },
-    );
+        return false;
+    }
   }
 
   Widget _buildCategoryIcon(BuildContext context, Category category) {
