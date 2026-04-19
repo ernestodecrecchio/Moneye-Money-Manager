@@ -34,6 +34,12 @@
             "value" : "Spesa"
           }
         },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Despesa"
+          }
+        },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -71,6 +77,12 @@
           }
         },
         "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "-123,45 €"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "-123,45 €"
@@ -117,6 +129,12 @@
             "value" : "Entrata"
           }
         },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Receita"
+          }
+        },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -154,6 +172,12 @@
           }
         },
         "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "123,45 €"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "123,45 €"
@@ -199,6 +223,12 @@
             "value" : "Tieni traccia delle tue spese mensili"
           }
         },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Acompanhe as suas despesas mensais"
+          }
+        },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -237,6 +267,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Resoconto delle spese mensile"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Resumo de despesas mensais"
           }
         },
         "tr" : {
@@ -279,6 +315,12 @@
             "value" : "Tieni traccia delle tue entrate e spese mensili"
           }
         },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Acompanhe as suas receitas e despesas mensais"
+          }
+        },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -319,6 +361,12 @@
             "value" : "Riepilogo mensile"
           }
         },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Resumo mensal"
+          }
+        },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -345,7 +393,7 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Añade transacciones de ingreso y gasto rápidamente"
+            "value" : "Añade transacciones de ingreso y gasto rapidamente"
           }
         },
         "fr" : {
@@ -358,6 +406,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Aggiungi velocemente transazioni in entrata o in uscita"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Adicione rapidamente transações de receita e despesa"
           }
         },
         "tr" : {
@@ -401,6 +455,12 @@
             "value" : "Tasti Rapidi"
           }
         },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Botões de atalho"
+          }
+        },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -439,6 +499,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Questo mese"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Este mês"
           }
         },
         "tr" : {
