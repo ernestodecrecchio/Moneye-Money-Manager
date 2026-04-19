@@ -578,17 +578,6 @@ class AppLocalizationsFr extends AppLocalizations {
   String get selectTimeInterval => 'Sélectionner l\'intervalle de temps';
 
   @override
-  String transferTransactionsMessage(int count) {
-    String _temp0 = intl.Intl.pluralLogic(
-      count,
-      locale: localeName,
-      other: 'Transférer $count transactions',
-      one: 'Transférer 1 transaction',
-    );
-    return '$_temp0 vers :';
-  }
-
-  @override
   String get sendTestNotification => 'Voir comment elle apparaîtra';
 
   @override
@@ -663,10 +652,21 @@ class AppLocalizationsFr extends AppLocalizations {
   String get transactionList => 'Liste des transactions';
 
   @override
-  String get transportation => 'Transport';
+  String get transferTransactions => 'Transférer les transactions';
 
   @override
-  String get transferTransactions => 'Transférer les transactions';
+  String transferTransactionsMessage(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Transférer $count transactions',
+      one: 'Transférer 1 transaction',
+    );
+    return '$_temp0 vers :';
+  }
+
+  @override
+  String get transportation => 'Transport';
 
   @override
   String get updateHistory => 'Historique des mises à jour';

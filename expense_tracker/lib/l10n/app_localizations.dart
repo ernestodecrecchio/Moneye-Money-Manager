@@ -1102,12 +1102,6 @@ abstract class AppLocalizations {
   /// **'Select the time interval'**
   String get selectTimeInterval;
 
-  /// No description provided for @transferTransactionsMessage.
-  ///
-  /// In en, this message translates to:
-  /// **'Transfer {count, plural, =1{1 transaction} other{{count} transactions}} to:'**
-  String transferTransactionsMessage(int count);
-
   /// No description provided for @sendTestNotification.
   ///
   /// In en, this message translates to:
@@ -1252,17 +1246,23 @@ abstract class AppLocalizations {
   /// **'Transaction list'**
   String get transactionList;
 
-  /// No description provided for @transportation.
-  ///
-  /// In en, this message translates to:
-  /// **'Transportation'**
-  String get transportation;
-
   /// No description provided for @transferTransactions.
   ///
   /// In en, this message translates to:
   /// **'Transfer Transactions'**
   String get transferTransactions;
+
+  /// No description provided for @transferTransactionsMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Transfer {count, plural, =1{1 transaction} other{{count} transactions}} to:'**
+  String transferTransactionsMessage(int count);
+
+  /// No description provided for @transportation.
+  ///
+  /// In en, this message translates to:
+  /// **'Transportation'**
+  String get transportation;
 
   /// No description provided for @updateHistory.
   ///

@@ -568,17 +568,6 @@ class AppLocalizationsPt extends AppLocalizations {
   String get selectTimeInterval => 'Selecione o intervalo de tempo';
 
   @override
-  String transferTransactionsMessage(int count) {
-    String _temp0 = intl.Intl.pluralLogic(
-      count,
-      locale: localeName,
-      other: 'Transferir $count transações',
-      one: 'Transferir 1 transação',
-    );
-    return '$_temp0 para:';
-  }
-
-  @override
   String get sendTestNotification => 'Mostre-me como aparecerá';
 
   @override
@@ -653,10 +642,21 @@ class AppLocalizationsPt extends AppLocalizations {
   String get transactionList => 'Lista de transações';
 
   @override
-  String get transportation => 'Transporte';
+  String get transferTransactions => 'Transferir Transações';
 
   @override
-  String get transferTransactions => 'Transferir Transações';
+  String transferTransactionsMessage(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Transferir $count transações',
+      one: 'Transferir 1 transação',
+    );
+    return '$_temp0 para:';
+  }
+
+  @override
+  String get transportation => 'Transporte';
 
   @override
   String get updateHistory => 'Histórico de atualizações';
@@ -1310,17 +1310,6 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   String get selectTimeInterval => 'Selecione o intervalo de tempo';
 
   @override
-  String transferTransactionsMessage(int count) {
-    String _temp0 = intl.Intl.pluralLogic(
-      count,
-      locale: localeName,
-      other: 'Transferir $count transações',
-      one: 'Transferir 1 transação',
-    );
-    return '$_temp0 para:';
-  }
-
-  @override
   String get sendTestNotification => 'Mostre-me como aparecerá';
 
   @override
@@ -1395,10 +1384,21 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   String get transactionList => 'Lista de transações';
 
   @override
-  String get transportation => 'Transporte';
+  String get transferTransactions => 'Transferir Transações';
 
   @override
-  String get transferTransactions => 'Transferir Transações';
+  String transferTransactionsMessage(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Transferir $count transações',
+      one: 'Transferir 1 transação',
+    );
+    return '$_temp0 para:';
+  }
+
+  @override
+  String get transportation => 'Transporte';
 
   @override
   String get updateHistory => 'Histórico de atualizações';
@@ -2054,17 +2054,6 @@ class AppLocalizationsPtPt extends AppLocalizationsPt {
   String get selectTimeInterval => 'Selecione o intervalo de tempo';
 
   @override
-  String transferTransactionsMessage(int count) {
-    String _temp0 = intl.Intl.pluralLogic(
-      count,
-      locale: localeName,
-      other: 'Transferir $count transações',
-      one: 'Transferir 1 transação',
-    );
-    return '$_temp0 para:';
-  }
-
-  @override
   String get sendTestNotification => 'Mostre-me como aparecerá';
 
   @override
@@ -2139,10 +2128,21 @@ class AppLocalizationsPtPt extends AppLocalizationsPt {
   String get transactionList => 'Lista de transações';
 
   @override
-  String get transportation => 'Transportes';
+  String get transferTransactions => 'Transferir Transações';
 
   @override
-  String get transferTransactions => 'Transferir Transações';
+  String transferTransactionsMessage(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Transferir $count transações',
+      one: 'Transferir 1 transação',
+    );
+    return '$_temp0 para:';
+  }
+
+  @override
+  String get transportation => 'Transportes';
 
   @override
   String get updateHistory => 'Histórico de atualizações';

@@ -568,17 +568,6 @@ class AppLocalizationsTr extends AppLocalizations {
   String get selectTimeInterval => 'Dönemi seç';
 
   @override
-  String transferTransactionsMessage(int count) {
-    String _temp0 = intl.Intl.pluralLogic(
-      count,
-      locale: localeName,
-      other: '$count işlemi aktar',
-      one: '1 işlemi aktar',
-    );
-    return '$_temp0:';
-  }
-
-  @override
   String get sendTestNotification => 'Nasıl görüneceğini bana göster';
 
   @override
@@ -653,10 +642,21 @@ class AppLocalizationsTr extends AppLocalizations {
   String get transactionList => 'İşlem listesi';
 
   @override
-  String get transportation => 'Ulaşım';
+  String get transferTransactions => 'İşlemleri Aktar';
 
   @override
-  String get transferTransactions => 'İşlemleri Aktar';
+  String transferTransactionsMessage(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count işlemi aktar',
+      one: '1 işlemi aktar',
+    );
+    return '$_temp0:';
+  }
+
+  @override
+  String get transportation => 'Ulaşım';
 
   @override
   String get updateHistory => 'Güncelleme geçmişi';

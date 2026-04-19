@@ -576,17 +576,6 @@ class AppLocalizationsIt extends AppLocalizations {
   String get selectTimeInterval => 'Seleziona il periodo';
 
   @override
-  String transferTransactionsMessage(int count) {
-    String _temp0 = intl.Intl.pluralLogic(
-      count,
-      locale: localeName,
-      other: 'Trasferisci $count transazioni',
-      one: 'Trasferisci 1 transazione',
-    );
-    return '$_temp0 in:';
-  }
-
-  @override
   String get sendTestNotification => 'Mostrami come apparirà';
 
   @override
@@ -661,10 +650,21 @@ class AppLocalizationsIt extends AppLocalizations {
   String get transactionList => 'Lista transazioni';
 
   @override
-  String get transportation => 'Trasporti';
+  String get transferTransactions => 'Trasferisci Transazioni';
 
   @override
-  String get transferTransactions => 'Trasferisci Transazioni';
+  String transferTransactionsMessage(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Trasferisci $count transazioni',
+      one: 'Trasferisci 1 transazione',
+    );
+    return '$_temp0 in:';
+  }
+
+  @override
+  String get transportation => 'Trasporti';
 
   @override
   String get updateHistory => 'Storico aggiornamenti';
