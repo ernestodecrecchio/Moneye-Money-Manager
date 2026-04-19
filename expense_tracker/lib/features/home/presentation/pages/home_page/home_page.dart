@@ -11,6 +11,7 @@ import 'package:expense_tracker/features/home/presentation/pages/home_page/home_
 import 'package:expense_tracker/features/accounts/presentation/pages/accounts_list_page/new_edit_account_page.dart';
 import 'package:expense_tracker/features/transactions/presentation/pages/new_edit_transaction_flow/new_edit_transaction_page.dart';
 import 'package:expense_tracker/core/presentation/common/list_tiles/account_list_tile.dart';
+import 'package:expense_tracker/core/presentation/common/list_tiles/add_account_list_tile.dart';
 import 'package:expense_tracker/core/style/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -124,8 +125,11 @@ class AccountSection extends ConsumerWidget {
                           padding: EdgeInsets.symmetric(
                               horizontal: horizontalPadding),
                           scrollDirection: Axis.horizontal,
-                          itemCount: list.length,
+                          itemCount: list.length + 1,
                           itemBuilder: (context, index) {
+                            if (index == list.length) {
+                              return const AddAccountListTile();
+                            }
                             return AccountListTile(
                               account: list[index].account,
                               balance: list[index].balance,
