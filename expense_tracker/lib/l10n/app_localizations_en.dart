@@ -749,3 +749,37 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get yourCategories => 'Your categories';
 }
+
+/// The translations for English, as used in the United Kingdom (`en_GB`).
+class AppLocalizationsEnGb extends AppLocalizationsEn {
+  AppLocalizationsEnGb() : super('en_GB');
+
+  @override
+  String get color => 'Colour';
+
+  @override
+  String get currencyOptionDescription =>
+      'Select and customise the used currency';
+
+  @override
+  String get endConfigurationMsg2 =>
+      'Don\'t forget to explore other exciting features to optimise your financial journey.';
+
+  @override
+  String get personalization => 'Personalisation';
+
+  @override
+  String get selectCategoryMsg1 =>
+      'Make the most of Moneye by categorising your transactions';
+
+  @override
+  String get selectColor => 'Select colour';
+
+  @override
+  String get transportation => 'Transport';
+}
+
+/// The translations for English, as used in the United States (`en_US`).
+class AppLocalizationsEnUs extends AppLocalizationsEn {
+  AppLocalizationsEnUs() : super('en_US');
+}

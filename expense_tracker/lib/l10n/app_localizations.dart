@@ -10,6 +10,7 @@ import 'app_localizations_en.dart';
 import 'app_localizations_es.dart';
 import 'app_localizations_fr.dart';
 import 'app_localizations_it.dart';
+import 'app_localizations_pt.dart';
 import 'app_localizations_tr.dart';
 
 // ignore_for_file: type=lint
@@ -100,9 +101,14 @@ abstract class AppLocalizations {
   static const List<Locale> supportedLocales = <Locale>[
     Locale('de'),
     Locale('en'),
+    Locale('en', 'GB'),
+    Locale('en', 'US'),
     Locale('es'),
     Locale('fr'),
     Locale('it'),
+    Locale('pt'),
+    Locale('pt', 'BR'),
+    Locale('pt', 'PT'),
     Locale('tr')
   ];
 
@@ -1413,6 +1419,7 @@ class _AppLocalizationsDelegate
         'es',
         'fr',
         'it',
+        'pt',
         'tr'
       ].contains(locale.languageCode);
 
@@ -1421,6 +1428,30 @@ class _AppLocalizationsDelegate
 }
 
 AppLocalizations lookupAppLocalizations(Locale locale) {
+  // Lookup logic when language+country codes are specified.
+  switch (locale.languageCode) {
+    case 'en':
+      {
+        switch (locale.countryCode) {
+          case 'GB':
+            return AppLocalizationsEnGb();
+          case 'US':
+            return AppLocalizationsEnUs();
+        }
+        break;
+      }
+    case 'pt':
+      {
+        switch (locale.countryCode) {
+          case 'BR':
+            return AppLocalizationsPtBr();
+          case 'PT':
+            return AppLocalizationsPtPt();
+        }
+        break;
+      }
+  }
+
   // Lookup logic when only language code is specified.
   switch (locale.languageCode) {
     case 'de':
@@ -1433,6 +1464,8 @@ AppLocalizations lookupAppLocalizations(Locale locale) {
       return AppLocalizationsFr();
     case 'it':
       return AppLocalizationsIt();
+    case 'pt':
+      return AppLocalizationsPt();
     case 'tr':
       return AppLocalizationsTr();
   }

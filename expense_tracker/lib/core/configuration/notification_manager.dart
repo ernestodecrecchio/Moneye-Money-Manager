@@ -55,7 +55,11 @@ class NotificationManager {
     final prefs = await SharedPreferences.getInstance();
     final localeStr = prefs.getString('locale');
     if (localeStr != null && localeStr.isNotEmpty) {
-      return Locale(localeStr);
+      final parts = localeStr.split('_');
+      if (parts.length > 1) {
+        return Locale(parts[0], parts[1]);
+      }
+      return Locale(parts[0]);
     }
     return Locale(Intl.shortLocale(Platform.localeName));
   }

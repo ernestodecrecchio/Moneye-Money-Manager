@@ -213,15 +213,28 @@ class _UpdateInfoPageState extends ConsumerState<UpdateInfoPage>
                           const SizedBox(height: 24),
                       itemBuilder: (context, index) {
                         final item = _versionFeatures[index];
+                        final titleMap = item['title'] as Map<String, dynamic>;
+                        final descriptionMap =
+                            item['description'] as Map<String, dynamic>;
+
+                        String getTranslation(Map<String, dynamic> map) {
+                          if (map.containsKey(locale)) {
+                            return map[locale];
+                          }
+                          final langCode = locale.split('_')[0];
+                          if (map.containsKey(langCode)) {
+                            return map[langCode];
+                          }
+                          return map['en'] ?? '';
+                        }
+
                         return FadeTransition(
                           opacity: _fadeAnimation,
                           child: SlideTransition(
                             position: _slideAnimation,
                             child: _FeatureCard(
-                              title:
-                                  item['title'][locale] ?? item['title']['en'],
-                              description: item['description'][locale] ??
-                                  item['description']['en'],
+                              title: getTranslation(titleMap),
+                              description: getTranslation(descriptionMap),
                               icon: UpdateCategoryIcon.get(
                                 _parseCategory(item['category']),
                               ),

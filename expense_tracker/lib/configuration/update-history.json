@@ -7,7 +7,8 @@
         "es": "Transferir Transacciones de Categoría",
         "de": "Kategorie-Transaktionen übertragen",
         "fr": "Transférer les Transactions de Catégorie",
-        "tr": "Kategori İşlemlerini Aktar"
+        "tr": "Kategori İşlemlerini Aktar",
+        "pt": "Transferência de Transações de Categoria"
       },
       "description": {
         "en": "When deleting a category that contains transactions, you can now choose to transfer them to another category instead of losing them. This gives you more control over your data when reorganizing your categories.",
@@ -15,7 +16,8 @@
         "es": "Al eliminar una categoría que contiene transacciones, ahora puedes elegir transferirlas a otra categoría en lugar de perderlas. Esto te da más control sobre tus datos al reorganizar tus categorías.",
         "de": "Wenn du eine Kategorie löschst, die Transaktionen enthält, kannst du diese nun in eine andere Kategorie übertragen, anstatt sie zu verlieren. Das gibt dir mehr Kontrolle über deine Daten beim Umorganisieren deiner Kategorien.",
         "fr": "Lorsque vous supprimez une catégorie contenant des transactions, vous pouvez désormais choisir de les transférer vers une autre catégorie au lieu de les perdre. Cela vous donne plus de contrôle sur vos données lors de la réorganisation de vos catégories.",
-        "tr": "İşlem içeren bir kategoriyi silerken, artık işlemleri kaybetmek yerine başka bir kategoriye aktarmayı seçebilirsiniz. Bu, kategorilerinizi yeniden düzenlerken verileriniz üzerinde daha fazla kontrol sağlar."
+        "tr": "İşlem içeren bir kategoriyi silerken, artık işlemleri kaybetmek yerine başka bir kategoriye aktarmayı seçebilirsiniz. Bu, kategorilerinizi yeniden düzenlerken verileriniz üzerinde daha fazla kontrol sağlar.",
+        "pt": "Ao excluir uma categoria que contém transações, agora você pode optar por transferi-las para outra categoria em vez de perdê-las. Isso oferece mais controle sobre seus dados ao reorganizar suas categorias."
       },
       "category": "new_feature"
     },
@@ -26,7 +28,8 @@
         "es": "Mejoras de UI/UX",
         "de": "UI/UX-Verbesserungen",
         "fr": "Améliorations UI/UX",
-        "tr": "UI/UX İyileştirmeleri"
+        "tr": "UI/UX İyileştirmeleri",
+        "pt": "Melhorias de UI/UX"
       },
       "description": {
         "en": "Several refinements have been made across the app to improve the overall look and feel, making Moneye even more polished and pleasant to use.",
@@ -34,9 +37,31 @@
         "es": "Se han realizado varias mejoras en toda la aplicación para mejorar el aspecto general, haciendo que Moneye sea aún más pulida y agradable de usar.",
         "de": "In der gesamten App wurden verschiedene Verfeinerungen vorgenommen, um das Erscheinungsbild zu verbessern und Moneye noch ansprechender und angenehmer zu gestalten.",
         "fr": "Plusieurs améliorations ont été apportées dans toute l'application pour en améliorer l'aspect général, rendant Moneye encore plus soignée et agréable à utiliser.",
-        "tr": "Moneye'yi daha da şık ve kullanımı keyifli hale getirmek için uygulama genelinde çeşitli iyileştirmeler yapıldı."
+        "tr": "Moneye'yi daha da şık ve kullanımı keyifli hale getirmek için uygulama genelinde çeşitli iyileştirmeler yapıldı.",
+        "pt": "Vários aprimoramentos foram feitos em todo o aplicativo para melhorar a aparência e a usabilidade geral, tornando o Moneye ainda mais refinado e agradável de usar."
       },
       "category": "ui"
+    },
+    {
+      "title": {
+        "en": "More Languages & Regional Support",
+        "it": "Più Lingue e Supporto Regionale",
+        "es": "Más Idiomas y Soporte Regional",
+        "de": "Mehr Sprachen & Regionale Unterstützung",
+        "fr": "Plus de Langues et Support Régional",
+        "tr": "Daha Fazla Dil ve Bölgesel Destek",
+        "pt": "Mais Idiomas e Suporte Regional"
+      },
+      "description": {
+        "en": "Moneye now explicitly supports Portuguese (Brazil and Portugal) and English (UK and US). If you notice any translation issues, feel free to contact the developer from the dedicated section in Settings!",
+        "it": "Moneye ora supporta esplicitamente il portoghese (Brasile e Portogallo) e l'inglese (Regno Unito e Stati Uniti). Se noti problemi di traduzione, non esitare a contattare lo sviluppatore dall'apposita sezione nelle Impostazioni!",
+        "es": "Moneye ahora soporta explícitamente el portugués (Brasil y Portugal) y el inglés (Reino Unido y EE. UU.). Si notas algún problema de traducción, no dudes en contactar al desarrollador desde la sección dedicada en Ajustes.",
+        "de": "Moneye unterstützt nun ausdrücklich Portugiesisch (Brasilien und Portugal) sowie Englisch (Großbritannien und USA). Wenn dir Übersetzungsprobleme auffallen, kannst du den Entwickler gerne über den entsprechenden Bereich in den Einstellungen kontaktieren!",
+        "fr": "Moneye prend désormais explicitement en charge le portugais (Brésil et Portugal) et l'anglais (Royaume-Uni et États-Unis). Si vous remarquez des problèmes de traduction, n'hésitez pas à contacter le développeur depuis la section dédiée dans les Paramètres !",
+        "tr": "Moneye artık Portekizce'yi (Brezilya ve Portekiz) ve İngilizce'yi (İngiltere ve ABD) açıkça destekliyor. Herhangi bir çeviri sorunu fark ederseniz, Ayarlar'daki ilgili bölümden geliştiriciyle iletişime geçmekten çekinmeyin!",
+        "pt": "O Moneye agora suporta explicitamente o português (Brasil e Portugal) e o inglês (Reino Unido e EUA). Se você notar algum problema de tradução, fique à vontade para contatar o desenvolvedor na seção dedicada nas Configurações!"
+      },
+      "category": "translation"
     }
   ],
   "1.0.8": [

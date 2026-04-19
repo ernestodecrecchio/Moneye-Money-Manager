@@ -33,146 +33,119 @@ class _LanguagesListPageState extends ConsumerState<LanguagesListPage> {
 
     return ListView(
       children: [
-        ListTile(
-          title: Text(appLocalizations.systemLanguageOption),
-          onTap: () => ref.read(localeProvider.notifier).resetLocale(),
-          leading: Container(
-            clipBehavior: Clip.antiAlias,
-            height: 30,
-            width: 30,
-            decoration: const BoxDecoration(shape: BoxShape.circle),
-            child: SafeVectorGraphic(
-              iconPath: 'assets/flags/World.svg',
-              fit: BoxFit.fill,
-              color: context.appColors.secondary,
-            ),
-          ),
-          trailing: currentLocale == null ? const Icon(Icons.check) : null,
+        _buildLanguageTile(
+          context: context,
+          title: appLocalizations.systemLanguageOption,
+          iconPath: 'assets/flags/World.svg',
+          locale: null,
+          currentLocale: currentLocale,
+          iconColor: context.appColors.secondary,
+          fit: BoxFit.fill,
         ),
-        const Divider(
-          height: 1,
+        const Divider(height: 1),
+        _buildLanguageTile(
+          context: context,
+          title: 'English (UK)',
+          iconPath: 'assets/flags/United_Kingdom.svg',
+          locale: const Locale('en', 'GB'),
+          currentLocale: currentLocale,
         ),
-        ListTile(
-          title: const Text('English (UK)'),
-          onTap: () => ref
-              .read(localeProvider.notifier)
-              .updateLocale(const Locale('en')),
-          leading: Container(
-            clipBehavior: Clip.antiAlias,
-            height: 30,
-            width: 30,
-            decoration: const BoxDecoration(shape: BoxShape.circle),
-            child: SafeVectorGraphic(
-              iconPath: 'assets/flags/United-Kingdom.svg',
-              colorFilterEnabled: false,
-              fit: BoxFit.cover,
-            ),
-          ),
-          trailing: currentLocale?.languageCode == 'en'
-              ? const Icon(Icons.check)
-              : null,
+        _buildLanguageTile(
+          context: context,
+          title: 'English (US)',
+          iconPath: 'assets/flags/United_States.svg',
+          locale: const Locale('en', 'US'),
+          currentLocale: currentLocale,
         ),
-        ListTile(
-          title: const Text('Italiano'),
-          onTap: () => ref
-              .read(localeProvider.notifier)
-              .updateLocale(const Locale('it')),
-          leading: Container(
-            clipBehavior: Clip.antiAlias,
-            height: 30,
-            width: 30,
-            decoration: const BoxDecoration(shape: BoxShape.circle),
-            child: SafeVectorGraphic(
-              iconPath: 'assets/flags/Italy.svg',
-              colorFilterEnabled: false,
-              fit: BoxFit.cover,
-            ),
-          ),
-          trailing: currentLocale?.languageCode == 'it'
-              ? const Icon(Icons.check)
-              : null,
+        _buildLanguageTile(
+          context: context,
+          title: 'Italiano',
+          iconPath: 'assets/flags/Italy.svg',
+          locale: const Locale('it'),
+          currentLocale: currentLocale,
         ),
-        ListTile(
-          title: const Text('Español'),
-          onTap: () => ref
-              .read(localeProvider.notifier)
-              .updateLocale(const Locale('es')),
-          leading: Container(
-            clipBehavior: Clip.antiAlias,
-            height: 30,
-            width: 30,
-            decoration: const BoxDecoration(shape: BoxShape.circle),
-            child: SafeVectorGraphic(
-              iconPath: 'assets/flags/Spain.svg',
-              colorFilterEnabled: false,
-              fit: BoxFit.cover,
-            ),
-          ),
-          trailing: currentLocale?.languageCode == 'es'
-              ? const Icon(Icons.check)
-              : null,
+        _buildLanguageTile(
+          context: context,
+          title: 'Español',
+          iconPath: 'assets/flags/Spain.svg',
+          locale: const Locale('es'),
+          currentLocale: currentLocale,
         ),
-        ListTile(
-          title: const Text('Deutsch'),
-          onTap: () => ref
-              .read(localeProvider.notifier)
-              .updateLocale(const Locale('de')),
-          leading: Container(
-            clipBehavior: Clip.antiAlias,
-            height: 30,
-            width: 30,
-            decoration: const BoxDecoration(shape: BoxShape.circle),
-            child: SafeVectorGraphic(
-              iconPath: 'assets/flags/Germany.svg',
-              colorFilterEnabled: false,
-              fit: BoxFit.cover,
-            ),
-          ),
-          trailing: currentLocale?.languageCode == 'de'
-              ? const Icon(Icons.check)
-              : null,
+        _buildLanguageTile(
+          context: context,
+          title: 'Deutsch',
+          iconPath: 'assets/flags/Germany.svg',
+          locale: const Locale('de'),
+          currentLocale: currentLocale,
         ),
-        ListTile(
-          title: const Text('Français'),
-          onTap: () => ref
-              .read(localeProvider.notifier)
-              .updateLocale(const Locale('fr')),
-          leading: Container(
-            clipBehavior: Clip.antiAlias,
-            height: 30,
-            width: 30,
-            decoration: const BoxDecoration(shape: BoxShape.circle),
-            child: SafeVectorGraphic(
-              iconPath: 'assets/flags/France.svg',
-              colorFilterEnabled: false,
-              fit: BoxFit.cover,
-            ),
-          ),
-          trailing: currentLocale?.languageCode == 'fr'
-              ? const Icon(Icons.check)
-              : null,
+        _buildLanguageTile(
+          context: context,
+          title: 'Français',
+          iconPath: 'assets/flags/France.svg',
+          locale: const Locale('fr'),
+          currentLocale: currentLocale,
         ),
-        ListTile(
-          title: const Text('Türkçe'),
-          onTap: () => ref
-              .read(localeProvider.notifier)
-              .updateLocale(const Locale('tr')),
-          leading: Container(
-            clipBehavior: Clip.antiAlias,
-            height: 30,
-            width: 30,
-            decoration: const BoxDecoration(shape: BoxShape.circle),
-            child: SafeVectorGraphic(
-              iconPath: 'assets/flags/Turkey.svg',
-              colorFilterEnabled: false,
-              fit: BoxFit.cover,
-            ),
-          ),
-          trailing: currentLocale?.languageCode == 'tr'
-              ? const Icon(Icons.check)
-              : null,
+        _buildLanguageTile(
+          context: context,
+          title: 'Türkçe',
+          iconPath: 'assets/flags/Turkey.svg',
+          locale: const Locale('tr'),
+          currentLocale: currentLocale,
+        ),
+        _buildLanguageTile(
+          context: context,
+          title: 'Português (Brasil)',
+          iconPath: 'assets/flags/Brazil.svg',
+          locale: const Locale('pt', 'BR'),
+          currentLocale: currentLocale,
+        ),
+        _buildLanguageTile(
+          context: context,
+          title: 'Português (Portugal)',
+          iconPath: 'assets/flags/Portugal.svg',
+          locale: const Locale('pt', 'PT'),
+          currentLocale: currentLocale,
         ),
       ],
+    );
+  }
+
+  Widget _buildLanguageTile({
+    required BuildContext context,
+    required String title,
+    required String iconPath,
+    required Locale? locale,
+    required Locale? currentLocale,
+    Color? iconColor,
+    BoxFit fit = BoxFit.cover,
+  }) {
+    final isSelected = locale == null
+        ? currentLocale == null
+        : currentLocale?.languageCode == locale.languageCode &&
+            currentLocale?.countryCode == locale.countryCode;
+
+    return ListTile(
+      title: Text(title),
+      onTap: () {
+        if (locale == null) {
+          ref.read(localeProvider.notifier).resetLocale();
+        } else {
+          ref.read(localeProvider.notifier).updateLocale(locale);
+        }
+      },
+      leading: Container(
+        clipBehavior: Clip.antiAlias,
+        height: 30,
+        width: 30,
+        decoration: const BoxDecoration(shape: BoxShape.circle),
+        child: SafeVectorGraphic(
+          iconPath: iconPath,
+          colorFilterEnabled: iconColor != null,
+          color: iconColor,
+          fit: fit,
+        ),
+      ),
+      trailing: isSelected ? const Icon(Icons.check) : null,
     );
   }
 }

@@ -25,7 +25,12 @@ class LocaleNotifier extends Notifier<Locale?> {
       state = null;
     } else {
       Intl.defaultLocale = localStorageValue;
-      state = Locale(localStorageValue);
+      final parts = localStorageValue.split('_');
+      if (parts.length > 1) {
+        state = Locale(parts[0], parts[1]);
+      } else {
+        state = Locale(parts[0]);
+      }
     }
   }
 
@@ -33,13 +38,17 @@ class LocaleNotifier extends Notifier<Locale?> {
   Future<void> updateLocale(Locale newLocale) async {
     state = newLocale;
 
-    Intl.defaultLocale = newLocale.languageCode;
+    final localeString = newLocale.countryCode != null
+        ? '${newLocale.languageCode}_${newLocale.countryCode}'
+        : newLocale.languageCode;
+
+    Intl.defaultLocale = localeString;
 
     final prefs = await SharedPreferences.getInstance();
 
-    await prefs.setString('locale', newLocale.languageCode);
+    await prefs.setString('locale', localeString);
 
-    await AnalyticsManager.logLanguageChanged(newLocale.languageCode);
+    await AnalyticsManager.logLanguageChanged(localeString);
 
     await _rescheduleNotifications();
   }
