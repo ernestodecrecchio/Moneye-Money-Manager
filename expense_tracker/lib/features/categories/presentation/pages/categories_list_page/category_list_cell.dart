@@ -57,7 +57,8 @@ class CategoryListCell extends ConsumerWidget {
           foregroundColor: Colors.white,
           icon: Icons.delete,
           label: appLocalizations.delete,
-          onPressed: (context) async {
+          autoClose: false,
+          onPressed: (_) async {
             await _handleDeleteCategory(context, ref, appLocalizations);
           },
         ),

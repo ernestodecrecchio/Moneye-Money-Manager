@@ -61,6 +61,7 @@ class AccountListCell extends ConsumerWidget {
       foregroundColor: Colors.white,
       icon: Icons.delete,
       label: appLocalizations.delete,
+      autoClose: false,
       onPressed: (_) async {
         final isDeleteConfirmed =
             await showDeleteAccountAlert(context, appLocalizations);
