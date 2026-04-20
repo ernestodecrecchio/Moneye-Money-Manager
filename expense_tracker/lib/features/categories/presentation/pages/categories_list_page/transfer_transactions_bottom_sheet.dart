@@ -6,6 +6,7 @@ import 'package:expense_tracker/core/style/app_theme.dart';
 import 'package:expense_tracker/features/categories/domain/models/category.dart';
 import 'package:expense_tracker/features/categories/presentation/providers/queries/categories_list_notifier.dart';
 import 'package:expense_tracker/core/presentation/common/extensions/category_extensions.dart';
+import 'package:expense_tracker/features/categories/presentation/widgets/new_category_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -97,8 +98,11 @@ class _TransferTransactionsBottomSheetState
 
                     return ListView.builder(
                       shrinkWrap: true,
-                      itemCount: filteredList.length,
+                      itemCount: filteredList.length + 1,
                       itemBuilder: (BuildContext context, int index) {
+                        if (index == filteredList.length) {
+                          return const NewCategoryTile();
+                        }
                         return _buildCategoryTile(filteredList[index]);
                       },
                     );

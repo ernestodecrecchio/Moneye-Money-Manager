@@ -102,13 +102,23 @@ class CategoryListCell extends ConsumerWidget {
         );
 
         if (targetCategory != null && context.mounted) {
-          await ref
-              .read(categoryMutationProvider.notifier)
-              .reassignTransactionsAndDelete(
-                source: category,
-                target: targetCategory,
-              );
-          return true;
+          final isConfirmed = await showConfirmTransferTransactionsAlert(
+            context: context,
+            appLocalizations: appLocalizations,
+            count: count,
+            sourceCategoryName: category.name,
+            targetCategoryName: targetCategory.name,
+          );
+
+          if (isConfirmed && context.mounted) {
+            await ref
+                .read(categoryMutationProvider.notifier)
+                .reassignTransactionsAndDelete(
+                  source: category,
+                  target: targetCategory,
+                );
+            return true;
+          }
         }
         return false;
     }

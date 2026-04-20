@@ -12,13 +12,16 @@ class CategoryMutationNotifier extends AsyncNotifier<void> {
   @override
   Future<void> build() async {}
 
-  Future<void> addCategory(Category category) async {
-    state = AsyncLoading();
+  Future<Category?> addCategory(Category category) async {
+    state = const AsyncLoading();
 
+    Category? newCategory;
     state = await AsyncValue.guard(() async {
-      await _repo.insertCategory(category: category);
+      newCategory = await _repo.insertCategory(category: category);
       ref.invalidate(categoriesListProvider);
     });
+
+    return newCategory;
   }
 
   Future<void> updateCategory(Category original, Category modified) async {

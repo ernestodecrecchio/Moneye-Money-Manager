@@ -200,19 +200,20 @@ class _NewEditCategoryPageState extends ConsumerState<NewEditCategoryPage> {
       onPressed: () async {
         if (!_formKey.currentState!.validate()) return;
 
+        Category? result;
         if (editMode) {
-          await _editCategory();
+          result = await _editCategory();
         } else {
-          await _saveNewCategory();
+          result = await _saveNewCategory();
         }
 
         if (!mounted) return;
-        Navigator.of(context).pop();
+        Navigator.of(context).pop(result);
       },
     );
   }
 
-  Future<void> _saveNewCategory() async {
+  Future<Category?> _saveNewCategory() async {
     final newCategory = Category(
       name: titleInput.text,
       description: descriptionInput.text,
@@ -220,10 +221,12 @@ class _NewEditCategoryPageState extends ConsumerState<NewEditCategoryPage> {
       iconPath: selectedIconPath,
     );
 
-    await ref.read(categoryMutationProvider.notifier).addCategory(newCategory);
+    return await ref
+        .read(categoryMutationProvider.notifier)
+        .addCategory(newCategory);
   }
 
-  Future<void> _editCategory() async {
+  Future<Category?> _editCategory() async {
     final modifiedCategory = Category(
       id: widget.initialCategorySettings!.id,
       name: titleInput.text,
@@ -236,6 +239,8 @@ class _NewEditCategoryPageState extends ConsumerState<NewEditCategoryPage> {
           widget.initialCategorySettings!,
           modifiedCategory,
         );
+
+    return modifiedCategory;
   }
 
   Widget _buildDeleteAction(

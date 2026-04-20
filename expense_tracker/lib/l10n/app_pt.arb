@@ -198,6 +198,20 @@
     "work": "Trabalho",
     "year": "Ano",
     "yes": "sim",
+    "confirmTransferTransactionsMessage": "{count, plural, =1{1 transação será transferida} other{{count} transações serão transferidas}} de {source} para {target}. Tem certeza?",
+    "@confirmTransferTransactionsMessage": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            },
+            "source": {
+                "type": "String"
+            },
+            "target": {
+                "type": "String"
+            }
+        }
+    },
     "yesterday": "Ontem",
     "yourAccounts": "Suas contas",
     "yourCategories": "Suas categorias",

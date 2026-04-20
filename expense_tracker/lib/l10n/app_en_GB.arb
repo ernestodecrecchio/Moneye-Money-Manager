@@ -267,6 +267,20 @@
     "yearly": "Yearly",
     "yearlyInterval": "{count, plural, =1{Yearly} other{Every {count} years}}",
     "yes": "yes",
+    "confirmTransferTransactionsMessage": "{count, plural, =1{1 transaction} other{{count} transactions}} will be transferred from {source} to {target}. Are you sure?",
+    "@confirmTransferTransactionsMessage": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            },
+            "source": {
+                "type": "String"
+            },
+            "target": {
+                "type": "String"
+            }
+        }
+    },
     "yesterday": "Yesterday",
     "yourAccounts": "Your accounts",
     "yourCategories": "Your categories"

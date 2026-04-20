@@ -737,6 +737,18 @@ class AppLocalizationsPt extends AppLocalizations {
   String get yes => 'sim';
 
   @override
+  String confirmTransferTransactionsMessage(
+      int count, String source, String target) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count transações serão transferidas',
+      one: '1 transação será transferida',
+    );
+    return '$_temp0 de $source para $target. Tem certeza?';
+  }
+
+  @override
   String get yesterday => 'Ontem';
 
   @override
@@ -1477,6 +1489,18 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
 
   @override
   String get yes => 'sim';
+
+  @override
+  String confirmTransferTransactionsMessage(
+      int count, String source, String target) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count transações serão transferidas',
+      one: '1 transação será transferida',
+    );
+    return '$_temp0 de $source para $target. Tem certeza?';
+  }
 
   @override
   String get yesterday => 'Ontem';
@@ -2221,6 +2245,18 @@ class AppLocalizationsPtPt extends AppLocalizationsPt {
 
   @override
   String get yes => 'sim';
+
+  @override
+  String confirmTransferTransactionsMessage(
+      int count, String source, String target) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count transações serão transferidas',
+      one: '1 transação será transferida',
+    );
+    return '$_temp0 de $source para $target. Tem a certeza?';
+  }
 
   @override
   String get yesterday => 'Ontem';

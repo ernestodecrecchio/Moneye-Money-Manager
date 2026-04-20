@@ -1,12 +1,10 @@
 import 'package:expense_tracker/features/categories/presentation/providers/queries/categories_list_notifier.dart';
 import 'package:expense_tracker/core/presentation/providers/app_localizations_provider.dart';
-import 'package:expense_tracker/core/configuration/constants.dart';
-import 'package:expense_tracker/l10n/app_localizations.dart';
 import 'package:expense_tracker/features/categories/domain/models/category.dart';
 import 'package:expense_tracker/core/presentation/common/custom_modal_bottom_sheet.dart';
 import 'package:expense_tracker/core/presentation/common/widgets/icon_item.dart';
 import 'package:expense_tracker/core/presentation/common/widgets/safe_vector_graphic.dart';
-import 'package:expense_tracker/features/categories/presentation/pages/categories_list_page/new_edit_category_page.dart';
+import 'package:expense_tracker/features/categories/presentation/widgets/new_category_tile.dart';
 import 'package:expense_tracker/core/style/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -79,7 +77,7 @@ class _CategorySelectorContentState
                         itemCount: categoriesList.length + 1,
                         itemBuilder: (BuildContext context, int index) {
                           if (index == categoriesList.length) {
-                            return _buildAddCategoryTile(appLocalizations);
+                            return const NewCategoryTile();
                           }
                           return _buildCategoryTile(categoriesList[index]);
                         });
@@ -92,33 +90,6 @@ class _CategorySelectorContentState
           ),
         ],
       ),
-    );
-  }
-
-  ListTile _buildAddCategoryTile(AppLocalizations appLocalizations) {
-    final colors = context.appColors;
-    final textTheme = Theme.of(context).textTheme;
-    return ListTile(
-      leading: Container(
-        height: Constants.defaultIconItemHeight,
-        width: Constants.defaultIconItemWidth,
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          border: Border.all(color: colors.secondary, width: 2),
-        ),
-        child: Icon(
-          Icons.add,
-          color: colors.secondary,
-          size: 20,
-        ),
-      ),
-      title: Text(
-        appLocalizations.newCategory,
-        style: textTheme.bodyLarge?.copyWith(fontSize: 18),
-      ),
-      onTap: () {
-        Navigator.of(context).pushNamed(NewEditCategoryPage.routeName);
-      },
     );
   }
 

@@ -741,6 +741,18 @@ class AppLocalizationsEs extends AppLocalizations {
   String get yes => 'sí';
 
   @override
+  String confirmTransferTransactionsMessage(
+      int count, String source, String target) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count transacciones serán transferidas',
+      one: '1 transacción será transferida',
+    );
+    return '$_temp0 de $source a $target. ¿Estás seguro?';
+  }
+
+  @override
   String get yesterday => 'Ayer';
 
   @override

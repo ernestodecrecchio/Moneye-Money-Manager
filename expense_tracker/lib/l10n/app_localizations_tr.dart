@@ -737,6 +737,18 @@ class AppLocalizationsTr extends AppLocalizations {
   String get yes => 'evet';
 
   @override
+  String confirmTransferTransactionsMessage(
+      int count, String source, String target) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count işlem',
+      one: '1 işlem',
+    );
+    return '$_temp0 $source kaynağından $target hedefine aktarılacak. Emin misiniz?';
+  }
+
+  @override
   String get yesterday => 'Dün';
 
   @override

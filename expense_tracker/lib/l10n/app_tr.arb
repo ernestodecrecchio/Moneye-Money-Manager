@@ -267,6 +267,20 @@
     "yearly": "Yıllık",
     "yearlyInterval": "{count, plural, =1{Yıllık} other{Her {count} yılda bir}}",
     "yes": "evet",
+    "confirmTransferTransactionsMessage": "{count, plural, =1{1 işlem} other{{count} işlem}} {source} kaynağından {target} hedefine aktarılacak. Emin misiniz?",
+    "@confirmTransferTransactionsMessage": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            },
+            "source": {
+                "type": "String"
+            },
+            "target": {
+                "type": "String"
+            }
+        }
+    },
     "yesterday": "Dün",
     "yourAccounts": "Hesaplarınız",
     "yourCategories": "Kategorileriniz"

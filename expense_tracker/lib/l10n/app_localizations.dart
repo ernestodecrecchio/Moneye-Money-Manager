@@ -1384,6 +1384,13 @@ abstract class AppLocalizations {
   /// **'yes'**
   String get yes;
 
+  /// No description provided for @confirmTransferTransactionsMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 transaction} other{{count} transactions}} will be transferred from {source} to {target}. Are you sure?'**
+  String confirmTransferTransactionsMessage(
+      int count, String source, String target);
+
   /// No description provided for @yesterday.
   ///
   /// In en, this message translates to:

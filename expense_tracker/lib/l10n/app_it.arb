@@ -270,6 +270,20 @@
     "transactionGeneratedByDeletedRule": "Questa transazione è stata generata da una regola ricorrente che è stata eliminata.",
     "editRuleInfo": "Le modifiche a questa regola ricorrente non influiranno sulle transazioni che sono già state generate.",
     "recurringTransactionsOptionDescription": "Gestisci le tue regole per le transazioni ricorrenti",
+    "confirmTransferTransactionsMessage": "Verranno trasferite {count, plural, =1{1 transazione} other{{count} transazioni}} dalla categoria {source} alla categoria {target}. Sei sicuro?",
+    "@confirmTransferTransactionsMessage": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            },
+            "source": {
+                "type": "String"
+            },
+            "target": {
+                "type": "String"
+            }
+        }
+    },
     "generatedTransactionsSnackbar": "{count, plural, =1{1 transazione ricorrente generata} other{{count} transazioni ricorrenti generate}}",
     "@generatedTransactionsSnackbar": {
         "placeholders": {

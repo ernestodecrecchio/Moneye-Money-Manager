@@ -90,3 +90,40 @@ Future<CategoryDeletionResult> showDeleteCategoryAlert({
 
   return result ?? CategoryDeletionResult.cancel;
 }
+
+Future<bool> showConfirmTransferTransactionsAlert({
+  required BuildContext context,
+  required AppLocalizations appLocalizations,
+  required int count,
+  required String sourceCategoryName,
+  required String targetCategoryName,
+}) async {
+  final result = await showAdaptiveDialog<bool>(
+    context: context,
+    builder: (context) => AlertDialog.adaptive(
+      title: Text(appLocalizations.areYouSure),
+      content: Text(
+        appLocalizations.confirmTransferTransactionsMessage(
+          count,
+          sourceCategoryName,
+          targetCategoryName,
+        ),
+      ),
+      actions: [
+        adaptiveAction(
+          context: context,
+          onPressed: () => Navigator.of(context).pop(false),
+          child: Text(appLocalizations.cancel),
+        ),
+        adaptiveAction(
+          context: context,
+          onPressed: () => Navigator.of(context).pop(true),
+          isDestructiveAction: true,
+          child: Text(appLocalizations.delete),
+        ),
+      ],
+    ),
+  );
+
+  return result ?? false;
+}
