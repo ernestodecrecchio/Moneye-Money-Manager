@@ -2,22 +2,22 @@
   "1.0.9": [
     {
       "title": {
-        "en": "Transfer Category Transactions",
-        "it": "Trasferimento Transazioni di Categoria",
-        "es": "Transferir Transacciones de Categoría",
-        "de": "Kategorie-Transaktionen übertragen",
-        "fr": "Transférer les Transactions de Catégorie",
-        "tr": "Kategori İşlemlerini Aktar",
-        "pt": "Transferência de Transações de Categoria"
+        "en": "Transfer Transactions on Category Deletion",
+        "it": "Trasferisci Transazioni Eliminando una Categoria",
+        "es": "Transferir Transacciones al Eliminar una Categoría",
+        "de": "Transaktionen beim Löschen einer Kategorie übertragen",
+        "fr": "Transférer les Transactions lors de la Suppression d’une Catégorie",
+        "tr": "Kategori Silerken İşlemleri Aktar",
+        "pt": "Transferir Transações ao Excluir uma Categoria"
       },
       "description": {
-        "en": "When deleting a category that contains transactions, you can now choose to transfer them to another category instead of losing them. This gives you more control over your data when reorganizing your categories.",
-        "it": "Quando elimini una categoria che contiene transazioni, ora puoi scegliere di trasferirle in un'altra categoria anziché perderle. Questo ti dà maggiore controllo sui tuoi dati quando riorganizzi le categorie.",
-        "es": "Al eliminar una categoría que contiene transacciones, ahora puedes elegir transferirlas a otra categoría en lugar de perderlas. Esto te da más control sobre tus datos al reorganizar tus categorías.",
-        "de": "Wenn du eine Kategorie löschst, die Transaktionen enthält, kannst du diese nun in eine andere Kategorie übertragen, anstatt sie zu verlieren. Das gibt dir mehr Kontrolle über deine Daten beim Umorganisieren deiner Kategorien.",
-        "fr": "Lorsque vous supprimez une catégorie contenant des transactions, vous pouvez désormais choisir de les transférer vers une autre catégorie au lieu de les perdre. Cela vous donne plus de contrôle sur vos données lors de la réorganisation de vos catégories.",
-        "tr": "İşlem içeren bir kategoriyi silerken, artık işlemleri kaybetmek yerine başka bir kategoriye aktarmayı seçebilirsiniz. Bu, kategorilerinizi yeniden düzenlerken verileriniz üzerinde daha fazla kontrol sağlar.",
-        "pt": "Ao excluir uma categoria que contém transações, agora você pode optar por transferi-las para outra categoria em vez de perdê-las. Isso oferece mais controle sobre seus dados ao reorganizar suas categorias."
+        "en": "When you delete a category, you can now transfer its transactions to another category instead of losing them. Easily reorganize your categories while keeping your data intact.",
+        "it": "Quando elimini una categoria, ora puoi trasferire le sue transazioni in un'altra categoria invece di perderle. Riorganizza facilmente le tue categorie mantenendo intatti i tuoi dati.",
+        "es": "Al eliminar una categoría, ahora puedes transferir sus transacciones a otra categoría en lugar de perderlas. Reorganiza tus categorías fácilmente sin perder datos.",
+        "de": "Wenn du eine Kategorie löschst, kannst du ihre Transaktionen jetzt in eine andere Kategorie übertragen, anstatt sie zu verlieren. So kannst du deine Kategorien neu organisieren, ohne Daten zu verlieren.",
+        "fr": "Lorsque vous supprimez une catégorie, vous pouvez désormais transférer ses transactions vers une autre catégorie au lieu de les perdre. Réorganisez facilement vos catégories sans perdre de données.",
+        "tr": "Bir kategoriyi sildiğinizde, işlemlerini kaybetmek yerine artık başka bir kategoriye aktarabilirsiniz. Verilerinizi koruyarak kategorilerinizi kolayca yeniden düzenleyin.",
+        "pt": "Ao excluir uma categoria, agora você pode transferir suas transações para outra categoria em vez de perdê-las. Reorganize suas categorias facilmente sem perder dados."
       },
       "category": "new_feature"
     },
