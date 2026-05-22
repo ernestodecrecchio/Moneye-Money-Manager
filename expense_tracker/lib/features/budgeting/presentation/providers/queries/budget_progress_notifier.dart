@@ -7,34 +7,49 @@ import 'package:expense_tracker/features/budgeting/presentation/providers/budget
 import 'package:expense_tracker/features/budgeting/presentation/providers/queries/budgets_list_notifier.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-/// Progress for a [Budget]: syncs period rollover, then loads [spent] via SQL.
-final budgetProgressProvider =
-    FutureProvider.family<BudgetProgress, Budget>((ref, budget) async {
-  final now = DateTime.now();
-  final spentQuery = ref.read(budgetPeriodSpentQueryProvider);
-  final syncService = BudgetSyncService(
-    ref.read(budgetsRepositoryProvider),
-    spentQuery,
-  );
+class BudgetProgressNotifier extends AsyncNotifier<BudgetProgress> {
+  final Budget budget;
 
-  final synced = await syncService.syncBudgetIfNeeded(budget: budget, now: now);
-  if (synced != budget) {
-    ref.invalidate(budgetsListProvider);
+  BudgetProgressNotifier(this.budget);
+
+  @override
+  Future<BudgetProgress> build() async {
+    final now = DateTime.now();
+    final spentQuery = ref.read(budgetPeriodSpentQueryProvider);
+    final syncService = BudgetSyncService(
+      ref.read(budgetsRepositoryProvider),
+      spentQuery,
+    );
+
+    final synced =
+        await syncService.syncBudgetIfNeeded(budget: budget, now: now);
+    if (synced != budget) {
+      ref.invalidate(budgetsListProvider);
+    }
+
+    final period = BudgetCalculator.getPeriodBoundaries(synced, now);
+    final spent = await spentQuery(
+      categoryIds: synced.categoryIds,
+      start: period.start,
+      end: period.end,
+    );
+
+    return BudgetCalculator.calculateProgress(
+      budget: synced,
+      spent: spent,
+      now: now,
+    );
   }
 
-  final period = BudgetCalculator.getPeriodBoundaries(synced, now);
-  final spent = await spentQuery(
-    categoryIds: synced.categoryIds,
-    start: period.start,
-    end: period.end,
-  );
+  Future<void> refresh() async {
+    ref.invalidateSelf();
+  }
+}
 
-  return BudgetCalculator.calculateProgress(
-    budget: synced,
-    spent: spent,
-    now: now,
-  );
-});
+final budgetProgressProvider = AsyncNotifierProvider.family<
+    BudgetProgressNotifier, BudgetProgress, Budget>(
+  BudgetProgressNotifier.new,
+);
 
 /// Shown while [budgetProgressProvider] is loading.
 BudgetProgress budgetProgressPlaceholder(Budget budget) {

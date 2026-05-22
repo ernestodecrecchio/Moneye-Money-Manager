@@ -1,3 +1,4 @@
+import 'package:expense_tracker/features/budgeting/presentation/providers/queries/budget_progress_notifier.dart';
 import 'package:expense_tracker/features/categories/presentation/providers/categories_repository_provider.dart';
 import 'package:expense_tracker/features/categories/presentation/providers/queries/categories_list_notifier.dart';
 import 'package:expense_tracker/features/categories/domain/models/category.dart';
@@ -53,6 +54,7 @@ class CategoryMutationNotifier extends AsyncNotifier<void> {
 
       ref.invalidate(categoriesListProvider);
       ref.invalidate(transactionsListProvider);
+      ref.invalidate(budgetProgressProvider);
     });
   }
 
@@ -69,6 +71,7 @@ class CategoryMutationNotifier extends AsyncNotifier<void> {
 
       ref.invalidate(categoriesListProvider);
       ref.invalidate(transactionsListProvider);
+      ref.invalidate(budgetProgressProvider);
     });
   }
 }

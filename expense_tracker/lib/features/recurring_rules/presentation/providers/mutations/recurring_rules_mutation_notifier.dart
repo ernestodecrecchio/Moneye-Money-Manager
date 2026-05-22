@@ -1,3 +1,4 @@
+import 'package:expense_tracker/features/budgeting/presentation/providers/queries/budget_progress_notifier.dart';
 import 'package:expense_tracker/features/recurring_rules/presentation/providers/queries/recurring_rules_list_notifier.dart';
 import 'package:expense_tracker/features/recurring_rules/presentation/providers/recurring_rules_repository_provider.dart';
 import 'package:expense_tracker/features/recurring_rules/domain/models/recurring_rule.dart';
@@ -47,6 +48,7 @@ class RecurringRulesMutationNotifier extends AsyncNotifier<void> {
 
       ref.invalidate(recurringRulesListProvider);
       ref.invalidate(transactionsListProvider);
+      ref.invalidate(budgetProgressProvider);
     });
 
     return inserted;
@@ -81,6 +83,7 @@ class RecurringRulesMutationNotifier extends AsyncNotifier<void> {
 
       ref.invalidate(recurringRulesListProvider);
       ref.invalidate(transactionsListProvider);
+      ref.invalidate(budgetProgressProvider);
     });
   }
 
@@ -93,6 +96,7 @@ class RecurringRulesMutationNotifier extends AsyncNotifier<void> {
       if (removedRulesCount > 0) {
         ref.invalidate(recurringRulesListProvider);
         ref.invalidate(transactionsListProvider);
+        ref.invalidate(budgetProgressProvider);
       }
     });
   }

@@ -1,3 +1,4 @@
+import 'package:expense_tracker/features/budgeting/presentation/providers/queries/budget_progress_notifier.dart';
 import 'package:expense_tracker/features/accounts/presentation/providers/accounts_repository_provider.dart';
 import 'package:expense_tracker/core/configuration/analytics_manager.dart';
 import 'package:expense_tracker/features/accounts/presentation/providers/queries/accounts_list_notifier.dart';
@@ -54,6 +55,7 @@ class AccountMutationNotifier extends AsyncNotifier<void> {
       ref.invalidate(accountsWithBalanceProvider);
       ref.invalidate(transactionsListProvider);
       ref.invalidate(totalBalanceProvider);
+      ref.invalidate(budgetProgressProvider);
     });
   }
 }

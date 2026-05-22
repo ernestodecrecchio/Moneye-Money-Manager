@@ -1,6 +1,7 @@
 import 'package:expense_tracker/features/budgeting/domain/models/budget.dart';
 import 'package:expense_tracker/features/budgeting/domain/repositories/budgets_repository.dart';
 import 'package:expense_tracker/features/budgeting/presentation/providers/budgets_repository_provider.dart';
+import 'package:expense_tracker/features/budgeting/presentation/providers/queries/budget_progress_notifier.dart';
 import 'package:expense_tracker/features/budgeting/presentation/providers/queries/budgets_list_notifier.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -17,6 +18,7 @@ class BudgetMutationNotifier extends AsyncNotifier<void> {
     state = await AsyncValue.guard(() async {
       inserted = await _repo.insertBudget(budget: budget);
       ref.invalidate(budgetsListProvider);
+      ref.invalidate(budgetProgressProvider);
     });
 
     return inserted;
@@ -32,6 +34,7 @@ class BudgetMutationNotifier extends AsyncNotifier<void> {
       );
       if (success) {
         ref.invalidate(budgetsListProvider);
+        ref.invalidate(budgetProgressProvider);
       }
     });
   }
@@ -43,6 +46,7 @@ class BudgetMutationNotifier extends AsyncNotifier<void> {
       final deletedCount = await _repo.deleteBudget(budget: budget);
       if (deletedCount > 0) {
         ref.invalidate(budgetsListProvider);
+        ref.invalidate(budgetProgressProvider);
       }
     });
   }
