@@ -189,7 +189,7 @@ class ExpandedBudgetCard extends ConsumerWidget {
                   child: LinearProgressIndicator(
                     value: progress.percentage.clamp(0.0, 1.0),
                     minHeight: 8,
-                    backgroundColor: context.appColors.surface,
+                    backgroundColor: context.appColors.divider,
                     valueColor: AlwaysStoppedAnimation<Color>(stateColor),
                   ),
                 ),
@@ -273,7 +273,7 @@ class CompactBudgetCard extends ConsumerWidget {
                     child: CircularProgressIndicator(
                       value: progress.percentage.clamp(0.0, 1.0),
                       strokeWidth: 4,
-                      backgroundColor: context.appColors.surface,
+                      backgroundColor: context.appColors.divider,
                       valueColor: AlwaysStoppedAnimation<Color>(stateColor),
                     ),
                   ),
