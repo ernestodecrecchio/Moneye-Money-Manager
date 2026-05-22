@@ -1,0 +1,299 @@
+{
+    "@dailyInterval": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "@endedOn": {
+        "placeholders": {
+            "date": {
+                "type": "String"
+            }
+        }
+    },
+    "@generatedTransactionsSnackbar": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "@monthlyInterval": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "@weeklyInterval": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "@yearlyInterval": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "aboutAndSupport": "Hakkında ve Destek",
+    "accept": "Kabul et",
+    "account": "Hesap",
+    "accounts": "Hesaplar",
+    "accountsOptionDescription": "Hesapları yönet ve yenilerini oluştur",
+    "addOne": "bir tane ekle",
+    "allTransactions": "Tüm işlemler",
+    "amount": "Tutar",
+    "amountIsMandatory": "Tutar zorunludur",
+    "analyticsAlertDescription": "Gizliliğiniz önemlidir.\nKabul ederseniz, özelliklerin nasıl kullanıldığını anlamak ve uygulamayı geliştirmek için anonim kullanım verileri toplanacaktır.\nKişisel veriler, konum, işlemlerle ilgili ayrıntılar, hesaplar veya diğer bilgiler toplanmaz.\n\nBu seçeneği istediğiniz zaman ayarlardan devre dışı bırakabilirsiniz.",
+    "analyticsAlertTitle": "Uygulamayı geliştirmeye yardımcı olun",
+    "analyticsOptionDescription": "Gelecekteki geliştirmeleri planlamak için kullanılan özellik kullanımına ilişkin anonim veriler.\nKişisel veri toplanmaz.",
+    "analyticsOptionTitle": "Anonim kullanım istatistikleri",
+    "applyChanges": "Değişiklikleri kaydet",
+    "areYouSure": "Emin misiniz?",
+    "atTheEnd": "Sonunda",
+    "atTheStart": "Başlangıçta",
+    "back": "Geri",
+    "backupAndRestore": "Yedekle ve Geri Yükle",
+    "backupAndRestoreOptionDescription": "Verilerinizi dışa veya içe aktarın",
+    "balance": "Bakiye",
+    "bills": "Faturalar",
+    "billsAndUtilities": "Faturalar ve Hizmetler",
+    "byCategory": "Kategoriye göre",
+    "byList": "Listeye göre",
+    "cancel": "İptal",
+    "cash": "Nakit",
+    "categories": "Kategoriler",
+    "categoriesOptionDescription": "Kategorileri yönet ve yenilerini oluştur",
+    "category": "Kategori",
+    "color": "Renk",
+    "contacts": "İletişim",
+    "contactsDescription": "Bir hata bildirmek veya bir özellik önermek için geliştiriciyle iletişime geçin",
+    "contactsPageHeader": "Bir hata bildirmek, bir özellik önermek veya başka herhangi bir şey için benimle iletişime geçebilirsiniz!",
+    "continueCTA": "Devam et",
+    "crashTest": "Çökme Testi (Sadece Hata Ayıklama)",
+    "creditCard": "Kredi Kartı",
+    "currency": "Para Birimi",
+    "currencyConversionDisclaimer": "Not: Uygulamada gösterilen para birimini değiştirmek, işlem tutarlarında herhangi bir dönüştürme yapmayacaktır.",
+    "currencyPosition": "Para birimi simgesinin konumu",
+    "daily": "Günlük",
+    "dailyInterval": "{count, plural, =1{Günlük} other{Her {count} günde bir}}",
+    "dailyReminder": "Günlük hatırlatıcı",
+    "dailyReminderChannelDescription": "Günlük işlemlerinizi girmenizi hatırlatan bildirimler.",
+    "dailyReminderChannelName": "Günlük Hatırlatıcılar",
+    "darkTheme": "Koyu",
+    "dataAndPrivacy": "Veri ve Gizlilik",
+    "date": "Tarih",
+    "day": "Gün",
+    "debitCard": "Banka Kartı",
+    "decline": "Reddet",
+    "delete": "Sil",
+    "deleteAccountAlertBody": "Bir hesabı silmek, onunla ilişkili işlemleri kaldırmaz",
+    "deleteCategoryAlertBody": "Bir kategoriyi silmek, onunla ilişkili işlemleri kaldırmaz",
+    "deleteCategoryTitle": "Kategoriyi Sil",
+    "deleteCategoryTransactionsMessage": "{count, plural, =1{Bu kategori 1 işlem içeriyor} other{Bu kategori {count} işlem içeriyor}}. Ne yapmak istersiniz?",
+    "@deleteCategoryTransactionsMessage": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "description": "Açıklama",
+    "confirm": "Onayla",
+    "done": "Bitti!",
+    "edit": "Düzenle",
+    "editAccount": "Hesabı düzenle",
+    "editCategory": "Kategoriyi düzenle",
+    "editRecurringTransaction": "Tekrarlanan işlemi düzenle",
+    "editRuleInfo": "Bu tekrarlanan kuraldaki değişiklikler, zaten oluşturulmuş olan işlemleri etkilemez.",
+    "editTransaction": "İşlemi düzenle",
+    "education": "Eğitim",
+    "endConfigurationMsg1": "Tebrikler! Moneye artık yapılandırıldı ve harcamalarınızı verimli bir şekilde yönetmenize yardımcı olmaya hazır.",
+    "endConfigurationMsg2": "Finansal yolculuğunuzu optimize etmek için diğer heyecan verici özellikleri keşfetmeyi unutmayın.",
+    "endDate": "Bitiş tarihi",
+    "endDateInfo": "Bu tarihten sonra bu türden daha fazla işlem otomatik olarak oluşturulmaz.",
+    "endedOn": "{date} tarihinde sona erdi",
+    "entertainment": "Eğlence",
+    "essentialDataOptionDescription": "Uygulamanın düzgün çalışmasını sağlamak için kullanılan anonim çökme ve hata verileri.",
+    "essentialDataOptionTitle": "Temel teknik veriler",
+    "expense": "Gider",
+    "expenses": "Giderler",
+    "exportError": "Veriler dışa aktarılırken bir hata oluştu",
+    "exportSuccess": "Veriler başarıyla dışa aktarıldı",
+    "feedback": "Geri bildirim",
+    "feedbackAndReviewOptionDescription": "Moneye'yi beğendiniz mi? Bize bildirin!",
+    "finance": "Finans",
+    "financialOverviewForThisMonth": "Bu ayın finansal özeti",
+    "foodAndDining": "Yiyecek ve İçecek",
+    "frequency": "Sıklık",
+    "generatedTransactions": "Oluşturulan işlemler",
+    "generatedTransactionsSnackbar": "{count, plural, =1{1 tekrarlanan işlem oluşturuldu} other{{count} tekrarlanan işlem oluşturuldu}}",
+    "health": "Sağlık",
+    "icon": "İkon",
+    "importData": "Verileri içe aktar",
+    "importError": "Veriler içe aktarılırken bir hata oluştu",
+    "importSuccess": "Veriler başarıyla içe aktarıldı",
+    "importWarning": "Bir yedeği içe aktarmak tüm mevcut verileri silecektir. Devam etmek istediğinizden emin misiniz?",
+    "includeInReports": "Raporlara dahil et",
+    "income": "Gelir",
+    "incomes": "Gelirler",
+    "initialBalance": "Başlangıç bakiyesi",
+    "initialBalancePlaceholder": "Hesabın başlangıç bakiyesini girin",
+    "insertTheAccountName": "Hesap adını girin",
+    "insertTheAmountOfTheTransaction": "İşlem tutarını girin",
+    "insertTheDescription": "Bir açıklama girin",
+    "insertTheTitleOfTheCategory": "Kategorinin başlığını girin",
+    "insertTheTitleOfTheTransaction": "İşlemin başlığını girin",
+    "interval": "Her",
+    "language": "Dil",
+    "languageOptionDescription": "Uygulamada kullanılan dili seçin",
+    "lastTransactions": "Son işlemler",
+    "lightTheme": "Açık",
+    "management": "Yönetim",
+    "month": "Ay",
+    "monthly": "Aylık",
+    "monthlyInterval": "{count, plural, =1{Aylık} other{Her {count} ayda bir}}",
+    "newAccount": "Yeni hesap",
+    "newCategory": "Yeni kategori",
+    "newRecurringTransaction": "Yeni tekrarlanan işlem",
+    "newTransaction": "Yeni işlem",
+    "nextDate": "Sonraki tarih",
+    "no": "hayır",
+    "noAccountAdded": "Hesap eklenmedi,",
+    "noAccounts": "Hesap yok",
+    "noCategories": "Kategori yok",
+    "none": "Hiçbiri",
+    "notificationSubtitle": "Günlük işlemlerinizi girmeyi unutmayın!",
+    "notificationTitle": "Moneye",
+    "noTransactions": "İşlem yok",
+    "other": "Diğer",
+    "personalization": "Kişiselleştirme",
+    "petExpenses": "Evcil Hayvan Giderleri",
+    "privacy": "Gizlilik",
+    "privacyAssurance": "Gizlilik bir önceliktir. İsimler, e-postalar, işlem tutarları veya tanımlayıcı veriler asla toplanmaz. Tüm raporlar kesinlikle anonimdir.",
+    "privacyAssuranceLabel": "Gizlilik Garantisi",
+    "privacyIntroduction": "Uygulamayı geliştirmeye yardımcı olmak ve kararlılığını sağlamak için hangi verilerin toplanabileceğini seçin.",
+    "privacyOptionDescription": "Verilerin nasıl toplanıp kullanıldığını yapılandırın",
+    "recurringTransactions": "Tekrarlanan İşlemler",
+    "recurringTransactionsOptionDescription": "Tekrarlanan işlemler için kurallarınızı yönetin",
+    "reminder": "Hatırlatıcı",
+    "reminderDescription": "Moneye her gün belirlediğiniz bir saatte yeni işlemler girmenizi hatırlatacaktır.\n\nVerilerinizi güncel tutmayı asla unutmayacaksınız!",
+    "reminderOptionDescription": "Yeni işlemler girmeyi hatırlatmak için bir hatırlatıcı ayarlayın",
+    "repeatTransaction": "İşlemi tekrarla",
+    "reportBug": "Bir hata bildirin",
+    "resetData": "Tüm verileri sil",
+    "resetError": "Veriler silinirken bir hata oluştu",
+    "resetSuccess": "Tüm veriler başarıyla silindi",
+    "resetWarning": "Tüm verileriniz kalıcı olarak silinecektir. Bu işlem geri alınamaz. Devam etmek istediğinizden emin misiniz?",
+    "ruleDetails": "Kural detayları",
+    "save": "Kaydet",
+    "saveToDevice": "Cihaza kaydet",
+    "savings": "Tasarruflar",
+    "selectAccount": "Hesap seç",
+    "selectAccountMsg1": "İzlemek istediğiniz hesapları seçin",
+    "selectAccountMsg2": "Nakit, kredi kartı veya diğerleri\nYakından takip etmek istediklerinizi seçin",
+    "selectCategory": "Kategori seç",
+    "selectCategoryMsg1": "İşlemlerinizi kategorize ederek Moneye'den en iyi şekilde yararlanın",
+    "selectCategoryMsg2": "Önceden yapılandırılmış listeden seçin veya daha sonra kendi özel kategorilerinizi oluşturun.",
+    "selectColor": "Renk seç",
+    "selectCurrency": "Para birimi seç",
+    "selectDate": "Tarih seç",
+    "selectEndDate": "Bitiş tarihini seç",
+    "selectIcon": "İkon seç",
+    "selectTargetCategory": "Hedef kategoriyi seç",
+    "selectTimeInterval": "Dönemi seç",
+    "transferTransactionsMessage": "{count, plural, =1{1 işlemi aktar} other{{count} işlemi aktar}}:",
+    "@transferTransactionsMessage": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "sendTestNotification": "Nasıl görüneceğini bana göster",
+    "settings": "Ayarlar",
+    "shareBackup": "Yedeği paylaş",
+    "shopping": "Alışveriş",
+    "skip": "Atla",
+    "sports": "Spor",
+    "subscriptions": "Abonelikler",
+    "suggestFeature": "Bir özellik öner",
+    "systemLanguageOption": "Otomatik (sisteme dayalı)",
+    "systemTheme": "Otomatik",
+    "testNotificationSent": "Test bildirimi gönderildi!",
+    "theme": "Tema",
+    "themeOptionDescription": "Uygulamanın görünümünü değiştir",
+    "title": "Başlık",
+    "titleIsMandatory": "Başlık zorunludur",
+    "today": "Bugün",
+    "total": "Toplam",
+    "totalBalance": "Toplam Bakiye",
+    "transactionDeleted": "İşlem silindi",
+    "transactionGeneratedByDeletedRule": "Bu işlem, silinmiş olan tekrarlanan bir kural tarafından oluşturulmuştur.",
+    "transactionGeneratedByRule": "Bu işlem, tekrarlanan bir kural tarafından otomatik olarak oluşturulmuştur. Bu işlemi düzenlemek gelecekteki işlemleri etkilemez.",
+    "transactionList": "İşlem listesi",
+    "transportation": "Ulaşım",
+    "transferTransactions": "İşlemleri Aktar",
+    "updateHistory": "Güncelleme geçmişi",
+    "updateHistoryEmptyList": "Hiçbir güncelleme bulunamadı.",
+    "updateHistoryOptionDescription": "En son özellikleri ve güncellemeleri görüntüle",
+    "version": "Sürüm",
+    "viewAll": "Hepsini gör",
+    "viewRule": "Kuralı gör",
+    "week": "Hafta",
+    "weekly": "Haftalık",
+    "weeklyInterval": "{count, plural, =1{Haftalık} other{Her {count} haftada bir}}",
+    "welcomePageMsg1": "Moneye'ye hoş geldiniz!",
+    "welcomePageMsg2": "Finansal kontrol yolculuğunuza birlikte başlayalım.\n\nBirkaç adımda uygulamayı yapılandırmanıza yardımcı olacağım.",
+    "whatsNew": "Neler yeni",
+    "work": "İş",
+    "year": "Yıl",
+    "yearly": "Yıllık",
+    "yearlyInterval": "{count, plural, =1{Yıllık} other{Her {count} yılda bir}}",
+    "yes": "evet",
+    "confirmTransferTransactionsMessage": "{count, plural, =1{1 işlem} other{{count} işlem}} {source} kaynağından {target} hedefine aktarılacak. Emin misiniz?",
+    "@confirmTransferTransactionsMessage": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            },
+            "source": {
+                "type": "String"
+            },
+            "target": {
+                "type": "String"
+            }
+        }
+    },
+    "yesterday": "Dün",
+    "yourAccounts": "Hesaplarınız",
+    "yourCategories": "Kategorileriniz",
+    "budgeting": "Bütçeleme",
+    "newBudget": "Yeni bütçe",
+    "editBudget": "Bütçeyi düzenle",
+    "amountSpentOf": "harcanan üzerinden",
+    "amountRemaining": "kalan",
+    "overBudget": "bütçe aşıldı",
+    "rollover": "Devir",
+    "budgetDuration": "Bütçe süresi",
+    "selectCategories": "Kategorileri seç",
+    "noBudgetsYet": "Henüz bütçe yok",
+    "startDate": "Başlangıç tarihi",
+    "startsOnDayOfMonth": "Ayın gününde başlar",
+    "startsOnWeekday": "Haftanın gününde başlar",
+    "selectAtLeastOneCategory": "Lütfen en az bir kategori seçin",
+    "deleteBudgetConfirmation": "Bu bütçeyi silmek istiyor musunuz?",
+    "budgetTitleHint": "örn. Aylık Market Bütçem",
+    "rolloverMode": "Devir modu",
+    "carryRemaining": "Kalanı devret",
+    "carryOverspending": "Aşımı devret",
+    "rolloverModeNoneDescription": "Kullanılmayan para devredilmez. Her bütçe dönemi sıfırdan başlar.",
+    "rolloverModeCarryRemainingDescription": "Harcanmayan para bir sonraki dönemin bütçesine eklenir.",
+    "rolloverModeCarryOverspendingDescription": "Bütçeyi aşarsanız, negatif bakiye bir sonraki döneme devredilir."
+}

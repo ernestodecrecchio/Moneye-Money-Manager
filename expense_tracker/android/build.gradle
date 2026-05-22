@@ -13,6 +13,16 @@ subprojects {
     project.evaluationDependsOn(':app')
 }
 
+// home_widget uses glance-appwidget:1.+, which can resolve to alpha releases
+// requiring AGP 9.1+ and compileSdk 37. Pin to a stable release compatible with AGP 8.x.
+subprojects { subproject ->
+    subproject.configurations.configureEach {
+        resolutionStrategy {
+            force 'androidx.glance:glance-appwidget:1.1.1'
+        }
+    }
+}
+
 tasks.register("clean", Delete) {
     delete rootProject.buildDir
 }

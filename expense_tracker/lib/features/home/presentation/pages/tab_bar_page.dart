@@ -1,0 +1,95 @@
+import 'package:expense_tracker/core/configuration/analytics_manager.dart';
+import 'package:expense_tracker/core/presentation/providers/analytics_consent_provider.dart';
+import 'package:expense_tracker/core/presentation/providers/app_localizations_provider.dart';
+import 'package:expense_tracker/core/presentation/common/widgets/safe_vector_graphic.dart';
+import 'package:expense_tracker/features/home/presentation/pages/home_page/home_page.dart';
+import 'package:expense_tracker/features/budgeting/presentation/pages/budget_list_page/budget_list_page.dart';
+import 'package:expense_tracker/features/settings/presentation/pages/options_page/options_page.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:expense_tracker/core/style/app_theme.dart';
+import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
+
+class TabBarPage extends ConsumerStatefulWidget {
+  static const routeName = '/TabBarPage';
+
+  const TabBarPage({super.key});
+
+  @override
+  ConsumerState<TabBarPage> createState() => _TabBarPageState();
+}
+
+class _TabBarPageState extends ConsumerState<TabBarPage> {
+  int index = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _checkAnalyticsConsent();
+    });
+  }
+
+  void _checkAnalyticsConsent() {
+    final consent = ref.read(analyticsConsentProvider);
+    if (consent == null) {
+      AnalyticsManager.showConsentDialog(context: context, ref: ref);
+    }
+  }
+
+  final screen = [
+    const HomePage(),
+    const BudgetListPage(),
+    const OptionsPage(),
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    final appLocalizations = ref.watch(appLocalizationsProvider);
+
+    return Scaffold(
+        bottomNavigationBar: SalomonBottomBar(
+          currentIndex: index,
+          selectedItemColor: context.appColors.primary,
+          unselectedItemColor: context.appColors.textSecondary,
+          onTap: (newIndex) {
+            setState(() => index = newIndex);
+          },
+          items: [
+            SalomonBottomBarItem(
+              icon: SafeVectorGraphic(
+                iconPath: 'assets/icons/transactions.svg',
+                color: index == 0
+                    ? context.appColors.primary
+                    : context.appColors.textSecondary,
+              ),
+              title: const Text(
+                'Dashboard',
+                style: TextStyle(fontFamily: 'Ubuntu'),
+              ),
+            ),
+            SalomonBottomBarItem(
+              icon: Icon(
+                Icons.savings_rounded,
+                color: index == 1
+                    ? context.appColors.primary
+                    : context.appColors.textSecondary,
+              ),
+              title: Text(
+                appLocalizations.budgeting,
+                style: const TextStyle(fontFamily: 'Ubuntu'),
+              ),
+            ),
+            SalomonBottomBarItem(
+              icon: const Icon(CupertinoIcons.gear_solid),
+              title: Text(
+                appLocalizations.settings,
+                style: const TextStyle(fontFamily: 'Ubuntu'),
+              ),
+            ),
+          ],
+        ),
+        body: screen[index]);
+  }
+}

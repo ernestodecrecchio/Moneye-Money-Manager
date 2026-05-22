@@ -1,4 +1,191 @@
 {
+  "1.1.0": [
+    {
+      "title": {
+        "en": "Budgeting",
+        "it": "Budgeting",
+        "es": "Gestión de Presupuestos",
+        "de": "Budgetplanung",
+        "fr": "Budgétisation",
+        "tr": "Bütçeleme",
+        "pt": "Planejamento de Orçamento"
+      },
+      "description": {
+        "en": "Keep track of your spending over time with the new Budgeting feature. Monitor your progress for each category and stay informed about your financial habits.",
+        "it": "Monitora quanto stai spendendo in un determinato periodo temporale con la nuova funzione Budgeting. Tieni traccia dei tuoi progressi per categoria per avere sempre sotto controllo le tue finanze.",
+        "es": "Sigue tus gastos a lo largo del tiempo con la nueva función de Presupuestos. Monitorea tu progreso por categoría y mantente informado sobre tus hábitos financieros.",
+        "de": "Verfolgen Sie Ihre Ausgaben im Laufe der Zeit mit der neuen Budgetplanungsfunktion. Überwachen Sie Ihren Fortschritt pro Kategorie und bleiben Sie über Ihre Finanzgewohnheiten informiert.",
+        "fr": "Suivez vos dépenses au fil du temps grâce à la nouvelle fonction de budgétisation. Surveillez vos progrès par catégorie et restez informé de vos habitudes financières.",
+        "tr": "Yeni Bütçeleme özelliği ile zaman içindeki harcamalarınızı takip edin. Her kategori için ilerlemenizi izleyin ve finansal alışkanlıklarınız hakkında bilgi sahibi olun.",
+        "pt": "Acompanhe seus gastos ao longo do tempo com o novo recurso de Orçamento. Monitore seu progresso por categoria e mantenha-se informado sobre seus hábitos financeiros."
+      },
+      "category": "new_feature"
+    },
+    {
+      "title": {
+        "en": "UI/UX Improvements",
+        "it": "Miglioramenti UI/UX",
+        "es": "Mejoras de UI/UX",
+        "de": "UI/UX-Verbesserungen",
+        "fr": "Améliorations UI/UX",
+        "tr": "UI/UX İyileştirmeleri",
+        "pt": "Melhorias de UI/UX"
+      },
+      "description": {
+        "en": "Several refinements have been made across the app to improve the overall look and feel, making Moneye even more polished and pleasant to use.",
+        "it": "Sono stati apportati diversi miglioramenti in tutta l'app per migliorare l'aspetto generale, rendendo Moneye ancora più curata e piacevole da usare.",
+        "es": "Se han realizado varias mejoras en toda la aplicación para mejorar el aspecto general, haciendo que Moneye sea aún más pulida y agradable de usar.",
+        "de": "In der gesamten App wurden diverse Verfeinerungen vorgenommen, um das Erscheinungsbild zu verbessern und Moneye noch ansprechender und angenehmer zu gestalten.",
+        "fr": "Plusieurs améliorations ont été apportées dans toute l'application pour en améliorer l'aspect général, rendant Moneye encore plus soignée et agréable à utiliser.",
+        "tr": "Moneye'yi daha da şık ve kullanımı keyifli hale getirmek için uygulama genelinde çeşitli iyileştirmeler yapıldı.",
+        "pt": "Vários aprimoramentos foram feitos em todo o aplicativo para melhorar a aparência e a usabilidade geral, tornando o Moneye ainda mais refinado e agradável de usar."
+      },
+      "category": "ui"
+    }
+  ],
+  "1.0.9": [
+    {
+      "title": {
+        "en": "Transfer Transactions on Category Deletion",
+        "it": "Trasferisci Transazioni Eliminando una Categoria",
+        "es": "Transferir Transacciones al Eliminar una Categoría",
+        "de": "Transaktionen beim Löschen einer Kategorie übertragen",
+        "fr": "Transférer les Transactions lors de la Suppression d’une Catégorie",
+        "tr": "Kategori Silerken İşlemleri Aktar",
+        "pt": "Transferir Transações ao Excluir uma Categoria"
+      },
+      "description": {
+        "en": "When you delete a category, you can now transfer its transactions to another category instead of losing them. Easily reorganize your categories while keeping your data intact.",
+        "it": "Quando elimini una categoria, ora puoi trasferire le sue transazioni in un'altra categoria invece di perderle. Riorganizza facilmente le tue categorie mantenendo intatti i tuoi dati.",
+        "es": "Al eliminar una categoría, ahora puedes transferir sus transacciones a otra categoría en lugar de perderlas. Reorganiza tus categorías fácilmente sin perder datos.",
+        "de": "Wenn du eine Kategorie löschst, kannst du ihre Transaktionen jetzt in eine andere Kategorie übertragen, anstatt sie zu verlieren. So kannst du deine Kategorien neu organisieren, ohne Daten zu verlieren.",
+        "fr": "Lorsque vous supprimez une catégorie, vous pouvez désormais transférer ses transactions vers une autre catégorie au lieu de les perdre. Réorganisez facilement vos catégories sans perdre de données.",
+        "tr": "Bir kategoriyi sildiğinizde, işlemlerini kaybetmek yerine artık başka bir kategoriye aktarabilirsiniz. Verilerinizi koruyarak kategorilerinizi kolayca yeniden düzenleyin.",
+        "pt": "Ao excluir uma categoria, agora você pode transferir suas transações para outra categoria em vez de perdê-las. Reorganize suas categorias facilmente sem perder dados."
+      },
+      "category": "new_feature"
+    },
+    {
+      "title": {
+        "en": "UI/UX Improvements",
+        "it": "Miglioramenti UI/UX",
+        "es": "Mejoras de UI/UX",
+        "de": "UI/UX-Verbesserungen",
+        "fr": "Améliorations UI/UX",
+        "tr": "UI/UX İyileştirmeleri",
+        "pt": "Melhorias de UI/UX"
+      },
+      "description": {
+        "en": "Several refinements have been made across the app to improve the overall look and feel, making Moneye even more polished and pleasant to use.",
+        "it": "Sono stati apportati diversi miglioramenti in tutta l'app per migliorare l'aspetto generale, rendendo Moneye ancora più curata e piacevole da usare.",
+        "es": "Se han realizado varias mejoras en toda la aplicación para mejorar el aspecto general, haciendo que Moneye sea aún más pulida y agradable de usar.",
+        "de": "In der gesamten App wurden verschiedene Verfeinerungen vorgenommen, um das Erscheinungsbild zu verbessern und Moneye noch ansprechender und angenehmer zu gestalten.",
+        "fr": "Plusieurs améliorations ont été apportées dans toute l'application pour en améliorer l'aspect général, rendant Moneye encore plus soignée et agréable à utiliser.",
+        "tr": "Moneye'yi daha da şık ve kullanımı keyifli hale getirmek için uygulama genelinde çeşitli iyileştirmeler yapıldı.",
+        "pt": "Vários aprimoramentos foram feitos em todo o aplicativo para melhorar a aparência e a usabilidade geral, tornando o Moneye ainda mais refinado e agradável de usar."
+      },
+      "category": "ui"
+    },
+    {
+      "title": {
+        "en": "More Languages & Regional Support",
+        "it": "Più Lingue e Supporto Regionale",
+        "es": "Más Idiomas y Soporte Regional",
+        "de": "Mehr Sprachen & Regionale Unterstützung",
+        "fr": "Plus de Langues et Support Régional",
+        "tr": "Daha Fazla Dil ve Bölgesel Destek",
+        "pt": "Mais Idiomas e Suporte Regional"
+      },
+      "description": {
+        "en": "Moneye now explicitly supports Portuguese (Brazil and Portugal) and English (UK and US). If you notice any translation issues, feel free to contact the developer from the dedicated section in Settings!",
+        "it": "Moneye ora supporta esplicitamente il portoghese (Brasile e Portogallo) e l'inglese (Regno Unito e Stati Uniti). Se noti problemi di traduzione, non esitare a contattare lo sviluppatore dall'apposita sezione nelle Impostazioni!",
+        "es": "Moneye ahora soporta explícitamente el portugués (Brasil y Portugal) y el inglés (Reino Unido y EE. UU.). Si notas algún problema de traducción, no dudes en contactar al desarrollador desde la sección dedicada en Ajustes.",
+        "de": "Moneye unterstützt nun ausdrücklich Portugiesisch (Brasilien und Portugal) sowie Englisch (Großbritannien und USA). Wenn dir Übersetzungsprobleme auffallen, kannst du den Entwickler gerne über den entsprechenden Bereich in den Einstellungen kontaktieren!",
+        "fr": "Moneye prend désormais explicitement en charge le portugais (Brésil et Portugal) et l'anglais (Royaume-Uni et États-Unis). Si vous remarquez des problèmes de traduction, n'hésitez pas à contacter le développeur depuis la section dédiée dans les Paramètres !",
+        "tr": "Moneye artık Portekizce'yi (Brezilya ve Portekiz) ve İngilizce'yi (İngiltere ve ABD) açıkça destekliyor. Herhangi bir çeviri sorunu fark ederseniz, Ayarlar'daki ilgili bölümden geliştiriciyle iletişime geçmekten çekinmeyin!",
+        "pt": "O Moneye agora suporta explicitamente o português (Brasil e Portugal) e o inglês (Reino Unido e EUA). Se você notar algum problema de tradução, fique à vontade para contatar o desenvolvedor na seção dedicada nas Configurações!"
+      },
+      "category": "translation"
+    }
+  ],
+  "1.0.8": [
+    {
+      "title": {
+        "en": "Turkish Language Support",
+        "it": "Supporto alla Lingua Turca",
+        "es": "Compatibilidad con el Idioma Turco",
+        "de": "Unterstützung für Türkisch",
+        "fr": "Support de la Langue Turque",
+        "tr": "Türkçe Dil Desteği"
+      },
+      "description": {
+        "en": "Moneye is now available in Turkish! You can switch to Turkish from the language settings.",
+        "it": "Moneye è ora disponibile in turco! Puoi passare al turco dalle impostazioni della lingua.",
+        "es": "¡Moneye ahora está disponible en turco! Puedes cambiar al turco desde la configuración de idioma.",
+        "de": "Moneye ist jetzt auch auf Türkisch verfügbar! Du kannst die Sprache in den Einstellungen auf Türkisch umstellen.",
+        "fr": "Moneye est désormais disponible en turc ! Vous pouvez changer la langue dans les paramètres.",
+        "tr": "Moneye artık Türkçe'yi destekliyor! Dil ayarlarından Türkçe'ye geçiş yapabilirsiniz."
+      },
+      "category": "translation"
+    },
+    {
+      "title": {
+        "en": "UI Improvements",
+        "it": "Miglioramenti dell'interfaccia",
+        "es": "Mejoras en la interfaz",
+        "de": "UI-Verbesserungen",
+        "fr": "Améliorations de l'interface",
+        "tr": "UI İyileştirmeleri"
+      },
+      "description": {
+        "en": "Numerous improvements have been introduced across the app to enhance usability and make Moneye more intuitive and enjoyable to use.",
+        "it": "Sono stati introdotti numerosi miglioramenti in tutta l'app per migliorare l'usabilità e rendere Moneye più intuitiva e piacevole da usare.",
+        "es": "Se han introducido numerosas mejoras en toda la aplicación para mejorar la usabilidad y hacer que Moneye sea más intuitiva y agradable de usar.",
+        "de": "Es wurden zahlreiche Verbesserungen in der gesamten App eingeführt, um die Benutzerfreundlichkeit zu erhöhen und Moneye intuitiver und angenehmer zu gestalten.",
+        "fr": "De nombreuses améliorations ont été apportées dans toute l'application afin d'améliorer l'expérience utilisateur et de rendre Moneye plus intuitive et agréable à utiliser.",
+        "tr": "Moneye'yi daha sezgisel ve kullanımı keyifli hale getirmek için uygulama genelinde sayısız iyileştirme yapıldı."
+      },
+      "category": "ui"
+    },
+    {
+      "title": {
+        "en": "Bug Fixes",
+        "it": "Correzioni di Bug",
+        "es": "Corrección de Errores",
+        "de": "Fehlerbehebungen",
+        "fr": "Corrections de bugs",
+        "tr": "Hata Düzeltmeleri"
+      },
+      "description": {
+        "en": "Stability improvements and bug fixes for a smoother experience.",
+        "it": "Miglioramenti della stabilità e correzioni di bug per un'esperienza più fluida.",
+        "es": "Mejoras de estabilidad y corrección de errores para una experiencia más fluida.",
+        "de": "Stabilitätsverbesserungen und Fehlerbehebungen für ein reibungsloseres Erlebnis.",
+        "fr": "Améliorations de la stabilité et corrections de bugs pour une expérience plus fluide.",
+        "tr": "Daha sorunsuz bir deneyim için kararlılık iyileştirmeleri ve hata düzeltmeleri."
+      },
+      "category": "stability"
+    },
+    {
+      "title": {
+        "en": "More Icons",
+        "it": "Nuove Icone",
+        "es": "Más Iconos",
+        "de": "Neue Icons",
+        "fr": "Nouvelles Icônes",
+        "tr": "Yeni Simgeler"
+      },
+      "description": {
+        "en": "Additional icons are now available to give you even more ways to personalize your accounts and categories.",
+        "it": "Sono disponibili nuove icone per offrirti ancora più possibilità di personalizzare conti e categorie.",
+        "es": "Nuevos iconos están disponibles para ofrecerte aún más formas de personalizar cuentas y categorías.",
+        "de": "Neue Icons sind verfügbar, um dir noch mehr Möglichkeiten zur Personalisierung von Konten und Kategorien zu bieten.",
+        "fr": "De nouvelles icônes sont désormais disponibles pour vous offrir encore plus de possibilités de personnaliser vos comptes et catégories.",
+        "tr": "Hesaplarınızı ve kategorilerinizi daha fazla kişiselleştirmeniz için yeni simgeler eklendi."
+      },
+      "category": "icons"
+    }
+  ],
   "1.0.7": [
     {
       "title": {

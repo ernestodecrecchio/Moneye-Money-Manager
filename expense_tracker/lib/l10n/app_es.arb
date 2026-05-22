@@ -33,12 +33,10 @@
     "contactsDescription": "Contacta al desarrollador para informar un error o sugerir una función",
     "contactsPageHeader": "¡Puedes contactarme para informar un error, sugerir una función o lo que quieras!",
     "continueCTA": "Continuar",
-    "crashReports": "Informes de errores y fallos",
     "crashTest": "Prueba de Fallo (Solo Debug)",
     "creditCard": "Tarjeta de Crédito",
     "currency": "Moneda",
     "currencyConversionDisclaimer": "Nota: Cambiar la moneda mostrada en la aplicación no resultará en conversiones de montos de transacciones.",
-    "currencyOptionDescription": "Selecciona y personaliza la moneda utilizada",
     "currencyPosition": "Posición del símbolo de la moneda",
     "dailyReminder": "Recordatorio diario",
     "dailyReminderChannelDescription": "Notificaciones para recordarte ingresar tus transacciones diarias.",
@@ -51,7 +49,17 @@
     "delete": "Eliminar",
     "deleteAccountAlertBody": "Eliminar una cuenta no eliminará las transacciones asociadas a ella.",
     "deleteCategoryAlertBody": "Eliminar una categoría no eliminará las transacciones asociadas a ella.",
+    "deleteCategoryTitle": "Eliminar Categoría",
+    "deleteCategoryTransactionsMessage": "{count, plural, =1{Esta categoría contiene 1 transacción} other{Esta categoría contiene {count} transacciones}}. ¿Qué deseas hacer?",
+    "@deleteCategoryTransactionsMessage": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
     "description": "Descripción",
+    "confirm": "Confirmar",
     "done": "Hecho",
     "edit": "Editar",
     "editAccount": "Editar cuenta",
@@ -65,7 +73,6 @@
     "essentialDataOptionTitle": "Datos técnicos esenciales",
     "expense": "Gasto",
     "expenses": "Gastos",
-    "exportData": "Exportar datos",
     "exportError": "Ocurrió un error al exportar los datos",
     "exportSuccess": "Datos exportados con éxito",
     "feedback": "Comentarios",
@@ -106,7 +113,6 @@
     "notificationTitle": "Moneye",
     "noTransactions": "Sin transacciones",
     "other": "Otra",
-    "personalInfo": "Información personal",
     "petExpenses": "Gastos de Mascotas",
     "privacy": "Privacidad",
     "privacyAssurance": "La privacidad es una prioridad. Nunca se recopilan nombres, correos electrónicos, montos de transacciones ni ningún dato que pueda identificar al usuario. Todos los informes son estrictamente anónimos.",
@@ -131,12 +137,19 @@
     "selectCategoryMsg1": "Aprovecha al máximo Moneye categorizando tus transacciones",
     "selectCategoryMsg2": "Elige de nuestra lista preconfigurada o crea tus propias categorías personalizadas más adelante.",
     "selectCurrency": "Selecciona la moneda",
-    "selectCurrencyMsg1": "Selecciona tu moneda preferida",
-    "selectCurrencyMsg2": "No te preocupes, siempre podrás cambiarla después según tus necesidades.",
-    "selectCurrencyPosition": "Selecciona la posición del símbolo de la moneda",
+    "selectColor": "Seleccionar color",
     "selectDate": "Selecciona la fecha",
     "selectIcon": "Seleccionar ícono",
+    "selectTargetCategory": "Seleccionar categoría de destino",
     "selectTimeInterval": "Seleccione el intervalo de tiempo",
+    "transferTransactionsMessage": "{count, plural, =1{Transferir 1 transacción} other{Transferir {count} transacciones}} a:",
+    "@transferTransactionsMessage": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
     "sendTestNotification": "Muéstrame cómo aparecerá",
     "settings": "Configuración",
     "shareBackup": "Compartir copia de seguridad",
@@ -150,20 +163,18 @@
     "testNotificationSent": "¡Notificación de prueba enviada!",
     "theme": "Tema",
     "themeOptionDescription": "Cambiar la apariencia de la aplicación",
-    "thisMonth": "Este mes",
     "title": "Título",
     "titleIsMandatory": "El título es obligatorio",
     "today": "Hoy",
     "total": "Total",
     "totalBalance": "Balance total",
-    "transactionData": "Montos y detalles de las transacciones",
     "transactionDeleted": "Transacción eliminada",
     "transactionList": "Lista de transacciones",
     "transportation": "Transporte",
+    "transferTransactions": "Transferir Transacciones",
     "updateHistory": "Historial de actualizaciones",
     "updateHistoryEmptyList": "No se encontraron actualizaciones.",
     "updateHistoryOptionDescription": "Ver las últimas funciones y actualizaciones",
-    "usageData": "Patrones de uso básicos",
     "version": "Versión",
     "viewAll": "Ver todo",
     "management": "Gestión",
@@ -173,12 +184,24 @@
     "week": "Semana",
     "welcomePageMsg1": "¡Bienvenido a Moneye!",
     "welcomePageMsg2": "Empecemos juntos tu camino hacia el control financiero.\nTe ayudaré a configurar la aplicación en solo unos pocos pasos.",
-    "whatIsNotTracked": "Qué NO se rastrea:",
-    "whatIsTracked": "Qué se rastrea:",
     "whatsNew": "Novedades",
     "work": "Trabajo",
     "year": "Año",
     "yes": "sí",
+    "confirmTransferTransactionsMessage": "{count, plural, =1{1 transacción será transferida} other{{count} transacciones serán transferidas}} de {source} a {target}. ¿Estás seguro?",
+    "@confirmTransferTransactionsMessage": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            },
+            "source": {
+                "type": "String"
+            },
+            "target": {
+                "type": "String"
+            }
+        }
+    },
     "yesterday": "Ayer",
     "yourAccounts": "Tus cuentas",
     "yourCategories": "Tus categorías",
@@ -242,8 +265,29 @@
     "recurringTransactionsOptionDescription": "Gestiona tus reglas de transacciones recurrentes",
     "ruleDetails": "Detalles de la regla",
     "generatedTransactions": "Transacciones generadas",
-   
     "viewRule": "Ver regla",
+    "budgeting": "Presupuesto",
+    "newBudget": "Nuevo presupuesto",
+    "editBudget": "Editar presupuesto",
+    "amountSpentOf": "gastado de",
+    "amountRemaining": "restante",
+    "overBudget": "exceso de presupuesto",
+    "rollover": "Traspaso",
+    "budgetDuration": "Duración del presupuesto",
+    "selectCategories": "Seleccionar categorías",
+    "noBudgetsYet": "Aún no hay presupuestos",
+    "startDate": "Fecha de inicio",
+    "startsOnDayOfMonth": "Comienza el día del mes",
+    "startsOnWeekday": "Comienza el día de la semana",
+    "selectAtLeastOneCategory": "Seleccione al menos una categoría",
+    "deleteBudgetConfirmation": "¿Quiere eliminar este presupuesto?",
+    "budgetTitleHint": "ej. Mi presupuesto mensual de comida",
+    "rolloverMode": "Modo de traspaso",
+    "carryRemaining": "Traspasar lo restante",
+    "carryOverspending": "Traspasar el exceso",
+    "rolloverModeNoneDescription": "El dinero no utilizado no se traspasa. Cada periodo del presupuesto empieza de cero.",
+    "rolloverModeCarryRemainingDescription": "El dinero no gastado se suma al presupuesto del periodo siguiente.",
+    "rolloverModeCarryOverspendingDescription": "Si te pasas del presupuesto, el saldo negativo se traspasa al periodo siguiente.",
     "generatedTransactionsSnackbar": "{count, plural, =1{1 transacción recurrente generada} other{{count} transacciones recurrentes generadas}}",
     "@generatedTransactionsSnackbar": {
         "placeholders": {

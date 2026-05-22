@@ -33,12 +33,10 @@
     "contactsDescription": "Contatta lo sviluppatore per segnalare un bug o suggerire una funzionalità",
     "contactsPageHeader": "Puoi contattarmi per segnalare un bug, suggerire una funzionalità o qualunque altra cosa!",
     "continueCTA": "Continua",
-    "crashReports": "Segnalazioni di crash ed errori",
     "crashTest": "Test di Crash (Solo Debug)",
     "creditCard": "Carta di Credito",
     "currency": "Valuta",
     "currencyConversionDisclaimer": "Nota: Cambiare la valuta mostrata in app non apporterà conversioni all'importo delle transazioni.",
-    "currencyOptionDescription": "Seleziona e personalizza la valuta utilizzata",
     "currencyPosition": "Posizione del simbolo della valuta",
     "dailyReminder": "Promemoria giornaliero",
     "dailyReminderChannelDescription": "Notifiche per ricordarti di inserire le tue transazioni giornaliere.",
@@ -51,7 +49,17 @@
     "delete": "Elimina",
     "deleteAccountAlertBody": "Eliminare un conto non rimuoverà le transazioni ad esso associate",
     "deleteCategoryAlertBody": "Eliminare una categoria non rimuoverà le transazioni ad essa associate",
+    "deleteCategoryTitle": "Elimina Categoria",
+    "deleteCategoryTransactionsMessage": "{count, plural, =1{Questa categoria contiene 1 transazione} other{Questa categoria contiene {count} transazioni}}. Cosa desideri fare?",
+    "@deleteCategoryTransactionsMessage": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
     "description": "Descrizione",
+    "confirm": "Conferma",
     "done": "Fatto!",
     "edit": "Modifica",
     "editAccount": "Modifica conto",
@@ -65,7 +73,6 @@
     "essentialDataOptionTitle": "Dati tecnici essenziali",
     "expense": "Spesa",
     "expenses": "Spese",
-    "exportData": "Esporta dati",
     "exportError": "Si è verificato un errore durante l'esportazione dei dati",
     "exportSuccess": "Dati esportati con successo",
     "feedback": "Feedback",
@@ -106,7 +113,6 @@
     "notificationTitle": "Moneye",
     "noTransactions": "Nessuna transazione",
     "other": "Altro",
-    "personalInfo": "Informazioni personali",
     "petExpenses": "Spese per Animali Domestici",
     "privacy": "Privacy",
     "privacyAssurance": "La privacy è una priorità. Nomi, email, importi delle transazioni o dati identificativi non vengono mai raccolti. Tutte le segnalazioni sono rigorosamente anonime.",
@@ -131,12 +137,19 @@
     "selectCategoryMsg1": "Approfitta al massimo di Moneye categorizzando le tue transazioni",
     "selectCategoryMsg2": "Scegli dalla lista preconfigurata o crea le tue categorie personalizzate in seguito.",
     "selectCurrency": "Seleziona la valuta",
-    "selectCurrencyMsg1": "Seleziona la tua valuta preferita",
-    "selectCurrencyMsg2": "Niente paura, potrai sempre cambiarla in seguito per soddisfare le tue esigenze",
-    "selectCurrencyPosition": "Seleziona la posizione del simbolo della valuta",
+    "selectColor": "Seleziona colore",
     "selectDate": "Seleziona la data",
     "selectIcon": "Seleziona l'icona",
+    "selectTargetCategory": "Seleziona categoria di destinazione",
     "selectTimeInterval": "Seleziona il periodo",
+    "transferTransactionsMessage": "{count, plural, =1{Trasferisci 1 transazione} other{Trasferisci {count} transazioni}} in:",
+    "@transferTransactionsMessage": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
     "sendTestNotification": "Mostrami come apparirà",
     "settings": "Opzioni",
     "shareBackup": "Condividi backup",
@@ -150,20 +163,18 @@
     "testNotificationSent": "Notifica di test inviata!",
     "theme": "Tema",
     "themeOptionDescription": "Cambia l'aspetto dell'app",
-    "thisMonth": "Questo mese",
     "title": "Titolo",
     "titleIsMandatory": "Il titolo è obbligatorio",
     "today": "Oggi",
     "total": "Totale",
     "totalBalance": "Bilancio totale",
-    "transactionData": "Importi e dettagli delle transazioni",
     "transactionDeleted": "Transazione eliminata",
     "transactionList": "Lista transazioni",
     "transportation": "Trasporti",
+    "transferTransactions": "Trasferisci Transazioni",
     "updateHistory": "Storico aggiornamenti",
     "updateHistoryEmptyList": "Nessun aggiornamento trovato.",
     "updateHistoryOptionDescription": "Visualizza le ultime funzionalità e aggiornamenti",
-    "usageData": "Modelli di utilizzo di base",
     "version": "Versione",
     "viewAll": "Vedi tutte",
     "management": "Gestione",
@@ -173,8 +184,6 @@
     "week": "Settimana",
     "welcomePageMsg1": "Benvenuto in Moneye!",
     "welcomePageMsg2": "Cominciamo insieme il tuo percorso verso il controllo finanziario.\n\nTi aiuterò a configurare l'app in pochi passaggi.",
-    "whatIsNotTracked": "Cosa NON viene tracciato:",
-    "whatIsTracked": "Cosa viene tracciato:",
     "whatsNew": "Novità",
     "work": "Lavoro",
     "year": "Anno",
@@ -182,13 +191,6 @@
     "yesterday": "Ieri",
     "yourAccounts": "I tuoi conti",
     "yourCategories": "Le tue categorie",
-    "health": "Salute",
-    "sports": "Sport",
-    "finance": "Finanza",
-    "shopping": "Shopping",
-    "work": "Lavoro",
-    "education": "Istruzione",
-    "bills": "Bollette",
     "repeatTransaction": "Ripeti transazione",
     "frequency": "Frequenza",
     "daily": "Giornaliera",
@@ -241,7 +243,6 @@
     "nextDate": "Prossima data",
     "ruleDetails": "Dettagli regola",
     "generatedTransactions": "Transazioni generate",
-    
     "viewRule": "Vedi regola",
     "endDateInfo": "La data dopo la quale non verranno più generate automaticamente altre transazioni di questo tipo.",
     "selectEndDate": "Seleziona la data di fine",
@@ -251,6 +252,20 @@
     "transactionGeneratedByDeletedRule": "Questa transazione è stata generata da una regola ricorrente che è stata eliminata.",
     "editRuleInfo": "Le modifiche a questa regola ricorrente non influiranno sulle transazioni che sono già state generate.",
     "recurringTransactionsOptionDescription": "Gestisci le tue regole per le transazioni ricorrenti",
+    "confirmTransferTransactionsMessage": "Verranno trasferite {count, plural, =1{1 transazione} other{{count} transazioni}} dalla categoria {source} alla categoria {target}. Sei sicuro?",
+    "@confirmTransferTransactionsMessage": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            },
+            "source": {
+                "type": "String"
+            },
+            "target": {
+                "type": "String"
+            }
+        }
+    },
     "generatedTransactionsSnackbar": "{count, plural, =1{1 transazione ricorrente generata} other{{count} transazioni ricorrenti generate}}",
     "@generatedTransactionsSnackbar": {
         "placeholders": {
@@ -258,5 +273,27 @@
                 "type": "int"
             }
         }
-    }
+    },
+    "budgeting": "Budgeting",
+    "newBudget": "Nuovo budget",
+    "editBudget": "Modifica budget",
+    "amountSpentOf": "spesi di",
+    "amountRemaining": "rimanenti",
+    "overBudget": "fuori budget",
+    "rollover": "Rollover",
+    "budgetDuration": "Durata del budget",
+    "selectCategories": "Seleziona categorie",
+    "noBudgetsYet": "Ancora nessun budget",
+    "startDate": "Data inizio",
+    "startsOnDayOfMonth": "Inizia il giorno del mese:",
+    "startsOnWeekday": "Inizia il giorno della settimana",
+    "selectAtLeastOneCategory": "Per favore seleziona almeno una categoria",
+    "deleteBudgetConfirmation": "Vuoi eliminare questo budget?",
+    "budgetTitleHint": "es. Il mio budget mensile per la spesa",
+    "rolloverMode": "Modalità di rollover",
+    "carryRemaining": "Riporta il saldo rimanente",
+    "carryOverspending": "Riporta lo sforamento",
+    "rolloverModeNoneDescription": "Il denaro non utilizzato non viene riportato. Ogni periodo di budget ricomincia da zero.",
+    "rolloverModeCarryRemainingDescription": "Il denaro non speso viene aggiunto al budget del periodo successivo.",
+    "rolloverModeCarryOverspendingDescription": "Se superi il budget, il saldo negativo viene riportato al periodo successivo."
 }

@@ -1,0 +1,299 @@
+{
+    "@dailyInterval": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "@deleteCategoryTransactionsMessage": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "@endedOn": {
+        "placeholders": {
+            "date": {
+                "type": "String"
+            }
+        }
+    },
+    "@generatedTransactionsSnackbar": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "@monthlyInterval": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "@transferTransactionsMessage": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "@weeklyInterval": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "@yearlyInterval": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "aboutAndSupport": "About & Support",
+    "accept": "Accept",
+    "account": "Account",
+    "accounts": "Accounts",
+    "accountsOptionDescription": "Manage the accounts and create new ones",
+    "addOne": "add one",
+    "allTransactions": "All transactions",
+    "amount": "Amount",
+    "amountIsMandatory": "The amount is mandatory",
+    "analyticsAlertDescription": "Your privacy is important.\nIf you accept, anonymous usage data will be collected to understand how features are used and how to improve the app.\nNo personal data, location data, transaction details, account information, or other sensitive information will be collected.\n\nThis option can be disabled at any time in Settings.",
+    "analyticsAlertTitle": "Help improve the app",
+    "analyticsOptionDescription": "Anonymous data about feature usage used to plan future developments.\nNo personal data is collected.",
+    "analyticsOptionTitle": "Anonymous usage statistics",
+    "applyChanges": "Apply changes",
+    "areYouSure": "Are you sure?",
+    "atTheEnd": "At the end",
+    "atTheStart": "At the start",
+    "back": "Back",
+    "backupAndRestore": "Backup & Restore",
+    "backupAndRestoreOptionDescription": "Export or import your data",
+    "balance": "Balance",
+    "bills": "Bills",
+    "billsAndUtilities": "Bills & Utilities",
+    "byCategory": "By category",
+    "byList": "By list",
+    "cancel": "Cancel",
+    "cash": "Cash",
+    "categories": "Categories",
+    "categoriesOptionDescription": "Manage the categories and create new ones",
+    "category": "Category",
+    "color": "Color",
+    "contacts": "Contacts",
+    "contactsDescription": "Contact the developer to report a bug or suggest a feature",
+    "contactsPageHeader": "You can contact me to report a bug, suggest a feature, or whatever you want!",
+    "continueCTA": "Continue",
+    "crashTest": "Crash Test (Debug Only)",
+    "creditCard": "Credit Card",
+    "currency": "Currency",
+    "currencyConversionDisclaimer": "Note: Changing the currency displayed in the app will not result in transaction amount conversions.",
+    "currencyPosition": "Position of the currency symbol",
+    "daily": "Daily",
+    "dailyInterval": "{count, plural, =1{Daily} other{Every {count} days}}",
+    "dailyReminder": "Daily reminder",
+    "dailyReminderChannelDescription": "Notifications to remind you to enter your daily transactions.",
+    "dailyReminderChannelName": "Daily Reminders",
+    "darkTheme": "Dark",
+    "dataAndPrivacy": "Data & Privacy",
+    "date": "Date",
+    "day": "Day",
+    "debitCard": "Debit Card",
+    "decline": "Decline",
+    "delete": "Delete",
+    "deleteAccountAlertBody": "Deleting an account will not remove the transactions associated with it.",
+    "deleteCategoryAlertBody": "Deleting a category will not remove the transactions associated with it.",
+    "deleteCategoryTitle": "Delete Category",
+    "deleteCategoryTransactionsMessage": "This category contains {count, plural, =1{1 transaction} other{{count} transactions}}. What would you like to do?",
+    "description": "Description",
+    "confirm": "Confirm",
+    "done": "Done!",
+    "edit": "Edit",
+    "editAccount": "Edit account",
+    "editCategory": "Edit category",
+    "editRecurringTransaction": "Edit repeating transaction",
+    "editRuleInfo": "Changes to this recurring rule will not affect transactions that have already been generated.",
+    "editTransaction": "Edit transaction",
+    "education": "Education",
+    "endConfigurationMsg1": "Congratulations! Moneye is now configured and ready to help you manage your expenses efficiently.",
+    "endConfigurationMsg2": "Don't forget to explore other exciting features to optimize your financial journey.",
+    "endDate": "End date",
+    "endDateInfo": "The date after which no other transactions of this kind will be automatically generated.",
+    "endedOn": "Ended on {date}",
+    "entertainment": "Entertainment",
+    "essentialDataOptionDescription": "Anonymous data about crashes and errors used to ensure the proper functioning of the app.",
+    "essentialDataOptionTitle": "Essential technical data",
+    "expense": "Expense",
+    "expenses": "Expenses",
+    "exportError": "An error occurred while exporting data",
+    "exportSuccess": "Data exported successfully",
+    "feedback": "Feedback",
+    "feedbackAndReviewOptionDescription": "Do you like Moneye? Let us know!",
+    "finance": "Finance",
+    "financialOverviewForThisMonth": "The financial overview for this month",
+    "foodAndDining": "Food & Dining",
+    "frequency": "Frequency",
+    "generatedTransactions": "Generated transactions",
+    "generatedTransactionsSnackbar": "{count, plural, =1{1 recurring transaction generated} other{{count} recurring transactions generated}}",
+    "health": "Health",
+    "icon": "Icon",
+    "importData": "Import data",
+    "importError": "An error occurred while importing data",
+    "importSuccess": "Data imported successfully",
+    "importWarning": "Importing a backup will delete all current data. Are you sure you want to proceed?",
+    "includeInReports": "Include in reports",
+    "income": "Income",
+    "incomes": "Incomes",
+    "initialBalance": "Initial balance",
+    "initialBalancePlaceholder": "Insert the initial balance of the account",
+    "insertTheAccountName": "Insert the account name",
+    "insertTheAmountOfTheTransaction": "Insert the amount of the transaction",
+    "insertTheDescription": "Insert a description",
+    "insertTheTitleOfTheCategory": "Insert the title of the category",
+    "insertTheTitleOfTheTransaction": "Insert the title of the transaction",
+    "interval": "Interval",
+    "language": "Language",
+    "languageOptionDescription": "Select the language used in the app",
+    "lastTransactions": "Last transactions",
+    "lightTheme": "Light",
+    "management": "Management",
+    "month": "Month",
+    "monthly": "Monthly",
+    "monthlyInterval": "{count, plural, =1{Monthly} other{Every {count} months}}",
+    "newAccount": "New account",
+    "newCategory": "New category",
+    "newRecurringTransaction": "New repeating transaction",
+    "newTransaction": "New transaction",
+    "nextDate": "Next date",
+    "no": "no",
+    "noAccountAdded": "No account added,",
+    "noAccounts": "No accounts",
+    "noCategories": "No categories",
+    "none": "None",
+    "notificationSubtitle": "Remember to enter your daily transactions!",
+    "notificationTitle": "Moneye",
+    "noTransactions": "No transactions",
+    "other": "Other",
+    "personalization": "Personalization",
+    "petExpenses": "Pet Expenses",
+    "privacy": "Privacy",
+    "privacyAssurance": "Privacy is a priority. Names, emails, transaction amounts, or any data that could identify the user are never collected. All reports are strictly anonymous.",
+    "privacyAssuranceLabel": "Privacy Assurance",
+    "privacyIntroduction": "Choose which data can be collected to help improve the app and ensure its stability.",
+    "privacyOptionDescription": "Configure how data is collected and used",
+    "recurringTransactions": "Recurring Transactions",
+    "recurringTransactionsOptionDescription": "Manage your recurring transaction rules",
+    "reminder": "Reminder",
+    "reminderDescription": "Moneye will remind you every day, at a set time, to enter new transactions.\n\nYou will never forget to keep your data updated!",
+    "reminderOptionDescription": "Set a reminder to remember to insert new transactions",
+    "repeatTransaction": "Repeat transaction",
+    "reportBug": "Report a bug",
+    "resetData": "Erase all data",
+    "resetError": "An error occurred while erasing data",
+    "resetSuccess": "All data erased successfully",
+    "resetWarning": "All your data will be permanently deleted. This action cannot be undone. Are you sure you want to proceed?",
+    "ruleDetails": "Rule details",
+    "save": "Save",
+    "saveToDevice": "Save to device",
+    "savings": "Savings",
+    "selectAccount": "Select account",
+    "selectAccountMsg1": "Choose the accounts you want to monitor",
+    "selectAccountMsg2": "Cash, credit card, or others\nSelect what you'd like to keep a close eye on.",
+    "selectCategory": "Select the category",
+    "selectCategoryMsg1": "Make the most of Moneye by categorizing your transactions",
+    "selectCategoryMsg2": "Select from the preconfigured list or create your custom categories later",
+    "selectColor": "Select color",
+    "selectCurrency": "Select the currency",
+    "selectDate": "Select the date",
+    "selectEndDate": "Select end date",
+    "selectIcon": "Select icon",
+    "selectTargetCategory": "Select target category",
+    "selectTimeInterval": "Select the time interval",
+    "sendTestNotification": "Show me how it will appear",
+    "settings": "Settings",
+    "shareBackup": "Share backup",
+    "shopping": "Shopping",
+    "skip": "Skip",
+    "sports": "Sports",
+    "subscriptions": "Subscriptions",
+    "suggestFeature": "Suggest a feature",
+    "systemLanguageOption": "Automatic (based on the system)",
+    "systemTheme": "Automatic",
+    "testNotificationSent": "Test notification sent!",
+    "theme": "Theme",
+    "themeOptionDescription": "Change the app appearance",
+    "title": "Title",
+    "titleIsMandatory": "The title is mandatory",
+    "today": "Today",
+    "total": "Total",
+    "totalBalance": "Total balance",
+    "transactionDeleted": "Transaction deleted",
+    "transactionGeneratedByDeletedRule": "This transaction was generated by a recurring rule that has since been deleted.",
+    "transactionGeneratedByRule": "This transaction was generated automatically by a recurring rule. Editing this transaction will not affect future generated ones.",
+    "transactionList": "Transaction list",
+    "transferTransactions": "Transfer Transactions",
+    "transferTransactionsMessage": "Transfer {count, plural, =1{1 transaction} other{{count} transactions}} to:",
+    "transportation": "Transportation",
+    "updateHistory": "Update history",
+    "updateHistoryEmptyList": "No updates found.",
+    "updateHistoryOptionDescription": "View the latest features and updates",
+    "version": "Version",
+    "viewAll": "View all",
+    "viewRule": "View rule",
+    "week": "Week",
+    "weekly": "Weekly",
+    "weeklyInterval": "{count, plural, =1{Weekly} other{Every {count} weeks}}",
+    "welcomePageMsg1": "Welcome to Moneye!",
+    "welcomePageMsg2": "Let's get you started on your journey towards financial control.\nI’ll help you configure the app in just a few steps.",
+    "whatsNew": "What's new",
+    "work": "Work",
+    "year": "Year",
+    "yearly": "Yearly",
+    "yearlyInterval": "{count, plural, =1{Yearly} other{Every {count} years}}",
+    "yes": "yes",
+    "confirmTransferTransactionsMessage": "{count, plural, =1{1 transaction} other{{count} transactions}} will be transferred from {source} to {target}. Are you sure?",
+    "@confirmTransferTransactionsMessage": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            },
+            "source": {
+                "type": "String"
+            },
+            "target": {
+                "type": "String"
+            }
+        }
+    },
+    "yesterday": "Yesterday",
+    "yourAccounts": "Your accounts",
+    "yourCategories": "Your categories",
+    "budgeting": "Budgeting",
+    "newBudget": "New budget",
+    "editBudget": "Edit budget",
+    "amountSpentOf": "spent of",
+    "amountRemaining": "remaining",
+    "overBudget": "over budget",
+    "rollover": "Rollover",
+    "budgetDuration": "Budget duration",
+    "selectCategories": "Select categories",
+    "noBudgetsYet": "No budgets yet",
+    "startDate": "Start date",
+    "startsOnDayOfMonth": "Starts on day of month",
+    "startsOnWeekday": "Starts on weekday",
+    "selectAtLeastOneCategory": "Please select at least one category",
+    "deleteBudgetConfirmation": "Do you want to delete this budget?",
+    "budgetTitleHint": "e.g. My Monthly Grocery Budget",
+    "rolloverMode": "Rollover mode",
+    "carryRemaining": "Carry forward remaining",
+    "carryOverspending": "Carry forward overspending",
+    "rolloverModeNoneDescription": "Unused money is not carried over. Each budget period starts fresh.",
+    "rolloverModeCarryRemainingDescription": "Any unspent money is added to next period's budget.",
+    "rolloverModeCarryOverspendingDescription": "If you overspend, the negative balance is carried into the next period."
+}

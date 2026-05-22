@@ -33,12 +33,10 @@
     "contactsDescription": "Kontaktieren Sie den Entwickler, um einen Fehler zu melden oder eine Funktion vorzuschlagen",
     "contactsPageHeader": "Du kannst mich kontaktieren, um einen Fehler zu melden, eine Funktion vorzuschlagen oder was auch immer du willst!",
     "continueCTA": "Weiter",
-    "crashReports": "Fehler- und Absturzberichte",
     "crashTest": "Crash-Test (Nur Debug)",
     "creditCard": "Kreditkarte",
     "currency": "Währung",
     "currencyConversionDisclaimer": "Hinweis: Das Ändern der in der App angezeigten Währung führt nicht zu Umrechnungen der Transaktionsbeträge.",
-    "currencyOptionDescription": "Wählen Sie die verwendete Währung und passen Sie sie an",
     "currencyPosition": "Position des Währungssymbols",
     "dailyReminder": "Tägliche Erinnerung",
     "dailyReminderChannelDescription": "Benachrichtigungen, die Sie daran erinnern, Ihre täglichen Transaktionen einzugeben.",
@@ -51,7 +49,17 @@
     "delete": "Löschen",
     "deleteAccountAlertBody": "Das Löschen eines Kontos entfernt die damit verbundenen Transaktionen nicht.",
     "deleteCategoryAlertBody": "Das Löschen einer Kategorie entfernt die damit verbundenen Transaktionen nicht.",
+    "deleteCategoryTitle": "Kategorie löschen",
+    "deleteCategoryTransactionsMessage": "{count, plural, =1{Diese Kategorie enthält 1 Transaktion} other{Diese Kategorie enthält {count} Transaktionen}}. Was möchten Sie tun?",
+    "@deleteCategoryTransactionsMessage": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
     "description": "Beschreibung",
+    "confirm": "Bestätigen",
     "done": "Fertig",
     "edit": "Bearbeiten",
     "editAccount": "Konto bearbeiten",
@@ -65,7 +73,6 @@
     "essentialDataOptionTitle": "Wesentliche technische Daten",
     "expense": "Ausgabe",
     "expenses": "Ausgaben",
-    "exportData": "Daten exportieren",
     "exportError": "Beim Exportieren der Daten ist ein Fehler aufgetreten",
     "exportSuccess": "Daten erfolgreich exportiert",
     "feedback": "Rückmeldung",
@@ -106,7 +113,6 @@
     "notificationTitle": "Moneye",
     "noTransactions": "Keine Transaktionen",
     "other": "Andere",
-    "personalInfo": "Persönliche Informationen",
     "petExpenses": "Tierische Ausgaben",
     "privacy": "Datenschutz",
     "privacyAssurance": "Privatsphäre hat Priorität. Namen, E-Mails, Transaktionsbeträge oder andere Daten, die den Nutzer identifizieren könnten, werden niemals erfasst. Alle Berichte sind streng anonym.",
@@ -131,12 +137,19 @@
     "selectCategoryMsg1": "Nutze Moneye optimal, indem du deine Transaktionen kategorisierst",
     "selectCategoryMsg2": "Wähle aus unserer vorkonfigurierten Liste oder erstelle später deine eigenen benutzerdefinierten Kategorien.",
     "selectCurrency": "Währung auswählen",
-    "selectCurrencyMsg1": "Wähle deine bevorzugte Währung",
-    "selectCurrencyMsg2": "Keine Sorge, du kannst sie später jederzeit ändern, um sie an deine Bedürfnisse anzupassen.",
-    "selectCurrencyPosition": "Wählen Sie die Position des Währungssymbols",
+    "selectColor": "Farbe wählen",
     "selectDate": "Datum auswählen",
     "selectIcon": "Symbol auswählen",
+    "selectTargetCategory": "Zielkategorie auswählen",
     "selectTimeInterval": "Wählen Sie das Zeitintervall aus",
+    "transferTransactionsMessage": "{count, plural, =1{1 Transaktion übertragen} other{{count} Transaktionen übertragen}} nach:",
+    "@transferTransactionsMessage": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
     "sendTestNotification": "Zeig mir, wie es aussehen wird",
     "settings": "Einstellungen",
     "shareBackup": "Backup teilen",
@@ -150,20 +163,18 @@
     "testNotificationSent": "Testbenachrichtigung gesendet!",
     "theme": "Thema",
     "themeOptionDescription": "App-Erscheinungsbild ändern",
-    "thisMonth": "Deze maand",
     "title": "Titel",
     "titleIsMandatory": "Der Titel ist obligatorisch",
     "today": "Heute",
     "total": "Gesamt",
     "totalBalance": "Gesamtbilanz",
-    "transactionData": "Transaktionsbeträge und -details",
     "transactionDeleted": "Transaktion gelöscht",
     "transactionList": "Transaktionsliste",
     "transportation": "Transport",
+    "transferTransactions": "Transaktionen übertragen",
     "updateHistory": "Aktualisierungsverlauf",
     "updateHistoryEmptyList": "Keine Updates gefunden.",
     "updateHistoryOptionDescription": "Die neuesten Funktionen und Updates anzeigen",
-    "usageData": "Grundlegende Nutzungsmuster",
     "version": "Version",
     "viewAll": "Alle anzeigen",
     "management": "Verwaltung",
@@ -173,8 +184,6 @@
     "week": "Woche",
     "welcomePageMsg1": "Willkommen bei Moneye!",
     "welcomePageMsg2": "Lass uns gemeinsam mit dir deine Reise zur finanziellen Kontrolle beginnen.\nIch helfe dir dabei, die App in nur wenigen Schritten einzurichten.",
-    "whatIsNotTracked": "Was NICHT verfolgt wird:",
-    "whatIsTracked": "Was verfolgt wird:",
     "whatsNew": "Neuigkeiten",
     "work": "Arbeit",
     "year": "Jahr",
@@ -242,8 +251,43 @@
     "recurringTransactionsOptionDescription": "Verwalten Sie Ihre wiederkehrenden Transaktionsregeln",
     "ruleDetails": "Regeldetails",
     "generatedTransactions": "Generierte Transaktionen",
-  
     "viewRule": "Regel anzeigen",
+    "budgeting": "Budgetierung",
+    "newBudget": "Neues Budget",
+    "editBudget": "Budget bearbeiten",
+    "amountSpentOf": "ausgegeben von",
+    "amountRemaining": "verbleibend",
+    "overBudget": "Budget überschritten",
+    "rollover": "Übertrag",
+    "budgetDuration": "Budgetdauer",
+    "selectCategories": "Kategorien auswählen",
+    "noBudgetsYet": "Noch keine Budgets",
+    "startDate": "Startdatum",
+    "startsOnDayOfMonth": "Beginnt am Tag des Monats",
+    "startsOnWeekday": "Beginnt am Wochentag",
+    "selectAtLeastOneCategory": "Bitte wählen Sie mindestens eine Kategorie aus",
+    "deleteBudgetConfirmation": "Möchten Sie dieses Budget löschen?",
+    "budgetTitleHint": "z.B. Mein monatliches Lebensmittelbudget",
+    "rolloverMode": "Übertragsmodus",
+    "carryRemaining": "Restguthaben übertragen",
+    "carryOverspending": "Mehrausgaben übertragen",
+    "rolloverModeNoneDescription": "Nicht genutztes Geld wird nicht übertragen. Jede Budgetperiode beginnt neu.",
+    "rolloverModeCarryRemainingDescription": "Nicht ausgegebenes Geld wird dem Budget der nächsten Periode hinzugefügt.",
+    "rolloverModeCarryOverspendingDescription": "Bei Mehrausgaben wird der negative Saldo in die nächste Periode übernommen.",
+    "confirmTransferTransactionsMessage": "{count, plural, =1{1 Transaktion wird} other{{count} Transaktionen werden}} von {source} nach {target} übertragen. Sind Sie sicher?",
+    "@confirmTransferTransactionsMessage": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            },
+            "source": {
+                "type": "String"
+            },
+            "target": {
+                "type": "String"
+            }
+        }
+    },
     "generatedTransactionsSnackbar": "{count, plural, =1{1 wiederkehrende Transaktion generiert} other{{count} wiederkehrende Transaktionen generiert}}",
     "@generatedTransactionsSnackbar": {
         "placeholders": {

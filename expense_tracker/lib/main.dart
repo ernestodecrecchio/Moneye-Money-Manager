@@ -1,55 +1,58 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
-import 'package:expense_tracker/configuration/notification_manager.dart';
-import 'package:expense_tracker/configuration/analytics_manager.dart';
-import 'package:expense_tracker/presentation/pages/options_page/backup_restore_page/backup_restore_page.dart';
-import 'package:expense_tracker/presentation/pages/common/widgets/custom_snackbar.dart';
-import 'package:expense_tracker/presentation/pages/options_page/recurring_rules_page/recurring_rules_list_page.dart';
-import 'package:expense_tracker/presentation/pages/options_page/recurring_rules_page/recurring_rule_detail_page.dart';
-import 'package:expense_tracker/services/asset_registry.dart';
+import 'package:expense_tracker/core/configuration/notification_manager.dart';
+import 'package:expense_tracker/core/configuration/analytics_manager.dart';
+import 'package:expense_tracker/features/budgeting/domain/models/budget.dart';
+import 'package:expense_tracker/features/settings/presentation/pages/options_page/backup_restore_page/backup_restore_page.dart';
+import 'package:expense_tracker/core/presentation/common/widgets/custom_snackbar.dart';
+import 'package:expense_tracker/features/recurring_rules/presentation/pages/recurring_rules_page/recurring_rules_list_page.dart';
+import 'package:expense_tracker/features/recurring_rules/presentation/pages/recurring_rules_page/recurring_rule_detail_page.dart';
+import 'package:expense_tracker/core/services/asset_registry.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:expense_tracker/l10n/app_localizations.dart';
 import 'package:expense_tracker/l10n/l10n.dart';
-import 'package:expense_tracker/domain/models/account.dart';
-import 'package:expense_tracker/domain/models/category.dart' as c;
-import 'package:expense_tracker/domain/models/recurring_rule.dart';
-import 'package:expense_tracker/application/common/notifiers/currency_provider.dart';
-import 'package:expense_tracker/application/common/notifiers/locale_provider.dart';
-import 'package:expense_tracker/application/common/notifiers/notification_provider.dart';
-import 'package:expense_tracker/presentation/pages/account_detail_page/account_detail_page.dart';
-import 'package:expense_tracker/presentation/pages/initial_configuration_page/initial_configuration_page.dart';
-import 'package:expense_tracker/presentation/pages/options_page/accounts_page/accounts_list_page.dart';
-import 'package:expense_tracker/presentation/pages/options_page/categories_page/categories_list_page.dart';
-import 'package:expense_tracker/presentation/pages/options_page/categories_page/new_edit_category_page.dart';
-import 'package:expense_tracker/presentation/pages/options_page/accounts_page/new_edit_account_page.dart';
-import 'package:expense_tracker/presentation/pages/common/helper/dismiss_keyboard.dart';
-import 'package:expense_tracker/presentation/pages/new_edit_transaction_flow/new_edit_transaction_page.dart';
-import 'package:expense_tracker/presentation/pages/options_page/currency_page/currency_page.dart';
-import 'package:expense_tracker/presentation/pages/options_page/language_page/languages_list_page.dart';
-import 'package:expense_tracker/presentation/pages/options_page/notification_page/notification_page.dart';
-import 'package:expense_tracker/presentation/pages/tab_bar_page.dart';
-import 'package:expense_tracker/presentation/pages/options_page/privacy_page/privacy_settings_page.dart';
-import 'package:expense_tracker/presentation/pages/options_page/theme_page/theme_selection_page.dart';
-import 'package:expense_tracker/presentation/pages/options_page/contacts_page/contacts_page.dart';
-import 'package:expense_tracker/application/common/notifiers/analytics_consent_provider.dart';
-import 'package:expense_tracker/application/common/notifiers/theme_provider.dart';
-import 'package:expense_tracker/style/app_theme.dart';
+import 'package:expense_tracker/features/accounts/domain/models/account.dart';
+import 'package:expense_tracker/features/categories/domain/models/category.dart'
+    as c;
+import 'package:expense_tracker/features/recurring_rules/domain/models/recurring_rule.dart';
+import 'package:expense_tracker/core/presentation/providers/currency_provider.dart';
+import 'package:expense_tracker/core/presentation/providers/locale_provider.dart';
+import 'package:expense_tracker/core/presentation/providers/notification_provider.dart';
+import 'package:expense_tracker/features/accounts/presentation/pages/account_detail_page/account_detail_page.dart';
+import 'package:expense_tracker/features/onboarding/presentation/pages/initial_configuration_page.dart';
+import 'package:expense_tracker/features/accounts/presentation/pages/accounts_list_page/accounts_list_page.dart';
+import 'package:expense_tracker/features/categories/presentation/pages/categories_list_page/categories_list_page.dart';
+import 'package:expense_tracker/features/categories/presentation/pages/categories_list_page/new_edit_category_page.dart';
+import 'package:expense_tracker/features/accounts/presentation/pages/accounts_list_page/new_edit_account_page.dart';
+import 'package:expense_tracker/core/presentation/common/helper/dismiss_keyboard.dart';
+import 'package:expense_tracker/features/transactions/presentation/pages/new_edit_transaction_flow/new_edit_transaction_page.dart';
+import 'package:expense_tracker/features/settings/presentation/pages/options_page/currency_page/currency_page.dart';
+import 'package:expense_tracker/features/settings/presentation/pages/options_page/language_page/languages_list_page.dart';
+import 'package:expense_tracker/features/settings/presentation/pages/options_page/notification_page/notification_page.dart';
+import 'package:expense_tracker/features/home/presentation/pages/tab_bar_page.dart';
+import 'package:expense_tracker/features/budgeting/presentation/pages/budget_form_page/budget_form_page.dart';
+import 'package:expense_tracker/features/settings/presentation/pages/options_page/privacy_page/privacy_settings_page.dart';
+import 'package:expense_tracker/features/settings/presentation/pages/options_page/theme_page/theme_selection_page.dart';
+import 'package:expense_tracker/features/settings/presentation/pages/options_page/contacts_page/contacts_page.dart';
+import 'package:expense_tracker/core/presentation/providers/analytics_consent_provider.dart';
+import 'package:expense_tracker/core/presentation/providers/theme_provider.dart';
+import 'package:expense_tracker/core/style/app_theme.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart' as r;
 import 'package:shared_preferences/shared_preferences.dart';
-import 'presentation/pages/account_detail_page/transaction_list_for_category_page.dart';
+import 'package:expense_tracker/features/accounts/presentation/pages/account_detail_page/transaction_list_for_category_page.dart';
 import 'package:timezone/data/latest_all.dart';
-import 'package:expense_tracker/presentation/pages/options_page/update_history_page/update_history_page.dart';
-import 'package:expense_tracker/presentation/pages/options_page/update_history_page/update_info_page.dart';
+import 'package:expense_tracker/features/settings/presentation/pages/options_page/update_history_page/update_history_page.dart';
+import 'package:expense_tracker/features/settings/presentation/pages/options_page/update_history_page/update_info_page.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:flutter_timezone/flutter_timezone.dart';
 import 'package:timezone/timezone.dart';
-import 'package:expense_tracker/application/transactions/notifiers/transactions_repository_provider.dart';
+import 'package:expense_tracker/features/transactions/presentation/providers/transactions_repository_provider.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
@@ -62,7 +65,8 @@ Future main() async {
   await Firebase.initializeApp();
 
   // Explicitly enable Crashlytics for app stability diagnostics
-  await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(true);
+  await FirebaseCrashlytics.instance
+      .setCrashlyticsCollectionEnabled(!kDebugMode);
 
   // Pass all uncaught "fatal" errors from the framework to Crashlytics
   FlutterError.onError = (errorDetails) {
@@ -348,6 +352,17 @@ class MyApp extends r.ConsumerWidget {
                   settings: settings,
                   builder: (context) => RecurringRuleDetailPage(
                     rule: args,
+                  ),
+                );
+              }
+            case BudgetFormPage.routeName:
+              {
+                final args = settings.arguments as Budget?;
+
+                return MaterialPageRoute(
+                  settings: settings,
+                  builder: (context) => BudgetFormPage(
+                    initialBudget: args,
                   ),
                 );
               }
