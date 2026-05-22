@@ -282,6 +282,8 @@
     "selectAtLeastOneCategory": "Seleccione al menos una categoría",
     "deleteBudgetConfirmation": "¿Quiere eliminar este presupuesto?",
     "budgetTitleHint": "ej. Mi presupuesto mensual de comida",
+    "budgetAmountHint": "ej. 500,00",
+    "budgetAmountInvalid": "Introduce un importe positivo",
     "rolloverMode": "Modo de traspaso",
     "carryRemaining": "Traspasar lo restante",
     "carryOverspending": "Traspasar el exceso",

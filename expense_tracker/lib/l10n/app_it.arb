@@ -290,6 +290,8 @@
     "selectAtLeastOneCategory": "Per favore seleziona almeno una categoria",
     "deleteBudgetConfirmation": "Vuoi eliminare questo budget?",
     "budgetTitleHint": "es. Il mio budget mensile per la spesa",
+    "budgetAmountHint": "es. 500,00",
+    "budgetAmountInvalid": "Inserisci un importo positivo",
     "rolloverMode": "Modalità di rollover",
     "carryRemaining": "Riporta il saldo rimanente",
     "carryOverspending": "Riporta lo sforamento",

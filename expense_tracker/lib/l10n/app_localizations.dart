@@ -1276,6 +1276,18 @@ abstract class AppLocalizations {
   /// **'e.g. My Monthly Grocery Budget'**
   String get budgetTitleHint;
 
+  /// No description provided for @budgetAmountHint.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g. 500.00'**
+  String get budgetAmountHint;
+
+  /// No description provided for @budgetAmountInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a positive amount'**
+  String get budgetAmountInvalid;
+
   /// No description provided for @rolloverMode.
   ///
   /// In en, this message translates to:

@@ -282,6 +282,8 @@
     "selectAtLeastOneCategory": "Selecione pelo menos uma categoria",
     "deleteBudgetConfirmation": "Deseja excluir este orçamento?",
     "budgetTitleHint": "ex. Meu orçamento mensal de compras",
+    "budgetAmountHint": "ex. 500,00",
+    "budgetAmountInvalid": "Insira um valor positivo",
     "rolloverMode": "Modo de rollover",
     "carryRemaining": "Transportar saldo restante",
     "carryOverspending": "Transportar excessos",

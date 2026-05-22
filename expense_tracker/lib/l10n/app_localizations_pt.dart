@@ -653,6 +653,12 @@ class AppLocalizationsPt extends AppLocalizations {
   String get budgetTitleHint => 'ex. Meu orçamento mensal de compras';
 
   @override
+  String get budgetAmountHint => 'ex. 500,00';
+
+  @override
+  String get budgetAmountInvalid => 'Insira um valor positivo';
+
+  @override
   String get rolloverMode => 'Modo de rollover';
 
   @override
@@ -1442,6 +1448,12 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
 
   @override
   String get budgetTitleHint => 'ex. Meu orçamento mensal de compras';
+
+  @override
+  String get budgetAmountHint => 'ex. 500,00';
+
+  @override
+  String get budgetAmountInvalid => 'Insira um valor positivo';
 
   @override
   String get rolloverMode => 'Modo de rollover';
@@ -2235,6 +2247,12 @@ class AppLocalizationsPtPt extends AppLocalizationsPt {
 
   @override
   String get budgetTitleHint => 'ex. Meu orçamento mensal de compras';
+
+  @override
+  String get budgetAmountHint => 'ex. 500,00';
+
+  @override
+  String get budgetAmountInvalid => 'Insira um valor positivo';
 
   @override
   String get rolloverMode => 'Modo de rollover';

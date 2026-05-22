@@ -290,6 +290,8 @@
     "selectAtLeastOneCategory": "Lütfen en az bir kategori seçin",
     "deleteBudgetConfirmation": "Bu bütçeyi silmek istiyor musunuz?",
     "budgetTitleHint": "örn. Aylık Market Bütçem",
+    "budgetAmountHint": "örn. 500,00",
+    "budgetAmountInvalid": "Pozitif bir tutar girin",
     "rolloverMode": "Devir modu",
     "carryRemaining": "Kalanı devret",
     "carryOverspending": "Aşımı devret",

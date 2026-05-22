@@ -653,6 +653,12 @@ class AppLocalizationsTr extends AppLocalizations {
   String get budgetTitleHint => 'örn. Aylık Market Bütçem';
 
   @override
+  String get budgetAmountHint => 'örn. 500,00';
+
+  @override
+  String get budgetAmountInvalid => 'Pozitif bir tutar girin';
+
+  @override
   String get rolloverMode => 'Devir modu';
 
   @override

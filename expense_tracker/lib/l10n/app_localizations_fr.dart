@@ -664,6 +664,12 @@ class AppLocalizationsFr extends AppLocalizations {
   String get budgetTitleHint => 'ex. Mon budget courses mensuel';
 
   @override
+  String get budgetAmountHint => 'ex. 500,00';
+
+  @override
+  String get budgetAmountInvalid => 'Saisissez un montant positif';
+
+  @override
   String get rolloverMode => 'Mode de report';
 
   @override

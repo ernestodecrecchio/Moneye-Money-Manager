@@ -282,6 +282,8 @@
     "selectAtLeastOneCategory": "Veuillez sélectionner au moins une catégorie",
     "deleteBudgetConfirmation": "Voulez-vous supprimer ce budget ?",
     "budgetTitleHint": "ex. Mon budget courses mensuel",
+    "budgetAmountHint": "ex. 500,00",
+    "budgetAmountInvalid": "Saisissez un montant positif",
     "rolloverMode": "Mode de report",
     "carryRemaining": "Reporter le solde restant",
     "carryOverspending": "Reporter le dépassement",

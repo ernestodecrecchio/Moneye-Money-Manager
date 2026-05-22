@@ -665,6 +665,12 @@ class AppLocalizationsDe extends AppLocalizations {
   String get budgetTitleHint => 'z.B. Mein monatliches Lebensmittelbudget';
 
   @override
+  String get budgetAmountHint => 'z.B. 500,00';
+
+  @override
+  String get budgetAmountInvalid => 'Geben Sie einen positiven Betrag ein';
+
+  @override
   String get rolloverMode => 'Übertragsmodus';
 
   @override

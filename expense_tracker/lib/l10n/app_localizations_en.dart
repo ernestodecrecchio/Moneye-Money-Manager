@@ -657,6 +657,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get budgetTitleHint => 'e.g. My Monthly Grocery Budget';
 
   @override
+  String get budgetAmountHint => 'e.g. 500.00';
+
+  @override
+  String get budgetAmountInvalid => 'Enter a positive amount';
+
+  @override
   String get rolloverMode => 'Rollover mode';
 
   @override
@@ -1452,6 +1458,12 @@ class AppLocalizationsEnGb extends AppLocalizationsEn {
   String get budgetTitleHint => 'e.g. My Monthly Grocery Budget';
 
   @override
+  String get budgetAmountHint => 'e.g. 500.00';
+
+  @override
+  String get budgetAmountInvalid => 'Enter a positive amount';
+
+  @override
   String get rolloverMode => 'Rollover mode';
 
   @override
@@ -2245,6 +2257,12 @@ class AppLocalizationsEnUs extends AppLocalizationsEn {
 
   @override
   String get budgetTitleHint => 'e.g. My Monthly Grocery Budget';
+
+  @override
+  String get budgetAmountHint => 'e.g. 500.00';
+
+  @override
+  String get budgetAmountInvalid => 'Enter a positive amount';
 
   @override
   String get rolloverMode => 'Rollover mode';
