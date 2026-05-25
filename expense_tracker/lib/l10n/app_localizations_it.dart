@@ -233,7 +233,7 @@ class AppLocalizationsIt extends AppLocalizations {
   String get description => 'Descrizione';
 
   @override
-  String get done => 'Fatto!';
+  String get done => 'Fatto';
 
   @override
   String get confirm => 'Conferma';

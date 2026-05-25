@@ -121,7 +121,7 @@
     "deleteCategoryTitle": "Delete Category",
     "deleteCategoryTransactionsMessage": "This category contains {count, plural, =1{1 transaction} other{{count} transactions}}. What would you like to do?",
     "description": "Description",
-    "done": "Done!",
+    "done": "Done",
     "confirm": "Confirm",
     "edit": "Edit",
     "editAccount": "Edit account",
