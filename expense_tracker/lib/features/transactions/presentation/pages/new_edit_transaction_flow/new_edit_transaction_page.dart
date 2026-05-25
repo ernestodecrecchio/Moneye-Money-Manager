@@ -26,6 +26,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:in_app_review/in_app_review.dart';
 import 'package:expense_tracker/core/configuration/constants.dart';
+import 'package:expense_tracker/core/feature_discovery/feature_discovery.dart';
+import 'package:expense_tracker/core/feature_discovery/feature_discovery_id.dart';
+import 'package:expense_tracker/core/feature_discovery/feature_discovery_target.dart';
 import 'package:intl/intl.dart';
 
 class NewEditTransactionPageScreenArguments {
@@ -200,6 +203,18 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
       _frequency = initialRule.frequency;
       intervalInput.text = initialRule.frequencyInterval.toString();
     } else {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (!mounted) return;
+        FeatureDiscovery.scheduleShowSequence(
+          context: context,
+          ref: ref,
+          ids: const [
+            FeatureDiscoveryId.repeatTransaction,
+            FeatureDiscoveryId.includeInReports,
+          ],
+          delay: const Duration(milliseconds: 600),
+        );
+      });
       titleInputFocusNode.requestFocus();
       dateInput.text =
           DateFormat.yMd(Platform.localeName).format(selectedDate).toString();
@@ -501,7 +516,9 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
             ),
             if (!editMode || widget.isRecurringPreset)
               _buildRepeatTransactionSection(appLocalizations),
-            CustomFormSwitch(
+            FeatureDiscoveryTarget(
+              id: FeatureDiscoveryId.includeInReports,
+              child: CustomFormSwitch(
               label: appLocalizations.includeInReports,
               value: _includeInReport,
               onChanged: (_) {
@@ -509,6 +526,7 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
 
                 setState(() {});
               },
+            ),
             ),
           ],
         ),
@@ -523,7 +541,9 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
         if (!editMode &&
             !widget.isRecurringPreset &&
             widget.initialRecurringRule == null)
-          CustomFormSwitch(
+          FeatureDiscoveryTarget(
+            id: FeatureDiscoveryId.repeatTransaction,
+            child: CustomFormSwitch(
             label: localizations.repeatTransaction,
             value: _isRecurring,
             onChanged: (val) {
@@ -531,6 +551,7 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
                 _isRecurring = val;
               });
             },
+          ),
           ),
         if (_isRecurring) ...[
           Row(

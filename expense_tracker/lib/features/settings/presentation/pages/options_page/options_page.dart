@@ -1,3 +1,7 @@
+import 'package:expense_tracker/core/feature_discovery/feature_discovery_id.dart';
+import 'package:expense_tracker/core/feature_discovery/feature_discovery_target.dart';
+import 'package:expense_tracker/core/feature_discovery/feature_discovery_provider.dart';
+import 'package:expense_tracker/core/presentation/common/widgets/custom_snackbar.dart';
 import 'package:expense_tracker/core/presentation/providers/package_info_provider.dart';
 import 'package:expense_tracker/core/presentation/providers/app_localizations_provider.dart';
 import 'package:expense_tracker/core/presentation/providers/currency_provider.dart';
@@ -18,6 +22,7 @@ import 'package:expense_tracker/core/presentation/providers/theme_provider.dart'
 import 'package:expense_tracker/core/style/app_theme.dart';
 import 'package:expense_tracker/core/presentation/common/list_tiles/option_list_tile.dart';
 import 'package:expense_tracker/features/settings/presentation/pages/options_page/contacts_page/contacts_page.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:in_app_review/in_app_review.dart';
@@ -67,12 +72,15 @@ class OptionsPage extends ConsumerWidget {
                 Navigator.of(context).pushNamed(AccountsListPage.routeName),
           ),
           const Divider(),
-          OptionListTile(
+          FeatureDiscoveryTarget(
+            id: FeatureDiscoveryId.recurringTransactionsSettings,
+            child: OptionListTile(
             title: appLocalizations.recurringTransactions,
             subtitle: appLocalizations.recurringTransactionsOptionDescription,
             leadingIcon: Icons.repeat_rounded,
             onTap: () => Navigator.of(context)
                 .pushNamed(RecurringRulesListPage.routeName),
+          ),
           ),
           _buildSectionHeader(context, appLocalizations.personalization),
           OptionListTile(
@@ -122,13 +130,16 @@ class OptionsPage extends ConsumerWidget {
                 Navigator.of(context).pushNamed(ReminderPage.routeName),
           ),
           _buildSectionHeader(context, appLocalizations.dataAndPrivacy),
-          OptionListTile(
+          FeatureDiscoveryTarget(
+            id: FeatureDiscoveryId.backupRestore,
+            child: OptionListTile(
             title: appLocalizations.backupAndRestore,
             subtitle: appLocalizations.backupAndRestoreOptionDescription,
             leadingIcon: Icons.backup_rounded,
             enableRightArrow: true,
             onTap: () =>
                 Navigator.of(context).pushNamed(BackupRestorePage.routeName),
+          ),
           ),
           const Divider(),
           OptionListTile(
@@ -167,6 +178,25 @@ class OptionsPage extends ConsumerWidget {
               );
             },
           ),
+          if (kDebugMode) ...[
+            const Divider(),
+            OptionListTile(
+              title: 'Reset feature discovery',
+              subtitle: 'Show all coach marks again (debug only)',
+              leadingIcon: Icons.tips_and_updates_outlined,
+              enableRightArrow: false,
+              onTap: () async {
+                await ref.read(featureDiscoveryProvider.notifier).resetAll();
+                if (context.mounted) {
+                  CustomSnackBar.show(
+                    context,
+                    message: 'Feature discovery reset',
+                    type: SnackBarType.success,
+                  );
+                }
+              },
+            ),
+          ],
           const SizedBox(height: 40),
           Center(
             child: Padding(

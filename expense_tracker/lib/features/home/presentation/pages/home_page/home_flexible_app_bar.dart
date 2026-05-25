@@ -1,3 +1,6 @@
+import 'package:expense_tracker/core/feature_discovery/feature_discovery.dart';
+import 'package:expense_tracker/core/feature_discovery/feature_discovery_id.dart';
+import 'package:expense_tracker/core/feature_discovery/feature_discovery_target.dart';
 import 'package:expense_tracker/core/presentation/providers/app_localizations_provider.dart';
 import 'package:expense_tracker/core/utils/date_time_helper.dart';
 import 'package:expense_tracker/core/utils/double_helper.dart';
@@ -20,6 +23,7 @@ class HomeFlexibleSpaceBar extends ConsumerStatefulWidget {
 
 class _HomeFlexibleSpaceBarState extends ConsumerState<HomeFlexibleSpaceBar> {
   static const double horizontalPadding = 18;
+  bool _trendDiscoveryScheduled = false;
 
   final _totalBalanceParams = const TotalBalanceParams();
   late final TransactionsListParams _currentMonthTransactionListParams;
@@ -274,7 +278,18 @@ class _HomeFlexibleSpaceBarState extends ConsumerState<HomeFlexibleSpaceBar> {
               return const SizedBox.shrink();
             }
 
-            return Container(
+            if (!_trendDiscoveryScheduled) {
+              _trendDiscoveryScheduled = true;
+              FeatureDiscovery.scheduleShowSequence(
+                context: context,
+                ref: ref,
+                ids: const [FeatureDiscoveryId.balanceTrendBadge],
+              );
+            }
+
+            return FeatureDiscoveryTarget(
+              id: FeatureDiscoveryId.balanceTrendBadge,
+              child: Container(
               decoration: BoxDecoration(
                 color: Theme.of(context)
                     .appBarTheme
@@ -308,6 +323,7 @@ class _HomeFlexibleSpaceBarState extends ConsumerState<HomeFlexibleSpaceBar> {
                   ],
                 ),
               ),
+            ),
             );
           },
           loading: () => SizedBox(

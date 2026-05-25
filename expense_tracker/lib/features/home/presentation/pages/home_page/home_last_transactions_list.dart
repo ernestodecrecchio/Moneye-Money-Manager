@@ -1,4 +1,7 @@
 import 'package:expense_tracker/core/configuration/constants.dart';
+import 'package:expense_tracker/core/feature_discovery/feature_discovery.dart';
+import 'package:expense_tracker/core/feature_discovery/feature_discovery_id.dart';
+import 'package:expense_tracker/core/feature_discovery/feature_discovery_target.dart';
 import 'package:expense_tracker/core/presentation/common/list_tiles/transaction_list_cell.dart';
 import 'package:expense_tracker/core/presentation/common/widgets/custom_snackbar.dart';
 import 'package:expense_tracker/core/presentation/providers/app_localizations_provider.dart';
@@ -11,11 +14,29 @@ import 'package:expense_tracker/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class LastTransactionsList extends ConsumerWidget {
+class LastTransactionsList extends ConsumerStatefulWidget {
   const LastTransactionsList({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<LastTransactionsList> createState() =>
+      _LastTransactionsListState();
+}
+
+class _LastTransactionsListState extends ConsumerState<LastTransactionsList> {
+  bool _swipeDiscoveryScheduled = false;
+
+  void _scheduleSwipeDiscovery() {
+    if (_swipeDiscoveryScheduled) return;
+    _swipeDiscoveryScheduled = true;
+    FeatureDiscovery.scheduleShowSequence(
+      context: context,
+      ref: ref,
+      ids: const [FeatureDiscoveryId.swipeToDelete],
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final appLocalizations = ref.watch(appLocalizationsProvider);
 
     final latestTransactionsListParam = TransactionsListParams(limit: 5);
@@ -25,6 +46,10 @@ class LastTransactionsList extends ConsumerWidget {
 
     return latestTransactionsAsync.when(
       data: (lastTransactionList) {
+        if (lastTransactionList.isNotEmpty) {
+          _scheduleSwipeDiscovery();
+        }
+
         return Column(
           children: [
             _buildHeader(context, appLocalizations),
@@ -108,7 +133,7 @@ class LastTransactionsList extends ConsumerWidget {
       physics: const NeverScrollableScrollPhysics(),
       itemCount: lastTransactionList.length,
       itemBuilder: (_, index) {
-        return TransactionListCell(
+        final cell = TransactionListCell(
           transaction: lastTransactionList[index],
           onTransactionDelete: (transaction) {
             CustomSnackBar.show(
@@ -124,6 +149,14 @@ class LastTransactionsList extends ConsumerWidget {
             );
           },
         );
+
+        if (index == 0) {
+          return FeatureDiscoveryTarget(
+            id: FeatureDiscoveryId.swipeToDelete,
+            child: cell,
+          );
+        }
+        return cell;
       },
       separatorBuilder: (_, __) => const Divider(),
     );

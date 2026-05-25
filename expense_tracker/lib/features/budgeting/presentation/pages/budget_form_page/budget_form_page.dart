@@ -1,4 +1,7 @@
 import 'package:expense_tracker/core/configuration/constants.dart';
+import 'package:expense_tracker/core/feature_discovery/feature_discovery.dart';
+import 'package:expense_tracker/core/feature_discovery/feature_discovery_id.dart';
+import 'package:expense_tracker/core/feature_discovery/feature_discovery_target.dart';
 import 'package:expense_tracker/core/presentation/common/custom_elevated_button.dart';
 import 'package:expense_tracker/core/presentation/common/widgets/icon_item.dart';
 import 'package:expense_tracker/features/budgeting/domain/logic/budget_calculator.dart';
@@ -83,6 +86,19 @@ class _BudgetFormPageState extends ConsumerState<BudgetFormPage> {
         _endDateController.text =
             DateFormat.yMd(Platform.localeName).format(_customEndDate!);
       }
+    } else {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (!mounted) return;
+        FeatureDiscovery.scheduleShowSequence(
+          context: context,
+          ref: ref,
+          ids: const [
+            FeatureDiscoveryId.budgetFormCategories,
+            FeatureDiscoveryId.budgetFormRollover,
+          ],
+          delay: const Duration(milliseconds: 600),
+        );
+      });
     }
   }
 
@@ -156,10 +172,14 @@ class _BudgetFormPageState extends ConsumerState<BudgetFormPage> {
                           style: const TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 16)),
                       const SizedBox(height: 12),
-                      BudgetRolloverModeSelector(
-                        value: _rolloverMode,
-                        localizations: appLocalizations,
-                        onChanged: (mode) => setState(() => _rolloverMode = mode),
+                      FeatureDiscoveryTarget(
+                        id: FeatureDiscoveryId.budgetFormRollover,
+                        child: BudgetRolloverModeSelector(
+                          value: _rolloverMode,
+                          localizations: appLocalizations,
+                          onChanged: (mode) =>
+                              setState(() => _rolloverMode = mode),
+                        ),
                       ),
                     ],
                     const SizedBox(height: 40),
@@ -191,7 +211,9 @@ class _BudgetFormPageState extends ConsumerState<BudgetFormPage> {
         .where((c) => _selectedCategoryIds.contains(c.id))
         .toList();
 
-    return Column(
+    return FeatureDiscoveryTarget(
+      id: FeatureDiscoveryId.budgetFormCategories,
+      child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       spacing: 5,
       children: [
@@ -301,6 +323,7 @@ class _BudgetFormPageState extends ConsumerState<BudgetFormPage> {
           ),
         ),
       ],
+    ),
     );
   }
 

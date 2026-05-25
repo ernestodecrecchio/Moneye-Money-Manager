@@ -1,5 +1,7 @@
 import 'package:collection/collection.dart';
 import 'package:expense_tracker/core/configuration/constants.dart';
+import 'package:expense_tracker/core/feature_discovery/feature_discovery_id.dart';
+import 'package:expense_tracker/core/feature_discovery/feature_discovery_target.dart';
 import 'package:expense_tracker/core/presentation/common/widgets/icon_item.dart';
 import 'package:expense_tracker/core/presentation/providers/app_localizations_provider.dart';
 import 'package:expense_tracker/core/presentation/providers/currency_provider.dart';
@@ -32,11 +34,14 @@ class BudgetListPage extends ConsumerWidget {
           appLocalizations.budgeting,
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.pushNamed(context, BudgetFormPage.routeName);
-        },
-        child: const Icon(Icons.add),
+      floatingActionButton: FeatureDiscoveryTarget(
+        id: FeatureDiscoveryId.budgetListFab,
+        child: FloatingActionButton(
+          onPressed: () {
+            Navigator.pushNamed(context, BudgetFormPage.routeName);
+          },
+          child: const Icon(Icons.add),
+        ),
       ),
       body: SafeArea(
         child: budgetsAsync.when(

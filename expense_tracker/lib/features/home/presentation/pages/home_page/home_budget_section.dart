@@ -1,4 +1,7 @@
 import 'package:expense_tracker/core/configuration/constants.dart';
+import 'package:expense_tracker/core/feature_discovery/feature_discovery.dart';
+import 'package:expense_tracker/core/feature_discovery/feature_discovery_id.dart';
+import 'package:expense_tracker/core/feature_discovery/feature_discovery_target.dart';
 import 'package:expense_tracker/core/presentation/providers/app_localizations_provider.dart';
 import 'package:expense_tracker/core/presentation/providers/currency_provider.dart';
 import 'package:expense_tracker/core/style/app_theme.dart';
@@ -17,11 +20,28 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 /// prevents intrinsic content (e.g. long titles) from stretching tiles.
 const double _kCompactBudgetTileWidth = 96.0;
 
-class HomeBudgetSection extends ConsumerWidget {
+class HomeBudgetSection extends ConsumerStatefulWidget {
   const HomeBudgetSection({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<HomeBudgetSection> createState() => _HomeBudgetSectionState();
+}
+
+class _HomeBudgetSectionState extends ConsumerState<HomeBudgetSection> {
+  bool _sectionDiscoveryScheduled = false;
+
+  void _scheduleSectionDiscovery() {
+    if (_sectionDiscoveryScheduled) return;
+    _sectionDiscoveryScheduled = true;
+    FeatureDiscovery.scheduleShowSequence(
+      context: context,
+      ref: ref,
+      ids: const [FeatureDiscoveryId.homeBudgetSection],
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final appLocalizations = ref.watch(appLocalizationsProvider);
     final budgetsAsync = ref.watch(budgetsListProvider);
 
@@ -31,7 +51,11 @@ class HomeBudgetSection extends ConsumerWidget {
           return const SizedBox.shrink();
         }
 
-        return Column(
+        _scheduleSectionDiscovery();
+
+        return FeatureDiscoveryTarget(
+          id: FeatureDiscoveryId.homeBudgetSection,
+          child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
@@ -71,6 +95,7 @@ class HomeBudgetSection extends ConsumerWidget {
                 ),
               ),
           ],
+        ),
         );
       },
       loading: () => const SizedBox.shrink(),

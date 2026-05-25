@@ -1,3 +1,5 @@
+import 'package:expense_tracker/core/feature_discovery/feature_discovery_id.dart';
+import 'package:expense_tracker/core/feature_discovery/feature_discovery_target.dart';
 import 'package:expense_tracker/core/services/widget_extension_service.dart';
 import 'package:expense_tracker/features/home/presentation/pages/home_page/home_account_section.dart';
 import 'package:expense_tracker/features/home/presentation/pages/home_page/home_last_transactions_list.dart';
@@ -70,11 +72,14 @@ class _HomePageState extends ConsumerState<HomePage> {
   }
 
   Widget _buildFloatingActionButton() {
-    return FloatingActionButton(
-      shape: const CircleBorder(),
-      onPressed: () =>
-          Navigator.pushNamed(context, NewEditTransactionPage.routeName),
-      child: const Icon(Icons.add),
+    return FeatureDiscoveryTarget(
+      id: FeatureDiscoveryId.homeFab,
+      child: FloatingActionButton(
+        shape: const CircleBorder(),
+        onPressed: () =>
+            Navigator.pushNamed(context, NewEditTransactionPage.routeName),
+        child: const Icon(Icons.add),
+      ),
     );
   }
 }

@@ -36,6 +36,7 @@ import 'package:expense_tracker/features/budgeting/presentation/pages/budget_for
 import 'package:expense_tracker/features/settings/presentation/pages/options_page/privacy_page/privacy_settings_page.dart';
 import 'package:expense_tracker/features/settings/presentation/pages/options_page/theme_page/theme_selection_page.dart';
 import 'package:expense_tracker/features/settings/presentation/pages/options_page/contacts_page/contacts_page.dart';
+import 'package:expense_tracker/core/feature_discovery/feature_discovery_provider.dart';
 import 'package:expense_tracker/core/presentation/providers/analytics_consent_provider.dart';
 import 'package:expense_tracker/core/presentation/providers/theme_provider.dart';
 import 'package:expense_tracker/core/style/app_theme.dart';
@@ -174,15 +175,16 @@ Future main() async {
       container.read(analyticsConsentProvider.notifier);
   analyticsConsentNotifier.setFromLocalStorage(analyticsConsentValue);
 
+  final featureDiscoverySeen =
+      await FeatureDiscoveryNotifier.loadSeenFromPrefs(prefs);
+  container
+      .read(featureDiscoveryProvider.notifier)
+      .setFromLocalStorage(featureDiscoverySeen);
+
   // SETTING UP THEME
   final themeModeString = prefs.getString('theme_mode');
   final themeProviderNotifier = container.read(themeProvider.notifier);
   themeProviderNotifier.setFromLocalStorage(themeModeString);
-
-  // Trigger lazy generation of recurring transactions on app startup
-  final generatedCount = await container
-      .read(transactionsRepositoryProvider)
-      .generateRecurringTransactionsUntil(DateTime.now());
 
   // SETTING UP NEEDS CONFIGURATION
   runApp(
@@ -195,9 +197,18 @@ Future main() async {
     ),
   );
 
+  unawaited(_generateRecurringTransactionsAfterLaunch(container));
+}
+
+Future<void> _generateRecurringTransactionsAfterLaunch(
+  r.ProviderContainer container,
+) async {
+  final generatedCount = await container
+      .read(transactionsRepositoryProvider)
+      .generateRecurringTransactionsUntil(DateTime.now());
+
   if (generatedCount > 0) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      // Delaying slightly to ensure the context is fully mounted and themed
       Future.delayed(const Duration(milliseconds: 500), () {
         final context = navigatorKey.currentContext;
         if (context != null && context.mounted) {

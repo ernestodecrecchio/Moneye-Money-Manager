@@ -4,6 +4,9 @@ import 'package:expense_tracker/core/utils/date_time_helper.dart';
 import 'package:expense_tracker/core/presentation/providers/app_localizations_provider.dart';
 import 'package:expense_tracker/features/transactions/presentation/providers/queries/transactions_list_notifier.dart';
 import 'package:expense_tracker/core/configuration/constants.dart';
+import 'package:expense_tracker/core/feature_discovery/feature_discovery.dart';
+import 'package:expense_tracker/core/feature_discovery/feature_discovery_id.dart';
+import 'package:expense_tracker/core/feature_discovery/feature_discovery_target.dart';
 import 'package:expense_tracker/l10n/app_localizations.dart';
 import 'package:expense_tracker/features/accounts/domain/models/account.dart';
 import 'package:expense_tracker/features/transactions/domain/models/transaction.dart';
@@ -193,6 +196,7 @@ class _AccountDetailPageState extends ConsumerState<AccountDetailPage>
               controller: _tabController,
               children: [
                 ScrollableTabView(
+                  attachChartsDiscoveryKey: true,
                   transactionType: AccountDetailTransactionTypeMode.income,
                   selectedTransactionTimePeriod: selectedTransactionTimePeriod,
                   startDate: startDate,
@@ -322,6 +326,10 @@ class ScrollableTabView extends ConsumerStatefulWidget {
 
   final TransactionTimePeriod selectedTransactionTimePeriod;
 
+  /// When true, attaches the shared charts [GlobalKey] for feature discovery.
+  /// Must be set on at most one tab in the [TabBarView] to avoid duplicate keys.
+  final bool attachChartsDiscoveryKey;
+
   const ScrollableTabView({
     super.key,
     required this.transactionType,
@@ -329,6 +337,7 @@ class ScrollableTabView extends ConsumerStatefulWidget {
     required this.endDate,
     required this.selectedTransactionTimePeriod,
     required this.account,
+    this.attachChartsDiscoveryKey = false,
   });
 
   @override
@@ -336,6 +345,18 @@ class ScrollableTabView extends ConsumerStatefulWidget {
 }
 
 class _ScrollableTabViewState extends ConsumerState<ScrollableTabView> {
+  bool _chartsDiscoveryScheduled = false;
+
+  void _scheduleChartsDiscovery() {
+    if (_chartsDiscoveryScheduled) return;
+    _chartsDiscoveryScheduled = true;
+    FeatureDiscovery.scheduleShowSequence(
+      context: context,
+      ref: ref,
+      ids: const [FeatureDiscoveryId.accountDetailCharts],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     late AccountBarChartModeTransactionType barChartTransactionType;
@@ -374,6 +395,13 @@ class _ScrollableTabViewState extends ConsumerState<ScrollableTabView> {
                 .where((transaction) => transaction.includeInReports)
                 .toList();
 
+            if (widget.attachChartsDiscoveryKey &&
+                includeInReportTransactionsList.isNotEmpty) {
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                _scheduleChartsDiscovery();
+              });
+            }
+
             return transactionsList.isEmpty
                 ? Align(
                     child: Text(
@@ -386,37 +414,10 @@ class _ScrollableTabViewState extends ConsumerState<ScrollableTabView> {
                     child: Column(
                       children: [
                         if (includeInReportTransactionsList.isNotEmpty) ...[
-                          Container(
-                            height: 200,
-                            margin: const EdgeInsets.only(
-                              top: 10,
-                              bottom: 0,
-                              left: Constants.horizontalPadding,
-                              right: Constants.horizontalPadding,
-                            ),
-                            child: PageViewWithIndicators(
-                              widgetList: [
-                                _buildPieChart(includeInReportTransactionsList,
-                                    pieChartTransactionType),
-                                if (widget.selectedTransactionTimePeriod !=
-                                    TransactionTimePeriod.day)
-                                  _buildBarChart(
-                                    transactionList:
-                                        includeInReportTransactionsList,
-                                    transactionType: barChartTransactionType,
-                                    timeMode:
-                                        widget.selectedTransactionTimePeriod,
-                                  ),
-                              ],
-                              indicatorIconPathList:
-                                  widget.selectedTransactionTimePeriod !=
-                                          TransactionTimePeriod.day
-                                      ? const [
-                                          'assets/icons/pie-chart.svg',
-                                          'assets/icons/bar-chart.svg',
-                                        ]
-                                      : null,
-                            ),
+                          _buildChartsDiscoveryWrapper(
+                            includeInReportTransactionsList,
+                            barChartTransactionType,
+                            pieChartTransactionType,
                           ),
                           const SizedBox(
                             height: 4,
@@ -438,6 +439,49 @@ class _ScrollableTabViewState extends ConsumerState<ScrollableTabView> {
             style: Theme.of(context).textTheme.bodyMedium,
           ),
         );
+  }
+
+  Widget _buildChartsDiscoveryWrapper(
+    List<Transaction> includeInReportTransactionsList,
+    AccountBarChartModeTransactionType barChartTransactionType,
+    AccountPieChartModeTransactionType pieChartTransactionType,
+  ) {
+    final charts = Container(
+      height: 200,
+      margin: const EdgeInsets.only(
+        top: 10,
+        bottom: 0,
+        left: Constants.horizontalPadding,
+        right: Constants.horizontalPadding,
+      ),
+      child: PageViewWithIndicators(
+        widgetList: [
+          _buildPieChart(
+              includeInReportTransactionsList, pieChartTransactionType),
+          if (widget.selectedTransactionTimePeriod !=
+              TransactionTimePeriod.day)
+            _buildBarChart(
+              transactionList: includeInReportTransactionsList,
+              transactionType: barChartTransactionType,
+              timeMode: widget.selectedTransactionTimePeriod,
+            ),
+        ],
+        indicatorIconPathList:
+            widget.selectedTransactionTimePeriod != TransactionTimePeriod.day
+                ? const [
+                    'assets/icons/pie-chart.svg',
+                    'assets/icons/bar-chart.svg',
+                  ]
+                : null,
+      ),
+    );
+
+    if (!widget.attachChartsDiscoveryKey) return charts;
+
+    return FeatureDiscoveryTarget(
+      id: FeatureDiscoveryId.accountDetailCharts,
+      child: charts,
+    );
   }
 
   Widget _buildBarChart({
