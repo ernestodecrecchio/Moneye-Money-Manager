@@ -13,6 +13,9 @@ import 'package:expense_tracker/features/recurring_rules/presentation/providers/
 import 'package:expense_tracker/features/accounts/presentation/providers/queries/accounts_list_notifier.dart';
 import 'package:expense_tracker/core/presentation/common/custom_elevated_button.dart';
 import 'package:expense_tracker/features/transactions/presentation/pages/new_edit_transaction_flow/account_selector_dialog.dart';
+import 'package:expense_tracker/core/presentation/common/amount_keyboard/amount_keyboard_chrome.dart';
+import 'package:expense_tracker/core/presentation/common/amount_keyboard/amount_keyboard_scope.dart';
+import 'package:expense_tracker/core/presentation/common/amount_keyboard/amount_text_field.dart';
 import 'package:expense_tracker/core/presentation/common/custom_text_field.dart';
 import 'package:expense_tracker/features/transactions/presentation/pages/new_edit_transaction_flow/category_selector_dialog.dart';
 import 'package:expense_tracker/core/presentation/common/custom_dropdown_button_form_field.dart';
@@ -20,7 +23,6 @@ import 'package:expense_tracker/core/presentation/common/custom_form_switch.dart
 import 'package:expense_tracker/features/recurring_rules/presentation/pages/recurring_rules_page/recurring_rule_detail_page.dart';
 import 'package:expense_tracker/core/style/app_theme.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:in_app_review/in_app_review.dart';
 import 'package:expense_tracker/core/configuration/constants.dart';
@@ -266,41 +268,46 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
       }
     }
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          editMode
-              ? (widget.initialRecurringRule != null
-                  ? appLocalizations.editRecurringTransaction
-                  : appLocalizations.editTransaction)
-              : (widget.isRecurringPreset
-                  ? appLocalizations.newRecurringTransaction
-                  : appLocalizations.newTransaction),
-        ),
-      ),
-      body: SafeArea(
-        bottom: false,
-        child: Scrollbar(
-          child: CustomScrollView(
-            slivers: [
-              SliverPadding(
-                padding: const EdgeInsets.symmetric(
-                    horizontal: Constants.horizontalPadding),
-                sliver: SliverFillRemaining(
-                  hasScrollBody: false,
-                  child: _buildForm(appLocalizations, isLoading, generatedRule,
-                      isRuleDeleted),
-                ),
-              ),
-            ],
+    return AmountKeyboardScope(
+      doneLabel: appLocalizations.done,
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(
+            editMode
+                ? (widget.initialRecurringRule != null
+                    ? appLocalizations.editRecurringTransaction
+                    : appLocalizations.editTransaction)
+                : (widget.isRecurringPreset
+                    ? appLocalizations.newRecurringTransaction
+                    : appLocalizations.newTransaction),
           ),
         ),
-      ),
-      bottomNavigationBar: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(
-              Constants.horizontalPadding, 8, Constants.horizontalPadding, 8),
-          child: _buildSaveButton(appLocalizations, isLoading),
+        body: SafeArea(
+          bottom: false,
+          child: Scrollbar(
+            child: CustomScrollView(
+              slivers: [
+                SliverPadding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: Constants.horizontalPadding),
+                  sliver: SliverFillRemaining(
+                    hasScrollBody: false,
+                    child: _buildForm(appLocalizations, isLoading,
+                        generatedRule, isRuleDeleted),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+        bottomNavigationBar: AmountKeyboardChrome(
+          child: SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(
+                  Constants.horizontalPadding, 8, Constants.horizontalPadding, 8),
+              child: _buildSaveButton(appLocalizations, isLoading),
+            ),
+          ),
         ),
       ),
     );
@@ -406,15 +413,10 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
               },
               focusNode: titleInputFocusNode,
             ),
-            CustomTextField(
+            AmountTextField(
               controller: valueInput,
               label: '${appLocalizations.amount}*',
               hintText: appLocalizations.insertTheAmountOfTheTransaction,
-              textInputFormatters: <TextInputFormatter>[
-                FilteringTextInputFormatter.allow(RegExp(r'^\d+\.?\d*'))
-              ],
-              keyboardType: const TextInputType.numberWithOptions(
-                  signed: true, decimal: true),
               validator: (value) {
                 if (value == null || value.isEmpty) {
                   return appLocalizations.amountIsMandatory;

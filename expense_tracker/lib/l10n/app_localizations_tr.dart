@@ -234,7 +234,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get description => 'Açıklama';
 
   @override
-  String get done => 'Bitti!';
+  String get done => 'Bitti';
 
   @override
   String get confirm => 'Onayla';

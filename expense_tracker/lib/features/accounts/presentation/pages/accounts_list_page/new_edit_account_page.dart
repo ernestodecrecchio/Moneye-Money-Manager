@@ -6,12 +6,13 @@ import 'package:expense_tracker/features/transactions/presentation/providers/mut
 import 'package:expense_tracker/l10n/app_localizations.dart';
 import 'package:expense_tracker/core/presentation/common/custom_elevated_button.dart';
 import 'package:expense_tracker/core/presentation/common/custom_text_field.dart';
+import 'package:expense_tracker/core/presentation/common/amount_keyboard/amount_keyboard_scope.dart';
+import 'package:expense_tracker/core/presentation/common/amount_keyboard/amount_text_field.dart';
 import 'package:expense_tracker/core/presentation/common/dialogs.dart';
 import 'package:expense_tracker/core/presentation/common/inline_color_picker.dart';
 import 'package:expense_tracker/core/presentation/common/inline_icon_picker.dart';
 import 'package:expense_tracker/core/style/style.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:expense_tracker/core/presentation/common/extensions/account_extensions.dart';
 import 'package:expense_tracker/core/configuration/constants.dart';
@@ -82,35 +83,38 @@ class _NewAccountPageState extends ConsumerState<NewEditAccountPage> {
       ));
     }
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          editMode ? appLocalizations.editAccount : appLocalizations.newAccount,
+    return AmountKeyboardScope(
+      doneLabel: appLocalizations.done,
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(
+            editMode ? appLocalizations.editAccount : appLocalizations.newAccount,
+          ),
+          actions: actions,
         ),
-        actions: actions,
-      ),
-      body: SafeArea(
-        bottom: false,
-        child: Scrollbar(
-          child: CustomScrollView(
-            slivers: [
-              SliverPadding(
-                padding: const EdgeInsets.symmetric(
-                    horizontal: Constants.horizontalPadding),
-                sliver: SliverFillRemaining(
-                  hasScrollBody: false,
-                  child: _buildForm(appLocalizations, isLoading),
+        body: SafeArea(
+          bottom: false,
+          child: Scrollbar(
+            child: CustomScrollView(
+              slivers: [
+                SliverPadding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: Constants.horizontalPadding),
+                  sliver: SliverFillRemaining(
+                    hasScrollBody: false,
+                    child: _buildForm(appLocalizations, isLoading),
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
-      ),
-      bottomNavigationBar: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(
-              Constants.horizontalPadding, 8, Constants.horizontalPadding, 8),
-          child: _buildSaveButton(appLocalizations, isLoading),
+        bottomNavigationBar: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(
+                Constants.horizontalPadding, 8, Constants.horizontalPadding, 8),
+            child: _buildSaveButton(appLocalizations, isLoading),
+          ),
         ),
       ),
     );
@@ -141,15 +145,10 @@ class _NewAccountPageState extends ConsumerState<NewEditAccountPage> {
               hintText: appLocalizations.insertTheDescription,
             ),
             if (!editMode)
-              CustomTextField(
+              AmountTextField(
                 controller: initialBalanceInput,
                 label: appLocalizations.initialBalance,
                 hintText: appLocalizations.initialBalancePlaceholder,
-                textInputFormatters: <TextInputFormatter>[
-                  FilteringTextInputFormatter.allow(RegExp(r'^\d+\.?\d*'))
-                ],
-                keyboardType: const TextInputType.numberWithOptions(
-                    signed: true, decimal: true),
               ),
             _buildColorPicker(appLocalizations),
             _buildIconPicker(appLocalizations),

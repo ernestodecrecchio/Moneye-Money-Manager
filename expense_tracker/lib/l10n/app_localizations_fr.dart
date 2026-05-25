@@ -234,7 +234,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get description => 'Description';
 
   @override
-  String get done => 'Terminé !';
+  String get done => 'Terminé';
 
   @override
   String get confirm => 'Confirmer';

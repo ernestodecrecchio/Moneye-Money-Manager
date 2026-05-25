@@ -233,7 +233,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get description => 'Descrição';
 
   @override
-  String get done => 'Concluído!';
+  String get done => 'Concluído';
 
   @override
   String get confirm => 'Confirmar';
@@ -1030,7 +1030,7 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   String get description => 'Descrição';
 
   @override
-  String get done => 'Concluído!';
+  String get done => 'Concluído';
 
   @override
   String get confirm => 'Confirmar';
@@ -1828,7 +1828,7 @@ class AppLocalizationsPtPt extends AppLocalizationsPt {
   String get description => 'Descrição';
 
   @override
-  String get done => 'Concluído!';
+  String get done => 'Concluído';
 
   @override
   String get confirm => 'Confirmar';
