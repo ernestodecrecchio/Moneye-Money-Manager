@@ -100,10 +100,12 @@ class _KeyRow extends StatelessWidget {
 class _AmountKey extends StatefulWidget {
   final Widget child;
   final VoidCallback onPressed;
+  final bool repeatWhileHeld;
 
   const _AmountKey({
     required this.child,
     required this.onPressed,
+    this.repeatWhileHeld = false,
   });
 
   @override
@@ -111,28 +113,60 @@ class _AmountKey extends StatefulWidget {
 }
 
 class _AmountKeyState extends State<_AmountKey> {
+  static const _repeatInitialDelay = Duration(milliseconds: 400);
+  static const _repeatInterval = Duration(milliseconds: 60);
+
   bool _pressed = false;
   DateTime? _tapDownTime;
   Timer? _releaseTimer;
+  Timer? _repeatTimer;
 
   void _setPressed(bool value) {
     if (_pressed == value) return;
     setState(() => _pressed = value);
   }
 
+  void _firePressed({bool haptic = true}) {
+    widget.onPressed();
+    if (haptic) HapticFeedback.lightImpact();
+  }
+
+  void _startRepeat() {
+    _stopRepeat();
+    _firePressed();
+    _repeatTimer = Timer(_repeatInitialDelay, () {
+      if (!mounted) return;
+      _repeatTimer = Timer.periodic(_repeatInterval, (_) {
+        if (!mounted) return;
+        _firePressed(haptic: false);
+      });
+    });
+  }
+
+  void _stopRepeat() {
+    _repeatTimer?.cancel();
+    _repeatTimer = null;
+  }
+
   void _handleTapDown() {
     _releaseTimer?.cancel();
     _tapDownTime = DateTime.now();
     _setPressed(true);
+    if (widget.repeatWhileHeld) {
+      _startRepeat();
+    }
   }
 
   void _handleTapUp() {
+    _stopRepeat();
     _releaseVisualPress();
-    widget.onPressed();
-    HapticFeedback.lightImpact();
+    if (!widget.repeatWhileHeld) {
+      _firePressed();
+    }
   }
 
   void _handleTapCancel() {
+    _stopRepeat();
     _releaseVisualPress();
   }
 
@@ -158,6 +192,7 @@ class _AmountKeyState extends State<_AmountKey> {
   @override
   void dispose() {
     _releaseTimer?.cancel();
+    _stopRepeat();
     super.dispose();
   }
 
@@ -258,6 +293,7 @@ class _BackspaceKey extends StatelessWidget {
     final colors = context.appColors;
 
     return _AmountKey(
+      repeatWhileHeld: true,
       onPressed: () => AmountKeyboardInput.backspace(controller),
       child: Icon(
         Icons.backspace_outlined,
