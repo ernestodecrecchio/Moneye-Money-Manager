@@ -1,6 +1,24 @@
 import 'package:expense_tracker/core/presentation/common/amount_keyboard/amount_keyboard.dart';
 import 'package:flutter/material.dart';
 
+/// Layout constants for [AmountKeyboard] height (shared with scroll-into-view).
+class AmountKeyboardMetrics {
+  AmountKeyboardMetrics._();
+
+  static const int numRows = 5;
+  static const double rowHeight = 52;
+  static const double spacing = 8;
+  static const double padding = 16;
+
+  static double fullHeight(BuildContext context) {
+    final bottomSafeArea = MediaQuery.paddingOf(context).bottom;
+    return (numRows * rowHeight) +
+        ((numRows - 1) * spacing) +
+        padding +
+        bottomSafeArea;
+  }
+}
+
 /// Host that shows [AmountKeyboard] when an [AmountTextField] is focused.
 ///
 /// The keyboard is drawn in the root [Overlay] (on top of page chrome) and
@@ -59,18 +77,7 @@ class AmountKeyboardScopeState extends State<AmountKeyboardScope>
   double get keyboardInset {
     if (_activeController == null) return 0;
 
-    final bottomSafeArea = MediaQuery.of(context).padding.bottom;
-    const numRows = 5; // Always 5 rows since the Done button is always shown
-    const rowHeight = 52.0;
-    const spacing = 8.0;
-    const padding = 16.0; // 8 top + 8 bottom
-
-    final fullHeight = (numRows * rowHeight) +
-        ((numRows - 1) * spacing) +
-        padding +
-        bottomSafeArea;
-
-    return fullHeight * _curveAnimation.value;
+    return AmountKeyboardMetrics.fullHeight(context) * _curveAnimation.value;
   }
 
   @override
@@ -97,6 +104,7 @@ class AmountKeyboardScopeState extends State<AmountKeyboardScope>
     required TextEditingController controller,
     required FocusNode focusNode,
     VoidCallback? onDone,
+    VoidCallback? onPresented,
   }) {
     setState(() {
       _activeController = controller;
@@ -105,7 +113,14 @@ class AmountKeyboardScopeState extends State<AmountKeyboardScope>
     });
 
     _portalController.show();
-    _animationController.forward();
+    _animationController.forward().then((_) {
+      if (!mounted) return;
+      if (_activeController == controller &&
+          _activeFocusNode == focusNode &&
+          focusNode.hasFocus) {
+        onPresented?.call();
+      }
+    });
     keyboardRevision.value++;
   }
 
@@ -148,16 +163,7 @@ class AmountKeyboardScopeState extends State<AmountKeyboardScope>
     final scopeContext = this.context;
     final theme = Theme.of(scopeContext);
 
-    final bottomSafeArea = MediaQuery.of(scopeContext).padding.bottom;
-    const numRows = 5; // Always 5 rows since the Done button is always shown
-    const rowHeight = 52.0;
-    const spacing = 8.0;
-    const padding = 16.0; // 8 top + 8 bottom
-
-    final fullHeight = (numRows * rowHeight) +
-        ((numRows - 1) * spacing) +
-        padding +
-        bottomSafeArea;
+    final fullHeight = AmountKeyboardMetrics.fullHeight(scopeContext);
 
     return Positioned(
       left: 0,

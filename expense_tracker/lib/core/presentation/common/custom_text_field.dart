@@ -19,6 +19,7 @@ class CustomTextField extends StatelessWidget {
   final int? maxLines;
   final FocusNode? focusNode;
   final bool showCursor;
+  final EdgeInsets scrollPadding;
 
   final borderRadius = 40.0;
 
@@ -40,6 +41,7 @@ class CustomTextField extends StatelessWidget {
     this.maxLines = 1,
     this.focusNode,
     this.showCursor = true,
+    this.scrollPadding = const EdgeInsets.all(20),
   });
 
   @override
@@ -101,6 +103,7 @@ class CustomTextField extends StatelessWidget {
             textCapitalization: TextCapitalization.sentences,
             focusNode: focusNode,
             showCursor: showCursor,
+            scrollPadding: scrollPadding,
             enableInteractiveSelection:
                 enableInteractiveSelection ?? !readOnly,
             onEditingComplete: () => FocusScope.of(context).nextFocus(),
