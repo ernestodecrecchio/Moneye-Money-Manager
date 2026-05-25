@@ -174,17 +174,21 @@ class AmountKeyboardScopeState extends State<AmountKeyboardScope>
             child: child,
           );
         },
-        child: SizedBox(
-          height: fullHeight,
-          child: Theme(
-            data: theme,
-            child: Material(
-              elevation: 8,
-              color: theme.scaffoldBackgroundColor,
-              child: AmountKeyboard(
-                controller: _activeController!,
-                doneLabel: widget.doneLabel,
-                onDone: _onDone != null ? _handleDonePressed : null,
+        child: GestureDetector(
+          onTap: () {}, // Swallows taps on the keyboard background to prevent unfocus
+          behavior: HitTestBehavior.opaque,
+          child: SizedBox(
+            height: fullHeight,
+            child: Theme(
+              data: theme,
+              child: Material(
+                elevation: 8,
+                color: theme.scaffoldBackgroundColor,
+                child: AmountKeyboard(
+                  controller: _activeController!,
+                  doneLabel: widget.doneLabel,
+                  onDone: _onDone != null ? _handleDonePressed : null,
+                ),
               ),
             ),
           ),
