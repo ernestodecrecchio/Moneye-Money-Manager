@@ -4,6 +4,8 @@ import 'package:expense_tracker/core/presentation/common/widgets/icon_item.dart'
 import 'package:expense_tracker/features/budgeting/domain/logic/budget_calculator.dart';
 import 'package:expense_tracker/features/budgeting/domain/models/budget.dart';
 import 'package:expense_tracker/core/presentation/common/custom_text_field.dart';
+import 'package:expense_tracker/core/presentation/common/amount_keyboard/amount_keyboard_scope.dart';
+import 'package:expense_tracker/core/presentation/common/amount_keyboard/amount_text_field.dart';
 import 'package:expense_tracker/core/presentation/providers/app_localizations_provider.dart';
 import 'package:expense_tracker/core/style/app_theme.dart';
 import 'package:expense_tracker/features/budgeting/presentation/providers/mutations/budget_mutation_notifier.dart';
@@ -16,7 +18,6 @@ import 'package:expense_tracker/core/presentation/common/extensions/category_ext
 import 'package:expense_tracker/features/categories/presentation/providers/queries/categories_list_notifier.dart';
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 
@@ -102,82 +103,80 @@ class _BudgetFormPageState extends ConsumerState<BudgetFormPage> {
     final isLoading = ref.watch(budgetMutationProvider).isLoading;
     final categories = ref.watch(categoriesListProvider).asData?.value ?? [];
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.initialBudget == null
-            ? appLocalizations.newBudget
-            : appLocalizations.editBudget),
-        actions: widget.initialBudget != null
-            ? [_buildDeleteAction(appLocalizations)]
-            : null,
-      ),
-      body: Form(
-        key: _formKey,
-        child: CustomScrollView(
-          slivers: [
-            SliverPadding(
-              padding: const EdgeInsets.symmetric(
-                  horizontal: Constants.horizontalPadding, vertical: 20),
-              sliver: SliverList(
-                delegate: SliverChildListDelegate([
-                  CustomTextField(
-                    controller: _nameController,
-                    label: appLocalizations.title,
-                    hintText: appLocalizations.budgetTitleHint,
-                    validator: (val) => val == null || val.isEmpty
-                        ? appLocalizations.titleIsMandatory
-                        : null,
-                  ),
-                  const SizedBox(height: 14),
-                  CustomTextField(
-                    controller: _amountController,
-                    label: appLocalizations.amount,
-                    hintText: '0.00',
-                    keyboardType:
-                        const TextInputType.numberWithOptions(decimal: true),
-                    textInputFormatters: [
-                      FilteringTextInputFormatter.allow(RegExp(r'^\d+\.?\d*'))
-                    ],
-                    validator: (val) => val == null || val.isEmpty
-                        ? appLocalizations.amountIsMandatory
-                        : null,
-                  ),
-                  const SizedBox(height: 14),
-                  _buildCategorySelectionSection(appLocalizations, categories),
-                  const SizedBox(height: 24),
-                  Text(appLocalizations.budgetDuration,
-                      style: const TextStyle(
-                          fontWeight: FontWeight.bold, fontSize: 16)),
-                  const SizedBox(height: 12),
-                  _buildPeriodSelector(appLocalizations),
-                  const SizedBox(height: 14),
-                  _buildPeriodConfig(appLocalizations),
-                  if (_selectedPeriodType != PeriodType.custom) ...[
+    return AmountKeyboardScope(
+      doneLabel: appLocalizations.done,
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(widget.initialBudget == null
+              ? appLocalizations.newBudget
+              : appLocalizations.editBudget),
+          actions: widget.initialBudget != null
+              ? [_buildDeleteAction(appLocalizations)]
+              : null,
+        ),
+        body: Form(
+          key: _formKey,
+          child: CustomScrollView(
+            slivers: [
+              SliverPadding(
+                padding: const EdgeInsets.symmetric(
+                    horizontal: Constants.horizontalPadding, vertical: 20),
+                sliver: SliverList(
+                  delegate: SliverChildListDelegate([
+                    CustomTextField(
+                      controller: _nameController,
+                      label: appLocalizations.title,
+                      hintText: appLocalizations.budgetTitleHint,
+                      validator: (val) => val == null || val.isEmpty
+                          ? appLocalizations.titleIsMandatory
+                          : null,
+                    ),
+                    const SizedBox(height: 14),
+                    AmountTextField(
+                      controller: _amountController,
+                      label: appLocalizations.amount,
+                      hintText: '0.00',
+                      validator: (val) => val == null || val.isEmpty
+                          ? appLocalizations.amountIsMandatory
+                          : null,
+                    ),
+                    const SizedBox(height: 14),
+                    _buildCategorySelectionSection(appLocalizations, categories),
                     const SizedBox(height: 24),
-                    Text(appLocalizations.rolloverMode,
+                    Text(appLocalizations.budgetDuration,
                         style: const TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 16)),
                     const SizedBox(height: 12),
-                    BudgetRolloverModeSelector(
-                      value: _rolloverMode,
-                      localizations: appLocalizations,
-                      onChanged: (mode) => setState(() => _rolloverMode = mode),
-                    ),
-                  ],
-                  const SizedBox(height: 40),
-                ]),
+                    _buildPeriodSelector(appLocalizations),
+                    const SizedBox(height: 14),
+                    _buildPeriodConfig(appLocalizations),
+                    if (_selectedPeriodType != PeriodType.custom) ...[
+                      const SizedBox(height: 24),
+                      Text(appLocalizations.rolloverMode,
+                          style: const TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 16)),
+                      const SizedBox(height: 12),
+                      BudgetRolloverModeSelector(
+                        value: _rolloverMode,
+                        localizations: appLocalizations,
+                        onChanged: (mode) => setState(() => _rolloverMode = mode),
+                      ),
+                    ],
+                    const SizedBox(height: 40),
+                  ]),
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
-      ),
-      bottomNavigationBar: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(Constants.horizontalPadding),
-          child: CustomElevatedButton(
-            text: appLocalizations.save,
-            isLoading: isLoading,
-            onPressed: () => _saveBudget(),
+        bottomNavigationBar: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.all(Constants.horizontalPadding),
+            child: CustomElevatedButton(
+              text: appLocalizations.save,
+              isLoading: isLoading,
+              onPressed: () => _saveBudget(),
+            ),
           ),
         ),
       ),
