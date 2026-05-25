@@ -39,12 +39,13 @@ class _AmountKeyboardScopeInherited extends InheritedWidget {
   }
 }
 
-class AmountKeyboardScopeState extends State<AmountKeyboardScope> {
+class AmountKeyboardScopeState extends State<AmountKeyboardScope>
+    with SingleTickerProviderStateMixin {
   final ValueNotifier<int> keyboardRevision = ValueNotifier(0);
   final OverlayPortalController _portalController = OverlayPortalController();
 
-  double _keyboardHeight = 0;
-  bool _portalUpdateScheduled = false;
+  late final AnimationController _animationController;
+  late final Animation<double> _curveAnimation;
 
   TextEditingController? _activeController;
   FocusNode? _activeFocusNode;
@@ -54,21 +55,42 @@ class AmountKeyboardScopeState extends State<AmountKeyboardScope> {
       _activeController != null && (_activeFocusNode?.hasFocus ?? false);
 
   /// Bottom inset applied while the keyboard is open (for [MediaQuery]).
-  double get keyboardInset => isKeyboardVisible ? _keyboardHeight : 0;
+  /// Animates in sync with the slide-up transition.
+  double get keyboardInset {
+    if (_activeController == null) return 0;
 
-  void _schedulePortalUpdate() {
-    keyboardRevision.value++;
-    if (_portalUpdateScheduled) return;
-    _portalUpdateScheduled = true;
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _portalUpdateScheduled = false;
-      if (mounted) _syncPortal();
-    });
+    final bottomSafeArea = MediaQuery.of(context).padding.bottom;
+    final hasDoneButton = _onDone != null;
+    final numRows = hasDoneButton ? 5 : 4;
+    const rowHeight = 52.0;
+    const spacing = 8.0;
+    const padding = 16.0; // 8 top + 8 bottom
+
+    final fullHeight = (numRows * rowHeight) +
+        ((numRows - 1) * spacing) +
+        padding +
+        bottomSafeArea;
+
+    return fullHeight * _curveAnimation.value;
   }
 
-  void _setKeyboardHeight(double height) {
-    if (_keyboardHeight == height) return;
-    setState(() => _keyboardHeight = height);
+  @override
+  void initState() {
+    super.initState();
+    _animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 250), // Matches system keyboard speed
+    );
+    _curveAnimation = CurvedAnimation(
+      parent: _animationController,
+      curve: Curves.fastOutSlowIn, // iOS/Android standard physical curve
+      reverseCurve: Curves.fastOutSlowIn.flipped,
+    );
+    _animationController.addListener(_onAnimationTick);
+  }
+
+  void _onAnimationTick() {
+    setState(() {});
     keyboardRevision.value++;
   }
 
@@ -77,18 +99,15 @@ class AmountKeyboardScopeState extends State<AmountKeyboardScope> {
     required FocusNode focusNode,
     VoidCallback? onDone,
   }) {
-    if (_activeFocusNode != null && _activeFocusNode != focusNode) {
-      _activeFocusNode!.removeListener(_handleFocusChange);
-    }
+    setState(() {
+      _activeController = controller;
+      _activeFocusNode = focusNode;
+      _onDone = onDone;
+    });
 
-    _activeController = controller;
-    _activeFocusNode = focusNode;
-    _onDone = onDone;
-
-    focusNode.removeListener(_handleFocusChange);
-    focusNode.addListener(_handleFocusChange);
-
-    _schedulePortalUpdate();
+    _portalController.show();
+    _animationController.forward();
+    keyboardRevision.value++;
   }
 
   void detach({
@@ -98,67 +117,75 @@ class AmountKeyboardScopeState extends State<AmountKeyboardScope> {
     if (_activeController != controller || _activeFocusNode != focusNode) {
       return;
     }
-    focusNode.removeListener(_handleFocusChange);
-    _activeController = null;
-    _activeFocusNode = null;
-    _onDone = null;
-    _schedulePortalUpdate();
-  }
 
-  void _handleFocusChange() {
-    if (_activeFocusNode?.hasFocus != true) {
-      final controller = _activeController;
-      final focusNode = _activeFocusNode;
-      if (controller != null && focusNode != null) {
-        detach(controller: controller, focusNode: focusNode);
+    // Smoothly slide down first
+    _animationController.reverse().then((_) {
+      if (!mounted) return;
+      // After it slides down completely, clean up the state and hide the portal
+      if (_activeController == controller && _activeFocusNode == focusNode) {
+        setState(() {
+          _activeController = null;
+          _activeFocusNode = null;
+          _onDone = null;
+        });
+        _portalController.hide();
+        keyboardRevision.value++;
       }
-    } else {
-      _schedulePortalUpdate();
-    }
+    });
   }
 
   void _dismissKeyboard() {
     _activeFocusNode?.unfocus();
   }
 
-  void _syncPortal() {
-    final shouldShow = isKeyboardVisible && _activeController != null;
-    if (shouldShow) {
-      if (!_portalController.isShowing) {
-        _portalController.show();
-      }
-    } else {
-      if (_portalController.isShowing) {
-        _portalController.hide();
-      }
-      if (_keyboardHeight != 0) {
-        setState(() => _keyboardHeight = 0);
-      }
-    }
+  void _handleDonePressed() {
+    _onDone?.call();
+    _dismissKeyboard();
   }
 
   Widget _buildOverlay(BuildContext context) {
+    if (_activeController == null) return const SizedBox.shrink();
+
     final scopeContext = this.context;
     final theme = Theme.of(scopeContext);
+
+    final bottomSafeArea = MediaQuery.of(scopeContext).padding.bottom;
+    final hasDoneButton = _onDone != null;
+    final numRows = hasDoneButton ? 5 : 4;
+    const rowHeight = 52.0;
+    const spacing = 8.0;
+    const padding = 16.0; // 8 top + 8 bottom
+
+    final fullHeight = (numRows * rowHeight) +
+        ((numRows - 1) * spacing) +
+        padding +
+        bottomSafeArea;
 
     return Positioned(
       left: 0,
       right: 0,
       bottom: 0,
-      child: _MeasureChildSize(
-        onSizeChanged: _setKeyboardHeight,
-        child: Theme(
-          data: theme,
-          child: Material(
-            elevation: 8,
-            color: theme.scaffoldBackgroundColor,
-            child: AmountKeyboard(
-              controller: _activeController!,
-              doneLabel: widget.doneLabel,
-              onDone: () {
-                _onDone?.call();
-                _dismissKeyboard();
-              },
+      child: AnimatedBuilder(
+        animation: _curveAnimation,
+        builder: (context, child) {
+          final translationY = fullHeight * (1.0 - _curveAnimation.value);
+          return Transform.translate(
+            offset: Offset(0, translationY),
+            child: child,
+          );
+        },
+        child: SizedBox(
+          height: fullHeight,
+          child: Theme(
+            data: theme,
+            child: Material(
+              elevation: 8,
+              color: theme.scaffoldBackgroundColor,
+              child: AmountKeyboard(
+                controller: _activeController!,
+                doneLabel: widget.doneLabel,
+                onDone: _onDone != null ? _handleDonePressed : null,
+              ),
             ),
           ),
         ),
@@ -168,7 +195,7 @@ class AmountKeyboardScopeState extends State<AmountKeyboardScope> {
 
   @override
   void dispose() {
-    _activeFocusNode?.removeListener(_handleFocusChange);
+    _animationController.dispose();
     if (_portalController.isShowing) {
       _portalController.hide();
     }
@@ -223,38 +250,5 @@ class _RootOverlayPortal extends StatelessWidget {
       overlayChildBuilder: overlayChildBuilder,
       child: child,
     );
-  }
-}
-
-/// Reports the laid-out size of [child] after each frame.
-class _MeasureChildSize extends StatefulWidget {
-  final Widget child;
-  final ValueChanged<double> onSizeChanged;
-
-  const _MeasureChildSize({
-    required this.child,
-    required this.onSizeChanged,
-  });
-
-  @override
-  State<_MeasureChildSize> createState() => _MeasureChildSizeState();
-}
-
-class _MeasureChildSizeState extends State<_MeasureChildSize> {
-  double? _lastHeight;
-
-  void _reportSize() {
-    final height = context.size?.height;
-    if (height == null || height == _lastHeight) return;
-    _lastHeight = height;
-    widget.onSizeChanged(height);
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (mounted) _reportSize();
-    });
-    return widget.child;
   }
 }

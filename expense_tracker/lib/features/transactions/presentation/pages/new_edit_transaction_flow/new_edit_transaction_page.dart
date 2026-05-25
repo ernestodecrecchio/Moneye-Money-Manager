@@ -13,7 +13,7 @@ import 'package:expense_tracker/features/recurring_rules/presentation/providers/
 import 'package:expense_tracker/features/accounts/presentation/providers/queries/accounts_list_notifier.dart';
 import 'package:expense_tracker/core/presentation/common/custom_elevated_button.dart';
 import 'package:expense_tracker/features/transactions/presentation/pages/new_edit_transaction_flow/account_selector_dialog.dart';
-import 'package:expense_tracker/core/presentation/common/amount_keyboard/amount_keyboard_bar.dart';
+import 'package:expense_tracker/core/presentation/common/amount_keyboard/amount_keyboard_chrome.dart';
 import 'package:expense_tracker/core/presentation/common/amount_keyboard/amount_keyboard_scope.dart';
 import 'package:expense_tracker/core/presentation/common/amount_keyboard/amount_text_field.dart';
 import 'package:expense_tracker/core/presentation/common/custom_text_field.dart';
