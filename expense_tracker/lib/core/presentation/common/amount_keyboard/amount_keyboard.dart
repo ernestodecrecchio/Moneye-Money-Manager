@@ -113,11 +113,15 @@ class _AmountKey extends StatefulWidget {
 }
 
 class _AmountKeyState extends State<_AmountKey> {
+  static const _pressInDuration = Duration(milliseconds: 35);
+  static const _pressOutDuration = Duration(milliseconds: 25);
+  static const _minPressDuration = Duration(milliseconds: 45);
   static const _repeatInitialDelay = Duration(milliseconds: 400);
   static const _repeatInterval = Duration(milliseconds: 60);
 
   bool _pressed = false;
-  DateTime? _tapDownTime;
+  int _activePointers = 0;
+  DateTime? _pressStartTime;
   Timer? _releaseTimer;
   Timer? _repeatTimer;
 
@@ -148,40 +152,45 @@ class _AmountKeyState extends State<_AmountKey> {
     _repeatTimer = null;
   }
 
-  void _handleTapDown() {
+  void _handlePointerDown(PointerDownEvent event) {
+    if (_activePointers > 0) return;
+    _activePointers = 1;
     _releaseTimer?.cancel();
-    _tapDownTime = DateTime.now();
+    _pressStartTime = DateTime.now();
     _setPressed(true);
     if (widget.repeatWhileHeld) {
       _startRepeat();
-    }
-  }
-
-  void _handleTapUp() {
-    _stopRepeat();
-    _releaseVisualPress();
-    if (!widget.repeatWhileHeld) {
+    } else {
       _firePressed();
     }
   }
 
-  void _handleTapCancel() {
+  void _handlePointerUp(PointerUpEvent event) {
+    if (_activePointers == 0) return;
+    _activePointers = 0;
+    _stopRepeat();
+    _releaseVisualPress();
+  }
+
+  void _handlePointerCancel(PointerCancelEvent event) {
+    if (_activePointers == 0) return;
+    _activePointers = 0;
     _stopRepeat();
     _releaseVisualPress();
   }
 
   void _releaseVisualPress() {
-    if (_tapDownTime == null) {
+    final pressStart = _pressStartTime;
+    _pressStartTime = null;
+    if (pressStart == null) {
       _setPressed(false);
       return;
     }
 
-    final elapsed = DateTime.now().difference(_tapDownTime!).inMilliseconds;
-    const minPressDuration = 100; // Guarantee the animation has at least 100ms to visually show the scale/color change!
-
-    if (elapsed < minPressDuration) {
-      final delay = minPressDuration - elapsed;
-      _releaseTimer = Timer(Duration(milliseconds: delay), () {
+    final elapsed = DateTime.now().difference(pressStart);
+    if (elapsed < _minPressDuration) {
+      final delay = _minPressDuration - elapsed;
+      _releaseTimer = Timer(delay, () {
         if (mounted) _setPressed(false);
       });
     } else {
@@ -200,18 +209,17 @@ class _AmountKeyState extends State<_AmountKey> {
   Widget build(BuildContext context) {
     final colors = context.appColors;
 
-    return GestureDetector(
-      onTapDown: (_) => _handleTapDown(),
-      onTapUp: (_) => _handleTapUp(),
-      onTapCancel: () => _handleTapCancel(),
+    return Listener(
+      behavior: HitTestBehavior.opaque,
+      onPointerDown: _handlePointerDown,
+      onPointerUp: _handlePointerUp,
+      onPointerCancel: _handlePointerCancel,
       child: AnimatedScale(
-        scale: _pressed ? 0.92 : 1.0,
-        duration: const Duration(milliseconds: 100),
-        curve: Curves.easeOutBack,
-        child: AnimatedContainer(
+        scale: _pressed ? 0.94 : 1.0,
+        duration: _pressed ? _pressInDuration : _pressOutDuration,
+        curve: _pressed ? Curves.easeOut : Curves.easeIn,
+        child: Container(
           height: 52, // Explicitly lock the container's height to 52px so borders paint inside without expanding the key size!
-          duration: const Duration(milliseconds: 100),
-          curve: Curves.easeInOut,
           decoration: BoxDecoration(
             color: _pressed
                 ? colors.fieldBackground.withAlpha(200)
