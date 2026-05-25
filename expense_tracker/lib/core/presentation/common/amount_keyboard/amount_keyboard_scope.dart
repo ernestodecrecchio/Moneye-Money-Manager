@@ -60,8 +60,7 @@ class AmountKeyboardScopeState extends State<AmountKeyboardScope>
     if (_activeController == null) return 0;
 
     final bottomSafeArea = MediaQuery.of(context).padding.bottom;
-    final hasDoneButton = _onDone != null;
-    final numRows = hasDoneButton ? 5 : 4;
+    const numRows = 5; // Always 5 rows since the Done button is always shown
     const rowHeight = 52.0;
     const spacing = 8.0;
     const padding = 16.0; // 8 top + 8 bottom
@@ -150,8 +149,7 @@ class AmountKeyboardScopeState extends State<AmountKeyboardScope>
     final theme = Theme.of(scopeContext);
 
     final bottomSafeArea = MediaQuery.of(scopeContext).padding.bottom;
-    final hasDoneButton = _onDone != null;
-    final numRows = hasDoneButton ? 5 : 4;
+    const numRows = 5; // Always 5 rows since the Done button is always shown
     const rowHeight = 52.0;
     const spacing = 8.0;
     const padding = 16.0; // 8 top + 8 bottom
@@ -187,7 +185,7 @@ class AmountKeyboardScopeState extends State<AmountKeyboardScope>
                 child: AmountKeyboard(
                   controller: _activeController!,
                   doneLabel: widget.doneLabel,
-                  onDone: _onDone != null ? _handleDonePressed : null,
+                  onDone: _handleDonePressed, // Always pass the handler to ensure Done key renders
                 ),
               ),
             ),
