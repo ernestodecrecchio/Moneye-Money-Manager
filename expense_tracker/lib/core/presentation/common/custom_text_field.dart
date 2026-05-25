@@ -17,6 +17,7 @@ class CustomTextField extends StatelessWidget {
   final Widget? prefix;
   final int? maxLines;
   final FocusNode? focusNode;
+  final bool showCursor;
 
   final borderRadius = 40.0;
 
@@ -36,6 +37,7 @@ class CustomTextField extends StatelessWidget {
     this.prefix,
     this.maxLines = 1,
     this.focusNode,
+    this.showCursor = true,
   });
 
   @override
@@ -96,6 +98,8 @@ class CustomTextField extends StatelessWidget {
           TextFormField(
             textCapitalization: TextCapitalization.sentences,
             focusNode: focusNode,
+            showCursor: showCursor,
+            enableInteractiveSelection: !readOnly,
             onEditingComplete: () => FocusScope.of(context).nextFocus(),
             readOnly: readOnly,
             controller: controller,
