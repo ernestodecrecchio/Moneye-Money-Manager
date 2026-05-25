@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:expense_tracker/core/presentation/common/amount_keyboard/amount_keyboard_input.dart';
 import 'package:expense_tracker/core/style/app_theme.dart';
 import 'package:flutter/material.dart';
@@ -111,10 +112,53 @@ class _AmountKey extends StatefulWidget {
 
 class _AmountKeyState extends State<_AmountKey> {
   bool _pressed = false;
+  DateTime? _tapDownTime;
+  Timer? _releaseTimer;
 
   void _setPressed(bool value) {
     if (_pressed == value) return;
     setState(() => _pressed = value);
+  }
+
+  void _handleTapDown() {
+    _releaseTimer?.cancel();
+    _tapDownTime = DateTime.now();
+    _setPressed(true);
+  }
+
+  void _handleTapUp() {
+    _releaseVisualPress();
+    widget.onPressed();
+    HapticFeedback.lightImpact();
+  }
+
+  void _handleTapCancel() {
+    _releaseVisualPress();
+  }
+
+  void _releaseVisualPress() {
+    if (_tapDownTime == null) {
+      _setPressed(false);
+      return;
+    }
+
+    final elapsed = DateTime.now().difference(_tapDownTime!).inMilliseconds;
+    const minPressDuration = 100; // Guarantee the animation has at least 100ms to visually show the scale/color change!
+
+    if (elapsed < minPressDuration) {
+      final delay = minPressDuration - elapsed;
+      _releaseTimer = Timer(Duration(milliseconds: delay), () {
+        if (mounted) _setPressed(false);
+      });
+    } else {
+      _setPressed(false);
+    }
+  }
+
+  @override
+  void dispose() {
+    _releaseTimer?.cancel();
+    super.dispose();
   }
 
   @override
@@ -122,28 +166,30 @@ class _AmountKeyState extends State<_AmountKey> {
     final colors = context.appColors;
 
     return GestureDetector(
-      onTapDown: (_) => _setPressed(true),
-      onTapUp: (_) {
-        _setPressed(false);
-        widget.onPressed();
-        HapticFeedback.lightImpact();
-      },
-      onTapCancel: () => _setPressed(false),
+      onTapDown: (_) => _handleTapDown(),
+      onTapUp: (_) => _handleTapUp(),
+      onTapCancel: () => _handleTapCancel(),
       child: AnimatedScale(
-        scale: _pressed ? 0.94 : 1,
-        duration: const Duration(milliseconds: 80),
-        curve: Curves.easeOut,
-        child: AnimatedOpacity(
-          opacity: _pressed ? 0.65 : 1,
-          duration: const Duration(milliseconds: 80),
-          child: Material(
-            color: colors.fieldBackground,
+        scale: _pressed ? 0.92 : 1.0,
+        duration: const Duration(milliseconds: 100),
+        curve: Curves.easeOutBack,
+        child: AnimatedContainer(
+          height: 52, // Explicitly lock the container's height to 52px so borders paint inside without expanding the key size!
+          duration: const Duration(milliseconds: 100),
+          curve: Curves.easeInOut,
+          decoration: BoxDecoration(
+            color: _pressed
+                ? colors.fieldBackground.withAlpha(200)
+                : colors.fieldBackground,
             borderRadius: BorderRadius.circular(999),
-            child: SizedBox(
-              height: 52,
-              child: Center(child: widget.child),
+            border: Border.all(
+              color: _pressed
+                  ? colors.primary.withAlpha(40)
+                  : Colors.transparent,
+              width: 1.5,
             ),
           ),
+          child: Center(child: widget.child),
         ),
       ),
     );
