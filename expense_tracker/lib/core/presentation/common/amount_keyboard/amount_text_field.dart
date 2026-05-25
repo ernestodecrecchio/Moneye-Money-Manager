@@ -144,6 +144,7 @@ class _AmountTextFieldState extends State<AmountTextField> {
       prefix: widget.prefix,
       focusNode: _focusNode,
       readOnly: true,
+      enableInteractiveSelection: true,
       onTap: _handleTap,
       showCursor: true,
       keyboardType: TextInputType.none,

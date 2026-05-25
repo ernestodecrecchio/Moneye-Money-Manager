@@ -13,6 +13,7 @@ class CustomTextField extends StatelessWidget {
   final List<TextInputFormatter>? textInputFormatters;
   final TextInputType? keyboardType;
   final bool readOnly;
+  final bool? enableInteractiveSelection;
   final String? Function(String?)? validator;
   final Widget? prefix;
   final int? maxLines;
@@ -33,6 +34,7 @@ class CustomTextField extends StatelessWidget {
     this.textInputFormatters,
     this.keyboardType,
     this.readOnly = false,
+    this.enableInteractiveSelection,
     this.validator,
     this.prefix,
     this.maxLines = 1,
@@ -99,7 +101,8 @@ class CustomTextField extends StatelessWidget {
             textCapitalization: TextCapitalization.sentences,
             focusNode: focusNode,
             showCursor: showCursor,
-            enableInteractiveSelection: !readOnly,
+            enableInteractiveSelection:
+                enableInteractiveSelection ?? !readOnly,
             onEditingComplete: () => FocusScope.of(context).nextFocus(),
             readOnly: readOnly,
             controller: controller,
