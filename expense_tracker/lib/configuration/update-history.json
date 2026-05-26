@@ -23,6 +23,27 @@
     },
     {
       "title": {
+        "en": "Custom Amount Keyboard",
+        "it": "Tastiera personalizzata per importi",
+        "es": "Teclado de importes personalizado",
+        "de": "Benutzerdefinierte Betragstastatur",
+        "fr": "Clavier personnalisé pour les montants",
+        "tr": "Özel tutar klavyesi",
+        "pt": "Teclado personalizado de valores"
+      },
+      "description": {
+        "en": "A new custom keyboard designed specifically for entering amounts has been introduced, making it faster and more convenient to input transactions.",
+        "it": "È stata introdotta una nuova tastiera personalizzata pensata appositamente per l'inserimento degli importi, rendendo più rapido e comodo inserire le transazioni.",
+        "es": "Se ha introducido un nuevo teclado personalizado diseñado específicamente para introducir importes, haciendo más rápido y cómodo el registro de transacciones.",
+        "de": "Es wurde eine neue benutzerdefinierte Tastatur speziell für die Eingabe von Beträgen eingeführt, wodurch das Erfassen von Transaktionen schneller und bequemer wird.",
+        "fr": "Un nouveau clavier personnalisé conçu spécialement pour la saisie des montants a été introduit, rendant la saisie des transactions plus rapide et plus pratique.",
+        "tr": "Tutar girişi için özel olarak tasarlanmış yeni bir klavye eklendi, işlemlerin daha hızlı ve kolay girilmesini sağlıyor.",
+        "pt": "Foi introduzido um novo teclado personalizado projetado especificamente para inserção de valores, tornando o registro de transações mais rápido e prático."
+      },
+      "category": "new_feature"
+    },
+    {
+      "title": {
         "en": "UI/UX Improvements",
         "it": "Miglioramenti UI/UX",
         "es": "Mejoras de UI/UX",
