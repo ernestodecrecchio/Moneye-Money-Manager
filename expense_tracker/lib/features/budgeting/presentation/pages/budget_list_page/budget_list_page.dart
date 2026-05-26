@@ -14,7 +14,7 @@ import 'package:expense_tracker/features/categories/domain/models/category.dart'
 import 'package:expense_tracker/features/categories/presentation/providers/queries/categories_list_notifier.dart';
 import 'package:expense_tracker/core/presentation/common/extensions/category_extensions.dart';
 import 'package:expense_tracker/features/budgeting/presentation/extensions/budget_ui_extension.dart';
-import 'package:expense_tracker/features/home/presentation/widgets/revolut_style_bottom_bar.dart';
+import 'package:expense_tracker/features/home/presentation/widgets/tab_bar/tab_bar_shell.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
@@ -56,19 +56,16 @@ class BudgetListPage extends ConsumerWidget {
               );
             }
 
-            return ListView.separated(
-              padding: EdgeInsets.fromLTRB(
-                Constants.horizontalPadding,
-                Constants.horizontalPadding,
-                Constants.horizontalPadding,
-                Constants.horizontalPadding +
-                    TabBarScrollScope.of(context),
+            return TabBarScrollPadding(
+              additional: const EdgeInsets.all(Constants.horizontalPadding),
+              child: ListView.separated(
+                itemCount: budgets.length,
+                separatorBuilder: (context, index) =>
+                    const SizedBox(height: 16),
+                itemBuilder: (context, index) {
+                  return BudgetCard(budget: budgets[index]);
+                },
               ),
-              itemCount: budgets.length,
-              separatorBuilder: (context, index) => const SizedBox(height: 16),
-              itemBuilder: (context, index) {
-                return BudgetCard(budget: budgets[index]);
-              },
             );
           },
           loading: () => const Center(child: CircularProgressIndicator()),

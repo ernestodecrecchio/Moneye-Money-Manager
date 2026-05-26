@@ -6,7 +6,10 @@ import 'package:expense_tracker/features/budgeting/presentation/pages/budget_for
 import 'package:expense_tracker/features/home/presentation/pages/home_page/home_page.dart';
 import 'package:expense_tracker/features/budgeting/presentation/pages/budget_list_page/budget_list_page.dart';
 import 'package:expense_tracker/features/settings/presentation/pages/options_page/options_page.dart';
-import 'package:expense_tracker/features/home/presentation/widgets/revolut_style_bottom_bar.dart';
+import 'package:expense_tracker/features/home/presentation/widgets/tab_bar/revolut_bottom_bar_item.dart';
+import 'package:expense_tracker/features/home/presentation/widgets/tab_bar/revolut_style_bottom_bar.dart';
+import 'package:expense_tracker/features/home/presentation/widgets/tab_bar/tab_bar_chrome.dart';
+import 'package:expense_tracker/features/home/presentation/widgets/tab_bar/tab_bar_shell.dart';
 import 'package:expense_tracker/features/transactions/presentation/pages/new_edit_transaction_flow/new_edit_transaction_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -66,8 +69,7 @@ class _TabBarPageState extends ConsumerState<TabBarPage> {
   Widget build(BuildContext context) {
     final appLocalizations = ref.watch(appLocalizationsProvider);
 
-    final bottomScrollPadding = RevolutStyleBottomBar.scrollBottomInset(
-      context,
+    final bottomScrollPadding = context.tabBarScrollBottomInset(
       includeFab: index == 0 || index == 1,
     );
 

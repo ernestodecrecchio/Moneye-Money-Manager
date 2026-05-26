@@ -410,8 +410,129 @@ class AppChrome extends ThemeExtension<AppChrome> {
   static double _lerpDouble(double a, double b, double t) => a + (b - a) * t;
 }
 
+/// Colors and fills for the floating [RevolutStyleBottomBar].
+class TabBarColors extends ThemeExtension<TabBarColors> {
+  const TabBarColors({
+    required this.barBackground,
+    required this.border,
+    required this.selectedPill,
+    required this.selectedForeground,
+    required this.unselectedForeground,
+    required this.barFill,
+    required this.selectedPillFill,
+  });
+
+  final Color barBackground;
+  final Color border;
+  final Color selectedPill;
+  final Color selectedForeground;
+  final Color unselectedForeground;
+
+  /// Bar background with theme-appropriate fill opacity applied.
+  final Color barFill;
+
+  /// Selected-tab pill with theme-appropriate opacity applied.
+  final Color selectedPillFill;
+
+  static const barBackdropBlurSigma = 12.0;
+  static const selectionAnimationDuration = Duration(milliseconds: 280);
+
+  /// Slightly lifted surface so the bar reads above the scaffold in dark mode.
+  static const _darkBarBackground = Color(0xFF2A2A2E);
+  static const _barFillOpacityLight = 0.0;
+  static const _barFillOpacityDark = 0.3;
+  static const _selectedPillOpacity = 0.5;
+
+  static TabBarColors fromAppColors(AppColors colors, Brightness brightness) {
+    final isDark = brightness == Brightness.dark;
+
+    if (!isDark) {
+      return TabBarColors(
+        barBackground: colors.surface,
+        border: colors.divider.withValues(alpha: 0.35),
+        selectedPill: colors.primary,
+        selectedForeground: colors.onPrimary,
+        unselectedForeground: colors.textSecondary,
+        barFill: colors.surface.withValues(alpha: _barFillOpacityLight),
+        selectedPillFill:
+            colors.primary.withValues(alpha: _selectedPillOpacity),
+      );
+    }
+
+    final primaryIsNeutral = colors.primary.computeLuminance() > 0.85;
+    if (primaryIsNeutral) {
+      return TabBarColors(
+        barBackground: _darkBarBackground,
+        border: colors.divider.withValues(alpha: 0.55),
+        selectedPill: Colors.white,
+        selectedForeground: Colors.white,
+        unselectedForeground: colors.textSecondary,
+        barFill: _darkBarBackground.withValues(alpha: _barFillOpacityDark),
+        selectedPillFill: Colors.white.withValues(alpha: _selectedPillOpacity),
+      );
+    }
+
+    return TabBarColors(
+      barBackground: _darkBarBackground,
+      border: colors.divider.withValues(alpha: 0.55),
+      selectedPill: colors.primary,
+      selectedForeground: Colors.white,
+      unselectedForeground: colors.textSecondary,
+      barFill: _darkBarBackground.withValues(alpha: _barFillOpacityDark),
+      selectedPillFill: colors.primary.withValues(alpha: _selectedPillOpacity),
+    );
+  }
+
+  @override
+  TabBarColors copyWith({
+    Color? barBackground,
+    Color? border,
+    Color? selectedPill,
+    Color? selectedForeground,
+    Color? unselectedForeground,
+    Color? barFill,
+    Color? selectedPillFill,
+  }) {
+    return TabBarColors(
+      barBackground: barBackground ?? this.barBackground,
+      border: border ?? this.border,
+      selectedPill: selectedPill ?? this.selectedPill,
+      selectedForeground: selectedForeground ?? this.selectedForeground,
+      unselectedForeground: unselectedForeground ?? this.unselectedForeground,
+      barFill: barFill ?? this.barFill,
+      selectedPillFill: selectedPillFill ?? this.selectedPillFill,
+    );
+  }
+
+  @override
+  TabBarColors lerp(ThemeExtension<TabBarColors>? other, double t) {
+    if (other is! TabBarColors) return this;
+    return TabBarColors(
+      barBackground: Color.lerp(barBackground, other.barBackground, t)!,
+      border: Color.lerp(border, other.border, t)!,
+      selectedPill: Color.lerp(selectedPill, other.selectedPill, t)!,
+      selectedForeground:
+          Color.lerp(selectedForeground, other.selectedForeground, t)!,
+      unselectedForeground:
+          Color.lerp(unselectedForeground, other.unselectedForeground, t)!,
+      barFill: Color.lerp(barFill, other.barFill, t)!,
+      selectedPillFill: Color.lerp(selectedPillFill, other.selectedPillFill, t)!,
+    );
+  }
+}
+
 class AppTheme {
   static const _chrome = AppChrome.standard;
+
+  static List<ThemeExtension<dynamic>> _extensions(
+    AppColors colors,
+    Brightness brightness,
+  ) =>
+      [
+        colors,
+        _chrome,
+        TabBarColors.fromAppColors(colors, brightness),
+      ];
 
   static FloatingActionButtonThemeData _floatingActionButtonTheme({
     required Color backgroundColor,
@@ -525,7 +646,7 @@ class AppTheme {
         indicatorColor: colors.primary,
         indicatorSize: TabBarIndicatorSize.tab,
       ),
-      extensions: [colors, _chrome],
+      extensions: _extensions(colors, Brightness.light),
     );
   }
 
@@ -629,7 +750,7 @@ class AppTheme {
         indicatorColor: colors.primary,
         indicatorSize: TabBarIndicatorSize.tab,
       ),
-      extensions: [colors, _chrome],
+      extensions: _extensions(colors, Brightness.dark),
     );
   }
 
@@ -733,7 +854,7 @@ class AppTheme {
         indicatorColor: colors.primary,
         indicatorSize: TabBarIndicatorSize.tab,
       ),
-      extensions: [colors, _chrome],
+      extensions: _extensions(colors, Brightness.dark),
     );
   }
 }
@@ -742,6 +863,8 @@ extension ThemeExt on BuildContext {
   AppColors get appColors => Theme.of(this).extension<AppColors>()!;
 
   AppChrome get appChrome => Theme.of(this).extension<AppChrome>()!;
+
+  TabBarColors get tabBarColors => Theme.of(this).extension<TabBarColors>()!;
 
   /// Home-indicator inset; prefers [MediaQuery.viewPadding] when padding is stripped.
   double get deviceBottomInset {

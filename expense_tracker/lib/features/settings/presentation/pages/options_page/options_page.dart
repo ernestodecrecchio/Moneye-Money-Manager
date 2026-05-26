@@ -18,7 +18,7 @@ import 'package:expense_tracker/core/presentation/providers/theme_provider.dart'
 import 'package:expense_tracker/core/style/app_theme.dart';
 import 'package:expense_tracker/core/presentation/common/list_tiles/option_list_tile.dart';
 import 'package:expense_tracker/features/settings/presentation/pages/options_page/contacts_page/contacts_page.dart';
-import 'package:expense_tracker/features/home/presentation/widgets/revolut_style_bottom_bar.dart';
+import 'package:expense_tracker/features/home/presentation/widgets/tab_bar/tab_bar_shell.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:in_app_review/in_app_review.dart';
@@ -49,9 +49,9 @@ class OptionsPage extends ConsumerWidget {
     final currentThemeMode = ref.watch(themeProvider);
     final packageInfoAsync = ref.watch(packageInfoProvider);
 
-    return SingleChildScrollView(
-      padding: EdgeInsets.only(bottom: TabBarScrollScope.of(context)),
-      child: Column(
+    return TabBarScrollPadding(
+      child: SingleChildScrollView(
+        child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _buildSectionHeader(context, appLocalizations.management),
@@ -189,6 +189,7 @@ class OptionsPage extends ConsumerWidget {
             ),
           ),
         ],
+        ),
       ),
     );
   }
