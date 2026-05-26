@@ -34,6 +34,7 @@ class OptionsPage extends ConsumerWidget {
         title: Text(appLocalizations.settings),
       ),
       body: SafeArea(
+        bottom: false,
         child: _buildBody(context, ref, appLocalizations),
       ),
     );

@@ -32,14 +32,7 @@ class BudgetListPage extends ConsumerWidget {
           appLocalizations.budgeting,
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.pushNamed(context, BudgetFormPage.routeName);
-        },
-        child: const Icon(Icons.add),
-      ),
-      body: SafeArea(
-        child: budgetsAsync.when(
+      body: budgetsAsync.when(
           data: (budgets) {
             if (budgets.isEmpty) {
               return Center(
@@ -76,7 +69,6 @@ class BudgetListPage extends ConsumerWidget {
           loading: () => const Center(child: CircularProgressIndicator()),
           error: (e, st) => Center(child: Text('Error: $e')),
         ),
-      ),
     );
   }
 }

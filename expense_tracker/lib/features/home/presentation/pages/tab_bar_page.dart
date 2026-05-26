@@ -2,14 +2,15 @@ import 'package:expense_tracker/core/configuration/analytics_manager.dart';
 import 'package:expense_tracker/core/presentation/providers/analytics_consent_provider.dart';
 import 'package:expense_tracker/core/presentation/providers/app_localizations_provider.dart';
 import 'package:expense_tracker/core/presentation/common/widgets/safe_vector_graphic.dart';
+import 'package:expense_tracker/features/budgeting/presentation/pages/budget_form_page/budget_form_page.dart';
 import 'package:expense_tracker/features/home/presentation/pages/home_page/home_page.dart';
 import 'package:expense_tracker/features/budgeting/presentation/pages/budget_list_page/budget_list_page.dart';
 import 'package:expense_tracker/features/settings/presentation/pages/options_page/options_page.dart';
+import 'package:expense_tracker/features/home/presentation/widgets/revolut_style_bottom_bar.dart';
+import 'package:expense_tracker/features/transactions/presentation/pages/new_edit_transaction_flow/new_edit_transaction_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:expense_tracker/core/style/app_theme.dart';
-import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 
 class TabBarPage extends ConsumerStatefulWidget {
   static const routeName = '/TabBarPage';
@@ -38,58 +39,72 @@ class _TabBarPageState extends ConsumerState<TabBarPage> {
     }
   }
 
-  final screen = [
-    const HomePage(),
-    const BudgetListPage(),
-    const OptionsPage(),
+  final screen = const [
+    HomePage(),
+    BudgetListPage(),
+    OptionsPage(),
   ];
+
+  Widget? _buildFloatingActionButton() {
+    return switch (index) {
+      0 => FloatingActionButton(
+          shape: const CircleBorder(),
+          onPressed: () =>
+              Navigator.pushNamed(context, NewEditTransactionPage.routeName),
+          child: const Icon(Icons.add),
+        ),
+      1 => FloatingActionButton(
+          onPressed: () =>
+              Navigator.pushNamed(context, BudgetFormPage.routeName),
+          child: const Icon(Icons.add),
+        ),
+      _ => null,
+    };
+  }
 
   @override
   Widget build(BuildContext context) {
     final appLocalizations = ref.watch(appLocalizationsProvider);
 
     return Scaffold(
-        bottomNavigationBar: SalomonBottomBar(
+      extendBody: true,
+      body: Stack(
+        fit: StackFit.expand,
+        children: [
+          TabBarBody(child: screen[index]),
+          const BottomBarBodyFade(),
+        ],
+      ),
+      floatingActionButton: _buildFloatingActionButton(),
+      floatingActionButtonLocation: const FabAboveTabBarLocation(),
+      bottomNavigationBar: Material(
+        type: MaterialType.transparency,
+        child: RevolutStyleBottomBar(
           currentIndex: index,
-          selectedItemColor: context.appColors.primary,
-          unselectedItemColor: context.appColors.textSecondary,
-          onTap: (newIndex) {
-            setState(() => index = newIndex);
-          },
+          onTap: (newIndex) => setState(() => index = newIndex),
           items: [
-            SalomonBottomBarItem(
-              icon: SafeVectorGraphic(
+            RevolutBottomBarItem(
+              label: 'Dashboard',
+              iconBuilder: (_, color) => SafeVectorGraphic(
                 iconPath: 'assets/icons/transactions.svg',
-                color: index == 0
-                    ? context.appColors.primary
-                    : context.appColors.textSecondary,
-              ),
-              title: const Text(
-                'Dashboard',
-                style: TextStyle(fontFamily: 'Ubuntu'),
+                color: color,
+                height: 22,
+                width: 22,
               ),
             ),
-            SalomonBottomBarItem(
-              icon: Icon(
-                Icons.savings_rounded,
-                color: index == 1
-                    ? context.appColors.primary
-                    : context.appColors.textSecondary,
-              ),
-              title: Text(
-                appLocalizations.budgeting,
-                style: const TextStyle(fontFamily: 'Ubuntu'),
-              ),
+            RevolutBottomBarItem(
+              label: appLocalizations.budgeting,
+              iconBuilder: (_, color) =>
+                  Icon(Icons.savings_rounded, color: color, size: 22),
             ),
-            SalomonBottomBarItem(
-              icon: const Icon(CupertinoIcons.gear_solid),
-              title: Text(
-                appLocalizations.settings,
-                style: const TextStyle(fontFamily: 'Ubuntu'),
-              ),
+            RevolutBottomBarItem(
+              label: appLocalizations.settings,
+              iconBuilder: (_, color) =>
+                  Icon(CupertinoIcons.gear_solid, color: color, size: 22),
             ),
           ],
         ),
-        body: screen[index]);
+      ),
+    );
   }
 }
