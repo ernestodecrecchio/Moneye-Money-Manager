@@ -1,3 +1,4 @@
+import 'package:expense_tracker/core/configuration/constants.dart';
 import 'package:expense_tracker/core/style/style.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -268,7 +269,162 @@ class AppColors extends ThemeExtension<AppColors> {
   );
 }
 
+/// Shared layout metrics for the tab bar, FAB, and related scroll insets.
+class AppChrome extends ThemeExtension<AppChrome> {
+  const AppChrome({
+    required this.tabBarHeight,
+    required this.tabBarBottomMargin,
+    required this.tabBarHorizontalMargin,
+    required this.tabBarOuterRadius,
+    required this.tabBarItemRadius,
+    required this.fabSize,
+    required this.fabAboveTabBarGap,
+    required this.fabMargin,
+    required this.scrollBottomSpacing,
+    required this.fadeExtensionAboveBar,
+  });
+
+  /// Height of the floating tab bar pill (icons and labels), excluding outer padding.
+  final double tabBarHeight;
+
+  /// Space between the bottom of the tab bar and the physical screen edge
+  /// (sits above the system home-indicator inset).
+  final double tabBarBottomMargin;
+
+  /// Horizontal inset of the tab bar from the left and right screen edges.
+  final double tabBarHorizontalMargin;
+
+  /// Corner radius of the outer tab bar container (floating capsule).
+  final double tabBarOuterRadius;
+
+  /// Corner radius of the selected-tab indicator pill inside the bar.
+  final double tabBarItemRadius;
+
+  /// Width and height of the shell [FloatingActionButton] (see [fabSizeConstraints]).
+  final double fabSize;
+
+  /// Vertical gap between the top of the tab bar and the bottom of the FAB.
+  final double fabAboveTabBarGap;
+
+  /// Distance from the FAB to the bottom and right edges of the screen on the main tab shell.
+  final double fabMargin;
+
+  /// Extra padding added below the last scrollable item so content clears the tab bar
+  /// (and FAB when present); used in `scrollBottomInset`.
+  final double scrollBottomSpacing;
+
+  /// Additional height of the bottom fade gradient above the tab bar chrome
+  /// (see [fadeOverlayHeight]).
+  final double fadeExtensionAboveBar;
+
+  static const standard = AppChrome(
+    tabBarHeight: 68,
+    tabBarBottomMargin: 4,
+    tabBarHorizontalMargin: Constants.horizontalPadding,
+    tabBarOuterRadius: 36,
+    tabBarItemRadius: 28,
+    fabSize: 56,
+    fabAboveTabBarGap: 0,
+    fabMargin: 16,
+    scrollBottomSpacing: 0,
+    fadeExtensionAboveBar: 0,
+  );
+
+  BoxConstraints get fabSizeConstraints =>
+      BoxConstraints.tightFor(width: fabSize, height: fabSize);
+
+  /// Distance from the physical bottom of the screen to the top of the tab bar.
+  double chromeHeight(double deviceBottomInset) =>
+      tabBarHeight + tabBarBottomMargin + deviceBottomInset;
+
+  double fadeOverlayHeight(double deviceBottomInset) =>
+      chromeHeight(deviceBottomInset) + fadeExtensionAboveBar;
+
+  double fabBottomOffset(double deviceBottomInset) =>
+      chromeHeight(deviceBottomInset) + fabAboveTabBarGap;
+
+  double scrollBottomInset(
+    double deviceBottomInset, {
+    bool includeFab = false,
+  }) {
+    final chrome = chromeHeight(deviceBottomInset);
+    if (includeFab) {
+      return chrome + fabAboveTabBarGap + fabSize + scrollBottomSpacing;
+    }
+    return chrome + scrollBottomSpacing;
+  }
+
+  @override
+  AppChrome copyWith({
+    double? tabBarHeight,
+    double? tabBarBottomMargin,
+    double? tabBarHorizontalMargin,
+    double? tabBarOuterRadius,
+    double? tabBarItemRadius,
+    double? fabSize,
+    double? fabAboveTabBarGap,
+    double? fabMargin,
+    double? scrollBottomSpacing,
+    double? fadeExtensionAboveBar,
+  }) {
+    return AppChrome(
+      tabBarHeight: tabBarHeight ?? this.tabBarHeight,
+      tabBarBottomMargin: tabBarBottomMargin ?? this.tabBarBottomMargin,
+      tabBarHorizontalMargin:
+          tabBarHorizontalMargin ?? this.tabBarHorizontalMargin,
+      tabBarOuterRadius: tabBarOuterRadius ?? this.tabBarOuterRadius,
+      tabBarItemRadius: tabBarItemRadius ?? this.tabBarItemRadius,
+      fabSize: fabSize ?? this.fabSize,
+      fabAboveTabBarGap: fabAboveTabBarGap ?? this.fabAboveTabBarGap,
+      fabMargin: fabMargin ?? this.fabMargin,
+      scrollBottomSpacing: scrollBottomSpacing ?? this.scrollBottomSpacing,
+      fadeExtensionAboveBar:
+          fadeExtensionAboveBar ?? this.fadeExtensionAboveBar,
+    );
+  }
+
+  @override
+  AppChrome lerp(ThemeExtension<AppChrome>? other, double t) {
+    if (other is! AppChrome) return this;
+    return AppChrome(
+      tabBarHeight: _lerpDouble(tabBarHeight, other.tabBarHeight, t),
+      tabBarBottomMargin:
+          _lerpDouble(tabBarBottomMargin, other.tabBarBottomMargin, t),
+      tabBarHorizontalMargin:
+          _lerpDouble(tabBarHorizontalMargin, other.tabBarHorizontalMargin, t),
+      tabBarOuterRadius:
+          _lerpDouble(tabBarOuterRadius, other.tabBarOuterRadius, t),
+      tabBarItemRadius:
+          _lerpDouble(tabBarItemRadius, other.tabBarItemRadius, t),
+      fabSize: _lerpDouble(fabSize, other.fabSize, t),
+      fabAboveTabBarGap:
+          _lerpDouble(fabAboveTabBarGap, other.fabAboveTabBarGap, t),
+      fabMargin: _lerpDouble(fabMargin, other.fabMargin, t),
+      scrollBottomSpacing:
+          _lerpDouble(scrollBottomSpacing, other.scrollBottomSpacing, t),
+      fadeExtensionAboveBar:
+          _lerpDouble(fadeExtensionAboveBar, other.fadeExtensionAboveBar, t),
+    );
+  }
+
+  static double _lerpDouble(double a, double b, double t) => a + (b - a) * t;
+}
+
 class AppTheme {
+  static const _chrome = AppChrome.standard;
+
+  static FloatingActionButtonThemeData _floatingActionButtonTheme({
+    required Color backgroundColor,
+    required Color foregroundColor,
+  }) {
+    return FloatingActionButtonThemeData(
+      backgroundColor: backgroundColor,
+      foregroundColor: foregroundColor,
+      shape: const CircleBorder(),
+      sizeConstraints: _chrome.fabSizeConstraints,
+    );
+  }
+
   static ThemeData get light {
     const fontFamily = 'Ubuntu';
     const colors = AppColors.light;
@@ -302,10 +458,9 @@ class AppTheme {
       listTileTheme: ListTileThemeData(
         iconColor: colors.accent,
       ),
-      floatingActionButtonTheme: FloatingActionButtonThemeData(
+      floatingActionButtonTheme: _floatingActionButtonTheme(
         backgroundColor: colors.secondary,
         foregroundColor: colors.onSecondary,
-        shape: const CircleBorder(),
       ),
       dividerTheme: DividerThemeData(
         color: colors.divider,
@@ -370,7 +525,7 @@ class AppTheme {
         indicatorColor: colors.primary,
         indicatorSize: TabBarIndicatorSize.tab,
       ),
-      extensions: [colors],
+      extensions: [colors, _chrome],
     );
   }
 
@@ -407,10 +562,9 @@ class AppTheme {
       listTileTheme: ListTileThemeData(
         iconColor: colors.accent,
       ),
-      floatingActionButtonTheme: FloatingActionButtonThemeData(
+      floatingActionButtonTheme: _floatingActionButtonTheme(
         backgroundColor: colors.primary,
         foregroundColor: colors.onPrimary,
-        shape: const CircleBorder(),
       ),
       dividerTheme: DividerThemeData(
         color: colors.divider,
@@ -475,7 +629,7 @@ class AppTheme {
         indicatorColor: colors.primary,
         indicatorSize: TabBarIndicatorSize.tab,
       ),
-      extensions: [colors],
+      extensions: [colors, _chrome],
     );
   }
 
@@ -512,10 +666,9 @@ class AppTheme {
       listTileTheme: ListTileThemeData(
         iconColor: colors.accent,
       ),
-      floatingActionButtonTheme: FloatingActionButtonThemeData(
+      floatingActionButtonTheme: _floatingActionButtonTheme(
         backgroundColor: colors.primary,
         foregroundColor: colors.onPrimary,
-        shape: const CircleBorder(),
       ),
       dividerTheme: DividerThemeData(
         color: colors.divider,
@@ -580,11 +733,21 @@ class AppTheme {
         indicatorColor: colors.primary,
         indicatorSize: TabBarIndicatorSize.tab,
       ),
-      extensions: [colors],
+      extensions: [colors, _chrome],
     );
   }
 }
 
 extension ThemeExt on BuildContext {
   AppColors get appColors => Theme.of(this).extension<AppColors>()!;
+
+  AppChrome get appChrome => Theme.of(this).extension<AppChrome>()!;
+
+  /// Home-indicator inset; prefers [MediaQuery.viewPadding] when padding is stripped.
+  double get deviceBottomInset {
+    final media = MediaQuery.of(this);
+    return media.viewPadding.bottom > media.padding.bottom
+        ? media.viewPadding.bottom
+        : media.padding.bottom;
+  }
 }

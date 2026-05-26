@@ -66,12 +66,22 @@ class _TabBarPageState extends ConsumerState<TabBarPage> {
   Widget build(BuildContext context) {
     final appLocalizations = ref.watch(appLocalizationsProvider);
 
+    final bottomScrollPadding = RevolutStyleBottomBar.scrollBottomInset(
+      context,
+      includeFab: index == 0 || index == 1,
+    );
+
     return Scaffold(
       extendBody: true,
       body: Stack(
         fit: StackFit.expand,
         children: [
-          TabBarBody(child: screen[index]),
+          TabBarBody(
+            child: TabBarScrollScope(
+              bottomScrollPadding: bottomScrollPadding,
+              child: screen[index],
+            ),
+          ),
           const BottomBarBodyFade(),
         ],
       ),

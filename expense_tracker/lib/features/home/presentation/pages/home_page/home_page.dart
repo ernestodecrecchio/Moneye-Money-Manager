@@ -4,6 +4,7 @@ import 'package:expense_tracker/features/home/presentation/pages/home_page/home_
 import 'package:expense_tracker/features/home/presentation/pages/home_page/home_flexible_app_bar.dart';
 import 'package:expense_tracker/features/home/presentation/pages/home_page/home_app_bar.dart';
 import 'package:expense_tracker/features/home/presentation/pages/home_page/home_budget_section.dart';
+import 'package:expense_tracker/features/home/presentation/widgets/revolut_style_bottom_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -61,6 +62,7 @@ class _HomePageState extends ConsumerState<HomePage> {
             ],
           ),
         ),
+        const TabBarScrollBottomSliver(),
       ],
     );
   }

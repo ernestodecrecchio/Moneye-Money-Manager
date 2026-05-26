@@ -18,6 +18,7 @@ import 'package:expense_tracker/core/presentation/providers/theme_provider.dart'
 import 'package:expense_tracker/core/style/app_theme.dart';
 import 'package:expense_tracker/core/presentation/common/list_tiles/option_list_tile.dart';
 import 'package:expense_tracker/features/settings/presentation/pages/options_page/contacts_page/contacts_page.dart';
+import 'package:expense_tracker/features/home/presentation/widgets/revolut_style_bottom_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:in_app_review/in_app_review.dart';
@@ -30,6 +31,7 @@ class OptionsPage extends ConsumerWidget {
     final appLocalizations = ref.watch(appLocalizationsProvider);
 
     return Scaffold(
+      extendBody: true,
       appBar: AppBar(
         title: Text(appLocalizations.settings),
       ),
@@ -48,6 +50,7 @@ class OptionsPage extends ConsumerWidget {
     final packageInfoAsync = ref.watch(packageInfoProvider);
 
     return SingleChildScrollView(
+      padding: EdgeInsets.only(bottom: TabBarScrollScope.of(context)),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

@@ -4,8 +4,7 @@ import 'package:flutter/services.dart';
 
 /// A floating, pill-shaped bottom bar inspired by Revolut's mobile navigation.
 ///
-/// Selected tab: filled capsule behind icon + label, sliding between tabs.
-/// Unselected tabs: muted icon and compact label.
+/// Layout metrics ([AppChrome]) and FAB size come from the app theme.
 class RevolutStyleBottomBar extends StatelessWidget {
   const RevolutStyleBottomBar({
     super.key,
@@ -18,45 +17,48 @@ class RevolutStyleBottomBar extends StatelessWidget {
   final ValueChanged<int> onTap;
   final List<RevolutBottomBarItem> items;
 
-  static const barHeight = 68.0;
-  static const _outerRadius = 36.0;
-  static const _itemRadius = 28.0;
   static const _animationDuration = Duration(milliseconds: 280);
-  static const bottomMargin = 12.0;
 
-  /// Distance from the physical bottom of the screen to the top of the bar.
-  static double chromeHeight(BuildContext context) {
-    return barHeight + bottomMargin + MediaQuery.paddingOf(context).bottom;
-  }
+  /// Distance from the physical bottom of the screen to the top of the tab bar.
+  static double chromeHeight(BuildContext context) =>
+      context.appChrome.chromeHeight(context.deviceBottomInset);
 
   /// Height of the fade overlay (bar chrome + short fade zone above the bar).
-  static double fadeOverlayHeight(BuildContext context) {
-    return chromeHeight(context) + 28;
-  }
+  static double fadeOverlayHeight(BuildContext context) =>
+      context.appChrome.fadeOverlayHeight(context.deviceBottomInset);
 
   /// Bottom inset for a [FloatingActionButton] on the tab shell [Scaffold].
-  static double fabBottomOffset(BuildContext context) {
-    return chromeHeight(context) + 16;
-  }
+  static double fabBottomOffset(BuildContext context) =>
+      context.appChrome.fabBottomOffset(context.deviceBottomInset);
+
+  /// Scroll padding: [chromeHeight] + optional FAB stack + spacing from [AppChrome].
+  static double scrollBottomInset(
+    BuildContext context, {
+    bool includeFab = false,
+  }) =>
+      context.appChrome.scrollBottomInset(
+        context.deviceBottomInset,
+        includeFab: includeFab,
+      );
 
   @override
   Widget build(BuildContext context) {
     final colors = context.appColors;
+    final chrome = context.appChrome;
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    final bottomInset = MediaQuery.paddingOf(context).bottom;
-
-    final selectedPillColor = isDark ? Colors.white : colors.textPrimary;
-    final selectedForeground = isDark ? colors.textPrimary : colors.surface;
-    final barColor = colors.surface;
-    final borderColor = isDark
-        ? colors.divider.withValues(alpha: 0.6)
-        : colors.divider.withValues(alpha: 0.35);
+    final bottomInset = context.deviceBottomInset;
+    final tabBar = _TabBarColors.resolve(colors, isDark);
 
     return Padding(
-      padding: EdgeInsets.fromLTRB(20, 0, 20, bottomMargin + bottomInset),
+      padding: EdgeInsets.fromLTRB(
+        chrome.tabBarHorizontalMargin,
+        0,
+        chrome.tabBarHorizontalMargin,
+        chrome.tabBarBottomMargin + bottomInset,
+      ),
       child: DecoratedBox(
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(_outerRadius),
+          borderRadius: BorderRadius.circular(chrome.tabBarOuterRadius),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withValues(alpha: isDark ? 0.45 : 0.12),
@@ -66,14 +68,14 @@ class RevolutStyleBottomBar extends StatelessWidget {
           ],
         ),
         child: Material(
-          color: barColor,
+          color: tabBar.barBackground,
           elevation: 0,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(_outerRadius),
-            side: BorderSide(color: borderColor),
+            borderRadius: BorderRadius.circular(chrome.tabBarOuterRadius),
+            side: BorderSide(color: tabBar.border),
           ),
           child: SizedBox(
-            height: barHeight,
+            height: chrome.tabBarHeight,
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 6),
               child: LayoutBuilder(
@@ -92,9 +94,10 @@ class RevolutStyleBottomBar extends StatelessWidget {
                         bottom: 0,
                         child: DecoratedBox(
                           decoration: BoxDecoration(
-                            color: selectedPillColor,
-                            borderRadius:
-                                BorderRadius.circular(_itemRadius),
+                            color: tabBar.selectedPill,
+                            borderRadius: BorderRadius.circular(
+                              chrome.tabBarItemRadius,
+                            ),
                           ),
                         ),
                       ),
@@ -103,8 +106,8 @@ class RevolutStyleBottomBar extends StatelessWidget {
                           final selected = i == currentIndex;
                           final item = items[i];
                           final foreground = selected
-                              ? selectedForeground
-                              : colors.textSecondary;
+                              ? tabBar.selectedForeground
+                              : tabBar.unselectedForeground;
 
                           return Expanded(
                             child: Semantics(
@@ -156,6 +159,57 @@ class RevolutStyleBottomBar extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+/// Tab bar colors derived from [AppColors] with correct contrast per theme.
+class _TabBarColors {
+  const _TabBarColors({
+    required this.barBackground,
+    required this.border,
+    required this.selectedPill,
+    required this.selectedForeground,
+    required this.unselectedForeground,
+  });
+
+  final Color barBackground;
+  final Color border;
+  final Color selectedPill;
+  final Color selectedForeground;
+  final Color unselectedForeground;
+
+  /// Slightly lifted surface so the bar reads above the scaffold in dark mode.
+  static const _darkBarBackground = Color(0xFF2A2A2E);
+
+  static _TabBarColors resolve(AppColors colors, bool isDark) {
+    if (!isDark) {
+      return _TabBarColors(
+        barBackground: colors.surface,
+        border: colors.divider.withValues(alpha: 0.35),
+        selectedPill: colors.primary,
+        selectedForeground: colors.onPrimary,
+        unselectedForeground: colors.textSecondary,
+      );
+    }
+
+    final primaryIsNeutral = colors.primary.computeLuminance() > 0.85;
+    if (primaryIsNeutral) {
+      return _TabBarColors(
+        barBackground: _darkBarBackground,
+        border: colors.divider.withValues(alpha: 0.55),
+        selectedPill: Colors.white,
+        selectedForeground: colors.scaffoldBackground,
+        unselectedForeground: colors.textSecondary,
+      );
+    }
+
+    return _TabBarColors(
+      barBackground: _darkBarBackground,
+      border: colors.divider.withValues(alpha: 0.55),
+      selectedPill: colors.primary,
+      selectedForeground: colors.onPrimary,
+      unselectedForeground: colors.textSecondary,
     );
   }
 }
@@ -212,16 +266,54 @@ class FabAboveTabBarLocation extends FloatingActionButtonLocation {
 
   @override
   Offset getOffset(ScaffoldPrelayoutGeometry scaffoldGeometry) {
+    const chrome = AppChrome.standard;
     final fabSize = scaffoldGeometry.floatingActionButtonSize;
     final scaffoldSize = scaffoldGeometry.scaffoldSize;
     final bottomInset = scaffoldGeometry.minInsets.bottom;
-    final chrome = RevolutStyleBottomBar.barHeight +
-        RevolutStyleBottomBar.bottomMargin +
-        bottomInset;
+    final tabBarTopFromBottom = chrome.chromeHeight(bottomInset);
 
     return Offset(
-      scaffoldSize.width - fabSize.width - 16,
-      scaffoldSize.height - fabSize.height - 16 - chrome,
+      scaffoldSize.width - fabSize.width - chrome.fabMargin,
+      scaffoldSize.height -
+          fabSize.height -
+          chrome.fabMargin -
+          tabBarTopFromBottom,
+    );
+  }
+}
+
+/// Scroll bottom padding for the active tab, computed on [TabBarPage].
+class TabBarScrollScope extends InheritedWidget {
+  const TabBarScrollScope({
+    super.key,
+    required this.bottomScrollPadding,
+    required super.child,
+  });
+
+  final double bottomScrollPadding;
+
+  static double of(BuildContext context) {
+    final scope =
+        context.dependOnInheritedWidgetOfExactType<TabBarScrollScope>();
+    assert(
+      scope != null,
+      'TabBarScrollScope not found. Wrap tab content in TabBarPage.',
+    );
+    return scope!.bottomScrollPadding;
+  }
+
+  @override
+  bool updateShouldNotify(TabBarScrollScope oldWidget) =>
+      bottomScrollPadding != oldWidget.bottomScrollPadding;
+}
+
+class TabBarScrollBottomSliver extends StatelessWidget {
+  const TabBarScrollBottomSliver({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return SliverToBoxAdapter(
+      child: SizedBox(height: TabBarScrollScope.of(context)),
     );
   }
 }
