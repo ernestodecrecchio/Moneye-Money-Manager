@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:expense_tracker/core/style/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -18,6 +20,11 @@ class RevolutStyleBottomBar extends StatelessWidget {
   final List<RevolutBottomBarItem> items;
 
   static const _animationDuration = Duration(milliseconds: 280);
+  static const _barBackdropBlurSigma = 12.0;
+  static const _barFillOpacityLight = 0.0;
+  static const _barFillOpacityDark = 0.3;
+  static const _selectedPillOpacityLight = 0.5;
+  static const _selectedPillOpacityDark = 0.5;
 
   /// Distance from the physical bottom of the screen to the top of the tab bar.
   static double chromeHeight(BuildContext context) =>
@@ -48,6 +55,13 @@ class RevolutStyleBottomBar extends StatelessWidget {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final bottomInset = context.deviceBottomInset;
     final tabBar = _TabBarColors.resolve(colors, isDark);
+    final barFillOpacity = isDark ? _barFillOpacityDark : _barFillOpacityLight;
+    final barFill = tabBar.barBackground.withValues(alpha: barFillOpacity);
+    final selectedPillOpacity =
+        isDark ? _selectedPillOpacityDark : _selectedPillOpacityLight;
+    final selectedPillFill =
+        tabBar.selectedPill.withValues(alpha: selectedPillOpacity);
+    final barRadius = BorderRadius.circular(chrome.tabBarOuterRadius);
 
     return Padding(
       padding: EdgeInsets.fromLTRB(
@@ -58,7 +72,7 @@ class RevolutStyleBottomBar extends StatelessWidget {
       ),
       child: DecoratedBox(
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(chrome.tabBarOuterRadius),
+          borderRadius: barRadius,
           boxShadow: [
             BoxShadow(
               color: Colors.black.withValues(alpha: isDark ? 0.45 : 0.12),
@@ -67,93 +81,104 @@ class RevolutStyleBottomBar extends StatelessWidget {
             ),
           ],
         ),
-        child: Material(
-          color: tabBar.barBackground,
-          elevation: 0,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(chrome.tabBarOuterRadius),
-            side: BorderSide(color: tabBar.border),
-          ),
-          child: SizedBox(
-            height: chrome.tabBarHeight,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 6),
-              child: LayoutBuilder(
-                builder: (context, constraints) {
-                  final tabWidth = constraints.maxWidth / items.length;
+        child: ClipRRect(
+          borderRadius: barRadius,
+          child: BackdropFilter(
+            filter: ImageFilter.blur(
+              sigmaX: _barBackdropBlurSigma,
+              sigmaY: _barBackdropBlurSigma,
+            ),
+            child: Material(
+              color: barFill,
+              elevation: 0,
+              shape: RoundedRectangleBorder(
+                borderRadius: barRadius,
+                side: BorderSide(color: tabBar.border),
+              ),
+              child: SizedBox(
+                height: chrome.tabBarHeight,
+                child: Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 6, vertical: 6),
+                  child: LayoutBuilder(
+                    builder: (context, constraints) {
+                      final tabWidth = constraints.maxWidth / items.length;
 
-                  return Stack(
-                    clipBehavior: Clip.none,
-                    children: [
-                      AnimatedPositioned(
-                        duration: _animationDuration,
-                        curve: Curves.easeOutCubic,
-                        left: tabWidth * currentIndex,
-                        width: tabWidth,
-                        top: 0,
-                        bottom: 0,
-                        child: DecoratedBox(
-                          decoration: BoxDecoration(
-                            color: tabBar.selectedPill,
-                            borderRadius: BorderRadius.circular(
-                              chrome.tabBarItemRadius,
-                            ),
-                          ),
-                        ),
-                      ),
-                      Row(
-                        children: List.generate(items.length, (i) {
-                          final selected = i == currentIndex;
-                          final item = items[i];
-                          final foreground = selected
-                              ? tabBar.selectedForeground
-                              : tabBar.unselectedForeground;
-
-                          return Expanded(
-                            child: Semantics(
-                              button: true,
-                              selected: selected,
-                              label: item.label,
-                              child: GestureDetector(
-                                behavior: HitTestBehavior.opaque,
-                                onTap: () {
-                                  if (i == currentIndex) return;
-                                  HapticFeedback.lightImpact();
-                                  onTap(i);
-                                },
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    item.iconBuilder(selected, foreground),
-                                    const SizedBox(height: 2),
-                                    AnimatedDefaultTextStyle(
-                                      duration: _animationDuration,
-                                      curve: Curves.easeOutCubic,
-                                      style: TextStyle(
-                                        fontFamily: 'Ubuntu',
-                                        fontSize: selected ? 11 : 10,
-                                        fontWeight: selected
-                                            ? FontWeight.w600
-                                            : FontWeight.w500,
-                                        color: foreground,
-                                        height: 1.1,
-                                      ),
-                                      child: Text(
-                                        item.label,
-                                        maxLines: 1,
-                                        overflow: TextOverflow.ellipsis,
-                                      ),
-                                    ),
-                                  ],
+                      return Stack(
+                        clipBehavior: Clip.none,
+                        children: [
+                          AnimatedPositioned(
+                            duration: _animationDuration,
+                            curve: Curves.easeOutCubic,
+                            left: tabWidth * currentIndex,
+                            width: tabWidth,
+                            top: 0,
+                            bottom: 0,
+                            child: DecoratedBox(
+                              decoration: BoxDecoration(
+                                color: selectedPillFill,
+                                borderRadius: BorderRadius.circular(
+                                  chrome.tabBarItemRadius,
                                 ),
                               ),
                             ),
-                          );
-                        }),
-                      ),
-                    ],
-                  );
-                },
+                          ),
+                          Row(
+                            children: List.generate(items.length, (i) {
+                              final selected = i == currentIndex;
+                              final item = items[i];
+                              final foreground = selected
+                                  ? tabBar.selectedForeground
+                                  : tabBar.unselectedForeground;
+
+                              return Expanded(
+                                child: Semantics(
+                                  button: true,
+                                  selected: selected,
+                                  label: item.label,
+                                  child: GestureDetector(
+                                    behavior: HitTestBehavior.opaque,
+                                    onTap: () {
+                                      if (i == currentIndex) return;
+                                      HapticFeedback.lightImpact();
+                                      onTap(i);
+                                    },
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        item.iconBuilder(selected, foreground),
+                                        const SizedBox(height: 2),
+                                        AnimatedDefaultTextStyle(
+                                          duration: _animationDuration,
+                                          curve: Curves.easeOutCubic,
+                                          style: TextStyle(
+                                            fontFamily: 'Ubuntu',
+                                            fontSize: selected ? 11 : 10,
+                                            fontWeight: selected
+                                                ? FontWeight.w600
+                                                : FontWeight.w500,
+                                            color: foreground,
+                                            height: 1.1,
+                                          ),
+                                          child: Text(
+                                            item.label,
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              );
+                            }),
+                          ),
+                        ],
+                      );
+                    },
+                  ),
+                ),
               ),
             ),
           ),
@@ -199,7 +224,7 @@ class _TabBarColors {
         barBackground: _darkBarBackground,
         border: colors.divider.withValues(alpha: 0.55),
         selectedPill: Colors.white,
-        selectedForeground: colors.scaffoldBackground,
+        selectedForeground: Colors.white,
         unselectedForeground: colors.textSecondary,
       );
     }
@@ -208,7 +233,7 @@ class _TabBarColors {
       barBackground: _darkBarBackground,
       border: colors.divider.withValues(alpha: 0.55),
       selectedPill: colors.primary,
-      selectedForeground: colors.onPrimary,
+      selectedForeground: Colors.white,
       unselectedForeground: colors.textSecondary,
     );
   }
