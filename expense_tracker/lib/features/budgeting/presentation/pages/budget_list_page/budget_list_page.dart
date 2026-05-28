@@ -35,50 +35,50 @@ class BudgetListPage extends ConsumerWidget {
         ),
       ),
       body: budgetsAsync.when(
-          data: (budgets) {
-            if (budgets.isEmpty) {
-              return Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  spacing: 16,
-                  children: [
-                    Icon(Icons.savings_rounded,
-                        size: 64,
-                        color: context.appColors.textSecondary
-                            .withValues(alpha: 0.5)),
-                    Text(
-                      appLocalizations.noBudgetsYet,
-                      style: TextStyle(
-                          color: context.appColors.textSecondary, fontSize: 16),
-                    ),
-                  ],
-                ),
-              );
-            }
-
-            return ListView.separated(
-              padding: const EdgeInsets.fromLTRB(
-                Constants.horizontalPadding,
-                Constants.horizontalPadding,
-                Constants.horizontalPadding,
-                0,
+        data: (budgets) {
+          if (budgets.isEmpty) {
+            return Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                spacing: 16,
+                children: [
+                  Icon(Icons.savings_rounded,
+                      size: 64,
+                      color: context.appColors.textSecondary
+                          .withValues(alpha: 0.5)),
+                  Text(
+                    appLocalizations.noBudgetsYet,
+                    style: TextStyle(
+                        color: context.appColors.textSecondary, fontSize: 16),
+                  ),
+                ],
               ),
-              itemCount: budgets.length + 1,
-              separatorBuilder: (context, index) {
-                if (index == budgets.length) return const SizedBox.shrink();
-                return const SizedBox(height: 16);
-              },
-              itemBuilder: (context, index) {
-                if (index == budgets.length) {
-                  return SizedBox(height: TabBarScrollScope.of(context));
-                }
-                return BudgetCard(budget: budgets[index]);
-              },
             );
-          },
-          loading: () => const Center(child: CircularProgressIndicator()),
-          error: (e, st) => Center(child: Text('Error: $e')),
-        ),
+          }
+
+          return ListView.separated(
+            padding: const EdgeInsets.fromLTRB(
+              Constants.horizontalPadding,
+              Constants.horizontalPadding,
+              Constants.horizontalPadding,
+              0,
+            ),
+            itemCount: budgets.length + 1,
+            separatorBuilder: (context, index) {
+              if (index == budgets.length) return const SizedBox.shrink();
+              return const SizedBox(height: 16);
+            },
+            itemBuilder: (context, index) {
+              if (index == budgets.length) {
+                return SizedBox(height: TabBarScrollScope.of(context));
+              }
+              return BudgetCard(budget: budgets[index]);
+            },
+          );
+        },
+        loading: () => const Center(child: CircularProgressIndicator()),
+        error: (e, st) => Center(child: Text('Error: $e')),
+      ),
     );
   }
 }
@@ -180,6 +180,7 @@ class BudgetCard extends ConsumerWidget {
                     ),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.end,
+                      spacing: 2,
                       children: [
                         Text(
                           progress.remaining.toStringAsFixedRoundedWithCurrency(
@@ -193,7 +194,6 @@ class BudgetCard extends ConsumerWidget {
                             color: stateColor,
                           ),
                         ),
-                        const SizedBox(height: 2),
                         Text(
                           progress.isOverBudget
                               ? appLocalizations.overBudget
