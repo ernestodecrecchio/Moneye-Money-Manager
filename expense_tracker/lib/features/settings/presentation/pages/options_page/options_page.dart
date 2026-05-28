@@ -35,10 +35,7 @@ class OptionsPage extends ConsumerWidget {
       appBar: AppBar(
         title: Text(appLocalizations.settings),
       ),
-      body: SafeArea(
-        bottom: false,
-        child: _buildBody(context, ref, appLocalizations),
-      ),
+      body: _buildBody(context, ref, appLocalizations),
     );
   }
 
@@ -49,11 +46,12 @@ class OptionsPage extends ConsumerWidget {
     final currentThemeMode = ref.watch(themeProvider);
     final packageInfoAsync = ref.watch(packageInfoProvider);
 
-    return TabBarScrollPadding(
-      child: SingleChildScrollView(
-        child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
+    return CustomScrollView(
+      slivers: [
+        SliverToBoxAdapter(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
           _buildSectionHeader(context, appLocalizations.management),
           OptionListTile(
             title: appLocalizations.categories,
@@ -188,9 +186,11 @@ class OptionsPage extends ConsumerWidget {
               ),
             ),
           ),
-        ],
+            ],
+          ),
         ),
-      ),
+        const TabBarScrollBottomSliver(),
+      ],
     );
   }
 

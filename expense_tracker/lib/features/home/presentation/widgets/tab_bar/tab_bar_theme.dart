@@ -170,7 +170,6 @@ class FloatingTabBarTheme extends ThemeExtension<FloatingTabBarTheme> {
   /// Generates the theming colors based on the app's global [AppColors] and current [Brightness].
   factory FloatingTabBarTheme.fromAppColors({
     required AppColors colors,
-    required Brightness brightness,
     double? tabBarHeight,
     double? tabBarBottomMargin,
     double? tabBarHorizontalMargin,
@@ -182,53 +181,6 @@ class FloatingTabBarTheme extends ThemeExtension<FloatingTabBarTheme> {
     double? scrollBottomSpacing,
     double? fadeExtensionAboveBar,
   }) {
-    final isDark = brightness == Brightness.dark;
-
-    // Default opacity values
-    const barFillOpacityLight = 0.0;
-    const barFillOpacityDark = 0.3;
-    const selectedPillOpacity = 0.5;
-
-    // Distinct backgrounds depending on dark/light modes
-    const darkBarBackground = Color(0xFF2A2A2E);
-
-    Color barBackgroundVal;
-    Color borderVal;
-    Color selectedPillVal;
-    Color selectedForegroundVal;
-    Color unselectedForegroundVal;
-    Color barFillVal;
-    Color selectedPillFillVal;
-
-    if (!isDark) {
-      barBackgroundVal = colors.surface;
-      borderVal = colors.divider.withValues(alpha: 0.35);
-      selectedPillVal = colors.primary;
-      selectedForegroundVal = colors.onPrimary;
-      unselectedForegroundVal = colors.textSecondary;
-      barFillVal = colors.surface.withValues(alpha: barFillOpacityLight);
-      selectedPillFillVal =
-          colors.primary.withValues(alpha: selectedPillOpacity);
-    } else {
-      final primaryIsNeutral = colors.primary.computeLuminance() > 0.85;
-      barBackgroundVal = darkBarBackground;
-      borderVal = colors.divider.withValues(alpha: 0.55);
-      unselectedForegroundVal = colors.textSecondary;
-      barFillVal = darkBarBackground.withValues(alpha: barFillOpacityDark);
-
-      if (primaryIsNeutral) {
-        selectedPillVal = Colors.white;
-        selectedForegroundVal = Colors.white;
-        selectedPillFillVal =
-            Colors.white.withValues(alpha: selectedPillOpacity);
-      } else {
-        selectedPillVal = colors.primary;
-        selectedForegroundVal = Colors.white;
-        selectedPillFillVal =
-            colors.primary.withValues(alpha: selectedPillOpacity);
-      }
-    }
-
     return FloatingTabBarTheme(
       tabBarHeight: tabBarHeight ?? standard.tabBarHeight,
       tabBarBottomMargin: tabBarBottomMargin ?? standard.tabBarBottomMargin,
@@ -245,13 +197,13 @@ class FloatingTabBarTheme extends ThemeExtension<FloatingTabBarTheme> {
       barBackdropBlurSigma: standard.barBackdropBlurSigma,
       selectionAnimationDuration: standard.selectionAnimationDuration,
       selectionAnimationCurve: standard.selectionAnimationCurve,
-      barBackground: barBackgroundVal,
-      border: borderVal,
-      selectedPill: selectedPillVal,
-      selectedForeground: selectedForegroundVal,
-      unselectedForeground: unselectedForegroundVal,
-      barFill: barFillVal,
-      selectedPillFill: selectedPillFillVal,
+      barBackground: colors.navBarBackground,
+      border: colors.navBarBorder ?? Colors.transparent,
+      selectedPill: colors.navBarPill,
+      selectedForeground: colors.navBarSelectedContent,
+      unselectedForeground: colors.navBarUnselectedContent,
+      barFill: colors.navBarBackground,
+      selectedPillFill: colors.navBarPill,
     );
   }
 

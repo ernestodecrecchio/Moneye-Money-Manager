@@ -120,6 +120,11 @@ class AppColors extends ThemeExtension<AppColors> {
   final Color income;
   final Color expense;
   final Color warning;
+  final Color navBarBackground;
+  final Color navBarPill;
+  final Color navBarSelectedContent;
+  final Color navBarUnselectedContent;
+  final Color? navBarBorder;
 
   const AppColors({
     required this.primary,
@@ -139,6 +144,11 @@ class AppColors extends ThemeExtension<AppColors> {
     required this.income,
     required this.expense,
     required this.warning,
+    required this.navBarBackground,
+    required this.navBarPill,
+    required this.navBarSelectedContent,
+    required this.navBarUnselectedContent,
+    this.navBarBorder,
   });
 
   @override
@@ -160,6 +170,11 @@ class AppColors extends ThemeExtension<AppColors> {
     Color? income,
     Color? expense,
     Color? warning,
+    Color? navBarBackground,
+    Color? navBarPill,
+    Color? navBarSelectedContent,
+    Color? navBarUnselectedContent,
+    Color? navBarBorder,
   }) {
     return AppColors(
       primary: primary ?? this.primary,
@@ -179,6 +194,13 @@ class AppColors extends ThemeExtension<AppColors> {
       income: income ?? this.income,
       expense: expense ?? this.expense,
       warning: warning ?? this.warning,
+      navBarBackground: navBarBackground ?? this.navBarBackground,
+      navBarPill: navBarPill ?? this.navBarPill,
+      navBarSelectedContent:
+          navBarSelectedContent ?? this.navBarSelectedContent,
+      navBarUnselectedContent:
+          navBarUnselectedContent ?? this.navBarUnselectedContent,
+      navBarBorder: navBarBorder ?? this.navBarBorder,
     );
   }
 
@@ -205,6 +227,17 @@ class AppColors extends ThemeExtension<AppColors> {
       income: Color.lerp(income, other.income, t)!,
       expense: Color.lerp(expense, other.expense, t)!,
       warning: Color.lerp(warning, other.warning, t)!,
+      navBarBackground:
+          Color.lerp(navBarBackground, other.navBarBackground, t)!,
+      navBarPill: Color.lerp(navBarPill, other.navBarPill, t)!,
+      navBarSelectedContent:
+          Color.lerp(navBarSelectedContent, other.navBarSelectedContent, t)!,
+      navBarUnselectedContent: Color.lerp(
+        navBarUnselectedContent,
+        other.navBarUnselectedContent,
+        t,
+      )!,
+      navBarBorder: Color.lerp(navBarBorder, other.navBarBorder, t),
     );
   }
 
@@ -226,6 +259,11 @@ class AppColors extends ThemeExtension<AppColors> {
     income: CustomColors.income,
     expense: CustomColors.expense,
     warning: CustomColors.orange500,
+    navBarBackground: Color(0xCCFFFFFF),
+    navBarPill: Color(0xFFE5E7EB),
+    navBarSelectedContent: Color(0xFF111111),
+    navBarUnselectedContent: CustomColors.clearGreyText,
+    navBarBorder: Colors.white,
   );
 
   static const dark = AppColors(
@@ -246,6 +284,11 @@ class AppColors extends ThemeExtension<AppColors> {
     income: CustomColors.darkIncome,
     expense: CustomColors.darkExpense,
     warning: CustomColors.orange300,
+    navBarBackground: Color(0x4D2A2A2E),
+    navBarPill: Colors.white54,
+    navBarSelectedContent: Colors.white,
+    navBarUnselectedContent: CustomColors.clearGreyText,
+    navBarBorder: null,
   );
 
   static const darkBlue = AppColors(
@@ -266,17 +309,18 @@ class AppColors extends ThemeExtension<AppColors> {
     income: CustomColors.darkIncome,
     expense: CustomColors.darkExpense,
     warning: CustomColors.orange300,
+    navBarBackground: Color(0x4D2A2A2E),
+    navBarPill: Color.fromARGB(128, 100, 184, 252),
+    navBarSelectedContent: Colors.white,
+    navBarUnselectedContent: CustomColors.clearGreyText,
+    navBarBorder: null,
   );
 }
 
 class AppTheme {
-  static List<ThemeExtension<dynamic>> _extensions(
-    AppColors colors,
-    Brightness brightness,
-  ) =>
-      [
+  static List<ThemeExtension<dynamic>> _extensions(AppColors colors) => [
         colors,
-        FloatingTabBarTheme.fromAppColors(colors: colors, brightness: brightness),
+        FloatingTabBarTheme.fromAppColors(colors: colors),
       ];
 
   static FloatingActionButtonThemeData _floatingActionButtonTheme({
@@ -391,7 +435,7 @@ class AppTheme {
         indicatorColor: colors.primary,
         indicatorSize: TabBarIndicatorSize.tab,
       ),
-      extensions: _extensions(colors, Brightness.light),
+      extensions: _extensions(colors),
     );
   }
 
@@ -495,7 +539,7 @@ class AppTheme {
         indicatorColor: colors.primary,
         indicatorSize: TabBarIndicatorSize.tab,
       ),
-      extensions: _extensions(colors, Brightness.dark),
+      extensions: _extensions(colors),
     );
   }
 
@@ -599,7 +643,7 @@ class AppTheme {
         indicatorColor: colors.primary,
         indicatorSize: TabBarIndicatorSize.tab,
       ),
-      extensions: _extensions(colors, Brightness.dark),
+      extensions: _extensions(colors),
     );
   }
 }

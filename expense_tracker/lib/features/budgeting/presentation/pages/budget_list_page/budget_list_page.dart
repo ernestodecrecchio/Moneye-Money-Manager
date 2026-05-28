@@ -56,16 +56,24 @@ class BudgetListPage extends ConsumerWidget {
               );
             }
 
-            return TabBarScrollPadding(
-              additional: const EdgeInsets.all(Constants.horizontalPadding),
-              child: ListView.separated(
-                itemCount: budgets.length,
-                separatorBuilder: (context, index) =>
-                    const SizedBox(height: 16),
-                itemBuilder: (context, index) {
-                  return BudgetCard(budget: budgets[index]);
-                },
+            return ListView.separated(
+              padding: const EdgeInsets.fromLTRB(
+                Constants.horizontalPadding,
+                Constants.horizontalPadding,
+                Constants.horizontalPadding,
+                0,
               ),
+              itemCount: budgets.length + 1,
+              separatorBuilder: (context, index) {
+                if (index == budgets.length) return const SizedBox.shrink();
+                return const SizedBox(height: 16);
+              },
+              itemBuilder: (context, index) {
+                if (index == budgets.length) {
+                  return SizedBox(height: TabBarScrollScope.of(context));
+                }
+                return BudgetCard(budget: budgets[index]);
+              },
             );
           },
           loading: () => const Center(child: CircularProgressIndicator()),
