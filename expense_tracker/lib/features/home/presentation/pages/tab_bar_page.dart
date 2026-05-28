@@ -8,7 +8,7 @@ import 'package:expense_tracker/features/budgeting/presentation/pages/budget_lis
 import 'package:expense_tracker/features/settings/presentation/pages/options_page/options_page.dart';
 import 'package:expense_tracker/features/home/presentation/widgets/tab_bar/revolut_bottom_bar_item.dart';
 import 'package:expense_tracker/features/home/presentation/widgets/tab_bar/revolut_style_bottom_bar.dart';
-import 'package:expense_tracker/features/home/presentation/widgets/tab_bar/tab_bar_chrome.dart';
+import 'package:expense_tracker/features/home/presentation/widgets/tab_bar/tab_bar_theme.dart';
 import 'package:expense_tracker/features/home/presentation/widgets/tab_bar/tab_bar_shell.dart';
 import 'package:expense_tracker/features/transactions/presentation/pages/new_edit_transaction_flow/new_edit_transaction_page.dart';
 import 'package:flutter/cupertino.dart';
@@ -106,13 +106,11 @@ class _TabBarPageState extends ConsumerState<TabBarPage> {
             ),
             RevolutBottomBarItem(
               label: appLocalizations.budgeting,
-              iconBuilder: (_, color) =>
-                  Icon(Icons.savings_rounded, color: color, size: 22),
+              icon: Icons.savings_rounded,
             ),
             RevolutBottomBarItem(
               label: appLocalizations.settings,
-              iconBuilder: (_, color) =>
-                  Icon(CupertinoIcons.gear_solid, color: color, size: 22),
+              icon: CupertinoIcons.gear_solid,
             ),
           ],
         ),

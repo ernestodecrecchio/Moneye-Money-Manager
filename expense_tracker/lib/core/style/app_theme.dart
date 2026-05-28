@@ -1,4 +1,4 @@
-import 'package:expense_tracker/core/configuration/constants.dart';
+import 'package:expense_tracker/features/home/presentation/widgets/tab_bar/tab_bar_theme.dart';
 import 'package:expense_tracker/core/style/style.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -269,269 +269,14 @@ class AppColors extends ThemeExtension<AppColors> {
   );
 }
 
-/// Shared layout metrics for the tab bar, FAB, and related scroll insets.
-class AppChrome extends ThemeExtension<AppChrome> {
-  const AppChrome({
-    required this.tabBarHeight,
-    required this.tabBarBottomMargin,
-    required this.tabBarHorizontalMargin,
-    required this.tabBarOuterRadius,
-    required this.tabBarItemRadius,
-    required this.fabSize,
-    required this.fabAboveTabBarGap,
-    required this.fabMargin,
-    required this.scrollBottomSpacing,
-    required this.fadeExtensionAboveBar,
-  });
-
-  /// Height of the floating tab bar pill (icons and labels), excluding outer padding.
-  final double tabBarHeight;
-
-  /// Space between the bottom of the tab bar and the physical screen edge
-  /// (sits above the system home-indicator inset).
-  final double tabBarBottomMargin;
-
-  /// Horizontal inset of the tab bar from the left and right screen edges.
-  final double tabBarHorizontalMargin;
-
-  /// Corner radius of the outer tab bar container (floating capsule).
-  final double tabBarOuterRadius;
-
-  /// Corner radius of the selected-tab indicator pill inside the bar.
-  final double tabBarItemRadius;
-
-  /// Width and height of the shell [FloatingActionButton] (see [fabSizeConstraints]).
-  final double fabSize;
-
-  /// Vertical gap between the top of the tab bar and the bottom of the FAB.
-  final double fabAboveTabBarGap;
-
-  /// Distance from the FAB to the bottom and right edges of the screen on the main tab shell.
-  final double fabMargin;
-
-  /// Extra padding added below the last scrollable item so content clears the tab bar
-  /// (and FAB when present); used in `scrollBottomInset`.
-  final double scrollBottomSpacing;
-
-  /// Additional height of the bottom fade gradient above the tab bar chrome
-  /// (see [fadeOverlayHeight]).
-  final double fadeExtensionAboveBar;
-
-  static const standard = AppChrome(
-    tabBarHeight: 68,
-    tabBarBottomMargin: 4,
-    tabBarHorizontalMargin: Constants.horizontalPadding,
-    tabBarOuterRadius: 36,
-    tabBarItemRadius: 28,
-    fabSize: 56,
-    fabAboveTabBarGap: 0,
-    fabMargin: 16,
-    scrollBottomSpacing: 0,
-    fadeExtensionAboveBar: 0,
-  );
-
-  BoxConstraints get fabSizeConstraints =>
-      BoxConstraints.tightFor(width: fabSize, height: fabSize);
-
-  /// Distance from the physical bottom of the screen to the top of the tab bar.
-  double chromeHeight(double deviceBottomInset) =>
-      tabBarHeight + tabBarBottomMargin + deviceBottomInset;
-
-  double fadeOverlayHeight(double deviceBottomInset) =>
-      chromeHeight(deviceBottomInset) + fadeExtensionAboveBar;
-
-  double fabBottomOffset(double deviceBottomInset) =>
-      chromeHeight(deviceBottomInset) + fabAboveTabBarGap;
-
-  double scrollBottomInset(
-    double deviceBottomInset, {
-    bool includeFab = false,
-  }) {
-    final chrome = chromeHeight(deviceBottomInset);
-    if (includeFab) {
-      return chrome + fabAboveTabBarGap + fabSize + scrollBottomSpacing;
-    }
-    return chrome + scrollBottomSpacing;
-  }
-
-  @override
-  AppChrome copyWith({
-    double? tabBarHeight,
-    double? tabBarBottomMargin,
-    double? tabBarHorizontalMargin,
-    double? tabBarOuterRadius,
-    double? tabBarItemRadius,
-    double? fabSize,
-    double? fabAboveTabBarGap,
-    double? fabMargin,
-    double? scrollBottomSpacing,
-    double? fadeExtensionAboveBar,
-  }) {
-    return AppChrome(
-      tabBarHeight: tabBarHeight ?? this.tabBarHeight,
-      tabBarBottomMargin: tabBarBottomMargin ?? this.tabBarBottomMargin,
-      tabBarHorizontalMargin:
-          tabBarHorizontalMargin ?? this.tabBarHorizontalMargin,
-      tabBarOuterRadius: tabBarOuterRadius ?? this.tabBarOuterRadius,
-      tabBarItemRadius: tabBarItemRadius ?? this.tabBarItemRadius,
-      fabSize: fabSize ?? this.fabSize,
-      fabAboveTabBarGap: fabAboveTabBarGap ?? this.fabAboveTabBarGap,
-      fabMargin: fabMargin ?? this.fabMargin,
-      scrollBottomSpacing: scrollBottomSpacing ?? this.scrollBottomSpacing,
-      fadeExtensionAboveBar:
-          fadeExtensionAboveBar ?? this.fadeExtensionAboveBar,
-    );
-  }
-
-  @override
-  AppChrome lerp(ThemeExtension<AppChrome>? other, double t) {
-    if (other is! AppChrome) return this;
-    return AppChrome(
-      tabBarHeight: _lerpDouble(tabBarHeight, other.tabBarHeight, t),
-      tabBarBottomMargin:
-          _lerpDouble(tabBarBottomMargin, other.tabBarBottomMargin, t),
-      tabBarHorizontalMargin:
-          _lerpDouble(tabBarHorizontalMargin, other.tabBarHorizontalMargin, t),
-      tabBarOuterRadius:
-          _lerpDouble(tabBarOuterRadius, other.tabBarOuterRadius, t),
-      tabBarItemRadius:
-          _lerpDouble(tabBarItemRadius, other.tabBarItemRadius, t),
-      fabSize: _lerpDouble(fabSize, other.fabSize, t),
-      fabAboveTabBarGap:
-          _lerpDouble(fabAboveTabBarGap, other.fabAboveTabBarGap, t),
-      fabMargin: _lerpDouble(fabMargin, other.fabMargin, t),
-      scrollBottomSpacing:
-          _lerpDouble(scrollBottomSpacing, other.scrollBottomSpacing, t),
-      fadeExtensionAboveBar:
-          _lerpDouble(fadeExtensionAboveBar, other.fadeExtensionAboveBar, t),
-    );
-  }
-
-  static double _lerpDouble(double a, double b, double t) => a + (b - a) * t;
-}
-
-/// Colors and fills for the floating [RevolutStyleBottomBar].
-class TabBarColors extends ThemeExtension<TabBarColors> {
-  const TabBarColors({
-    required this.barBackground,
-    required this.border,
-    required this.selectedPill,
-    required this.selectedForeground,
-    required this.unselectedForeground,
-    required this.barFill,
-    required this.selectedPillFill,
-  });
-
-  final Color barBackground;
-  final Color border;
-  final Color selectedPill;
-  final Color selectedForeground;
-  final Color unselectedForeground;
-
-  /// Bar background with theme-appropriate fill opacity applied.
-  final Color barFill;
-
-  /// Selected-tab pill with theme-appropriate opacity applied.
-  final Color selectedPillFill;
-
-  static const barBackdropBlurSigma = 12.0;
-  static const selectionAnimationDuration = Duration(milliseconds: 280);
-
-  /// Slightly lifted surface so the bar reads above the scaffold in dark mode.
-  static const _darkBarBackground = Color(0xFF2A2A2E);
-  static const _barFillOpacityLight = 0.0;
-  static const _barFillOpacityDark = 0.3;
-  static const _selectedPillOpacity = 0.5;
-
-  static TabBarColors fromAppColors(AppColors colors, Brightness brightness) {
-    final isDark = brightness == Brightness.dark;
-
-    if (!isDark) {
-      return TabBarColors(
-        barBackground: colors.surface,
-        border: colors.divider.withValues(alpha: 0.35),
-        selectedPill: colors.primary,
-        selectedForeground: colors.onPrimary,
-        unselectedForeground: colors.textSecondary,
-        barFill: colors.surface.withValues(alpha: _barFillOpacityLight),
-        selectedPillFill:
-            colors.primary.withValues(alpha: _selectedPillOpacity),
-      );
-    }
-
-    final primaryIsNeutral = colors.primary.computeLuminance() > 0.85;
-    if (primaryIsNeutral) {
-      return TabBarColors(
-        barBackground: _darkBarBackground,
-        border: colors.divider.withValues(alpha: 0.55),
-        selectedPill: Colors.white,
-        selectedForeground: Colors.white,
-        unselectedForeground: colors.textSecondary,
-        barFill: _darkBarBackground.withValues(alpha: _barFillOpacityDark),
-        selectedPillFill: Colors.white.withValues(alpha: _selectedPillOpacity),
-      );
-    }
-
-    return TabBarColors(
-      barBackground: _darkBarBackground,
-      border: colors.divider.withValues(alpha: 0.55),
-      selectedPill: colors.primary,
-      selectedForeground: Colors.white,
-      unselectedForeground: colors.textSecondary,
-      barFill: _darkBarBackground.withValues(alpha: _barFillOpacityDark),
-      selectedPillFill: colors.primary.withValues(alpha: _selectedPillOpacity),
-    );
-  }
-
-  @override
-  TabBarColors copyWith({
-    Color? barBackground,
-    Color? border,
-    Color? selectedPill,
-    Color? selectedForeground,
-    Color? unselectedForeground,
-    Color? barFill,
-    Color? selectedPillFill,
-  }) {
-    return TabBarColors(
-      barBackground: barBackground ?? this.barBackground,
-      border: border ?? this.border,
-      selectedPill: selectedPill ?? this.selectedPill,
-      selectedForeground: selectedForeground ?? this.selectedForeground,
-      unselectedForeground: unselectedForeground ?? this.unselectedForeground,
-      barFill: barFill ?? this.barFill,
-      selectedPillFill: selectedPillFill ?? this.selectedPillFill,
-    );
-  }
-
-  @override
-  TabBarColors lerp(ThemeExtension<TabBarColors>? other, double t) {
-    if (other is! TabBarColors) return this;
-    return TabBarColors(
-      barBackground: Color.lerp(barBackground, other.barBackground, t)!,
-      border: Color.lerp(border, other.border, t)!,
-      selectedPill: Color.lerp(selectedPill, other.selectedPill, t)!,
-      selectedForeground:
-          Color.lerp(selectedForeground, other.selectedForeground, t)!,
-      unselectedForeground:
-          Color.lerp(unselectedForeground, other.unselectedForeground, t)!,
-      barFill: Color.lerp(barFill, other.barFill, t)!,
-      selectedPillFill: Color.lerp(selectedPillFill, other.selectedPillFill, t)!,
-    );
-  }
-}
-
 class AppTheme {
-  static const _chrome = AppChrome.standard;
-
   static List<ThemeExtension<dynamic>> _extensions(
     AppColors colors,
     Brightness brightness,
   ) =>
       [
         colors,
-        _chrome,
-        TabBarColors.fromAppColors(colors, brightness),
+        FloatingTabBarTheme.fromAppColors(colors: colors, brightness: brightness),
       ];
 
   static FloatingActionButtonThemeData _floatingActionButtonTheme({
@@ -542,7 +287,7 @@ class AppTheme {
       backgroundColor: backgroundColor,
       foregroundColor: foregroundColor,
       shape: const CircleBorder(),
-      sizeConstraints: _chrome.fabSizeConstraints,
+      sizeConstraints: FloatingTabBarTheme.standard.fabSizeConstraints,
     );
   }
 
@@ -861,10 +606,6 @@ class AppTheme {
 
 extension ThemeExt on BuildContext {
   AppColors get appColors => Theme.of(this).extension<AppColors>()!;
-
-  AppChrome get appChrome => Theme.of(this).extension<AppChrome>()!;
-
-  TabBarColors get tabBarColors => Theme.of(this).extension<TabBarColors>()!;
 
   /// Home-indicator inset; prefers [MediaQuery.viewPadding] when padding is stripped.
   double get deviceBottomInset {

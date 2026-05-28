@@ -1,13 +1,13 @@
 import 'dart:ui';
-
-import 'package:expense_tracker/core/style/app_theme.dart';
 import 'package:expense_tracker/features/home/presentation/widgets/tab_bar/revolut_bottom_bar_item.dart';
+import 'package:expense_tracker/features/home/presentation/widgets/tab_bar/tab_bar_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-/// A floating, pill-shaped bottom bar inspired by Revolut's mobile navigation.
+/// A floating, pill-shaped bottom bar inspired by modern capsule navigation shells.
 ///
-/// Layout metrics come from [AppChrome]; colors from [TabBarColors] on the theme.
+/// Retrieves all layout metrics, paddings, borders, backdrop filters, animation curves,
+/// and colors from the unified [FloatingTabBarTheme] registered in the [ThemeData] extensions.
 class RevolutStyleBottomBar extends StatelessWidget {
   const RevolutStyleBottomBar({
     super.key,
@@ -16,23 +16,28 @@ class RevolutStyleBottomBar extends StatelessWidget {
     required this.items,
   });
 
+  /// Index of the currently active tab.
   final int currentIndex;
+
+  /// Callback fired when a tab is pressed.
   final ValueChanged<int> onTap;
+
+  /// The list of items/destinations to build in this tab bar.
   final List<RevolutBottomBarItem> items;
 
   @override
   Widget build(BuildContext context) {
-    final chrome = context.appChrome;
-    final tabColors = context.tabBarColors;
+    // Read the unified bottom bar theme and current device insets
+    final theme = context.floatingTabBarTheme;
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    final barRadius = BorderRadius.circular(chrome.tabBarOuterRadius);
+    final barRadius = BorderRadius.circular(theme.tabBarOuterRadius);
 
     return Padding(
       padding: EdgeInsets.fromLTRB(
-        chrome.tabBarHorizontalMargin,
+        theme.tabBarHorizontalMargin,
         0,
-        chrome.tabBarHorizontalMargin,
-        chrome.tabBarBottomMargin + context.deviceBottomInset,
+        theme.tabBarHorizontalMargin,
+        theme.tabBarBottomMargin + context.deviceBottomInset,
       ),
       child: DecoratedBox(
         decoration: BoxDecoration(
@@ -49,29 +54,30 @@ class RevolutStyleBottomBar extends StatelessWidget {
           borderRadius: barRadius,
           child: BackdropFilter(
             filter: ImageFilter.blur(
-              sigmaX: TabBarColors.barBackdropBlurSigma,
-              sigmaY: TabBarColors.barBackdropBlurSigma,
+              sigmaX: theme.barBackdropBlurSigma,
+              sigmaY: theme.barBackdropBlurSigma,
             ),
             child: Material(
-              color: tabColors.barFill,
+              color: theme.barFill,
               elevation: 0,
               shape: RoundedRectangleBorder(
                 borderRadius: barRadius,
-                side: BorderSide(color: tabColors.border),
+                side: BorderSide(color: theme.border),
               ),
               child: SizedBox(
-                height: chrome.tabBarHeight,
+                height: theme.tabBarHeight,
                 child: Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 6, vertical: 6),
+                  padding: const EdgeInsets.all(6.0),
                   child: LayoutBuilder(
                     builder: (context, constraints) {
-                      return _RevolutTabBarTrack(
-                        tabWidth: constraints.maxWidth / items.length,
+                      // Dynamically split total width by the number of tab items
+                      final tabWidth = constraints.maxWidth / items.length;
+
+                      return _TabBarTrack(
+                        tabWidth: tabWidth,
                         currentIndex: currentIndex,
                         items: items,
-                        tabColors: tabColors,
-                        itemRadius: chrome.tabBarItemRadius,
+                        theme: theme,
                         onTap: onTap,
                       );
                     },
@@ -86,21 +92,20 @@ class RevolutStyleBottomBar extends StatelessWidget {
   }
 }
 
-class _RevolutTabBarTrack extends StatelessWidget {
-  const _RevolutTabBarTrack({
+/// Renders the animation background track and arranges the active/inactive tabs.
+class _TabBarTrack extends StatelessWidget {
+  const _TabBarTrack({
     required this.tabWidth,
     required this.currentIndex,
     required this.items,
-    required this.tabColors,
-    required this.itemRadius,
+    required this.theme,
     required this.onTap,
   });
 
   final double tabWidth;
   final int currentIndex;
   final List<RevolutBottomBarItem> items;
-  final TabBarColors tabColors;
-  final double itemRadius;
+  final FloatingTabBarTheme theme;
   final ValueChanged<int> onTap;
 
   @override
@@ -108,29 +113,35 @@ class _RevolutTabBarTrack extends StatelessWidget {
     return Stack(
       clipBehavior: Clip.none,
       children: [
+        // Sliding active pill background indicator
         AnimatedPositioned(
-          duration: TabBarColors.selectionAnimationDuration,
-          curve: Curves.easeOutCubic,
+          duration: theme.selectionAnimationDuration,
+          curve: theme.selectionAnimationCurve,
           left: tabWidth * currentIndex,
           width: tabWidth,
           top: 0,
           bottom: 0,
           child: DecoratedBox(
             decoration: BoxDecoration(
-              color: tabColors.selectedPillFill,
-              borderRadius: BorderRadius.circular(itemRadius),
+              color: theme.selectedPillFill,
+              borderRadius: BorderRadius.circular(theme.tabBarItemRadius),
             ),
           ),
         ),
+
+        // Row of tap targets
         Row(
           children: List.generate(items.length, (index) {
+            final isSelected = index == currentIndex;
+
             return Expanded(
-              child: _RevolutTabBarTab(
+              child: _TabBarTab(
                 item: items[index],
-                selected: index == currentIndex,
-                tabColors: tabColors,
+                selected: isSelected,
+                theme: theme,
                 onTap: () {
-                  if (index == currentIndex) return;
+                  if (isSelected) return;
+                  // Standard haptic feedback on tab change
                   HapticFeedback.lightImpact();
                   onTap(index);
                 },
@@ -143,24 +154,24 @@ class _RevolutTabBarTrack extends StatelessWidget {
   }
 }
 
-class _RevolutTabBarTab extends StatelessWidget {
-  const _RevolutTabBarTab({
+/// Renders an individual tab with its label and icon.
+class _TabBarTab extends StatelessWidget {
+  const _TabBarTab({
     required this.item,
     required this.selected,
-    required this.tabColors,
+    required this.theme,
     required this.onTap,
   });
 
   final RevolutBottomBarItem item;
   final bool selected;
-  final TabBarColors tabColors;
+  final FloatingTabBarTheme theme;
   final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
-    final foreground = selected
-        ? tabColors.selectedForeground
-        : tabColors.unselectedForeground;
+    // Pick correct foreground color depending on state
+    final foregroundColor = selected ? theme.selectedForeground : theme.unselectedForeground;
 
     return Semantics(
       button: true,
@@ -172,16 +183,19 @@ class _RevolutTabBarTab extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            item.iconBuilder(selected, foreground),
+            // Responsive icon
+            item.buildIcon(selected: selected, color: foregroundColor),
             const SizedBox(height: 2),
+
+            // Smoothly transitioning label text style
             AnimatedDefaultTextStyle(
-              duration: TabBarColors.selectionAnimationDuration,
-              curve: Curves.easeOutCubic,
+              duration: theme.selectionAnimationDuration,
+              curve: theme.selectionAnimationCurve,
               style: TextStyle(
                 fontFamily: 'Ubuntu',
                 fontSize: selected ? 11 : 10,
                 fontWeight: selected ? FontWeight.w600 : FontWeight.w500,
-                color: foreground,
+                color: foregroundColor,
                 height: 1.1,
               ),
               child: Text(

@@ -1,5 +1,5 @@
 import 'package:expense_tracker/core/style/app_theme.dart';
-import 'package:expense_tracker/features/home/presentation/widgets/tab_bar/tab_bar_chrome.dart';
+import 'package:expense_tracker/features/home/presentation/widgets/tab_bar/tab_bar_theme.dart';
 import 'package:flutter/material.dart';
 
 /// Fades scrollable content behind the floating tab bar, anchored to the screen bottom.
@@ -37,30 +37,32 @@ class BottomBarBodyFade extends StatelessWidget {
 
 /// Positions a [FloatingActionButton] on the tab shell above the bottom bar.
 ///
-/// Uses [AppChrome.standard] because [FloatingActionButtonLocation.getOffset]
-/// has no [BuildContext] to read the theme extension.
+/// Uses [FloatingTabBarTheme.standard] because [FloatingActionButtonLocation.getOffset]
+/// has no [BuildContext] to read the theme extension at evaluation time.
 class FabAboveTabBarLocation extends FloatingActionButtonLocation {
   const FabAboveTabBarLocation();
 
   @override
   Offset getOffset(ScaffoldPrelayoutGeometry scaffoldGeometry) {
-    const chrome = AppChrome.standard;
+    final theme = FloatingTabBarTheme.standard;
     final fabSize = scaffoldGeometry.floatingActionButtonSize;
     final scaffoldSize = scaffoldGeometry.scaffoldSize;
     final bottomInset = scaffoldGeometry.minInsets.bottom;
-    final tabBarTopFromBottom = chrome.chromeHeight(bottomInset);
+    final tabBarTopFromBottom = theme.chromeHeight(bottomInset);
 
     return Offset(
-      scaffoldSize.width - fabSize.width - chrome.fabMargin,
+      scaffoldSize.width - fabSize.width - theme.fabMargin,
       scaffoldSize.height -
           fabSize.height -
-          chrome.fabMargin -
+          theme.fabMargin -
           tabBarTopFromBottom,
     );
   }
 }
 
-/// Scroll bottom padding for the active tab, computed on [TabBarPage].
+/// Inherited widget holding the scroll bottom padding for the active tab.
+///
+/// This padding is dynamically computed on [TabBarPage] and provided to child pages.
 class TabBarScrollScope extends InheritedWidget {
   const TabBarScrollScope({
     super.key,
@@ -71,8 +73,7 @@ class TabBarScrollScope extends InheritedWidget {
   final double bottomScrollPadding;
 
   static double of(BuildContext context) {
-    final scope =
-        context.dependOnInheritedWidgetOfExactType<TabBarScrollScope>();
+    final scope = context.dependOnInheritedWidgetOfExactType<TabBarScrollScope>();
     assert(
       scope != null,
       'TabBarScrollScope not found. Wrap tab content in TabBarPage.',
@@ -85,7 +86,10 @@ class TabBarScrollScope extends InheritedWidget {
       bottomScrollPadding != oldWidget.bottomScrollPadding;
 }
 
-/// Bottom spacer for [CustomScrollView] tab content.
+/// A sliver bottom spacer that uses the [TabBarScrollScope] spacing.
+///
+/// Insert this at the bottom of a [CustomScrollView] to ensure its slivers
+/// can clear the floating bottom bar and FAB.
 class TabBarScrollBottomSliver extends StatelessWidget {
   const TabBarScrollBottomSliver({super.key});
 
@@ -97,7 +101,7 @@ class TabBarScrollBottomSliver extends StatelessWidget {
   }
 }
 
-/// Applies [TabBarScrollScope] padding to scrollable or list content.
+/// Applies bottom spacing to standard scrollable list content using [TabBarScrollScope].
 class TabBarScrollPadding extends StatelessWidget {
   const TabBarScrollPadding({
     super.key,
@@ -127,7 +131,7 @@ class TabBarScrollPadding extends StatelessWidget {
   }
 }
 
-/// Lets tab content extend under the floating bar and home-indicator inset.
+/// Allows tab content to extend fully under the floating bar and home indicator insets.
 class TabBarBody extends StatelessWidget {
   const TabBarBody({super.key, required this.child});
 
