@@ -40,11 +40,11 @@ class AccountListTile extends ConsumerWidget {
             borderRadius: BorderRadius.circular(10),
             boxShadow: [
               BoxShadow(
-                color: Color.fromRGBO(0, 0, 0, 0.15),
-                blurRadius: 15,
+                color: Color.fromRGBO(0, 0, 0, 0.08),
+                blurRadius: 8,
                 spreadRadius: 0,
-                offset: Offset(0, 5),
-              )
+                offset: Offset(0, 2),
+              ),
             ]),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

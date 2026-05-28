@@ -128,11 +128,11 @@ class BudgetCard extends ConsumerWidget {
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
-            color: Color.fromRGBO(0, 0, 0, 0.15),
-            blurRadius: 15,
+            color: Color.fromRGBO(0, 0, 0, 0.08),
+            blurRadius: 8,
             spreadRadius: 0,
-            offset: Offset(0, 5),
-          )
+            offset: Offset(0, 2),
+          ),
         ],
       ),
       child: Material(
@@ -223,12 +223,7 @@ class BudgetCard extends ConsumerWidget {
                       child: Container(
                         height: 10,
                         decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            colors: [
-                              stateColor.withValues(alpha: 0.7),
-                              stateColor,
-                            ],
-                          ),
+                          color: stateColor,
                           borderRadius: BorderRadius.circular(5),
                           boxShadow: [
                             BoxShadow(

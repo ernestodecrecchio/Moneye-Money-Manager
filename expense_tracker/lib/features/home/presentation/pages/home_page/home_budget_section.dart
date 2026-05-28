@@ -17,6 +17,40 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 /// prevents intrinsic content (e.g. long titles) from stretching tiles.
 const double _kCompactBudgetTileWidth = 96.0;
 
+Widget _buildBudgetCardWrapper({
+  required BuildContext context,
+  required VoidCallback onTap,
+  required Widget child,
+  EdgeInsetsGeometry padding = const EdgeInsets.all(10),
+  BorderRadius borderRadius = const BorderRadius.all(Radius.circular(10)),
+}) {
+  return Container(
+    decoration: BoxDecoration(
+      borderRadius: borderRadius,
+      boxShadow: const [
+        BoxShadow(
+          color: Color.fromRGBO(0, 0, 0, 0.08),
+          blurRadius: 8,
+          spreadRadius: 0,
+          offset: Offset(0, 2),
+        ),
+      ],
+    ),
+    child: Material(
+      color: context.appColors.surface,
+      borderRadius: borderRadius,
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: borderRadius,
+        child: Padding(
+          padding: padding,
+          child: child,
+        ),
+      ),
+    ),
+  );
+}
+
 class HomeBudgetSection extends ConsumerWidget {
   const HomeBudgetSection({super.key});
 
@@ -55,7 +89,7 @@ class HomeBudgetSection extends ConsumerWidget {
               )
             else
               SizedBox(
-                height: 110,
+                height: 120,
                 child: ListView.separated(
                   clipBehavior: Clip.none,
                   padding: EdgeInsets.symmetric(
@@ -66,7 +100,7 @@ class HomeBudgetSection extends ConsumerWidget {
                     return CompactBudgetCard(budget: budgets[index]);
                   },
                   separatorBuilder: (context, index) => const SizedBox(
-                    width: 24,
+                    width: 12,
                   ),
                 ),
               ),
@@ -120,7 +154,8 @@ class ExpandedBudgetCard extends ConsumerWidget {
     final stateColor = progress.getStateColor(context);
     final percentText = '${(progress.percentage * 100).toStringAsFixed(0)}%';
 
-    return GestureDetector(
+    return _buildBudgetCardWrapper(
+      context: context,
       onTap: () => Navigator.pushNamed(
         context,
         BudgetFormPage.routeName,
@@ -189,7 +224,7 @@ class ExpandedBudgetCard extends ConsumerWidget {
                   child: LinearProgressIndicator(
                     value: progress.percentage.clamp(0.0, 1.0),
                     minHeight: 8,
-                    backgroundColor: context.appColors.divider,
+                    backgroundColor: context.budgetProgressTrackColor,
                     valueColor: AlwaysStoppedAnimation<Color>(stateColor),
                   ),
                 ),
@@ -252,7 +287,8 @@ class CompactBudgetCard extends ConsumerWidget {
 
     return SizedBox(
       width: _kCompactBudgetTileWidth,
-      child: GestureDetector(
+      child: _buildBudgetCardWrapper(
+        context: context,
         onTap: () => Navigator.pushNamed(
           context,
           BudgetFormPage.routeName,
@@ -273,7 +309,8 @@ class CompactBudgetCard extends ConsumerWidget {
                     child: CircularProgressIndicator(
                       value: progress.percentage.clamp(0.0, 1.0),
                       strokeWidth: 4,
-                      backgroundColor: context.appColors.divider,
+                      strokeCap: StrokeCap.round,
+                      backgroundColor: context.budgetProgressTrackColor,
                       valueColor: AlwaysStoppedAnimation<Color>(stateColor),
                     ),
                   ),
