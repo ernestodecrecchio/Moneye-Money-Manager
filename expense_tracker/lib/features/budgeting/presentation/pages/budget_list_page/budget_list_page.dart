@@ -214,7 +214,7 @@ class BudgetCard extends ConsumerWidget {
                       height: 10,
                       width: double.infinity,
                       decoration: BoxDecoration(
-                        color: context.appColors.divider,
+                        color: context.budgetProgressTrackColor,
                         borderRadius: BorderRadius.circular(5),
                       ),
                     ),

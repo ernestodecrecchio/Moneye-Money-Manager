@@ -651,6 +651,25 @@ class AppTheme {
 extension ThemeExt on BuildContext {
   AppColors get appColors => Theme.of(this).extension<AppColors>()!;
 
+  /// Budget progress track color (background bar).
+  Color get budgetProgressTrackColor {
+    final brightness = Theme.of(this).brightness;
+    return switch (brightness) {
+      Brightness.light => appColors.divider.withValues(alpha: 0.6),
+      Brightness.dark => appColors.scaffoldBackground,
+    };
+  }
+
+  /// Budget progress fill color based on progress state.
+  Color budgetProgressColor({
+    required double percentage,
+    required bool isOverBudget,
+  }) {
+    if (isOverBudget) return appColors.expense;
+    if (percentage >= 0.8) return appColors.warning;
+    return appColors.income;
+  }
+
   /// Home-indicator inset; prefers [MediaQuery.viewPadding] when padding is stripped.
   double get deviceBottomInset {
     final media = MediaQuery.of(this);

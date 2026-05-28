@@ -3,15 +3,11 @@ import 'package:expense_tracker/features/budgeting/domain/models/budget_progress
 import 'package:flutter/material.dart';
 
 extension BudgetProgressUIExtension on BudgetProgress {
-  /// Computes the state color based on the current budget status:
-  /// - Exceeded (> 100%): Red (expense)
-  /// - Near limit (>= 80%): Yellow/Orange (warning)
-  /// - Healthy (< 80%): Green (income)
+  /// Computes the state color using theme-defined budget progress rules.
   Color getStateColor(BuildContext context) {
-    return isOverBudget
-        ? context.appColors.expense
-        : (percentage >= 0.8
-            ? context.appColors.warning
-            : context.appColors.income);
+    return context.budgetProgressColor(
+      percentage: percentage,
+      isOverBudget: isOverBudget,
+    );
   }
 }
