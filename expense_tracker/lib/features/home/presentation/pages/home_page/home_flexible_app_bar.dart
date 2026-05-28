@@ -45,6 +45,8 @@ class _HomeFlexibleSpaceBarState extends ConsumerState<HomeFlexibleSpaceBar> {
       minimum: const EdgeInsets.symmetric(
         horizontal: horizontalPadding,
       ),
+      bottom:
+          false, // Due to the floating tab bar, we don't need to add a bottom padding.
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

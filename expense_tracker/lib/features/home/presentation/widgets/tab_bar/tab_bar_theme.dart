@@ -111,7 +111,7 @@ class FloatingTabBarTheme extends ThemeExtension<FloatingTabBarTheme> {
 
   static final standard = FloatingTabBarTheme(
     tabBarHeight: 68,
-    tabBarBottomMargin: 4,
+    tabBarBottomMargin: 2,
     tabBarHorizontalMargin: Constants.horizontalPadding,
     tabBarOuterRadius: 36,
     tabBarItemRadius: 28,
