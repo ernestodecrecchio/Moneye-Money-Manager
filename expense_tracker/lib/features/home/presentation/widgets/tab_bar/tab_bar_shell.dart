@@ -23,7 +23,7 @@ class BottomBarBodyFade extends StatelessWidget {
               end: Alignment.topCenter,
               colors: [
                 background,
-                background.withValues(alpha: 0.94),
+                background.withValues(alpha: 0.74),
                 background.withValues(alpha: 0.0),
               ],
               stops: const [0.0, 0.22, 1.0],
@@ -73,7 +73,8 @@ class TabBarScrollScope extends InheritedWidget {
   final double bottomScrollPadding;
 
   static double of(BuildContext context) {
-    final scope = context.dependOnInheritedWidgetOfExactType<TabBarScrollScope>();
+    final scope =
+        context.dependOnInheritedWidgetOfExactType<TabBarScrollScope>();
     assert(
       scope != null,
       'TabBarScrollScope not found. Wrap tab content in TabBarPage.',

@@ -29,8 +29,8 @@ class RevolutStyleBottomBar extends StatelessWidget {
   Widget build(BuildContext context) {
     // Read the unified bottom bar theme and current device insets
     final theme = context.floatingTabBarTheme;
-    final isDark = Theme.of(context).brightness == Brightness.dark;
     final barRadius = BorderRadius.circular(theme.tabBarOuterRadius);
+    final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Padding(
       padding: EdgeInsets.fromLTRB(
@@ -43,6 +43,7 @@ class RevolutStyleBottomBar extends StatelessWidget {
         decoration: BoxDecoration(
           borderRadius: barRadius,
           boxShadow: [
+            // Shadow around the bottom bar, to "pop" it out from the screen especially when the background is white
             BoxShadow(
               color: Colors.black.withValues(alpha: isDark ? 0.45 : 0.12),
               blurRadius: 24,
@@ -171,7 +172,8 @@ class _TabBarTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Pick correct foreground color depending on state
-    final foregroundColor = selected ? theme.selectedForeground : theme.unselectedForeground;
+    final foregroundColor =
+        selected ? theme.selectedForeground : theme.unselectedForeground;
 
     return Semantics(
       button: true,
