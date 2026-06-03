@@ -88,7 +88,7 @@ class _ColorSelectorContentState extends ConsumerState<ColorSelectorContent> {
                 child: GridView.builder(
                   controller: _scrollController,
                   shrinkWrap: true,
-                  padding: const EdgeInsets.only(bottom: 20, top: 10),
+                  padding: modalSheetScrollPadding(context).copyWith(top: 10),
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 7,
                     crossAxisSpacing: 16,

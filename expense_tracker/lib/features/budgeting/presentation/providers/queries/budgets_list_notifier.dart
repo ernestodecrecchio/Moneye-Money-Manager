@@ -7,8 +7,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 class BudgetsListNotifier extends AsyncNotifier<List<Budget>> {
   @override
   Future<List<Budget>> build() async {
-    final budgetsRepository = ref.watch(budgetsRepositoryProvider);
-    final spentQuery = ref.watch(budgetPeriodSpentQueryProvider);
+    final budgetsRepository = ref.read(budgetsRepositoryProvider);
+    final spentQuery = ref.read(budgetPeriodSpentQueryProvider);
     final budgets = await budgetsRepository.getAllBudgets();
     return BudgetSyncService(budgetsRepository, spentQuery).syncAllBudgets(
       budgets: budgets,

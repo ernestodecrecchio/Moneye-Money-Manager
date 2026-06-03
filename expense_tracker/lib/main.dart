@@ -26,6 +26,7 @@ import 'package:expense_tracker/features/accounts/presentation/pages/accounts_li
 import 'package:expense_tracker/features/categories/presentation/pages/categories_list_page/categories_list_page.dart';
 import 'package:expense_tracker/features/categories/presentation/pages/categories_list_page/new_edit_category_page.dart';
 import 'package:expense_tracker/features/accounts/presentation/pages/accounts_list_page/new_edit_account_page.dart';
+import 'package:expense_tracker/core/presentation/common/amount_keyboard/amount_keyboard_host.dart';
 import 'package:expense_tracker/core/presentation/common/helper/dismiss_keyboard.dart';
 import 'package:expense_tracker/features/transactions/presentation/pages/new_edit_transaction_flow/new_edit_transaction_page.dart';
 import 'package:expense_tracker/features/settings/presentation/pages/options_page/currency_page/currency_page.dart';
@@ -237,10 +238,13 @@ class MyApp extends r.ConsumerWidget {
   @override
   Widget build(BuildContext context, r.WidgetRef ref) {
     return DismissKeyboard(
-      child: MaterialApp(
+      child: AmountKeyboardHost(
+        navigatorKey: navigatorKey,
+        child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Moneye',
         navigatorObservers: [AnalyticsManager.observer],
+        builder: amountKeyboardMediaQueryBuilder,
         theme: ref.watch(themeProvider).themeData,
         darkTheme: ref.watch(themeProvider).darkThemeData,
         themeMode: ref.watch(themeProvider).flutterThemeMode,
@@ -371,6 +375,7 @@ class MyApp extends r.ConsumerWidget {
           return null;
         },
         navigatorKey: navigatorKey,
+        ),
       ),
     );
   }

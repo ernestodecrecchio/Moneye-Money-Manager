@@ -49,10 +49,7 @@ class CustomTextField extends StatelessWidget {
     final colors = context.appColors;
     final textTheme = Theme.of(context).textTheme;
 
-    return Padding(
-      padding:
-          EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-      child: Column(
+    return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         spacing: 5,
         children: [
@@ -162,7 +159,6 @@ class CustomTextField extends StatelessWidget {
             ),
           ),
         ],
-      ),
     );
   }
 }

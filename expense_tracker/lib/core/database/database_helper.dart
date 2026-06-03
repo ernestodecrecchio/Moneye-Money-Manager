@@ -24,7 +24,7 @@ class DatabaseHelper {
     final path = join(dbPath, 'moneye_db.db');
 
     return await openDatabase(path,
-        version: 4,
+        version: 6,
         onConfigure: _configureDB,
         onCreate: _createDB,
         onUpgrade: _upgradeDB);
@@ -54,6 +54,12 @@ class DatabaseHelper {
     if (oldVersion < 4) {
       _updateDBV3toV4(batch);
     }
+    if (oldVersion < 5) {
+      _updateDBV4toV5(batch);
+    }
+    if (oldVersion < 6) {
+      _updateDBV5toV6(batch);
+    }
     await batch.commit();
   }
 
@@ -68,5 +74,13 @@ class DatabaseHelper {
 
   void _updateDBV3toV4(Batch batch) {
     DatabaseBudgetHelper.createTableV3toV4(batch);
+  }
+
+  void _updateDBV4toV5(Batch batch) {
+    DatabaseAccountHelper.updateAccountsTableV4toV5(batch);
+  }
+
+  void _updateDBV5toV6(Batch batch) {
+    DatabaseBudgetHelper.updateBudgetsTableV5toV6(batch);
   }
 }

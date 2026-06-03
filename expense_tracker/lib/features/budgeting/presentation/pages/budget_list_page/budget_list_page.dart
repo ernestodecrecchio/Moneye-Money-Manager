@@ -17,7 +17,6 @@ import 'package:expense_tracker/features/budgeting/presentation/extensions/budge
 import 'package:expense_tracker/features/home/presentation/widgets/tab_bar/tab_bar_shell.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:intl/intl.dart';
 
 class BudgetListPage extends ConsumerWidget {
   const BudgetListPage({super.key});
@@ -90,20 +89,10 @@ class BudgetCard extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final progressAsync = ref.watch(budgetProgressProvider(budget));
+    final progress = progressAsync.value ??
+        budgetProgressPlaceholder(budget);
 
-    return progressAsync.when(
-      data: (progress) => _buildCard(context, ref, progress),
-      loading: () => _buildCard(
-        context,
-        ref,
-        budgetProgressPlaceholder(budget),
-      ),
-      error: (_, __) => _buildCard(
-        context,
-        ref,
-        budgetProgressPlaceholder(budget),
-      ),
-    );
+    return _buildCard(context, ref, progress);
   }
 
   Widget _buildCard(
@@ -169,7 +158,10 @@ class BudgetCard extends ConsumerWidget {
                             ),
                           ),
                           Text(
-                            _getPeriodText(budget, progress, appLocalizations),
+                            budget.formatPeriodRange(
+                              progress,
+                              appLocalizations.localeName,
+                            ),
                             style: TextStyle(
                               fontSize: 12,
                               color: context.appColors.textSecondary,
@@ -242,7 +234,11 @@ class BudgetCard extends ConsumerWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   spacing: 16,
                   children: [
-                    _buildCategoriesRow(context, selectedCategories),
+                    _buildCategoriesRow(
+                      context,
+                      appLocalizations,
+                      selectedCategories,
+                    ),
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.end,
@@ -325,7 +321,21 @@ class BudgetCard extends ConsumerWidget {
   }
 
   Widget _buildCategoriesRow(
-      BuildContext context, List<Category> selectedCategories) {
+    BuildContext context,
+    dynamic appLocalizations,
+    List<Category> selectedCategories,
+  ) {
+    if (budget.allCategories) {
+      return Text(
+        appLocalizations.allCategories,
+        style: TextStyle(
+          fontSize: 12,
+          fontWeight: FontWeight.w600,
+          color: context.appColors.textSecondary,
+        ),
+      );
+    }
+
     final displayedCategories = selectedCategories.take(4).toList();
     final showEllipsis = selectedCategories.length > 4;
 
@@ -363,9 +373,4 @@ class BudgetCard extends ConsumerWidget {
     );
   }
 
-  String _getPeriodText(
-      Budget budget, BudgetProgress progress, dynamic appLocalizations) {
-    final DateFormat formatter = DateFormat.yMMMd(appLocalizations.localeName);
-    return '${formatter.format(progress.startDate)} - ${formatter.format(progress.endDate)}';
-  }
 }

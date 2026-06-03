@@ -77,6 +77,7 @@ class _AccountSelectorContentState
                 return ref.watch(accountsListProvider).when(
                       data: (accountsList) {
                         return ListView.builder(
+                            padding: modalSheetScrollPadding(context),
                             shrinkWrap: true,
                             itemCount: accountsList.length + 1,
                             itemBuilder: (BuildContext context, int index) {

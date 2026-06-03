@@ -655,7 +655,7 @@ extension ThemeExt on BuildContext {
   Color get budgetProgressTrackColor {
     final brightness = Theme.of(this).brightness;
     return switch (brightness) {
-      Brightness.light => appColors.divider.withValues(alpha: 0.6),
+      Brightness.light => appColors.divider.withValues(alpha: 1),
       Brightness.dark => appColors.scaffoldBackground,
     };
   }

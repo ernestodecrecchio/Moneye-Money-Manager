@@ -10,6 +10,7 @@ class Account extends Equatable {
   final int? colorValue;
   final String? iconPath;
   final bool isOtherAccount;
+  final double rebalanceOffset;
 
   const Account({
     this.id,
@@ -19,6 +20,7 @@ class Account extends Equatable {
     this.colorValue,
     this.iconPath,
     this.isOtherAccount = false,
+    this.rebalanceOffset = 0.0,
   });
 
   Account copy({
@@ -29,6 +31,7 @@ class Account extends Equatable {
     int? colorValue,
     String? iconPath,
     bool? isOtherAccount,
+    double? rebalanceOffset,
   }) {
     return Account(
       id: id ?? this.id,
@@ -38,10 +41,19 @@ class Account extends Equatable {
       colorValue: colorValue ?? this.colorValue,
       iconPath: iconPath ?? this.iconPath,
       isOtherAccount: isOtherAccount ?? this.isOtherAccount,
+      rebalanceOffset: rebalanceOffset ?? this.rebalanceOffset,
     );
   }
 
   @override
-  List<Object?> get props =>
-      [id, name, description, balance, colorValue, iconPath, isOtherAccount];
+  List<Object?> get props => [
+        id,
+        name,
+        description,
+        balance,
+        colorValue,
+        iconPath,
+        isOtherAccount,
+        rebalanceOffset,
+      ];
 }

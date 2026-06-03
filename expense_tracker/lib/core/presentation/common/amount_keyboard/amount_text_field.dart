@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:expense_tracker/core/presentation/common/amount_keyboard/amount_keyboard_controller.dart';
+import 'package:expense_tracker/core/presentation/common/amount_keyboard/amount_keyboard_metrics.dart';
 import 'package:expense_tracker/core/presentation/common/amount_keyboard/amount_keyboard_input.dart';
 import 'package:expense_tracker/core/presentation/common/amount_keyboard/amount_keyboard_scope.dart';
 import 'package:expense_tracker/core/presentation/common/custom_text_field.dart';
@@ -8,7 +10,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 
 /// Amount entry field that uses the custom [AmountKeyboard] instead of the
-/// system keyboard. Must be placed under an [AmountKeyboardScope].
+/// system keyboard. Requires [AmountKeyboardHost] above [MaterialApp].
 class AmountTextField extends StatefulWidget {
   final TextEditingController? controller;
   final String? label;
@@ -46,7 +48,7 @@ class _AmountTextFieldState extends State<AmountTextField> {
   final GlobalKey _visibilityKey = GlobalKey();
   late FocusNode _focusNode;
   bool _ownsFocusNode = false;
-  AmountKeyboardScopeState? _attachedScope;
+  bool _isAttached = false;
   Timer? _scrollRetryTimer;
 
   static final _amountFormatters = <TextInputFormatter>[
@@ -63,14 +65,25 @@ class _AmountTextFieldState extends State<AmountTextField> {
       _ownsFocusNode = true;
     }
     _focusNode.addListener(_onFocusChanged);
+    widget.controller?.addListener(_onControllerTextChanged);
+  }
+
+  void _onControllerTextChanged() {
+    final onTextChanged = widget.onTextChanged;
+    if (onTextChanged == null) return;
+    onTextChanged(widget.controller?.text ?? '');
   }
 
   @override
   void didUpdateWidget(AmountTextField oldWidget) {
     super.didUpdateWidget(oldWidget);
+    if (oldWidget.controller != widget.controller) {
+      oldWidget.controller?.removeListener(_onControllerTextChanged);
+      widget.controller?.addListener(_onControllerTextChanged);
+    }
     if (oldWidget.focusNode != widget.focusNode) {
       oldWidget.focusNode?.removeListener(_onFocusChanged);
-      _detachFromScope();
+      _detachFromController();
       if (_ownsFocusNode) {
         _focusNode.dispose();
       }
@@ -88,19 +101,18 @@ class _AmountTextFieldState extends State<AmountTextField> {
   void _onFocusChanged() {
     if (!_focusNode.hasFocus) {
       _cancelScrollRetry();
-      _detachFromScope();
+      _detachFromController();
       return;
     }
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (mounted && _focusNode.hasFocus) {
-        _attachToScope();
+        _attachToController();
       }
     });
   }
 
   void _handleTap() {
     _focusNode.requestFocus();
-    _attachToScope();
   }
 
   void _handlePointerDown(PointerDownEvent event) {
@@ -109,7 +121,7 @@ class _AmountTextFieldState extends State<AmountTextField> {
   }
 
   EdgeInsets _scrollPadding(BuildContext context) {
-    final scope = AmountKeyboardScope.maybeOf(context);
+    final scope = AmountKeyboardScope.doneLabelOf(context);
     if (scope == null) {
       return const EdgeInsets.all(20);
     }
@@ -173,48 +185,49 @@ class _AmountTextFieldState extends State<AmountTextField> {
       {required bool animate}) {
     Scrollable.ensureVisible(
       targetContext,
-      duration: animate
-          ? const Duration(milliseconds: 250)
-          : Duration.zero,
+      duration: animate ? const Duration(milliseconds: 250) : Duration.zero,
       curve: Curves.fastOutSlowIn,
       alignment: _scrollAlignment,
       alignmentPolicy: ScrollPositionAlignmentPolicy.explicit,
     );
   }
 
-  void _attachToScope() {
-    if (!mounted) return;
-    final scope = AmountKeyboardScope.maybeOf(context);
+  void _attachToController() {
+    if (!mounted || _isAttached) return;
     final controller = widget.controller;
-    if (scope == null || controller == null) return;
-    _attachedScope = scope;
-    scope.attach(
+    if (controller == null) return;
+
+    final keyboard = AmountKeyboardController.maybeInstance;
+    if (keyboard == null) return;
+
+    keyboard.attach(
       controller: controller,
       focusNode: _focusNode,
+      doneLabel: AmountKeyboardScope.doneLabelOf(context),
       onDone: widget.onDone,
       onPresented: _scheduleScrollIntoView,
     );
+    _isAttached = true;
   }
 
-  void _detachFromScope() {
-    final scope = _attachedScope ?? AmountKeyboardScope.maybeOf(context);
+  void _detachFromController() {
+    if (!_isAttached) return;
     final controller = widget.controller;
-    if (scope == null || controller == null) return;
-    scope.detach(controller: controller, focusNode: _focusNode);
-    if (_attachedScope == scope) {
-      _attachedScope = null;
+    final keyboard = AmountKeyboardController.maybeInstance;
+    if (controller == null || keyboard == null) {
+      _isAttached = false;
+      return;
     }
+    keyboard.detach(controller: controller, focusNode: _focusNode);
+    _isAttached = false;
   }
 
   @override
   void dispose() {
     _cancelScrollRetry();
+    widget.controller?.removeListener(_onControllerTextChanged);
     _focusNode.removeListener(_onFocusChanged);
-    final scope = _attachedScope;
-    final controller = widget.controller;
-    if (scope != null && controller != null) {
-      scope.detach(controller: controller, focusNode: _focusNode);
-    }
+    _detachFromController();
     if (_ownsFocusNode) {
       _focusNode.dispose();
     }

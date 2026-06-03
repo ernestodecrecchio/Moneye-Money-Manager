@@ -184,6 +184,7 @@ class _CurrencyPageState extends ConsumerState<CurrencyPage> {
                         Expanded(
                           child: Scrollbar(
                             child: ListView.builder(
+                                padding: modalSheetScrollPadding(context),
                                 shrinkWrap: true,
                                 itemCount: currencyList.length,
                                 itemBuilder: (context, index) {
@@ -270,6 +271,7 @@ class _CurrencyPageState extends ConsumerState<CurrencyPage> {
                   ),
                   Expanded(
                     child: ListView(
+                      padding: modalSheetScrollPadding(context),
                       shrinkWrap: true,
                       children: [
                         ListTile(

@@ -10,7 +10,12 @@ const String accountsTable = 'accounts';
 
 class AccountFields {
   static final List<String> values = [
-    id, name, description, colorValue, iconPath,
+    id,
+    name,
+    description,
+    colorValue,
+    iconPath,
+    rebalanceOffset,
   ];
 
   static const String id = '_id';
@@ -18,6 +23,7 @@ class AccountFields {
   static const String description = 'description';
   static const String colorValue = 'colorValue';
   static const String iconPath = 'iconPath';
+  static const String rebalanceOffset = 'rebalance_offset';
 }
 
 class AccountMapper {
@@ -27,6 +33,8 @@ class AccountMapper {
         description: json[AccountFields.description] as String?,
         colorValue: json[AccountFields.colorValue] as int?,
         iconPath: json[AccountFields.iconPath] as String?,
+        rebalanceOffset:
+            (json[AccountFields.rebalanceOffset] as num?)?.toDouble() ?? 0.0,
       );
 
   static Map<String, Object?> toJson(Account account) => {
@@ -35,6 +43,7 @@ class AccountMapper {
         AccountFields.description: account.description,
         AccountFields.colorValue: account.colorValue,
         AccountFields.iconPath: account.iconPath,
+        AccountFields.rebalanceOffset: account.rebalanceOffset,
       };
 }
 
@@ -51,8 +60,16 @@ class DatabaseAccountHelper {
       ${AccountFields.name} ${DatabaseTypes.textType},
       ${AccountFields.description} ${DatabaseTypes.textTypeNullable},
       ${AccountFields.colorValue} ${DatabaseTypes.integerTypeNullable},
-      ${AccountFields.iconPath} ${DatabaseTypes.textTypeNullable}
+      ${AccountFields.iconPath} ${DatabaseTypes.textTypeNullable},
+      ${AccountFields.rebalanceOffset} ${DatabaseTypes.realType} DEFAULT 0
       )
+    ''');
+  }
+
+  static void updateAccountsTableV4toV5(Batch batch) {
+    batch.execute('''
+      ALTER TABLE $accountsTable
+      ADD COLUMN ${AccountFields.rebalanceOffset} ${DatabaseTypes.realType} DEFAULT 0
     ''');
   }
 
@@ -106,7 +123,8 @@ class DatabaseAccountHelper {
            a.${AccountFields.name} AS name,
            a.${AccountFields.colorValue} AS color,
            a.${AccountFields.iconPath} AS iconPath,
-           COALESCE(SUM(t.${TransactionFields.amount}), 0.0) AS balance
+           COALESCE(SUM(t.${TransactionFields.amount}), 0.0)
+             + COALESCE(a.${AccountFields.rebalanceOffset}, 0.0) AS balance
     FROM $accountsTable a
     LEFT JOIN $transactionsTable t
     ON a.${AccountFields.id} = t.${TransactionFields.accountId}
@@ -161,5 +179,38 @@ class DatabaseAccountHelper {
     }
 
     return null;
+  }
+
+  Future<double> getTotalRebalanceOffset() async {
+    final db = await DatabaseHelper.instance.database;
+
+    final result = await db.rawQuery('''
+      SELECT COALESCE(SUM(${AccountFields.rebalanceOffset}), 0.0) AS total
+      FROM $accountsTable
+    ''');
+
+    final value = result.first['total'];
+    return (value is num) ? value.toDouble() : 0.0;
+  }
+
+  Future<double> getRebalanceOffset(int accountId) async {
+    final account = await getAccountFromId(accountId);
+    return account?.rebalanceOffset ?? 0.0;
+  }
+
+  Future<bool> updateRebalanceOffset({
+    required int accountId,
+    required double rebalanceOffset,
+  }) async {
+    final db = await DatabaseHelper.instance.database;
+
+    final updated = await db.update(
+      accountsTable,
+      {AccountFields.rebalanceOffset: rebalanceOffset},
+      where: '${AccountFields.id} = ?',
+      whereArgs: [accountId],
+    );
+
+    return updated > 0;
   }
 }

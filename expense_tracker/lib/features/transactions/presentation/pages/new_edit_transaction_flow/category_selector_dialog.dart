@@ -73,6 +73,7 @@ class _CategorySelectorContentState
             child: ref.watch(categoriesListProvider).when(
                   data: (categoriesList) {
                     return ListView.builder(
+                        padding: modalSheetScrollPadding(context),
                         shrinkWrap: true,
                         itemCount: categoriesList.length + 1,
                         itemBuilder: (BuildContext context, int index) {

@@ -18,30 +18,60 @@ class BudgetPeriodRolloverService {
   }) async {
     if (budget.periodType == PeriodType.custom) {
       final period = BudgetCalculator.getPeriodBoundaries(budget, now);
+      final normalizedStart = BudgetCalculator.normalizePeriodStart(period.start);
       if (budget.periodStart != null &&
-          _sameInstant(budget.periodStart!, period.start)) {
+          BudgetCalculator.sameCalendarDay(budget.periodStart!, normalizedStart)) {
         return budget;
       }
       return budget.copy(
-        periodStart: period.start,
+        periodStart: normalizedStart,
         rolloverAmount: 0,
         updatedAt: now,
       );
     }
 
-    final currentPeriod = BudgetCalculator.getPeriodBoundaries(budget, now);
     var working = budget;
-    var periodAnchor = budget.periodStart ?? budget.createdAt;
+    if (budget.periodType == PeriodType.monthly && budget.startDay == null) {
+      working = budget.copy(startDay: BudgetCalculator.effectiveStartDay(budget));
+    }
+    final currentPeriod = BudgetCalculator.getPeriodBoundaries(working, now);
+    final currentStart =
+        BudgetCalculator.normalizePeriodStart(currentPeriod.start);
 
-    if (budget.periodStart == null) {
-      return working.copy(
-        periodStart: currentPeriod.start,
-        updatedAt: now,
+    if (working.periodStart == null) {
+      return _withPeriodStart(working, budget, currentStart, now);
+    }
+
+    if (!BudgetCalculator.isPeriodStartAligned(working)) {
+      return _withPeriodStart(
+        working.copy(rolloverAmount: 0),
+        budget,
+        currentStart,
+        now,
       );
     }
 
+    var periodAnchor = BudgetCalculator.normalizePeriodStart(
+      BudgetCalculator.periodStartFor(working, working.periodStart!),
+    );
+
+    if (BudgetCalculator.toDateOnly(periodAnchor)
+        .isAfter(BudgetCalculator.toDateOnly(currentStart))) {
+      return _withPeriodStart(working, budget, currentStart, now);
+    }
+
+    if (BudgetCalculator.sameCalendarDay(periodAnchor, currentStart)) {
+      if (working == budget &&
+          budget.periodStart != null &&
+          BudgetCalculator.sameCalendarDay(budget.periodStart!, currentStart)) {
+        return budget;
+      }
+      return _withPeriodStart(working, budget, currentStart, now);
+    }
+
     var closures = 0;
-    while (!_sameInstant(periodAnchor, currentPeriod.start)) {
+    while (BudgetCalculator.toDateOnly(periodAnchor)
+        .isBefore(BudgetCalculator.toDateOnly(currentStart))) {
       if (closures++ >= _maxPeriodClosures) break;
 
       final closingPeriod =
@@ -50,6 +80,7 @@ class BudgetPeriodRolloverService {
         categoryIds: working.categoryIds,
         start: closingPeriod.start,
         end: closingPeriod.end,
+        allCategories: working.allCategories,
       );
       final balance = working.amount - spent;
 
@@ -67,7 +98,9 @@ class BudgetPeriodRolloverService {
           }
       }
 
-      periodAnchor = closingPeriod.end.add(const Duration(seconds: 1));
+      periodAnchor = BudgetCalculator.normalizePeriodStart(
+        BudgetCalculator.nextPeriodStart(working, closingPeriod),
+      );
       working = working.copy(
         rolloverAmount: newRollover,
         periodStart: periodAnchor,
@@ -75,9 +108,26 @@ class BudgetPeriodRolloverService {
       );
     }
 
-    return working;
+    if (working.rolloverAmount == budget.rolloverAmount &&
+        working.startDay == budget.startDay &&
+        budget.periodStart != null &&
+        BudgetCalculator.sameCalendarDay(budget.periodStart!, currentStart)) {
+      return budget;
+    }
+
+    return _withPeriodStart(working, budget, currentStart, now);
   }
 
-  static bool _sameInstant(DateTime a, DateTime b) =>
-      a.toUtc().millisecondsSinceEpoch == b.toUtc().millisecondsSinceEpoch;
+  static Budget _withPeriodStart(
+    Budget working,
+    Budget original,
+    DateTime currentStart,
+    DateTime now,
+  ) {
+    final updated = working.copy(
+      periodStart: currentStart,
+      updatedAt: now,
+    );
+    return updated == original ? original : updated;
+  }
 }

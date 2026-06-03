@@ -16,6 +16,7 @@ import 'package:expense_tracker/core/presentation/common/page_view_with_indicato
 import 'package:expense_tracker/core/presentation/common/widgets/safe_vector_graphic.dart';
 import 'package:expense_tracker/features/transactions/presentation/pages/new_edit_transaction_flow/new_edit_transaction_page.dart';
 import 'package:expense_tracker/features/accounts/presentation/pages/accounts_list_page/new_edit_account_page.dart';
+import 'package:expense_tracker/features/accounts/presentation/pages/account_detail_page/account_rebalance_sheet.dart';
 import 'package:expense_tracker/core/style/app_theme.dart';
 import 'package:expense_tracker/core/style/style.dart';
 import 'package:flutter/material.dart';
@@ -95,7 +96,7 @@ class _AccountDetailPageState extends ConsumerState<AccountDetailPage>
             : appLocalizations.allTransactions),
         actions: [
           if (widget.account?.isOtherAccount == false)
-            _buildEditAction(context, appLocalizations)
+            _buildAccountActions(context, appLocalizations, referenceAccount),
         ],
       ),
       floatingActionButton: _buildFloatingActionButton(context),
@@ -221,25 +222,43 @@ class _AccountDetailPageState extends ConsumerState<AccountDetailPage>
     );
   }
 
-  Widget _buildEditAction(
-      BuildContext context, AppLocalizations appLocalizations) {
-    return TextButton(
-      child: Text(
-        appLocalizations.edit,
-        style: TextStyle(
-          color: Theme.of(context).appBarTheme.foregroundColor,
-        ),
-      ),
-      onPressed: () async {
-        final result = await Navigator.of(context).pushNamed(
-          NewEditAccountPage.routeName,
-          arguments: widget.account,
-        );
+  Widget _buildAccountActions(
+    BuildContext context,
+    AppLocalizations appLocalizations,
+    Account? referenceAccount,
+  ) {
+    final account = referenceAccount ?? widget.account;
+    if (account == null) return const SizedBox.shrink();
 
-        if (result == 'deleted' && context.mounted) {
-          Navigator.of(context).pop();
+    return PopupMenuButton<String>(
+      icon: Icon(
+        Icons.more_vert,
+        color: Theme.of(context).appBarTheme.foregroundColor,
+      ),
+      onSelected: (value) async {
+        switch (value) {
+          case 'correctBalance':
+            await showAccountRebalanceSheet(context, account);
+          case 'edit':
+            final result = await Navigator.of(context).pushNamed(
+              NewEditAccountPage.routeName,
+              arguments: widget.account,
+            );
+            if (result == 'deleted' && context.mounted) {
+              Navigator.of(context).pop();
+            }
         }
       },
+      itemBuilder: (context) => [
+        PopupMenuItem(
+          value: 'correctBalance',
+          child: Text(appLocalizations.correctBalance),
+        ),
+        PopupMenuItem(
+          value: 'edit',
+          child: Text(appLocalizations.edit),
+        ),
+      ],
     );
   }
 
@@ -548,6 +567,7 @@ class DateBar extends ConsumerWidget {
                           ),
                           Expanded(
                             child: ListView(
+                              padding: modalSheetScrollPadding(context),
                               shrinkWrap: true,
                               children: [
                                 ListTile(

@@ -2,6 +2,7 @@ import 'package:expense_tracker/features/accounts/domain/models/account_with_bal
 import 'package:expense_tracker/features/accounts/domain/models/account.dart';
 import 'package:expense_tracker/features/accounts/data/database/database_account_helper.dart';
 import 'package:expense_tracker/features/accounts/domain/repositories/accounts_repository.dart';
+import 'package:expense_tracker/features/transactions/data/database/database_transaction_helper.dart';
 
 class AccountsRepositoryImpl implements AccountsRepository {
   final dbHelper = DatabaseAccountHelper.instance;
@@ -35,5 +36,25 @@ class AccountsRepositoryImpl implements AccountsRepository {
       {String? otherAccountName}) async {
     return dbHelper.getAllAccountsWithBalance(
         otherAccountName: otherAccountName);
+  }
+
+  @override
+  Future<bool> rebalanceAccount({
+    required Account account,
+    required double realBalance,
+  }) async {
+    if (account.id == null) return false;
+
+    final transactionSum = await DatabaseTransactionHelper.instance
+        .getTransactionSum(null, null, account);
+
+    final displayedBalance = transactionSum + account.rebalanceOffset;
+    final newOffset =
+        account.rebalanceOffset + (realBalance - displayedBalance);
+
+    return dbHelper.updateRebalanceOffset(
+      accountId: account.id!,
+      rebalanceOffset: newOffset,
+    );
   }
 }

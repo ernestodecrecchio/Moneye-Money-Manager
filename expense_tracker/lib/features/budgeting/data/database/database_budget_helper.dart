@@ -20,6 +20,7 @@ class BudgetFields {
     rolloverMode,
     rolloverAmount,
     periodStart,
+    allCategories,
     createdAt,
     updatedAt,
   ];
@@ -35,6 +36,7 @@ class BudgetFields {
   static const String rolloverMode = 'rolloverMode';
   static const String rolloverAmount = 'rolloverAmount';
   static const String periodStart = 'periodStart';
+  static const String allCategories = 'allCategories';
   static const String createdAt = 'createdAt';
   static const String updatedAt = 'updatedAt';
 }
@@ -74,6 +76,7 @@ class BudgetMapper {
         createdAt: DateTime.parse(json[BudgetFields.createdAt] as String),
         updatedAt: DateTime.parse(json[BudgetFields.updatedAt] as String),
         categoryIds: categoryIds,
+        allCategories: (json[BudgetFields.allCategories] as int? ?? 0) == 1,
       );
 
   static Map<String, Object?> toJson(Budget budget) => {
@@ -88,6 +91,7 @@ class BudgetMapper {
         BudgetFields.rolloverMode: budget.rolloverMode.toString(),
         BudgetFields.rolloverAmount: budget.rolloverAmount,
         BudgetFields.periodStart: budget.periodStart?.toIso8601String(),
+        BudgetFields.allCategories: budget.allCategories ? 1 : 0,
         BudgetFields.createdAt: budget.createdAt.toIso8601String(),
         BudgetFields.updatedAt: budget.updatedAt.toIso8601String(),
       };
@@ -111,6 +115,7 @@ class DatabaseBudgetHelper {
         ${BudgetFields.rolloverMode} ${DatabaseTypes.textType},
         ${BudgetFields.rolloverAmount} ${DatabaseTypes.realType},
         ${BudgetFields.periodStart} ${DatabaseTypes.textTypeNullable},
+        ${BudgetFields.allCategories} ${DatabaseTypes.integerType},
         ${BudgetFields.createdAt} ${DatabaseTypes.textType},
         ${BudgetFields.updatedAt} ${DatabaseTypes.textType}
       )
@@ -124,6 +129,13 @@ class DatabaseBudgetHelper {
         FOREIGN KEY (${BudgetCategoryFields.budgetId}) REFERENCES $budgetsTable (${BudgetFields.id}) ON DELETE CASCADE,
         FOREIGN KEY (${BudgetCategoryFields.categoryId}) REFERENCES $categoriesTable (${CategoryFields.id}) ON DELETE CASCADE
       )
+    ''');
+  }
+
+  static void updateBudgetsTableV5toV6(Batch batch) {
+    batch.execute('''
+      ALTER TABLE $budgetsTable
+      ADD COLUMN ${BudgetFields.allCategories} ${DatabaseTypes.integerType} DEFAULT 0
     ''');
   }
 
@@ -163,11 +175,13 @@ class DatabaseBudgetHelper {
     return await db.transaction((txn) async {
       final id = await txn.insert(budgetsTable, BudgetMapper.toJson(budget));
 
-      for (final categoryId in budget.categoryIds) {
-        await txn.insert(budgetCategoriesTable, {
-          BudgetCategoryFields.budgetId: id,
-          BudgetCategoryFields.categoryId: categoryId,
-        });
+      if (!budget.allCategories) {
+        for (final categoryId in budget.categoryIds) {
+          await txn.insert(budgetCategoriesTable, {
+            BudgetCategoryFields.budgetId: id,
+            BudgetCategoryFields.categoryId: categoryId,
+          });
+        }
       }
 
       return budget.copy(id: id);
@@ -196,11 +210,13 @@ class DatabaseBudgetHelper {
           whereArgs: [budgetToEdit.id],
         );
 
-        for (final categoryId in modifiedBudget.categoryIds) {
-          await txn.insert(budgetCategoriesTable, {
-            BudgetCategoryFields.budgetId: budgetToEdit.id,
-            BudgetCategoryFields.categoryId: categoryId,
-          });
+        if (!modifiedBudget.allCategories) {
+          for (final categoryId in modifiedBudget.categoryIds) {
+            await txn.insert(budgetCategoriesTable, {
+              BudgetCategoryFields.budgetId: budgetToEdit.id,
+              BudgetCategoryFields.categoryId: categoryId,
+            });
+          }
         }
         return true;
       }

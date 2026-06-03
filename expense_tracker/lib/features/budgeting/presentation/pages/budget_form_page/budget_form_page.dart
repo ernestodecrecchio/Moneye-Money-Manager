@@ -47,6 +47,7 @@ class _BudgetFormPageState extends ConsumerState<BudgetFormPage> {
   DateTime? _customStartDate;
   DateTime? _customEndDate;
   List<int> _selectedCategoryIds = [];
+  bool _allCategories = false;
   RolloverMode _rolloverMode = RolloverMode.none;
 
   @override
@@ -64,6 +65,14 @@ class _BudgetFormPageState extends ConsumerState<BudgetFormPage> {
       text: formatWeekdayLabel(_startWeekday ?? 1),
     );
 
+    if (budget == null) {
+      final today = DateTime.now();
+      _startDay = today.day;
+      _startWeekday = today.weekday;
+      _startDayController.text = '$_startDay';
+      _startWeekdayController.text = formatWeekdayLabel(_startWeekday!);
+    }
+
     if (budget != null) {
       _selectedPeriodType = budget.periodType;
       _startDay = budget.startDay;
@@ -71,6 +80,7 @@ class _BudgetFormPageState extends ConsumerState<BudgetFormPage> {
       _customStartDate = budget.customStartDate;
       _customEndDate = budget.customEndDate;
       _selectedCategoryIds = List.from(budget.categoryIds);
+      _allCategories = budget.allCategories;
       _rolloverMode = budget.rolloverMode;
       _startDayController.text = '${_startDay ?? 1}';
       _startWeekdayController.text = formatWeekdayLabel(_startWeekday ?? 1);
@@ -141,7 +151,8 @@ class _BudgetFormPageState extends ConsumerState<BudgetFormPage> {
                           : null,
                     ),
                     const SizedBox(height: 14),
-                    _buildCategorySelectionSection(appLocalizations, categories),
+                    _buildCategorySelectionSection(
+                        appLocalizations, categories),
                     const SizedBox(height: 24),
                     Text(appLocalizations.budgetDuration,
                         style: const TextStyle(
@@ -159,7 +170,8 @@ class _BudgetFormPageState extends ConsumerState<BudgetFormPage> {
                       BudgetRolloverModeSelector(
                         value: _rolloverMode,
                         localizations: appLocalizations,
-                        onChanged: (mode) => setState(() => _rolloverMode = mode),
+                        onChanged: (mode) =>
+                            setState(() => _rolloverMode = mode),
                       ),
                     ],
                     const SizedBox(height: 40),
@@ -201,16 +213,41 @@ class _BudgetFormPageState extends ConsumerState<BudgetFormPage> {
             fontWeight: FontWeight.w600,
           ),
         ),
-        GestureDetector(
-          onTap: () async {
-            final selected = await showMultiCategoryBottomSheet(
-                context, _selectedCategoryIds);
-            if (selected != null) {
-              setState(() {
-                _selectedCategoryIds = selected;
-              });
-            }
+        CheckboxListTile(
+          value: _allCategories,
+          onChanged: (value) {
+            setState(() {
+              _allCategories = value ?? false;
+              if (_allCategories) {
+                _selectedCategoryIds = [];
+              }
+            });
           },
+          contentPadding: EdgeInsets.zero,
+          controlAffinity: ListTileControlAffinity.leading,
+          title: Text(
+            appLocalizations.allCategories,
+            style: textTheme.bodyLarge,
+          ),
+          subtitle: Text(
+            appLocalizations.allCategoriesDescription,
+            style: textTheme.bodySmall?.copyWith(
+              color: colors.textSecondary,
+            ),
+          ),
+        ),
+        GestureDetector(
+          onTap: _allCategories
+              ? null
+              : () async {
+                  final selected = await showMultiCategoryBottomSheet(
+                      context, _selectedCategoryIds);
+                  if (selected != null) {
+                    setState(() {
+                      _selectedCategoryIds = selected;
+                    });
+                  }
+                },
           child: Container(
             width: double.infinity,
             constraints: const BoxConstraints(minHeight: 48),
@@ -222,81 +259,94 @@ class _BudgetFormPageState extends ConsumerState<BudgetFormPage> {
               color: colors.fieldBackground,
               borderRadius: BorderRadius.circular(40),
             ),
-            child: Row(
-              spacing: 8,
-              children: [
-                Expanded(
-                  child: selectedCategories.isEmpty
-                      ? Text(
-                          appLocalizations.selectCategories,
-                          style: textTheme.bodyMedium?.copyWith(
-                            color: colors.textSecondary.withAlpha(150),
-                          ),
-                        )
-                      : Wrap(
-                          spacing: 6,
-                          runSpacing: 6,
-                          children: selectedCategories.map(
-                            (category) {
-                              return GestureDetector(
-                                onTap: () {
-                                  setState(() {
-                                    _selectedCategoryIds.remove(category.id);
-                                  });
-                                },
-                                child: Container(
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 10,
-                                    vertical: 5,
-                                  ),
-                                  decoration: BoxDecoration(
-                                    color:
-                                        category.color.withValues(alpha: 0.12),
-                                    borderRadius: BorderRadius.circular(20),
-                                    border: Border.all(
-                                      color:
-                                          category.color.withValues(alpha: 0.3),
-                                    ),
-                                  ),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      IconItem(
-                                        backgroundColor: category.color,
-                                        iconPath: category.iconPath,
-                                        shape: BoxShape.circle,
-                                        size: 20,
-                                      ),
-                                      const SizedBox(width: 5),
-                                      Text(
-                                        category.name,
-                                        style: TextStyle(
-                                          color: category.color,
-                                          fontWeight: FontWeight.w600,
-                                          fontSize: 12,
+            child: Opacity(
+              opacity: _allCategories ? 0.5 : 1,
+              child: Row(
+                spacing: 8,
+                children: [
+                  Expanded(
+                    child: _allCategories
+                        ? Text(
+                            appLocalizations.allCategories,
+                            style: textTheme.bodyMedium?.copyWith(
+                              fontWeight: FontWeight.w600,
+                            ),
+                          )
+                        : selectedCategories.isEmpty
+                            ? Text(
+                                appLocalizations.selectCategories,
+                                style: textTheme.bodyMedium?.copyWith(
+                                  color: colors.textSecondary.withAlpha(150),
+                                ),
+                              )
+                            : Wrap(
+                                spacing: 6,
+                                runSpacing: 6,
+                                children: selectedCategories.map(
+                                  (category) {
+                                    return GestureDetector(
+                                      onTap: () {
+                                        setState(() {
+                                          _selectedCategoryIds
+                                              .remove(category.id);
+                                        });
+                                      },
+                                      child: Container(
+                                        padding: const EdgeInsets.symmetric(
+                                          horizontal: 10,
+                                          vertical: 5,
+                                        ),
+                                        decoration: BoxDecoration(
+                                          color: category.color
+                                              .withValues(alpha: 0.12),
+                                          borderRadius:
+                                              BorderRadius.circular(20),
+                                          border: Border.all(
+                                            color: category.color
+                                                .withValues(alpha: 0.3),
+                                          ),
+                                        ),
+                                        child: Row(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            IconItem(
+                                              backgroundColor: category.color,
+                                              iconPath: category.iconPath,
+                                              shape: BoxShape.circle,
+                                              size: 20,
+                                            ),
+                                            const SizedBox(width: 5),
+                                            Text(
+                                              category.name,
+                                              style: TextStyle(
+                                                color: category.color,
+                                                fontWeight: FontWeight.w600,
+                                                fontSize: 12,
+                                              ),
+                                            ),
+                                            const SizedBox(width: 3),
+                                            Icon(
+                                              Icons.close,
+                                              size: 13,
+                                              color: category.color
+                                                  .withValues(alpha: 0.6),
+                                            ),
+                                          ],
                                         ),
                                       ),
-                                      const SizedBox(width: 3),
-                                      Icon(
-                                        Icons.close,
-                                        size: 13,
-                                        color: category.color
-                                            .withValues(alpha: 0.6),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              );
-                            },
-                          ).toList(),
-                        ),
-                ),
-                Icon(
-                  Icons.chevron_right_rounded,
-                  color: colors.primary,
-                  size: 18,
-                ),
-              ],
+                                    );
+                                  },
+                                ).toList(),
+                              ),
+                  ),
+                  if (!_allCategories)
+                    Icon(
+                      Icons.chevron_right_rounded,
+                      color: colors.primary,
+                      size: 18,
+                    ),
+                ],
+              ),
             ),
           ),
         ),
@@ -321,7 +371,21 @@ class _BudgetFormPageState extends ConsumerState<BudgetFormPage> {
       selected: {_selectedPeriodType},
       onSelectionChanged: (set) {
         setState(() {
-          _selectedPeriodType = set.first;
+          final next = set.first;
+          if (next == PeriodType.weekly &&
+              _selectedPeriodType != PeriodType.weekly) {
+            _startWeekday ??= DateTime.now().weekday;
+            _startWeekdayController.text = formatWeekdayLabel(
+              _startWeekday!,
+              localeName: appLocalizations.localeName,
+            );
+          }
+          if (next == PeriodType.monthly &&
+              _selectedPeriodType != PeriodType.monthly) {
+            _startDay ??= DateTime.now().day;
+            _startDayController.text = '$_startDay';
+          }
+          _selectedPeriodType = next;
         });
       },
     );
@@ -493,7 +557,7 @@ class _BudgetFormPageState extends ConsumerState<BudgetFormPage> {
   Future<void> _saveBudget() async {
     final appLocalizations = ref.read(appLocalizationsProvider);
     if (!_formKey.currentState!.validate()) return;
-    if (_selectedCategoryIds.isEmpty) {
+    if (!_allCategories && _selectedCategoryIds.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text(appLocalizations.selectAtLeastOneCategory)));
       return;
@@ -516,13 +580,14 @@ class _BudgetFormPageState extends ConsumerState<BudgetFormPage> {
           _selectedPeriodType == PeriodType.custom ? _customEndDate : null,
       createdAt: initial?.createdAt ?? now,
       updatedAt: now,
-      categoryIds: _selectedCategoryIds,
+      categoryIds: _allCategories ? [] : _selectedCategoryIds,
+      allCategories: _allCategories,
     );
 
     final currentPeriod = BudgetCalculator.getPeriodBoundaries(draft, now);
     final periodStart = _selectedPeriodType == PeriodType.custom
         ? _customStartDate
-        : currentPeriod.start;
+        : BudgetCalculator.normalizePeriodStart(currentPeriod.start);
 
     final budget = Budget(
       id: initial?.id,
@@ -537,8 +602,11 @@ class _BudgetFormPageState extends ConsumerState<BudgetFormPage> {
           ? RolloverMode.none
           : _rolloverMode,
       rolloverAmount: periodConfigChanged ? 0 : (initial?.rolloverAmount ?? 0),
-      periodStart: periodConfigChanged ? periodStart : (initial?.periodStart ?? periodStart),
+      periodStart: periodConfigChanged
+          ? periodStart
+          : (initial?.periodStart ?? periodStart),
       categoryIds: draft.categoryIds,
+      allCategories: draft.allCategories,
       createdAt: draft.createdAt,
       updatedAt: draft.updatedAt,
     );

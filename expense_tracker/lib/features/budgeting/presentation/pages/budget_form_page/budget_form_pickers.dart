@@ -85,6 +85,7 @@ class _DayOfMonthPickerSheet extends StatelessWidget {
           ),
           Expanded(
             child: ListView.builder(
+              padding: modalSheetScrollPadding(context),
               itemCount: 31,
               itemBuilder: (context, index) {
                 final day = index + 1;
@@ -148,6 +149,7 @@ class _WeekdayPickerSheet extends StatelessWidget {
           ),
           Expanded(
             child: ListView.builder(
+              padding: modalSheetScrollPadding(context),
               itemCount: 7,
               itemBuilder: (context, index) {
                 final weekday = index + 1;

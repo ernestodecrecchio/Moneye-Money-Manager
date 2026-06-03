@@ -340,6 +340,18 @@ abstract class AppLocalizations {
   /// **'Select categories'**
   String get selectCategories;
 
+  /// No description provided for @allCategories.
+  ///
+  /// In en, this message translates to:
+  /// **'All categories'**
+  String get allCategories;
+
+  /// No description provided for @allCategoriesDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Includes every category, including ones you add later'**
+  String get allCategoriesDescription;
+
   /// No description provided for @category.
   ///
   /// In en, this message translates to:
@@ -1467,6 +1479,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'yes'**
   String get yes;
+
+  /// No description provided for @correctBalance.
+  ///
+  /// In en, this message translates to:
+  /// **'Correct balance'**
+  String get correctBalance;
+
+  /// No description provided for @currentCalculatedBalance.
+  ///
+  /// In en, this message translates to:
+  /// **'Current balance'**
+  String get currentCalculatedBalance;
+
+  /// No description provided for @realBalance.
+  ///
+  /// In en, this message translates to:
+  /// **'Real balance'**
+  String get realBalance;
+
+  /// No description provided for @realBalancePlaceholder.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter the actual balance of the account'**
+  String get realBalancePlaceholder;
+
+  /// No description provided for @rebalanceAdjustment.
+  ///
+  /// In en, this message translates to:
+  /// **'Adjustment'**
+  String get rebalanceAdjustment;
+
+  /// No description provided for @rebalanceSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Balance corrected successfully'**
+  String get rebalanceSuccess;
 
   /// No description provided for @confirmTransferTransactionsMessage.
   ///

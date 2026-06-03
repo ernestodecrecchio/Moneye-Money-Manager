@@ -34,6 +34,7 @@ abstract class TransactionsRepository {
     required List<int> categoryIds,
     required DateTime start,
     required DateTime end,
+    bool allCategories = false,
   });
 
   Future<int> deleteTransactionsByCategory({required Category category});

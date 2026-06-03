@@ -127,19 +127,10 @@ class ExpandedBudgetCard extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final progressAsync = ref.watch(budgetProgressProvider(budget));
 
-    return progressAsync.when(
-      data: (progress) => _buildContent(context, ref, progress),
-      loading: () => _buildContent(
-        context,
-        ref,
-        budgetProgressPlaceholder(budget),
-      ),
-      error: (_, __) => _buildContent(
-        context,
-        ref,
-        budgetProgressPlaceholder(budget),
-      ),
-    );
+    final progress = progressAsync.value ??
+        budgetProgressPlaceholder(budget);
+
+    return _buildContent(context, ref, progress);
   }
 
   Widget _buildContent(
@@ -259,19 +250,10 @@ class CompactBudgetCard extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final progressAsync = ref.watch(budgetProgressProvider(budget));
 
-    return progressAsync.when(
-      data: (progress) => _buildContent(context, ref, progress),
-      loading: () => _buildContent(
-        context,
-        ref,
-        budgetProgressPlaceholder(budget),
-      ),
-      error: (_, __) => _buildContent(
-        context,
-        ref,
-        budgetProgressPlaceholder(budget),
-      ),
-    );
+    final progress = progressAsync.value ??
+        budgetProgressPlaceholder(budget);
+
+    return _buildContent(context, ref, progress);
   }
 
   Widget _buildContent(

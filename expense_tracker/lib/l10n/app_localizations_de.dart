@@ -128,6 +128,13 @@ class AppLocalizationsDe extends AppLocalizations {
   String get selectCategories => 'Kategorien auswählen';
 
   @override
+  String get allCategories => 'Alle Kategorien';
+
+  @override
+  String get allCategoriesDescription =>
+      'Umfasst alle Kategorien, auch zukünftig hinzugefügte';
+
+  @override
   String get category => 'Kategorie';
 
   @override
@@ -790,6 +797,25 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get yes => 'ja';
+
+  @override
+  String get correctBalance => 'Saldo korrigieren';
+
+  @override
+  String get currentCalculatedBalance => 'Aktueller Saldo';
+
+  @override
+  String get realBalance => 'Tatsächlicher Saldo';
+
+  @override
+  String get realBalancePlaceholder =>
+      'Geben Sie den tatsächlichen Kontostand ein';
+
+  @override
+  String get rebalanceAdjustment => 'Anpassung';
+
+  @override
+  String get rebalanceSuccess => 'Saldo erfolgreich korrigiert';
 
   @override
   String confirmTransferTransactionsMessage(

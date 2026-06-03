@@ -53,11 +53,13 @@ class TransactionsRepositoryImpl implements TransactionsRepository {
     required List<int> categoryIds,
     required DateTime start,
     required DateTime end,
+    bool allCategories = false,
   }) async {
     return dbHelper.sumExpensesForBudgetPeriod(
       categoryIds: categoryIds,
       start: start,
       end: end,
+      allCategories: allCategories,
     );
   }
 

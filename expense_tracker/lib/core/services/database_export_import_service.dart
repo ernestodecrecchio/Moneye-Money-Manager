@@ -211,11 +211,15 @@ class DatabaseExportImportService {
           final budgetId = await txn.insert(budgetsTable, budgetMap);
 
           // Restore the many-to-many relationships in the budget_categories table
-          for (final categoryId in categoryIds) {
-            await txn.insert(budgetCategoriesTable, {
-              BudgetCategoryFields.budgetId: budgetId,
-              BudgetCategoryFields.categoryId: categoryId,
-            });
+          final allCategories =
+              (budgetMap[BudgetFields.allCategories] as int? ?? 0) == 1;
+          if (!allCategories) {
+            for (final categoryId in categoryIds) {
+              await txn.insert(budgetCategoriesTable, {
+                BudgetCategoryFields.budgetId: budgetId,
+                BudgetCategoryFields.categoryId: categoryId,
+              });
+            }
           }
         }
       }

@@ -159,6 +159,7 @@ class _IconSelectorContentState extends ConsumerState<IconSelectorContent> {
                 controller: _scrollController,
                 child: ListView.separated(
                   controller: _scrollController,
+                  padding: modalSheetScrollPadding(context),
                   shrinkWrap: true,
                   itemCount: categorizedIcons.length,
                   separatorBuilder: (context, index) =>

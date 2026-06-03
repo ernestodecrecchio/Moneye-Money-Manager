@@ -46,6 +46,25 @@ class AccountMutationNotifier extends AsyncNotifier<void> {
     });
   }
 
+  Future<bool> rebalanceAccount(Account account, double realBalance) async {
+    var success = false;
+
+    state = const AsyncLoading();
+
+    state = await AsyncValue.guard(() async {
+      success = await _repo.rebalanceAccount(
+        account: account,
+        realBalance: realBalance,
+      );
+
+      ref.invalidate(accountsListProvider);
+      ref.invalidate(accountsWithBalanceProvider);
+      ref.invalidate(totalBalanceProvider);
+    });
+
+    return success;
+  }
+
   Future<void> deleteAccount(Account account) async {
     state = const AsyncLoading();
 

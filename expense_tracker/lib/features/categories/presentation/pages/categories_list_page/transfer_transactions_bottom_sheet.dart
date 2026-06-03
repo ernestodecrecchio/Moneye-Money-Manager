@@ -53,6 +53,7 @@ class _TransferTransactionsBottomSheetState
     return Padding(
       padding: const EdgeInsets.only(top: 10),
       child: Column(
+        spacing: 6,
         children: [
           // Header
           Padding(
@@ -81,7 +82,6 @@ class _TransferTransactionsBottomSheetState
               ],
             ),
           ),
-          const SizedBox(height: 6),
           // Category list
           Expanded(
             child: ref.watch(categoriesListProvider).when(
@@ -97,6 +97,7 @@ class _TransferTransactionsBottomSheetState
                     }
 
                     return ListView.builder(
+                      padding: modalSheetScrollPadding(context),
                       shrinkWrap: true,
                       itemCount: filteredList.length + 1,
                       itemBuilder: (BuildContext context, int index) {

@@ -128,6 +128,13 @@ class AppLocalizationsTr extends AppLocalizations {
   String get selectCategories => 'Kategorileri seç';
 
   @override
+  String get allCategories => 'Tüm kategoriler';
+
+  @override
+  String get allCategoriesDescription =>
+      'Sonradan eklenenler dahil tüm kategorileri kapsar';
+
+  @override
   String get category => 'Kategori';
 
   @override
@@ -778,6 +785,24 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get yes => 'evet';
+
+  @override
+  String get correctBalance => 'Bakiyeyi düzelt';
+
+  @override
+  String get currentCalculatedBalance => 'Mevcut bakiye';
+
+  @override
+  String get realBalance => 'Gerçek bakiye';
+
+  @override
+  String get realBalancePlaceholder => 'Hesabın gerçek bakiyesini girin';
+
+  @override
+  String get rebalanceAdjustment => 'Düzeltme';
+
+  @override
+  String get rebalanceSuccess => 'Bakiye başarıyla düzeltildi';
 
   @override
   String confirmTransferTransactionsMessage(

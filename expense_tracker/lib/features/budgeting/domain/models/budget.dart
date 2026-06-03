@@ -23,13 +23,17 @@ class Budget extends Equatable {
   /// Amount carried into the current period (positive = extra budget, negative = overspend debt).
   final double rolloverAmount;
 
-  /// Start of the active budget period; used to detect period transitions.
+  /// Start of the active period for rollover bookkeeping (not used for UI bounds).
+  /// The interval shown in the app is always derived from [PeriodType] + today.
   final DateTime? periodStart;
 
   final DateTime createdAt;
   final DateTime updatedAt;
 
-  final List<int> categoryIds; // IDs of associated categories
+  final List<int> categoryIds;
+
+  /// When true, includes every category (existing and future); stored on [budgets].
+  final bool allCategories;
 
   const Budget({
     this.id,
@@ -46,6 +50,7 @@ class Budget extends Equatable {
     required this.createdAt,
     required this.updatedAt,
     required this.categoryIds,
+    this.allCategories = false,
   });
 
   Budget copy({
@@ -63,6 +68,7 @@ class Budget extends Equatable {
     DateTime? createdAt,
     DateTime? updatedAt,
     List<int>? categoryIds,
+    bool? allCategories,
   }) {
     return Budget(
       id: id ?? this.id,
@@ -79,6 +85,7 @@ class Budget extends Equatable {
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
       categoryIds: categoryIds ?? this.categoryIds,
+      allCategories: allCategories ?? this.allCategories,
     );
   }
 
@@ -98,5 +105,6 @@ class Budget extends Equatable {
         createdAt,
         updatedAt,
         categoryIds,
+        allCategories,
       ];
 }

@@ -71,6 +71,7 @@ class _MultiCategorySelectorContentState
             child: ref.watch(categoriesListProvider).when(
                   data: (categoriesList) {
                     return ListView.builder(
+                        padding: modalSheetScrollPadding(context),
                         shrinkWrap: true,
                         itemCount: categoriesList.length,
                         itemBuilder: (BuildContext context, int index) {

@@ -8,11 +8,13 @@ final budgetPeriodSpentQueryProvider = Provider<BudgetPeriodSpentQuery>((ref) {
     required List<int> categoryIds,
     required DateTime start,
     required DateTime end,
+    required bool allCategories,
   }) {
     return repository.sumExpensesForBudgetPeriod(
       categoryIds: categoryIds,
       start: start,
       end: end,
+      allCategories: allCategories,
     );
   };
 });

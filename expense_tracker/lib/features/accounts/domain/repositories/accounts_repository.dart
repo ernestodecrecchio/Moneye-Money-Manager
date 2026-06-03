@@ -12,4 +12,9 @@ abstract class AccountsRepository {
   Future<List<Account>> getAccounts();
   Future<List<AccountWithBalance>> getAccountsListWithBalance(
       {String? otherAccountName});
+
+  Future<bool> rebalanceAccount({
+    required Account account,
+    required double realBalance,
+  });
 }

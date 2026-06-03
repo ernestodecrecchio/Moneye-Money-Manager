@@ -93,6 +93,8 @@
     "rollover": "Rollover",
     "budgetDuration": "Budget duration",
     "selectCategories": "Select categories",
+    "allCategories": "All categories",
+    "allCategoriesDescription": "Includes every category, including ones you add later",
     "category": "Category",
     "color": "Color",
     "contacts": "Contacts",
@@ -281,6 +283,12 @@
     "yearly": "Yearly",
     "yearlyInterval": "{count, plural, =1{Yearly} other{Every {count} years}}",
     "yes": "yes",
+    "correctBalance": "Correct balance",
+    "currentCalculatedBalance": "Current balance",
+    "realBalance": "Real balance",
+    "realBalancePlaceholder": "Enter the actual balance of the account",
+    "rebalanceAdjustment": "Adjustment",
+    "rebalanceSuccess": "Balance corrected successfully",
     "confirmTransferTransactionsMessage": "{count, plural, =1{1 transaction} other{{count} transactions}} will be transferred from {source} to {target}. Are you sure?",
     "@confirmTransferTransactionsMessage": {
         "placeholders": {

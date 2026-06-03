@@ -309,12 +309,17 @@ class DatabaseTransactionHelper {
     required List<int> categoryIds,
     required DateTime start,
     required DateTime end,
+    bool allCategories = false,
   }) async {
-    if (categoryIds.isEmpty) return 0;
+    if (!allCategories && categoryIds.isEmpty) return 0;
 
     final db = await DatabaseHelper.instance.database;
-    final categoryPlaceholders =
-        List.filled(categoryIds.length, '?').join(', ');
+
+    final categoryFilter = allCategories
+        ? ''
+        : '''
+        AND ${TransactionFields.categoryId} IN (${List.filled(categoryIds.length, '?').join(', ')})
+      ''';
 
     final query = '''
       SELECT COALESCE(SUM(ABS(${TransactionFields.amount})), 0) AS total
@@ -324,13 +329,13 @@ class DatabaseTransactionHelper {
         AND ${TransactionFields.amount} < 0
         AND date(${TransactionFields.date}) >= ?
         AND date(${TransactionFields.date}) <= ?
-        AND ${TransactionFields.categoryId} IN ($categoryPlaceholders)
+        $categoryFilter
     ''';
 
     final args = [
       formatDate(start),
       formatDate(end),
-      ...categoryIds,
+      if (!allCategories) ...categoryIds,
     ];
 
     final result = await db.rawQuery(query, args);
@@ -369,7 +374,14 @@ class DatabaseTransactionHelper {
     return result.map((json) => TransactionMapper.fromJson(json)).toList();
   }
 
-  Future<double> getTotalBalance(
+  /// Sums transaction [TransactionFields.amount] values (hidden rows excluded).
+  ///
+  /// Optional [startDate] / [endDate] bound the transaction date (inclusive).
+  /// [forAccount], when set, restricts the sum to that account.
+  ///
+  /// Does not include [Account.rebalanceOffset] corrections. For the balance
+  /// shown in the UI (transactions + rebalance), use [getTotalBalance].
+  Future<double> getTransactionSum(
     DateTime? startDate,
     DateTime? endDate,
     Account? forAccount,
@@ -382,34 +394,71 @@ class DatabaseTransactionHelper {
       WHERE ${TransactionFields.isHidden} = 0
     ''';
 
-    // Dynamic WHERE arguments
     List<dynamic> args = [];
 
-    // Optional: filter start date
     if (startDate != null) {
       query += ' AND date(${TransactionFields.date}) >= ?';
       args.add(formatDate(startDate));
     }
 
-    // Optional: filter end date
     if (endDate != null) {
       query += ' AND date(${TransactionFields.date}) <= ?';
       args.add(formatDate(endDate));
     }
 
-    // Optional: filter by account
     if (forAccount != null) {
       query += ' AND ${TransactionFields.accountId} = ?';
       args.add(forAccount.id);
     }
 
-    // Execute query
     final result = await dbInstance.rawQuery(query, args);
-
-    // sqflite returns: [{ "total_balance": 123.45 }] OR [{ "total_balance": null }]
     final value = result.first['total_balance'];
 
     return (value is num) ? value.toDouble() : 0.0;
+  }
+
+  /// Whether [getTotalBalance] should add rebalance offset(s) for this query.
+  ///
+  /// Returns `true` when [forAccount] is set (per-account displayed balance),
+  /// or when there is no date range (all-accounts net worth). Returns `false`
+  /// for date-bounded queries across all accounts so period comparisons reflect
+  /// transaction activity only.
+  bool _includesRebalanceOffset(
+    Account? forAccount,
+    DateTime? startDate,
+    DateTime? endDate,
+  ) {
+    if (forAccount != null) return true;
+    return startDate == null && endDate == null;
+  }
+
+  /// Displayed balance: [getTransactionSum] plus rebalance offset when applicable.
+  ///
+  /// Rebalance offset is included when [_includesRebalanceOffset] is `true`:
+  /// - [forAccount] set: that account's stored offset.
+  /// - No account and no dates: sum of all accounts' offsets (global net worth).
+  /// - Date range on all accounts: transaction sum only (no offset).
+  ///
+  /// [forAccount] with a date range still includes that account's offset, since
+  /// the result represents the account's corrected balance, not period flow.
+  Future<double> getTotalBalance(
+    DateTime? startDate,
+    DateTime? endDate,
+    Account? forAccount,
+  ) async {
+    final transactionSum =
+        await getTransactionSum(startDate, endDate, forAccount);
+
+    if (!_includesRebalanceOffset(forAccount, startDate, endDate)) {
+      return transactionSum;
+    }
+
+    final rebalanceOffset = forAccount != null
+        ? await DatabaseAccountHelper.instance
+            .getRebalanceOffset(forAccount.id!)
+        : await DatabaseAccountHelper.instance.getTotalRebalanceOffset();
+
+    return transactionSum + rebalanceOffset;
   }
 
   Future<List<trans.Transaction>> getTransactions(

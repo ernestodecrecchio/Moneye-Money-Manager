@@ -127,6 +127,13 @@ class AppLocalizationsPt extends AppLocalizations {
   String get selectCategories => 'Selecionar categorias';
 
   @override
+  String get allCategories => 'Todas as categorias';
+
+  @override
+  String get allCategoriesDescription =>
+      'Inclui todas as categorias, inclusive as criadas depois';
+
+  @override
   String get category => 'Categoria';
 
   @override
@@ -780,6 +787,24 @@ class AppLocalizationsPt extends AppLocalizations {
   String get yes => 'sim';
 
   @override
+  String get correctBalance => 'Corrigir saldo';
+
+  @override
+  String get currentCalculatedBalance => 'Saldo atual';
+
+  @override
+  String get realBalance => 'Saldo real';
+
+  @override
+  String get realBalancePlaceholder => 'Insira o saldo real da conta';
+
+  @override
+  String get rebalanceAdjustment => 'Ajuste';
+
+  @override
+  String get rebalanceSuccess => 'Saldo corrigido com sucesso';
+
+  @override
   String confirmTransferTransactionsMessage(
       int count, String source, String target) {
     String _temp0 = intl.Intl.pluralLogic(
@@ -922,6 +947,13 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
 
   @override
   String get selectCategories => 'Selecionar categorias';
+
+  @override
+  String get allCategories => 'Todas as categorias';
+
+  @override
+  String get allCategoriesDescription =>
+      'Inclui todas as categorias, inclusive as criadas depois';
 
   @override
   String get category => 'Categoria';
@@ -1577,6 +1609,24 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   String get yes => 'sim';
 
   @override
+  String get correctBalance => 'Corrigir saldo';
+
+  @override
+  String get currentCalculatedBalance => 'Saldo atual';
+
+  @override
+  String get realBalance => 'Saldo real';
+
+  @override
+  String get realBalancePlaceholder => 'Insira o saldo real da conta';
+
+  @override
+  String get rebalanceAdjustment => 'Ajuste';
+
+  @override
+  String get rebalanceSuccess => 'Saldo corrigido com sucesso';
+
+  @override
   String confirmTransferTransactionsMessage(
       int count, String source, String target) {
     String _temp0 = intl.Intl.pluralLogic(
@@ -1720,6 +1770,13 @@ class AppLocalizationsPtPt extends AppLocalizationsPt {
 
   @override
   String get selectCategories => 'Selecionar categorias';
+
+  @override
+  String get allCategories => 'Todas as categorias';
+
+  @override
+  String get allCategoriesDescription =>
+      'Inclui todas as categorias, inclusive as criadas depois';
 
   @override
   String get category => 'Categoria';
@@ -2374,6 +2431,24 @@ class AppLocalizationsPtPt extends AppLocalizationsPt {
 
   @override
   String get yes => 'sim';
+
+  @override
+  String get correctBalance => 'Corrigir saldo';
+
+  @override
+  String get currentCalculatedBalance => 'Saldo atual';
+
+  @override
+  String get realBalance => 'Saldo real';
+
+  @override
+  String get realBalancePlaceholder => 'Introduza o saldo real da conta';
+
+  @override
+  String get rebalanceAdjustment => 'Ajuste';
+
+  @override
+  String get rebalanceSuccess => 'Saldo corrigido com sucesso';
 
   @override
   String confirmTransferTransactionsMessage(

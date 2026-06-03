@@ -3,4 +3,5 @@ typedef BudgetPeriodSpentQuery = Future<double> Function({
   required List<int> categoryIds,
   required DateTime start,
   required DateTime end,
+  required bool allCategories,
 });

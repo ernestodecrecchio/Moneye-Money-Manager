@@ -1,29 +1,10 @@
-import 'package:expense_tracker/core/presentation/common/amount_keyboard/amount_keyboard.dart';
 import 'package:flutter/material.dart';
 
-/// Layout constants for [AmountKeyboard] height (shared with scroll-into-view).
-class AmountKeyboardMetrics {
-  AmountKeyboardMetrics._();
-
-  static const int numRows = 5;
-  static const double rowHeight = 52;
-  static const double spacing = 8;
-  static const double padding = 16;
-
-  static double fullHeight(BuildContext context) {
-    final bottomSafeArea = MediaQuery.paddingOf(context).bottom;
-    return (numRows * rowHeight) +
-        ((numRows - 1) * spacing) +
-        padding +
-        bottomSafeArea;
-  }
-}
-
-/// Host that shows [AmountKeyboard] when an [AmountTextField] is focused.
+/// Supplies an optional [doneLabel] for [AmountTextField] widgets below.
 ///
-/// The keyboard is drawn in the root [Overlay] (on top of page chrome) and
-/// injects [MediaQuery.viewInsets] so layouts behave like the system keyboard.
-class AmountKeyboardScope extends StatefulWidget {
+/// Keyboard presentation and [MediaQuery.viewInsets] are handled globally by
+/// [AmountKeyboardHost] and [AmountKeyboardController].
+class AmountKeyboardScope extends StatelessWidget {
   final Widget child;
   final String? doneLabel;
 
@@ -33,230 +14,31 @@ class AmountKeyboardScope extends StatefulWidget {
     this.doneLabel,
   });
 
-  static AmountKeyboardScopeState? maybeOf(BuildContext context) {
+  static String? doneLabelOf(BuildContext context) {
     return context
         .dependOnInheritedWidgetOfExactType<_AmountKeyboardScopeInherited>()
-        ?.scope;
+        ?.doneLabel;
   }
 
   @override
-  State<AmountKeyboardScope> createState() => AmountKeyboardScopeState();
+  Widget build(BuildContext context) {
+    return _AmountKeyboardScopeInherited(
+      doneLabel: doneLabel,
+      child: child,
+    );
+  }
 }
 
 class _AmountKeyboardScopeInherited extends InheritedWidget {
-  final AmountKeyboardScopeState scope;
+  final String? doneLabel;
 
   const _AmountKeyboardScopeInherited({
-    required this.scope,
+    required this.doneLabel,
     required super.child,
   });
 
   @override
   bool updateShouldNotify(_AmountKeyboardScopeInherited oldWidget) {
-    return scope != oldWidget.scope;
-  }
-}
-
-class AmountKeyboardScopeState extends State<AmountKeyboardScope>
-    with SingleTickerProviderStateMixin {
-  final ValueNotifier<int> keyboardRevision = ValueNotifier(0);
-  final OverlayPortalController _portalController = OverlayPortalController();
-
-  late final AnimationController _animationController;
-  late final Animation<double> _curveAnimation;
-
-  TextEditingController? _activeController;
-  FocusNode? _activeFocusNode;
-  VoidCallback? _onDone;
-
-  bool get isKeyboardVisible =>
-      _activeController != null && (_activeFocusNode?.hasFocus ?? false);
-
-  /// Bottom inset applied while the keyboard is open (for [MediaQuery]).
-  /// Animates in sync with the slide-up transition.
-  double get keyboardInset {
-    if (_activeController == null) return 0;
-
-    return AmountKeyboardMetrics.fullHeight(context) * _curveAnimation.value;
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _animationController = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 250), // Matches system keyboard speed
-    );
-    _curveAnimation = CurvedAnimation(
-      parent: _animationController,
-      curve: Curves.fastOutSlowIn, // iOS/Android standard physical curve
-      reverseCurve: Curves.fastOutSlowIn.flipped,
-    );
-    _animationController.addListener(_onAnimationTick);
-  }
-
-  void _onAnimationTick() {
-    setState(() {});
-    keyboardRevision.value++;
-  }
-
-  void attach({
-    required TextEditingController controller,
-    required FocusNode focusNode,
-    VoidCallback? onDone,
-    VoidCallback? onPresented,
-  }) {
-    setState(() {
-      _activeController = controller;
-      _activeFocusNode = focusNode;
-      _onDone = onDone;
-    });
-
-    _portalController.show();
-    _animationController.forward().then((_) {
-      if (!mounted) return;
-      if (_activeController == controller &&
-          _activeFocusNode == focusNode &&
-          focusNode.hasFocus) {
-        onPresented?.call();
-      }
-    });
-    keyboardRevision.value++;
-  }
-
-  void detach({
-    required TextEditingController controller,
-    required FocusNode focusNode,
-  }) {
-    if (_activeController != controller || _activeFocusNode != focusNode) {
-      return;
-    }
-
-    // Smoothly slide down first
-    _animationController.reverse().then((_) {
-      if (!mounted) return;
-      // After it slides down completely, clean up the state and hide the portal
-      if (_activeController == controller && _activeFocusNode == focusNode) {
-        setState(() {
-          _activeController = null;
-          _activeFocusNode = null;
-          _onDone = null;
-        });
-        _portalController.hide();
-        keyboardRevision.value++;
-      }
-    });
-  }
-
-  void _dismissKeyboard() {
-    _activeFocusNode?.unfocus();
-  }
-
-  void _handleDonePressed() {
-    _onDone?.call();
-    _dismissKeyboard();
-  }
-
-  Widget _buildOverlay(BuildContext context) {
-    if (_activeController == null) return const SizedBox.shrink();
-
-    final scopeContext = this.context;
-    final theme = Theme.of(scopeContext);
-
-    final fullHeight = AmountKeyboardMetrics.fullHeight(scopeContext);
-
-    return Positioned(
-      left: 0,
-      right: 0,
-      bottom: 0,
-      child: AnimatedBuilder(
-        animation: _curveAnimation,
-        builder: (context, child) {
-          final translationY = fullHeight * (1.0 - _curveAnimation.value);
-          return Transform.translate(
-            offset: Offset(0, translationY),
-            child: child,
-          );
-        },
-        child: GestureDetector(
-          onTap: () {}, // Swallows taps on the keyboard background to prevent unfocus
-          behavior: HitTestBehavior.opaque,
-          child: SizedBox(
-            height: fullHeight,
-            child: Theme(
-              data: theme,
-              child: Material(
-                elevation: 8,
-                color: theme.scaffoldBackgroundColor,
-                child: AmountKeyboard(
-                  controller: _activeController!,
-                  doneLabel: widget.doneLabel,
-                  onDone: _handleDonePressed, // Always pass the handler to ensure Done key renders
-                ),
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  @override
-  void dispose() {
-    _animationController.dispose();
-    if (_portalController.isShowing) {
-      _portalController.hide();
-    }
-    keyboardRevision.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final mediaQuery = MediaQuery.of(context);
-    final inset = keyboardInset;
-
-    final child = inset > 0
-        ? MediaQuery(
-            data: mediaQuery.copyWith(
-              viewInsets: mediaQuery.viewInsets.copyWith(
-                bottom: mediaQuery.viewInsets.bottom + inset,
-              ),
-            ),
-            child: widget.child,
-          )
-        : widget.child;
-
-    return _AmountKeyboardScopeInherited(
-      scope: this,
-      child: _RootOverlayPortal(
-        controller: _portalController,
-        overlayChildBuilder: _buildOverlay,
-        child: child,
-      ),
-    );
-  }
-}
-
-/// Root overlay when supported; falls back to the nearest [Overlay] on older SDKs.
-class _RootOverlayPortal extends StatelessWidget {
-  final OverlayPortalController controller;
-  final WidgetBuilder overlayChildBuilder;
-  final Widget child;
-
-  const _RootOverlayPortal({
-    required this.controller,
-    required this.overlayChildBuilder,
-    required this.child,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return OverlayPortal(
-      overlayLocation: OverlayChildLocation.rootOverlay,
-      controller: controller,
-      overlayChildBuilder: overlayChildBuilder,
-      child: child,
-    );
+    return doneLabel != oldWidget.doneLabel;
   }
 }
