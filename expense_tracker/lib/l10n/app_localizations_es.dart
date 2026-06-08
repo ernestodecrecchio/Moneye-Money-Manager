@@ -508,6 +508,29 @@ class AppLocalizationsEs extends AppLocalizations {
       'Gestiona tus reglas de transacciones recurrentes';
 
   @override
+  String get transactionShortcuts => 'Accesos directos';
+
+  @override
+  String get transactionShortcutsOptionDescription =>
+      'Crea presets para registrar transacciones rápidamente';
+
+  @override
+  String get shortcuts => 'Accesos directos';
+
+  @override
+  String get newTransactionShortcut => 'Nuevo acceso directo';
+
+  @override
+  String get editTransactionShortcut => 'Editar acceso directo';
+
+  @override
+  String get noTransactionShortcuts =>
+      'No hay accesos directos. Crea uno para añadir transacciones con un solo toque.';
+
+  @override
+  String get shortcutTransactionAdded => 'Transacción añadida correctamente';
+
+  @override
   String get reminder => 'Recordatorio';
 
   @override

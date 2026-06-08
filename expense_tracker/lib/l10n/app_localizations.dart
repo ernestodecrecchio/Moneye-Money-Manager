@@ -988,6 +988,48 @@ abstract class AppLocalizations {
   /// **'Manage your recurring transaction rules'**
   String get recurringTransactionsOptionDescription;
 
+  /// No description provided for @transactionShortcuts.
+  ///
+  /// In en, this message translates to:
+  /// **'Transaction Shortcuts'**
+  String get transactionShortcuts;
+
+  /// No description provided for @transactionShortcutsOptionDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Create presets for quick transaction entry'**
+  String get transactionShortcutsOptionDescription;
+
+  /// No description provided for @shortcuts.
+  ///
+  /// In en, this message translates to:
+  /// **'Shortcuts'**
+  String get shortcuts;
+
+  /// No description provided for @newTransactionShortcut.
+  ///
+  /// In en, this message translates to:
+  /// **'New Shortcut'**
+  String get newTransactionShortcut;
+
+  /// No description provided for @editTransactionShortcut.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Shortcut'**
+  String get editTransactionShortcut;
+
+  /// No description provided for @noTransactionShortcuts.
+  ///
+  /// In en, this message translates to:
+  /// **'No shortcuts yet. Create one to add transactions with a single tap.'**
+  String get noTransactionShortcuts;
+
+  /// No description provided for @shortcutTransactionAdded.
+  ///
+  /// In en, this message translates to:
+  /// **'Transaction added successfully'**
+  String get shortcutTransactionAdded;
+
   /// No description provided for @reminder.
   ///
   /// In en, this message translates to:

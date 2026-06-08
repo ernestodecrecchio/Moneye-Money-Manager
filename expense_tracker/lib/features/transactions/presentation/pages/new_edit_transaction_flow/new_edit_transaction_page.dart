@@ -21,6 +21,8 @@ import 'package:expense_tracker/features/transactions/presentation/pages/new_edi
 import 'package:expense_tracker/core/presentation/common/custom_dropdown_button_form_field.dart';
 import 'package:expense_tracker/core/presentation/common/custom_form_switch.dart';
 import 'package:expense_tracker/features/recurring_rules/presentation/pages/recurring_rules_page/recurring_rule_detail_page.dart';
+import 'package:expense_tracker/features/transaction_shortcuts/domain/models/transaction_shortcut.dart';
+import 'package:expense_tracker/features/transaction_shortcuts/presentation/providers/mutations/transaction_shortcuts_mutation_notifier.dart';
 import 'package:expense_tracker/core/style/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -34,6 +36,8 @@ class NewEditTransactionPageScreenArguments {
   final RecurringRule? recurringRule;
   final Account? account;
   final bool isRecurringPreset;
+  final bool isShortcutMode;
+  final TransactionShortcut? transactionShortcut;
 
   NewEditTransactionPageScreenArguments({
     this.incomePreset,
@@ -41,6 +45,8 @@ class NewEditTransactionPageScreenArguments {
     this.recurringRule,
     this.account,
     this.isRecurringPreset = false,
+    this.isShortcutMode = false,
+    this.transactionShortcut,
   });
 }
 
@@ -52,6 +58,8 @@ class NewEditTransactionPage extends ConsumerStatefulWidget {
   final RecurringRule? initialRecurringRule;
   final Account? initialAccountSettings;
   final bool isRecurringPreset;
+  final bool isShortcutMode;
+  final TransactionShortcut? initialShortcut;
 
   const NewEditTransactionPage({
     super.key,
@@ -60,6 +68,8 @@ class NewEditTransactionPage extends ConsumerStatefulWidget {
     this.initialRecurringRule,
     this.initialAccountSettings,
     this.isRecurringPreset = false,
+    this.isShortcutMode = false,
+    this.initialShortcut,
   });
 
   @override
@@ -71,8 +81,11 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
     with SingleTickerProviderStateMixin {
   bool get editMode {
     return widget.initialTransactionSettings != null ||
-        widget.initialRecurringRule != null;
+        widget.initialRecurringRule != null ||
+        widget.initialShortcut != null;
   }
+
+  bool get shortcutEditMode => widget.initialShortcut != null;
 
   final _formKey = GlobalKey<FormState>();
 
@@ -199,6 +212,42 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
       _includeInReport = initialRule.includeInReports;
       _frequency = initialRule.frequency;
       intervalInput.text = initialRule.frequencyInterval.toString();
+    } else if (widget.initialShortcut != null) {
+      final initialShortcut = widget.initialShortcut!;
+
+      titleInput.text = initialShortcut.title;
+      descriptionInput.text = initialShortcut.description ?? '';
+      valueInput.text = initialShortcut.amount.abs().toString();
+
+      _transactionTypeTabController.index =
+          initialShortcut.amount >= 0 ? 0 : 1;
+
+      if (initialShortcut.categoryId != null) {
+        selectedCategory = ref
+            .read(categoriesListProvider)
+            .asData
+            ?.value
+            .firstWhereOrNull(
+                (element) => element.id == initialShortcut.categoryId);
+
+        if (selectedCategory != null) {
+          categoryInput.text = selectedCategory!.name;
+        }
+      }
+
+      if (initialShortcut.accountId != null) {
+        selectedAccount = ref.read(accountsListProvider).maybeWhen(
+              data: (accountsList) => accountsList.firstWhereOrNull(
+                  (element) => element.id == initialShortcut.accountId!),
+              orElse: () => null,
+            );
+
+        if (selectedAccount != null) {
+          accountInput.text = selectedAccount!.name;
+        }
+      }
+
+      _includeInReport = initialShortcut.includeInReports;
     } else {
       titleInputFocusNode.requestFocus();
       dateInput.text =
@@ -248,7 +297,10 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
     final isTransactionLoading =
         ref.watch(transactionMutationProvider).isLoading;
     final isRuleLoading = ref.watch(recurringRulesMutationProvider).isLoading;
-    final isLoading = isTransactionLoading || isRuleLoading;
+    final isShortcutLoading =
+        ref.watch(transactionShortcutsMutationProvider).isLoading;
+    final isLoading =
+        isTransactionLoading || isRuleLoading || isShortcutLoading;
 
     final rulesAsync = ref.watch(recurringRulesListProvider);
     final originalTx = widget.initialTransactionSettings;
@@ -273,13 +325,17 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
       child: Scaffold(
         appBar: AppBar(
           title: Text(
-            editMode
-                ? (widget.initialRecurringRule != null
-                    ? appLocalizations.editRecurringTransaction
-                    : appLocalizations.editTransaction)
-                : (widget.isRecurringPreset
-                    ? appLocalizations.newRecurringTransaction
-                    : appLocalizations.newTransaction),
+            widget.isShortcutMode
+                ? (shortcutEditMode
+                    ? appLocalizations.editTransactionShortcut
+                    : appLocalizations.newTransactionShortcut)
+                : editMode
+                    ? (widget.initialRecurringRule != null
+                        ? appLocalizations.editRecurringTransaction
+                        : appLocalizations.editTransaction)
+                    : (widget.isRecurringPreset
+                        ? appLocalizations.newRecurringTransaction
+                        : appLocalizations.newTransaction),
           ),
         ),
         body: SafeArea(
@@ -427,28 +483,29 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
                   ? Text('-', style: Theme.of(context).textTheme.bodyLarge)
                   : null,
             ),
-            CustomTextField(
-              controller: dateInput,
-              label: appLocalizations.date,
-              hintText: appLocalizations.selectDate,
-              icon: Icons.calendar_month_rounded,
-              readOnly: true,
-              onTap: () => _handleDateSelection(
-                initialDate: selectedDate,
-                firstDate: DateTime(1999, 1),
-                onSelectedDate: (picked) {
-                  if (picked != selectedDate) {
-                    setState(() {
-                      dateInput.text =
-                          DateFormat.yMd(appLocalizations.localeName)
-                              .format(picked)
-                              .toString();
-                      selectedDate = picked;
-                    });
-                  }
-                },
+            if (!widget.isShortcutMode)
+              CustomTextField(
+                controller: dateInput,
+                label: appLocalizations.date,
+                hintText: appLocalizations.selectDate,
+                icon: Icons.calendar_month_rounded,
+                readOnly: true,
+                onTap: () => _handleDateSelection(
+                  initialDate: selectedDate,
+                  firstDate: DateTime(1999, 1),
+                  onSelectedDate: (picked) {
+                    if (picked != selectedDate) {
+                      setState(() {
+                        dateInput.text =
+                            DateFormat.yMd(appLocalizations.localeName)
+                                .format(picked)
+                                .toString();
+                        selectedDate = picked;
+                      });
+                    }
+                  },
+                ),
               ),
-            ),
             CustomTextField(
               controller: categoryInput,
               label: appLocalizations.category,
@@ -499,7 +556,8 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
               padding: EdgeInsets.only(top: 8),
               child: Divider(height: 1),
             ),
-            if (!editMode || widget.isRecurringPreset)
+            if (!widget.isShortcutMode &&
+                (!editMode || widget.isRecurringPreset))
               _buildRepeatTransactionSection(appLocalizations),
             CustomFormSwitch(
               label: appLocalizations.includeInReports,
@@ -670,7 +728,11 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
       onPressed: () async {
         if (!_formKey.currentState!.validate()) return;
 
-        if (editMode) {
+        if (widget.isShortcutMode) {
+          await _saveShortcut(
+            isIncome: _transactionTypeTabController.index == 0,
+          );
+        } else if (editMode) {
           await _editTransaction(
               income: _transactionTypeTabController.index == 0 ? true : false);
         } else {
@@ -683,6 +745,32 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
         Navigator.of(context).pop();
       },
     );
+  }
+
+  Future<void> _saveShortcut({required bool isIncome}) async {
+    final transactionValue = isIncome
+        ? double.parse(valueInput.text)
+        : -double.parse(valueInput.text);
+
+    final shortcut = TransactionShortcut(
+      id: widget.initialShortcut?.id,
+      title: titleInput.text,
+      description: descriptionInput.text.isEmpty ? null : descriptionInput.text,
+      amount: transactionValue,
+      categoryId: selectedCategory?.id,
+      accountId: selectedAccount?.id,
+      includeInReports: _includeInReport,
+    );
+
+    if (shortcutEditMode) {
+      await ref
+          .read(transactionShortcutsMutationProvider.notifier)
+          .updateTransactionShortcut(widget.initialShortcut!, shortcut);
+    } else {
+      await ref
+          .read(transactionShortcutsMutationProvider.notifier)
+          .addTransactionShortcut(shortcut);
+    }
   }
 
   Future<void> _saveNewTransaction({required bool isIncome}) async {
@@ -732,6 +820,8 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
   }
 
   Future<void> _editTransaction({required bool income}) async {
+    if (!context.mounted || shortcutEditMode) return;
+
     if (context.mounted) {
       final valueFromTextInput = double.parse(valueInput.text);
 

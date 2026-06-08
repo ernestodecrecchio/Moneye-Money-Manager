@@ -508,6 +508,29 @@ class AppLocalizationsEn extends AppLocalizations {
       'Manage your recurring transaction rules';
 
   @override
+  String get transactionShortcuts => 'Transaction Shortcuts';
+
+  @override
+  String get transactionShortcutsOptionDescription =>
+      'Create presets for quick transaction entry';
+
+  @override
+  String get shortcuts => 'Shortcuts';
+
+  @override
+  String get newTransactionShortcut => 'New Shortcut';
+
+  @override
+  String get editTransactionShortcut => 'Edit Shortcut';
+
+  @override
+  String get noTransactionShortcuts =>
+      'No shortcuts yet. Create one to add transactions with a single tap.';
+
+  @override
+  String get shortcutTransactionAdded => 'Transaction added successfully';
+
+  @override
   String get reminder => 'Reminder';
 
   @override
@@ -1335,6 +1358,29 @@ class AppLocalizationsEnGb extends AppLocalizationsEn {
       'Manage your recurring transaction rules';
 
   @override
+  String get transactionShortcuts => 'Transaction Shortcuts';
+
+  @override
+  String get transactionShortcutsOptionDescription =>
+      'Create presets for quick transaction entry';
+
+  @override
+  String get shortcuts => 'Shortcuts';
+
+  @override
+  String get newTransactionShortcut => 'New Shortcut';
+
+  @override
+  String get editTransactionShortcut => 'Edit Shortcut';
+
+  @override
+  String get noTransactionShortcuts =>
+      'No shortcuts yet. Create one to add transactions with a single tap.';
+
+  @override
+  String get shortcutTransactionAdded => 'Transaction added successfully';
+
+  @override
   String get reminder => 'Reminder';
 
   @override
@@ -2160,6 +2206,29 @@ class AppLocalizationsEnUs extends AppLocalizationsEn {
   @override
   String get recurringTransactionsOptionDescription =>
       'Manage your recurring transaction rules';
+
+  @override
+  String get transactionShortcuts => 'Transaction Shortcuts';
+
+  @override
+  String get transactionShortcutsOptionDescription =>
+      'Create presets for quick transaction entry';
+
+  @override
+  String get shortcuts => 'Shortcuts';
+
+  @override
+  String get newTransactionShortcut => 'New Shortcut';
+
+  @override
+  String get editTransactionShortcut => 'Edit Shortcut';
+
+  @override
+  String get noTransactionShortcuts =>
+      'No shortcuts yet. Create one to add transactions with a single tap.';
+
+  @override
+  String get shortcutTransactionAdded => 'Transaction added successfully';
 
   @override
   String get reminder => 'Reminder';

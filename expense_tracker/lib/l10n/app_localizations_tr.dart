@@ -504,6 +504,29 @@ class AppLocalizationsTr extends AppLocalizations {
       'Tekrarlanan işlemler için kurallarınızı yönetin';
 
   @override
+  String get transactionShortcuts => 'İşlem kısayolları';
+
+  @override
+  String get transactionShortcutsOptionDescription =>
+      'Hızlı işlem girişi için ön ayarlar oluşturun';
+
+  @override
+  String get shortcuts => 'Kısayollar';
+
+  @override
+  String get newTransactionShortcut => 'Yeni kısayol';
+
+  @override
+  String get editTransactionShortcut => 'Kısayolu düzenle';
+
+  @override
+  String get noTransactionShortcuts =>
+      'Henüz kısayol yok. Tek dokunuşla işlem eklemek için bir tane oluşturun.';
+
+  @override
+  String get shortcutTransactionAdded => 'İşlem başarıyla eklendi';
+
+  @override
   String get reminder => 'Hatırlatıcı';
 
   @override

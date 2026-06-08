@@ -7,6 +7,7 @@ import 'package:expense_tracker/features/budgeting/domain/models/budget.dart';
 import 'package:expense_tracker/features/settings/presentation/pages/options_page/backup_restore_page/backup_restore_page.dart';
 import 'package:expense_tracker/core/presentation/common/widgets/custom_snackbar.dart';
 import 'package:expense_tracker/features/recurring_rules/presentation/pages/recurring_rules_page/recurring_rules_list_page.dart';
+import 'package:expense_tracker/features/transaction_shortcuts/presentation/pages/transaction_shortcuts_list_page.dart';
 import 'package:expense_tracker/features/recurring_rules/presentation/pages/recurring_rules_page/recurring_rule_detail_page.dart';
 import 'package:expense_tracker/core/services/asset_registry.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -271,6 +272,8 @@ class MyApp extends r.ConsumerWidget {
           ReminderPage.routeName: (context) => const ReminderPage(),
           RecurringRulesListPage.routeName: (context) =>
               const RecurringRulesListPage(),
+          TransactionShortcutsListPage.routeName: (context) =>
+              const TransactionShortcutsListPage(),
           UpdateInfoPage.routeName: (context) => const UpdateInfoPage(),
           UpdateHistoryPage.routeName: (context) => const UpdateHistoryPage(),
           PrivacySettingsPage.routeName: (context) =>
@@ -314,6 +317,8 @@ class MyApp extends r.ConsumerWidget {
                 final account = args?.account;
                 final recurringRule = args?.recurringRule;
                 final isRecurringPreset = args?.isRecurringPreset ?? false;
+                final isShortcutMode = args?.isShortcutMode ?? false;
+                final transactionShortcut = args?.transactionShortcut;
 
                 return MaterialPageRoute(
                   settings: settings,
@@ -323,6 +328,8 @@ class MyApp extends r.ConsumerWidget {
                     initialAccountSettings: account,
                     initialRecurringRule: recurringRule,
                     isRecurringPreset: isRecurringPreset,
+                    isShortcutMode: isShortcutMode,
+                    initialShortcut: transactionShortcut,
                   ),
                 );
               }

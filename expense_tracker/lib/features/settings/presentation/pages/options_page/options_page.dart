@@ -7,6 +7,7 @@ import 'package:expense_tracker/l10n/app_localizations.dart';
 import 'package:expense_tracker/features/accounts/presentation/pages/accounts_list_page/accounts_list_page.dart';
 import 'package:expense_tracker/features/settings/presentation/pages/options_page/backup_restore_page/backup_restore_page.dart';
 import 'package:expense_tracker/features/recurring_rules/presentation/pages/recurring_rules_page/recurring_rules_list_page.dart';
+import 'package:expense_tracker/features/transaction_shortcuts/presentation/pages/transaction_shortcuts_list_page.dart';
 import 'package:expense_tracker/features/categories/presentation/pages/categories_list_page/categories_list_page.dart';
 import 'package:expense_tracker/features/settings/presentation/pages/options_page/currency_page/currency_page.dart';
 import 'package:expense_tracker/features/settings/presentation/pages/options_page/language_page/languages_list_page.dart';
@@ -75,6 +76,14 @@ class OptionsPage extends ConsumerWidget {
             leadingIcon: Icons.repeat_rounded,
             onTap: () => Navigator.of(context)
                 .pushNamed(RecurringRulesListPage.routeName),
+          ),
+          const Divider(),
+          OptionListTile(
+            title: appLocalizations.transactionShortcuts,
+            subtitle: appLocalizations.transactionShortcutsOptionDescription,
+            leadingIcon: Icons.bolt_rounded,
+            onTap: () => Navigator.of(context)
+                .pushNamed(TransactionShortcutsListPage.routeName),
           ),
           _buildSectionHeader(context, appLocalizations.personalization),
           OptionListTile(

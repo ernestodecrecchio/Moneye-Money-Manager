@@ -504,6 +504,29 @@ class AppLocalizationsPt extends AppLocalizations {
       'Gerencie suas regras de transações recorrentes';
 
   @override
+  String get transactionShortcuts => 'Atalhos de transação';
+
+  @override
+  String get transactionShortcutsOptionDescription =>
+      'Crie predefinições para registrar transações rapidamente';
+
+  @override
+  String get shortcuts => 'Atalhos';
+
+  @override
+  String get newTransactionShortcut => 'Novo atalho';
+
+  @override
+  String get editTransactionShortcut => 'Editar atalho';
+
+  @override
+  String get noTransactionShortcuts =>
+      'Nenhum atalho ainda. Crie um para adicionar transações com um toque.';
+
+  @override
+  String get shortcutTransactionAdded => 'Transação adicionada com sucesso';
+
+  @override
   String get reminder => 'Lembrete';
 
   @override
@@ -1324,6 +1347,29 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   @override
   String get recurringTransactionsOptionDescription =>
       'Gerencie suas regras de transações recorrentes';
+
+  @override
+  String get transactionShortcuts => 'Atalhos de transação';
+
+  @override
+  String get transactionShortcutsOptionDescription =>
+      'Crie predefinições para registrar transações rapidamente';
+
+  @override
+  String get shortcuts => 'Atalhos';
+
+  @override
+  String get newTransactionShortcut => 'Novo atalho';
+
+  @override
+  String get editTransactionShortcut => 'Editar atalho';
+
+  @override
+  String get noTransactionShortcuts =>
+      'Nenhum atalho ainda. Crie um para adicionar transações com um toque.';
+
+  @override
+  String get shortcutTransactionAdded => 'Transação adicionada com sucesso';
 
   @override
   String get reminder => 'Lembrete';
@@ -2148,6 +2194,29 @@ class AppLocalizationsPtPt extends AppLocalizationsPt {
   @override
   String get recurringTransactionsOptionDescription =>
       'Gerencie as suas regras de transações recorrentes';
+
+  @override
+  String get transactionShortcuts => 'Atalhos de transação';
+
+  @override
+  String get transactionShortcutsOptionDescription =>
+      'Crie predefinições para registar transações rapidamente';
+
+  @override
+  String get shortcuts => 'Atalhos';
+
+  @override
+  String get newTransactionShortcut => 'Novo atalho';
+
+  @override
+  String get editTransactionShortcut => 'Editar atalho';
+
+  @override
+  String get noTransactionShortcuts =>
+      'Ainda sem atalhos. Crie um para adicionar transações com um toque.';
+
+  @override
+  String get shortcutTransactionAdded => 'Transação adicionada com sucesso';
 
   @override
   String get reminder => 'Lembrete';

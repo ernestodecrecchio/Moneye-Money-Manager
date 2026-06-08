@@ -6,6 +6,7 @@ import 'package:expense_tracker/features/categories/data/database/database_categ
 import 'package:expense_tracker/features/transactions/data/database/database_transaction_helper.dart';
 import 'package:expense_tracker/features/recurring_rules/data/database/database_recurring_rule_helper.dart';
 import 'package:expense_tracker/features/budgeting/data/database/database_budget_helper.dart';
+import 'package:expense_tracker/features/transaction_shortcuts/data/database/database_transaction_shortcut_helper.dart';
 import 'package:expense_tracker/core/database/database_helper.dart';
 import 'package:archive/archive.dart';
 import 'package:file_picker/file_picker.dart';
@@ -35,6 +36,9 @@ class DatabaseExportImportService {
     final recurringRules =
         await DatabaseRecurringRuleHelper.instance.getRecurringRules();
     final budgets = await DatabaseBudgetHelper.instance.getAllBudgets();
+    final transactionShortcuts = await DatabaseTransactionShortcutHelper
+        .instance
+        .getAllTransactionShortcuts();
     final db = await DatabaseHelper.instance.database;
     final dbVersion = await db.getVersion();
 
@@ -56,6 +60,9 @@ class DatabaseExportImportService {
           json['categoryIds'] = e.categoryIds;
           return json;
         }).toList(),
+        'transactionShortcuts': transactionShortcuts
+            .map((e) => TransactionShortcutMapper.toJson(e))
+            .toList(),
       },
     };
 
@@ -166,6 +173,7 @@ class DatabaseExportImportService {
 
     await db.transaction((txn) async {
       // Clear existing data
+      await txn.delete(transactionShortcutsTable);
       await txn.delete(transactionsTable);
       await txn.delete(recurringRulesTable);
       await txn.delete(budgetCategoriesTable);
@@ -195,6 +203,17 @@ class DatabaseExportImportService {
       final transactionsJson = data['transactions'] as List;
       for (var transJson in transactionsJson) {
         await txn.insert(transactionsTable, transJson as Map<String, dynamic>);
+      }
+
+      // Import Transaction Shortcuts
+      if (data.containsKey('transactionShortcuts')) {
+        final shortcutsJson = data['transactionShortcuts'] as List;
+        for (var shortcutJson in shortcutsJson) {
+          await txn.insert(
+            transactionShortcutsTable,
+            shortcutJson as Map<String, dynamic>,
+          );
+        }
       }
 
       // Import Budgets
@@ -232,6 +251,7 @@ class DatabaseExportImportService {
     final db = await DatabaseHelper.instance.database;
 
     await db.transaction((txn) async {
+      await txn.delete(transactionShortcutsTable);
       await txn.delete(transactionsTable);
       await txn.delete(recurringRulesTable);
       await txn.delete(budgetCategoriesTable);

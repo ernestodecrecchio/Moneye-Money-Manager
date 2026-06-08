@@ -7,6 +7,7 @@ import 'package:expense_tracker/core/presentation/providers/app_localizations_pr
 import 'package:expense_tracker/features/transactions/presentation/providers/queries/total_balance_notifier.dart';
 import 'package:expense_tracker/features/transactions/presentation/providers/queries/transactions_list_notifier.dart';
 import 'package:expense_tracker/features/accounts/presentation/providers/queries/accounts_with_balance_notifier.dart';
+import 'package:expense_tracker/features/transaction_shortcuts/presentation/providers/queries/transaction_shortcuts_list_notifier.dart';
 import 'package:expense_tracker/core/services/database_export_import_service.dart';
 import 'package:expense_tracker/core/presentation/common/widgets/custom_snackbar.dart';
 import 'package:flutter/material.dart';
@@ -252,5 +253,6 @@ class _BackupRestorePageState extends ConsumerState<BackupRestorePage> {
     ref.invalidate(accountsWithBalanceProvider);
     ref.invalidate(budgetsListProvider);
     ref.invalidate(budgetProgressProvider);
+    ref.invalidate(transactionShortcutsListProvider);
   }
 }

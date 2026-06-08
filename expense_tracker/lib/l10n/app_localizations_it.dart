@@ -511,6 +511,29 @@ class AppLocalizationsIt extends AppLocalizations {
       'Gestisci le tue regole per le transazioni ricorrenti';
 
   @override
+  String get transactionShortcuts => 'Scorciatoie transazioni';
+
+  @override
+  String get transactionShortcutsOptionDescription =>
+      'Crea preset per inserire transazioni rapidamente';
+
+  @override
+  String get shortcuts => 'Scorciatoie';
+
+  @override
+  String get newTransactionShortcut => 'Nuova scorciatoia';
+
+  @override
+  String get editTransactionShortcut => 'Modifica scorciatoia';
+
+  @override
+  String get noTransactionShortcuts =>
+      'Nessuna scorciatoia. Creane una per aggiungere transazioni con un solo tocco.';
+
+  @override
+  String get shortcutTransactionAdded => 'Transazione aggiunta con successo';
+
+  @override
   String get reminder => 'Promemoria';
 
   @override

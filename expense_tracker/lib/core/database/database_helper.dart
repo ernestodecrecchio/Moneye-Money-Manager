@@ -3,6 +3,7 @@ import 'package:expense_tracker/features/categories/data/database/database_categ
 import 'package:expense_tracker/features/transactions/data/database/database_transaction_helper.dart';
 import 'package:expense_tracker/features/recurring_rules/data/database/database_recurring_rule_helper.dart';
 import 'package:expense_tracker/features/budgeting/data/database/database_budget_helper.dart';
+import 'package:expense_tracker/features/transaction_shortcuts/data/database/database_transaction_shortcut_helper.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -24,7 +25,7 @@ class DatabaseHelper {
     final path = join(dbPath, 'moneye_db.db');
 
     return await openDatabase(path,
-        version: 6,
+        version: 7,
         onConfigure: _configureDB,
         onCreate: _createDB,
         onUpgrade: _upgradeDB);
@@ -40,6 +41,7 @@ class DatabaseHelper {
     await DatabaseTransactionHelper.inizializeTable(db);
     await DatabaseRecurringRuleHelper.inizializeTable(db);
     await DatabaseBudgetHelper.initializeTable(db);
+    await DatabaseTransactionShortcutHelper.inizializeTable(db);
   }
 
   Future _upgradeDB(Database db, int oldVersion, int newVersion) async {
@@ -59,6 +61,9 @@ class DatabaseHelper {
     }
     if (oldVersion < 6) {
       _updateDBV5toV6(batch);
+    }
+    if (oldVersion < 7) {
+      _updateDBV6toV7(batch);
     }
     await batch.commit();
   }
@@ -82,5 +87,9 @@ class DatabaseHelper {
 
   void _updateDBV5toV6(Batch batch) {
     DatabaseBudgetHelper.updateBudgetsTableV5toV6(batch);
+  }
+
+  void _updateDBV6toV7(Batch batch) {
+    DatabaseTransactionShortcutHelper.createTableV6toV7(batch);
   }
 }

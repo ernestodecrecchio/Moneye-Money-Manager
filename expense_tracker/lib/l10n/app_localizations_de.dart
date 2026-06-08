@@ -514,6 +514,29 @@ class AppLocalizationsDe extends AppLocalizations {
       'Verwalten Sie Ihre wiederkehrenden Transaktionsregeln';
 
   @override
+  String get transactionShortcuts => 'Transaktionsverknüpfungen';
+
+  @override
+  String get transactionShortcutsOptionDescription =>
+      'Voreinstellungen für schnelle Transaktionseingabe erstellen';
+
+  @override
+  String get shortcuts => 'Verknüpfungen';
+
+  @override
+  String get newTransactionShortcut => 'Neue Verknüpfung';
+
+  @override
+  String get editTransactionShortcut => 'Verknüpfung bearbeiten';
+
+  @override
+  String get noTransactionShortcuts =>
+      'Noch keine Verknüpfungen. Erstellen Sie eine, um Transaktionen mit einem Tipp hinzuzufügen.';
+
+  @override
+  String get shortcutTransactionAdded => 'Transaktion erfolgreich hinzugefügt';
+
+  @override
   String get reminder => 'Erinnerung';
 
   @override

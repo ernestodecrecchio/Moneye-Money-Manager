@@ -512,6 +512,29 @@ class AppLocalizationsFr extends AppLocalizations {
       'Gérez vos règles de transactions récurrentes';
 
   @override
+  String get transactionShortcuts => 'Raccourcis de transaction';
+
+  @override
+  String get transactionShortcutsOptionDescription =>
+      'Créez des préréglages pour saisir des transactions rapidement';
+
+  @override
+  String get shortcuts => 'Raccourcis';
+
+  @override
+  String get newTransactionShortcut => 'Nouveau raccourci';
+
+  @override
+  String get editTransactionShortcut => 'Modifier le raccourci';
+
+  @override
+  String get noTransactionShortcuts =>
+      'Aucun raccourci. Créez-en un pour ajouter des transactions en un seul geste.';
+
+  @override
+  String get shortcutTransactionAdded => 'Transaction ajoutée avec succès';
+
+  @override
   String get reminder => 'Rappel';
 
   @override
