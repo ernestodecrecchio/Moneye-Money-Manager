@@ -42,12 +42,6 @@ class _TabBarPageState extends ConsumerState<TabBarPage> {
     }
   }
 
-  final screen = const [
-    HomePage(),
-    BudgetListPage(),
-    OptionsPage(),
-  ];
-
   Widget? _buildFloatingActionButton() {
     return switch (index) {
       0 => FloatingActionButton(
@@ -69,19 +63,34 @@ class _TabBarPageState extends ConsumerState<TabBarPage> {
   Widget build(BuildContext context) {
     final appLocalizations = ref.watch(appLocalizationsProvider);
 
-    final bottomScrollPadding = context.tabBarScrollBottomInset(
-      includeFab: index == 0 || index == 1,
-    );
-
     return Scaffold(
       extendBody: true,
       body: Stack(
         fit: StackFit.expand,
         children: [
           TabBarBody(
-            child: TabBarScrollScope(
-              bottomScrollPadding: bottomScrollPadding,
-              child: screen[index],
+            child: IndexedStack(
+              index: index,
+              children: [
+                TabBarScrollScope(
+                  bottomScrollPadding: context.tabBarScrollBottomInset(
+                    includeFab: true,
+                  ),
+                  child: const HomePage(),
+                ),
+                TabBarScrollScope(
+                  bottomScrollPadding: context.tabBarScrollBottomInset(
+                    includeFab: true,
+                  ),
+                  child: const BudgetListPage(),
+                ),
+                TabBarScrollScope(
+                  bottomScrollPadding: context.tabBarScrollBottomInset(
+                    includeFab: false,
+                  ),
+                  child: const OptionsPage(),
+                ),
+              ],
             ),
           ),
           const BottomBarBodyFade(),
