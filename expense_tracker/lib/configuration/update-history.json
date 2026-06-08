@@ -23,6 +23,27 @@
     },
     {
       "title": {
+        "en": "Transaction Shortcuts",
+        "it": "Scorciatoie transazioni",
+        "es": "Accesos directos de transacciones",
+        "de": "Transaktionsverknüpfungen",
+        "fr": "Raccourcis de transaction",
+        "tr": "İşlem kısayolları",
+        "pt": "Atalhos de transação"
+      },
+      "description": {
+        "en": "Create transaction presets and add them with a single tap from the Home screen. Manage your shortcuts from Settings and include them in backups.",
+        "it": "Crea preset di transazioni e aggiungile con un solo tocco dalla schermata Home. Gestisci le scorciatoie dalle Impostazioni e includile nei backup.",
+        "es": "Crea preajustes de transacciones y añádelos con un solo toque desde la pantalla de inicio. Gestiona tus accesos directos desde Ajustes e inclúyelos en las copias de seguridad.",
+        "de": "Erstellen Sie Transaktionsvorlagen und fügen Sie sie mit einem Tippen vom Startbildschirm hinzu. Verwalten Sie Ihre Verknüpfungen in den Einstellungen und sichern Sie sie in Backups.",
+        "fr": "Créez des préréglages de transactions et ajoutez-les en un seul geste depuis l'écran d'accueil. Gérez vos raccourcis dans les paramètres et incluez-les dans les sauvegardes.",
+        "tr": "İşlem ön ayarları oluşturun ve Ana ekrandan tek dokunuşla ekleyin. Kısayollarınızı Ayarlar'dan yönetin ve yedeklemelere dahil edin.",
+        "pt": "Crie predefinições de transações e adicione-as com um toque na tela inicial. Gerencie seus atalhos nas Configurações e inclua-os nos backups."
+      },
+      "category": "new_feature"
+    },
+    {
+      "title": {
         "en": "Custom Amount Keyboard",
         "it": "Tastiera personalizzata per importi",
         "es": "Teclado de importes personalizado",
