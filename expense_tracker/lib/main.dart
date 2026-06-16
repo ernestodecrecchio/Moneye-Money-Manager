@@ -404,7 +404,7 @@ class MyApp extends r.ConsumerWidget {
                 return MaterialPageRoute(
                   settings: settings,
                   builder: (context) => CategoryStatisticsDetailPage(
-                    entry: args.entry,
+                    category: args.category,
                   ),
                 );
               }

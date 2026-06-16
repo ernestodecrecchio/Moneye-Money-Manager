@@ -196,6 +196,10 @@ class AppLocalizationsDe extends AppLocalizations {
       'Detailed charts and breakdowns for this category will appear here.';
 
   @override
+  String get statisticsCategoryDetailError =>
+      'Unable to load category statistics.';
+
+  @override
   String get statisticsInsightsComingSoon =>
       'Automated insights and highlights based on your financial activity will appear here.';
 

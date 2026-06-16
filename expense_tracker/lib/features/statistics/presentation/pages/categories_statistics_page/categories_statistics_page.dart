@@ -87,7 +87,7 @@ class _CategoriesStatisticsList extends ConsumerWidget {
                 Navigator.of(context).pushNamed(
                   CategoryStatisticsDetailPage.routeName,
                   arguments: CategoryStatisticsDetailPageArguments(
-                    entry: series.entries[i],
+                    category: series.entries[i].category,
                   ),
                 );
               },

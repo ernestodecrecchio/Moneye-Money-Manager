@@ -454,6 +454,12 @@ abstract class AppLocalizations {
   /// **'Detailed charts and breakdowns for this category will appear here.'**
   String get statisticsCategoryDetailComingSoon;
 
+  /// No description provided for @statisticsCategoryDetailError.
+  ///
+  /// In en, this message translates to:
+  /// **'Unable to load category statistics.'**
+  String get statisticsCategoryDetailError;
+
   /// No description provided for @statisticsInsightsComingSoon.
   ///
   /// In en, this message translates to:

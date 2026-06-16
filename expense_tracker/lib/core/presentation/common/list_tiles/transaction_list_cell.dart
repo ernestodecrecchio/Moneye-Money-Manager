@@ -23,6 +23,7 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 class TransactionListCell extends ConsumerWidget {
   final Transaction transaction;
   final bool showAccountLabel;
+  final bool showCategoryIcon;
 
   final Function(Transaction transactionDeleted) onTransactionDelete;
 
@@ -31,6 +32,7 @@ class TransactionListCell extends ConsumerWidget {
     required this.transaction,
     bool? dismissible = true,
     this.showAccountLabel = true,
+    this.showCategoryIcon = true,
     required this.onTransactionDelete,
   });
 
@@ -55,10 +57,12 @@ class TransactionListCell extends ConsumerWidget {
               vertical: 8, horizontal: Constants.horizontalPadding),
           child: Row(
             children: [
-              _buildCategoryIcon(context, ref),
-              const SizedBox(
-                width: 8,
-              ),
+              if (showCategoryIcon) ...[
+                _buildCategoryIcon(context, ref),
+                const SizedBox(
+                  width: 8,
+                ),
+              ],
               Expanded(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,

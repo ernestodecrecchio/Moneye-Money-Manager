@@ -112,6 +112,7 @@
     "statisticsCategoryShareOfExpenses": "Share of total expenses",
     "statisticsCategoryShareOfIncome": "Share of total income",
     "statisticsCategoryDetailComingSoon": "Detailed charts and breakdowns for this category will appear here.",
+    "statisticsCategoryDetailError": "Unable to load category statistics.",
     "statisticsInsightsComingSoon": "Automated insights and highlights based on your financial activity will appear here.",
     "statisticsSelectGranularity": "Select granularity",
     "statisticsPeriodQuarter": "Quarter",
