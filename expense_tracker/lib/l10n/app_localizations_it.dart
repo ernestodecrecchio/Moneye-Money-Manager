@@ -227,6 +227,26 @@ class AppLocalizationsIt extends AppLocalizations {
       'Unable to load income vs expenses chart.';
 
   @override
+  String get statisticsSpendingExpensesByCategory => 'Expenses by category';
+
+  @override
+  String get statisticsSpendingMonthlyTrend => 'Monthly spending trend';
+
+  @override
+  String get statisticsSpendingCategoryComparison => 'Category comparison';
+
+  @override
+  String get statisticsSpendingCategoryComparisonSubtitle =>
+      'Compare spending across categories';
+
+  @override
+  String get statisticsSpendingInsightsPreview => 'Spending insights';
+
+  @override
+  String get statisticsSpendingInsightsPreviewSubtitle =>
+      'Highlights from your spending patterns';
+
+  @override
   String get newBudget => 'Nuovo budget';
 
   @override

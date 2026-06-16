@@ -514,6 +514,42 @@ abstract class AppLocalizations {
   /// **'Unable to load income vs expenses chart.'**
   String get statisticsIncomeVsExpensesError;
 
+  /// No description provided for @statisticsSpendingExpensesByCategory.
+  ///
+  /// In en, this message translates to:
+  /// **'Expenses by category'**
+  String get statisticsSpendingExpensesByCategory;
+
+  /// No description provided for @statisticsSpendingMonthlyTrend.
+  ///
+  /// In en, this message translates to:
+  /// **'Monthly spending trend'**
+  String get statisticsSpendingMonthlyTrend;
+
+  /// No description provided for @statisticsSpendingCategoryComparison.
+  ///
+  /// In en, this message translates to:
+  /// **'Category comparison'**
+  String get statisticsSpendingCategoryComparison;
+
+  /// No description provided for @statisticsSpendingCategoryComparisonSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Compare spending across categories'**
+  String get statisticsSpendingCategoryComparisonSubtitle;
+
+  /// No description provided for @statisticsSpendingInsightsPreview.
+  ///
+  /// In en, this message translates to:
+  /// **'Spending insights'**
+  String get statisticsSpendingInsightsPreview;
+
+  /// No description provided for @statisticsSpendingInsightsPreviewSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Highlights from your spending patterns'**
+  String get statisticsSpendingInsightsPreviewSubtitle;
+
   /// No description provided for @newBudget.
   ///
   /// In en, this message translates to:
