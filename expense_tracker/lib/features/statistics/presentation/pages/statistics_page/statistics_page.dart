@@ -7,12 +7,12 @@ import 'package:expense_tracker/features/statistics/presentation/pages/income_st
 import 'package:expense_tracker/features/statistics/presentation/pages/insights_statistics_page/insights_statistics_page.dart';
 import 'package:expense_tracker/features/statistics/presentation/pages/overview_statistics_page/overview_statistics_page.dart';
 import 'package:expense_tracker/features/statistics/presentation/pages/spending_statistics_page/spending_statistics_page.dart';
+import 'package:expense_tracker/features/statistics/presentation/widgets/statistics_period_selector.dart';
 import 'package:expense_tracker/features/statistics/presentation/widgets/statistics_surface_card.dart';
 import 'package:expense_tracker/features/home/presentation/widgets/tab_bar/tab_bar_shell.dart';
 import 'package:expense_tracker/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:intl/intl.dart';
 
 class StatisticsPage extends ConsumerWidget {
   const StatisticsPage({super.key});
@@ -37,9 +37,7 @@ class StatisticsPage extends ConsumerWidget {
             ),
             sliver: SliverList(
               delegate: SliverChildListDelegate([
-                _StatisticsPeriodSelector(
-                  appLocalizations: appLocalizations,
-                ),
+                const StatisticsPeriodSelector(),
                 const SizedBox(height: 16),
                 _StatisticsOverviewPreviewCard(
                   appLocalizations: appLocalizations,
@@ -54,101 +52,6 @@ class StatisticsPage extends ConsumerWidget {
           const TabBarScrollBottomSliver(),
         ],
       ),
-    );
-  }
-}
-
-class _StatisticsPeriodSelector extends StatelessWidget {
-  const _StatisticsPeriodSelector({required this.appLocalizations});
-
-  final AppLocalizations appLocalizations;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.appColors;
-    final textTheme = Theme.of(context).textTheme;
-    final periodLabel =
-        DateFormat.yMMMM(appLocalizations.localeName).format(DateTime.now());
-
-    return StatisticsSurfaceCard(
-      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
-      child: Row(
-        children: [
-          FilledButton(
-            onPressed: () {},
-            style: FilledButton.styleFrom(
-              backgroundColor: colors.primary,
-              padding: const EdgeInsets.symmetric(horizontal: 12),
-              minimumSize: const Size(0, 36),
-              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-            ),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  appLocalizations.month,
-                  style: textTheme.bodyMedium?.copyWith(
-                    color: colors.onPrimary,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                Icon(
-                  Icons.arrow_drop_down_rounded,
-                  color: colors.onPrimary,
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(width: 10),
-          Expanded(
-            child: Text(
-              periodLabel,
-              textAlign: TextAlign.end,
-              style: textTheme.bodySmall?.copyWith(
-                fontSize: 14,
-                color: colors.textSecondary,
-              ),
-            ),
-          ),
-          const SizedBox(width: 10),
-          _PeriodChevronButton(
-            icon: Icons.chevron_left_rounded,
-            onPressed: () {},
-          ),
-          const SizedBox(width: 8),
-          _PeriodChevronButton(
-            icon: Icons.chevron_right_rounded,
-            onPressed: () {},
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _PeriodChevronButton extends StatelessWidget {
-  const _PeriodChevronButton({
-    required this.icon,
-    required this.onPressed,
-  });
-
-  final IconData icon;
-  final VoidCallback onPressed;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.appColors;
-
-    return FilledButton(
-      onPressed: onPressed,
-      style: FilledButton.styleFrom(
-        minimumSize: const Size(35, 35),
-        elevation: 0,
-        backgroundColor: colors.primary,
-        padding: EdgeInsets.zero,
-        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-      ),
-      child: Icon(icon),
     );
   }
 }

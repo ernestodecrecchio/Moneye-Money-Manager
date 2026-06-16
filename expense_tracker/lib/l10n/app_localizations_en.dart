@@ -185,6 +185,12 @@ class AppLocalizationsEn extends AppLocalizations {
       'Automated insights and highlights based on your financial activity will appear here.';
 
   @override
+  String get statisticsSelectGranularity => 'Select granularity';
+
+  @override
+  String get statisticsPeriodQuarter => 'Quarter';
+
+  @override
   String get newBudget => 'New budget';
 
   @override

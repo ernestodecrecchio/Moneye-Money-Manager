@@ -436,6 +436,18 @@ abstract class AppLocalizations {
   /// **'Automated insights and highlights based on your financial activity will appear here.'**
   String get statisticsInsightsComingSoon;
 
+  /// No description provided for @statisticsSelectGranularity.
+  ///
+  /// In en, this message translates to:
+  /// **'Select granularity'**
+  String get statisticsSelectGranularity;
+
+  /// No description provided for @statisticsPeriodQuarter.
+  ///
+  /// In en, this message translates to:
+  /// **'Quarter'**
+  String get statisticsPeriodQuarter;
+
   /// No description provided for @newBudget.
   ///
   /// In en, this message translates to:

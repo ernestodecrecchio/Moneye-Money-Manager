@@ -109,6 +109,8 @@
     "statisticsCashflowComingSoon": "Cashflow trends comparing income and expenses for the selected period will appear here.",
     "statisticsCategoriesComingSoon": "Category spending breakdowns and comparisons for the selected period will appear here.",
     "statisticsInsightsComingSoon": "Automated insights and highlights based on your financial activity will appear here.",
+    "statisticsSelectGranularity": "Select granularity",
+    "statisticsPeriodQuarter": "Quarter",
     "newBudget": "New budget",
     "editBudget": "Edit budget",
     "amountSpentOf": "spent of",

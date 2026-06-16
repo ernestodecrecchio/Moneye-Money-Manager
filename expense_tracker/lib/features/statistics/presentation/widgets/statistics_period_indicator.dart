@@ -1,23 +1,20 @@
+import 'package:expense_tracker/core/presentation/providers/app_localizations_provider.dart';
 import 'package:expense_tracker/core/style/app_theme.dart';
+import 'package:expense_tracker/features/statistics/presentation/extensions/statistics_period_ui_extension.dart';
+import 'package:expense_tracker/features/statistics/presentation/providers/statistics_period_provider.dart';
 import 'package:expense_tracker/features/statistics/presentation/widgets/statistics_surface_card.dart';
-import 'package:expense_tracker/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// Read-only display of the currently selected statistics period.
-class StatisticsPeriodIndicator extends StatelessWidget {
-  const StatisticsPeriodIndicator({
-    super.key,
-    required this.appLocalizations,
-  });
-
-  final AppLocalizations appLocalizations;
+class StatisticsPeriodIndicator extends ConsumerWidget {
+  const StatisticsPeriodIndicator({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final appLocalizations = ref.watch(appLocalizationsProvider);
+    final period = ref.watch(statisticsPeriodProvider);
     final colors = context.appColors;
-    final periodLabel =
-        DateFormat.yMMMM(appLocalizations.localeName).format(DateTime.now());
 
     return StatisticsSurfaceCard(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
@@ -43,7 +40,7 @@ class StatisticsPeriodIndicator extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  '${appLocalizations.month} · $periodLabel',
+                  '${period.granularityLabel(appLocalizations)} · ${period.titleLabel(appLocalizations)}',
                   style: const TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.w600,

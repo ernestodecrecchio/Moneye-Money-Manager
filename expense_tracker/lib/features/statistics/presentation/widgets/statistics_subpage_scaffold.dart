@@ -35,7 +35,7 @@ class StatisticsSubpageScaffold extends ConsumerWidget {
           Constants.horizontalPadding,
         ),
         children: [
-          StatisticsPeriodIndicator(appLocalizations: appLocalizations),
+          const StatisticsPeriodIndicator(),
           const SizedBox(height: 24),
           StatisticsSurfaceCard(
             padding: const EdgeInsets.all(24),
