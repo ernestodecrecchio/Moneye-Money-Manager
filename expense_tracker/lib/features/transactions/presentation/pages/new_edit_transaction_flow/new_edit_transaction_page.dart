@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:collection/collection.dart';
 import 'package:expense_tracker/features/categories/presentation/providers/queries/categories_list_notifier.dart';
+import 'package:expense_tracker/core/presentation/common/widgets/custom_snackbar.dart';
 import 'package:expense_tracker/core/presentation/providers/app_localizations_provider.dart';
 import 'package:expense_tracker/features/transactions/presentation/providers/mutations/transaction_mutation_notifier.dart';
 import 'package:expense_tracker/l10n/app_localizations.dart';
@@ -721,27 +722,73 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
     }
   }
 
+  int _parsedFrequencyInterval() {
+    final parsed = int.tryParse(intervalInput.text);
+    if (parsed == null || parsed < 1) {
+      return 1;
+    }
+    return parsed;
+  }
+
+  bool get _shouldSaveAsRecurring =>
+      _isRecurring || widget.isRecurringPreset;
+
+  Future<bool> _handleSave(AppLocalizations appLocalizations) async {
+    if (!_formKey.currentState!.validate()) {
+      return false;
+    }
+
+    if (widget.isShortcutMode) {
+      await _saveShortcut(
+        isIncome: _transactionTypeTabController.index == 0,
+      );
+      return !ref.read(transactionShortcutsMutationProvider).hasError;
+    }
+
+    if (editMode) {
+      await _editTransaction(
+        income: _transactionTypeTabController.index == 0,
+      );
+      if (!mounted) return false;
+
+      if (widget.initialRecurringRule != null) {
+        return !ref.read(recurringRulesMutationProvider).hasError;
+      }
+      return !ref.read(transactionMutationProvider).hasError;
+    }
+
+    await _saveNewTransaction(
+      isIncome: _transactionTypeTabController.index == 0,
+    );
+    if (!mounted) return false;
+
+    if (_shouldSaveAsRecurring) {
+      return !ref.read(recurringRulesMutationProvider).hasError;
+    }
+    return !ref.read(transactionMutationProvider).hasError;
+  }
+
+  void _showSaveError(AppLocalizations appLocalizations) {
+    CustomSnackBar.show(
+      context,
+      message: appLocalizations.saveError,
+      type: SnackBarType.error,
+    );
+  }
+
   Widget _buildSaveButton(AppLocalizations appLocalizations, bool isLoading) {
     return CustomElevatedButton(
       text: editMode ? appLocalizations.applyChanges : appLocalizations.save,
       isLoading: isLoading,
       onPressed: () async {
-        if (!_formKey.currentState!.validate()) return;
-
-        if (widget.isShortcutMode) {
-          await _saveShortcut(
-            isIncome: _transactionTypeTabController.index == 0,
-          );
-        } else if (editMode) {
-          await _editTransaction(
-              income: _transactionTypeTabController.index == 0 ? true : false);
-        } else {
-          await _saveNewTransaction(
-              isIncome:
-                  _transactionTypeTabController.index == 0 ? true : false);
+        final saved = await _handleSave(appLocalizations);
+        if (!mounted || !saved) {
+          if (mounted) {
+            _showSaveError(appLocalizations);
+          }
+          return;
         }
 
-        if (!mounted) return;
         Navigator.of(context).pop();
       },
     );
@@ -788,10 +835,12 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
         includeInReports: _includeInReport,
         isHidden: false);
 
-    if (_isRecurring) {
+    if (_shouldSaveAsRecurring) {
       final newRule = RecurringRule(
         title: titleInput.text,
-        description: descriptionInput.text,
+        description: descriptionInput.text.isEmpty
+            ? null
+            : descriptionInput.text,
         amount: transactionValue,
         startDate: selectedDate,
         endDate: selectedEndDate,
@@ -800,7 +849,7 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
         includeInReports: _includeInReport,
         isHidden: false,
         frequency: _frequency,
-        frequencyInterval: int.tryParse(intervalInput.text) ?? 1,
+        frequencyInterval: _parsedFrequencyInterval(),
       );
 
       await ref
@@ -857,7 +906,7 @@ class _NewEditTransactionPageState extends ConsumerState<NewEditTransactionPage>
           includeInReports: _includeInReport,
           isHidden: false,
           frequency: _frequency,
-          frequencyInterval: int.tryParse(intervalInput.text) ?? 1,
+          frequencyInterval: _parsedFrequencyInterval(),
           lastGeneratedDate: (widget.initialRecurringRule!.lastGeneratedDate !=
                       null &&
                   !selectedDate

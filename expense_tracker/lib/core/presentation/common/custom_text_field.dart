@@ -20,6 +20,10 @@ class CustomTextField extends StatelessWidget {
   final FocusNode? focusNode;
   final bool showCursor;
   final EdgeInsets scrollPadding;
+  final TextAlign textAlign;
+  final TextStyle? style;
+  final EdgeInsetsGeometry? contentPadding;
+  final Color? fillColor;
 
   final borderRadius = 40.0;
 
@@ -42,12 +46,18 @@ class CustomTextField extends StatelessWidget {
     this.focusNode,
     this.showCursor = true,
     this.scrollPadding = const EdgeInsets.all(20),
+    this.textAlign = TextAlign.start,
+    this.style,
+    this.contentPadding,
+    this.fillColor,
   });
 
   @override
   Widget build(BuildContext context) {
     final colors = context.appColors;
     final textTheme = Theme.of(context).textTheme;
+    final inputTheme = Theme.of(context).inputDecorationTheme;
+    final resolvedFillColor = fillColor ?? inputTheme.fillColor;
 
     return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -111,17 +121,28 @@ class CustomTextField extends StatelessWidget {
             maxLines: maxLines,
             inputFormatters: [...?textInputFormatters],
             keyboardType: keyboardType,
-            style: textTheme.bodyLarge,
+            style: style ?? textTheme.bodyLarge,
+            textAlign: textAlign,
             onChanged: onTextChanged != null
                 ? (newText) => onTextChanged!(newText)
                 : null,
             decoration: InputDecoration(
               isDense: true,
+              contentPadding: contentPadding,
               hintText: hintText,
               hintStyle: textTheme.bodyMedium?.copyWith(
                 color: colors.textSecondary.withAlpha(150),
               ),
               filled: true,
+              fillColor: resolvedFillColor,
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(borderRadius),
+                borderSide: BorderSide(
+                  color: fillColor != null
+                      ? colors.divider.withValues(alpha: 0.45)
+                      : Colors.transparent,
+                ),
+              ),
               prefixIcon: prefix != null
                   ? Padding(
                       padding: const EdgeInsets.only(left: 20),

@@ -75,7 +75,7 @@ class HomeShortcutsSection extends ConsumerWidget {
                 ),
                 scrollDirection: Axis.horizontal,
                 itemCount: shortcuts.length,
-                separatorBuilder: (_, __) => const SizedBox(width: 12),
+                separatorBuilder: (_, __) => const SizedBox(width: 8),
                 itemBuilder: (_, index) {
                   return _HomeShortcutTileWrapper(shortcut: shortcuts[index]);
                 },
@@ -95,15 +95,22 @@ class _HomeShortcutTileWrapper extends ConsumerWidget {
 
   const _HomeShortcutTileWrapper({required this.shortcut});
 
-  Future<void> _addTransaction(BuildContext context, WidgetRef ref) async {
+  Future<void> _addTransaction(
+    BuildContext context,
+    WidgetRef ref,
+    ShortcutQuickAddParams params,
+  ) async {
     final appLocalizations = ref.read(appLocalizationsProvider);
     final isLoading = ref.read(transactionMutationProvider).isLoading;
 
     if (isLoading) return;
 
-    await ref
-        .read(transactionMutationProvider.notifier)
-        .addTransaction(shortcut.toTransaction());
+    await ref.read(transactionMutationProvider.notifier).addTransaction(
+          shortcut.toTransaction().copy(
+            amount: params.amount,
+            accountId: params.accountId,
+          ),
+        );
 
     if (context.mounted) {
       CustomSnackBar.show(
@@ -132,7 +139,8 @@ class _HomeShortcutTileWrapper extends ConsumerWidget {
       shortcut: shortcut,
       category: category,
       account: account,
-      onTap: isLoading ? null : () => _addTransaction(context, ref),
+      enabled: !isLoading,
+      onAdd: (params) => _addTransaction(context, ref, params),
     );
   }
 }

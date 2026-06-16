@@ -8,6 +8,7 @@ import 'package:expense_tracker/features/transactions/presentation/providers/tra
 import 'package:expense_tracker/main.dart';
 import 'package:expense_tracker/core/presentation/common/widgets/custom_snackbar.dart';
 import 'package:expense_tracker/core/presentation/providers/app_localizations_provider.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -18,14 +19,8 @@ class RecurringRulesMutationNotifier extends AsyncNotifier<void> {
   @override
   Future<void> build() async {}
 
-  Future<RecurringRule?> addRecurringRule(RecurringRule rule) async {
-    RecurringRule? inserted;
-    state = const AsyncLoading();
-
-    state = await AsyncValue.guard(() async {
-      inserted = await _repo.insertRecurringRule(rule: rule);
-
-      // Trigger generation for the new rule
+  Future<void> _generateDueTransactions() async {
+    try {
       final generatedCount = await ref
           .read(transactionsRepositoryProvider)
           .generateRecurringTransactionsUntil(DateTime.now());
@@ -46,11 +41,37 @@ class RecurringRulesMutationNotifier extends AsyncNotifier<void> {
         });
       }
 
-      ref.invalidate(recurringRulesListProvider);
       ref.invalidate(transactionsListProvider);
       ref.invalidate(budgetProgressProvider);
+    } catch (error, stackTrace) {
+      await FirebaseCrashlytics.instance.recordError(
+        error,
+        stackTrace,
+        reason: 'generateRecurringTransactionsUntil failed',
+        fatal: false,
+      );
+    }
+  }
+
+  Future<void> _refreshRulesList() async {
+    ref.invalidate(recurringRulesListProvider);
+    await ref.read(recurringRulesListProvider.future);
+  }
+
+  Future<RecurringRule?> addRecurringRule(RecurringRule rule) async {
+    RecurringRule? inserted;
+    state = const AsyncLoading();
+
+    state = await AsyncValue.guard(() async {
+      inserted = await _repo.insertRecurringRule(rule: rule);
+      await _refreshRulesList();
     });
 
+    if (state.hasError) {
+      return null;
+    }
+
+    await _generateDueTransactions();
     return inserted;
   }
 
@@ -59,32 +80,14 @@ class RecurringRulesMutationNotifier extends AsyncNotifier<void> {
     state = const AsyncLoading();
     state = await AsyncValue.guard(() async {
       await _repo.updateRecurringRule(original: original, modified: modified);
-
-      // Trigger generation for the updated rule
-      final generatedCount = await ref
-          .read(transactionsRepositoryProvider)
-          .generateRecurringTransactionsUntil(DateTime.now());
-
-      if (generatedCount > 0) {
-        final appLocalizations = ref.read(appLocalizationsProvider);
-        final snackbarMessage =
-            appLocalizations.generatedTransactionsSnackbar(generatedCount);
-
-        WidgetsBinding.instance.addPostFrameCallback((_) {
-          final context = navigatorKey.currentContext;
-          if (context != null) {
-            CustomSnackBar.show(
-              context,
-              message: snackbarMessage,
-            );
-          }
-        });
-      }
-
-      ref.invalidate(recurringRulesListProvider);
-      ref.invalidate(transactionsListProvider);
-      ref.invalidate(budgetProgressProvider);
+      await _refreshRulesList();
     });
+
+    if (state.hasError) {
+      return;
+    }
+
+    await _generateDueTransactions();
   }
 
   Future<void> deleteRecurringRule(RecurringRule rule) async {
@@ -94,7 +97,7 @@ class RecurringRulesMutationNotifier extends AsyncNotifier<void> {
       final removedRulesCount = await _repo.deleteRecurringRule(rule: rule);
 
       if (removedRulesCount > 0) {
-        ref.invalidate(recurringRulesListProvider);
+        await _refreshRulesList();
         ref.invalidate(transactionsListProvider);
         ref.invalidate(budgetProgressProvider);
       }

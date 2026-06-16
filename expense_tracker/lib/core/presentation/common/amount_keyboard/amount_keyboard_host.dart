@@ -81,6 +81,40 @@ double amountKeyboardBottomInset(BuildContext context) {
   return mediaQueryBottom > customInset ? mediaQueryBottom : customInset;
 }
 
+/// Shows a centered dialog that stays fixed when the custom amount keyboard
+/// opens. Unlike [showDialog], the route does not apply [MediaQuery.viewInsets]
+/// padding, so the keyboard draws over the dialog instead of pushing it up.
+Future<T?> showAmountKeyboardOverlayDialog<T>({
+  required BuildContext context,
+  required WidgetBuilder builder,
+  bool barrierDismissible = true,
+  Color? barrierColor,
+  Duration transitionDuration = const Duration(milliseconds: 200),
+}) {
+  return showGeneralDialog<T>(
+    context: context,
+    barrierDismissible: barrierDismissible,
+    barrierLabel: MaterialLocalizations.of(context).modalBarrierDismissLabel,
+    barrierColor: barrierColor ?? Colors.black54,
+    transitionDuration: transitionDuration,
+    pageBuilder: (dialogContext, animation, secondaryAnimation) {
+      return Align(
+        alignment: Alignment.center,
+        child: builder(dialogContext),
+      );
+    },
+    transitionBuilder: (context, animation, secondaryAnimation, child) {
+      return FadeTransition(
+        opacity: CurvedAnimation(
+          parent: animation,
+          curve: Curves.easeOut,
+        ),
+        child: child,
+      );
+    },
+  );
+}
+
 /// Lifts [child] when the amount keyboard (or system keyboard) is visible.
 class AmountKeyboardModalInset extends StatelessWidget {
   final Widget child;

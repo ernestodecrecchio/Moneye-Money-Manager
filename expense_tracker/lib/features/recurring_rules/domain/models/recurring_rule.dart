@@ -86,21 +86,23 @@ class RecurringRule extends Equatable {
       );
 
   DateTime _getNextOccurrenceFrom(DateTime from) {
+    final interval = frequencyInterval < 1 ? 1 : frequencyInterval;
+
     switch (frequency) {
       case 'daily':
-        return from.add(Duration(days: frequencyInterval));
+        return from.add(Duration(days: interval));
       case 'weekly':
-        return from.add(Duration(days: 7 * frequencyInterval));
+        return from.add(Duration(days: 7 * interval));
       case 'monthly':
         final nextMonth =
-            DateTime(from.year, from.month + frequencyInterval, from.day);
-        if (nextMonth.month != (from.month + frequencyInterval) % 12 &&
+            DateTime(from.year, from.month + interval, from.day);
+        if (nextMonth.month != (from.month + interval) % 12 &&
             nextMonth.month != 12) {
-          return DateTime(from.year, from.month + frequencyInterval + 1, 0);
+          return DateTime(from.year, from.month + interval + 1, 0);
         }
         return nextMonth;
       case 'yearly':
-        return DateTime(from.year + frequencyInterval, from.month, from.day);
+        return DateTime(from.year + interval, from.month, from.day);
       default:
         return from;
     }

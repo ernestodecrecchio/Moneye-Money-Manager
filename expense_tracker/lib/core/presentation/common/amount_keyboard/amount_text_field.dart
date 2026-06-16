@@ -22,6 +22,10 @@ class AmountTextField extends StatefulWidget {
   final Widget? prefix;
   final FocusNode? focusNode;
   final VoidCallback? onDone;
+  final TextAlign textAlign;
+  final TextStyle? textStyle;
+  final EdgeInsetsGeometry? contentPadding;
+  final Color? fillColor;
 
   const AmountTextField({
     super.key,
@@ -35,6 +39,10 @@ class AmountTextField extends StatefulWidget {
     this.prefix,
     this.focusNode,
     this.onDone,
+    this.textAlign = TextAlign.start,
+    this.textStyle,
+    this.contentPadding,
+    this.fillColor,
   });
 
   @override
@@ -255,6 +263,10 @@ class _AmountTextFieldState extends State<AmountTextField> {
           enableInteractiveSelection: true,
           onTap: _handleTap,
           showCursor: true,
+          textAlign: widget.textAlign,
+          style: widget.textStyle,
+          contentPadding: widget.contentPadding,
+          fillColor: widget.fillColor,
           keyboardType: TextInputType.none,
           textInputFormatters: _amountFormatters,
           scrollPadding: _scrollPadding(context),
