@@ -485,6 +485,40 @@ class DatabaseTransactionHelper {
     return records;
   }
 
+  Future<List<({int? categoryId, double amount})>> getExpensesByCategoryInPeriod({
+    required DateTime start,
+    required DateTime end,
+  }) async {
+    final db = await DatabaseHelper.instance.database;
+
+    const query = '''
+      SELECT ${TransactionFields.categoryId} AS category_id,
+        COALESCE(SUM(ABS(${TransactionFields.amount})), 0) AS total
+      FROM $transactionsTable
+      WHERE ${TransactionFields.isHidden} = 0
+        AND ${TransactionFields.includeInReports} = 1
+        AND ${TransactionFields.amount} < 0
+        AND date(${TransactionFields.date}) >= ?
+        AND date(${TransactionFields.date}) <= ?
+      GROUP BY ${TransactionFields.categoryId}
+      HAVING total > 0
+      ORDER BY total DESC
+    ''';
+
+    final result = await db.rawQuery(query, [
+      formatDate(start),
+      formatDate(end),
+    ]);
+
+    return [
+      for (final row in result)
+        (
+          categoryId: row['category_id'] as int?,
+          amount: (row['total'] is num) ? (row['total'] as num).toDouble() : 0.0,
+        ),
+    ];
+  }
+
   Future<List<trans.Transaction>> getTransactionsBetweenDates(
       {required DateTime startDate, required DateTime endDate}) async {
     final db = await DatabaseHelper.instance.database;

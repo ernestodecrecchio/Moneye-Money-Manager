@@ -520,6 +520,12 @@ abstract class AppLocalizations {
   /// **'Expenses by category'**
   String get statisticsSpendingExpensesByCategory;
 
+  /// No description provided for @statisticsSpendingExpensesByCategoryError.
+  ///
+  /// In en, this message translates to:
+  /// **'Unable to load expenses by category.'**
+  String get statisticsSpendingExpensesByCategoryError;
+
   /// No description provided for @statisticsSpendingMonthlyTrend.
   ///
   /// In en, this message translates to:

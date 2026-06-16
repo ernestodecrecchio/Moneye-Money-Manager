@@ -60,6 +60,12 @@ abstract class TransactionsRepository {
     required DateTime end,
   });
 
+  /// Expense totals grouped by category for reportable transactions in [start, end].
+  Future<List<({int? categoryId, double amount})>> getExpensesByCategoryInPeriod({
+    required DateTime start,
+    required DateTime end,
+  });
+
   Future<int> deleteTransactionsByCategory({required Category category});
   Future<int> transferTransactions({required Category from, required Category to});
 

@@ -123,6 +123,7 @@
     "statisticsNetWorthTrendError": "Unable to load net worth trend.",
     "statisticsIncomeVsExpensesError": "Unable to load income vs expenses chart.",
     "statisticsSpendingExpensesByCategory": "Expenses by category",
+    "statisticsSpendingExpensesByCategoryError": "Unable to load expenses by category.",
     "statisticsSpendingMonthlyTrend": "Monthly spending trend",
     "statisticsSpendingCategoryComparison": "Category comparison",
     "statisticsSpendingCategoryComparisonSubtitle": "Compare spending across categories",

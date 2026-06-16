@@ -231,6 +231,10 @@ class AppLocalizationsFr extends AppLocalizations {
   String get statisticsSpendingExpensesByCategory => 'Expenses by category';
 
   @override
+  String get statisticsSpendingExpensesByCategoryError =>
+      'Unable to load expenses by category.';
+
+  @override
   String get statisticsSpendingMonthlyTrend => 'Monthly spending trend';
 
   @override
