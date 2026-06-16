@@ -448,6 +448,42 @@ abstract class AppLocalizations {
   /// **'Quarter'**
   String get statisticsPeriodQuarter;
 
+  /// No description provided for @statisticsKeyFigures.
+  ///
+  /// In en, this message translates to:
+  /// **'KEY FIGURES'**
+  String get statisticsKeyFigures;
+
+  /// No description provided for @statisticsExpenses.
+  ///
+  /// In en, this message translates to:
+  /// **'Expenses'**
+  String get statisticsExpenses;
+
+  /// No description provided for @statisticsNetResult.
+  ///
+  /// In en, this message translates to:
+  /// **'Net result'**
+  String get statisticsNetResult;
+
+  /// No description provided for @statisticsSavingsRate.
+  ///
+  /// In en, this message translates to:
+  /// **'Savings rate'**
+  String get statisticsSavingsRate;
+
+  /// No description provided for @statisticsNetWorthTrend.
+  ///
+  /// In en, this message translates to:
+  /// **'Net worth trend'**
+  String get statisticsNetWorthTrend;
+
+  /// No description provided for @statisticsIncomeVsExpenses.
+  ///
+  /// In en, this message translates to:
+  /// **'Income vs expenses'**
+  String get statisticsIncomeVsExpenses;
+
   /// No description provided for @newBudget.
   ///
   /// In en, this message translates to:

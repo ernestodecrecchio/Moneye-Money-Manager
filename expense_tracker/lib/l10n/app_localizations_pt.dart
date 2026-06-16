@@ -191,6 +191,24 @@ class AppLocalizationsPt extends AppLocalizations {
   String get statisticsPeriodQuarter => 'Quarter';
 
   @override
+  String get statisticsKeyFigures => 'KEY FIGURES';
+
+  @override
+  String get statisticsExpenses => 'Expenses';
+
+  @override
+  String get statisticsNetResult => 'Net result';
+
+  @override
+  String get statisticsSavingsRate => 'Savings rate';
+
+  @override
+  String get statisticsNetWorthTrend => 'Net worth trend';
+
+  @override
+  String get statisticsIncomeVsExpenses => 'Income vs expenses';
+
+  @override
   String get newBudget => 'Novo orçamento';
 
   @override
