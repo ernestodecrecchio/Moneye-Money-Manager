@@ -184,6 +184,14 @@ class AppLocalizationsFr extends AppLocalizations {
   String get statisticsIncomeMonthlyTrend => 'Monthly income trend';
 
   @override
+  String get statisticsIncomeMonthlyTrendInsufficientData =>
+      'Not enough data to show monthly income trend for this period.';
+
+  @override
+  String get statisticsIncomeMonthlyTrendError =>
+      'Unable to load monthly income trend.';
+
+  @override
   String get statisticsIncomeAverageMonthly => 'Average monthly income';
 
   @override

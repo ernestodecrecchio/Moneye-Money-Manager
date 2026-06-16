@@ -436,6 +436,18 @@ abstract class AppLocalizations {
   /// **'Monthly income trend'**
   String get statisticsIncomeMonthlyTrend;
 
+  /// No description provided for @statisticsIncomeMonthlyTrendInsufficientData.
+  ///
+  /// In en, this message translates to:
+  /// **'Not enough data to show monthly income trend for this period.'**
+  String get statisticsIncomeMonthlyTrendInsufficientData;
+
+  /// No description provided for @statisticsIncomeMonthlyTrendError.
+  ///
+  /// In en, this message translates to:
+  /// **'Unable to load monthly income trend.'**
+  String get statisticsIncomeMonthlyTrendError;
+
   /// No description provided for @statisticsIncomeAverageMonthly.
   ///
   /// In en, this message translates to:

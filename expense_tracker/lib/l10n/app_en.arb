@@ -109,6 +109,8 @@
     "statisticsIncomeByCategory": "Income by category",
     "statisticsIncomeByCategoryError": "Unable to load income by category.",
     "statisticsIncomeMonthlyTrend": "Monthly income trend",
+    "statisticsIncomeMonthlyTrendInsufficientData": "Not enough data to show monthly income trend for this period.",
+    "statisticsIncomeMonthlyTrendError": "Unable to load monthly income trend.",
     "statisticsIncomeAverageMonthly": "Average monthly income",
     "statisticsCashflowComingSoon": "Cashflow trends comparing income and expenses for the selected period will appear here.",
     "statisticsCategoriesComingSoon": "Category spending breakdowns and comparisons for the selected period will appear here.",
