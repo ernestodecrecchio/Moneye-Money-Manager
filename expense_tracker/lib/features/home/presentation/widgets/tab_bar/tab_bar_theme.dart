@@ -116,7 +116,7 @@ class FloatingTabBarTheme extends ThemeExtension<FloatingTabBarTheme> {
     tabBarOuterRadius: 36,
     tabBarItemRadius: 28,
     fabSize: 56,
-    fabAboveTabBarGap: 0,
+    fabAboveTabBarGap: -15,
     fabMargin: 16,
     scrollBottomSpacing: 0,
     fadeExtensionAboveBar: 0,

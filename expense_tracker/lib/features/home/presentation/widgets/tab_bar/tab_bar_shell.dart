@@ -47,15 +47,23 @@ class FabAboveTabBarLocation extends FloatingActionButtonLocation {
     final theme = FloatingTabBarTheme.standard;
     final fabSize = scaffoldGeometry.floatingActionButtonSize;
     final scaffoldSize = scaffoldGeometry.scaffoldSize;
-    final bottomInset = scaffoldGeometry.minInsets.bottom;
-    final tabBarTopFromBottom = theme.chromeHeight(bottomInset);
+    // Keep the FAB vertically aligned with the custom bottom bar and its
+    // "home-indicator" safe area logic.
+    //
+    // We use the larger between MediaQuery.padding and MediaQuery.viewPadding
+    // (same logic as [TabBarThemeExtension.deviceBottomInset]).
+    final paddingInset = scaffoldGeometry.minInsets.bottom;
+    final viewPaddingInset = scaffoldGeometry.minViewPadding.bottom;
+    final deviceBottomInset =
+        viewPaddingInset > paddingInset ? viewPaddingInset : paddingInset;
+    final fabBottomOffset = theme.fabBottomOffset(deviceBottomInset);
 
     return Offset(
       scaffoldSize.width - fabSize.width - theme.fabMargin,
-      scaffoldSize.height -
-          fabSize.height -
-          theme.fabMargin -
-          tabBarTopFromBottom,
+      (scaffoldSize.height - fabSize.height - fabBottomOffset).clamp(
+        0.0,
+        scaffoldSize.height - fabSize.height,
+      ),
     );
   }
 }
