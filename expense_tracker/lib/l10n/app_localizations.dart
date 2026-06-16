@@ -460,6 +460,24 @@ abstract class AppLocalizations {
   /// **'Unable to load category statistics.'**
   String get statisticsCategoryDetailError;
 
+  /// No description provided for @statisticsCategoryMonthlyTrend.
+  ///
+  /// In en, this message translates to:
+  /// **'Monthly trend'**
+  String get statisticsCategoryMonthlyTrend;
+
+  /// No description provided for @statisticsCategoryMonthlyTrendInsufficientData.
+  ///
+  /// In en, this message translates to:
+  /// **'Not enough data to show monthly trend for this category in the selected period.'**
+  String get statisticsCategoryMonthlyTrendInsufficientData;
+
+  /// No description provided for @statisticsScrollToTop.
+  ///
+  /// In en, this message translates to:
+  /// **'Back to top'**
+  String get statisticsScrollToTop;
+
   /// No description provided for @statisticsInsightsComingSoon.
   ///
   /// In en, this message translates to:

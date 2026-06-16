@@ -66,9 +66,14 @@ class SpendingMonthlyTrendSection extends ConsumerWidget {
 }
 
 class MonthlySpendingTrendLineChart extends ConsumerWidget {
-  const MonthlySpendingTrendLineChart({super.key, required this.series});
+  const MonthlySpendingTrendLineChart({
+    super.key,
+    required this.series,
+    this.lineColor,
+  });
 
   final MonthlySpendingTrendSeries series;
+  final Color? lineColor;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -83,6 +88,7 @@ class MonthlySpendingTrendLineChart extends ConsumerWidget {
     final maxY = maxValue + chartPadding;
     final labelInterval = max(1, (series.points.length / 5).floor()).toDouble();
     final showDots = series.points.length <= 12;
+    final chartColor = lineColor ?? colors.expense;
 
     final spots = [
       for (var i = 0; i < series.points.length; i++)
@@ -190,12 +196,12 @@ class MonthlySpendingTrendLineChart extends ConsumerWidget {
             LineChartBarData(
               spots: spots,
               isCurved: series.points.length > 2,
-              color: colors.expense,
+              color: chartColor,
               barWidth: 2.5,
               dotData: FlDotData(show: showDots),
               belowBarData: BarAreaData(
                 show: true,
-                color: colors.expense.withValues(alpha: 0.12),
+                color: chartColor.withValues(alpha: 0.12),
               ),
             ),
           ],

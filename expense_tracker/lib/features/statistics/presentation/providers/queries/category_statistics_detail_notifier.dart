@@ -3,6 +3,7 @@ import 'package:expense_tracker/core/style/style.dart';
 import 'package:expense_tracker/features/categories/domain/models/category.dart';
 import 'package:expense_tracker/features/categories/presentation/providers/categories_repository_provider.dart';
 import 'package:expense_tracker/features/statistics/domain/logic/categories_statistics_calculator.dart';
+import 'package:expense_tracker/features/statistics/domain/logic/category_monthly_trend_calculator.dart';
 import 'package:expense_tracker/features/statistics/domain/models/category_statistics_detail.dart';
 import 'package:expense_tracker/features/statistics/domain/models/category_statistics_entry.dart';
 import 'package:expense_tracker/features/statistics/presentation/providers/statistics_period_provider.dart';
@@ -54,6 +55,32 @@ class CategoryStatisticsDetailNotifier extends AsyncNotifier<CategoryStatisticsD
           amountType: CategoryStatisticsAmountType.expense,
         );
 
+    final categoryId = _categoryIdForQuery(category);
+    final monthlyExpenseRecords =
+        await transactionsRepository.getExpensesByCategoryAndMonthInPeriod(
+      start: period.startDate,
+      end: period.endDate,
+    );
+    final monthlyIncomeRecords =
+        await transactionsRepository.getIncomeByCategoryAndMonthInPeriod(
+      start: period.startDate,
+      end: period.endDate,
+    );
+
+    final monthlySourceRecords = summary.isExpense
+        ? monthlyExpenseRecords
+        : monthlyIncomeRecords;
+
+    final monthlyTrend = CategoryMonthlyTrendCalculator.build(
+      period: period,
+      monthlyRecords: [
+        for (final record in monthlySourceRecords)
+          if (record.categoryId == categoryId)
+            (monthStart: record.monthStart, amount: record.amount),
+      ],
+      locale: appLocalizations.localeName,
+    );
+
     final transactions = await transactionsRepository.getTransactions(
       startDate: period.startDate,
       endDate: period.endDate,
@@ -66,8 +93,17 @@ class CategoryStatisticsDetailNotifier extends AsyncNotifier<CategoryStatisticsD
 
     return CategoryStatisticsDetail(
       summary: summary,
+      monthlyTrend: monthlyTrend,
       transactions: reportableTransactions,
     );
+  }
+
+  int? _categoryIdForQuery(Category category) {
+    if (category.isOtherCategory) {
+      return null;
+    }
+
+    return category.id;
   }
 
   CategoryStatisticsEntry? _findSummary(

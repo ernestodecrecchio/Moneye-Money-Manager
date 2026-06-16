@@ -137,6 +137,18 @@ class TransactionsRepositoryImpl implements TransactionsRepository {
   }
 
   @override
+  Future<List<({int? categoryId, DateTime monthStart, double amount})>>
+      getIncomeByCategoryAndMonthInPeriod({
+    required DateTime start,
+    required DateTime end,
+  }) async {
+    return dbHelper.getIncomeByCategoryAndMonthInPeriod(
+      start: start,
+      end: end,
+    );
+  }
+
+  @override
   Future<List<Transaction>> getTransactions({
     DateTime? startDate,
     DateTime? endDate,

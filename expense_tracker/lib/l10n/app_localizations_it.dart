@@ -199,6 +199,16 @@ class AppLocalizationsIt extends AppLocalizations {
       'Unable to load category statistics.';
 
   @override
+  String get statisticsCategoryMonthlyTrend => 'Monthly trend';
+
+  @override
+  String get statisticsCategoryMonthlyTrendInsufficientData =>
+      'Not enough data to show monthly trend for this category in the selected period.';
+
+  @override
+  String get statisticsScrollToTop => 'Back to top';
+
+  @override
   String get statisticsInsightsComingSoon =>
       'Automated insights and highlights based on your financial activity will appear here.';
 

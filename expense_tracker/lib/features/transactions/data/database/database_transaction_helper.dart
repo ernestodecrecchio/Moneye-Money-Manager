@@ -592,6 +592,45 @@ class DatabaseTransactionHelper {
     ];
   }
 
+  Future<List<({int? categoryId, DateTime monthStart, double amount})>>
+      getIncomeByCategoryAndMonthInPeriod({
+    required DateTime start,
+    required DateTime end,
+  }) async {
+    final db = await DatabaseHelper.instance.database;
+
+    const query = '''
+      SELECT ${TransactionFields.categoryId} AS category_id,
+        strftime('%Y-%m', date(${TransactionFields.date})) AS month_key,
+        COALESCE(SUM(${TransactionFields.amount}), 0) AS total
+      FROM $transactionsTable
+      WHERE ${TransactionFields.isHidden} = 0
+        AND ${TransactionFields.includeInReports} = 1
+        AND ${TransactionFields.amount} > 0
+        AND date(${TransactionFields.date}) >= ?
+        AND date(${TransactionFields.date}) <= ?
+      GROUP BY ${TransactionFields.categoryId}, month_key
+      HAVING total > 0
+      ORDER BY month_key ASC, total DESC
+    ''';
+
+    final result = await db.rawQuery(query, [
+      formatDate(start),
+      formatDate(end),
+    ]);
+
+    return [
+      for (final row in result)
+        if (_parseMonthKey(row['month_key'] as String?)
+            case final monthStart?)
+          (
+            categoryId: row['category_id'] as int?,
+            monthStart: monthStart,
+            amount: (row['total'] is num) ? (row['total'] as num).toDouble() : 0.0,
+          ),
+    ];
+  }
+
   DateTime? _parseMonthKey(String? monthKey) {
     if (monthKey == null) {
       return null;
