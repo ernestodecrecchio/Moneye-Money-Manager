@@ -249,7 +249,15 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get statisticsSpendingCategoryComparisonSubtitle =>
-      'Compare spending across categories';
+      'Top categories compared month by month';
+
+  @override
+  String get statisticsSpendingCategoryComparisonInsufficientData =>
+      'Not enough data to compare categories across months for this period.';
+
+  @override
+  String get statisticsSpendingCategoryComparisonError =>
+      'Unable to load category comparison.';
 
   @override
   String get statisticsSpendingInsightsPreview => 'Spending insights';

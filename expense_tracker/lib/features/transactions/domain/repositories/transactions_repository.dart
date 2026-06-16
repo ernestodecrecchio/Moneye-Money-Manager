@@ -66,6 +66,13 @@ abstract class TransactionsRepository {
     required DateTime end,
   });
 
+  /// Expense totals grouped by category and month for reportable transactions.
+  Future<List<({int? categoryId, DateTime monthStart, double amount})>>
+      getExpensesByCategoryAndMonthInPeriod({
+    required DateTime start,
+    required DateTime end,
+  });
+
   Future<int> deleteTransactionsByCategory({required Category category});
   Future<int> transferTransactions({required Category from, required Category to});
 

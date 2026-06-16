@@ -553,8 +553,20 @@ abstract class AppLocalizations {
   /// No description provided for @statisticsSpendingCategoryComparisonSubtitle.
   ///
   /// In en, this message translates to:
-  /// **'Compare spending across categories'**
+  /// **'Top categories compared month by month'**
   String get statisticsSpendingCategoryComparisonSubtitle;
+
+  /// No description provided for @statisticsSpendingCategoryComparisonInsufficientData.
+  ///
+  /// In en, this message translates to:
+  /// **'Not enough data to compare categories across months for this period.'**
+  String get statisticsSpendingCategoryComparisonInsufficientData;
+
+  /// No description provided for @statisticsSpendingCategoryComparisonError.
+  ///
+  /// In en, this message translates to:
+  /// **'Unable to load category comparison.'**
+  String get statisticsSpendingCategoryComparisonError;
 
   /// No description provided for @statisticsSpendingInsightsPreview.
   ///

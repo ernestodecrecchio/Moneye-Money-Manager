@@ -23,7 +23,7 @@ class ExpensesByCategoryCalculator {
         continue;
       }
 
-      final category = _resolveCategory(
+      final category = resolveCategory(
         categoryId: record.categoryId,
         categoryById: categoryById,
         uncategorizedCategory: uncategorizedCategory,
@@ -56,7 +56,7 @@ class ExpensesByCategoryCalculator {
     );
   }
 
-  static Category _resolveCategory({
+  static Category resolveCategory({
     required int? categoryId,
     required Map<int, Category> categoryById,
     required Category uncategorizedCategory,
