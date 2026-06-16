@@ -125,6 +125,8 @@
     "statisticsSpendingExpensesByCategory": "Expenses by category",
     "statisticsSpendingExpensesByCategoryError": "Unable to load expenses by category.",
     "statisticsSpendingMonthlyTrend": "Monthly spending trend",
+    "statisticsSpendingMonthlyTrendInsufficientData": "Not enough data to show monthly spending trend for this period.",
+    "statisticsSpendingMonthlyTrendError": "Unable to load monthly spending trend.",
     "statisticsSpendingCategoryComparison": "Category comparison",
     "statisticsSpendingCategoryComparisonSubtitle": "Compare spending across categories",
     "statisticsSpendingInsightsPreview": "Spending insights",

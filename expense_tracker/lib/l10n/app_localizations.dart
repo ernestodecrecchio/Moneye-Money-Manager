@@ -532,6 +532,18 @@ abstract class AppLocalizations {
   /// **'Monthly spending trend'**
   String get statisticsSpendingMonthlyTrend;
 
+  /// No description provided for @statisticsSpendingMonthlyTrendInsufficientData.
+  ///
+  /// In en, this message translates to:
+  /// **'Not enough data to show monthly spending trend for this period.'**
+  String get statisticsSpendingMonthlyTrendInsufficientData;
+
+  /// No description provided for @statisticsSpendingMonthlyTrendError.
+  ///
+  /// In en, this message translates to:
+  /// **'Unable to load monthly spending trend.'**
+  String get statisticsSpendingMonthlyTrendError;
+
   /// No description provided for @statisticsSpendingCategoryComparison.
   ///
   /// In en, this message translates to:

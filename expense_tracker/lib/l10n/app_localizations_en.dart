@@ -237,6 +237,14 @@ class AppLocalizationsEn extends AppLocalizations {
   String get statisticsSpendingMonthlyTrend => 'Monthly spending trend';
 
   @override
+  String get statisticsSpendingMonthlyTrendInsufficientData =>
+      'Not enough data to show monthly spending trend for this period.';
+
+  @override
+  String get statisticsSpendingMonthlyTrendError =>
+      'Unable to load monthly spending trend.';
+
+  @override
   String get statisticsSpendingCategoryComparison => 'Category comparison';
 
   @override
