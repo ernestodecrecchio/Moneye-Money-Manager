@@ -1,5 +1,6 @@
 import 'package:expense_tracker/features/accounts/presentation/providers/queries/accounts_with_balance_notifier.dart';
 import 'package:expense_tracker/features/budgeting/presentation/providers/queries/budget_progress_notifier.dart';
+import 'package:expense_tracker/features/statistics/presentation/providers/queries/income_vs_expenses_notifier.dart';
 import 'package:expense_tracker/features/statistics/presentation/providers/queries/net_worth_trend_notifier.dart';
 import 'package:expense_tracker/features/statistics/presentation/providers/queries/overview_kpis_notifier.dart';
 import 'package:expense_tracker/core/configuration/analytics_manager.dart';
@@ -30,6 +31,7 @@ class TransactionMutationNotifier extends AsyncNotifier<void> {
       ref.invalidate(budgetProgressProvider);
       ref.invalidate(overviewKpisProvider);
       ref.invalidate(netWorthTrendProvider);
+      ref.invalidate(incomeVsExpensesProvider);
     });
 
     await AnalyticsManager.logTransactionAdded();
@@ -51,6 +53,7 @@ class TransactionMutationNotifier extends AsyncNotifier<void> {
       ref.invalidate(budgetProgressProvider);
       ref.invalidate(overviewKpisProvider);
       ref.invalidate(netWorthTrendProvider);
+      ref.invalidate(incomeVsExpensesProvider);
     });
 
     await AnalyticsManager.logTransactionUpdated();
@@ -70,6 +73,7 @@ class TransactionMutationNotifier extends AsyncNotifier<void> {
         ref.invalidate(budgetProgressProvider);
         ref.invalidate(overviewKpisProvider);
         ref.invalidate(netWorthTrendProvider);
+        ref.invalidate(incomeVsExpensesProvider);
       }
     });
 

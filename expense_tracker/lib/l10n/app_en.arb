@@ -121,6 +121,7 @@
     "statisticsOverviewKpisError": "Unable to load key figures.",
     "statisticsNetWorthTrendInsufficientData": "Not enough data to show net worth trend for this period.",
     "statisticsNetWorthTrendError": "Unable to load net worth trend.",
+    "statisticsIncomeVsExpensesError": "Unable to load income vs expenses chart.",
     "newBudget": "New budget",
     "editBudget": "Edit budget",
     "amountSpentOf": "spent of",

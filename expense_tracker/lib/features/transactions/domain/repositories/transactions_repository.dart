@@ -53,6 +53,13 @@ abstract class TransactionsRepository {
     required DateTime end,
   });
 
+  /// Daily income and expense totals for reportable transactions in [start, end].
+  Future<List<({DateTime date, double income, double expenses})>>
+      getDailyIncomeAndExpensesInPeriod({
+    required DateTime start,
+    required DateTime end,
+  });
+
   Future<int> deleteTransactionsByCategory({required Category category});
   Future<int> transferTransactions({required Category from, required Category to});
 

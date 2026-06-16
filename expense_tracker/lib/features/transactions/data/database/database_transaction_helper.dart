@@ -433,6 +433,58 @@ class DatabaseTransactionHelper {
     return changes;
   }
 
+  Future<List<({DateTime date, double income, double expenses})>>
+      getDailyIncomeAndExpensesInPeriod({
+    required DateTime start,
+    required DateTime end,
+  }) async {
+    final db = await DatabaseHelper.instance.database;
+
+    const query = '''
+      SELECT date(${TransactionFields.date}) AS tx_date,
+        COALESCE(SUM(CASE WHEN ${TransactionFields.amount} >= 0 AND ${TransactionFields.includeInReports} = 1 THEN ${TransactionFields.amount} ELSE 0 END), 0) AS income,
+        COALESCE(SUM(CASE WHEN ${TransactionFields.amount} < 0 AND ${TransactionFields.includeInReports} = 1 THEN ABS(${TransactionFields.amount}) ELSE 0 END), 0) AS expenses
+      FROM $transactionsTable
+      WHERE ${TransactionFields.isHidden} = 0
+        AND date(${TransactionFields.date}) >= ?
+        AND date(${TransactionFields.date}) <= ?
+      GROUP BY date(${TransactionFields.date})
+      ORDER BY tx_date
+    ''';
+
+    final result = await db.rawQuery(query, [
+      formatDate(start),
+      formatDate(end),
+    ]);
+
+    final records = <({DateTime date, double income, double expenses})>[];
+    for (final row in result) {
+      final dateString = row['tx_date'] as String?;
+      if (dateString == null) {
+        continue;
+      }
+
+      final parts = dateString.split('-');
+      if (parts.length != 3) {
+        continue;
+      }
+
+      final income = row['income'];
+      final expenses = row['expenses'];
+      records.add((
+        date: DateTime(
+          int.parse(parts[0]),
+          int.parse(parts[1]),
+          int.parse(parts[2]),
+        ),
+        income: (income is num) ? income.toDouble() : 0.0,
+        expenses: (expenses is num) ? expenses.toDouble() : 0.0,
+      ));
+    }
+
+    return records;
+  }
+
   Future<List<trans.Transaction>> getTransactionsBetweenDates(
       {required DateTime startDate, required DateTime endDate}) async {
     final db = await DatabaseHelper.instance.database;

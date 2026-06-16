@@ -223,6 +223,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get statisticsNetWorthTrendError => 'Unable to load net worth trend.';
 
   @override
+  String get statisticsIncomeVsExpensesError =>
+      'Unable to load income vs expenses chart.';
+
+  @override
   String get newBudget => 'New budget';
 
   @override

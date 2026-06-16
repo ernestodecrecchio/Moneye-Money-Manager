@@ -508,6 +508,12 @@ abstract class AppLocalizations {
   /// **'Unable to load net worth trend.'**
   String get statisticsNetWorthTrendError;
 
+  /// No description provided for @statisticsIncomeVsExpensesError.
+  ///
+  /// In en, this message translates to:
+  /// **'Unable to load income vs expenses chart.'**
+  String get statisticsIncomeVsExpensesError;
+
   /// No description provided for @newBudget.
   ///
   /// In en, this message translates to:
