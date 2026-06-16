@@ -85,6 +85,7 @@
     "categories": "Categories",
     "categoriesOptionDescription": "Manage the categories and create new ones",
     "budgeting": "Budgeting",
+    "statistics": "Statistics",
     "newBudget": "New budget",
     "editBudget": "Edit budget",
     "amountSpentOf": "spent of",

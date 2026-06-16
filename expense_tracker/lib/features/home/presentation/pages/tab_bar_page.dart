@@ -6,6 +6,7 @@ import 'package:expense_tracker/features/budgeting/presentation/pages/budget_for
 import 'package:expense_tracker/features/home/presentation/pages/home_page/home_page.dart';
 import 'package:expense_tracker/features/budgeting/presentation/pages/budget_list_page/budget_list_page.dart';
 import 'package:expense_tracker/features/settings/presentation/pages/options_page/options_page.dart';
+import 'package:expense_tracker/features/statistics/presentation/pages/statistics_page/statistics_page.dart';
 import 'package:expense_tracker/features/home/presentation/widgets/tab_bar/revolut_bottom_bar_item.dart';
 import 'package:expense_tracker/features/home/presentation/widgets/tab_bar/revolut_style_bottom_bar.dart';
 import 'package:expense_tracker/features/home/presentation/widgets/tab_bar/tab_bar_theme.dart';
@@ -50,7 +51,7 @@ class _TabBarPageState extends ConsumerState<TabBarPage> {
               Navigator.pushNamed(context, NewEditTransactionPage.routeName),
           child: const Icon(Icons.add),
         ),
-      1 => FloatingActionButton(
+      2 => FloatingActionButton(
           onPressed: () =>
               Navigator.pushNamed(context, BudgetFormPage.routeName),
           child: const Icon(Icons.add),
@@ -77,6 +78,12 @@ class _TabBarPageState extends ConsumerState<TabBarPage> {
                     includeFab: true,
                   ),
                   child: const HomePage(),
+                ),
+                TabBarScrollScope(
+                  bottomScrollPadding: context.tabBarScrollBottomInset(
+                    includeFab: false,
+                  ),
+                  child: const StatisticsPage(),
                 ),
                 TabBarScrollScope(
                   bottomScrollPadding: context.tabBarScrollBottomInset(
@@ -112,6 +119,10 @@ class _TabBarPageState extends ConsumerState<TabBarPage> {
                 height: 22,
                 width: 22,
               ),
+            ),
+            RevolutBottomBarItem(
+              label: appLocalizations.statistics,
+              icon: Icons.bar_chart_rounded,
             ),
             RevolutBottomBarItem(
               label: appLocalizations.budgeting,

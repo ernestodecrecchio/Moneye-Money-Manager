@@ -292,6 +292,7 @@
         }
     },
     "budgeting": "Budgeting",
+    "statistics": "Statistiche",
     "newBudget": "Nuovo budget",
     "editBudget": "Modifica budget",
     "amountSpentOf": "spesi di",

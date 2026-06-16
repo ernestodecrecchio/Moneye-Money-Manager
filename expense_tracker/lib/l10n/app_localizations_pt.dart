@@ -103,6 +103,9 @@ class AppLocalizationsPt extends AppLocalizations {
   String get budgeting => 'Orçamento';
 
   @override
+  String get statistics => 'Estatísticas';
+
+  @override
   String get newBudget => 'Novo orçamento';
 
   @override
@@ -963,6 +966,9 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   String get budgeting => 'Orçamento';
 
   @override
+  String get statistics => 'Estatísticas';
+
+  @override
   String get newBudget => 'Novo orçamento';
 
   @override
@@ -1819,6 +1825,9 @@ class AppLocalizationsPtPt extends AppLocalizationsPt {
 
   @override
   String get budgeting => 'Orçamento';
+
+  @override
+  String get statistics => 'Estatísticas';
 
   @override
   String get newBudget => 'Novo orçamento';

@@ -103,6 +103,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get budgeting => 'Budgeting';
 
   @override
+  String get statistics => 'Statistics';
+
+  @override
   String get newBudget => 'New budget';
 
   @override
@@ -968,6 +971,9 @@ class AppLocalizationsEnGb extends AppLocalizationsEn {
   String get budgeting => 'Budgeting';
 
   @override
+  String get statistics => 'Statistics';
+
+  @override
   String get newBudget => 'New budget';
 
   @override
@@ -1828,6 +1834,9 @@ class AppLocalizationsEnUs extends AppLocalizationsEn {
 
   @override
   String get budgeting => 'Budgeting';
+
+  @override
+  String get statistics => 'Statistics';
 
   @override
   String get newBudget => 'New budget';

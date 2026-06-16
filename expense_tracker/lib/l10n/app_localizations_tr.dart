@@ -104,6 +104,9 @@ class AppLocalizationsTr extends AppLocalizations {
   String get budgeting => 'Bütçeleme';
 
   @override
+  String get statistics => 'İstatistikler';
+
+  @override
   String get newBudget => 'Yeni bütçe';
 
   @override

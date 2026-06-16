@@ -292,6 +292,12 @@ abstract class AppLocalizations {
   /// **'Budgeting'**
   String get budgeting;
 
+  /// No description provided for @statistics.
+  ///
+  /// In en, this message translates to:
+  /// **'Statistics'**
+  String get statistics;
+
   /// No description provided for @newBudget.
   ///
   /// In en, this message translates to:
