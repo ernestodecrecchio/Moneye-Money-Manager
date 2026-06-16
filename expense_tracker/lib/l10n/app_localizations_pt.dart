@@ -106,6 +106,55 @@ class AppLocalizationsPt extends AppLocalizations {
   String get statistics => 'Estatísticas';
 
   @override
+  String get statisticsOverviewTitle => 'Overview';
+
+  @override
+  String get statisticsOverviewDescription =>
+      'Summary of your financial activity';
+
+  @override
+  String get statisticsOverviewPreviewSubtitle =>
+      'Quick snapshot of the selected period';
+
+  @override
+  String get statisticsSpendingTitle => 'Spending';
+
+  @override
+  String get statisticsSpendingDescription => 'Track where your money goes';
+
+  @override
+  String get statisticsIncomeTitle => 'Income';
+
+  @override
+  String get statisticsIncomeDescription => 'See your earnings over time';
+
+  @override
+  String get statisticsCashflowTitle => 'Cashflow';
+
+  @override
+  String get statisticsCashflowDescription => 'Income and expenses balance';
+
+  @override
+  String get statisticsCategoriesTitle => 'Categories';
+
+  @override
+  String get statisticsCategoriesDescription =>
+      'Spending breakdown by category';
+
+  @override
+  String get statisticsInsightsTitle => 'Insights';
+
+  @override
+  String get statisticsInsightsDescription =>
+      'Patterns and highlights from your data';
+
+  @override
+  String get statisticsNetBalance => 'Net balance';
+
+  @override
+  String get statisticsPlaceholderValue => '—';
+
+  @override
   String get newBudget => 'Novo orçamento';
 
   @override

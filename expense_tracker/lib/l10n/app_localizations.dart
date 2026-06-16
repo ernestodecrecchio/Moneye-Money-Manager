@@ -298,6 +298,96 @@ abstract class AppLocalizations {
   /// **'Statistics'**
   String get statistics;
 
+  /// No description provided for @statisticsOverviewTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Overview'**
+  String get statisticsOverviewTitle;
+
+  /// No description provided for @statisticsOverviewDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Summary of your financial activity'**
+  String get statisticsOverviewDescription;
+
+  /// No description provided for @statisticsOverviewPreviewSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Quick snapshot of the selected period'**
+  String get statisticsOverviewPreviewSubtitle;
+
+  /// No description provided for @statisticsSpendingTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Spending'**
+  String get statisticsSpendingTitle;
+
+  /// No description provided for @statisticsSpendingDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Track where your money goes'**
+  String get statisticsSpendingDescription;
+
+  /// No description provided for @statisticsIncomeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Income'**
+  String get statisticsIncomeTitle;
+
+  /// No description provided for @statisticsIncomeDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'See your earnings over time'**
+  String get statisticsIncomeDescription;
+
+  /// No description provided for @statisticsCashflowTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Cashflow'**
+  String get statisticsCashflowTitle;
+
+  /// No description provided for @statisticsCashflowDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Income and expenses balance'**
+  String get statisticsCashflowDescription;
+
+  /// No description provided for @statisticsCategoriesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Categories'**
+  String get statisticsCategoriesTitle;
+
+  /// No description provided for @statisticsCategoriesDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Spending breakdown by category'**
+  String get statisticsCategoriesDescription;
+
+  /// No description provided for @statisticsInsightsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Insights'**
+  String get statisticsInsightsTitle;
+
+  /// No description provided for @statisticsInsightsDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Patterns and highlights from your data'**
+  String get statisticsInsightsDescription;
+
+  /// No description provided for @statisticsNetBalance.
+  ///
+  /// In en, this message translates to:
+  /// **'Net balance'**
+  String get statisticsNetBalance;
+
+  /// No description provided for @statisticsPlaceholderValue.
+  ///
+  /// In en, this message translates to:
+  /// **'—'**
+  String get statisticsPlaceholderValue;
+
   /// No description provided for @newBudget.
   ///
   /// In en, this message translates to:
