@@ -194,6 +194,36 @@ class AppLocalizationsPt extends AppLocalizations {
   String get statisticsIncomeAverageMonthly => 'Average monthly income';
 
   @override
+  String get statisticsIncomeAverageMonthlyDescription =>
+      'Total income divided by the months in the selected period.';
+
+  @override
+  String get statisticsIncomeAverageMonthlyError =>
+      'Unable to load average monthly income.';
+
+  @override
+  String get statisticsSpendingAverageMonthly => 'Average monthly spending';
+
+  @override
+  String get statisticsSpendingAverageMonthlyDescription =>
+      'Total expenses divided by the months in the selected period.';
+
+  @override
+  String get statisticsSpendingAverageMonthlyError =>
+      'Unable to load average monthly spending.';
+
+  @override
+  String statisticsAverageMonthlyMonths(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Based on $count months',
+      one: 'Based on 1 month',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String get statisticsCashflowComingSoon =>
       'Cashflow trends comparing income and expenses for the selected period will appear here.';
 

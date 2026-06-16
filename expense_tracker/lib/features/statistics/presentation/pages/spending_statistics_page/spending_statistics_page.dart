@@ -1,5 +1,6 @@
 import 'package:expense_tracker/core/configuration/constants.dart';
 import 'package:expense_tracker/core/presentation/providers/app_localizations_provider.dart';
+import 'package:expense_tracker/features/statistics/presentation/pages/spending_statistics_page/spending_average_monthly_section.dart';
 import 'package:expense_tracker/features/statistics/presentation/pages/spending_statistics_page/spending_category_comparison_section.dart';
 import 'package:expense_tracker/features/statistics/presentation/pages/spending_statistics_page/spending_expenses_by_category_section.dart';
 import 'package:expense_tracker/features/statistics/presentation/pages/spending_statistics_page/spending_insights_preview_section.dart';
@@ -31,6 +32,8 @@ class SpendingStatisticsPage extends ConsumerWidget {
         children: const [
           StatisticsPeriodIndicator(),
           SizedBox(height: 20),
+          SpendingAverageMonthlySection(),
+          SizedBox(height: 16),
           SpendingExpensesByCategorySection(),
           SizedBox(height: 16),
           SpendingMonthlyTrendSection(),

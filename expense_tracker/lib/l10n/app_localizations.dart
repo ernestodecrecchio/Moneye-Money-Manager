@@ -454,6 +454,42 @@ abstract class AppLocalizations {
   /// **'Average monthly income'**
   String get statisticsIncomeAverageMonthly;
 
+  /// No description provided for @statisticsIncomeAverageMonthlyDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Total income divided by the months in the selected period.'**
+  String get statisticsIncomeAverageMonthlyDescription;
+
+  /// No description provided for @statisticsIncomeAverageMonthlyError.
+  ///
+  /// In en, this message translates to:
+  /// **'Unable to load average monthly income.'**
+  String get statisticsIncomeAverageMonthlyError;
+
+  /// No description provided for @statisticsSpendingAverageMonthly.
+  ///
+  /// In en, this message translates to:
+  /// **'Average monthly spending'**
+  String get statisticsSpendingAverageMonthly;
+
+  /// No description provided for @statisticsSpendingAverageMonthlyDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Total expenses divided by the months in the selected period.'**
+  String get statisticsSpendingAverageMonthlyDescription;
+
+  /// No description provided for @statisticsSpendingAverageMonthlyError.
+  ///
+  /// In en, this message translates to:
+  /// **'Unable to load average monthly spending.'**
+  String get statisticsSpendingAverageMonthlyError;
+
+  /// No description provided for @statisticsAverageMonthlyMonths.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{Based on 1 month} other{Based on {count} months}}'**
+  String statisticsAverageMonthlyMonths(num count);
+
   /// No description provided for @statisticsCashflowComingSoon.
   ///
   /// In en, this message translates to:

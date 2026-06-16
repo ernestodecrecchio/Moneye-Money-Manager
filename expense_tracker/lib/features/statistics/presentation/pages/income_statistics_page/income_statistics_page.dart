@@ -30,11 +30,11 @@ class IncomeStatisticsPage extends ConsumerWidget {
         children: const [
           StatisticsPeriodIndicator(),
           SizedBox(height: 20),
+          IncomeAverageMonthlySection(),
+          SizedBox(height: 16),
           IncomeByCategorySection(),
           SizedBox(height: 16),
           IncomeMonthlyTrendSection(),
-          SizedBox(height: 16),
-          IncomeAverageMonthlySection(),
         ],
       ),
     );
