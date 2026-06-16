@@ -553,6 +553,94 @@ class DatabaseTransactionHelper {
     ];
   }
 
+  Future<List<({int? accountId, double amount})>>
+      getExpensesByAccountForCategoryInPeriod({
+    required DateTime start,
+    required DateTime end,
+    required Category category,
+  }) async {
+    final db = await DatabaseHelper.instance.database;
+
+    final categoryCondition = category.isOtherCategory
+        ? '${TransactionFields.categoryId} IS NULL'
+        : '${TransactionFields.categoryId} = ?';
+
+    final query = '''
+      SELECT ${TransactionFields.accountId} AS account_id,
+        COALESCE(SUM(ABS(${TransactionFields.amount})), 0) AS total
+      FROM $transactionsTable
+      WHERE ${TransactionFields.isHidden} = 0
+        AND ${TransactionFields.includeInReports} = 1
+        AND ${TransactionFields.amount} < 0
+        AND date(${TransactionFields.date}) >= ?
+        AND date(${TransactionFields.date}) <= ?
+        AND $categoryCondition
+      GROUP BY ${TransactionFields.accountId}
+      HAVING total > 0
+      ORDER BY total DESC
+    ''';
+
+    final args = <dynamic>[
+      formatDate(start),
+      formatDate(end),
+      if (!category.isOtherCategory) category.id,
+    ];
+
+    final result = await db.rawQuery(query, args);
+
+    return [
+      for (final row in result)
+        (
+          accountId: row['account_id'] as int?,
+          amount: (row['total'] is num) ? (row['total'] as num).toDouble() : 0.0,
+        ),
+    ];
+  }
+
+  Future<List<({int? accountId, double amount})>>
+      getIncomeByAccountForCategoryInPeriod({
+    required DateTime start,
+    required DateTime end,
+    required Category category,
+  }) async {
+    final db = await DatabaseHelper.instance.database;
+
+    final categoryCondition = category.isOtherCategory
+        ? '${TransactionFields.categoryId} IS NULL'
+        : '${TransactionFields.categoryId} = ?';
+
+    final query = '''
+      SELECT ${TransactionFields.accountId} AS account_id,
+        COALESCE(SUM(${TransactionFields.amount}), 0) AS total
+      FROM $transactionsTable
+      WHERE ${TransactionFields.isHidden} = 0
+        AND ${TransactionFields.includeInReports} = 1
+        AND ${TransactionFields.amount} > 0
+        AND date(${TransactionFields.date}) >= ?
+        AND date(${TransactionFields.date}) <= ?
+        AND $categoryCondition
+      GROUP BY ${TransactionFields.accountId}
+      HAVING total > 0
+      ORDER BY total DESC
+    ''';
+
+    final args = <dynamic>[
+      formatDate(start),
+      formatDate(end),
+      if (!category.isOtherCategory) category.id,
+    ];
+
+    final result = await db.rawQuery(query, args);
+
+    return [
+      for (final row in result)
+        (
+          accountId: row['account_id'] as int?,
+          amount: (row['total'] is num) ? (row['total'] as num).toDouble() : 0.0,
+        ),
+    ];
+  }
+
   Future<List<({int? categoryId, DateTime monthStart, double amount})>>
       getExpensesByCategoryAndMonthInPeriod({
     required DateTime start,

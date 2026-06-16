@@ -206,6 +206,9 @@ class AppLocalizationsEs extends AppLocalizations {
       'Not enough data to show monthly trend for this category in the selected period.';
 
   @override
+  String get statisticsCategoryAccountBreakdown => 'Account breakdown';
+
+  @override
   String get statisticsScrollToTop => 'Back to top';
 
   @override

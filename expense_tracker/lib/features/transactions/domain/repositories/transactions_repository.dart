@@ -86,6 +86,22 @@ abstract class TransactionsRepository {
     required DateTime end,
   });
 
+  /// Expense totals grouped by account for a category in [start, end].
+  Future<List<({int? accountId, double amount})>>
+      getExpensesByAccountForCategoryInPeriod({
+    required DateTime start,
+    required DateTime end,
+    required Category category,
+  });
+
+  /// Income totals grouped by account for a category in [start, end].
+  Future<List<({int? accountId, double amount})>>
+      getIncomeByAccountForCategoryInPeriod({
+    required DateTime start,
+    required DateTime end,
+    required Category category,
+  });
+
   Future<int> deleteTransactionsByCategory({required Category category});
   Future<int> transferTransactions({required Category from, required Category to});
 

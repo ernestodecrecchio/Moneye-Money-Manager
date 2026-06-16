@@ -10,6 +10,7 @@ import 'package:expense_tracker/core/utils/double_helper.dart';
 import 'package:expense_tracker/features/categories/domain/models/category.dart';
 import 'package:expense_tracker/features/statistics/domain/models/category_statistics_detail.dart';
 import 'package:expense_tracker/features/statistics/domain/models/monthly_spending_trend_series.dart';
+import 'package:expense_tracker/features/statistics/presentation/pages/categories_statistics_page/category_account_breakdown_section.dart';
 import 'package:expense_tracker/features/statistics/presentation/pages/spending_statistics_page/spending_monthly_trend_section.dart';
 import 'package:expense_tracker/features/statistics/presentation/providers/queries/categories_statistics_notifier.dart';
 import 'package:expense_tracker/features/statistics/presentation/providers/queries/category_statistics_detail_notifier.dart';
@@ -226,6 +227,10 @@ class _CategoryStatisticsDetailContentState
               _CategoryMonthlyTrendSection(
                 monthlyTrend: detail.monthlyTrend,
                 chartColor: chartColor,
+              ),
+              const SizedBox(height: 16),
+              CategoryAccountBreakdownSection(
+                series: detail.accountBreakdown,
               ),
               const SizedBox(height: 16),
               Padding(

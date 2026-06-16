@@ -472,6 +472,12 @@ abstract class AppLocalizations {
   /// **'Not enough data to show monthly trend for this category in the selected period.'**
   String get statisticsCategoryMonthlyTrendInsufficientData;
 
+  /// No description provided for @statisticsCategoryAccountBreakdown.
+  ///
+  /// In en, this message translates to:
+  /// **'Account breakdown'**
+  String get statisticsCategoryAccountBreakdown;
+
   /// No description provided for @statisticsScrollToTop.
   ///
   /// In en, this message translates to:

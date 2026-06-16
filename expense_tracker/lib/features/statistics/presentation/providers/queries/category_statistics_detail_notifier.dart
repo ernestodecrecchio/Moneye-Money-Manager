@@ -1,8 +1,11 @@
 import 'package:expense_tracker/core/presentation/providers/app_localizations_provider.dart';
 import 'package:expense_tracker/core/style/style.dart';
+import 'package:expense_tracker/features/accounts/domain/models/account.dart';
+import 'package:expense_tracker/features/accounts/presentation/providers/accounts_repository_provider.dart';
 import 'package:expense_tracker/features/categories/domain/models/category.dart';
 import 'package:expense_tracker/features/categories/presentation/providers/categories_repository_provider.dart';
 import 'package:expense_tracker/features/statistics/domain/logic/categories_statistics_calculator.dart';
+import 'package:expense_tracker/features/statistics/domain/logic/category_account_breakdown_calculator.dart';
 import 'package:expense_tracker/features/statistics/domain/logic/category_monthly_trend_calculator.dart';
 import 'package:expense_tracker/features/statistics/domain/models/category_statistics_detail.dart';
 import 'package:expense_tracker/features/statistics/domain/models/category_statistics_entry.dart';
@@ -81,6 +84,29 @@ class CategoryStatisticsDetailNotifier extends AsyncNotifier<CategoryStatisticsD
       locale: appLocalizations.localeName,
     );
 
+    final uncategorizedAccount = Account(
+      name: appLocalizations.other,
+      colorValue: CustomColors.clearGreyText.toARGB32(),
+      isOtherAccount: true,
+    );
+    final accounts = await ref.read(accountsRepositoryProvider).getAccounts();
+    final accountSourceRecords = summary.isExpense
+        ? await transactionsRepository.getExpensesByAccountForCategoryInPeriod(
+            start: period.startDate,
+            end: period.endDate,
+            category: category,
+          )
+        : await transactionsRepository.getIncomeByAccountForCategoryInPeriod(
+            start: period.startDate,
+            end: period.endDate,
+            category: category,
+          );
+    final accountBreakdown = CategoryAccountBreakdownCalculator.build(
+      records: accountSourceRecords,
+      accounts: accounts,
+      uncategorizedAccount: uncategorizedAccount,
+    );
+
     final transactions = await transactionsRepository.getTransactions(
       startDate: period.startDate,
       endDate: period.endDate,
@@ -94,6 +120,7 @@ class CategoryStatisticsDetailNotifier extends AsyncNotifier<CategoryStatisticsD
     return CategoryStatisticsDetail(
       summary: summary,
       monthlyTrend: monthlyTrend,
+      accountBreakdown: accountBreakdown,
       transactions: reportableTransactions,
     );
   }

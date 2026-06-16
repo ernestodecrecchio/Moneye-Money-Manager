@@ -115,6 +115,7 @@
     "statisticsCategoryDetailError": "Unable to load category statistics.",
     "statisticsCategoryMonthlyTrend": "Monthly trend",
     "statisticsCategoryMonthlyTrendInsufficientData": "Not enough data to show monthly trend for this category in the selected period.",
+    "statisticsCategoryAccountBreakdown": "Account breakdown",
     "statisticsScrollToTop": "Back to top",
     "statisticsInsightsComingSoon": "Automated insights and highlights based on your financial activity will appear here.",
     "statisticsSelectGranularity": "Select granularity",
