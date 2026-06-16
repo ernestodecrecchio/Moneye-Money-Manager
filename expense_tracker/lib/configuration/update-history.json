@@ -32,15 +32,15 @@
         "pt": "Atalhos de transação"
       },
       "description": {
-        "en": "Create transaction presets and add them with a single tap from the Home screen. Manage your shortcuts from Settings and include them in backups.",
-        "it": "Crea preset di transazioni e aggiungile con un solo tocco dalla schermata Home. Gestisci le scorciatoie dalle Impostazioni e includile nei backup.",
-        "es": "Crea preajustes de transacciones y añádelos con un solo toque desde la pantalla de inicio. Gestiona tus accesos directos desde Ajustes e inclúyelos en las copias de seguridad.",
-        "de": "Erstellen Sie Transaktionsvorlagen und fügen Sie sie mit einem Tippen vom Startbildschirm hinzu. Verwalten Sie Ihre Verknüpfungen in den Einstellungen und sichern Sie sie in Backups.",
-        "fr": "Créez des préréglages de transactions et ajoutez-les en un seul geste depuis l'écran d'accueil. Gérez vos raccourcis dans les paramètres et incluez-les dans les sauvegardes.",
-        "tr": "İşlem ön ayarları oluşturun ve Ana ekrandan tek dokunuşla ekleyin. Kısayollarınızı Ayarlar'dan yönetin ve yedeklemelere dahil edin.",
-        "pt": "Crie predefinições de transações e adicione-as com um toque na tela inicial. Gerencie seus atalhos nas Configurações e inclua-os nos backups."
+        "en": "Create transaction presets for your most common entries. Tap a shortcut on the Home screen to add it instantly, or long press to adjust the amount and account before confirming. Manage shortcuts from Settings and include them in backups.",
+        "it": "Crea preset per le transazioni che inserisci più spesso. Tocca una scorciatoia nella Home per aggiungerla subito, oppure tieni premuto per modificare importo e conto prima di confermare. Gestisci le scorciatoie dalle Impostazioni e includile nei backup.",
+        "es": "Crea preajustes para tus transacciones más habituales. Toca un acceso directo en la pantalla de inicio para añadirlo al instante, o mantén pulsado para ajustar el importe y la cuenta antes de confirmar. Gestiona tus accesos directos desde Ajustes e inclúyelos en las copias de seguridad.",
+        "de": "Erstellen Sie Vorlagen für Ihre häufigsten Transaktionen. Tippen Sie auf eine Verknüpfung auf dem Startbildschirm, um sie sofort hinzuzufügen, oder halten Sie sie gedrückt, um Betrag und Konto vor dem Bestätigen anzupassen. Verwalten Sie Verknüpfungen in den Einstellungen und sichern Sie sie in Backups.",
+        "fr": "Créez des préréglages pour vos transactions les plus fréquentes. Appuyez sur un raccourci depuis l'écran d'accueil pour l'ajouter instantanément, ou maintenez pour ajuster le montant et le compte avant de confirmer. Gérez vos raccourcis dans les paramètres et incluez-les dans les sauvegardes.",
+        "tr": "En sık kullandığınız işlemler için ön ayarlar oluşturun. Ana ekrandaki bir kısayola dokunarak anında ekleyin veya onaylamadan önce tutar ve hesabı ayarlamak için uzun basın. Kısayollarınızı Ayarlar'dan yönetin ve yedeklemelere dahil edin.",
+        "pt": "Crie predefinições para suas transações mais comuns. Toque em um atalho na tela inicial para adicioná-lo na hora, ou pressione e segure para ajustar o valor e a conta antes de confirmar. Gerencie seus atalhos nas Configurações e inclua-os nos backups."
       },
-      "category": "new_feature"
+      "category": "shortcuts"
     },
     {
       "title": {
