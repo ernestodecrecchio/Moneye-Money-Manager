@@ -173,6 +173,15 @@ class AppLocalizationsEs extends AppLocalizations {
       'Income trends and totals for the selected period will appear here.';
 
   @override
+  String get statisticsIncomeByCategory => 'Income by category';
+
+  @override
+  String get statisticsIncomeMonthlyTrend => 'Monthly income trend';
+
+  @override
+  String get statisticsIncomeAverageMonthly => 'Average monthly income';
+
+  @override
   String get statisticsCashflowComingSoon =>
       'Cashflow trends comparing income and expenses for the selected period will appear here.';
 

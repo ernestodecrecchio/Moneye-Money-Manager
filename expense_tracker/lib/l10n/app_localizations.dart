@@ -418,6 +418,24 @@ abstract class AppLocalizations {
   /// **'Income trends and totals for the selected period will appear here.'**
   String get statisticsIncomeComingSoon;
 
+  /// No description provided for @statisticsIncomeByCategory.
+  ///
+  /// In en, this message translates to:
+  /// **'Income by category'**
+  String get statisticsIncomeByCategory;
+
+  /// No description provided for @statisticsIncomeMonthlyTrend.
+  ///
+  /// In en, this message translates to:
+  /// **'Monthly income trend'**
+  String get statisticsIncomeMonthlyTrend;
+
+  /// No description provided for @statisticsIncomeAverageMonthly.
+  ///
+  /// In en, this message translates to:
+  /// **'Average monthly income'**
+  String get statisticsIncomeAverageMonthly;
+
   /// No description provided for @statisticsCashflowComingSoon.
   ///
   /// In en, this message translates to:
