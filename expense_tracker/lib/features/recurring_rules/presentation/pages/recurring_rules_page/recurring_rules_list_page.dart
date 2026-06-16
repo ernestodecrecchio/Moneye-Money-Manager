@@ -1,28 +1,38 @@
-import 'package:expense_tracker/features/accounts/presentation/providers/queries/accounts_list_notifier.dart';
-import 'package:expense_tracker/features/categories/presentation/providers/queries/categories_list_notifier.dart';
+import 'package:collection/collection.dart';
+import 'package:expense_tracker/core/presentation/common/extensions/category_extensions.dart';
+import 'package:expense_tracker/core/presentation/common/widgets/icon_item.dart';
+import 'package:expense_tracker/core/presentation/common/widgets/list_empty_state.dart';
 import 'package:expense_tracker/core/presentation/providers/app_localizations_provider.dart';
 import 'package:expense_tracker/core/presentation/providers/currency_provider.dart';
 import 'package:expense_tracker/features/recurring_rules/presentation/providers/queries/recurring_rules_list_notifier.dart';
 import 'package:expense_tracker/features/recurring_rules/presentation/providers/mutations/recurring_rules_mutation_notifier.dart';
 import 'package:expense_tracker/features/recurring_rules/domain/models/recurring_rule.dart';
-import 'package:expense_tracker/core/presentation/common/widgets/icon_item.dart';
 import 'package:expense_tracker/features/transactions/presentation/pages/new_edit_transaction_flow/new_edit_transaction_page.dart';
 import 'package:expense_tracker/features/recurring_rules/presentation/pages/recurring_rules_page/recurring_rule_detail_page.dart';
 import 'package:expense_tracker/core/style/app_theme.dart';
 import 'package:expense_tracker/core/style/style.dart';
 import 'package:expense_tracker/core/utils/double_helper.dart';
-import 'package:expense_tracker/core/presentation/common/extensions/category_extensions.dart';
+import 'package:expense_tracker/features/accounts/presentation/providers/queries/accounts_list_notifier.dart';
+import 'package:expense_tracker/features/categories/presentation/providers/queries/categories_list_notifier.dart';
 import 'package:expense_tracker/features/recurring_rules/presentation/extensions/recurring_rule_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:intl/intl.dart';
-import 'package:collection/collection.dart';
 
 class RecurringRulesListPage extends ConsumerWidget {
   static const routeName = '/recurringRulesListPage';
 
   const RecurringRulesListPage({super.key});
+
+  void _openCreateRecurringRule(BuildContext context) {
+    Navigator.of(context).pushNamed(
+      NewEditTransactionPage.routeName,
+      arguments: NewEditTransactionPageScreenArguments(
+        isRecurringPreset: true,
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -33,32 +43,21 @@ class RecurringRulesListPage extends ConsumerWidget {
       appBar: AppBar(
         title: Text(appLocalizations.recurringTransactions),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.of(context).pushNamed(
-            NewEditTransactionPage.routeName,
-            arguments: NewEditTransactionPageScreenArguments(
-              isRecurringPreset: true,
-            ),
-          );
-        },
-        child: const Icon(Icons.add),
-      ),
+      floatingActionButton: recurringRulesAsync.asData?.value.isNotEmpty == true
+          ? FloatingActionButton(
+              onPressed: () => _openCreateRecurringRule(context),
+              child: const Icon(Icons.add),
+            )
+          : null,
       body: SafeArea(
         child: recurringRulesAsync.when(
           data: (rules) {
             if (rules.isEmpty) {
-              return Align(
-                alignment: Alignment.center,
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 8.0),
-                  child: Text(
-                    appLocalizations.noTransactions,
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.onSurfaceVariant,
-                    ),
-                  ),
-                ),
+              return ListEmptyState(
+                icon: Icons.repeat_rounded,
+                message: appLocalizations.noRecurringTransactions,
+                actionLabel: appLocalizations.newRecurringTransaction,
+                onAction: () => _openCreateRecurringRule(context),
               );
             }
 

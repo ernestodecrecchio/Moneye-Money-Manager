@@ -1,69 +1,59 @@
-import 'package:expense_tracker/features/categories/presentation/providers/queries/categories_list_notifier.dart';
+import 'package:expense_tracker/core/presentation/common/widgets/list_empty_state.dart';
 import 'package:expense_tracker/core/presentation/providers/app_localizations_provider.dart';
-import 'package:expense_tracker/l10n/app_localizations.dart';
 import 'package:expense_tracker/features/categories/presentation/pages/categories_list_page/category_list_cell.dart';
 import 'package:expense_tracker/features/categories/presentation/pages/categories_list_page/new_edit_category_page.dart';
+import 'package:expense_tracker/features/categories/presentation/providers/queries/categories_list_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:expense_tracker/core/style/app_theme.dart';
 
-class CategoriesListPage extends ConsumerStatefulWidget {
+class CategoriesListPage extends ConsumerWidget {
   static const routeName = '/categoriesListPage';
 
   const CategoriesListPage({super.key});
 
-  @override
-  ConsumerState<CategoriesListPage> createState() => _CategoriesListPageState();
-}
+  void _openCreateCategory(BuildContext context) {
+    Navigator.pushNamed(context, NewEditCategoryPage.routeName);
+  }
 
-class _CategoriesListPageState extends ConsumerState<CategoriesListPage> {
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final appLocalizations = ref.watch(appLocalizationsProvider);
+    final categoriesAsync = ref.watch(categoriesListProvider);
 
     return Scaffold(
       appBar: AppBar(
         title: Text(appLocalizations.yourCategories),
       ),
-      floatingActionButton: _buildFloatingActionButton(context),
-      body: SafeArea(child: _buildList(appLocalizations)),
-    );
-  }
-
-  Widget _buildList(AppLocalizations appLocalizations) {
-    return ref.watch(categoriesListProvider).when(
+      body: SafeArea(
+        child: categoriesAsync.when(
           data: (categoriesList) {
-            return categoriesList.isNotEmpty
-                ? ListView.builder(
-                    itemCount: categoriesList.length,
-                    itemBuilder: (context, index) {
-                      return CategoryListCell(category: categoriesList[index]);
-                    },
-                  )
-                : Align(
-                    alignment: Alignment.center,
-                    child: Padding(
-                      padding: const EdgeInsets.only(top: 8.0),
-                      child: Text(
-                        appLocalizations.noCategories,
-                        style:
-                            TextStyle(color: context.appColors.textSecondary),
-                        textAlign: TextAlign.start,
-                      ),
-                    ),
-                  );
+            if (categoriesList.isEmpty) {
+              return ListEmptyState(
+                icon: Icons.grid_view_rounded,
+                message: appLocalizations.noCategoriesListMessage,
+                actionLabel: appLocalizations.newCategory,
+                onAction: () => _openCreateCategory(context),
+              );
+            }
+
+            return ListView.builder(
+              itemCount: categoriesList.length,
+              itemBuilder: (context, index) {
+                return CategoryListCell(category: categoriesList[index]);
+              },
+            );
           },
           loading: () => const Center(child: CircularProgressIndicator()),
           error: (error, stackTrace) =>
               const Center(child: Text('Error loading categories')),
-        );
-  }
-
-  Widget _buildFloatingActionButton(BuildContext context) {
-    return FloatingActionButton(
-      child: const Icon(Icons.add),
-      onPressed: () =>
-          Navigator.pushNamed(context, NewEditCategoryPage.routeName),
+        ),
+      ),
+      floatingActionButton: categoriesAsync.asData?.value.isNotEmpty == true
+          ? FloatingActionButton(
+              onPressed: () => _openCreateCategory(context),
+              child: const Icon(Icons.add),
+            )
+          : null,
     );
   }
 }

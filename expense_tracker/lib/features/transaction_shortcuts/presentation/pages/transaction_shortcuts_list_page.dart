@@ -1,6 +1,6 @@
 import 'package:collection/collection.dart';
+import 'package:expense_tracker/core/presentation/common/widgets/list_empty_state.dart';
 import 'package:expense_tracker/core/presentation/providers/app_localizations_provider.dart';
-import 'package:expense_tracker/core/style/app_theme.dart';
 import 'package:expense_tracker/core/style/style.dart';
 import 'package:expense_tracker/features/accounts/presentation/providers/queries/accounts_list_notifier.dart';
 import 'package:expense_tracker/features/categories/presentation/providers/queries/categories_list_notifier.dart';
@@ -46,16 +46,15 @@ class TransactionShortcutsListPage extends ConsumerWidget {
       appBar: AppBar(
         title: Text(appLocalizations.transactionShortcuts),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => _openCreateShortcut(context),
-        child: const Icon(Icons.add),
-      ),
       body: SafeArea(
         child: shortcutsAsync.when(
           data: (shortcuts) {
             if (shortcuts.isEmpty) {
-              return _EmptyShortcutsState(
-                onCreateTap: () => _openCreateShortcut(context),
+              return ListEmptyState(
+                icon: Icons.bolt_rounded,
+                message: appLocalizations.noTransactionShortcuts,
+                actionLabel: appLocalizations.newTransactionShortcut,
+                onAction: () => _openCreateShortcut(context),
               );
             }
 
@@ -74,49 +73,12 @@ class TransactionShortcutsListPage extends ConsumerWidget {
           error: (error, stackTrace) => Center(child: Text(error.toString())),
         ),
       ),
-    );
-  }
-}
-
-class _EmptyShortcutsState extends ConsumerWidget {
-  final VoidCallback onCreateTap;
-
-  const _EmptyShortcutsState({required this.onCreateTap});
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final appLocalizations = ref.watch(appLocalizationsProvider);
-
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 40),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(
-              Icons.bolt_rounded,
-              size: 56,
-              color: context.appColors.textSecondary.withValues(alpha: 0.5),
-            ),
-            const SizedBox(height: 16),
-            Text(
-              appLocalizations.noTransactionShortcuts,
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 15,
-                color: context.appColors.textSecondary,
-                height: 1.4,
-              ),
-            ),
-            const SizedBox(height: 20),
-            FilledButton.icon(
-              onPressed: onCreateTap,
-              icon: const Icon(Icons.add_rounded),
-              label: Text(appLocalizations.newTransactionShortcut),
-            ),
-          ],
-        ),
-      ),
+      floatingActionButton: shortcutsAsync.asData?.value.isNotEmpty == true
+          ? FloatingActionButton(
+              onPressed: () => _openCreateShortcut(context),
+              child: const Icon(Icons.add),
+            )
+          : null,
     );
   }
 }

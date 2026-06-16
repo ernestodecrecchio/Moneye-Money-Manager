@@ -1,69 +1,59 @@
-import 'package:expense_tracker/features/accounts/presentation/providers/queries/accounts_list_notifier.dart';
+import 'package:expense_tracker/core/presentation/common/widgets/list_empty_state.dart';
 import 'package:expense_tracker/core/presentation/providers/app_localizations_provider.dart';
-import 'package:expense_tracker/l10n/app_localizations.dart';
 import 'package:expense_tracker/features/accounts/presentation/pages/accounts_list_page/account_list_cell.dart';
 import 'package:expense_tracker/features/accounts/presentation/pages/accounts_list_page/new_edit_account_page.dart';
+import 'package:expense_tracker/features/accounts/presentation/providers/queries/accounts_list_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class AccountsListPage extends ConsumerStatefulWidget {
+class AccountsListPage extends ConsumerWidget {
   static const routeName = '/accountsListPage';
 
   const AccountsListPage({super.key});
 
-  @override
-  ConsumerState<AccountsListPage> createState() => _AccountsListPageState();
-}
+  void _openCreateAccount(BuildContext context) {
+    Navigator.pushNamed(context, NewEditAccountPage.routeName);
+  }
 
-class _AccountsListPageState extends ConsumerState<AccountsListPage> {
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final appLocalizations = ref.watch(appLocalizationsProvider);
+    final accountsAsync = ref.watch(accountsListProvider);
 
     return Scaffold(
       appBar: AppBar(
         title: Text(appLocalizations.yourAccounts),
       ),
-      floatingActionButton: _buildFloatingActionButton(context),
-      body: SafeArea(child: _buildList(appLocalizations)),
-    );
-  }
-
-  Widget _buildList(AppLocalizations appLocalizations) {
-    return ref.watch(accountsListProvider).when(
+      body: SafeArea(
+        child: accountsAsync.when(
           data: (accountsList) {
-            return accountsList.isNotEmpty
-                ? ListView.builder(
-                    itemCount: accountsList.length,
-                    itemBuilder: (context, index) {
-                      final account = accountsList[index];
+            if (accountsList.isEmpty) {
+              return ListEmptyState(
+                icon: Icons.account_balance_rounded,
+                message: appLocalizations.noAccountsListMessage,
+                actionLabel: appLocalizations.newAccount,
+                onAction: () => _openCreateAccount(context),
+              );
+            }
 
-                      return AccountListCell(account: account);
-                    },
-                  )
-                : Align(
-                    alignment: Alignment.center,
-                    child: Padding(
-                      padding: const EdgeInsets.only(top: 8.0),
-                      child: Text(
-                        appLocalizations.noAccounts,
-                        style: const TextStyle(color: Colors.grey),
-                        textAlign: TextAlign.start,
-                      ),
-                    ),
-                  );
+            return ListView.builder(
+              itemCount: accountsList.length,
+              itemBuilder: (context, index) {
+                return AccountListCell(account: accountsList[index]);
+              },
+            );
           },
           loading: () => const Center(child: CircularProgressIndicator()),
           error: (error, stackTrace) =>
-              const Text('Error loading accounts list'),
-        );
-  }
-
-  Widget _buildFloatingActionButton(BuildContext context) {
-    return FloatingActionButton(
-      child: const Icon(Icons.add),
-      onPressed: () =>
-          Navigator.pushNamed(context, NewEditAccountPage.routeName),
+              const Center(child: Text('Error loading accounts list')),
+        ),
+      ),
+      floatingActionButton: accountsAsync.asData?.value.isNotEmpty == true
+          ? FloatingActionButton(
+              onPressed: () => _openCreateAccount(context),
+              child: const Icon(Icons.add),
+            )
+          : null,
     );
   }
 }
