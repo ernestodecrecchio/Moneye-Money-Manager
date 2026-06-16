@@ -452,10 +452,18 @@ class AppLocalizationsTr extends AppLocalizations {
   String get noAccounts => 'Hesap yok';
 
   @override
+  String get noAccountsListMessage =>
+      'Henüz hesap yok. Bakiyelerinizi takip etmek için bir tane oluşturun.';
+
+  @override
   String get noBudgetsYet => 'Henüz bütçe yok';
 
   @override
   String get noCategories => 'Kategori yok';
+
+  @override
+  String get noCategoriesListMessage =>
+      'Henüz kategori yok. İşlemlerinizi düzenlemek için bir tane oluşturun.';
 
   @override
   String get none => 'Hiçbiri';
@@ -504,6 +512,10 @@ class AppLocalizationsTr extends AppLocalizations {
       'Tekrarlanan işlemler için kurallarınızı yönetin';
 
   @override
+  String get noRecurringTransactions =>
+      'Henüz tekrarlayan işlem yok. Düzenli girişleri otomatikleştirmek için bir tane oluşturun.';
+
+  @override
   String get transactionShortcuts => 'İşlem kısayolları';
 
   @override
@@ -548,6 +560,9 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get resetError => 'Veriler silinirken bir hata oluştu';
+
+  @override
+  String get saveError => 'Unable to save. Please try again.';
 
   @override
   String get resetSuccess => 'Tüm veriler başarıyla silindi';

@@ -455,10 +455,18 @@ class AppLocalizationsEn extends AppLocalizations {
   String get noAccounts => 'No accounts';
 
   @override
+  String get noAccountsListMessage =>
+      'No accounts yet. Create one to track your balances.';
+
+  @override
   String get noBudgetsYet => 'No budgets yet';
 
   @override
   String get noCategories => 'No categories';
+
+  @override
+  String get noCategoriesListMessage =>
+      'No categories yet. Create one to organize your transactions.';
 
   @override
   String get none => 'None';
@@ -508,6 +516,10 @@ class AppLocalizationsEn extends AppLocalizations {
       'Manage your recurring transaction rules';
 
   @override
+  String get noRecurringTransactions =>
+      'No recurring transactions yet. Create one to automate regular entries.';
+
+  @override
   String get transactionShortcuts => 'Transaction Shortcuts';
 
   @override
@@ -552,6 +564,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get resetError => 'An error occurred while erasing data';
+
+  @override
+  String get saveError => 'Unable to save. Please try again.';
 
   @override
   String get resetSuccess => 'All data erased successfully';
@@ -1305,10 +1320,18 @@ class AppLocalizationsEnGb extends AppLocalizationsEn {
   String get noAccounts => 'No accounts';
 
   @override
+  String get noAccountsListMessage =>
+      'No accounts yet. Create one to track your balances.';
+
+  @override
   String get noBudgetsYet => 'No budgets yet';
 
   @override
   String get noCategories => 'No categories';
+
+  @override
+  String get noCategoriesListMessage =>
+      'No categories yet. Create one to organize your transactions.';
 
   @override
   String get none => 'None';
@@ -1356,6 +1379,10 @@ class AppLocalizationsEnGb extends AppLocalizationsEn {
   @override
   String get recurringTransactionsOptionDescription =>
       'Manage your recurring transaction rules';
+
+  @override
+  String get noRecurringTransactions =>
+      'No recurring transactions yet. Create one to automate regular entries.';
 
   @override
   String get transactionShortcuts => 'Transaction Shortcuts';
@@ -2155,10 +2182,18 @@ class AppLocalizationsEnUs extends AppLocalizationsEn {
   String get noAccounts => 'No accounts';
 
   @override
+  String get noAccountsListMessage =>
+      'No accounts yet. Create one to track your balances.';
+
+  @override
   String get noBudgetsYet => 'No budgets yet';
 
   @override
   String get noCategories => 'No categories';
+
+  @override
+  String get noCategoriesListMessage =>
+      'No categories yet. Create one to organize your transactions.';
 
   @override
   String get none => 'None';
@@ -2206,6 +2241,10 @@ class AppLocalizationsEnUs extends AppLocalizationsEn {
   @override
   String get recurringTransactionsOptionDescription =>
       'Manage your recurring transaction rules';
+
+  @override
+  String get noRecurringTransactions =>
+      'No recurring transactions yet. Create one to automate regular entries.';
 
   @override
   String get transactionShortcuts => 'Transaction Shortcuts';

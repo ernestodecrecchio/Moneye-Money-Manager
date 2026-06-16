@@ -458,10 +458,18 @@ class AppLocalizationsIt extends AppLocalizations {
   String get noAccounts => 'Nessun conto';
 
   @override
+  String get noAccountsListMessage =>
+      'Nessun conto. Creane uno per tenere traccia dei tuoi saldi.';
+
+  @override
   String get noBudgetsYet => 'Ancora nessun budget';
 
   @override
   String get noCategories => 'Nessuna categoria';
+
+  @override
+  String get noCategoriesListMessage =>
+      'Nessuna categoria. Creane una per organizzare le tue transazioni.';
 
   @override
   String get none => 'Nessuna';
@@ -511,6 +519,10 @@ class AppLocalizationsIt extends AppLocalizations {
       'Gestisci le tue regole per le transazioni ricorrenti';
 
   @override
+  String get noRecurringTransactions =>
+      'Nessuna transazione ricorrente. Creane una per automatizzare le transazioni regolari.';
+
+  @override
   String get transactionShortcuts => 'Scorciatoie transazioni';
 
   @override
@@ -556,6 +568,9 @@ class AppLocalizationsIt extends AppLocalizations {
   @override
   String get resetError =>
       'Si è verificato un errore durante la cancellazione dei dati';
+
+  @override
+  String get saveError => 'Impossibile salvare. Riprova.';
 
   @override
   String get resetSuccess => 'Tutti i dati sono stati cancellati con successo';

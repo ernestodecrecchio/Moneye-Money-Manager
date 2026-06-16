@@ -892,6 +892,12 @@ abstract class AppLocalizations {
   /// **'No accounts'**
   String get noAccounts;
 
+  /// No description provided for @noAccountsListMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'No accounts yet. Create one to track your balances.'**
+  String get noAccountsListMessage;
+
   /// No description provided for @noBudgetsYet.
   ///
   /// In en, this message translates to:
@@ -903,6 +909,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No categories'**
   String get noCategories;
+
+  /// No description provided for @noCategoriesListMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'No categories yet. Create one to organize your transactions.'**
+  String get noCategoriesListMessage;
 
   /// No description provided for @none.
   ///
@@ -988,6 +1000,12 @@ abstract class AppLocalizations {
   /// **'Manage your recurring transaction rules'**
   String get recurringTransactionsOptionDescription;
 
+  /// No description provided for @noRecurringTransactions.
+  ///
+  /// In en, this message translates to:
+  /// **'No recurring transactions yet. Create one to automate regular entries.'**
+  String get noRecurringTransactions;
+
   /// No description provided for @transactionShortcuts.
   ///
   /// In en, this message translates to:
@@ -1071,6 +1089,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'An error occurred while erasing data'**
   String get resetError;
+
+  /// No description provided for @saveError.
+  ///
+  /// In en, this message translates to:
+  /// **'Unable to save. Please try again.'**
+  String get saveError;
 
   /// No description provided for @resetSuccess.
   ///

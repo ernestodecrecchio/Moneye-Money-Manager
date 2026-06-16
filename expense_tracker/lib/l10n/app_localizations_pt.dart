@@ -451,10 +451,18 @@ class AppLocalizationsPt extends AppLocalizations {
   String get noAccounts => 'Sem contas';
 
   @override
+  String get noAccountsListMessage =>
+      'Nenhuma conta. Crie uma para acompanhar seus saldos.';
+
+  @override
   String get noBudgetsYet => 'Ainda não há orçamentos';
 
   @override
   String get noCategories => 'Sem categorias';
+
+  @override
+  String get noCategoriesListMessage =>
+      'Nenhuma categoria. Crie uma para organizar suas transações.';
 
   @override
   String get none => 'Nenhum';
@@ -504,6 +512,10 @@ class AppLocalizationsPt extends AppLocalizations {
       'Gerencie suas regras de transações recorrentes';
 
   @override
+  String get noRecurringTransactions =>
+      'Nenhuma transação recorrente. Crie uma para automatizar entradas regulares.';
+
+  @override
   String get transactionShortcuts => 'Atalhos de transação';
 
   @override
@@ -548,6 +560,9 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get resetError => 'Ocorreu um erro ao apagar os dados';
+
+  @override
+  String get saveError => 'Unable to save. Please try again.';
 
   @override
   String get resetSuccess => 'Todos os dados foram apagados com sucesso';
@@ -1296,10 +1311,18 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   String get noAccounts => 'Sem contas';
 
   @override
+  String get noAccountsListMessage =>
+      'Nenhuma conta. Crie uma para acompanhar seus saldos.';
+
+  @override
   String get noBudgetsYet => 'Ainda não há orçamentos';
 
   @override
   String get noCategories => 'Sem categorias';
+
+  @override
+  String get noCategoriesListMessage =>
+      'Nenhuma categoria. Crie uma para organizar suas transações.';
 
   @override
   String get none => 'Nenhum';
@@ -1347,6 +1370,10 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   @override
   String get recurringTransactionsOptionDescription =>
       'Gerencie suas regras de transações recorrentes';
+
+  @override
+  String get noRecurringTransactions =>
+      'Nenhuma transação recorrente. Crie uma para automatizar entradas regulares.';
 
   @override
   String get transactionShortcuts => 'Atalhos de transação';
@@ -2143,10 +2170,18 @@ class AppLocalizationsPtPt extends AppLocalizationsPt {
   String get noAccounts => 'Sem contas';
 
   @override
+  String get noAccountsListMessage =>
+      'Sem contas. Crie uma para acompanhar os seus saldos.';
+
+  @override
   String get noBudgetsYet => 'Ainda não há orçamentos';
 
   @override
   String get noCategories => 'Sem categorias';
+
+  @override
+  String get noCategoriesListMessage =>
+      'Sem categorias. Crie uma para organizar as suas transações.';
 
   @override
   String get none => 'Nenhum';
@@ -2194,6 +2229,10 @@ class AppLocalizationsPtPt extends AppLocalizationsPt {
   @override
   String get recurringTransactionsOptionDescription =>
       'Gerencie as suas regras de transações recorrentes';
+
+  @override
+  String get noRecurringTransactions =>
+      'Sem transações recorrentes. Crie uma para automatizar entradas regulares.';
 
   @override
   String get transactionShortcuts => 'Atalhos de transação';

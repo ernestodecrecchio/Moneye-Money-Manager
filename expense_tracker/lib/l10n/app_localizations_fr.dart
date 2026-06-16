@@ -459,10 +459,18 @@ class AppLocalizationsFr extends AppLocalizations {
   String get noAccounts => 'Aucun compte';
 
   @override
+  String get noAccountsListMessage =>
+      'Aucun compte. Créez-en un pour suivre vos soldes.';
+
+  @override
   String get noBudgetsYet => 'Pas encore de budgets';
 
   @override
   String get noCategories => 'Aucune catégorie';
+
+  @override
+  String get noCategoriesListMessage =>
+      'Aucune catégorie. Créez-en une pour organiser vos transactions.';
 
   @override
   String get none => 'Aucun';
@@ -512,6 +520,10 @@ class AppLocalizationsFr extends AppLocalizations {
       'Gérez vos règles de transactions récurrentes';
 
   @override
+  String get noRecurringTransactions =>
+      'Aucune transaction récurrente. Créez-en une pour automatiser vos entrées régulières.';
+
+  @override
   String get transactionShortcuts => 'Raccourcis de transaction';
 
   @override
@@ -557,6 +569,9 @@ class AppLocalizationsFr extends AppLocalizations {
   @override
   String get resetError =>
       'Une erreur est survenue lors de l\'effacement des données';
+
+  @override
+  String get saveError => 'Unable to save. Please try again.';
 
   @override
   String get resetSuccess => 'Toutes les données ont été effacées avec succès';
