@@ -228,6 +228,15 @@ class AppLocalizationsEn extends AppLocalizations {
       'Cashflow trends comparing income and expenses for the selected period will appear here.';
 
   @override
+  String get statisticsCashflowMonthlyChart => 'Monthly cashflow';
+
+  @override
+  String get statisticsCashflowMonthlyList => 'Monthly cashflow list';
+
+  @override
+  String get statisticsCashflowCumulativeChart => 'Cumulative cashflow';
+
+  @override
   String get statisticsCategoriesComingSoon =>
       'Category spending breakdowns and comparisons for the selected period will appear here.';
 

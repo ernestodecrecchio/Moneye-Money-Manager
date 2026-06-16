@@ -496,6 +496,24 @@ abstract class AppLocalizations {
   /// **'Cashflow trends comparing income and expenses for the selected period will appear here.'**
   String get statisticsCashflowComingSoon;
 
+  /// No description provided for @statisticsCashflowMonthlyChart.
+  ///
+  /// In en, this message translates to:
+  /// **'Monthly cashflow'**
+  String get statisticsCashflowMonthlyChart;
+
+  /// No description provided for @statisticsCashflowMonthlyList.
+  ///
+  /// In en, this message translates to:
+  /// **'Monthly cashflow list'**
+  String get statisticsCashflowMonthlyList;
+
+  /// No description provided for @statisticsCashflowCumulativeChart.
+  ///
+  /// In en, this message translates to:
+  /// **'Cumulative cashflow'**
+  String get statisticsCashflowCumulativeChart;
+
   /// No description provided for @statisticsCategoriesComingSoon.
   ///
   /// In en, this message translates to:
