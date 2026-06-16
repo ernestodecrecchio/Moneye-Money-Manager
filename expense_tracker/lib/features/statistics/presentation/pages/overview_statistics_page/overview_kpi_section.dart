@@ -22,6 +22,7 @@ class OverviewKpiSection extends ConsumerWidget {
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
+      spacing: 10,
       children: [
         Text(
           appLocalizations.statisticsKeyFigures,
@@ -32,7 +33,6 @@ class OverviewKpiSection extends ConsumerWidget {
             letterSpacing: 1.1,
           ),
         ),
-        const SizedBox(height: 10),
         kpisAsync.when(
           data: (kpis) => _OverviewKpiContent(
             appLocalizations: appLocalizations,
@@ -114,6 +114,7 @@ class _OverviewKpiContent extends ConsumerWidget {
             ),
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
+            spacing: 16,
             children: [
               Expanded(
                 child: StatisticsKpiCard(
@@ -122,7 +123,6 @@ class _OverviewKpiContent extends ConsumerWidget {
                   valueColor: colors.income,
                 ),
               ),
-              const SizedBox(width: 16),
               Expanded(
                 child: StatisticsKpiCard(
                   label: appLocalizations.statisticsExpenses,
@@ -135,6 +135,7 @@ class _OverviewKpiContent extends ConsumerWidget {
           const SizedBox(height: 16),
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
+            spacing: 16,
             children: [
               Expanded(
                 child: StatisticsKpiCard(
@@ -143,7 +144,6 @@ class _OverviewKpiContent extends ConsumerWidget {
                   valueColor: netResultColor,
                 ),
               ),
-              const SizedBox(width: 16),
               Expanded(
                 child: StatisticsKpiCard(
                   label: appLocalizations.statisticsSavingsRate,

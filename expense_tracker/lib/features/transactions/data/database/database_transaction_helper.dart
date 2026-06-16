@@ -375,6 +375,64 @@ class DatabaseTransactionHelper {
     );
   }
 
+  Future<double> getGlobalNetWorthBeforePeriod(DateTime periodStart) async {
+    final dayBefore = DateTime(
+      periodStart.year,
+      periodStart.month,
+      periodStart.day,
+    ).subtract(const Duration(days: 1));
+    final transactionSum = await getTransactionSum(null, dayBefore, null);
+    final rebalanceOffset =
+        await DatabaseAccountHelper.instance.getTotalRebalanceOffset();
+    return transactionSum + rebalanceOffset;
+  }
+
+  Future<Map<DateTime, double>> getDailyTransactionChangesInPeriod({
+    required DateTime start,
+    required DateTime end,
+  }) async {
+    final db = await DatabaseHelper.instance.database;
+
+    const query = '''
+      SELECT date(${TransactionFields.date}) AS tx_date,
+             COALESCE(SUM(${TransactionFields.amount}), 0) AS total
+      FROM $transactionsTable
+      WHERE ${TransactionFields.isHidden} = 0
+        AND date(${TransactionFields.date}) >= ?
+        AND date(${TransactionFields.date}) <= ?
+      GROUP BY date(${TransactionFields.date})
+      ORDER BY tx_date
+    ''';
+
+    final result = await db.rawQuery(query, [
+      formatDate(start),
+      formatDate(end),
+    ]);
+
+    final changes = <DateTime, double>{};
+    for (final row in result) {
+      final dateString = row['tx_date'] as String?;
+      final total = row['total'];
+      if (dateString == null) {
+        continue;
+      }
+
+      final parts = dateString.split('-');
+      if (parts.length != 3) {
+        continue;
+      }
+
+      final date = DateTime(
+        int.parse(parts[0]),
+        int.parse(parts[1]),
+        int.parse(parts[2]),
+      );
+      changes[date] = (total is num) ? total.toDouble() : 0.0;
+    }
+
+    return changes;
+  }
+
   Future<List<trans.Transaction>> getTransactionsBetweenDates(
       {required DateTime startDate, required DateTime endDate}) async {
     final db = await DatabaseHelper.instance.database;

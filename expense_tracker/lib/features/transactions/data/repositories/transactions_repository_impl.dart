@@ -75,6 +75,22 @@ class TransactionsRepositoryImpl implements TransactionsRepository {
   }
 
   @override
+  Future<double> getGlobalNetWorthBeforePeriod(DateTime periodStart) async {
+    return dbHelper.getGlobalNetWorthBeforePeriod(periodStart);
+  }
+
+  @override
+  Future<Map<DateTime, double>> getDailyTransactionChangesInPeriod({
+    required DateTime start,
+    required DateTime end,
+  }) async {
+    return dbHelper.getDailyTransactionChangesInPeriod(
+      start: start,
+      end: end,
+    );
+  }
+
+  @override
   Future<List<Transaction>> getTransactions({
     DateTime? startDate,
     DateTime? endDate,

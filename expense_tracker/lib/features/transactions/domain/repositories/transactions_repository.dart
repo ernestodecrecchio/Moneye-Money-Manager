@@ -43,6 +43,16 @@ abstract class TransactionsRepository {
     required DateTime end,
   });
 
+  /// Net worth before [periodStart]: all non-hidden transactions through the
+  /// prior day plus total rebalance offsets (all accounts, including unassigned).
+  Future<double> getGlobalNetWorthBeforePeriod(DateTime periodStart);
+
+  /// Daily transaction net change grouped by date within [start, end] (inclusive).
+  Future<Map<DateTime, double>> getDailyTransactionChangesInPeriod({
+    required DateTime start,
+    required DateTime end,
+  });
+
   Future<int> deleteTransactionsByCategory({required Category category});
   Future<int> transferTransactions({required Category from, required Category to});
 

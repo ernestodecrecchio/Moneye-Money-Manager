@@ -217,6 +217,13 @@ class AppLocalizationsTr extends AppLocalizations {
   String get statisticsOverviewKpisError => 'Unable to load key figures.';
 
   @override
+  String get statisticsNetWorthTrendInsufficientData =>
+      'Not enough data to show net worth trend for this period.';
+
+  @override
+  String get statisticsNetWorthTrendError => 'Unable to load net worth trend.';
+
+  @override
   String get newBudget => 'Yeni bütçe';
 
   @override

@@ -119,6 +119,8 @@
     "statisticsIncomeVsExpenses": "Income vs expenses",
     "statisticsNoTransactionsInPeriod": "No transactions in this period.",
     "statisticsOverviewKpisError": "Unable to load key figures.",
+    "statisticsNetWorthTrendInsufficientData": "Not enough data to show net worth trend for this period.",
+    "statisticsNetWorthTrendError": "Unable to load net worth trend.",
     "newBudget": "New budget",
     "editBudget": "Edit budget",
     "amountSpentOf": "spent of",

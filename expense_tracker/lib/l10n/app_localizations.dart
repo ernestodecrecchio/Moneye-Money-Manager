@@ -496,6 +496,18 @@ abstract class AppLocalizations {
   /// **'Unable to load key figures.'**
   String get statisticsOverviewKpisError;
 
+  /// No description provided for @statisticsNetWorthTrendInsufficientData.
+  ///
+  /// In en, this message translates to:
+  /// **'Not enough data to show net worth trend for this period.'**
+  String get statisticsNetWorthTrendInsufficientData;
+
+  /// No description provided for @statisticsNetWorthTrendError.
+  ///
+  /// In en, this message translates to:
+  /// **'Unable to load net worth trend.'**
+  String get statisticsNetWorthTrendError;
+
   /// No description provided for @newBudget.
   ///
   /// In en, this message translates to:
