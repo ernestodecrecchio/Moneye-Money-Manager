@@ -107,6 +107,7 @@
     "statisticsSpendingComingSoon": "Spending trends, totals, and breakdowns for the selected period will appear here.",
     "statisticsIncomeComingSoon": "Income trends and totals for the selected period will appear here.",
     "statisticsIncomeByCategory": "Income by category",
+    "statisticsIncomeByCategoryError": "Unable to load income by category.",
     "statisticsIncomeMonthlyTrend": "Monthly income trend",
     "statisticsIncomeAverageMonthly": "Average monthly income",
     "statisticsCashflowComingSoon": "Cashflow trends comparing income and expenses for the selected period will appear here.",

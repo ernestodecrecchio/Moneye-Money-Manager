@@ -424,6 +424,12 @@ abstract class AppLocalizations {
   /// **'Income by category'**
   String get statisticsIncomeByCategory;
 
+  /// No description provided for @statisticsIncomeByCategoryError.
+  ///
+  /// In en, this message translates to:
+  /// **'Unable to load income by category.'**
+  String get statisticsIncomeByCategoryError;
+
   /// No description provided for @statisticsIncomeMonthlyTrend.
   ///
   /// In en, this message translates to:

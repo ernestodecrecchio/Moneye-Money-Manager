@@ -177,6 +177,10 @@ class AppLocalizationsFr extends AppLocalizations {
   String get statisticsIncomeByCategory => 'Income by category';
 
   @override
+  String get statisticsIncomeByCategoryError =>
+      'Unable to load income by category.';
+
+  @override
   String get statisticsIncomeMonthlyTrend => 'Monthly income trend';
 
   @override
