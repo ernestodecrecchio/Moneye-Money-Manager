@@ -67,17 +67,14 @@ class ShortcutQuickAddDialog extends ConsumerStatefulWidget {
 class _ShortcutQuickAddDialogState extends ConsumerState<ShortcutQuickAddDialog> {
   late final TextEditingController _amountController;
   late double _amount;
-  late ShortcutAmountBounds _bounds;
-  late bool _isIncome;
+  late final bool _prefersIncome;
   Account? _selectedAccount;
 
   @override
   void initState() {
     super.initState();
-    _isIncome = widget.shortcut.amount >= 0;
+    _prefersIncome = widget.shortcut.amount >= 0;
     _amount = widget.shortcut.amount;
-    _bounds = shortcutAmountBounds(_amount);
-    _amount = clampShortcutAmount(_amount, _bounds);
     _selectedAccount = widget.initialAccount;
     _amountController = TextEditingController(
       text: _controllerTextForAmount(_amount),
@@ -91,13 +88,24 @@ class _ShortcutQuickAddDialogState extends ConsumerState<ShortcutQuickAddDialog>
   }
 
   String _controllerTextForAmount(double amount) {
-    final fractionDigits = shortcutFractionDigitsForStep(_bounds.step);
+    final fractionDigits =
+        shortcutFractionDigitsForStep(shortcutStepForMagnitude(amount.abs()));
     return amount.abs().toStringAsFixedRounded(fractionDigits);
+  }
+
+  double _signedMagnitude(double magnitude) {
+    final absolute = magnitude.abs();
+    if (absolute == 0) return 0;
+
+    if (_amount == 0) {
+      return _prefersIncome ? absolute : -absolute;
+    }
+    return _amount < 0 ? -absolute : absolute;
   }
 
   void _setAmount(double amount) {
     setState(() {
-      _amount = clampShortcutAmount(amount, _bounds);
+      _amount = amount;
       _amountController.text = _controllerTextForAmount(_amount);
     });
   }
@@ -109,12 +117,11 @@ class _ShortcutQuickAddDialogState extends ConsumerState<ShortcutQuickAddDialog>
     final parsed = double.tryParse(raw);
     if (parsed == null) return;
 
-    final signed = _isIncome ? parsed.abs() : -parsed.abs();
-    final clamped = clampShortcutAmount(signed, _bounds);
-    if (clamped == _amount) return;
+    final signed = _signedMagnitude(parsed);
+    if (signed == _amount) return;
 
     setState(() {
-      _amount = clamped;
+      _amount = signed;
       final text = _controllerTextForAmount(_amount);
       if (_amountController.text != text) {
         _amountController.text = text;
@@ -125,9 +132,18 @@ class _ShortcutQuickAddDialogState extends ConsumerState<ShortcutQuickAddDialog>
     });
   }
 
-  void _adjustAmount(double delta) {
+  void _adjustAmount(int direction) {
     HapticFeedback.selectionClick();
-    _setAmount(_amount + delta);
+    _syncAmountFromController();
+
+    final step = shortcutStepForMagnitude(_amount.abs());
+
+    if (_amount == 0) {
+      _setAmount(direction * step);
+      return;
+    }
+
+    _setAmount(snapShortcutAmount(_amount + direction * step, step));
   }
 
   Future<void> _pickAccount() async {
@@ -226,8 +242,6 @@ class _ShortcutQuickAddDialogState extends ConsumerState<ShortcutQuickAddDialog>
                 const SizedBox(height: 20),
                 AmountTextField(
                   controller: _amountController,
-                  label: appLocalizations.amount,
-                  hintText: appLocalizations.insertTheAmountOfTheTransaction,
                   fillColor: _amountFieldFillColor(colors),
                   textAlign: TextAlign.center,
                   contentPadding: const EdgeInsets.symmetric(
@@ -239,14 +253,16 @@ class _ShortcutQuickAddDialogState extends ConsumerState<ShortcutQuickAddDialog>
                     fontWeight: FontWeight.w700,
                     letterSpacing: -0.5,
                     height: 1.1,
-                    color: _isIncome ? colors.income : colors.expense,
+                    color: _amount >= 0 ? colors.income : colors.expense,
                     fontFeatures: const [FontFeature.tabularFigures()],
                   ),
-                  prefix: !_isIncome
+                  prefix: _amount < 0
                       ? Text('-', style: textTheme.bodyLarge)
                       : null,
-                  onTextChanged: (_) => _syncAmountFromController(),
-                  onDone: () => FocusScope.of(context).unfocus(),
+                  onDone: () {
+                    _syncAmountFromController();
+                    FocusScope.of(context).unfocus();
+                  },
                 ),
                 const SizedBox(height: 12),
                 Row(
@@ -254,14 +270,14 @@ class _ShortcutQuickAddDialogState extends ConsumerState<ShortcutQuickAddDialog>
                   children: [
                     _AmountStepButton(
                       icon: Icons.remove_rounded,
-                      enabled: _amount > _bounds.minSigned,
-                      onPressed: () => _adjustAmount(-_bounds.step),
+                      enabled: true,
+                      onPressed: () => _adjustAmount(-1),
                     ),
                     const SizedBox(width: 28),
                     _AmountStepButton(
                       icon: Icons.add_rounded,
-                      enabled: _amount < _bounds.maxSigned,
-                      onPressed: () => _adjustAmount(_bounds.step),
+                      enabled: true,
+                      onPressed: () => _adjustAmount(1),
                     ),
                   ],
                 ),

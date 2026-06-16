@@ -25,6 +25,7 @@ enum UpdateCategory {
   bugFix,
   backup,
   recurring,
+  shortcuts,
   other,
 }
 
@@ -44,6 +45,7 @@ class UpdateCategoryIcon {
     UpdateCategory.bugFix: Icons.bug_report_rounded,
     UpdateCategory.backup: Icons.backup_rounded,
     UpdateCategory.recurring: Icons.repeat_rounded,
+    UpdateCategory.shortcuts: Icons.bolt_rounded,
     UpdateCategory.other: Icons.fiber_new_rounded,
   };
 
@@ -356,6 +358,8 @@ class _UpdateInfoPageState extends ConsumerState<UpdateInfoPage>
         return UpdateCategory.backup;
       case 'recurring':
         return UpdateCategory.recurring;
+      case 'shortcuts':
+        return UpdateCategory.shortcuts;
       default:
         return UpdateCategory.other;
     }
