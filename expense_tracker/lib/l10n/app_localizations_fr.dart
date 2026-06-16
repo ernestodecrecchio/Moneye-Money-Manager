@@ -156,6 +156,36 @@ class AppLocalizationsFr extends AppLocalizations {
   String get statisticsPlaceholderValue => '—';
 
   @override
+  String get statisticsSelectedPeriod => 'Selected period';
+
+  @override
+  String get statisticsChartsComingSoon => 'Charts coming soon';
+
+  @override
+  String get statisticsOverviewComingSoon =>
+      'Charts and summaries of income, expenses, and net balance for the selected period will appear here.';
+
+  @override
+  String get statisticsSpendingComingSoon =>
+      'Spending trends, totals, and breakdowns for the selected period will appear here.';
+
+  @override
+  String get statisticsIncomeComingSoon =>
+      'Income trends and totals for the selected period will appear here.';
+
+  @override
+  String get statisticsCashflowComingSoon =>
+      'Cashflow trends comparing income and expenses for the selected period will appear here.';
+
+  @override
+  String get statisticsCategoriesComingSoon =>
+      'Category spending breakdowns and comparisons for the selected period will appear here.';
+
+  @override
+  String get statisticsInsightsComingSoon =>
+      'Automated insights and highlights based on your financial activity will appear here.';
+
+  @override
   String get newBudget => 'Nouveau budget';
 
   @override

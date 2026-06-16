@@ -1,6 +1,13 @@
 import 'package:expense_tracker/core/configuration/constants.dart';
 import 'package:expense_tracker/core/presentation/providers/app_localizations_provider.dart';
 import 'package:expense_tracker/core/style/app_theme.dart';
+import 'package:expense_tracker/features/statistics/presentation/pages/cashflow_statistics_page/cashflow_statistics_page.dart';
+import 'package:expense_tracker/features/statistics/presentation/pages/categories_statistics_page/categories_statistics_page.dart';
+import 'package:expense_tracker/features/statistics/presentation/pages/income_statistics_page/income_statistics_page.dart';
+import 'package:expense_tracker/features/statistics/presentation/pages/insights_statistics_page/insights_statistics_page.dart';
+import 'package:expense_tracker/features/statistics/presentation/pages/overview_statistics_page/overview_statistics_page.dart';
+import 'package:expense_tracker/features/statistics/presentation/pages/spending_statistics_page/spending_statistics_page.dart';
+import 'package:expense_tracker/features/statistics/presentation/widgets/statistics_surface_card.dart';
 import 'package:expense_tracker/features/home/presentation/widgets/tab_bar/tab_bar_shell.dart';
 import 'package:expense_tracker/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
@@ -63,7 +70,7 @@ class _StatisticsPeriodSelector extends StatelessWidget {
     final periodLabel =
         DateFormat.yMMMM(appLocalizations.localeName).format(DateTime.now());
 
-    return _StatisticsSurfaceCard(
+    return StatisticsSurfaceCard(
       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
       child: Row(
         children: [
@@ -156,7 +163,7 @@ class _StatisticsOverviewPreviewCard extends StatelessWidget {
     final colors = context.appColors;
     final placeholder = appLocalizations.statisticsPlaceholderValue;
 
-    return _StatisticsSurfaceCard(
+    return StatisticsSurfaceCard(
       padding: const EdgeInsets.all(20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -267,35 +274,41 @@ class _StatisticsNavigationSection extends StatelessWidget {
         title: appLocalizations.statisticsOverviewTitle,
         description: appLocalizations.statisticsOverviewDescription,
         icon: Icons.pie_chart_outline_rounded,
+        routeName: OverviewStatisticsPage.routeName,
       ),
       _StatisticsNavItem(
         title: appLocalizations.statisticsSpendingTitle,
         description: appLocalizations.statisticsSpendingDescription,
         icon: Icons.trending_down_rounded,
+        routeName: SpendingStatisticsPage.routeName,
       ),
       _StatisticsNavItem(
         title: appLocalizations.statisticsIncomeTitle,
         description: appLocalizations.statisticsIncomeDescription,
         icon: Icons.trending_up_rounded,
+        routeName: IncomeStatisticsPage.routeName,
       ),
       _StatisticsNavItem(
         title: appLocalizations.statisticsCashflowTitle,
         description: appLocalizations.statisticsCashflowDescription,
         icon: Icons.swap_horiz_rounded,
+        routeName: CashflowStatisticsPage.routeName,
       ),
       _StatisticsNavItem(
         title: appLocalizations.statisticsCategoriesTitle,
         description: appLocalizations.statisticsCategoriesDescription,
         icon: Icons.grid_view_rounded,
+        routeName: CategoriesStatisticsPage.routeName,
       ),
       _StatisticsNavItem(
         title: appLocalizations.statisticsInsightsTitle,
         description: appLocalizations.statisticsInsightsDescription,
         icon: Icons.lightbulb_outline_rounded,
+        routeName: InsightsStatisticsPage.routeName,
       ),
     ];
 
-    return _StatisticsSurfaceCard(
+    return StatisticsSurfaceCard(
       padding: EdgeInsets.zero,
       child: Column(
         children: [
@@ -319,11 +332,13 @@ class _StatisticsNavItem {
     required this.title,
     required this.description,
     required this.icon,
+    required this.routeName,
   });
 
   final String title;
   final String description;
   final IconData icon;
+  final String routeName;
 }
 
 class _StatisticsNavCard extends StatelessWidget {
@@ -336,7 +351,7 @@ class _StatisticsNavCard extends StatelessWidget {
     final colors = context.appColors;
 
     return InkWell(
-      onTap: () {},
+      onTap: () => Navigator.of(context).pushNamed(item.routeName),
       borderRadius: BorderRadius.circular(20),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
@@ -385,40 +400,6 @@ class _StatisticsNavCard extends StatelessWidget {
             ),
           ],
         ),
-      ),
-    );
-  }
-}
-
-class _StatisticsSurfaceCard extends StatelessWidget {
-  const _StatisticsSurfaceCard({
-    required this.child,
-    this.padding,
-  });
-
-  final Widget child;
-  final EdgeInsetsGeometry? padding;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20),
-        boxShadow: const [
-          BoxShadow(
-            color: Color.fromRGBO(0, 0, 0, 0.08),
-            blurRadius: 8,
-            spreadRadius: 0,
-            offset: Offset(0, 2),
-          ),
-        ],
-      ),
-      child: Material(
-        color: context.appColors.surface,
-        borderRadius: BorderRadius.circular(20),
-        clipBehavior: Clip.antiAlias,
-        child: padding != null ? Padding(padding: padding!, child: child) : child,
       ),
     );
   }

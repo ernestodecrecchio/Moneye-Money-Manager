@@ -38,6 +38,12 @@ import 'package:expense_tracker/features/budgeting/presentation/pages/budget_for
 import 'package:expense_tracker/features/settings/presentation/pages/options_page/privacy_page/privacy_settings_page.dart';
 import 'package:expense_tracker/features/settings/presentation/pages/options_page/theme_page/theme_selection_page.dart';
 import 'package:expense_tracker/features/settings/presentation/pages/options_page/contacts_page/contacts_page.dart';
+import 'package:expense_tracker/features/statistics/presentation/pages/cashflow_statistics_page/cashflow_statistics_page.dart';
+import 'package:expense_tracker/features/statistics/presentation/pages/categories_statistics_page/categories_statistics_page.dart';
+import 'package:expense_tracker/features/statistics/presentation/pages/income_statistics_page/income_statistics_page.dart';
+import 'package:expense_tracker/features/statistics/presentation/pages/insights_statistics_page/insights_statistics_page.dart';
+import 'package:expense_tracker/features/statistics/presentation/pages/overview_statistics_page/overview_statistics_page.dart';
+import 'package:expense_tracker/features/statistics/presentation/pages/spending_statistics_page/spending_statistics_page.dart';
 import 'package:expense_tracker/core/presentation/providers/analytics_consent_provider.dart';
 import 'package:expense_tracker/core/presentation/providers/theme_provider.dart';
 import 'package:expense_tracker/core/style/app_theme.dart';
@@ -281,6 +287,18 @@ class MyApp extends r.ConsumerWidget {
           ThemeSelectionPage.routeName: (context) => const ThemeSelectionPage(),
           ContactsPage.routeName: (context) => const ContactsPage(),
           BackupRestorePage.routeName: (context) => const BackupRestorePage(),
+          OverviewStatisticsPage.routeName: (context) =>
+              const OverviewStatisticsPage(),
+          SpendingStatisticsPage.routeName: (context) =>
+              const SpendingStatisticsPage(),
+          IncomeStatisticsPage.routeName: (context) =>
+              const IncomeStatisticsPage(),
+          CashflowStatisticsPage.routeName: (context) =>
+              const CashflowStatisticsPage(),
+          CategoriesStatisticsPage.routeName: (context) =>
+              const CategoriesStatisticsPage(),
+          InsightsStatisticsPage.routeName: (context) =>
+              const InsightsStatisticsPage(),
         },
         onGenerateRoute: (settings) {
           switch (settings.name) {

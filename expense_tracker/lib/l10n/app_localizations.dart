@@ -388,6 +388,54 @@ abstract class AppLocalizations {
   /// **'—'**
   String get statisticsPlaceholderValue;
 
+  /// No description provided for @statisticsSelectedPeriod.
+  ///
+  /// In en, this message translates to:
+  /// **'Selected period'**
+  String get statisticsSelectedPeriod;
+
+  /// No description provided for @statisticsChartsComingSoon.
+  ///
+  /// In en, this message translates to:
+  /// **'Charts coming soon'**
+  String get statisticsChartsComingSoon;
+
+  /// No description provided for @statisticsOverviewComingSoon.
+  ///
+  /// In en, this message translates to:
+  /// **'Charts and summaries of income, expenses, and net balance for the selected period will appear here.'**
+  String get statisticsOverviewComingSoon;
+
+  /// No description provided for @statisticsSpendingComingSoon.
+  ///
+  /// In en, this message translates to:
+  /// **'Spending trends, totals, and breakdowns for the selected period will appear here.'**
+  String get statisticsSpendingComingSoon;
+
+  /// No description provided for @statisticsIncomeComingSoon.
+  ///
+  /// In en, this message translates to:
+  /// **'Income trends and totals for the selected period will appear here.'**
+  String get statisticsIncomeComingSoon;
+
+  /// No description provided for @statisticsCashflowComingSoon.
+  ///
+  /// In en, this message translates to:
+  /// **'Cashflow trends comparing income and expenses for the selected period will appear here.'**
+  String get statisticsCashflowComingSoon;
+
+  /// No description provided for @statisticsCategoriesComingSoon.
+  ///
+  /// In en, this message translates to:
+  /// **'Category spending breakdowns and comparisons for the selected period will appear here.'**
+  String get statisticsCategoriesComingSoon;
+
+  /// No description provided for @statisticsInsightsComingSoon.
+  ///
+  /// In en, this message translates to:
+  /// **'Automated insights and highlights based on your financial activity will appear here.'**
+  String get statisticsInsightsComingSoon;
+
   /// No description provided for @newBudget.
   ///
   /// In en, this message translates to:
