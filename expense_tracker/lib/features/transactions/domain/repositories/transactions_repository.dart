@@ -37,6 +37,12 @@ abstract class TransactionsRepository {
     bool allCategories = false,
   });
 
+  /// Sums reportable income and expenses for a date range (all accounts).
+  Future<({double income, double expenses})> sumIncomeAndExpensesForPeriod({
+    required DateTime start,
+    required DateTime end,
+  });
+
   Future<int> deleteTransactionsByCategory({required Category category});
   Future<int> transferTransactions({required Category from, required Category to});
 

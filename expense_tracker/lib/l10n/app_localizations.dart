@@ -484,6 +484,18 @@ abstract class AppLocalizations {
   /// **'Income vs expenses'**
   String get statisticsIncomeVsExpenses;
 
+  /// No description provided for @statisticsNoTransactionsInPeriod.
+  ///
+  /// In en, this message translates to:
+  /// **'No transactions in this period.'**
+  String get statisticsNoTransactionsInPeriod;
+
+  /// No description provided for @statisticsOverviewKpisError.
+  ///
+  /// In en, this message translates to:
+  /// **'Unable to load key figures.'**
+  String get statisticsOverviewKpisError;
+
   /// No description provided for @newBudget.
   ///
   /// In en, this message translates to:

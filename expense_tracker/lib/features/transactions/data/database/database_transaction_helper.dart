@@ -343,6 +343,38 @@ class DatabaseTransactionHelper {
     return (value is num) ? value.toDouble() : 0.0;
   }
 
+  Future<({double income, double expenses})> sumIncomeAndExpensesForPeriod({
+    required DateTime start,
+    required DateTime end,
+  }) async {
+    final db = await DatabaseHelper.instance.database;
+
+    const query = '''
+      SELECT
+        COALESCE(SUM(CASE WHEN ${TransactionFields.amount} >= 0 THEN ${TransactionFields.amount} ELSE 0 END), 0) AS income,
+        COALESCE(SUM(CASE WHEN ${TransactionFields.amount} < 0 THEN ABS(${TransactionFields.amount}) ELSE 0 END), 0) AS expenses
+      FROM $transactionsTable
+      WHERE ${TransactionFields.isHidden} = 0
+        AND ${TransactionFields.includeInReports} = 1
+        AND date(${TransactionFields.date}) >= ?
+        AND date(${TransactionFields.date}) <= ?
+    ''';
+
+    final result = await db.rawQuery(query, [
+      formatDate(start),
+      formatDate(end),
+    ]);
+
+    final row = result.first;
+    final income = row['income'];
+    final expenses = row['expenses'];
+
+    return (
+      income: (income is num) ? income.toDouble() : 0.0,
+      expenses: (expenses is num) ? expenses.toDouble() : 0.0,
+    );
+  }
+
   Future<List<trans.Transaction>> getTransactionsBetweenDates(
       {required DateTime startDate, required DateTime endDate}) async {
     final db = await DatabaseHelper.instance.database;

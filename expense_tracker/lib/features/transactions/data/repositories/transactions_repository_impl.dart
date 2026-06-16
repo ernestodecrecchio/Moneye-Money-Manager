@@ -64,6 +64,17 @@ class TransactionsRepositoryImpl implements TransactionsRepository {
   }
 
   @override
+  Future<({double income, double expenses})> sumIncomeAndExpensesForPeriod({
+    required DateTime start,
+    required DateTime end,
+  }) async {
+    return dbHelper.sumIncomeAndExpensesForPeriod(
+      start: start,
+      end: end,
+    );
+  }
+
+  @override
   Future<List<Transaction>> getTransactions({
     DateTime? startDate,
     DateTime? endDate,

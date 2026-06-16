@@ -209,6 +209,13 @@ class AppLocalizationsPt extends AppLocalizations {
   String get statisticsIncomeVsExpenses => 'Income vs expenses';
 
   @override
+  String get statisticsNoTransactionsInPeriod =>
+      'No transactions in this period.';
+
+  @override
+  String get statisticsOverviewKpisError => 'Unable to load key figures.';
+
+  @override
   String get newBudget => 'Novo orçamento';
 
   @override

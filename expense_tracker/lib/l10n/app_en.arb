@@ -117,6 +117,8 @@
     "statisticsSavingsRate": "Savings rate",
     "statisticsNetWorthTrend": "Net worth trend",
     "statisticsIncomeVsExpenses": "Income vs expenses",
+    "statisticsNoTransactionsInPeriod": "No transactions in this period.",
+    "statisticsOverviewKpisError": "Unable to load key figures.",
     "newBudget": "New budget",
     "editBudget": "Edit budget",
     "amountSpentOf": "spent of",
