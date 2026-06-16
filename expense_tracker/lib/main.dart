@@ -40,6 +40,7 @@ import 'package:expense_tracker/features/settings/presentation/pages/options_pag
 import 'package:expense_tracker/features/settings/presentation/pages/options_page/contacts_page/contacts_page.dart';
 import 'package:expense_tracker/features/statistics/presentation/pages/cashflow_statistics_page/cashflow_statistics_page.dart';
 import 'package:expense_tracker/features/statistics/presentation/pages/categories_statistics_page/categories_statistics_page.dart';
+import 'package:expense_tracker/features/statistics/presentation/pages/categories_statistics_page/category_statistics_detail_page.dart';
 import 'package:expense_tracker/features/statistics/presentation/pages/income_statistics_page/income_statistics_page.dart';
 import 'package:expense_tracker/features/statistics/presentation/pages/insights_statistics_page/insights_statistics_page.dart';
 import 'package:expense_tracker/features/statistics/presentation/pages/overview_statistics_page/overview_statistics_page.dart';
@@ -392,6 +393,18 @@ class MyApp extends r.ConsumerWidget {
                   settings: settings,
                   builder: (context) => BudgetFormPage(
                     initialBudget: args,
+                  ),
+                );
+              }
+            case CategoryStatisticsDetailPage.routeName:
+              {
+                final args =
+                    settings.arguments as CategoryStatisticsDetailPageArguments;
+
+                return MaterialPageRoute(
+                  settings: settings,
+                  builder: (context) => CategoryStatisticsDetailPage(
+                    entry: args.entry,
                   ),
                 );
               }

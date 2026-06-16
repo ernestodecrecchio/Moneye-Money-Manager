@@ -66,6 +66,12 @@ abstract class TransactionsRepository {
     required DateTime end,
   });
 
+  /// Income totals grouped by category for reportable transactions in [start, end].
+  Future<List<({int? categoryId, double amount})>> getIncomeByCategoryInPeriod({
+    required DateTime start,
+    required DateTime end,
+  });
+
   /// Expense totals grouped by category and month for reportable transactions.
   Future<List<({int? categoryId, DateTime monthStart, double amount})>>
       getExpensesByCategoryAndMonthInPeriod({

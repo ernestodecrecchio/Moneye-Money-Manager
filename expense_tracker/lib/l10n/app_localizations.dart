@@ -430,6 +430,30 @@ abstract class AppLocalizations {
   /// **'Category spending breakdowns and comparisons for the selected period will appear here.'**
   String get statisticsCategoriesComingSoon;
 
+  /// No description provided for @statisticsCategoriesListError.
+  ///
+  /// In en, this message translates to:
+  /// **'Unable to load category statistics.'**
+  String get statisticsCategoriesListError;
+
+  /// No description provided for @statisticsCategoryShareOfExpenses.
+  ///
+  /// In en, this message translates to:
+  /// **'Share of total expenses'**
+  String get statisticsCategoryShareOfExpenses;
+
+  /// No description provided for @statisticsCategoryShareOfIncome.
+  ///
+  /// In en, this message translates to:
+  /// **'Share of total income'**
+  String get statisticsCategoryShareOfIncome;
+
+  /// No description provided for @statisticsCategoryDetailComingSoon.
+  ///
+  /// In en, this message translates to:
+  /// **'Detailed charts and breakdowns for this category will appear here.'**
+  String get statisticsCategoryDetailComingSoon;
+
   /// No description provided for @statisticsInsightsComingSoon.
   ///
   /// In en, this message translates to:

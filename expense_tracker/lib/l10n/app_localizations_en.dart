@@ -181,6 +181,20 @@ class AppLocalizationsEn extends AppLocalizations {
       'Category spending breakdowns and comparisons for the selected period will appear here.';
 
   @override
+  String get statisticsCategoriesListError =>
+      'Unable to load category statistics.';
+
+  @override
+  String get statisticsCategoryShareOfExpenses => 'Share of total expenses';
+
+  @override
+  String get statisticsCategoryShareOfIncome => 'Share of total income';
+
+  @override
+  String get statisticsCategoryDetailComingSoon =>
+      'Detailed charts and breakdowns for this category will appear here.';
+
+  @override
   String get statisticsInsightsComingSoon =>
       'Automated insights and highlights based on your financial activity will appear here.';
 
