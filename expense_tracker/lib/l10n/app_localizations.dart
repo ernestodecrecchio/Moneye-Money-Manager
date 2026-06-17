@@ -502,6 +502,24 @@ abstract class AppLocalizations {
   /// **'Monthly cashflow'**
   String get statisticsCashflowMonthlyChart;
 
+  /// No description provided for @statisticsCashflowMonthlyChartInsufficientData.
+  ///
+  /// In en, this message translates to:
+  /// **'Not enough data to show monthly cashflow for this period.'**
+  String get statisticsCashflowMonthlyChartInsufficientData;
+
+  /// No description provided for @statisticsCashflowMonthlyChartError.
+  ///
+  /// In en, this message translates to:
+  /// **'Unable to load monthly cashflow chart.'**
+  String get statisticsCashflowMonthlyChartError;
+
+  /// No description provided for @statisticsNetCashflow.
+  ///
+  /// In en, this message translates to:
+  /// **'Net cashflow'**
+  String get statisticsNetCashflow;
+
   /// No description provided for @statisticsCashflowMonthlyList.
   ///
   /// In en, this message translates to:

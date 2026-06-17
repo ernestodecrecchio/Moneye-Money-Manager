@@ -232,6 +232,17 @@ class AppLocalizationsFr extends AppLocalizations {
   String get statisticsCashflowMonthlyChart => 'Monthly cashflow';
 
   @override
+  String get statisticsCashflowMonthlyChartInsufficientData =>
+      'Not enough data to show monthly cashflow for this period.';
+
+  @override
+  String get statisticsCashflowMonthlyChartError =>
+      'Unable to load monthly cashflow chart.';
+
+  @override
+  String get statisticsNetCashflow => 'Net cashflow';
+
+  @override
   String get statisticsCashflowMonthlyList => 'Monthly cashflow list';
 
   @override
