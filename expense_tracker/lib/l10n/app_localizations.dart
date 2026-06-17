@@ -622,6 +622,18 @@ abstract class AppLocalizations {
   /// **'Automated insights and highlights based on your financial activity will appear here.'**
   String get statisticsInsightsComingSoon;
 
+  /// No description provided for @statisticsInsightsEmptyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No insights available'**
+  String get statisticsInsightsEmptyTitle;
+
+  /// No description provided for @statisticsInsightsEmptyMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'There are no insights for the selected period. Insights will appear here when patterns are detected in your data.'**
+  String get statisticsInsightsEmptyMessage;
+
   /// No description provided for @statisticsSelectGranularity.
   ///
   /// In en, this message translates to:

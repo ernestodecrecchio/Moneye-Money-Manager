@@ -303,6 +303,13 @@ class AppLocalizationsPt extends AppLocalizations {
       'Automated insights and highlights based on your financial activity will appear here.';
 
   @override
+  String get statisticsInsightsEmptyTitle => 'No insights available';
+
+  @override
+  String get statisticsInsightsEmptyMessage =>
+      'There are no insights for the selected period. Insights will appear here when patterns are detected in your data.';
+
+  @override
   String get statisticsSelectGranularity => 'Select granularity';
 
   @override

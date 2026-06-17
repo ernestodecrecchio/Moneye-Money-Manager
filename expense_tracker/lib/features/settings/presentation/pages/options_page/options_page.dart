@@ -34,6 +34,7 @@ class OptionsPage extends ConsumerWidget {
     return Scaffold(
       extendBody: true,
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: Text(appLocalizations.settings),
       ),
       body: _buildBody(context, ref, appLocalizations),

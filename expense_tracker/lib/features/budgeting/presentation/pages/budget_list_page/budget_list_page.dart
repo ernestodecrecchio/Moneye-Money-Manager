@@ -29,6 +29,7 @@ class BudgetListPage extends ConsumerWidget {
     return Scaffold(
       extendBody: true,
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: Text(
           appLocalizations.budgeting,
         ),

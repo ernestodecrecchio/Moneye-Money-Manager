@@ -140,6 +140,8 @@
     "statisticsCategoryAccountBreakdown": "Account breakdown",
     "statisticsScrollToTop": "Back to top",
     "statisticsInsightsComingSoon": "Automated insights and highlights based on your financial activity will appear here.",
+    "statisticsInsightsEmptyTitle": "No insights available",
+    "statisticsInsightsEmptyMessage": "There are no insights for the selected period. Insights will appear here when patterns are detected in your data.",
     "statisticsSelectGranularity": "Select granularity",
     "statisticsPeriodQuarter": "Quarter",
     "statisticsKeyFigures": "KEY FIGURES",
