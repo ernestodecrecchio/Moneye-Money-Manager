@@ -526,6 +526,12 @@ abstract class AppLocalizations {
   /// **'Monthly cashflow list'**
   String get statisticsCashflowMonthlyList;
 
+  /// No description provided for @statisticsCashflowMonthlyListError.
+  ///
+  /// In en, this message translates to:
+  /// **'Unable to load monthly cashflow list.'**
+  String get statisticsCashflowMonthlyListError;
+
   /// No description provided for @statisticsCashflowCumulativeChart.
   ///
   /// In en, this message translates to:

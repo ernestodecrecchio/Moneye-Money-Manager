@@ -246,6 +246,10 @@ class AppLocalizationsFr extends AppLocalizations {
   String get statisticsCashflowMonthlyList => 'Monthly cashflow list';
 
   @override
+  String get statisticsCashflowMonthlyListError =>
+      'Unable to load monthly cashflow list.';
+
+  @override
   String get statisticsCashflowCumulativeChart => 'Cumulative cashflow';
 
   @override

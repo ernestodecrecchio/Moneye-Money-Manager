@@ -124,6 +124,7 @@
     "statisticsCashflowMonthlyChartError": "Unable to load monthly cashflow chart.",
     "statisticsNetCashflow": "Net cashflow",
     "statisticsCashflowMonthlyList": "Monthly cashflow list",
+    "statisticsCashflowMonthlyListError": "Unable to load monthly cashflow list.",
     "statisticsCashflowCumulativeChart": "Cumulative cashflow",
     "statisticsCategoriesComingSoon": "Category spending breakdowns and comparisons for the selected period will appear here.",
     "statisticsCategoriesListError": "Unable to load category statistics.",
