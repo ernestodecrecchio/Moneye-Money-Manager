@@ -538,6 +538,24 @@ abstract class AppLocalizations {
   /// **'Cumulative cashflow'**
   String get statisticsCashflowCumulativeChart;
 
+  /// No description provided for @statisticsCashflowCumulativeChartSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Running net cashflow within the selected period, starting from zero. This is not your account balance.'**
+  String get statisticsCashflowCumulativeChartSubtitle;
+
+  /// No description provided for @statisticsCashflowCumulativeChartInsufficientData.
+  ///
+  /// In en, this message translates to:
+  /// **'Not enough data to show cumulative cashflow for this period.'**
+  String get statisticsCashflowCumulativeChartInsufficientData;
+
+  /// No description provided for @statisticsCashflowCumulativeChartError.
+  ///
+  /// In en, this message translates to:
+  /// **'Unable to load cumulative cashflow chart.'**
+  String get statisticsCashflowCumulativeChartError;
+
   /// No description provided for @statisticsCategoriesComingSoon.
   ///
   /// In en, this message translates to:

@@ -253,6 +253,18 @@ class AppLocalizationsDe extends AppLocalizations {
   String get statisticsCashflowCumulativeChart => 'Cumulative cashflow';
 
   @override
+  String get statisticsCashflowCumulativeChartSubtitle =>
+      'Running net cashflow within the selected period, starting from zero. This is not your account balance.';
+
+  @override
+  String get statisticsCashflowCumulativeChartInsufficientData =>
+      'Not enough data to show cumulative cashflow for this period.';
+
+  @override
+  String get statisticsCashflowCumulativeChartError =>
+      'Unable to load cumulative cashflow chart.';
+
+  @override
   String get statisticsCategoriesComingSoon =>
       'Category spending breakdowns and comparisons for the selected period will appear here.';
 
