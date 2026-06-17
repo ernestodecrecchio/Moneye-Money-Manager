@@ -19,7 +19,7 @@ class IncomeAverageMonthlySection extends ConsumerWidget {
           return AverageMonthlyAmountCard(
             title: appLocalizations.statisticsIncomeAverageMonthly,
             child: AverageMonthlyAmountEmptyMessage(
-              message: appLocalizations.statisticsNoTransactionsInPeriod,
+              message: appLocalizations.statisticsNoIncomeInPeriod,
             ),
           );
         }

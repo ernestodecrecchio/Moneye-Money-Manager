@@ -14,7 +14,10 @@ import 'package:expense_tracker/features/statistics/presentation/pages/categorie
 import 'package:expense_tracker/features/statistics/presentation/pages/spending_statistics_page/spending_monthly_trend_section.dart';
 import 'package:expense_tracker/features/statistics/presentation/providers/queries/categories_statistics_notifier.dart';
 import 'package:expense_tracker/features/statistics/presentation/providers/queries/category_statistics_detail_notifier.dart';
+import 'package:expense_tracker/features/statistics/presentation/widgets/statistics_empty_states.dart';
+import 'package:expense_tracker/features/statistics/presentation/widgets/statistics_period_chart_support.dart';
 import 'package:expense_tracker/features/statistics/presentation/widgets/statistics_period_indicator.dart';
+import 'package:expense_tracker/features/statistics/presentation/providers/statistics_period_provider.dart';
 import 'package:expense_tracker/features/statistics/presentation/widgets/statistics_surface_card.dart';
 import 'package:expense_tracker/features/transactions/domain/models/transaction.dart';
 import 'package:expense_tracker/features/transactions/presentation/providers/mutations/transaction_mutation_notifier.dart';
@@ -227,10 +230,12 @@ class _CategoryStatisticsDetailContentState
               _CategoryMonthlyTrendSection(
                 monthlyTrend: detail.monthlyTrend,
                 chartColor: chartColor,
+                isExpense: entry.isExpense,
               ),
               const SizedBox(height: 16),
               CategoryAccountBreakdownSection(
                 series: detail.accountBreakdown,
+                isExpense: entry.isExpense,
               ),
               const SizedBox(height: 16),
               Padding(
@@ -260,14 +265,8 @@ class _CategoryStatisticsDetailContentState
             sliver: SliverToBoxAdapter(
               child: StatisticsSurfaceCard(
                 padding: const EdgeInsets.all(24),
-                child: Text(
-                  appLocalizations.statisticsNoTransactionsInPeriod,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 14,
-                    height: 1.5,
-                    color: colors.textSecondary,
-                  ),
+                child: StatisticsInlineEmptyMessage(
+                  message: appLocalizations.statisticsNoTransactionsInPeriod,
                 ),
               ),
             ),
@@ -349,14 +348,24 @@ class _CategoryMonthlyTrendSection extends ConsumerWidget {
   const _CategoryMonthlyTrendSection({
     required this.monthlyTrend,
     required this.chartColor,
+    required this.isExpense,
   });
 
   final MonthlySpendingTrendSeries monthlyTrend;
   final Color chartColor;
+  final bool isExpense;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final period = ref.watch(statisticsPeriodProvider);
+    if (!statisticsPeriodSupportsMultipleMonths(period)) {
+      return const SizedBox.shrink();
+    }
+
     final appLocalizations = ref.watch(appLocalizationsProvider);
+    final emptyMessage = isExpense
+        ? appLocalizations.statisticsNoExpensesInPeriod
+        : appLocalizations.statisticsNoIncomeInPeriod;
 
     return StatisticsSurfaceCard(
       padding: const EdgeInsets.all(20),
@@ -372,14 +381,12 @@ class _CategoryMonthlyTrendSection extends ConsumerWidget {
               letterSpacing: -0.5,
             ),
           ),
-          if (monthlyTrend.hasInsufficientData)
-            _CategoryMonthlyTrendMessage(
+          if (monthlyTrend.isEmpty)
+            StatisticsChartEmptyMessage(message: emptyMessage)
+          else if (monthlyTrend.hasInsufficientData)
+            StatisticsChartEmptyMessage(
               message: appLocalizations
                   .statisticsCategoryMonthlyTrendInsufficientData,
-            )
-          else if (monthlyTrend.isEmpty)
-            _CategoryMonthlyTrendMessage(
-              message: appLocalizations.statisticsNoTransactionsInPeriod,
             )
           else
             MonthlySpendingTrendLineChart(
@@ -387,36 +394,6 @@ class _CategoryMonthlyTrendSection extends ConsumerWidget {
               lineColor: chartColor,
             ),
         ],
-      ),
-    );
-  }
-}
-
-class _CategoryMonthlyTrendMessage extends StatelessWidget {
-  const _CategoryMonthlyTrendMessage({required this.message});
-
-  final String message;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.appColors;
-
-    return Container(
-      height: 180,
-      width: double.infinity,
-      decoration: BoxDecoration(
-        color: colors.divider.withValues(alpha: 0.1),
-        borderRadius: BorderRadius.circular(12),
-      ),
-      alignment: Alignment.center,
-      padding: const EdgeInsets.symmetric(horizontal: 24),
-      child: Text(
-        message,
-        textAlign: TextAlign.center,
-        style: TextStyle(
-          fontSize: 14,
-          color: colors.textSecondary,
-        ),
       ),
     );
   }

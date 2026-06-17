@@ -34,7 +34,7 @@ class InsightsListSection extends ConsumerWidget {
         child: Center(child: CircularProgressIndicator()),
       ),
       error: (_, __) => InsightsEmptyState(
-        title: appLocalizations.statisticsInsightsEmptyTitle,
+        title: appLocalizations.statisticsInsightsErrorTitle,
         message: appLocalizations.statisticsInsightsError,
       ),
     );

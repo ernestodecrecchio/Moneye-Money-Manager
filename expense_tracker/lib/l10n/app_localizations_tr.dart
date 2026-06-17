@@ -387,6 +387,15 @@ class AppLocalizationsTr extends AppLocalizations {
       'No transactions in this period.';
 
   @override
+  String get statisticsNoExpensesInPeriod => 'No expenses in this period.';
+
+  @override
+  String get statisticsNoIncomeInPeriod => 'No income in this period.';
+
+  @override
+  String get statisticsInsightsErrorTitle => 'Couldn\'t load insights';
+
+  @override
   String get statisticsOverviewKpisError => 'Unable to load key figures.';
 
   @override

@@ -10,6 +10,7 @@ import 'package:expense_tracker/features/statistics/domain/models/category_stati
 import 'package:expense_tracker/features/statistics/domain/models/categories_statistics_series.dart';
 import 'package:expense_tracker/features/statistics/presentation/pages/categories_statistics_page/category_statistics_detail_page.dart';
 import 'package:expense_tracker/features/statistics/presentation/providers/queries/categories_statistics_notifier.dart';
+import 'package:expense_tracker/features/statistics/presentation/widgets/statistics_empty_states.dart';
 import 'package:expense_tracker/features/statistics/presentation/widgets/statistics_period_indicator.dart';
 import 'package:expense_tracker/features/statistics/presentation/widgets/statistics_surface_card.dart';
 import 'package:flutter/material.dart';
@@ -42,8 +43,11 @@ class CategoriesStatisticsPage extends ConsumerWidget {
           seriesAsync.when(
             data: (series) {
               if (series.isEmpty) {
-                return _EmptyCategoriesMessage(
-                  message: appLocalizations.statisticsNoTransactionsInPeriod,
+                return StatisticsSurfaceCard(
+                  padding: const EdgeInsets.all(24),
+                  child: StatisticsInlineEmptyMessage(
+                    message: appLocalizations.statisticsNoTransactionsInPeriod,
+                  ),
                 );
               }
 
@@ -53,8 +57,11 @@ class CategoriesStatisticsPage extends ConsumerWidget {
               height: 200,
               child: Center(child: CircularProgressIndicator()),
             ),
-            error: (_, __) => _EmptyCategoriesMessage(
-              message: appLocalizations.statisticsCategoriesListError,
+            error: (_, __) => StatisticsSurfaceCard(
+              padding: const EdgeInsets.all(24),
+              child: StatisticsInlineEmptyMessage(
+                message: appLocalizations.statisticsCategoriesListError,
+              ),
             ),
           ),
         ],
@@ -187,33 +194,6 @@ class _CategoryStatisticsRow extends StatelessWidget {
               color: colors.textSecondary,
             ),
           ],
-        ),
-      ),
-    );
-  }
-}
-
-class _EmptyCategoriesMessage extends StatelessWidget {
-  const _EmptyCategoriesMessage({required this.message});
-
-  final String message;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.appColors;
-
-    return StatisticsSurfaceCard(
-      padding: const EdgeInsets.all(24),
-      child: SizedBox(
-        width: double.infinity,
-        child: Text(
-          message,
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            fontSize: 14,
-            height: 1.5,
-            color: colors.textSecondary,
-          ),
         ),
       ),
     );

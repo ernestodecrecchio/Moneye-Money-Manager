@@ -6,6 +6,7 @@ import 'package:expense_tracker/core/utils/double_helper.dart';
 import 'package:expense_tracker/features/statistics/domain/models/monthly_cashflow_point.dart';
 import 'package:expense_tracker/features/statistics/domain/models/monthly_cashflow_series.dart';
 import 'package:expense_tracker/features/statistics/presentation/providers/queries/monthly_cashflow_notifier.dart';
+import 'package:expense_tracker/features/statistics/presentation/widgets/statistics_empty_states.dart';
 import 'package:expense_tracker/features/statistics/presentation/widgets/statistics_surface_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -22,7 +23,7 @@ class CashflowMonthlyListSection extends ConsumerWidget {
       data: (series) {
         if (series.isEmpty) {
           return _CashflowMonthlyListCard(
-            child: _EmptyListMessage(
+            child: StatisticsInlineEmptyMessage(
               message: appLocalizations.statisticsNoTransactionsInPeriod,
             ),
           );
@@ -33,13 +34,10 @@ class CashflowMonthlyListSection extends ConsumerWidget {
         );
       },
       loading: () => const _CashflowMonthlyListCard(
-        child: SizedBox(
-          height: 120,
-          child: Center(child: CircularProgressIndicator()),
-        ),
+        child: StatisticsChartLoading(height: 120),
       ),
       error: (_, __) => _CashflowMonthlyListCard(
-        child: _EmptyListMessage(
+        child: StatisticsInlineEmptyMessage(
           message: appLocalizations.statisticsCashflowMonthlyListError,
         ),
       ),
@@ -239,26 +237,6 @@ class _CashflowMonthlyListRow extends ConsumerWidget {
       2,
       currency,
       currencyPosition,
-    );
-  }
-}
-
-class _EmptyListMessage extends StatelessWidget {
-  const _EmptyListMessage({required this.message});
-
-  final String message;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.appColors;
-
-    return Text(
-      message,
-      style: TextStyle(
-        fontSize: 14,
-        height: 1.5,
-        color: colors.textSecondary,
-      ),
     );
   }
 }

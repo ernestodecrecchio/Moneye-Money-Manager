@@ -1,12 +1,18 @@
 import 'package:expense_tracker/core/configuration/constants.dart';
+import 'package:expense_tracker/core/models/currency.dart';
 import 'package:expense_tracker/core/presentation/providers/app_localizations_provider.dart';
+import 'package:expense_tracker/core/presentation/providers/currency_provider.dart';
 import 'package:expense_tracker/core/style/app_theme.dart';
+import 'package:expense_tracker/core/utils/double_helper.dart';
+import 'package:expense_tracker/features/statistics/domain/models/overview_period_kpis.dart';
+import 'package:expense_tracker/features/statistics/presentation/providers/queries/overview_kpis_notifier.dart';
 import 'package:expense_tracker/features/statistics/presentation/pages/cashflow_statistics_page/cashflow_statistics_page.dart';
 import 'package:expense_tracker/features/statistics/presentation/pages/categories_statistics_page/categories_statistics_page.dart';
 import 'package:expense_tracker/features/statistics/presentation/pages/income_statistics_page/income_statistics_page.dart';
 import 'package:expense_tracker/features/statistics/presentation/pages/insights_statistics_page/insights_statistics_page.dart';
 import 'package:expense_tracker/features/statistics/presentation/pages/overview_statistics_page/overview_statistics_page.dart';
 import 'package:expense_tracker/features/statistics/presentation/pages/spending_statistics_page/spending_statistics_page.dart';
+import 'package:expense_tracker/features/statistics/presentation/widgets/statistics_empty_states.dart';
 import 'package:expense_tracker/features/statistics/presentation/widgets/statistics_period_selector.dart';
 import 'package:expense_tracker/features/statistics/presentation/widgets/statistics_surface_card.dart';
 import 'package:expense_tracker/features/home/presentation/widgets/tab_bar/tab_bar_shell.dart';
@@ -57,14 +63,17 @@ class StatisticsPage extends ConsumerWidget {
   }
 }
 
-class _StatisticsOverviewPreviewCard extends StatelessWidget {
+class _StatisticsOverviewPreviewCard extends ConsumerWidget {
   const _StatisticsOverviewPreviewCard({required this.appLocalizations});
 
   final AppLocalizations appLocalizations;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final colors = context.appColors;
+    final kpisAsync = ref.watch(overviewKpisProvider);
+    final currency = ref.watch(currentCurrencyProvider);
+    final currencyPosition = ref.watch(currentCurrencySymbolPositionProvider);
     final placeholder = appLocalizations.statisticsPlaceholderValue;
 
     return StatisticsSurfaceCard(
@@ -94,34 +103,102 @@ class _StatisticsOverviewPreviewCard extends StatelessWidget {
               ),
             ],
           ),
-          Row(
-            children: [
-              Expanded(
-                child: _OverviewMetric(
-                  label: appLocalizations.income,
-                  value: placeholder,
-                  valueColor: colors.income,
-                ),
-              ),
-              Expanded(
-                child: _OverviewMetric(
-                  label: appLocalizations.expense,
-                  value: placeholder,
-                  valueColor: colors.expense,
-                ),
-              ),
-              Expanded(
-                child: _OverviewMetric(
-                  label: appLocalizations.statisticsNetBalance,
-                  value: placeholder,
-                  valueColor: colors.textPrimary,
-                ),
-              ),
-            ],
+          kpisAsync.when(
+            data: (kpis) {
+              final emptyMessage = _previewEmptyMessage(appLocalizations, kpis);
+
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                spacing: 12,
+                children: [
+                  if (emptyMessage != null)
+                    StatisticsInlineEmptyMessage(message: emptyMessage),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: _OverviewMetric(
+                          label: appLocalizations.income,
+                          value: kpis.isEmpty
+                              ? placeholder
+                              : _formatAmount(
+                                  kpis.totalIncome,
+                                  currency,
+                                  currencyPosition,
+                                ),
+                          valueColor: colors.income,
+                        ),
+                      ),
+                      Expanded(
+                        child: _OverviewMetric(
+                          label: appLocalizations.expense,
+                          value: kpis.isEmpty
+                              ? placeholder
+                              : _formatAmount(
+                                  kpis.totalExpenses,
+                                  currency,
+                                  currencyPosition,
+                                ),
+                          valueColor: colors.expense,
+                        ),
+                      ),
+                      Expanded(
+                        child: _OverviewMetric(
+                          label: appLocalizations.statisticsNetBalance,
+                          value: kpis.isEmpty
+                              ? placeholder
+                              : _formatAmount(
+                                  kpis.netResult,
+                                  currency,
+                                  currencyPosition,
+                                ),
+                          valueColor: kpis.netResult > 0
+                              ? colors.income
+                              : kpis.netResult < 0
+                                  ? colors.expense
+                                  : colors.textPrimary,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              );
+            },
+            loading: () => const StatisticsChartLoading(height: 72),
+            error: (_, __) => StatisticsInlineEmptyMessage(
+              message: appLocalizations.statisticsOverviewKpisError,
+            ),
           ),
         ],
       ),
     );
+  }
+
+  String _formatAmount(
+    double amount,
+    Currency? currency,
+    CurrencySymbolPosition currencyPosition,
+  ) {
+    return amount.toStringAsFixedRoundedWithCurrency(
+      2,
+      currency,
+      currencyPosition,
+    );
+  }
+
+  String? _previewEmptyMessage(
+    AppLocalizations appLocalizations,
+    OverviewPeriodKpis kpis,
+  ) {
+    if (kpis.isEmpty) {
+      return appLocalizations.statisticsNoTransactionsInPeriod;
+    }
+    if (kpis.totalIncome == 0) {
+      return appLocalizations.statisticsNoIncomeInPeriod;
+    }
+    if (kpis.totalExpenses == 0) {
+      return appLocalizations.statisticsNoExpensesInPeriod;
+    }
+    return null;
   }
 }
 

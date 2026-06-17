@@ -8,6 +8,7 @@ import 'package:expense_tracker/core/style/style.dart';
 import 'package:expense_tracker/core/utils/double_helper.dart';
 import 'package:expense_tracker/features/statistics/domain/models/income_vs_expenses_series.dart';
 import 'package:expense_tracker/features/statistics/presentation/providers/queries/income_vs_expenses_notifier.dart';
+import 'package:expense_tracker/features/statistics/presentation/widgets/statistics_empty_states.dart';
 import 'package:expense_tracker/features/statistics/presentation/widgets/statistics_surface_card.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
@@ -27,7 +28,8 @@ class OverviewIncomeVsExpensesSection extends ConsumerWidget {
         if (series.isEmpty) {
           return _IncomeVsExpensesCard(
             title: appLocalizations.statisticsIncomeVsExpenses,
-            child: _EmptyChartMessage(
+            child: StatisticsChartEmptyMessage(
+              height: 220,
               message: appLocalizations.statisticsNoTransactionsInPeriod,
             ),
           );
@@ -40,14 +42,12 @@ class OverviewIncomeVsExpensesSection extends ConsumerWidget {
       },
       loading: () => _IncomeVsExpensesCard(
         title: appLocalizations.statisticsIncomeVsExpenses,
-        child: const SizedBox(
-          height: 220,
-          child: Center(child: CircularProgressIndicator()),
-        ),
+        child: const StatisticsChartLoading(height: 220),
       ),
       error: (_, __) => _IncomeVsExpensesCard(
         title: appLocalizations.statisticsIncomeVsExpenses,
-        child: _EmptyChartMessage(
+        child: StatisticsChartEmptyMessage(
+          height: 220,
           message: appLocalizations.statisticsIncomeVsExpensesError,
         ),
       ),
@@ -319,36 +319,6 @@ class _IncomeVsExpensesCard extends StatelessWidget {
           ),
           child,
         ],
-      ),
-    );
-  }
-}
-
-class _EmptyChartMessage extends StatelessWidget {
-  const _EmptyChartMessage({required this.message});
-
-  final String message;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.appColors;
-
-    return Container(
-      height: 220,
-      width: double.infinity,
-      decoration: BoxDecoration(
-        color: colors.divider.withValues(alpha: 0.1),
-        borderRadius: BorderRadius.circular(12),
-      ),
-      alignment: Alignment.center,
-      padding: const EdgeInsets.symmetric(horizontal: 24),
-      child: Text(
-        message,
-        textAlign: TextAlign.center,
-        style: TextStyle(
-          fontSize: 14,
-          color: colors.textSecondary,
-        ),
       ),
     );
   }

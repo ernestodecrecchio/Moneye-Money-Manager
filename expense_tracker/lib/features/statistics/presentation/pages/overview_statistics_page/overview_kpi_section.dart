@@ -96,16 +96,18 @@ class _OverviewKpiContent extends ConsumerWidget {
             ? colors.expense
             : colors.textPrimary;
 
+    final emptyBannerMessage = _emptyBannerMessage(appLocalizations, kpis);
+
     return StatisticsSurfaceCard(
       padding: const EdgeInsets.all(16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          if (kpis.isEmpty)
+          if (emptyBannerMessage != null)
             Padding(
               padding: const EdgeInsets.only(bottom: 12),
               child: Text(
-                appLocalizations.statisticsNoTransactionsInPeriod,
+                emptyBannerMessage,
                 style: TextStyle(
                   fontSize: 13,
                   color: colors.textSecondary,
@@ -167,5 +169,21 @@ class _OverviewKpiContent extends ConsumerWidget {
       currency,
       currencyPosition,
     );
+  }
+
+  String? _emptyBannerMessage(
+    AppLocalizations appLocalizations,
+    OverviewPeriodKpis kpis,
+  ) {
+    if (kpis.isEmpty) {
+      return appLocalizations.statisticsNoTransactionsInPeriod;
+    }
+    if (kpis.totalIncome == 0) {
+      return appLocalizations.statisticsNoIncomeInPeriod;
+    }
+    if (kpis.totalExpenses == 0) {
+      return appLocalizations.statisticsNoExpensesInPeriod;
+    }
+    return null;
   }
 }

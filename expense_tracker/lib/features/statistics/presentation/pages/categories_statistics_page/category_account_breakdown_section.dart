@@ -9,6 +9,7 @@ import 'package:expense_tracker/core/style/app_theme.dart';
 import 'package:expense_tracker/core/utils/double_helper.dart';
 import 'package:expense_tracker/features/statistics/domain/models/account_breakdown_entry.dart';
 import 'package:expense_tracker/features/statistics/domain/models/category_account_breakdown_series.dart';
+import 'package:expense_tracker/features/statistics/presentation/widgets/statistics_empty_states.dart';
 import 'package:expense_tracker/features/statistics/presentation/widgets/statistics_surface_card.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
@@ -18,9 +19,11 @@ class CategoryAccountBreakdownSection extends ConsumerWidget {
   const CategoryAccountBreakdownSection({
     super.key,
     required this.series,
+    this.isExpense = true,
   });
 
   final CategoryAccountBreakdownSeries series;
+  final bool isExpense;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -41,8 +44,10 @@ class CategoryAccountBreakdownSection extends ConsumerWidget {
             ),
           ),
           if (series.isEmpty)
-            _EmptyChartMessage(
-              message: appLocalizations.statisticsNoTransactionsInPeriod,
+            StatisticsChartEmptyMessage(
+              message: isExpense
+                  ? appLocalizations.statisticsNoExpensesInPeriod
+                  : appLocalizations.statisticsNoIncomeInPeriod,
             )
           else
             CategoryAccountBreakdownBarChart(series: series),
@@ -211,36 +216,6 @@ class _AccountBreakdownRow extends StatelessWidget {
           ),
         ),
       ],
-    );
-  }
-}
-
-class _EmptyChartMessage extends StatelessWidget {
-  const _EmptyChartMessage({required this.message});
-
-  final String message;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.appColors;
-
-    return Container(
-      height: 180,
-      width: double.infinity,
-      decoration: BoxDecoration(
-        color: colors.divider.withValues(alpha: 0.1),
-        borderRadius: BorderRadius.circular(12),
-      ),
-      alignment: Alignment.center,
-      padding: const EdgeInsets.symmetric(horizontal: 24),
-      child: Text(
-        message,
-        textAlign: TextAlign.center,
-        style: TextStyle(
-          fontSize: 14,
-          color: colors.textSecondary,
-        ),
-      ),
     );
   }
 }

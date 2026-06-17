@@ -10,6 +10,7 @@ import 'package:expense_tracker/features/statistics/domain/models/net_worth_tren
 import 'package:expense_tracker/features/statistics/domain/models/statistics_period_granularity.dart';
 import 'package:expense_tracker/features/statistics/presentation/providers/queries/net_worth_trend_notifier.dart';
 import 'package:expense_tracker/features/statistics/presentation/providers/statistics_period_provider.dart';
+import 'package:expense_tracker/features/statistics/presentation/widgets/statistics_empty_states.dart';
 import 'package:expense_tracker/features/statistics/presentation/widgets/statistics_surface_card.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
@@ -29,7 +30,8 @@ class OverviewNetWorthTrendSection extends ConsumerWidget {
         if (series.hasInsufficientData) {
           return _NetWorthTrendCard(
             title: appLocalizations.statisticsNetWorthTrend,
-            child: _EmptyChartMessage(
+            child: StatisticsChartEmptyMessage(
+              height: 200,
               message: appLocalizations.statisticsNetWorthTrendInsufficientData,
             ),
           );
@@ -42,14 +44,12 @@ class OverviewNetWorthTrendSection extends ConsumerWidget {
       },
       loading: () => _NetWorthTrendCard(
         title: appLocalizations.statisticsNetWorthTrend,
-        child: const SizedBox(
-          height: 200,
-          child: Center(child: CircularProgressIndicator()),
-        ),
+        child: const StatisticsChartLoading(height: 200),
       ),
       error: (_, __) => _NetWorthTrendCard(
         title: appLocalizations.statisticsNetWorthTrend,
-        child: _EmptyChartMessage(
+        child: StatisticsChartEmptyMessage(
+          height: 200,
           message: appLocalizations.statisticsNetWorthTrendError,
         ),
       ),
@@ -334,36 +334,6 @@ class _NetWorthTrendCard extends StatelessWidget {
           ),
           child,
         ],
-      ),
-    );
-  }
-}
-
-class _EmptyChartMessage extends StatelessWidget {
-  const _EmptyChartMessage({required this.message});
-
-  final String message;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.appColors;
-
-    return Container(
-      height: 200,
-      width: double.infinity,
-      decoration: BoxDecoration(
-        color: colors.divider.withValues(alpha: 0.1),
-        borderRadius: BorderRadius.circular(12),
-      ),
-      alignment: Alignment.center,
-      padding: const EdgeInsets.symmetric(horizontal: 24),
-      child: Text(
-        message,
-        textAlign: TextAlign.center,
-        style: TextStyle(
-          fontSize: 14,
-          color: colors.textSecondary,
-        ),
       ),
     );
   }

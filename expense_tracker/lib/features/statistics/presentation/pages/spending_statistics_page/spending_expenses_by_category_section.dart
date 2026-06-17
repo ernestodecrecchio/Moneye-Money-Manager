@@ -10,6 +10,7 @@ import 'package:expense_tracker/core/utils/double_helper.dart';
 import 'package:expense_tracker/features/statistics/domain/models/category_expense_entry.dart';
 import 'package:expense_tracker/features/statistics/domain/models/expenses_by_category_series.dart';
 import 'package:expense_tracker/features/statistics/presentation/providers/queries/expenses_by_category_notifier.dart';
+import 'package:expense_tracker/features/statistics/presentation/widgets/statistics_empty_states.dart';
 import 'package:expense_tracker/features/statistics/presentation/widgets/statistics_surface_card.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
@@ -28,8 +29,8 @@ class SpendingExpensesByCategorySection extends ConsumerWidget {
         if (series.isEmpty) {
           return _ExpensesByCategoryCard(
             title: appLocalizations.statisticsSpendingExpensesByCategory,
-            child: _EmptyChartMessage(
-              message: appLocalizations.statisticsNoTransactionsInPeriod,
+            child: StatisticsChartEmptyMessage(
+              message: appLocalizations.statisticsNoExpensesInPeriod,
             ),
           );
         }
@@ -41,14 +42,11 @@ class SpendingExpensesByCategorySection extends ConsumerWidget {
       },
       loading: () => _ExpensesByCategoryCard(
         title: appLocalizations.statisticsSpendingExpensesByCategory,
-        child: const SizedBox(
-          height: 180,
-          child: Center(child: CircularProgressIndicator()),
-        ),
+        child: const StatisticsChartLoading(),
       ),
       error: (_, __) => _ExpensesByCategoryCard(
         title: appLocalizations.statisticsSpendingExpensesByCategory,
-        child: _EmptyChartMessage(
+        child: StatisticsChartEmptyMessage(
           message: appLocalizations.statisticsSpendingExpensesByCategoryError,
         ),
       ),
@@ -246,36 +244,6 @@ class _ExpensesByCategoryCard extends StatelessWidget {
           ),
           child,
         ],
-      ),
-    );
-  }
-}
-
-class _EmptyChartMessage extends StatelessWidget {
-  const _EmptyChartMessage({required this.message});
-
-  final String message;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.appColors;
-
-    return Container(
-      height: 180,
-      width: double.infinity,
-      decoration: BoxDecoration(
-        color: colors.divider.withValues(alpha: 0.1),
-        borderRadius: BorderRadius.circular(12),
-      ),
-      alignment: Alignment.center,
-      padding: const EdgeInsets.symmetric(horizontal: 24),
-      child: Text(
-        message,
-        textAlign: TextAlign.center,
-        style: TextStyle(
-          fontSize: 14,
-          color: colors.textSecondary,
-        ),
       ),
     );
   }

@@ -8,6 +8,9 @@ import 'package:expense_tracker/core/style/style.dart';
 import 'package:expense_tracker/core/utils/double_helper.dart';
 import 'package:expense_tracker/features/statistics/domain/models/cumulative_cashflow_series.dart';
 import 'package:expense_tracker/features/statistics/presentation/providers/queries/cumulative_cashflow_notifier.dart';
+import 'package:expense_tracker/features/statistics/presentation/providers/statistics_period_provider.dart';
+import 'package:expense_tracker/features/statistics/presentation/widgets/statistics_empty_states.dart';
+import 'package:expense_tracker/features/statistics/presentation/widgets/statistics_period_chart_support.dart';
 import 'package:expense_tracker/features/statistics/presentation/widgets/statistics_surface_card.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
@@ -19,28 +22,35 @@ class CashflowCumulativeChartSection extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final period = ref.watch(statisticsPeriodProvider);
+    if (!statisticsPeriodSupportsMultipleMonths(period)) {
+      return const SizedBox.shrink();
+    }
+
     final appLocalizations = ref.watch(appLocalizationsProvider);
     final seriesAsync = ref.watch(cumulativeCashflowProvider);
 
     return seriesAsync.when(
       data: (series) {
-        if (series.hasInsufficientData) {
-          return _CumulativeCashflowChartCard(
-            title: appLocalizations.statisticsCashflowCumulativeChart,
-            subtitle: appLocalizations.statisticsCashflowCumulativeChartSubtitle,
-            child: _EmptyChartMessage(
-              message: appLocalizations
-                  .statisticsCashflowCumulativeChartInsufficientData,
-            ),
-          );
-        }
-
         if (series.isEmpty) {
           return _CumulativeCashflowChartCard(
             title: appLocalizations.statisticsCashflowCumulativeChart,
             subtitle: appLocalizations.statisticsCashflowCumulativeChartSubtitle,
-            child: _EmptyChartMessage(
+            child: StatisticsChartEmptyMessage(
+              height: 220,
               message: appLocalizations.statisticsNoTransactionsInPeriod,
+            ),
+          );
+        }
+
+        if (series.hasInsufficientData) {
+          return _CumulativeCashflowChartCard(
+            title: appLocalizations.statisticsCashflowCumulativeChart,
+            subtitle: appLocalizations.statisticsCashflowCumulativeChartSubtitle,
+            child: StatisticsChartEmptyMessage(
+              height: 220,
+              message: appLocalizations
+                  .statisticsCashflowCumulativeChartInsufficientData,
             ),
           );
         }
@@ -54,15 +64,13 @@ class CashflowCumulativeChartSection extends ConsumerWidget {
       loading: () => _CumulativeCashflowChartCard(
         title: appLocalizations.statisticsCashflowCumulativeChart,
         subtitle: appLocalizations.statisticsCashflowCumulativeChartSubtitle,
-        child: const SizedBox(
-          height: 220,
-          child: Center(child: CircularProgressIndicator()),
-        ),
+        child: const StatisticsChartLoading(height: 220),
       ),
       error: (_, __) => _CumulativeCashflowChartCard(
         title: appLocalizations.statisticsCashflowCumulativeChart,
         subtitle: appLocalizations.statisticsCashflowCumulativeChartSubtitle,
-        child: _EmptyChartMessage(
+        child: StatisticsChartEmptyMessage(
+          height: 220,
           message: appLocalizations.statisticsCashflowCumulativeChartError,
         ),
       ),
@@ -344,36 +352,6 @@ class _CumulativeCashflowChartCard extends StatelessWidget {
           ),
           child,
         ],
-      ),
-    );
-  }
-}
-
-class _EmptyChartMessage extends StatelessWidget {
-  const _EmptyChartMessage({required this.message});
-
-  final String message;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.appColors;
-
-    return Container(
-      height: 220,
-      width: double.infinity,
-      decoration: BoxDecoration(
-        color: colors.divider.withValues(alpha: 0.1),
-        borderRadius: BorderRadius.circular(12),
-      ),
-      alignment: Alignment.center,
-      padding: const EdgeInsets.symmetric(horizontal: 24),
-      child: Text(
-        message,
-        textAlign: TextAlign.center,
-        style: TextStyle(
-          fontSize: 14,
-          color: colors.textSecondary,
-        ),
       ),
     );
   }

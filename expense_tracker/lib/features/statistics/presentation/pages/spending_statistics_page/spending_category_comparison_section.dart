@@ -9,6 +9,9 @@ import 'package:expense_tracker/core/style/style.dart';
 import 'package:expense_tracker/core/utils/double_helper.dart';
 import 'package:expense_tracker/features/statistics/domain/models/category_comparison_series.dart';
 import 'package:expense_tracker/features/statistics/presentation/providers/queries/category_comparison_notifier.dart';
+import 'package:expense_tracker/features/statistics/presentation/providers/statistics_period_provider.dart';
+import 'package:expense_tracker/features/statistics/presentation/widgets/statistics_empty_states.dart';
+import 'package:expense_tracker/features/statistics/presentation/widgets/statistics_period_chart_support.dart';
 import 'package:expense_tracker/features/statistics/presentation/widgets/statistics_surface_card.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
@@ -20,30 +23,37 @@ class SpendingCategoryComparisonSection extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final period = ref.watch(statisticsPeriodProvider);
+    if (!statisticsPeriodSupportsMultipleMonths(period)) {
+      return const SizedBox.shrink();
+    }
+
     final appLocalizations = ref.watch(appLocalizationsProvider);
     final seriesAsync = ref.watch(categoryComparisonProvider);
 
     return seriesAsync.when(
       data: (series) {
-        if (series.hasInsufficientData) {
-          return _CategoryComparisonCard(
-            title: appLocalizations.statisticsSpendingCategoryComparison,
-            subtitle:
-                appLocalizations.statisticsSpendingCategoryComparisonSubtitle,
-            child: _EmptyChartMessage(
-              message: appLocalizations
-                  .statisticsSpendingCategoryComparisonInsufficientData,
-            ),
-          );
-        }
-
         if (series.isEmpty) {
           return _CategoryComparisonCard(
             title: appLocalizations.statisticsSpendingCategoryComparison,
             subtitle:
                 appLocalizations.statisticsSpendingCategoryComparisonSubtitle,
-            child: _EmptyChartMessage(
-              message: appLocalizations.statisticsNoTransactionsInPeriod,
+            child: StatisticsChartEmptyMessage(
+              height: 200,
+              message: appLocalizations.statisticsNoExpensesInPeriod,
+            ),
+          );
+        }
+
+        if (series.hasInsufficientData) {
+          return _CategoryComparisonCard(
+            title: appLocalizations.statisticsSpendingCategoryComparison,
+            subtitle:
+                appLocalizations.statisticsSpendingCategoryComparisonSubtitle,
+            child: StatisticsChartEmptyMessage(
+              height: 200,
+              message: appLocalizations
+                  .statisticsSpendingCategoryComparisonInsufficientData,
             ),
           );
         }
@@ -58,15 +68,13 @@ class SpendingCategoryComparisonSection extends ConsumerWidget {
       loading: () => _CategoryComparisonCard(
         title: appLocalizations.statisticsSpendingCategoryComparison,
         subtitle: appLocalizations.statisticsSpendingCategoryComparisonSubtitle,
-        child: const SizedBox(
-          height: 200,
-          child: Center(child: CircularProgressIndicator()),
-        ),
+        child: const StatisticsChartLoading(height: 200),
       ),
       error: (_, __) => _CategoryComparisonCard(
         title: appLocalizations.statisticsSpendingCategoryComparison,
         subtitle: appLocalizations.statisticsSpendingCategoryComparisonSubtitle,
-        child: _EmptyChartMessage(
+        child: StatisticsChartEmptyMessage(
+          height: 200,
           message: appLocalizations.statisticsSpendingCategoryComparisonError,
         ),
       ),
@@ -358,36 +366,6 @@ class _CategoryComparisonCard extends StatelessWidget {
           ),
           child,
         ],
-      ),
-    );
-  }
-}
-
-class _EmptyChartMessage extends StatelessWidget {
-  const _EmptyChartMessage({required this.message});
-
-  final String message;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.appColors;
-
-    return Container(
-      height: 200,
-      width: double.infinity,
-      decoration: BoxDecoration(
-        color: colors.divider.withValues(alpha: 0.1),
-        borderRadius: BorderRadius.circular(12),
-      ),
-      alignment: Alignment.center,
-      padding: const EdgeInsets.symmetric(horizontal: 24),
-      child: Text(
-        message,
-        textAlign: TextAlign.center,
-        style: TextStyle(
-          fontSize: 14,
-          color: colors.textSecondary,
-        ),
       ),
     );
   }

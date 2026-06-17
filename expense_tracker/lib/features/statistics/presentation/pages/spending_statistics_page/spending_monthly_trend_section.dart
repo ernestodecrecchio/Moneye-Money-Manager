@@ -8,6 +8,9 @@ import 'package:expense_tracker/core/style/style.dart';
 import 'package:expense_tracker/core/utils/double_helper.dart';
 import 'package:expense_tracker/features/statistics/domain/models/monthly_spending_trend_series.dart';
 import 'package:expense_tracker/features/statistics/presentation/providers/queries/monthly_spending_trend_notifier.dart';
+import 'package:expense_tracker/features/statistics/presentation/providers/statistics_period_provider.dart';
+import 'package:expense_tracker/features/statistics/presentation/widgets/statistics_empty_states.dart';
+import 'package:expense_tracker/features/statistics/presentation/widgets/statistics_period_chart_support.dart';
 import 'package:expense_tracker/features/statistics/presentation/widgets/statistics_surface_card.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
@@ -19,26 +22,33 @@ class SpendingMonthlyTrendSection extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final period = ref.watch(statisticsPeriodProvider);
+    if (!statisticsPeriodSupportsMultipleMonths(period)) {
+      return const SizedBox.shrink();
+    }
+
     final appLocalizations = ref.watch(appLocalizationsProvider);
     final seriesAsync = ref.watch(monthlySpendingTrendProvider);
 
     return seriesAsync.when(
       data: (series) {
-        if (series.hasInsufficientData) {
+        if (series.isEmpty) {
           return _MonthlyTrendCard(
             title: appLocalizations.statisticsSpendingMonthlyTrend,
-            child: _EmptyChartMessage(
-              message:
-                  appLocalizations.statisticsSpendingMonthlyTrendInsufficientData,
+            child: StatisticsChartEmptyMessage(
+              height: 200,
+              message: appLocalizations.statisticsNoExpensesInPeriod,
             ),
           );
         }
 
-        if (series.isEmpty) {
+        if (series.hasInsufficientData) {
           return _MonthlyTrendCard(
             title: appLocalizations.statisticsSpendingMonthlyTrend,
-            child: _EmptyChartMessage(
-              message: appLocalizations.statisticsNoTransactionsInPeriod,
+            child: StatisticsChartEmptyMessage(
+              height: 200,
+              message:
+                  appLocalizations.statisticsSpendingMonthlyTrendInsufficientData,
             ),
           );
         }
@@ -50,14 +60,12 @@ class SpendingMonthlyTrendSection extends ConsumerWidget {
       },
       loading: () => _MonthlyTrendCard(
         title: appLocalizations.statisticsSpendingMonthlyTrend,
-        child: const SizedBox(
-          height: 200,
-          child: Center(child: CircularProgressIndicator()),
-        ),
+        child: const StatisticsChartLoading(height: 200),
       ),
       error: (_, __) => _MonthlyTrendCard(
         title: appLocalizations.statisticsSpendingMonthlyTrend,
-        child: _EmptyChartMessage(
+        child: StatisticsChartEmptyMessage(
+          height: 200,
           message: appLocalizations.statisticsSpendingMonthlyTrendError,
         ),
       ),
@@ -306,36 +314,6 @@ class _MonthlyTrendCard extends StatelessWidget {
           ),
           child,
         ],
-      ),
-    );
-  }
-}
-
-class _EmptyChartMessage extends StatelessWidget {
-  const _EmptyChartMessage({required this.message});
-
-  final String message;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.appColors;
-
-    return Container(
-      height: 200,
-      width: double.infinity,
-      decoration: BoxDecoration(
-        color: colors.divider.withValues(alpha: 0.1),
-        borderRadius: BorderRadius.circular(12),
-      ),
-      alignment: Alignment.center,
-      padding: const EdgeInsets.symmetric(horizontal: 24),
-      child: Text(
-        message,
-        textAlign: TextAlign.center,
-        style: TextStyle(
-          fontSize: 14,
-          color: colors.textSecondary,
-        ),
       ),
     );
   }

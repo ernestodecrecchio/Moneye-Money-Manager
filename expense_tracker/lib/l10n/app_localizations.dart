@@ -757,6 +757,24 @@ abstract class AppLocalizations {
   /// **'No transactions in this period.'**
   String get statisticsNoTransactionsInPeriod;
 
+  /// No description provided for @statisticsNoExpensesInPeriod.
+  ///
+  /// In en, this message translates to:
+  /// **'No expenses in this period.'**
+  String get statisticsNoExpensesInPeriod;
+
+  /// No description provided for @statisticsNoIncomeInPeriod.
+  ///
+  /// In en, this message translates to:
+  /// **'No income in this period.'**
+  String get statisticsNoIncomeInPeriod;
+
+  /// No description provided for @statisticsInsightsErrorTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t load insights'**
+  String get statisticsInsightsErrorTitle;
+
   /// No description provided for @statisticsOverviewKpisError.
   ///
   /// In en, this message translates to:
