@@ -1,18 +1,19 @@
 import 'package:intl/intl.dart';
 import 'package:collection/collection.dart';
+import 'package:expense_tracker/core/presentation/common/account_ui_extension.dart';
 import 'package:expense_tracker/core/utils/date_time_helper.dart';
 import 'package:expense_tracker/core/presentation/providers/app_localizations_provider.dart';
+import 'package:expense_tracker/core/presentation/providers/currency_provider.dart';
+import 'package:expense_tracker/core/utils/double_helper.dart';
+import 'package:expense_tracker/features/transactions/presentation/providers/queries/total_balance_notifier.dart';
 import 'package:expense_tracker/features/transactions/presentation/providers/queries/transactions_list_notifier.dart';
 import 'package:expense_tracker/core/configuration/constants.dart';
 import 'package:expense_tracker/l10n/app_localizations.dart';
 import 'package:expense_tracker/features/accounts/domain/models/account.dart';
-import 'package:expense_tracker/features/transactions/domain/models/transaction.dart';
 import 'package:expense_tracker/features/accounts/presentation/providers/queries/accounts_list_notifier.dart';
-import 'package:expense_tracker/features/accounts/presentation/pages/account_detail_page/graphs/account_bar_chart.dart';
-import 'package:expense_tracker/features/accounts/presentation/pages/account_detail_page/graphs/account_pie_chart.dart';
 import 'package:expense_tracker/features/accounts/presentation/pages/account_detail_page/transaction_list/transaction_list.dart';
 import 'package:expense_tracker/core/presentation/common/custom_modal_bottom_sheet.dart';
-import 'package:expense_tracker/core/presentation/common/page_view_with_indicators.dart';
+import 'package:expense_tracker/core/presentation/common/widgets/icon_item.dart';
 import 'package:expense_tracker/core/presentation/common/widgets/safe_vector_graphic.dart';
 import 'package:expense_tracker/features/transactions/presentation/pages/new_edit_transaction_flow/new_edit_transaction_page.dart';
 import 'package:expense_tracker/features/accounts/presentation/pages/accounts_list_page/new_edit_account_page.dart';
@@ -47,21 +48,11 @@ class _AccountDetailPageState extends ConsumerState<AccountDetailPage>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
 
-  AccountDetailTransactionListMode transactionListMode =
-      AccountDetailTransactionListMode.transactionList;
-
-  AccountDetailTransactionTypeMode transactionTypeMode =
-      AccountDetailTransactionTypeMode.income;
-
-  int selectedTimeIndex = 0;
-
   TransactionTimePeriod selectedTransactionTimePeriod =
       TransactionTimePeriod.month;
 
   DateTime startDate = currentMonthFirstDay(DateTime.now());
   DateTime endDate = currentMonthLastDay(DateTime.now());
-
-  List<Transaction> transactionList = [];
 
   @override
   void initState() {
@@ -88,6 +79,9 @@ class _AccountDetailPageState extends ConsumerState<AccountDetailPage>
     }
 
     final appLocalizations = ref.watch(appLocalizationsProvider);
+    final effectiveAccount = referenceAccount ?? widget.account;
+    final showAccountActions =
+        effectiveAccount != null && !effectiveAccount.isOtherAccount;
 
     return Scaffold(
       appBar: AppBar(
@@ -95,13 +89,15 @@ class _AccountDetailPageState extends ConsumerState<AccountDetailPage>
             ? referenceAccount?.name ?? widget.account!.name
             : appLocalizations.allTransactions),
         actions: [
-          if (widget.account?.isOtherAccount == false)
-            _buildAccountActions(context, appLocalizations, referenceAccount),
+          if (showAccountActions)
+            _buildAccountActions(context, appLocalizations),
         ],
       ),
       floatingActionButton: _buildFloatingActionButton(context),
       body: Column(
         children: [
+          if (widget.account != null)
+            _AccountBalanceHeader(account: referenceAccount ?? widget.account!),
           _buildTabBar(appLocalizations),
           DateBar(
             selectedTransactionTimePeriod: selectedTransactionTimePeriod,
@@ -195,21 +191,18 @@ class _AccountDetailPageState extends ConsumerState<AccountDetailPage>
               children: [
                 ScrollableTabView(
                   transactionType: AccountDetailTransactionTypeMode.income,
-                  selectedTransactionTimePeriod: selectedTransactionTimePeriod,
                   startDate: startDate,
                   endDate: endDate,
                   account: widget.account,
                 ),
                 ScrollableTabView(
                   transactionType: AccountDetailTransactionTypeMode.expense,
-                  selectedTransactionTimePeriod: selectedTransactionTimePeriod,
                   startDate: startDate,
                   endDate: endDate,
                   account: widget.account,
                 ),
                 ScrollableTabView(
                   transactionType: AccountDetailTransactionTypeMode.all,
-                  selectedTransactionTimePeriod: selectedTransactionTimePeriod,
                   startDate: startDate,
                   endDate: endDate,
                   account: widget.account,
@@ -225,40 +218,23 @@ class _AccountDetailPageState extends ConsumerState<AccountDetailPage>
   Widget _buildAccountActions(
     BuildContext context,
     AppLocalizations appLocalizations,
-    Account? referenceAccount,
   ) {
-    final account = referenceAccount ?? widget.account;
-    if (account == null) return const SizedBox.shrink();
-
-    return PopupMenuButton<String>(
-      icon: Icon(
-        Icons.more_vert,
-        color: Theme.of(context).appBarTheme.foregroundColor,
-      ),
-      onSelected: (value) async {
-        switch (value) {
-          case 'correctBalance':
-            await showAccountRebalanceSheet(context, account);
-          case 'edit':
-            final result = await Navigator.of(context).pushNamed(
-              NewEditAccountPage.routeName,
-              arguments: widget.account,
-            );
-            if (result == 'deleted' && context.mounted) {
-              Navigator.of(context).pop();
-            }
+    return TextButton(
+      onPressed: () async {
+        final result = await Navigator.of(context).pushNamed(
+          NewEditAccountPage.routeName,
+          arguments: widget.account,
+        );
+        if (result == 'deleted' && context.mounted) {
+          Navigator.of(context).pop();
         }
       },
-      itemBuilder: (context) => [
-        PopupMenuItem(
-          value: 'correctBalance',
-          child: Text(appLocalizations.correctBalance),
+      child: Text(
+        appLocalizations.edit,
+        style: TextStyle(
+          color: Theme.of(context).appBarTheme.foregroundColor,
         ),
-        PopupMenuItem(
-          value: 'edit',
-          child: Text(appLocalizations.edit),
-        ),
-      ],
+      ),
     );
   }
 
@@ -287,19 +263,6 @@ class _AccountDetailPageState extends ConsumerState<AccountDetailPage>
           indicatorSize: TabBarIndicatorSize.tab,
           dividerColor: colors.divider.darken(0.05),
           dividerHeight: 2,
-          onTap: (value) {
-            switch (value) {
-              case 0:
-                transactionTypeMode = AccountDetailTransactionTypeMode.income;
-                break;
-              case 1:
-                transactionTypeMode = AccountDetailTransactionTypeMode.expense;
-                break;
-              case 2:
-                transactionTypeMode = AccountDetailTransactionTypeMode.all;
-                break;
-            }
-          },
           tabs: [
             Tab(
               child: FittedBox(
@@ -332,170 +295,153 @@ class _AccountDetailPageState extends ConsumerState<AccountDetailPage>
   }
 }
 
-class ScrollableTabView extends ConsumerStatefulWidget {
+class ScrollableTabView extends ConsumerWidget {
   final Account? account;
   final AccountDetailTransactionTypeMode transactionType;
 
   final DateTime startDate;
   final DateTime endDate;
 
-  final TransactionTimePeriod selectedTransactionTimePeriod;
-
   const ScrollableTabView({
     super.key,
     required this.transactionType,
     required this.startDate,
     required this.endDate,
-    required this.selectedTransactionTimePeriod,
     required this.account,
   });
 
   @override
-  ConsumerState<ScrollableTabView> createState() => _ScrollableTabViewState();
-}
-
-class _ScrollableTabViewState extends ConsumerState<ScrollableTabView> {
-  @override
-  Widget build(BuildContext context) {
-    late AccountBarChartModeTransactionType barChartTransactionType;
-    late AccountPieChartModeTransactionType pieChartTransactionType;
-
-    switch (widget.transactionType) {
-      case AccountDetailTransactionTypeMode.income:
-        barChartTransactionType = AccountBarChartModeTransactionType.income;
-        pieChartTransactionType = AccountPieChartModeTransactionType.income;
-        break;
-      case AccountDetailTransactionTypeMode.expense:
-        barChartTransactionType = AccountBarChartModeTransactionType.expense;
-        pieChartTransactionType = AccountPieChartModeTransactionType.expense;
-        break;
-      case AccountDetailTransactionTypeMode.all:
-        barChartTransactionType = AccountBarChartModeTransactionType.all;
-        pieChartTransactionType = AccountPieChartModeTransactionType.all;
-        break;
-    }
-
-    final transactionsListParams = TransactionsListParams(
-      startDate: widget.startDate,
-      endDate: widget.endDate,
-      account: widget.account,
-      includeIncomes:
-          widget.transactionType == AccountDetailTransactionTypeMode.income,
-      includeExpenses:
-          widget.transactionType == AccountDetailTransactionTypeMode.expense,
-    );
-
+  Widget build(BuildContext context, WidgetRef ref) {
     final appLocalizations = ref.watch(appLocalizationsProvider);
 
-    return ref.watch(transactionsListProvider(transactionsListParams)).when(
-          data: (transactionsList) {
-            final includeInReportTransactionsList = transactionsList
-                .where((transaction) => transaction.includeInReports)
-                .toList();
-
-            return transactionsList.isEmpty
-                ? Align(
-                    child: Text(
-                    appLocalizations.noTransactions,
-                    style: TextStyle(
-                      color: context.appColors.textSecondary,
-                    ),
-                  ))
-                : SingleChildScrollView(
-                    child: Column(
-                      children: [
-                        if (includeInReportTransactionsList.isNotEmpty) ...[
-                          Container(
-                            height: 200,
-                            margin: const EdgeInsets.only(
-                              top: 10,
-                              bottom: 0,
-                              left: Constants.horizontalPadding,
-                              right: Constants.horizontalPadding,
-                            ),
-                            child: PageViewWithIndicators(
-                              widgetList: [
-                                _buildPieChart(includeInReportTransactionsList,
-                                    pieChartTransactionType),
-                                if (widget.selectedTransactionTimePeriod !=
-                                    TransactionTimePeriod.day)
-                                  _buildBarChart(
-                                    transactionList:
-                                        includeInReportTransactionsList,
-                                    transactionType: barChartTransactionType,
-                                    timeMode:
-                                        widget.selectedTransactionTimePeriod,
-                                  ),
-                              ],
-                              indicatorIconPathList:
-                                  widget.selectedTransactionTimePeriod !=
-                                          TransactionTimePeriod.day
-                                      ? const [
-                                          'assets/icons/pie-chart.svg',
-                                          'assets/icons/bar-chart.svg',
-                                        ]
-                                      : null,
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 4,
-                          ),
-                        ],
-                        _buildTransactionListSection(
-                          transactionsList,
-                          appLocalizations,
-                        ),
-                      ],
-                    ),
-                  );
-          },
-          loading: () => const Center(
-            child: CircularProgressIndicator(),
-          ),
-          error: (error, stackTrace) => Text(
-            'Error loading transactions list',
-            style: Theme.of(context).textTheme.bodyMedium,
-          ),
-        );
-  }
-
-  Widget _buildBarChart({
-    required List<Transaction> transactionList,
-    required AccountBarChartModeTransactionType transactionType,
-    required TransactionTimePeriod timeMode,
-  }) {
-    return AccountBarChart(
-      transactionType: transactionType,
-      transactionTimePeriod: timeMode,
-      startDate: widget.startDate,
-      endDate: widget.endDate,
-      transactionList: transactionList,
-    );
-  }
-
-  Widget _buildPieChart(List<Transaction> transactionList,
-      AccountPieChartModeTransactionType mode) {
-    return AccountPieChart(
-      transactionList: transactionList,
-      mode: mode,
-    );
-  }
-
-  Widget _buildTransactionListSection(
-      List<Transaction> transactionList, AppLocalizations appLocalizations) {
-    return TransactionList(
-      title: appLocalizations.transactionList,
-      transactionsListParams: TransactionsListParams(
-        startDate: widget.startDate,
-        endDate: widget.endDate,
-        account: widget.account,
-        includeIncomes:
-            widget.transactionType == AccountDetailTransactionTypeMode.income,
-        includeExpenses:
-            widget.transactionType == AccountDetailTransactionTypeMode.expense,
+    return SingleChildScrollView(
+      child: TransactionList(
+        title: appLocalizations.transactionList,
+        transactionsListParams: TransactionsListParams(
+          startDate: startDate,
+          endDate: endDate,
+          account: account,
+          includeIncomes:
+              transactionType == AccountDetailTransactionTypeMode.income,
+          includeExpenses:
+              transactionType == AccountDetailTransactionTypeMode.expense,
+        ),
+        showAccountLabel: false,
+        topWidgetRef: ref,
       ),
-      showAccountLabel: false,
-      topWidgetRef: ref,
+    );
+  }
+}
+
+class _AccountBalanceHeader extends ConsumerWidget {
+  const _AccountBalanceHeader({required this.account});
+
+  final Account account;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final appLocalizations = ref.watch(appLocalizationsProvider);
+    final currentCurrency = ref.watch(currentCurrencyProvider);
+    final currentCurrencyPosition =
+        ref.watch(currentCurrencySymbolPositionProvider);
+    final colors = context.appColors;
+    final textTheme = Theme.of(context).textTheme;
+    final balanceParams = TotalBalanceParams(account: account);
+
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.fromLTRB(
+        Constants.horizontalPadding,
+        16,
+        Constants.horizontalPadding,
+        12,
+      ),
+      color: colors.surface,
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          IconItem(
+            backgroundColor: account.color,
+            shape: BoxShape.rectangle,
+            iconPath: account.iconPath,
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  appLocalizations.totalBalance,
+                  style: textTheme.bodyMedium?.copyWith(
+                    color: colors.textSecondary,
+                  ),
+                ),
+                const SizedBox(height: 4),
+                ref.watch(totalBalanceProvider(balanceParams)).when(
+                      data: (balance) => Text(
+                        balance.toStringAsFixedRoundedWithCurrency(
+                          2,
+                          currentCurrency,
+                          currentCurrencyPosition,
+                        ),
+                        style: textTheme.headlineSmall?.copyWith(
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      loading: () => const SizedBox(
+                        height: 28,
+                        width: 28,
+                        child: CircularProgressIndicator(strokeWidth: 2),
+                      ),
+                      error: (_, __) => Text(
+                        '—',
+                        style: textTheme.headlineSmall?.copyWith(
+                          fontWeight: FontWeight.bold,
+                          color: colors.textSecondary,
+                        ),
+                      ),
+                    ),
+                if (!account.isOtherAccount) ...[
+                  const SizedBox(height: 8),
+                  TextButton.icon(
+                    onPressed: () =>
+                        showAccountRebalanceSheet(context, account),
+                    style: TextButton.styleFrom(
+                      padding: EdgeInsets.zero,
+                      minimumSize: Size.zero,
+                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                      visualDensity: VisualDensity.compact,
+                      alignment: Alignment.centerLeft,
+                    ),
+                    icon: Icon(
+                      Icons.sync_alt_rounded,
+                      size: 16,
+                      color: colors.primary,
+                    ),
+                    label: Text(
+                      appLocalizations.correctBalance,
+                      style: textTheme.labelLarge?.copyWith(
+                        color: colors.primary,
+                      ),
+                    ),
+                  ),
+                ],
+                if (account.description?.isNotEmpty == true) ...[
+                  const SizedBox(height: 6),
+                  Text(
+                    account.description!,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: textTheme.bodySmall?.copyWith(
+                      color: colors.textSecondary,
+                    ),
+                  ),
+                ],
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

@@ -151,6 +151,7 @@ class DatabaseAccountHelper {
         name: row['name'] as String,
         colorValue: row['color'] as int?,
         iconPath: row['iconPath'] as String?,
+        isOtherAccount: row['id'] == otherAccountId,
       );
 
       final balance = (row['balance'] as num).toDouble();

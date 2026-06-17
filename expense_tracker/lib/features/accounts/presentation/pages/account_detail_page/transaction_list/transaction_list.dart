@@ -7,7 +7,6 @@ import 'package:expense_tracker/features/categories/domain/models/category.dart'
 import 'package:expense_tracker/features/transactions/domain/models/transaction.dart';
 import 'package:expense_tracker/features/categories/presentation/providers/queries/categories_list_notifier.dart';
 import 'package:expense_tracker/core/presentation/providers/currency_provider.dart';
-import 'package:expense_tracker/features/accounts/presentation/pages/account_detail_page/graphs/account_pie_chart.dart';
 import 'package:expense_tracker/features/accounts/presentation/pages/account_detail_page/transaction_list_for_category_page.dart';
 import 'package:expense_tracker/features/transactions/presentation/providers/queries/transactions_list_notifier.dart';
 import 'package:expense_tracker/core/presentation/common/widgets/custom_snackbar.dart';
@@ -287,4 +286,14 @@ class _TransactionListState extends ConsumerState<TransactionList> {
       iconPath: category.iconPath,
     );
   }
+}
+
+class CategoryTotalValue {
+  final Category category;
+  double totalValue;
+
+  CategoryTotalValue({
+    required this.category,
+    required this.totalValue,
+  });
 }
