@@ -343,6 +343,22 @@ class AppLocalizationsTr extends AppLocalizations {
   }
 
   @override
+  String get statisticsInsightBestMonthTitle => 'Best month';
+
+  @override
+  String statisticsInsightBestMonthDescription(String month, String amount) {
+    return '$month with $amount net result.';
+  }
+
+  @override
+  String get statisticsInsightWorstMonthTitle => 'Worst month';
+
+  @override
+  String statisticsInsightWorstMonthDescription(String month, String amount) {
+    return '$month with $amount net result.';
+  }
+
+  @override
   String get statisticsSelectGranularity => 'Select granularity';
 
   @override

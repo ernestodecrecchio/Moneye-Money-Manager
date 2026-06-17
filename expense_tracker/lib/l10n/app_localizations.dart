@@ -679,6 +679,30 @@ abstract class AppLocalizations {
   String statisticsInsightTopCategoryWeightDescription(
       String category, String percent);
 
+  /// No description provided for @statisticsInsightBestMonthTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Best month'**
+  String get statisticsInsightBestMonthTitle;
+
+  /// No description provided for @statisticsInsightBestMonthDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'{month} with {amount} net result.'**
+  String statisticsInsightBestMonthDescription(String month, String amount);
+
+  /// No description provided for @statisticsInsightWorstMonthTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Worst month'**
+  String get statisticsInsightWorstMonthTitle;
+
+  /// No description provided for @statisticsInsightWorstMonthDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'{month} with {amount} net result.'**
+  String statisticsInsightWorstMonthDescription(String month, String amount);
+
   /// No description provided for @statisticsSelectGranularity.
   ///
   /// In en, this message translates to:

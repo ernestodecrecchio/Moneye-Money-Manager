@@ -85,6 +85,26 @@
             }
         }
     },
+    "@statisticsInsightBestMonthDescription": {
+        "placeholders": {
+            "month": {
+                "type": "String"
+            },
+            "amount": {
+                "type": "String"
+            }
+        }
+    },
+    "@statisticsInsightWorstMonthDescription": {
+        "placeholders": {
+            "month": {
+                "type": "String"
+            },
+            "amount": {
+                "type": "String"
+            }
+        }
+    },
     "aboutAndSupport": "About & Support",
     "accept": "Accept",
     "account": "Account",
@@ -179,6 +199,10 @@
     "statisticsInsightSpendingChangeDecreasedDescription": "{amount} less than last period ({percent}).",
     "statisticsInsightTopCategoryWeightTitle": "Top category share",
     "statisticsInsightTopCategoryWeightDescription": "{category} accounts for {percent} of expenses.",
+    "statisticsInsightBestMonthTitle": "Best month",
+    "statisticsInsightBestMonthDescription": "{month} with {amount} net result.",
+    "statisticsInsightWorstMonthTitle": "Worst month",
+    "statisticsInsightWorstMonthDescription": "{month} with {amount} net result.",
     "statisticsSelectGranularity": "Select granularity",
     "statisticsPeriodQuarter": "Quarter",
     "statisticsKeyFigures": "KEY FIGURES",

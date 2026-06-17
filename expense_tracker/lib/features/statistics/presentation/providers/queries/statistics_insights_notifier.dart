@@ -1,11 +1,14 @@
 import 'package:expense_tracker/core/presentation/providers/app_localizations_provider.dart';
 import 'package:expense_tracker/core/presentation/providers/currency_provider.dart';
+import 'package:expense_tracker/features/statistics/domain/logic/best_worst_month_insight_calculator.dart';
 import 'package:expense_tracker/features/statistics/domain/logic/spending_change_insight_calculator.dart';
 import 'package:expense_tracker/features/statistics/domain/logic/top_category_weight_insight_calculator.dart';
 import 'package:expense_tracker/features/statistics/domain/models/statistics_insight.dart';
+import 'package:expense_tracker/features/statistics/presentation/mappers/best_worst_month_insight_mapper.dart';
 import 'package:expense_tracker/features/statistics/presentation/mappers/spending_change_insight_mapper.dart';
 import 'package:expense_tracker/features/statistics/presentation/mappers/top_category_weight_insight_mapper.dart';
 import 'package:expense_tracker/features/statistics/presentation/providers/queries/expenses_by_category_notifier.dart';
+import 'package:expense_tracker/features/statistics/presentation/providers/queries/monthly_cashflow_notifier.dart';
 import 'package:expense_tracker/features/statistics/presentation/providers/statistics_period_provider.dart';
 import 'package:expense_tracker/features/transactions/presentation/providers/transactions_repository_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -55,6 +58,20 @@ class StatisticsInsightsNotifier extends AsyncNotifier<List<StatisticsInsight>> 
         TopCategoryWeightInsightMapper.toStatisticsInsight(
           insight: topCategoryWeight,
           appLocalizations: appLocalizations,
+        ),
+      );
+    }
+
+    final monthlyCashflow = await ref.watch(monthlyCashflowProvider.future);
+    final bestWorstMonth =
+        BestWorstMonthInsightCalculator.evaluate(monthlyCashflow);
+    if (bestWorstMonth != null) {
+      insights.addAll(
+        BestWorstMonthInsightMapper.toStatisticsInsights(
+          insight: bestWorstMonth,
+          appLocalizations: appLocalizations,
+          currency: currency,
+          currencyPosition: currencyPosition,
         ),
       );
     }
