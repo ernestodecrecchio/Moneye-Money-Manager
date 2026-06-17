@@ -310,6 +310,29 @@ class AppLocalizationsEs extends AppLocalizations {
       'There are no insights for the selected period. Insights will appear here when patterns are detected in your data.';
 
   @override
+  String get statisticsInsightsError => 'Unable to load insights.';
+
+  @override
+  String get statisticsInsightSpendingChangeIncreasedTitle =>
+      'Spending increased';
+
+  @override
+  String statisticsInsightSpendingChangeIncreasedDescription(
+      String amount, String percent) {
+    return '$amount more than last period ($percent).';
+  }
+
+  @override
+  String get statisticsInsightSpendingChangeDecreasedTitle =>
+      'Spending decreased';
+
+  @override
+  String statisticsInsightSpendingChangeDecreasedDescription(
+      String amount, String percent) {
+    return '$amount less than last period ($percent).';
+  }
+
+  @override
   String get statisticsSelectGranularity => 'Select granularity';
 
   @override

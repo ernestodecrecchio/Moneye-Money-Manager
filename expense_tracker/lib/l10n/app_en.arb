@@ -55,6 +55,26 @@
             }
         }
     },
+    "@statisticsInsightSpendingChangeDecreasedDescription": {
+        "placeholders": {
+            "amount": {
+                "type": "String"
+            },
+            "percent": {
+                "type": "String"
+            }
+        }
+    },
+    "@statisticsInsightSpendingChangeIncreasedDescription": {
+        "placeholders": {
+            "amount": {
+                "type": "String"
+            },
+            "percent": {
+                "type": "String"
+            }
+        }
+    },
     "aboutAndSupport": "About & Support",
     "accept": "Accept",
     "account": "Account",
@@ -142,6 +162,11 @@
     "statisticsInsightsComingSoon": "Automated insights and highlights based on your financial activity will appear here.",
     "statisticsInsightsEmptyTitle": "No insights available",
     "statisticsInsightsEmptyMessage": "There are no insights for the selected period. Insights will appear here when patterns are detected in your data.",
+    "statisticsInsightsError": "Unable to load insights.",
+    "statisticsInsightSpendingChangeIncreasedTitle": "Spending increased",
+    "statisticsInsightSpendingChangeIncreasedDescription": "{amount} more than last period ({percent}).",
+    "statisticsInsightSpendingChangeDecreasedTitle": "Spending decreased",
+    "statisticsInsightSpendingChangeDecreasedDescription": "{amount} less than last period ({percent}).",
     "statisticsSelectGranularity": "Select granularity",
     "statisticsPeriodQuarter": "Quarter",
     "statisticsKeyFigures": "KEY FIGURES",

@@ -43,6 +43,14 @@ class StatisticsPeriod {
 
   int get quarter => ((anchorDate.month - 1) ~/ 3) + 1;
 
+  StatisticsPeriod get previous {
+    final selection = StatisticsPeriodSelection(
+      granularity: granularity,
+      anchorDate: anchorDate,
+    ).shifted(-1);
+    return StatisticsPeriod.fromSelection(selection);
+  }
+
   static DateTime _endOfDay(DateTime date) {
     return DateTime(date.year, date.month, date.day, 23, 59, 59, 999);
   }

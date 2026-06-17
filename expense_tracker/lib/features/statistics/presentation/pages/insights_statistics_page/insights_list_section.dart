@@ -11,20 +11,32 @@ class InsightsListSection extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final appLocalizations = ref.watch(appLocalizationsProvider);
-    final insights = ref.watch(statisticsInsightsProvider);
+    final insightsAsync = ref.watch(statisticsInsightsProvider);
 
-    if (insights.isEmpty) {
-      return InsightsEmptyState(
+    return insightsAsync.when(
+      data: (insights) {
+        if (insights.isEmpty) {
+          return InsightsEmptyState(
+            title: appLocalizations.statisticsInsightsEmptyTitle,
+            message: appLocalizations.statisticsInsightsEmptyMessage,
+          );
+        }
+
+        return Column(
+          spacing: 12,
+          children: [
+            for (final insight in insights) InsightCard(insight: insight),
+          ],
+        );
+      },
+      loading: () => const SizedBox(
+        height: 200,
+        child: Center(child: CircularProgressIndicator()),
+      ),
+      error: (_, __) => InsightsEmptyState(
         title: appLocalizations.statisticsInsightsEmptyTitle,
-        message: appLocalizations.statisticsInsightsEmptyMessage,
-      );
-    }
-
-    return Column(
-      spacing: 12,
-      children: [
-        for (final insight in insights) InsightCard(insight: insight),
-      ],
+        message: appLocalizations.statisticsInsightsError,
+      ),
     );
   }
 }

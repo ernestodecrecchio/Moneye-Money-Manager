@@ -634,6 +634,38 @@ abstract class AppLocalizations {
   /// **'There are no insights for the selected period. Insights will appear here when patterns are detected in your data.'**
   String get statisticsInsightsEmptyMessage;
 
+  /// No description provided for @statisticsInsightsError.
+  ///
+  /// In en, this message translates to:
+  /// **'Unable to load insights.'**
+  String get statisticsInsightsError;
+
+  /// No description provided for @statisticsInsightSpendingChangeIncreasedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Spending increased'**
+  String get statisticsInsightSpendingChangeIncreasedTitle;
+
+  /// No description provided for @statisticsInsightSpendingChangeIncreasedDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'{amount} more than last period ({percent}).'**
+  String statisticsInsightSpendingChangeIncreasedDescription(
+      String amount, String percent);
+
+  /// No description provided for @statisticsInsightSpendingChangeDecreasedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Spending decreased'**
+  String get statisticsInsightSpendingChangeDecreasedTitle;
+
+  /// No description provided for @statisticsInsightSpendingChangeDecreasedDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'{amount} less than last period ({percent}).'**
+  String statisticsInsightSpendingChangeDecreasedDescription(
+      String amount, String percent);
+
   /// No description provided for @statisticsSelectGranularity.
   ///
   /// In en, this message translates to:
