@@ -5,7 +5,7 @@ import 'package:expense_tracker/features/statistics/presentation/providers/queri
 import 'package:expense_tracker/features/statistics/presentation/providers/statistics_period_provider.dart';
 import 'package:expense_tracker/features/statistics/presentation/widgets/statistics_empty_states.dart';
 import 'package:expense_tracker/features/statistics/presentation/widgets/statistics_period_chart_support.dart';
-import 'package:expense_tracker/features/statistics/presentation/widgets/statistics_surface_card.dart';
+import 'package:expense_tracker/features/statistics/presentation/widgets/statistics_section_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -26,27 +26,25 @@ class IncomeMonthlyTrendSection extends ConsumerWidget {
     return seriesAsync.when(
       data: (series) {
         if (series.isEmpty) {
-          return _MonthlyTrendCard(
+          return StatisticsSectionCard(
             title: appLocalizations.statisticsIncomeMonthlyTrend,
             child: StatisticsChartEmptyMessage(
-              height: 200,
               message: appLocalizations.statisticsNoIncomeInPeriod,
             ),
           );
         }
 
         if (series.hasInsufficientData) {
-          return _MonthlyTrendCard(
+          return StatisticsSectionCard(
             title: appLocalizations.statisticsIncomeMonthlyTrend,
             child: StatisticsChartEmptyMessage(
-              height: 200,
               message:
                   appLocalizations.statisticsIncomeMonthlyTrendInsufficientData,
             ),
           );
         }
 
-        return _MonthlyTrendCard(
+        return StatisticsSectionCard(
           title: appLocalizations.statisticsIncomeMonthlyTrend,
           child: MonthlySpendingTrendLineChart(
             series: series,
@@ -54,48 +52,15 @@ class IncomeMonthlyTrendSection extends ConsumerWidget {
           ),
         );
       },
-      loading: () => _MonthlyTrendCard(
+      loading: () => StatisticsSectionCard(
         title: appLocalizations.statisticsIncomeMonthlyTrend,
-        child: const StatisticsChartLoading(height: 200),
+        child: const StatisticsChartLoading(),
       ),
-      error: (_, __) => _MonthlyTrendCard(
+      error: (_, __) => StatisticsSectionCard(
         title: appLocalizations.statisticsIncomeMonthlyTrend,
         child: StatisticsChartEmptyMessage(
-          height: 200,
           message: appLocalizations.statisticsIncomeMonthlyTrendError,
         ),
-      ),
-    );
-  }
-}
-
-class _MonthlyTrendCard extends StatelessWidget {
-  const _MonthlyTrendCard({
-    required this.title,
-    required this.child,
-  });
-
-  final String title;
-  final Widget child;
-
-  @override
-  Widget build(BuildContext context) {
-    return StatisticsSurfaceCard(
-      padding: const EdgeInsets.all(20),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        spacing: 16,
-        children: [
-          Text(
-            title,
-            style: const TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-              letterSpacing: -0.5,
-            ),
-          ),
-          child,
-        ],
       ),
     );
   }

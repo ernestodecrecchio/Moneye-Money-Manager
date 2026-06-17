@@ -18,6 +18,8 @@ import 'package:expense_tracker/features/statistics/presentation/widgets/statist
 import 'package:expense_tracker/features/statistics/presentation/widgets/statistics_period_chart_support.dart';
 import 'package:expense_tracker/features/statistics/presentation/widgets/statistics_period_indicator.dart';
 import 'package:expense_tracker/features/statistics/presentation/providers/statistics_period_provider.dart';
+import 'package:expense_tracker/features/statistics/presentation/widgets/statistics_layout.dart';
+import 'package:expense_tracker/features/statistics/presentation/widgets/statistics_section_card.dart';
 import 'package:expense_tracker/features/statistics/presentation/widgets/statistics_surface_card.dart';
 import 'package:expense_tracker/features/transactions/domain/models/transaction.dart';
 import 'package:expense_tracker/features/transactions/presentation/providers/mutations/transaction_mutation_notifier.dart';
@@ -163,9 +165,9 @@ class _CategoryStatisticsDetailContentState
           sliver: SliverList(
             delegate: SliverChildListDelegate([
               const StatisticsPeriodIndicator(),
-              const SizedBox(height: 20),
+              const SizedBox(height: StatisticsLayout.periodSectionSpacing),
               StatisticsSurfaceCard(
-                padding: const EdgeInsets.all(20),
+                padding: StatisticsLayout.cardPadding,
                 child: Row(
                   spacing: 14,
                   children: [
@@ -184,18 +186,11 @@ class _CategoryStatisticsDetailContentState
                             category.name,
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
-                            style: const TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                              letterSpacing: -0.5,
-                            ),
+                            style: StatisticsLayout.cardTitleStyle(context),
                           ),
                           Text(
                             shareLabel,
-                            style: TextStyle(
-                              fontSize: 13,
-                              color: colors.textSecondary,
-                            ),
+                            style: StatisticsLayout.cardSubtitleStyle(context),
                           ),
                         ],
                       ),
@@ -206,38 +201,38 @@ class _CategoryStatisticsDetailContentState
                       children: [
                         Text(
                           amountLabel,
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            color: amountColor,
-                            letterSpacing: -0.5,
-                          ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                                fontWeight: FontWeight.bold,
+                                color: amountColor,
+                                letterSpacing: -0.5,
+                              ),
                         ),
                         Text(
                           percentageLabel,
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: colors.textSecondary,
-                            fontWeight: FontWeight.w600,
-                          ),
+                          style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                                color: colors.textSecondary,
+                                fontWeight: FontWeight.w600,
+                              ),
                         ),
                       ],
                     ),
                   ],
                 ),
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: StatisticsLayout.sectionSpacing),
               _CategoryMonthlyTrendSection(
                 monthlyTrend: detail.monthlyTrend,
                 chartColor: chartColor,
                 isExpense: entry.isExpense,
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: StatisticsLayout.sectionSpacing),
               CategoryAccountBreakdownSection(
                 series: detail.accountBreakdown,
                 isExpense: entry.isExpense,
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: StatisticsLayout.sectionSpacing),
               Padding(
                 padding: const EdgeInsets.only(
                   left: 2,
@@ -245,10 +240,7 @@ class _CategoryStatisticsDetailContentState
                 ),
                 child: Text(
                   appLocalizations.transactionList,
-                  style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
-                  ),
+                  style: StatisticsLayout.cardTitleStyle(context),
                 ),
               ),
             ]),
@@ -367,34 +359,19 @@ class _CategoryMonthlyTrendSection extends ConsumerWidget {
         ? appLocalizations.statisticsNoExpensesInPeriod
         : appLocalizations.statisticsNoIncomeInPeriod;
 
-    return StatisticsSurfaceCard(
-      padding: const EdgeInsets.all(20),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        spacing: 16,
-        children: [
-          Text(
-            appLocalizations.statisticsCategoryMonthlyTrend,
-            style: const TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-              letterSpacing: -0.5,
-            ),
-          ),
-          if (monthlyTrend.isEmpty)
-            StatisticsChartEmptyMessage(message: emptyMessage)
-          else if (monthlyTrend.hasInsufficientData)
-            StatisticsChartEmptyMessage(
-              message: appLocalizations
-                  .statisticsCategoryMonthlyTrendInsufficientData,
-            )
-          else
-            MonthlySpendingTrendLineChart(
-              series: monthlyTrend,
-              lineColor: chartColor,
-            ),
-        ],
-      ),
+    return StatisticsSectionCard(
+      title: appLocalizations.statisticsCategoryMonthlyTrend,
+      child: monthlyTrend.isEmpty
+          ? StatisticsChartEmptyMessage(message: emptyMessage)
+          : monthlyTrend.hasInsufficientData
+              ? StatisticsChartEmptyMessage(
+                  message: appLocalizations
+                      .statisticsCategoryMonthlyTrendInsufficientData,
+                )
+              : MonthlySpendingTrendLineChart(
+                  series: monthlyTrend,
+                  lineColor: chartColor,
+                ),
     );
   }
 }

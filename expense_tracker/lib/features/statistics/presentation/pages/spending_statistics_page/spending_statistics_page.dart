@@ -5,6 +5,7 @@ import 'package:expense_tracker/features/statistics/presentation/pages/spending_
 import 'package:expense_tracker/features/statistics/presentation/pages/spending_statistics_page/spending_expenses_by_category_section.dart';
 import 'package:expense_tracker/features/statistics/presentation/pages/spending_statistics_page/spending_insights_preview_section.dart';
 import 'package:expense_tracker/features/statistics/presentation/pages/spending_statistics_page/spending_monthly_trend_section.dart';
+import 'package:expense_tracker/features/statistics/presentation/widgets/statistics_layout.dart';
 import 'package:expense_tracker/features/statistics/presentation/widgets/statistics_period_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -31,15 +32,15 @@ class SpendingStatisticsPage extends ConsumerWidget {
         ),
         children: const [
           StatisticsPeriodIndicator(),
-          SizedBox(height: 20),
+          SizedBox(height: StatisticsLayout.periodSectionSpacing),
           SpendingAverageMonthlySection(),
-          SizedBox(height: 16),
+          SizedBox(height: StatisticsLayout.sectionSpacing),
           SpendingExpensesByCategorySection(),
-          SizedBox(height: 16),
+          SizedBox(height: StatisticsLayout.sectionSpacing),
           SpendingMonthlyTrendSection(),
-          SizedBox(height: 16),
+          SizedBox(height: StatisticsLayout.sectionSpacing),
           SpendingCategoryComparisonSection(),
-          SizedBox(height: 16),
+          SizedBox(height: StatisticsLayout.sectionSpacing),
           SpendingInsightsPreviewSection(),
         ],
       ),

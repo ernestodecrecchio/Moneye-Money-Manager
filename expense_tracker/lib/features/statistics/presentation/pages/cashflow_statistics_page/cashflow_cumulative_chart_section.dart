@@ -4,14 +4,14 @@ import 'package:expense_tracker/core/models/currency.dart';
 import 'package:expense_tracker/core/presentation/providers/app_localizations_provider.dart';
 import 'package:expense_tracker/core/presentation/providers/currency_provider.dart';
 import 'package:expense_tracker/core/style/app_theme.dart';
-import 'package:expense_tracker/core/style/style.dart';
 import 'package:expense_tracker/core/utils/double_helper.dart';
 import 'package:expense_tracker/features/statistics/domain/models/cumulative_cashflow_series.dart';
 import 'package:expense_tracker/features/statistics/presentation/providers/queries/cumulative_cashflow_notifier.dart';
 import 'package:expense_tracker/features/statistics/presentation/providers/statistics_period_provider.dart';
 import 'package:expense_tracker/features/statistics/presentation/widgets/statistics_empty_states.dart';
+import 'package:expense_tracker/features/statistics/presentation/widgets/statistics_layout.dart';
 import 'package:expense_tracker/features/statistics/presentation/widgets/statistics_period_chart_support.dart';
-import 'package:expense_tracker/features/statistics/presentation/widgets/statistics_surface_card.dart';
+import 'package:expense_tracker/features/statistics/presentation/widgets/statistics_section_card.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -33,44 +33,41 @@ class CashflowCumulativeChartSection extends ConsumerWidget {
     return seriesAsync.when(
       data: (series) {
         if (series.isEmpty) {
-          return _CumulativeCashflowChartCard(
+          return StatisticsSectionCard(
             title: appLocalizations.statisticsCashflowCumulativeChart,
             subtitle: appLocalizations.statisticsCashflowCumulativeChartSubtitle,
             child: StatisticsChartEmptyMessage(
-              height: 220,
               message: appLocalizations.statisticsNoTransactionsInPeriod,
             ),
           );
         }
 
         if (series.hasInsufficientData) {
-          return _CumulativeCashflowChartCard(
+          return StatisticsSectionCard(
             title: appLocalizations.statisticsCashflowCumulativeChart,
             subtitle: appLocalizations.statisticsCashflowCumulativeChartSubtitle,
             child: StatisticsChartEmptyMessage(
-              height: 220,
               message: appLocalizations
                   .statisticsCashflowCumulativeChartInsufficientData,
             ),
           );
         }
 
-        return _CumulativeCashflowChartCard(
+        return StatisticsSectionCard(
           title: appLocalizations.statisticsCashflowCumulativeChart,
           subtitle: appLocalizations.statisticsCashflowCumulativeChartSubtitle,
           child: CumulativeCashflowLineChart(series: series),
         );
       },
-      loading: () => _CumulativeCashflowChartCard(
+      loading: () => StatisticsSectionCard(
         title: appLocalizations.statisticsCashflowCumulativeChart,
         subtitle: appLocalizations.statisticsCashflowCumulativeChartSubtitle,
-        child: const StatisticsChartLoading(height: 220),
+        child: const StatisticsChartLoading(),
       ),
-      error: (_, __) => _CumulativeCashflowChartCard(
+      error: (_, __) => StatisticsSectionCard(
         title: appLocalizations.statisticsCashflowCumulativeChart,
         subtitle: appLocalizations.statisticsCashflowCumulativeChartSubtitle,
         child: StatisticsChartEmptyMessage(
-          height: 220,
           message: appLocalizations.statisticsCashflowCumulativeChartError,
         ),
       ),
@@ -86,7 +83,6 @@ class CumulativeCashflowLineChart extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final colors = context.appColors;
-    final textTheme = Theme.of(context).textTheme;
     final appLocalizations = ref.watch(appLocalizationsProvider);
     final currency = ref.watch(currentCurrencyProvider);
     final currencyPosition = ref.watch(currentCurrencySymbolPositionProvider);
@@ -103,19 +99,10 @@ class CumulativeCashflowLineChart extends ConsumerWidget {
         FlSpot(i.toDouble(), series.points[i].cumulativeNetCashflow),
     ];
 
-    final labelStyle = textTheme.labelSmall?.copyWith(
-          color: colors.textSecondary,
-          fontWeight: FontWeight.bold,
-          fontSize: 11,
-        ) ??
-        const TextStyle(
-          color: CustomColors.chartLabelsGray,
-          fontWeight: FontWeight.bold,
-          fontSize: 11,
-        );
+    final labelStyle = StatisticsLayout.chartAxisLabelStyle(context);
 
     return SizedBox(
-      height: 220,
+      height: StatisticsLayout.chartHeight,
       child: LineChart(
         LineChartData(
           minX: 0,
@@ -303,56 +290,6 @@ class CumulativeCashflowLineChart extends ConsumerWidget {
       0,
       currency,
       currencyPosition,
-    );
-  }
-}
-
-class _CumulativeCashflowChartCard extends StatelessWidget {
-  const _CumulativeCashflowChartCard({
-    required this.title,
-    required this.subtitle,
-    required this.child,
-  });
-
-  final String title;
-  final String subtitle;
-  final Widget child;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.appColors;
-
-    return StatisticsSurfaceCard(
-      padding: const EdgeInsets.all(20),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        spacing: 16,
-        children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            spacing: 4,
-            children: [
-              Text(
-                title,
-                style: const TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  letterSpacing: -0.5,
-                ),
-              ),
-              Text(
-                subtitle,
-                style: TextStyle(
-                  fontSize: 13,
-                  height: 1.4,
-                  color: colors.textSecondary,
-                ),
-              ),
-            ],
-          ),
-          child,
-        ],
-      ),
     );
   }
 }

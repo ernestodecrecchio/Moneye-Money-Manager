@@ -11,6 +11,7 @@ import 'package:expense_tracker/features/statistics/domain/models/categories_sta
 import 'package:expense_tracker/features/statistics/presentation/pages/categories_statistics_page/category_statistics_detail_page.dart';
 import 'package:expense_tracker/features/statistics/presentation/providers/queries/categories_statistics_notifier.dart';
 import 'package:expense_tracker/features/statistics/presentation/widgets/statistics_empty_states.dart';
+import 'package:expense_tracker/features/statistics/presentation/widgets/statistics_layout.dart';
 import 'package:expense_tracker/features/statistics/presentation/widgets/statistics_period_indicator.dart';
 import 'package:expense_tracker/features/statistics/presentation/widgets/statistics_surface_card.dart';
 import 'package:flutter/material.dart';
@@ -39,7 +40,7 @@ class CategoriesStatisticsPage extends ConsumerWidget {
         ),
         children: [
           const StatisticsPeriodIndicator(),
-          const SizedBox(height: 20),
+          const SizedBox(height: StatisticsLayout.periodSectionSpacing),
           seriesAsync.when(
             data: (series) {
               if (series.isEmpty) {
@@ -53,9 +54,9 @@ class CategoriesStatisticsPage extends ConsumerWidget {
 
               return _CategoriesStatisticsList(series: series);
             },
-            loading: () => const SizedBox(
-              height: 200,
-              child: Center(child: CircularProgressIndicator()),
+            loading: () => const StatisticsSurfaceCard(
+              padding: StatisticsLayout.cardPadding,
+              child: StatisticsChartLoading(),
             ),
             error: (_, __) => StatisticsSurfaceCard(
               padding: const EdgeInsets.all(24),

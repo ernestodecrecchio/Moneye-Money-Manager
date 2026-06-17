@@ -13,6 +13,8 @@ import 'package:expense_tracker/features/statistics/presentation/pages/insights_
 import 'package:expense_tracker/features/statistics/presentation/pages/overview_statistics_page/overview_statistics_page.dart';
 import 'package:expense_tracker/features/statistics/presentation/pages/spending_statistics_page/spending_statistics_page.dart';
 import 'package:expense_tracker/features/statistics/presentation/widgets/statistics_empty_states.dart';
+import 'package:expense_tracker/features/statistics/presentation/widgets/statistics_kpi_card.dart';
+import 'package:expense_tracker/features/statistics/presentation/widgets/statistics_layout.dart';
 import 'package:expense_tracker/features/statistics/presentation/widgets/statistics_period_selector.dart';
 import 'package:expense_tracker/features/statistics/presentation/widgets/statistics_surface_card.dart';
 import 'package:expense_tracker/features/home/presentation/widgets/tab_bar/tab_bar_shell.dart';
@@ -45,11 +47,11 @@ class StatisticsPage extends ConsumerWidget {
             sliver: SliverList(
               delegate: SliverChildListDelegate([
                 const StatisticsPeriodSelector(),
-                const SizedBox(height: 16),
+                const SizedBox(height: StatisticsLayout.sectionSpacing),
                 _StatisticsOverviewPreviewCard(
                   appLocalizations: appLocalizations,
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: StatisticsLayout.sectionSpacing),
                 _StatisticsNavigationSection(
                   appLocalizations: appLocalizations,
                 ),
@@ -77,10 +79,10 @@ class _StatisticsOverviewPreviewCard extends ConsumerWidget {
     final placeholder = appLocalizations.statisticsPlaceholderValue;
 
     return StatisticsSurfaceCard(
-      padding: const EdgeInsets.all(20),
+      padding: StatisticsLayout.cardPadding,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        spacing: 16,
+        spacing: StatisticsLayout.cardHeaderSpacing,
         children: [
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -88,18 +90,11 @@ class _StatisticsOverviewPreviewCard extends ConsumerWidget {
             children: [
               Text(
                 appLocalizations.statisticsOverviewTitle,
-                style: const TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  letterSpacing: -0.5,
-                ),
+                style: StatisticsLayout.cardTitleStyle(context),
               ),
               Text(
                 appLocalizations.statisticsOverviewPreviewSubtitle,
-                style: TextStyle(
-                  fontSize: 13,
-                  color: colors.textSecondary,
-                ),
+                style: StatisticsLayout.cardSubtitleStyle(context),
               ),
             ],
           ),
@@ -114,9 +109,11 @@ class _StatisticsOverviewPreviewCard extends ConsumerWidget {
                   if (emptyMessage != null)
                     StatisticsInlineEmptyMessage(message: emptyMessage),
                   Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    spacing: 12,
                     children: [
                       Expanded(
-                        child: _OverviewMetric(
+                        child: StatisticsKpiCard(
                           label: appLocalizations.income,
                           value: kpis.isEmpty
                               ? placeholder
@@ -129,7 +126,7 @@ class _StatisticsOverviewPreviewCard extends ConsumerWidget {
                         ),
                       ),
                       Expanded(
-                        child: _OverviewMetric(
+                        child: StatisticsKpiCard(
                           label: appLocalizations.expense,
                           value: kpis.isEmpty
                               ? placeholder
@@ -142,7 +139,7 @@ class _StatisticsOverviewPreviewCard extends ConsumerWidget {
                         ),
                       ),
                       Expanded(
-                        child: _OverviewMetric(
+                        child: StatisticsKpiCard(
                           label: appLocalizations.statisticsNetBalance,
                           value: kpis.isEmpty
                               ? placeholder
@@ -199,47 +196,6 @@ class _StatisticsOverviewPreviewCard extends ConsumerWidget {
       return appLocalizations.statisticsNoExpensesInPeriod;
     }
     return null;
-  }
-}
-
-class _OverviewMetric extends StatelessWidget {
-  const _OverviewMetric({
-    required this.label,
-    required this.value,
-    required this.valueColor,
-  });
-
-  final String label;
-  final String value;
-  final Color valueColor;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.appColors;
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      spacing: 4,
-      children: [
-        Text(
-          label,
-          style: TextStyle(
-            fontSize: 12,
-            color: colors.textSecondary,
-            fontWeight: FontWeight.w500,
-          ),
-        ),
-        Text(
-          value,
-          style: TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
-            color: valueColor,
-            letterSpacing: -0.5,
-          ),
-        ),
-      ],
-    );
   }
 }
 
@@ -360,17 +316,19 @@ class _StatisticsNavCard extends StatelessWidget {
                 children: [
                   Text(
                     item.title,
-                    style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                          fontWeight: FontWeight.w600,
+                        ),
                   ),
                   Text(
                     item.description,
-                    style: TextStyle(
-                      fontSize: 13,
-                      color: colors.textSecondary,
-                    ),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                          color: colors.textSecondary,
+                        ),
                   ),
                 ],
               ),

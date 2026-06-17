@@ -5,7 +5,9 @@ import 'package:expense_tracker/core/style/app_theme.dart';
 import 'package:expense_tracker/core/utils/double_helper.dart';
 import 'package:expense_tracker/features/statistics/domain/models/overview_period_kpis.dart';
 import 'package:expense_tracker/features/statistics/presentation/providers/queries/overview_kpis_notifier.dart';
+import 'package:expense_tracker/features/statistics/presentation/widgets/statistics_empty_states.dart';
 import 'package:expense_tracker/features/statistics/presentation/widgets/statistics_kpi_card.dart';
+import 'package:expense_tracker/features/statistics/presentation/widgets/statistics_layout.dart';
 import 'package:expense_tracker/features/statistics/presentation/widgets/statistics_surface_card.dart';
 import 'package:expense_tracker/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +19,6 @@ class OverviewKpiSection extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final appLocalizations = ref.watch(appLocalizationsProvider);
-    final colors = context.appColors;
     final kpisAsync = ref.watch(overviewKpisProvider);
 
     return Column(
@@ -26,12 +27,7 @@ class OverviewKpiSection extends ConsumerWidget {
       children: [
         Text(
           appLocalizations.statisticsKeyFigures,
-          style: TextStyle(
-            fontSize: 12,
-            fontWeight: FontWeight.bold,
-            color: colors.primary,
-            letterSpacing: 1.1,
-          ),
+          style: StatisticsLayout.sectionHeaderStyle(context),
         ),
         kpisAsync.when(
           data: (kpis) => _OverviewKpiContent(
@@ -39,14 +35,13 @@ class OverviewKpiSection extends ConsumerWidget {
             kpis: kpis,
           ),
           loading: () => const StatisticsSurfaceCard(
-            padding: EdgeInsets.all(32),
-            child: Center(child: CircularProgressIndicator()),
+            padding: StatisticsLayout.cardPadding,
+            child: StatisticsChartLoading(height: 96),
           ),
           error: (error, _) => StatisticsSurfaceCard(
-            padding: const EdgeInsets.all(20),
-            child: Text(
-              appLocalizations.statisticsOverviewKpisError,
-              style: TextStyle(color: colors.textSecondary),
+            padding: StatisticsLayout.cardPadding,
+            child: StatisticsInlineEmptyMessage(
+              message: appLocalizations.statisticsOverviewKpisError,
             ),
           ),
         ),
@@ -99,7 +94,7 @@ class _OverviewKpiContent extends ConsumerWidget {
     final emptyBannerMessage = _emptyBannerMessage(appLocalizations, kpis);
 
     return StatisticsSurfaceCard(
-      padding: const EdgeInsets.all(16),
+      padding: StatisticsLayout.cardPadding,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -108,10 +103,10 @@ class _OverviewKpiContent extends ConsumerWidget {
               padding: const EdgeInsets.only(bottom: 12),
               child: Text(
                 emptyBannerMessage,
-                style: TextStyle(
-                  fontSize: 13,
-                  color: colors.textSecondary,
-                ),
+                style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                      fontSize: 13,
+                      color: colors.textSecondary,
+                    ),
               ),
             ),
           Row(

@@ -5,14 +5,14 @@ import 'package:expense_tracker/core/presentation/common/category_ui_extension.d
 import 'package:expense_tracker/core/presentation/providers/app_localizations_provider.dart';
 import 'package:expense_tracker/core/presentation/providers/currency_provider.dart';
 import 'package:expense_tracker/core/style/app_theme.dart';
-import 'package:expense_tracker/core/style/style.dart';
 import 'package:expense_tracker/core/utils/double_helper.dart';
 import 'package:expense_tracker/features/statistics/domain/models/category_comparison_series.dart';
 import 'package:expense_tracker/features/statistics/presentation/providers/queries/category_comparison_notifier.dart';
 import 'package:expense_tracker/features/statistics/presentation/providers/statistics_period_provider.dart';
 import 'package:expense_tracker/features/statistics/presentation/widgets/statistics_empty_states.dart';
+import 'package:expense_tracker/features/statistics/presentation/widgets/statistics_layout.dart';
 import 'package:expense_tracker/features/statistics/presentation/widgets/statistics_period_chart_support.dart';
-import 'package:expense_tracker/features/statistics/presentation/widgets/statistics_surface_card.dart';
+import 'package:expense_tracker/features/statistics/presentation/widgets/statistics_section_card.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -34,47 +34,44 @@ class SpendingCategoryComparisonSection extends ConsumerWidget {
     return seriesAsync.when(
       data: (series) {
         if (series.isEmpty) {
-          return _CategoryComparisonCard(
+          return StatisticsSectionCard(
             title: appLocalizations.statisticsSpendingCategoryComparison,
             subtitle:
                 appLocalizations.statisticsSpendingCategoryComparisonSubtitle,
             child: StatisticsChartEmptyMessage(
-              height: 200,
               message: appLocalizations.statisticsNoExpensesInPeriod,
             ),
           );
         }
 
         if (series.hasInsufficientData) {
-          return _CategoryComparisonCard(
+          return StatisticsSectionCard(
             title: appLocalizations.statisticsSpendingCategoryComparison,
             subtitle:
                 appLocalizations.statisticsSpendingCategoryComparisonSubtitle,
             child: StatisticsChartEmptyMessage(
-              height: 200,
               message: appLocalizations
                   .statisticsSpendingCategoryComparisonInsufficientData,
             ),
           );
         }
 
-        return _CategoryComparisonCard(
+        return StatisticsSectionCard(
           title: appLocalizations.statisticsSpendingCategoryComparison,
           subtitle:
               appLocalizations.statisticsSpendingCategoryComparisonSubtitle,
           child: CategoryComparisonBarChart(series: series),
         );
       },
-      loading: () => _CategoryComparisonCard(
+      loading: () => StatisticsSectionCard(
         title: appLocalizations.statisticsSpendingCategoryComparison,
         subtitle: appLocalizations.statisticsSpendingCategoryComparisonSubtitle,
-        child: const StatisticsChartLoading(height: 200),
+        child: const StatisticsChartLoading(),
       ),
-      error: (_, __) => _CategoryComparisonCard(
+      error: (_, __) => StatisticsSectionCard(
         title: appLocalizations.statisticsSpendingCategoryComparison,
         subtitle: appLocalizations.statisticsSpendingCategoryComparisonSubtitle,
         child: StatisticsChartEmptyMessage(
-          height: 200,
           message: appLocalizations.statisticsSpendingCategoryComparisonError,
         ),
       ),
@@ -93,23 +90,13 @@ class CategoryComparisonBarChart extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final colors = context.appColors;
-    final textTheme = Theme.of(context).textTheme;
     final currency = ref.watch(currentCurrencyProvider);
     final currencyPosition = ref.watch(currentCurrencySymbolPositionProvider);
 
     final maxValue = max(series.maxAmount, 1.0);
     final labelInterval = max(1, (series.months.length / 5).floor()).toDouble();
 
-    final labelStyle = textTheme.labelSmall?.copyWith(
-          color: colors.textSecondary,
-          fontWeight: FontWeight.bold,
-          fontSize: 11,
-        ) ??
-        const TextStyle(
-          color: CustomColors.chartLabelsGray,
-          fontWeight: FontWeight.bold,
-          fontSize: 11,
-        );
+    final labelStyle = StatisticsLayout.chartAxisLabelStyle(context);
 
     final barGroups = [
       for (var monthIndex = 0; monthIndex < series.months.length; monthIndex++)
@@ -148,7 +135,7 @@ class CategoryComparisonBarChart extends ConsumerWidget {
           ],
         ),
         SizedBox(
-          height: 220,
+          height: StatisticsLayout.chartHeight,
           child: BarChart(
             BarChartData(
               minY: 0,
@@ -318,55 +305,6 @@ class _LegendItem extends StatelessWidget {
           ),
         ),
       ],
-    );
-  }
-}
-
-class _CategoryComparisonCard extends StatelessWidget {
-  const _CategoryComparisonCard({
-    required this.title,
-    required this.subtitle,
-    required this.child,
-  });
-
-  final String title;
-  final String subtitle;
-  final Widget child;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.appColors;
-
-    return StatisticsSurfaceCard(
-      padding: const EdgeInsets.all(20),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        spacing: 16,
-        children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            spacing: 4,
-            children: [
-              Text(
-                title,
-                style: const TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  letterSpacing: -0.5,
-                ),
-              ),
-              Text(
-                subtitle,
-                style: TextStyle(
-                  fontSize: 13,
-                  color: colors.textSecondary,
-                ),
-              ),
-            ],
-          ),
-          child,
-        ],
-      ),
     );
   }
 }

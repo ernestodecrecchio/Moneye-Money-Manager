@@ -1,5 +1,6 @@
 import 'package:expense_tracker/core/presentation/providers/app_localizations_provider.dart';
 import 'package:expense_tracker/features/statistics/presentation/pages/insights_statistics_page/insights_empty_state.dart';
+import 'package:expense_tracker/features/statistics/presentation/widgets/statistics_empty_states.dart';
 import 'package:expense_tracker/features/statistics/presentation/providers/queries/statistics_insights_notifier.dart';
 import 'package:expense_tracker/features/statistics/presentation/widgets/insight_card.dart';
 import 'package:flutter/material.dart';
@@ -29,10 +30,7 @@ class InsightsListSection extends ConsumerWidget {
           ],
         );
       },
-      loading: () => const SizedBox(
-        height: 200,
-        child: Center(child: CircularProgressIndicator()),
-      ),
+      loading: () => const StatisticsChartLoading(),
       error: (_, __) => InsightsEmptyState(
         title: appLocalizations.statisticsInsightsErrorTitle,
         message: appLocalizations.statisticsInsightsError,

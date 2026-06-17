@@ -4,12 +4,12 @@ import 'package:expense_tracker/core/models/currency.dart';
 import 'package:expense_tracker/core/presentation/providers/app_localizations_provider.dart';
 import 'package:expense_tracker/core/presentation/providers/currency_provider.dart';
 import 'package:expense_tracker/core/style/app_theme.dart';
-import 'package:expense_tracker/core/style/style.dart';
 import 'package:expense_tracker/core/utils/double_helper.dart';
 import 'package:expense_tracker/features/statistics/domain/models/income_vs_expenses_series.dart';
 import 'package:expense_tracker/features/statistics/presentation/providers/queries/income_vs_expenses_notifier.dart';
 import 'package:expense_tracker/features/statistics/presentation/widgets/statistics_empty_states.dart';
-import 'package:expense_tracker/features/statistics/presentation/widgets/statistics_surface_card.dart';
+import 'package:expense_tracker/features/statistics/presentation/widgets/statistics_layout.dart';
+import 'package:expense_tracker/features/statistics/presentation/widgets/statistics_section_card.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -26,28 +26,26 @@ class OverviewIncomeVsExpensesSection extends ConsumerWidget {
     return seriesAsync.when(
       data: (series) {
         if (series.isEmpty) {
-          return _IncomeVsExpensesCard(
+          return StatisticsSectionCard(
             title: appLocalizations.statisticsIncomeVsExpenses,
             child: StatisticsChartEmptyMessage(
-              height: 220,
               message: appLocalizations.statisticsNoTransactionsInPeriod,
             ),
           );
         }
 
-        return _IncomeVsExpensesCard(
+        return StatisticsSectionCard(
           title: appLocalizations.statisticsIncomeVsExpenses,
           child: IncomeVsExpensesBarChart(series: series),
         );
       },
-      loading: () => _IncomeVsExpensesCard(
+      loading: () => StatisticsSectionCard(
         title: appLocalizations.statisticsIncomeVsExpenses,
-        child: const StatisticsChartLoading(height: 220),
+        child: const StatisticsChartLoading(),
       ),
-      error: (_, __) => _IncomeVsExpensesCard(
+      error: (_, __) => StatisticsSectionCard(
         title: appLocalizations.statisticsIncomeVsExpenses,
         child: StatisticsChartEmptyMessage(
-          height: 220,
           message: appLocalizations.statisticsIncomeVsExpensesError,
         ),
       ),
@@ -66,22 +64,12 @@ class IncomeVsExpensesBarChart extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final colors = context.appColors;
-    final textTheme = Theme.of(context).textTheme;
     final appLocalizations = ref.watch(appLocalizationsProvider);
     final currency = ref.watch(currentCurrencyProvider);
     final currencyPosition = ref.watch(currentCurrencySymbolPositionProvider);
 
     final maxValue = max(series.maxValue, 1.0);
-    final labelStyle = textTheme.labelSmall?.copyWith(
-          color: colors.textSecondary,
-          fontWeight: FontWeight.bold,
-          fontSize: 11,
-        ) ??
-        const TextStyle(
-          color: CustomColors.chartLabelsGray,
-          fontWeight: FontWeight.bold,
-          fontSize: 11,
-        );
+    final labelStyle = StatisticsLayout.chartAxisLabelStyle(context);
 
     final barGroups = [
       for (var i = 0; i < series.buckets.length; i++)
@@ -123,7 +111,7 @@ class IncomeVsExpensesBarChart extends ConsumerWidget {
           ],
         ),
         SizedBox(
-          height: 220,
+          height: StatisticsLayout.chartHeight,
           child: BarChart(
             BarChartData(
               minY: 0,
@@ -288,38 +276,6 @@ class _LegendItem extends StatelessWidget {
           ),
         ),
       ],
-    );
-  }
-}
-
-class _IncomeVsExpensesCard extends StatelessWidget {
-  const _IncomeVsExpensesCard({
-    required this.title,
-    required this.child,
-  });
-
-  final String title;
-  final Widget child;
-
-  @override
-  Widget build(BuildContext context) {
-    return StatisticsSurfaceCard(
-      padding: const EdgeInsets.all(20),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        spacing: 16,
-        children: [
-          Text(
-            title,
-            style: const TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-              letterSpacing: -0.5,
-            ),
-          ),
-          child,
-        ],
-      ),
     );
   }
 }

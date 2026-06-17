@@ -3,6 +3,7 @@ import 'package:expense_tracker/core/presentation/providers/app_localizations_pr
 import 'package:expense_tracker/features/statistics/presentation/pages/income_statistics_page/income_average_monthly_section.dart';
 import 'package:expense_tracker/features/statistics/presentation/pages/income_statistics_page/income_by_category_section.dart';
 import 'package:expense_tracker/features/statistics/presentation/pages/income_statistics_page/income_monthly_trend_section.dart';
+import 'package:expense_tracker/features/statistics/presentation/widgets/statistics_layout.dart';
 import 'package:expense_tracker/features/statistics/presentation/widgets/statistics_period_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -29,11 +30,11 @@ class IncomeStatisticsPage extends ConsumerWidget {
         ),
         children: const [
           StatisticsPeriodIndicator(),
-          SizedBox(height: 20),
+          SizedBox(height: StatisticsLayout.periodSectionSpacing),
           IncomeAverageMonthlySection(),
-          SizedBox(height: 16),
+          SizedBox(height: StatisticsLayout.sectionSpacing),
           IncomeByCategorySection(),
-          SizedBox(height: 16),
+          SizedBox(height: StatisticsLayout.sectionSpacing),
           IncomeMonthlyTrendSection(),
         ],
       ),

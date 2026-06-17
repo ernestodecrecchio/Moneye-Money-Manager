@@ -3,6 +3,7 @@ import 'package:expense_tracker/core/presentation/providers/app_localizations_pr
 import 'package:expense_tracker/features/statistics/presentation/pages/cashflow_statistics_page/cashflow_cumulative_chart_section.dart';
 import 'package:expense_tracker/features/statistics/presentation/pages/cashflow_statistics_page/cashflow_monthly_chart_section.dart';
 import 'package:expense_tracker/features/statistics/presentation/pages/cashflow_statistics_page/cashflow_monthly_list_section.dart';
+import 'package:expense_tracker/features/statistics/presentation/widgets/statistics_layout.dart';
 import 'package:expense_tracker/features/statistics/presentation/widgets/statistics_period_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -29,11 +30,11 @@ class CashflowStatisticsPage extends ConsumerWidget {
         ),
         children: const [
           StatisticsPeriodIndicator(),
-          SizedBox(height: 20),
+          SizedBox(height: StatisticsLayout.periodSectionSpacing),
           CashflowMonthlyChartSection(),
-          SizedBox(height: 16),
+          SizedBox(height: StatisticsLayout.sectionSpacing),
           CashflowMonthlyListSection(),
-          SizedBox(height: 16),
+          SizedBox(height: StatisticsLayout.sectionSpacing),
           CashflowCumulativeChartSection(),
         ],
       ),

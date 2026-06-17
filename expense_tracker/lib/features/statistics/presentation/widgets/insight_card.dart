@@ -60,19 +60,18 @@ class InsightCard extends StatelessWidget {
                         children: [
                           Text(
                             insight.title,
-                            style: const TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.w600,
-                              height: 1.3,
-                            ),
+                            style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                                  fontWeight: FontWeight.w600,
+                                  height: 1.3,
+                                  color: colors.textPrimary,
+                                ),
                           ),
                           Text(
                             insight.description,
-                            style: TextStyle(
-                              fontSize: 13,
-                              height: 1.45,
-                              color: colors.textSecondary,
-                            ),
+                            style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                                  height: 1.45,
+                                  color: colors.textSecondary,
+                                ),
                           ),
                         ],
                       ),

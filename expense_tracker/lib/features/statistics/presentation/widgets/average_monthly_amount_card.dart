@@ -1,7 +1,7 @@
 import 'package:expense_tracker/core/presentation/providers/currency_provider.dart';
-import 'package:expense_tracker/core/style/app_theme.dart';
 import 'package:expense_tracker/core/utils/double_helper.dart';
 import 'package:expense_tracker/features/statistics/domain/models/average_monthly_amount.dart';
+import 'package:expense_tracker/features/statistics/presentation/widgets/statistics_layout.dart';
 import 'package:expense_tracker/features/statistics/presentation/widgets/statistics_surface_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -19,18 +19,14 @@ class AverageMonthlyAmountCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StatisticsSurfaceCard(
-      padding: const EdgeInsets.all(20),
+      padding: StatisticsLayout.cardPadding,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        spacing: 16,
+        spacing: StatisticsLayout.cardHeaderSpacing,
         children: [
           Text(
             title,
-            style: const TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-              letterSpacing: -0.5,
-            ),
+            style: StatisticsLayout.cardTitleStyle(context),
           ),
           child,
         ],
@@ -55,7 +51,7 @@ class AverageMonthlyAmountContent extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final colors = context.appColors;
+    final textTheme = Theme.of(context).textTheme;
     final currency = ref.watch(currentCurrencyProvider);
     final currencyPosition = ref.watch(currentCurrencySymbolPositionProvider);
 
@@ -71,8 +67,7 @@ class AverageMonthlyAmountContent extends ConsumerWidget {
       children: [
         Text(
           amountLabel,
-          style: TextStyle(
-            fontSize: 28,
+          style: textTheme.headlineSmall?.copyWith(
             fontWeight: FontWeight.bold,
             color: valueColor,
             letterSpacing: -0.5,
@@ -80,18 +75,14 @@ class AverageMonthlyAmountContent extends ConsumerWidget {
         ),
         Text(
           monthsLabel,
-          style: TextStyle(
-            fontSize: 13,
+          style: textTheme.labelMedium?.copyWith(
             fontWeight: FontWeight.w600,
-            color: colors.textSecondary,
           ),
         ),
         Text(
           description,
-          style: TextStyle(
-            fontSize: 13,
+          style: textTheme.bodySmall?.copyWith(
             height: 1.4,
-            color: colors.textSecondary,
           ),
         ),
       ],
@@ -106,15 +97,9 @@ class AverageMonthlyAmountEmptyMessage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = context.appColors;
-
     return Text(
       message,
-      style: TextStyle(
-        fontSize: 14,
-        height: 1.5,
-        color: colors.textSecondary,
-      ),
+      style: StatisticsLayout.emptyMessageStyle(context),
     );
   }
 }

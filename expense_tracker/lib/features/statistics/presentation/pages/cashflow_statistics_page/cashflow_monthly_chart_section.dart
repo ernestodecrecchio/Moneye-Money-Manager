@@ -4,14 +4,14 @@ import 'package:expense_tracker/core/models/currency.dart';
 import 'package:expense_tracker/core/presentation/providers/app_localizations_provider.dart';
 import 'package:expense_tracker/core/presentation/providers/currency_provider.dart';
 import 'package:expense_tracker/core/style/app_theme.dart';
-import 'package:expense_tracker/core/style/style.dart';
 import 'package:expense_tracker/core/utils/double_helper.dart';
 import 'package:expense_tracker/features/statistics/domain/models/monthly_cashflow_series.dart';
 import 'package:expense_tracker/features/statistics/presentation/providers/queries/monthly_cashflow_notifier.dart';
 import 'package:expense_tracker/features/statistics/presentation/providers/statistics_period_provider.dart';
 import 'package:expense_tracker/features/statistics/presentation/widgets/statistics_empty_states.dart';
+import 'package:expense_tracker/features/statistics/presentation/widgets/statistics_layout.dart';
 import 'package:expense_tracker/features/statistics/presentation/widgets/statistics_period_chart_support.dart';
-import 'package:expense_tracker/features/statistics/presentation/widgets/statistics_surface_card.dart';
+import 'package:expense_tracker/features/statistics/presentation/widgets/statistics_section_card.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -33,39 +33,36 @@ class CashflowMonthlyChartSection extends ConsumerWidget {
     return seriesAsync.when(
       data: (series) {
         if (series.isEmpty) {
-          return _CashflowMonthlyChartCard(
+          return StatisticsSectionCard(
             title: appLocalizations.statisticsCashflowMonthlyChart,
             child: StatisticsChartEmptyMessage(
-              height: 220,
               message: appLocalizations.statisticsNoTransactionsInPeriod,
             ),
           );
         }
 
         if (series.hasInsufficientData) {
-          return _CashflowMonthlyChartCard(
+          return StatisticsSectionCard(
             title: appLocalizations.statisticsCashflowMonthlyChart,
             child: StatisticsChartEmptyMessage(
-              height: 220,
               message:
                   appLocalizations.statisticsCashflowMonthlyChartInsufficientData,
             ),
           );
         }
 
-        return _CashflowMonthlyChartCard(
+        return StatisticsSectionCard(
           title: appLocalizations.statisticsCashflowMonthlyChart,
           child: MonthlyCashflowChart(series: series),
         );
       },
-      loading: () => _CashflowMonthlyChartCard(
+      loading: () => StatisticsSectionCard(
         title: appLocalizations.statisticsCashflowMonthlyChart,
-        child: const StatisticsChartLoading(height: 220),
+        child: const StatisticsChartLoading(),
       ),
-      error: (_, __) => _CashflowMonthlyChartCard(
+      error: (_, __) => StatisticsSectionCard(
         title: appLocalizations.statisticsCashflowMonthlyChart,
         child: StatisticsChartEmptyMessage(
-          height: 220,
           message: appLocalizations.statisticsCashflowMonthlyChartError,
         ),
       ),
@@ -86,7 +83,6 @@ class MonthlyCashflowChart extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final colors = context.appColors;
-    final textTheme = Theme.of(context).textTheme;
     final appLocalizations = ref.watch(appLocalizationsProvider);
     final currency = ref.watch(currentCurrencyProvider);
     final currencyPosition = ref.watch(currentCurrencySymbolPositionProvider);
@@ -95,16 +91,7 @@ class MonthlyCashflowChart extends ConsumerWidget {
     final maxY = series.chartMaxY;
     final labelInterval = max(1, (series.points.length / 5).floor()).toDouble();
 
-    final labelStyle = textTheme.labelSmall?.copyWith(
-          color: colors.textSecondary,
-          fontWeight: FontWeight.bold,
-          fontSize: 11,
-        ) ??
-        const TextStyle(
-          color: CustomColors.chartLabelsGray,
-          fontWeight: FontWeight.bold,
-          fontSize: 11,
-        );
+    final labelStyle = StatisticsLayout.chartAxisLabelStyle(context);
 
     final barGroups = [
       for (var monthIndex = 0; monthIndex < series.points.length; monthIndex++)
@@ -443,38 +430,6 @@ class _LegendLine extends StatelessWidget {
           ),
         ),
       ],
-    );
-  }
-}
-
-class _CashflowMonthlyChartCard extends StatelessWidget {
-  const _CashflowMonthlyChartCard({
-    required this.title,
-    required this.child,
-  });
-
-  final String title;
-  final Widget child;
-
-  @override
-  Widget build(BuildContext context) {
-    return StatisticsSurfaceCard(
-      padding: const EdgeInsets.all(20),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        spacing: 16,
-        children: [
-          Text(
-            title,
-            style: const TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-              letterSpacing: -0.5,
-            ),
-          ),
-          child,
-        ],
-      ),
     );
   }
 }

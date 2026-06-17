@@ -10,7 +10,7 @@ import 'package:expense_tracker/core/utils/double_helper.dart';
 import 'package:expense_tracker/features/statistics/domain/models/account_breakdown_entry.dart';
 import 'package:expense_tracker/features/statistics/domain/models/category_account_breakdown_series.dart';
 import 'package:expense_tracker/features/statistics/presentation/widgets/statistics_empty_states.dart';
-import 'package:expense_tracker/features/statistics/presentation/widgets/statistics_surface_card.dart';
+import 'package:expense_tracker/features/statistics/presentation/widgets/statistics_section_card.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -29,30 +29,15 @@ class CategoryAccountBreakdownSection extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final appLocalizations = ref.watch(appLocalizationsProvider);
 
-    return StatisticsSurfaceCard(
-      padding: const EdgeInsets.all(20),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        spacing: 16,
-        children: [
-          Text(
-            appLocalizations.statisticsCategoryAccountBreakdown,
-            style: const TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-              letterSpacing: -0.5,
-            ),
-          ),
-          if (series.isEmpty)
-            StatisticsChartEmptyMessage(
+    return StatisticsSectionCard(
+      title: appLocalizations.statisticsCategoryAccountBreakdown,
+      child: series.isEmpty
+          ? StatisticsChartEmptyMessage(
               message: isExpense
                   ? appLocalizations.statisticsNoExpensesInPeriod
                   : appLocalizations.statisticsNoIncomeInPeriod,
             )
-          else
-            CategoryAccountBreakdownBarChart(series: series),
-        ],
-      ),
+          : CategoryAccountBreakdownBarChart(series: series),
     );
   }
 }

@@ -1,4 +1,5 @@
 import 'package:expense_tracker/core/style/app_theme.dart';
+import 'package:expense_tracker/features/statistics/presentation/widgets/statistics_layout.dart';
 import 'package:expense_tracker/features/statistics/presentation/widgets/statistics_surface_card.dart';
 import 'package:flutter/material.dart';
 
@@ -15,9 +16,10 @@ class InsightsEmptyState extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.appColors;
+    final textTheme = Theme.of(context).textTheme;
 
     return StatisticsSurfaceCard(
-      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 40),
+      padding: StatisticsLayout.cardPadding,
       child: Column(
         spacing: 12,
         children: [
@@ -29,19 +31,15 @@ class InsightsEmptyState extends StatelessWidget {
           Text(
             title,
             textAlign: TextAlign.center,
-            style: const TextStyle(
-              fontSize: 16,
+            style: textTheme.titleSmall?.copyWith(
               fontWeight: FontWeight.w600,
+              color: colors.textPrimary,
             ),
           ),
           Text(
             message,
             textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 14,
-              height: 1.5,
-              color: colors.textSecondary,
-            ),
+            style: StatisticsLayout.emptyMessageStyle(context),
           ),
         ],
       ),

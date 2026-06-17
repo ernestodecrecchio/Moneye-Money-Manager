@@ -11,7 +11,7 @@ import 'package:expense_tracker/features/statistics/domain/models/category_expen
 import 'package:expense_tracker/features/statistics/domain/models/expenses_by_category_series.dart';
 import 'package:expense_tracker/features/statistics/presentation/providers/queries/expenses_by_category_notifier.dart';
 import 'package:expense_tracker/features/statistics/presentation/widgets/statistics_empty_states.dart';
-import 'package:expense_tracker/features/statistics/presentation/widgets/statistics_surface_card.dart';
+import 'package:expense_tracker/features/statistics/presentation/widgets/statistics_section_card.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -27,7 +27,7 @@ class SpendingExpensesByCategorySection extends ConsumerWidget {
     return seriesAsync.when(
       data: (series) {
         if (series.isEmpty) {
-          return _ExpensesByCategoryCard(
+          return StatisticsSectionCard(
             title: appLocalizations.statisticsSpendingExpensesByCategory,
             child: StatisticsChartEmptyMessage(
               message: appLocalizations.statisticsNoExpensesInPeriod,
@@ -35,16 +35,16 @@ class SpendingExpensesByCategorySection extends ConsumerWidget {
           );
         }
 
-        return _ExpensesByCategoryCard(
+        return StatisticsSectionCard(
           title: appLocalizations.statisticsSpendingExpensesByCategory,
           child: ExpensesByCategoryBarChart(series: series),
         );
       },
-      loading: () => _ExpensesByCategoryCard(
+      loading: () => StatisticsSectionCard(
         title: appLocalizations.statisticsSpendingExpensesByCategory,
         child: const StatisticsChartLoading(),
       ),
-      error: (_, __) => _ExpensesByCategoryCard(
+      error: (_, __) => StatisticsSectionCard(
         title: appLocalizations.statisticsSpendingExpensesByCategory,
         child: StatisticsChartEmptyMessage(
           message: appLocalizations.statisticsSpendingExpensesByCategoryError,
@@ -213,38 +213,6 @@ class _CategoryExpenseRow extends StatelessWidget {
           ),
         ),
       ],
-    );
-  }
-}
-
-class _ExpensesByCategoryCard extends StatelessWidget {
-  const _ExpensesByCategoryCard({
-    required this.title,
-    required this.child,
-  });
-
-  final String title;
-  final Widget child;
-
-  @override
-  Widget build(BuildContext context) {
-    return StatisticsSurfaceCard(
-      padding: const EdgeInsets.all(20),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        spacing: 16,
-        children: [
-          Text(
-            title,
-            style: const TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-              letterSpacing: -0.5,
-            ),
-          ),
-          child,
-        ],
-      ),
     );
   }
 }

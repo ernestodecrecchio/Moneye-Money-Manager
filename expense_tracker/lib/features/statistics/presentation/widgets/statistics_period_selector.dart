@@ -5,6 +5,7 @@ import 'package:expense_tracker/core/style/app_theme.dart';
 import 'package:expense_tracker/features/statistics/domain/models/statistics_period_granularity.dart';
 import 'package:expense_tracker/features/statistics/presentation/extensions/statistics_period_ui_extension.dart';
 import 'package:expense_tracker/features/statistics/presentation/providers/statistics_period_provider.dart';
+import 'package:expense_tracker/features/statistics/presentation/widgets/statistics_layout.dart';
 import 'package:expense_tracker/features/statistics/presentation/widgets/statistics_surface_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -21,7 +22,10 @@ class StatisticsPeriodSelector extends ConsumerWidget {
     final textTheme = Theme.of(context).textTheme;
 
     return StatisticsSurfaceCard(
-      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+      padding: const EdgeInsets.symmetric(
+        horizontal: StatisticsLayout.periodCardPaddingH,
+        vertical: StatisticsLayout.periodCardPaddingV,
+      ),
       child: Row(
         children: [
           FilledButton(
@@ -54,10 +58,11 @@ class StatisticsPeriodSelector extends ConsumerWidget {
             child: Text(
               period.titleLabel(appLocalizations),
               textAlign: TextAlign.end,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
               style: textTheme.bodySmall?.copyWith(
-                fontSize: 14,
-                color: colors.textSecondary,
                 fontWeight: FontWeight.w600,
+                color: colors.textSecondary,
               ),
             ),
           ),

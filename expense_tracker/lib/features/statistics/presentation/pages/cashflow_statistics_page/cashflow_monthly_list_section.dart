@@ -7,7 +7,7 @@ import 'package:expense_tracker/features/statistics/domain/models/monthly_cashfl
 import 'package:expense_tracker/features/statistics/domain/models/monthly_cashflow_series.dart';
 import 'package:expense_tracker/features/statistics/presentation/providers/queries/monthly_cashflow_notifier.dart';
 import 'package:expense_tracker/features/statistics/presentation/widgets/statistics_empty_states.dart';
-import 'package:expense_tracker/features/statistics/presentation/widgets/statistics_surface_card.dart';
+import 'package:expense_tracker/features/statistics/presentation/widgets/statistics_section_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -18,58 +18,33 @@ class CashflowMonthlyListSection extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final appLocalizations = ref.watch(appLocalizationsProvider);
     final seriesAsync = ref.watch(monthlyCashflowProvider);
+    final title = appLocalizations.statisticsCashflowMonthlyList;
 
     return seriesAsync.when(
       data: (series) {
         if (series.isEmpty) {
-          return _CashflowMonthlyListCard(
+          return StatisticsSectionCard(
+            title: title,
             child: StatisticsInlineEmptyMessage(
               message: appLocalizations.statisticsNoTransactionsInPeriod,
             ),
           );
         }
 
-        return _CashflowMonthlyListCard(
+        return StatisticsSectionCard(
+          title: title,
           child: _CashflowMonthlyListContent(series: series),
         );
       },
-      loading: () => const _CashflowMonthlyListCard(
-        child: StatisticsChartLoading(height: 120),
+      loading: () => StatisticsSectionCard(
+        title: title,
+        child: const StatisticsChartLoading(height: 120),
       ),
-      error: (_, __) => _CashflowMonthlyListCard(
+      error: (_, __) => StatisticsSectionCard(
+        title: title,
         child: StatisticsInlineEmptyMessage(
           message: appLocalizations.statisticsCashflowMonthlyListError,
         ),
-      ),
-    );
-  }
-}
-
-class _CashflowMonthlyListCard extends ConsumerWidget {
-  const _CashflowMonthlyListCard({required this.child});
-
-  final Widget child;
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final appLocalizations = ref.watch(appLocalizationsProvider);
-
-    return StatisticsSurfaceCard(
-      padding: const EdgeInsets.all(20),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        spacing: 12,
-        children: [
-          Text(
-            appLocalizations.statisticsCashflowMonthlyList,
-            style: const TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-              letterSpacing: -0.5,
-            ),
-          ),
-          child,
-        ],
       ),
     );
   }
@@ -84,13 +59,20 @@ class _CashflowMonthlyListContent extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final appLocalizations = ref.watch(appLocalizationsProvider);
     final colors = context.appColors;
+    final textTheme = Theme.of(context).textTheme;
 
-    final headerStyle = TextStyle(
-      fontSize: 11,
-      fontWeight: FontWeight.w600,
-      color: colors.textSecondary,
-      letterSpacing: 0.2,
-    );
+    final headerStyle = textTheme.labelSmall?.copyWith(
+          fontWeight: FontWeight.w600,
+          color: colors.textSecondary,
+          fontSize: 11,
+          letterSpacing: 0.2,
+        ) ??
+        TextStyle(
+          fontSize: 11,
+          fontWeight: FontWeight.w600,
+          color: colors.textSecondary,
+          letterSpacing: 0.2,
+        );
 
     return Column(
       spacing: 8,
@@ -156,6 +138,7 @@ class _CashflowMonthlyListRow extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final colors = context.appColors;
+    final textTheme = Theme.of(context).textTheme;
     final currency = ref.watch(currentCurrencyProvider);
     final currencyPosition = ref.watch(currentCurrencySymbolPositionProvider);
 
@@ -170,10 +153,25 @@ class _CashflowMonthlyListRow extends ConsumerWidget {
             ? colors.expense
             : colors.textPrimary;
 
-    final amountStyle = TextStyle(
-      fontSize: 12,
-      fontWeight: FontWeight.w600,
-    );
+    final amountStyle = textTheme.labelMedium?.copyWith(
+          fontSize: 12,
+          fontWeight: FontWeight.w600,
+        ) ??
+        const TextStyle(
+          fontSize: 12,
+          fontWeight: FontWeight.w600,
+        );
+
+    final labelStyle = textTheme.bodyMedium?.copyWith(
+          fontSize: 13,
+          fontWeight: FontWeight.w500,
+          color: colors.textPrimary,
+        ) ??
+        TextStyle(
+          fontSize: 13,
+          fontWeight: FontWeight.w500,
+          color: colors.textPrimary,
+        );
 
     return Column(
       spacing: 8,
@@ -186,11 +184,7 @@ class _CashflowMonthlyListRow extends ConsumerWidget {
                 point.label,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
-                style: TextStyle(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w500,
-                  color: colors.textPrimary,
-                ),
+                style: labelStyle,
               ),
             ),
             Expanded(
@@ -198,6 +192,8 @@ class _CashflowMonthlyListRow extends ConsumerWidget {
               child: Text(
                 incomeLabel,
                 textAlign: TextAlign.end,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
                 style: amountStyle.copyWith(color: colors.income),
               ),
             ),
@@ -206,6 +202,8 @@ class _CashflowMonthlyListRow extends ConsumerWidget {
               child: Text(
                 expensesLabel,
                 textAlign: TextAlign.end,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
                 style: amountStyle.copyWith(color: colors.expense),
               ),
             ),
@@ -214,6 +212,8 @@ class _CashflowMonthlyListRow extends ConsumerWidget {
               child: Text(
                 netLabel,
                 textAlign: TextAlign.end,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
                 style: amountStyle.copyWith(color: netColor),
               ),
             ),

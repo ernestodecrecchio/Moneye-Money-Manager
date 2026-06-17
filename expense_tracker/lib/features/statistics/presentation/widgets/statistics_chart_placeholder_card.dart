@@ -1,4 +1,5 @@
 import 'package:expense_tracker/core/style/app_theme.dart';
+import 'package:expense_tracker/features/statistics/presentation/widgets/statistics_layout.dart';
 import 'package:expense_tracker/features/statistics/presentation/widgets/statistics_surface_card.dart';
 import 'package:flutter/material.dart';
 
@@ -19,19 +20,12 @@ class StatisticsChartPlaceholderCard extends StatelessWidget {
     final colors = context.appColors;
 
     return StatisticsSurfaceCard(
-      padding: const EdgeInsets.all(20),
+      padding: StatisticsLayout.cardPadding,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        spacing: 16,
+        spacing: StatisticsLayout.cardHeaderSpacing,
         children: [
-          Text(
-            title,
-            style: const TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-              letterSpacing: -0.5,
-            ),
-          ),
+          Text(title, style: StatisticsLayout.cardTitleStyle(context)),
           Container(
             height: height,
             width: double.infinity,
@@ -42,10 +36,7 @@ class StatisticsChartPlaceholderCard extends StatelessWidget {
             alignment: Alignment.center,
             child: Text(
               placeholderText ?? '',
-              style: TextStyle(
-                fontSize: 14,
-                color: colors.textSecondary,
-              ),
+              style: StatisticsLayout.emptyMessageStyle(context),
             ),
           ),
         ],

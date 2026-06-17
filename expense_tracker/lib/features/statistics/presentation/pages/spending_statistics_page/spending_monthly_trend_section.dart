@@ -4,14 +4,14 @@ import 'package:expense_tracker/core/models/currency.dart';
 import 'package:expense_tracker/core/presentation/providers/app_localizations_provider.dart';
 import 'package:expense_tracker/core/presentation/providers/currency_provider.dart';
 import 'package:expense_tracker/core/style/app_theme.dart';
-import 'package:expense_tracker/core/style/style.dart';
 import 'package:expense_tracker/core/utils/double_helper.dart';
 import 'package:expense_tracker/features/statistics/domain/models/monthly_spending_trend_series.dart';
 import 'package:expense_tracker/features/statistics/presentation/providers/queries/monthly_spending_trend_notifier.dart';
 import 'package:expense_tracker/features/statistics/presentation/providers/statistics_period_provider.dart';
 import 'package:expense_tracker/features/statistics/presentation/widgets/statistics_empty_states.dart';
+import 'package:expense_tracker/features/statistics/presentation/widgets/statistics_layout.dart';
 import 'package:expense_tracker/features/statistics/presentation/widgets/statistics_period_chart_support.dart';
-import 'package:expense_tracker/features/statistics/presentation/widgets/statistics_surface_card.dart';
+import 'package:expense_tracker/features/statistics/presentation/widgets/statistics_section_card.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -33,39 +33,36 @@ class SpendingMonthlyTrendSection extends ConsumerWidget {
     return seriesAsync.when(
       data: (series) {
         if (series.isEmpty) {
-          return _MonthlyTrendCard(
+          return StatisticsSectionCard(
             title: appLocalizations.statisticsSpendingMonthlyTrend,
             child: StatisticsChartEmptyMessage(
-              height: 200,
               message: appLocalizations.statisticsNoExpensesInPeriod,
             ),
           );
         }
 
         if (series.hasInsufficientData) {
-          return _MonthlyTrendCard(
+          return StatisticsSectionCard(
             title: appLocalizations.statisticsSpendingMonthlyTrend,
             child: StatisticsChartEmptyMessage(
-              height: 200,
               message:
                   appLocalizations.statisticsSpendingMonthlyTrendInsufficientData,
             ),
           );
         }
 
-        return _MonthlyTrendCard(
+        return StatisticsSectionCard(
           title: appLocalizations.statisticsSpendingMonthlyTrend,
           child: MonthlySpendingTrendLineChart(series: series),
         );
       },
-      loading: () => _MonthlyTrendCard(
+      loading: () => StatisticsSectionCard(
         title: appLocalizations.statisticsSpendingMonthlyTrend,
-        child: const StatisticsChartLoading(height: 200),
+        child: const StatisticsChartLoading(),
       ),
-      error: (_, __) => _MonthlyTrendCard(
+      error: (_, __) => StatisticsSectionCard(
         title: appLocalizations.statisticsSpendingMonthlyTrend,
         child: StatisticsChartEmptyMessage(
-          height: 200,
           message: appLocalizations.statisticsSpendingMonthlyTrendError,
         ),
       ),
@@ -86,7 +83,6 @@ class MonthlySpendingTrendLineChart extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final colors = context.appColors;
-    final textTheme = Theme.of(context).textTheme;
     final appLocalizations = ref.watch(appLocalizationsProvider);
     final currency = ref.watch(currentCurrencyProvider);
     final currencyPosition = ref.watch(currentCurrencySymbolPositionProvider);
@@ -103,18 +99,10 @@ class MonthlySpendingTrendLineChart extends ConsumerWidget {
         FlSpot(i.toDouble(), series.points[i].expenses),
     ];
 
-    final labelStyle = textTheme.labelSmall?.copyWith(
-          color: colors.textSecondary,
-          fontWeight: FontWeight.bold,
-        ) ??
-        const TextStyle(
-          color: CustomColors.chartLabelsGray,
-          fontWeight: FontWeight.bold,
-          fontSize: 12,
-        );
+    final labelStyle = StatisticsLayout.chartAxisLabelStyle(context);
 
     return SizedBox(
-      height: 220,
+      height: StatisticsLayout.chartHeight,
       child: LineChart(
         LineChartData(
           minX: 0,
@@ -283,38 +271,6 @@ class MonthlySpendingTrendLineChart extends ConsumerWidget {
       0,
       currency,
       currencyPosition,
-    );
-  }
-}
-
-class _MonthlyTrendCard extends StatelessWidget {
-  const _MonthlyTrendCard({
-    required this.title,
-    required this.child,
-  });
-
-  final String title;
-  final Widget child;
-
-  @override
-  Widget build(BuildContext context) {
-    return StatisticsSurfaceCard(
-      padding: const EdgeInsets.all(20),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        spacing: 16,
-        children: [
-          Text(
-            title,
-            style: const TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-              letterSpacing: -0.5,
-            ),
-          ),
-          child,
-        ],
-      ),
     );
   }
 }
