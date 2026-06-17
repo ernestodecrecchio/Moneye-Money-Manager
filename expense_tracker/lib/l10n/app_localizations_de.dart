@@ -334,6 +334,15 @@ class AppLocalizationsDe extends AppLocalizations {
   }
 
   @override
+  String get statisticsInsightTopCategoryWeightTitle => 'Top category share';
+
+  @override
+  String statisticsInsightTopCategoryWeightDescription(
+      String category, String percent) {
+    return '$category accounts for $percent of expenses.';
+  }
+
+  @override
   String get statisticsSelectGranularity => 'Select granularity';
 
   @override

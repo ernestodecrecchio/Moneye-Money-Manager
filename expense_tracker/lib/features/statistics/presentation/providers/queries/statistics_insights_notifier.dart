@@ -1,8 +1,11 @@
 import 'package:expense_tracker/core/presentation/providers/app_localizations_provider.dart';
 import 'package:expense_tracker/core/presentation/providers/currency_provider.dart';
 import 'package:expense_tracker/features/statistics/domain/logic/spending_change_insight_calculator.dart';
+import 'package:expense_tracker/features/statistics/domain/logic/top_category_weight_insight_calculator.dart';
 import 'package:expense_tracker/features/statistics/domain/models/statistics_insight.dart';
 import 'package:expense_tracker/features/statistics/presentation/mappers/spending_change_insight_mapper.dart';
+import 'package:expense_tracker/features/statistics/presentation/mappers/top_category_weight_insight_mapper.dart';
+import 'package:expense_tracker/features/statistics/presentation/providers/queries/expenses_by_category_notifier.dart';
 import 'package:expense_tracker/features/statistics/presentation/providers/statistics_period_provider.dart';
 import 'package:expense_tracker/features/transactions/presentation/providers/transactions_repository_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -15,6 +18,8 @@ class StatisticsInsightsNotifier extends AsyncNotifier<List<StatisticsInsight>> 
     final currency = ref.watch(currentCurrencyProvider);
     final currencyPosition = ref.watch(currentCurrencySymbolPositionProvider);
     final repository = ref.read(transactionsRepositoryProvider);
+
+    final insights = <StatisticsInsight>[];
 
     final currentTotals = await repository.sumIncomeAndExpensesForPeriod(
       start: period.startDate,
@@ -30,18 +35,31 @@ class StatisticsInsightsNotifier extends AsyncNotifier<List<StatisticsInsight>> 
       currentExpenses: currentTotals.expenses,
       previousExpenses: previousTotals.expenses,
     );
-    if (spendingChange == null) {
-      return const [];
+    if (spendingChange != null) {
+      insights.add(
+        SpendingChangeInsightMapper.toStatisticsInsight(
+          insight: spendingChange,
+          appLocalizations: appLocalizations,
+          currency: currency,
+          currencyPosition: currencyPosition,
+        ),
+      );
     }
 
-    return [
-      SpendingChangeInsightMapper.toStatisticsInsight(
-        insight: spendingChange,
-        appLocalizations: appLocalizations,
-        currency: currency,
-        currencyPosition: currencyPosition,
-      ),
-    ];
+    final expensesByCategory =
+        await ref.watch(expensesByCategoryProvider.future);
+    final topCategoryWeight =
+        TopCategoryWeightInsightCalculator.evaluate(expensesByCategory);
+    if (topCategoryWeight != null) {
+      insights.add(
+        TopCategoryWeightInsightMapper.toStatisticsInsight(
+          insight: topCategoryWeight,
+          appLocalizations: appLocalizations,
+        ),
+      );
+    }
+
+    return insights;
   }
 }
 

@@ -666,6 +666,19 @@ abstract class AppLocalizations {
   String statisticsInsightSpendingChangeDecreasedDescription(
       String amount, String percent);
 
+  /// No description provided for @statisticsInsightTopCategoryWeightTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Top category share'**
+  String get statisticsInsightTopCategoryWeightTitle;
+
+  /// No description provided for @statisticsInsightTopCategoryWeightDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'{category} accounts for {percent} of expenses.'**
+  String statisticsInsightTopCategoryWeightDescription(
+      String category, String percent);
+
   /// No description provided for @statisticsSelectGranularity.
   ///
   /// In en, this message translates to:
