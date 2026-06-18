@@ -1,19 +1,18 @@
 import 'dart:math';
 
-import 'package:expense_tracker/core/models/currency.dart';
 import 'package:expense_tracker/core/presentation/providers/app_localizations_provider.dart';
 import 'package:expense_tracker/core/presentation/providers/currency_provider.dart';
 import 'package:expense_tracker/core/style/app_theme.dart';
 import 'package:expense_tracker/core/utils/double_helper.dart';
 import 'package:expense_tracker/features/statistics/domain/models/income_vs_expenses_series.dart';
 import 'package:expense_tracker/features/statistics/presentation/providers/queries/income_vs_expenses_notifier.dart';
+import 'package:expense_tracker/features/statistics/presentation/widgets/statistics_chart_axis.dart';
 import 'package:expense_tracker/features/statistics/presentation/widgets/statistics_empty_states.dart';
 import 'package:expense_tracker/features/statistics/presentation/widgets/statistics_layout.dart';
 import 'package:expense_tracker/features/statistics/presentation/widgets/statistics_section_card.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:intl/intl.dart';
 
 class OverviewIncomeVsExpensesSection extends ConsumerWidget {
   const OverviewIncomeVsExpensesSection({super.key});
@@ -69,7 +68,15 @@ class IncomeVsExpensesBarChart extends ConsumerWidget {
     final currencyPosition = ref.watch(currentCurrencySymbolPositionProvider);
 
     final maxValue = max(series.maxValue, 1.0);
+    final maxY = maxValue * 1.12;
     final labelStyle = StatisticsLayout.chartAxisLabelStyle(context);
+    final leftReservedSize = StatisticsChartAxis.computeLeftReservedSize(
+      style: labelStyle,
+      minY: 0,
+      maxY: maxY,
+      currency: currency,
+      currencyPosition: currencyPosition,
+    );
 
     final barGroups = [
       for (var i = 0; i < series.buckets.length; i++)
@@ -115,7 +122,7 @@ class IncomeVsExpensesBarChart extends ConsumerWidget {
           child: BarChart(
             BarChartData(
               minY: 0,
-              maxY: maxValue * 1.12,
+              maxY: maxY,
               barTouchData: BarTouchData(
                 touchTooltipData: BarTouchTooltipData(
                   getTooltipColor: (_) => colors.surface.withValues(alpha: 0.95),
@@ -183,12 +190,14 @@ class IncomeVsExpensesBarChart extends ConsumerWidget {
                 leftTitles: AxisTitles(
                   sideTitles: SideTitles(
                     showTitles: true,
-                    reservedSize: 32,
+                    reservedSize: leftReservedSize,
                     interval: maxValue / 2,
-                    getTitlesWidget: (value, meta) => _buildLeftTitle(
+                    getTitlesWidget: (value, meta) =>
+                        StatisticsChartAxis.buildLeftTitle(
                       meta: meta,
                       value: value,
-                      maxY: maxValue * 1.12,
+                      minY: 0,
+                      maxY: maxY,
                       currency: currency,
                       currencyPosition: currencyPosition,
                       style: labelStyle,
@@ -204,47 +213,6 @@ class IncomeVsExpensesBarChart extends ConsumerWidget {
     );
   }
 
-  Widget _buildLeftTitle({
-    required TitleMeta meta,
-    required double value,
-    required double maxY,
-    required Currency? currency,
-    required CurrencySymbolPosition currencyPosition,
-    required TextStyle style,
-  }) {
-    final midY = maxY / 2;
-    final shouldShow =
-        value == 0 || value == maxY || (value - midY).abs() < 0.01;
-    if (!shouldShow) {
-      return const SizedBox.shrink();
-    }
-
-    return SideTitleWidget(
-      meta: meta,
-      space: 2,
-      child: Text(
-        _formatAxisValue(value, currency, currencyPosition),
-        style: style,
-        textAlign: TextAlign.right,
-      ),
-    );
-  }
-
-  String _formatAxisValue(
-    double value,
-    Currency? currency,
-    CurrencySymbolPosition currencyPosition,
-  ) {
-    if (value.abs() >= 1000) {
-      final symbol = currency?.symbolNative ?? '';
-      final formatted = NumberFormat.compact().format(value);
-      return currencyPosition == CurrencySymbolPosition.leading
-          ? '$symbol$formatted'
-          : '$formatted$symbol';
-    }
-
-    return value.toStringAsFixedRoundedWithCurrency(0, currency, currencyPosition);
-  }
 }
 
 class _LegendItem extends StatelessWidget {

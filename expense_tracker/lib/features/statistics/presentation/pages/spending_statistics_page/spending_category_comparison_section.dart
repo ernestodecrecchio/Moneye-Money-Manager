@@ -1,6 +1,5 @@
 import 'dart:math';
 
-import 'package:expense_tracker/core/models/currency.dart';
 import 'package:expense_tracker/core/presentation/common/category_ui_extension.dart';
 import 'package:expense_tracker/core/presentation/providers/app_localizations_provider.dart';
 import 'package:expense_tracker/core/presentation/providers/currency_provider.dart';
@@ -9,6 +8,7 @@ import 'package:expense_tracker/core/utils/double_helper.dart';
 import 'package:expense_tracker/features/statistics/domain/models/category_comparison_series.dart';
 import 'package:expense_tracker/features/statistics/presentation/providers/queries/category_comparison_notifier.dart';
 import 'package:expense_tracker/features/statistics/presentation/providers/statistics_period_provider.dart';
+import 'package:expense_tracker/features/statistics/presentation/widgets/statistics_chart_axis.dart';
 import 'package:expense_tracker/features/statistics/presentation/widgets/statistics_empty_states.dart';
 import 'package:expense_tracker/features/statistics/presentation/widgets/statistics_layout.dart';
 import 'package:expense_tracker/features/statistics/presentation/widgets/statistics_period_chart_support.dart';
@@ -16,7 +16,6 @@ import 'package:expense_tracker/features/statistics/presentation/widgets/statist
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:intl/intl.dart';
 
 class SpendingCategoryComparisonSection extends ConsumerWidget {
   const SpendingCategoryComparisonSection({super.key});
@@ -94,9 +93,17 @@ class CategoryComparisonBarChart extends ConsumerWidget {
     final currencyPosition = ref.watch(currentCurrencySymbolPositionProvider);
 
     final maxValue = max(series.maxAmount, 1.0);
+    final maxY = maxValue * 1.12;
     final labelInterval = max(1, (series.months.length / 5).floor()).toDouble();
 
     final labelStyle = StatisticsLayout.chartAxisLabelStyle(context);
+    final leftReservedSize = StatisticsChartAxis.computeLeftReservedSize(
+      style: labelStyle,
+      minY: 0,
+      maxY: maxY,
+      currency: currency,
+      currencyPosition: currencyPosition,
+    );
 
     final barGroups = [
       for (var monthIndex = 0; monthIndex < series.months.length; monthIndex++)
@@ -139,7 +146,7 @@ class CategoryComparisonBarChart extends ConsumerWidget {
           child: BarChart(
             BarChartData(
               minY: 0,
-              maxY: maxValue * 1.12,
+              maxY: maxY,
               barTouchData: BarTouchData(
                 touchTooltipData: BarTouchTooltipData(
                   getTooltipColor: (_) =>
@@ -214,31 +221,18 @@ class CategoryComparisonBarChart extends ConsumerWidget {
                 leftTitles: AxisTitles(
                   sideTitles: SideTitles(
                     showTitles: true,
-                    reservedSize: 48,
+                    reservedSize: leftReservedSize,
                     interval: maxValue / 2,
-                    getTitlesWidget: (value, meta) {
-                      final midY = maxValue * 1.12 / 2;
-                      final shouldShow = value == 0 ||
-                          (value - maxValue * 1.12).abs() < 0.01 ||
-                          (value - midY).abs() < 0.01;
-                      if (!shouldShow) {
-                        return const SizedBox.shrink();
-                      }
-
-                      return SideTitleWidget(
-                        meta: meta,
-                        space: 6,
-                        child: Text(
-                          _formatLeftAxisValue(
-                            value,
-                            currency,
-                            currencyPosition,
-                          ),
-                          style: labelStyle,
-                          textAlign: TextAlign.right,
-                        ),
-                      );
-                    },
+                    getTitlesWidget: (value, meta) =>
+                        StatisticsChartAxis.buildLeftTitle(
+                      meta: meta,
+                      value: value,
+                      minY: 0,
+                      maxY: maxY,
+                      currency: currency,
+                      currencyPosition: currencyPosition,
+                      style: labelStyle,
+                    ),
                   ),
                 ),
               ),
@@ -247,26 +241,6 @@ class CategoryComparisonBarChart extends ConsumerWidget {
           ),
         ),
       ],
-    );
-  }
-
-  String _formatLeftAxisValue(
-    double value,
-    Currency? currency,
-    CurrencySymbolPosition currencyPosition,
-  ) {
-    if (value.abs() >= 1000) {
-      final symbol = currency?.symbolNative ?? '';
-      final formatted = NumberFormat.compact().format(value);
-      return currencyPosition == CurrencySymbolPosition.leading
-          ? '$symbol$formatted'
-          : '$formatted$symbol';
-    }
-
-    return value.toStringAsFixedRoundedWithCurrency(
-      0,
-      currency,
-      currencyPosition,
     );
   }
 }

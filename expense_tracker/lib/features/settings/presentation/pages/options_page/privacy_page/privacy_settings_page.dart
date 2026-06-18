@@ -1,3 +1,4 @@
+import 'package:expense_tracker/core/debug/demo_data_seeder.dart';
 import 'package:expense_tracker/core/presentation/providers/analytics_consent_provider.dart';
 import 'package:expense_tracker/core/presentation/providers/app_localizations_provider.dart';
 import 'package:expense_tracker/core/configuration/analytics_manager.dart';
@@ -83,6 +84,8 @@ class PrivacySettingsPage extends ConsumerWidget {
                   ),
                 ),
               ),
+              const SizedBox(height: 12),
+              const DemoDataSeedButton(),
             ],
           ],
         ),

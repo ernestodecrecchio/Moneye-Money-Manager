@@ -1,6 +1,5 @@
 import 'dart:math';
 
-import 'package:expense_tracker/core/models/currency.dart';
 import 'package:expense_tracker/core/presentation/providers/app_localizations_provider.dart';
 import 'package:expense_tracker/core/presentation/providers/currency_provider.dart';
 import 'package:expense_tracker/core/style/app_theme.dart';
@@ -8,6 +7,7 @@ import 'package:expense_tracker/core/utils/double_helper.dart';
 import 'package:expense_tracker/features/statistics/domain/models/monthly_cashflow_series.dart';
 import 'package:expense_tracker/features/statistics/presentation/providers/queries/monthly_cashflow_notifier.dart';
 import 'package:expense_tracker/features/statistics/presentation/providers/statistics_period_provider.dart';
+import 'package:expense_tracker/features/statistics/presentation/widgets/statistics_chart_axis.dart';
 import 'package:expense_tracker/features/statistics/presentation/widgets/statistics_empty_states.dart';
 import 'package:expense_tracker/features/statistics/presentation/widgets/statistics_layout.dart';
 import 'package:expense_tracker/features/statistics/presentation/widgets/statistics_period_chart_support.dart';
@@ -15,7 +15,6 @@ import 'package:expense_tracker/features/statistics/presentation/widgets/statist
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:intl/intl.dart';
 
 class CashflowMonthlyChartSection extends ConsumerWidget {
   const CashflowMonthlyChartSection({super.key});
@@ -77,7 +76,6 @@ class MonthlyCashflowChart extends ConsumerWidget {
 
   static const double _barWidth = 7;
   static const double _barsSpace = 3;
-  static const double _leftTitleReservedSize = 48;
   static const double _bottomTitleReservedSize = 28;
 
   @override
@@ -92,6 +90,14 @@ class MonthlyCashflowChart extends ConsumerWidget {
     final labelInterval = max(1, (series.points.length / 5).floor()).toDouble();
 
     final labelStyle = StatisticsLayout.chartAxisLabelStyle(context);
+    final leftReservedSize = StatisticsChartAxis.computeLeftReservedSize(
+      style: labelStyle,
+      minY: minY,
+      maxY: maxY,
+      currency: currency,
+      currencyPosition: currencyPosition,
+      showZeroWhenCrossing: true,
+    );
 
     final barGroups = [
       for (var monthIndex = 0; monthIndex < series.points.length; monthIndex++)
@@ -243,9 +249,10 @@ class MonthlyCashflowChart extends ConsumerWidget {
                     leftTitles: AxisTitles(
                       sideTitles: SideTitles(
                         showTitles: true,
-                        reservedSize: _leftTitleReservedSize,
+                        reservedSize: leftReservedSize,
                         interval: (maxY - minY) / 2,
-                        getTitlesWidget: (value, meta) => _buildLeftTitle(
+                        getTitlesWidget: (value, meta) =>
+                            StatisticsChartAxis.buildLeftTitle(
                           meta: meta,
                           value: value,
                           minY: minY,
@@ -253,6 +260,7 @@ class MonthlyCashflowChart extends ConsumerWidget {
                           currency: currency,
                           currencyPosition: currencyPosition,
                           style: labelStyle,
+                          showZeroWhenCrossing: true,
                         ),
                       ),
                     ),
@@ -277,10 +285,10 @@ class MonthlyCashflowChart extends ConsumerWidget {
                       rightTitles: const AxisTitles(
                         sideTitles: SideTitles(showTitles: false),
                       ),
-                      leftTitles: const AxisTitles(
+                      leftTitles: AxisTitles(
                         sideTitles: SideTitles(
                           showTitles: false,
-                          reservedSize: _leftTitleReservedSize,
+                          reservedSize: leftReservedSize,
                         ),
                       ),
                       bottomTitles: const AxisTitles(
@@ -315,55 +323,6 @@ class MonthlyCashflowChart extends ConsumerWidget {
           ),
         ),
       ],
-    );
-  }
-
-  Widget _buildLeftTitle({
-    required TitleMeta meta,
-    required double value,
-    required double minY,
-    required double maxY,
-    required Currency? currency,
-    required CurrencySymbolPosition currencyPosition,
-    required TextStyle style,
-  }) {
-    final midY = minY + (maxY - minY) / 2;
-    final shouldShow = value == minY ||
-        value == maxY ||
-        (value - midY).abs() < 0.01 ||
-        (minY < 0 && value == 0);
-    if (!shouldShow) {
-      return const SizedBox.shrink();
-    }
-
-    return SideTitleWidget(
-      meta: meta,
-      space: 6,
-      child: Text(
-        _formatAxisValue(value, currency, currencyPosition),
-        style: style,
-        textAlign: TextAlign.right,
-      ),
-    );
-  }
-
-  String _formatAxisValue(
-    double value,
-    Currency? currency,
-    CurrencySymbolPosition currencyPosition,
-  ) {
-    if (value.abs() >= 1000) {
-      final symbol = currency?.symbolNative ?? '';
-      final formatted = NumberFormat.compact().format(value);
-      return currencyPosition == CurrencySymbolPosition.leading
-          ? '$symbol$formatted'
-          : '$formatted$symbol';
-    }
-
-    return value.toStringAsFixedRoundedWithCurrency(
-      0,
-      currency,
-      currencyPosition,
     );
   }
 }
