@@ -55,6 +55,8 @@ class CashflowCumulativeChartSection extends ConsumerWidget {
         return StatisticsSectionCard(
           title: appLocalizations.statisticsCashflowCumulativeChart,
           subtitle: appLocalizations.statisticsCashflowCumulativeChartSubtitle,
+          fullscreenChartBuilder: ({required bool expanded}) =>
+              CumulativeCashflowLineChart(series: series, expanded: expanded),
           child: CumulativeCashflowLineChart(series: series),
         );
       },
@@ -75,9 +77,14 @@ class CashflowCumulativeChartSection extends ConsumerWidget {
 }
 
 class CumulativeCashflowLineChart extends ConsumerWidget {
-  const CumulativeCashflowLineChart({super.key, required this.series});
+  const CumulativeCashflowLineChart({
+    super.key,
+    required this.series,
+    this.expanded = false,
+  });
 
   final CumulativeCashflowSeries series;
+  final bool expanded;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -108,10 +115,8 @@ class CumulativeCashflowLineChart extends ConsumerWidget {
       showZeroWhenCrossing: true,
     );
 
-    return SizedBox(
-      height: StatisticsLayout.chartHeight,
-      child: LineChart(
-        LineChartData(
+    final lineChart = LineChart(
+      LineChartData(
           minX: 0,
           maxX: max(series.points.length - 1, 1).toDouble(),
           minY: minY,
@@ -232,7 +237,15 @@ class CumulativeCashflowLineChart extends ConsumerWidget {
             ),
           ],
         ),
-      ),
+    );
+
+    if (expanded) {
+      return SizedBox.expand(child: lineChart);
+    }
+
+    return SizedBox(
+      height: StatisticsLayout.chartHeight,
+      child: lineChart,
     );
   }
 

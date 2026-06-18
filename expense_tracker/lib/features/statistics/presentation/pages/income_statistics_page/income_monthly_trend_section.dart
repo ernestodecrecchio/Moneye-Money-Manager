@@ -46,6 +46,11 @@ class IncomeMonthlyTrendSection extends ConsumerWidget {
 
         return StatisticsSectionCard(
           title: appLocalizations.statisticsIncomeMonthlyTrend,
+          fullscreenChartBuilder: ({required bool expanded}) => MonthlySpendingTrendLineChart(
+            series: series,
+            lineColor: colors.income,
+            expanded: expanded,
+          ),
           child: MonthlySpendingTrendLineChart(
             series: series,
             lineColor: colors.income,

@@ -38,6 +38,8 @@ class OverviewNetWorthTrendSection extends ConsumerWidget {
 
         return StatisticsSectionCard(
           title: appLocalizations.statisticsNetWorthTrend,
+          fullscreenChartBuilder: ({required bool expanded}) =>
+              NetWorthTrendLineChart(series: series, expanded: expanded),
           child: NetWorthTrendLineChart(series: series),
         );
       },
@@ -56,9 +58,14 @@ class OverviewNetWorthTrendSection extends ConsumerWidget {
 }
 
 class NetWorthTrendLineChart extends ConsumerWidget {
-  const NetWorthTrendLineChart({super.key, required this.series});
+  const NetWorthTrendLineChart({
+    super.key,
+    required this.series,
+    this.expanded = false,
+  });
 
   final NetWorthTrendSeries series;
+  final bool expanded;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -91,10 +98,8 @@ class NetWorthTrendLineChart extends ConsumerWidget {
       currencyPosition: currencyPosition,
     );
 
-    return SizedBox(
-      height: StatisticsLayout.chartHeight,
-      child: LineChart(
-        LineChartData(
+    final lineChart = LineChart(
+      LineChartData(
           minX: 0,
           maxX: max(series.points.length - 1, 1).toDouble(),
           minY: minY,
@@ -198,7 +203,15 @@ class NetWorthTrendLineChart extends ConsumerWidget {
             ),
           ],
         ),
-      ),
+    );
+
+    if (expanded) {
+      return SizedBox.expand(child: lineChart);
+    }
+
+    return SizedBox(
+      height: StatisticsLayout.chartHeight,
+      child: lineChart,
     );
   }
 

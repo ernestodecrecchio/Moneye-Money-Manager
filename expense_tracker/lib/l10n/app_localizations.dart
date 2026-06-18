@@ -400,6 +400,18 @@ abstract class AppLocalizations {
   /// **'Charts coming soon'**
   String get statisticsChartsComingSoon;
 
+  /// No description provided for @statisticsChartFullscreen.
+  ///
+  /// In en, this message translates to:
+  /// **'View chart fullscreen'**
+  String get statisticsChartFullscreen;
+
+  /// No description provided for @statisticsChartExitFullscreen.
+  ///
+  /// In en, this message translates to:
+  /// **'Close fullscreen'**
+  String get statisticsChartExitFullscreen;
+
   /// No description provided for @statisticsOverviewComingSoon.
   ///
   /// In en, this message translates to:

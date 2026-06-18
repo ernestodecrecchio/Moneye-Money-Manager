@@ -162,6 +162,12 @@ class AppLocalizationsDe extends AppLocalizations {
   String get statisticsChartsComingSoon => 'Charts coming soon';
 
   @override
+  String get statisticsChartFullscreen => 'View chart fullscreen';
+
+  @override
+  String get statisticsChartExitFullscreen => 'Close fullscreen';
+
+  @override
   String get statisticsOverviewComingSoon =>
       'Charts and summaries of income, expenses, and net balance for the selected period will appear here.';
 

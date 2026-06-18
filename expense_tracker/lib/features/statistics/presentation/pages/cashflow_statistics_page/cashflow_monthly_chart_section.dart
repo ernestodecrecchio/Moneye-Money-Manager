@@ -52,6 +52,8 @@ class CashflowMonthlyChartSection extends ConsumerWidget {
 
         return StatisticsSectionCard(
           title: appLocalizations.statisticsCashflowMonthlyChart,
+          fullscreenChartBuilder: ({required bool expanded}) =>
+              MonthlyCashflowChart(series: series, expanded: expanded),
           child: MonthlyCashflowChart(series: series),
         );
       },
@@ -70,9 +72,14 @@ class CashflowMonthlyChartSection extends ConsumerWidget {
 }
 
 class MonthlyCashflowChart extends ConsumerWidget {
-  const MonthlyCashflowChart({super.key, required this.series});
+  const MonthlyCashflowChart({
+    super.key,
+    required this.series,
+    this.expanded = false,
+  });
 
   final MonthlyCashflowSeries series;
+  final bool expanded;
 
   static const double _barWidth = 7;
   static const double _barsSpace = 3;
@@ -128,6 +135,173 @@ class MonthlyCashflowChart extends ConsumerWidget {
         FlSpot(i.toDouble(), series.points[i].netCashflow),
     ];
 
+    final chartStack = Stack(
+      children: [
+        BarChart(
+          BarChartData(
+            minY: minY,
+            maxY: maxY,
+            barTouchData: BarTouchData(
+              touchTooltipData: BarTouchTooltipData(
+                getTooltipColor: (_) => colors.surface.withValues(alpha: 0.95),
+                getTooltipItem: (group, groupIndex, rod, rodIndex) {
+                  if (rodIndex != 0) {
+                    return null;
+                  }
+                  if (groupIndex < 0 || groupIndex >= series.points.length) {
+                    return null;
+                  }
+
+                  final point = series.points[groupIndex];
+                  final incomeLabel =
+                      point.income.toStringAsFixedRoundedWithCurrency(
+                    2,
+                    currency,
+                    currencyPosition,
+                  );
+                  final expensesLabel =
+                      point.expenses.toStringAsFixedRoundedWithCurrency(
+                    2,
+                    currency,
+                    currencyPosition,
+                  );
+                  final netLabel =
+                      point.netCashflow.toStringAsFixedRoundedWithCurrency(
+                    2,
+                    currency,
+                    currencyPosition,
+                  );
+
+                  return BarTooltipItem(
+                    '${point.label}\n'
+                    '${appLocalizations.income}: $incomeLabel\n'
+                    '${appLocalizations.statisticsExpenses}: $expensesLabel\n'
+                    '${appLocalizations.statisticsNetCashflow}: $netLabel',
+                    TextStyle(
+                      color: colors.textPrimary,
+                      fontWeight: FontWeight.w600,
+                      fontSize: 12,
+                    ),
+                  );
+                },
+              ),
+            ),
+            gridData: FlGridData(
+              show: true,
+              drawVerticalLine: false,
+              horizontalInterval: (maxY - minY) / 2,
+              getDrawingHorizontalLine: (value) => FlLine(
+                color: colors.divider.withValues(alpha: 0.35),
+                strokeWidth: 1,
+              ),
+            ),
+            borderData: FlBorderData(show: false),
+            titlesData: FlTitlesData(
+              topTitles: const AxisTitles(
+                sideTitles: SideTitles(showTitles: false),
+              ),
+              rightTitles: const AxisTitles(
+                sideTitles: SideTitles(showTitles: false),
+              ),
+              bottomTitles: AxisTitles(
+                sideTitles: SideTitles(
+                  showTitles: true,
+                  reservedSize: _bottomTitleReservedSize,
+                  interval: labelInterval,
+                  getTitlesWidget: (value, meta) {
+                    final index = value.toInt();
+                    if (index < 0 || index >= series.points.length) {
+                      return const SizedBox.shrink();
+                    }
+
+                    return SideTitleWidget(
+                      meta: meta,
+                      space: 6,
+                      child: Text(
+                        series.points[index].label,
+                        style: labelStyle,
+                        textAlign: TextAlign.center,
+                      ),
+                    );
+                  },
+                ),
+              ),
+              leftTitles: AxisTitles(
+                sideTitles: SideTitles(
+                  showTitles: true,
+                  reservedSize: leftReservedSize,
+                  interval: (maxY - minY) / 2,
+                  getTitlesWidget: (value, meta) =>
+                      StatisticsChartAxis.buildLeftTitle(
+                    meta: meta,
+                    value: value,
+                    minY: minY,
+                    maxY: maxY,
+                    currency: currency,
+                    currencyPosition: currencyPosition,
+                    style: labelStyle,
+                    showZeroWhenCrossing: true,
+                  ),
+                ),
+              ),
+            ),
+            barGroups: barGroups,
+          ),
+        ),
+        if (series.showNetLine)
+          LineChart(
+            LineChartData(
+              minX: 0,
+              maxX: max(series.points.length - 1, 1).toDouble(),
+              minY: minY,
+              maxY: maxY,
+              clipData: const FlClipData.all(),
+              gridData: const FlGridData(show: false),
+              borderData: FlBorderData(show: false),
+              titlesData: FlTitlesData(
+                topTitles: const AxisTitles(
+                  sideTitles: SideTitles(showTitles: false),
+                ),
+                rightTitles: const AxisTitles(
+                  sideTitles: SideTitles(showTitles: false),
+                ),
+                leftTitles: AxisTitles(
+                  sideTitles: SideTitles(
+                    showTitles: false,
+                    reservedSize: leftReservedSize,
+                  ),
+                ),
+                bottomTitles: const AxisTitles(
+                  sideTitles: SideTitles(
+                    showTitles: false,
+                    reservedSize: _bottomTitleReservedSize,
+                  ),
+                ),
+              ),
+              lineTouchData: const LineTouchData(enabled: false),
+              lineBarsData: [
+                LineChartBarData(
+                  spots: netLineSpots,
+                  isCurved: false,
+                  color: colors.primary,
+                  barWidth: 2,
+                  dotData: FlDotData(
+                    show: series.points.length <= 12,
+                    getDotPainter: (spot, percent, barData, index) {
+                      return FlDotCirclePainter(
+                        radius: 3,
+                        color: colors.primary,
+                        strokeWidth: 0,
+                      );
+                    },
+                  ),
+                ),
+              ],
+            ),
+          ),
+      ],
+    );
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       spacing: 12,
@@ -151,177 +325,13 @@ class MonthlyCashflowChart extends ConsumerWidget {
               ),
           ],
         ),
-        SizedBox(
-          height: 220,
-          child: Stack(
-            children: [
-              BarChart(
-                BarChartData(
-                  minY: minY,
-                  maxY: maxY,
-                  barTouchData: BarTouchData(
-                    touchTooltipData: BarTouchTooltipData(
-                      getTooltipColor: (_) =>
-                          colors.surface.withValues(alpha: 0.95),
-                      getTooltipItem: (group, groupIndex, rod, rodIndex) {
-                        if (rodIndex != 0) {
-                          return null;
-                        }
-                        if (groupIndex < 0 ||
-                            groupIndex >= series.points.length) {
-                          return null;
-                        }
-
-                        final point = series.points[groupIndex];
-                        final incomeLabel =
-                            point.income.toStringAsFixedRoundedWithCurrency(
-                          2,
-                          currency,
-                          currencyPosition,
-                        );
-                        final expensesLabel =
-                            point.expenses.toStringAsFixedRoundedWithCurrency(
-                          2,
-                          currency,
-                          currencyPosition,
-                        );
-                        final netLabel =
-                            point.netCashflow.toStringAsFixedRoundedWithCurrency(
-                          2,
-                          currency,
-                          currencyPosition,
-                        );
-
-                        return BarTooltipItem(
-                          '${point.label}\n'
-                          '${appLocalizations.income}: $incomeLabel\n'
-                          '${appLocalizations.statisticsExpenses}: $expensesLabel\n'
-                          '${appLocalizations.statisticsNetCashflow}: $netLabel',
-                          TextStyle(
-                            color: colors.textPrimary,
-                            fontWeight: FontWeight.w600,
-                            fontSize: 12,
-                          ),
-                        );
-                      },
-                    ),
-                  ),
-                  gridData: FlGridData(
-                    show: true,
-                    drawVerticalLine: false,
-                    horizontalInterval: (maxY - minY) / 2,
-                    getDrawingHorizontalLine: (value) => FlLine(
-                      color: colors.divider.withValues(alpha: 0.35),
-                      strokeWidth: 1,
-                    ),
-                  ),
-                  borderData: FlBorderData(show: false),
-                  titlesData: FlTitlesData(
-                    topTitles: const AxisTitles(
-                      sideTitles: SideTitles(showTitles: false),
-                    ),
-                    rightTitles: const AxisTitles(
-                      sideTitles: SideTitles(showTitles: false),
-                    ),
-                    bottomTitles: AxisTitles(
-                      sideTitles: SideTitles(
-                        showTitles: true,
-                        reservedSize: _bottomTitleReservedSize,
-                        interval: labelInterval,
-                        getTitlesWidget: (value, meta) {
-                          final index = value.toInt();
-                          if (index < 0 || index >= series.points.length) {
-                            return const SizedBox.shrink();
-                          }
-
-                          return SideTitleWidget(
-                            meta: meta,
-                            space: 6,
-                            child: Text(
-                              series.points[index].label,
-                              style: labelStyle,
-                              textAlign: TextAlign.center,
-                            ),
-                          );
-                        },
-                      ),
-                    ),
-                    leftTitles: AxisTitles(
-                      sideTitles: SideTitles(
-                        showTitles: true,
-                        reservedSize: leftReservedSize,
-                        interval: (maxY - minY) / 2,
-                        getTitlesWidget: (value, meta) =>
-                            StatisticsChartAxis.buildLeftTitle(
-                          meta: meta,
-                          value: value,
-                          minY: minY,
-                          maxY: maxY,
-                          currency: currency,
-                          currencyPosition: currencyPosition,
-                          style: labelStyle,
-                          showZeroWhenCrossing: true,
-                        ),
-                      ),
-                    ),
-                  ),
-                  barGroups: barGroups,
-                ),
-              ),
-              if (series.showNetLine)
-                LineChart(
-                  LineChartData(
-                    minX: 0,
-                    maxX: max(series.points.length - 1, 1).toDouble(),
-                    minY: minY,
-                    maxY: maxY,
-                    clipData: const FlClipData.all(),
-                    gridData: const FlGridData(show: false),
-                    borderData: FlBorderData(show: false),
-                    titlesData: FlTitlesData(
-                      topTitles: const AxisTitles(
-                        sideTitles: SideTitles(showTitles: false),
-                      ),
-                      rightTitles: const AxisTitles(
-                        sideTitles: SideTitles(showTitles: false),
-                      ),
-                      leftTitles: AxisTitles(
-                        sideTitles: SideTitles(
-                          showTitles: false,
-                          reservedSize: leftReservedSize,
-                        ),
-                      ),
-                      bottomTitles: const AxisTitles(
-                        sideTitles: SideTitles(
-                          showTitles: false,
-                          reservedSize: _bottomTitleReservedSize,
-                        ),
-                      ),
-                    ),
-                    lineTouchData: const LineTouchData(enabled: false),
-                    lineBarsData: [
-                      LineChartBarData(
-                        spots: netLineSpots,
-                        isCurved: false,
-                        color: colors.primary,
-                        barWidth: 2,
-                        dotData: FlDotData(
-                          show: series.points.length <= 12,
-                          getDotPainter: (spot, percent, barData, index) {
-                            return FlDotCirclePainter(
-                              radius: 3,
-                              color: colors.primary,
-                              strokeWidth: 0,
-                            );
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-            ],
+        if (expanded)
+          Expanded(child: chartStack)
+        else
+          SizedBox(
+            height: StatisticsLayout.chartHeight,
+            child: chartStack,
           ),
-        ),
       ],
     );
   }

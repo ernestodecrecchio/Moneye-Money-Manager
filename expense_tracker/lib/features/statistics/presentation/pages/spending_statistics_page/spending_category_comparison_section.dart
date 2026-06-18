@@ -59,6 +59,8 @@ class SpendingCategoryComparisonSection extends ConsumerWidget {
           title: appLocalizations.statisticsSpendingCategoryComparison,
           subtitle:
               appLocalizations.statisticsSpendingCategoryComparisonSubtitle,
+          fullscreenChartBuilder: ({required bool expanded}) =>
+              CategoryComparisonBarChart(series: series, expanded: expanded),
           child: CategoryComparisonBarChart(series: series),
         );
       },
@@ -79,9 +81,14 @@ class SpendingCategoryComparisonSection extends ConsumerWidget {
 }
 
 class CategoryComparisonBarChart extends ConsumerWidget {
-  const CategoryComparisonBarChart({super.key, required this.series});
+  const CategoryComparisonBarChart({
+    super.key,
+    required this.series,
+    this.expanded = false,
+  });
 
   final CategoryComparisonSeries series;
+  final bool expanded;
 
   static const double _barWidth = 6;
   static const double _barsSpace = 0;
@@ -126,6 +133,101 @@ class CategoryComparisonBarChart extends ConsumerWidget {
         ),
     ];
 
+    final barChart = BarChart(
+      BarChartData(
+        minY: 0,
+        maxY: maxY,
+        barTouchData: BarTouchData(
+          touchTooltipData: BarTouchTooltipData(
+            getTooltipColor: (_) => colors.surface.withValues(alpha: 0.95),
+            getTooltipItem: (group, groupIndex, rod, rodIndex) {
+              if (groupIndex < 0 || groupIndex >= series.months.length) {
+                return null;
+              }
+              if (rodIndex < 0 || rodIndex >= series.categories.length) {
+                return null;
+              }
+
+              final month = series.months[groupIndex];
+              final category = series.categories[rodIndex];
+              final amount = rod.toY.toStringAsFixedRoundedWithCurrency(
+                2,
+                currency,
+                currencyPosition,
+              );
+
+              return BarTooltipItem(
+                '${month.label}\n${category.name}\n$amount',
+                TextStyle(
+                  color: colors.textPrimary,
+                  fontWeight: FontWeight.w600,
+                  fontSize: 12,
+                ),
+              );
+            },
+          ),
+        ),
+        gridData: FlGridData(
+          show: true,
+          drawVerticalLine: false,
+          horizontalInterval: maxValue / 2,
+          getDrawingHorizontalLine: (value) => FlLine(
+            color: colors.divider.withValues(alpha: 0.35),
+            strokeWidth: 1,
+          ),
+        ),
+        borderData: FlBorderData(show: false),
+        titlesData: FlTitlesData(
+          topTitles: const AxisTitles(
+            sideTitles: SideTitles(showTitles: false),
+          ),
+          rightTitles: const AxisTitles(
+            sideTitles: SideTitles(showTitles: false),
+          ),
+          bottomTitles: AxisTitles(
+            sideTitles: SideTitles(
+              showTitles: true,
+              reservedSize: 28,
+              interval: labelInterval,
+              getTitlesWidget: (value, meta) {
+                final index = value.toInt();
+                if (index < 0 || index >= series.months.length) {
+                  return const SizedBox.shrink();
+                }
+
+                return SideTitleWidget(
+                  meta: meta,
+                  space: 6,
+                  child: Text(
+                    series.months[index].label,
+                    style: labelStyle,
+                    textAlign: TextAlign.center,
+                  ),
+                );
+              },
+            ),
+          ),
+          leftTitles: AxisTitles(
+            sideTitles: SideTitles(
+              showTitles: true,
+              reservedSize: leftReservedSize,
+              interval: maxValue / 2,
+              getTitlesWidget: (value, meta) => StatisticsChartAxis.buildLeftTitle(
+                meta: meta,
+                value: value,
+                minY: 0,
+                maxY: maxY,
+                currency: currency,
+                currencyPosition: currencyPosition,
+                style: labelStyle,
+              ),
+            ),
+          ),
+        ),
+        barGroups: barGroups,
+      ),
+    );
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       spacing: 12,
@@ -141,105 +243,13 @@ class CategoryComparisonBarChart extends ConsumerWidget {
               ),
           ],
         ),
-        SizedBox(
-          height: StatisticsLayout.chartHeight,
-          child: BarChart(
-            BarChartData(
-              minY: 0,
-              maxY: maxY,
-              barTouchData: BarTouchData(
-                touchTooltipData: BarTouchTooltipData(
-                  getTooltipColor: (_) =>
-                      colors.surface.withValues(alpha: 0.95),
-                  getTooltipItem: (group, groupIndex, rod, rodIndex) {
-                    if (groupIndex < 0 || groupIndex >= series.months.length) {
-                      return null;
-                    }
-                    if (rodIndex < 0 || rodIndex >= series.categories.length) {
-                      return null;
-                    }
-
-                    final month = series.months[groupIndex];
-                    final category = series.categories[rodIndex];
-                    final amount = rod.toY.toStringAsFixedRoundedWithCurrency(
-                      2,
-                      currency,
-                      currencyPosition,
-                    );
-
-                    return BarTooltipItem(
-                      '${month.label}\n${category.name}\n$amount',
-                      TextStyle(
-                        color: colors.textPrimary,
-                        fontWeight: FontWeight.w600,
-                        fontSize: 12,
-                      ),
-                    );
-                  },
-                ),
-              ),
-              gridData: FlGridData(
-                show: true,
-                drawVerticalLine: false,
-                horizontalInterval: maxValue / 2,
-                getDrawingHorizontalLine: (value) => FlLine(
-                  color: colors.divider.withValues(alpha: 0.35),
-                  strokeWidth: 1,
-                ),
-              ),
-              borderData: FlBorderData(show: false),
-              titlesData: FlTitlesData(
-                topTitles: const AxisTitles(
-                  sideTitles: SideTitles(showTitles: false),
-                ),
-                rightTitles: const AxisTitles(
-                  sideTitles: SideTitles(showTitles: false),
-                ),
-                bottomTitles: AxisTitles(
-                  sideTitles: SideTitles(
-                    showTitles: true,
-                    reservedSize: 28,
-                    interval: labelInterval,
-                    getTitlesWidget: (value, meta) {
-                      final index = value.toInt();
-                      if (index < 0 || index >= series.months.length) {
-                        return const SizedBox.shrink();
-                      }
-
-                      return SideTitleWidget(
-                        meta: meta,
-                        space: 6,
-                        child: Text(
-                          series.months[index].label,
-                          style: labelStyle,
-                          textAlign: TextAlign.center,
-                        ),
-                      );
-                    },
-                  ),
-                ),
-                leftTitles: AxisTitles(
-                  sideTitles: SideTitles(
-                    showTitles: true,
-                    reservedSize: leftReservedSize,
-                    interval: maxValue / 2,
-                    getTitlesWidget: (value, meta) =>
-                        StatisticsChartAxis.buildLeftTitle(
-                      meta: meta,
-                      value: value,
-                      minY: 0,
-                      maxY: maxY,
-                      currency: currency,
-                      currencyPosition: currencyPosition,
-                      style: labelStyle,
-                    ),
-                  ),
-                ),
-              ),
-              barGroups: barGroups,
-            ),
+        if (expanded)
+          Expanded(child: barChart)
+        else
+          SizedBox(
+            height: StatisticsLayout.chartHeight,
+            child: barChart,
           ),
-        ),
       ],
     );
   }

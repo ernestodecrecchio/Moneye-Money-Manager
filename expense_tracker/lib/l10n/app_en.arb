@@ -153,6 +153,8 @@
     "statisticsPlaceholderValue": "—",
     "statisticsSelectedPeriod": "Selected period",
     "statisticsChartsComingSoon": "Charts coming soon",
+    "statisticsChartFullscreen": "View chart fullscreen",
+    "statisticsChartExitFullscreen": "Close fullscreen",
     "statisticsOverviewComingSoon": "Charts and summaries of income, expenses, and net balance for the selected period will appear here.",
     "statisticsSpendingComingSoon": "Spending trends, totals, and breakdowns for the selected period will appear here.",
     "statisticsIncomeComingSoon": "Income trends and totals for the selected period will appear here.",

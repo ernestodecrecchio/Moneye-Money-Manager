@@ -53,6 +53,10 @@ class SpendingMonthlyTrendSection extends ConsumerWidget {
 
         return StatisticsSectionCard(
           title: appLocalizations.statisticsSpendingMonthlyTrend,
+          fullscreenChartBuilder: ({required bool expanded}) => MonthlySpendingTrendLineChart(
+            series: series,
+            expanded: expanded,
+          ),
           child: MonthlySpendingTrendLineChart(series: series),
         );
       },
@@ -75,10 +79,12 @@ class MonthlySpendingTrendLineChart extends ConsumerWidget {
     super.key,
     required this.series,
     this.lineColor,
+    this.expanded = false,
   });
 
   final MonthlySpendingTrendSeries series;
   final Color? lineColor;
+  final bool expanded;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -108,10 +114,8 @@ class MonthlySpendingTrendLineChart extends ConsumerWidget {
       currencyPosition: currencyPosition,
     );
 
-    return SizedBox(
-      height: StatisticsLayout.chartHeight,
-      child: LineChart(
-        LineChartData(
+    final lineChart = LineChart(
+      LineChartData(
           minX: 0,
           maxX: max(series.points.length - 1, 1).toDouble(),
           minY: 0,
@@ -211,7 +215,15 @@ class MonthlySpendingTrendLineChart extends ConsumerWidget {
             ),
           ],
         ),
-      ),
+    );
+
+    if (expanded) {
+      return SizedBox.expand(child: lineChart);
+    }
+
+    return SizedBox(
+      height: StatisticsLayout.chartHeight,
+      child: lineChart,
     );
   }
 

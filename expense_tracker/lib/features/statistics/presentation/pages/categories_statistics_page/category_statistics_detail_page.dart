@@ -361,6 +361,14 @@ class _CategoryMonthlyTrendSection extends ConsumerWidget {
 
     return StatisticsSectionCard(
       title: appLocalizations.statisticsCategoryMonthlyTrend,
+      fullscreenChartBuilder: monthlyTrend.isEmpty ||
+              monthlyTrend.hasInsufficientData
+          ? null
+          : ({required bool expanded}) => MonthlySpendingTrendLineChart(
+                series: monthlyTrend,
+                lineColor: chartColor,
+                expanded: expanded,
+              ),
       child: monthlyTrend.isEmpty
           ? StatisticsChartEmptyMessage(message: emptyMessage)
           : monthlyTrend.hasInsufficientData
