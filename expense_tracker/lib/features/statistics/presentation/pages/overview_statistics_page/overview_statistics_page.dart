@@ -4,7 +4,7 @@ import 'package:expense_tracker/features/statistics/presentation/pages/overview_
 import 'package:expense_tracker/features/statistics/presentation/pages/overview_statistics_page/overview_income_vs_expenses_section.dart';
 import 'package:expense_tracker/features/statistics/presentation/pages/overview_statistics_page/overview_net_worth_trend_section.dart';
 import 'package:expense_tracker/features/statistics/presentation/widgets/statistics_layout.dart';
-import 'package:expense_tracker/features/statistics/presentation/widgets/statistics_period_indicator.dart';
+import 'package:expense_tracker/features/statistics/presentation/widgets/statistics_period_selector.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -29,7 +29,7 @@ class OverviewStatisticsPage extends ConsumerWidget {
           Constants.horizontalPadding,
         ),
         children: [
-          const StatisticsPeriodIndicator(),
+          const StatisticsPeriodSelector(),
           const SizedBox(height: StatisticsLayout.periodSectionSpacing),
           const OverviewKpiSection(),
           const SizedBox(height: StatisticsLayout.sectionSpacing),

@@ -12,7 +12,7 @@ import 'package:expense_tracker/features/statistics/presentation/pages/categorie
 import 'package:expense_tracker/features/statistics/presentation/providers/queries/categories_statistics_notifier.dart';
 import 'package:expense_tracker/features/statistics/presentation/widgets/statistics_empty_states.dart';
 import 'package:expense_tracker/features/statistics/presentation/widgets/statistics_layout.dart';
-import 'package:expense_tracker/features/statistics/presentation/widgets/statistics_period_indicator.dart';
+import 'package:expense_tracker/features/statistics/presentation/widgets/statistics_period_selector.dart';
 import 'package:expense_tracker/features/statistics/presentation/widgets/statistics_surface_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -39,7 +39,7 @@ class CategoriesStatisticsPage extends ConsumerWidget {
           Constants.horizontalPadding,
         ),
         children: [
-          const StatisticsPeriodIndicator(),
+          const StatisticsPeriodSelector(),
           const SizedBox(height: StatisticsLayout.periodSectionSpacing),
           seriesAsync.when(
             data: (series) {

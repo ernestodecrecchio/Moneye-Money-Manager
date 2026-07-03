@@ -6,7 +6,7 @@ import 'package:expense_tracker/features/statistics/presentation/pages/spending_
 import 'package:expense_tracker/features/statistics/presentation/pages/spending_statistics_page/spending_insights_preview_section.dart';
 import 'package:expense_tracker/features/statistics/presentation/pages/spending_statistics_page/spending_monthly_trend_section.dart';
 import 'package:expense_tracker/features/statistics/presentation/widgets/statistics_layout.dart';
-import 'package:expense_tracker/features/statistics/presentation/widgets/statistics_period_indicator.dart';
+import 'package:expense_tracker/features/statistics/presentation/widgets/statistics_period_selector.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -31,7 +31,7 @@ class SpendingStatisticsPage extends ConsumerWidget {
           Constants.horizontalPadding,
         ),
         children: const [
-          StatisticsPeriodIndicator(),
+          StatisticsPeriodSelector(),
           SizedBox(height: StatisticsLayout.periodSectionSpacing),
           SpendingAverageMonthlySection(),
           SizedBox(height: StatisticsLayout.sectionSpacing),

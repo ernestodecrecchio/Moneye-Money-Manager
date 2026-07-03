@@ -1,7 +1,7 @@
 import 'package:expense_tracker/core/configuration/constants.dart';
 import 'package:expense_tracker/core/presentation/providers/app_localizations_provider.dart';
 import 'package:expense_tracker/core/style/app_theme.dart';
-import 'package:expense_tracker/features/statistics/presentation/widgets/statistics_period_indicator.dart';
+import 'package:expense_tracker/features/statistics/presentation/widgets/statistics_period_selector.dart';
 import 'package:expense_tracker/features/statistics/presentation/widgets/statistics_surface_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -35,7 +35,7 @@ class StatisticsSubpageScaffold extends ConsumerWidget {
           Constants.horizontalPadding,
         ),
         children: [
-          const StatisticsPeriodIndicator(),
+          const StatisticsPeriodSelector(),
           const SizedBox(height: 24),
           StatisticsSurfaceCard(
             padding: const EdgeInsets.all(24),

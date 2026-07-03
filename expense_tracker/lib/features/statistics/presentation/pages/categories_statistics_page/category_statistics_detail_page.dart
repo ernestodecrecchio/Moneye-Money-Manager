@@ -16,7 +16,7 @@ import 'package:expense_tracker/features/statistics/presentation/providers/queri
 import 'package:expense_tracker/features/statistics/presentation/providers/queries/category_statistics_detail_notifier.dart';
 import 'package:expense_tracker/features/statistics/presentation/widgets/statistics_empty_states.dart';
 import 'package:expense_tracker/features/statistics/presentation/widgets/statistics_period_chart_support.dart';
-import 'package:expense_tracker/features/statistics/presentation/widgets/statistics_period_indicator.dart';
+import 'package:expense_tracker/features/statistics/presentation/widgets/statistics_period_selector.dart';
 import 'package:expense_tracker/features/statistics/presentation/providers/statistics_period_provider.dart';
 import 'package:expense_tracker/features/statistics/presentation/widgets/statistics_layout.dart';
 import 'package:expense_tracker/features/statistics/presentation/widgets/statistics_section_card.dart';
@@ -164,7 +164,7 @@ class _CategoryStatisticsDetailContentState
           ),
           sliver: SliverList(
             delegate: SliverChildListDelegate([
-              const StatisticsPeriodIndicator(),
+              const StatisticsPeriodSelector(),
               const SizedBox(height: StatisticsLayout.periodSectionSpacing),
               StatisticsSurfaceCard(
                 padding: StatisticsLayout.cardPadding,
