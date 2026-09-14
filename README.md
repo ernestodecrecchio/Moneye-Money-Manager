@@ -60,12 +60,32 @@
 - Home Widgets for Android.
 
 ## 🛠 Technologies & Architecture
-Moneye is a Flutter app for iOS and Android. The codebase follows Clean Architecture with a feature-first layout; see [expense_tracker/lib/README.md](expense_tracker/lib/README.md) for details.
+Moneye is a Flutter app for iOS and Android.
 
 - **Framework**: Flutter
 - **Language**: Dart >=3.0.0 <4.0.0
-- **State Management**: Riverpod ^3.0.3
-- **Local Database**: SQLite (sqflite)
+
+Further documentation: [lib overview](expense_tracker/lib/README.md), [features layout](expense_tracker/lib/features/README.md), [core infrastructure](expense_tracker/lib/core/README.md).
+
+#### Architecture
+- Clean Architecture with a feature-first layout under [expense_tracker/lib/features/](expense_tracker/lib/features/): each module uses `domain/`, `data/`, and `presentation/`.
+- Repository interfaces live in `domain/repositories`; SQLite access and implementations sit in `data/` (per-feature DB helpers coordinated by [DatabaseHelper](expense_tracker/lib/core/database/database_helper.dart)).
+- Shared infrastructure in [expense_tracker/lib/core/](expense_tracker/lib/core/) (database bootstrap, theme, locale, export services, reusable widgets). Core does not depend on feature modules.
+
+#### State management (Riverpod 3)
+- The app root uses `ProviderScope` in [main.dart](expense_tracker/lib/main.dart); screens use `ConsumerWidget` or `ConsumerStatefulWidget`.
+- Feature state under `presentation/providers/`: read models via `AsyncNotifier` and `AsyncNotifierProvider` (lists, balances, budget progress); writes via dedicated mutation notifiers that refresh query providers after CRUD.
+- App-wide settings in `core/presentation/providers/` (theme, locale, currency, analytics consent).
+
+#### Navigation
+- [MaterialApp](expense_tracker/lib/main.dart) defines a static `routes` map for parameterless screens and `onGenerateRoute` with `MaterialPageRoute` for pages that need `arguments` (account detail, transaction flow, budget form, and similar).
+- Main shell: [TabBarPage](expense_tracker/lib/features/home/presentation/pages/tab_bar_page.dart) switches Home, Budgeting, and Settings with local tab index and `SalomonBottomBar`; deeper flows use `Navigator.pushNamed` from feature pages.
+- A global `navigatorKey` supports navigation when a `BuildContext` is not available in the widget tree.
+
+#### Persistence
+- SQLite via `sqflite`: database file `moneye_db.db`, schema version 4, foreign keys enabled, versioned migrations in [DatabaseHelper](expense_tracker/lib/core/database/database_helper.dart) (categories, accounts, transactions, recurring rules, budgets).
+- SharedPreferences for onboarding flag, language, currency, theme, reminders, and analytics consent.
+- Full backup and restore through ZIP JSON export/import ([database export/import service](expense_tracker/lib/core/services/database_export_import_service.dart)).
 
 #### Dependencies
 ```
