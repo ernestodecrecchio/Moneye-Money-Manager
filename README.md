@@ -53,6 +53,10 @@
 - Languages: Italian, English (US/UK), Español, Deutsch, Français, Türkçe, and Português (BR/PT).
 
 ### 🔮 Upcoming Features
+- Statistics: dedicated section with overview, spending and income trends, cashflow, category breakdowns, insights, and selectable periods.
+- Improved charts with fullscreen view and clearer layouts across statistics flows.
+- Feature discovery coach marks to highlight key actions in the app.
+- Transaction shortcuts on the home screen for frequent entries.
 - Home Widgets for Android.
 
 ## 🛠 Technologies & Architecture
