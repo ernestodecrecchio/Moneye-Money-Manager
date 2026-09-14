@@ -1,6 +1,6 @@
 <a name="top"></a>
 ![Moneye Repository Banner](https://github.com/ernestodecrecchio/Moneye-Money-Manager/blob/main/Readme_Support_Files/Images/Repository_Banner.png)
-![Static Badge](https://img.shields.io/badge/DART_%3E%3D3.10.7_%3C4.0.0-1e2833?style=for-the-badge&logo=dart&logoColor=%236dcff9)
+![Static Badge](https://img.shields.io/badge/DART_%3E%3D3.0.0_%3C4.0.0-1e2833?style=for-the-badge&logo=dart&logoColor=%236dcff9)
 ![Static Badge](https://img.shields.io/badge/FLUTTER_%3E%3D3.38.7-f7f7f7?style=for-the-badge&logo=flutter&logoColor=%236dcff9)
 ![Static Badge](https://img.shields.io/badge/Status-In_mantainance-blue?style=for-the-badge)
 ![GitHub last commit](https://img.shields.io/github/last-commit/ernestodecrecchio/Moneye-Money-Manager?style=for-the-badge)
@@ -16,7 +16,7 @@
 - [License](#-license)
 
 ## 📖 About the Project
-**Moneye** is a powerful and intuitive money management app designed to help you take control of your finances effortlessly. Track your income and expenses, visualize your spending habits with insightful infographics, and gain a clear understanding of your financial patterns. With Moneye, you can make informed decisions to improve your budgeting and achieve your financial goals with ease.
+**Moneye** (1.1.0) is a money management app for tracking income and expenses, setting budgets, and reviewing spending with charts. Data stays on device so you can manage your finances offline with privacy in mind.
 
 <p align="center">Moneye is available on both Apple Store and Play Store</p>
 <p align="center">
@@ -40,47 +40,59 @@
 
 ## ✨ Features
 ### ✅ Current Features
-- Create and customize accounts and categories by choosing icons and colors.
-- Supports multiple languages: Italian, English, Español, and Deutsch.
-- **Reminders**: Get notifications to help you remember to log your daily transactions.
-- Detailed **graphs and statistics**: Visualize reports of your spending habits to better understand your finances.
-- **Privacy first**: All financial data are stored locally, ensuring privacy and fast access.
-- **Home Widgets** (iOS only): Quickly access Moneye’s features from your home screen.
+- Create and customize accounts and categories with icons and colors; transfer transactions when deleting a category.
+- Dashboard with balance, monthly overview, and recent transactions.
+- Budgeting with a dedicated tab, progress on home, periods, multi-category budgets, and rollover.
+- Recurring transactions generated automatically when the app starts.
+- Backup and restore via local ZIP export and import.
+- Graphs and statistics for spending habits.
+- Light, dark, and system themes.
+- Daily reminder notifications to log transactions.
+- Financial data stored locally in SQLite; Firebase Analytics is optional and requires consent.
+- Home Widgets on iOS for quick access from the home screen.
+- Languages: Italian, English (US/UK), Español, Deutsch, Français, Türkçe, and Português (BR/PT).
 
 ### 🔮 Upcoming Features
-- Home Widgets for Android version.
-- Recurring transactions for automated expense tracking.
-- Import and export transaction data for easier financial management.
+- Home Widgets for Android.
 
 ## 🛠 Technologies & Architecture
-Moneye is built using Flutter with the Dart programming language, ensuring a smooth and performant cross-platform experience on both iOS and Android.
+Moneye is a Flutter app for iOS and Android. The codebase follows Clean Architecture with a feature-first layout; see [expense_tracker/lib/README.md](expense_tracker/lib/README.md) for details.
 
-- **Framework**: Flutter >= 3.24.0
-- **Language**: Dart >=3.5.0 <4.0.0
-- **State Management**: Riverpod ^2.5.1
-- **Local Database**: SQLite
+- **Framework**: Flutter
+- **Language**: Dart >=3.0.0 <4.0.0
+- **State Management**: Riverpod ^3.0.3
+- **Local Database**: SQLite (sqflite)
 
 #### Dependencies
 ```
-intl: ^0.19.0
-flutter_riverpod: ^2.5.1
-sqflite: ^2.3.3
-path: ^1.9.0
-fl_chart: ^0.69.0
-collection: ^1.18.0
+intl: ^0.20.2
+flutter_riverpod: ^3.0.3
+sqflite: ^2.4.2
+path: ^1.9.1
+fl_chart: ^1.1.1
+collection: ^1.19.1
 salomon_bottom_bar: ^3.3.2
-flutter_svg: ^2.0.10+1
-flutter_slidable: ^3.1.0
+flutter_slidable: ^4.0.3
 cupertino_icons: ^1.0.8
-shared_preferences: ^2.2.3
-flutter_local_notifications: ^17.2.3
-flutter_timezone: ^3.0.1
-in_app_review: ^2.0.9
-app_settings: ^5.1.1
-home_widget: ^0.7.0
-timezone: ^0.9.3
-flutter_launcher_icons: ^0.14.1
-flutter_native_splash: ^2.4.0
+shared_preferences: ^2.5.3
+flutter_local_notifications: ^20.0.0
+flutter_timezone: ^5.0.1
+in_app_review: ^2.0.11
+app_settings: ^6.1.1
+home_widget: ^0.8.1
+timezone: ^0.10.1
+vector_graphics: ^1.1.20
+equatable: ^2.0.7
+file_picker: ^10.3.10
+path_provider: ^2.1.5
+share_plus: ^12.0.1
+firebase_core: ^3.11.0
+firebase_analytics: ^11.3.6
+firebase_crashlytics: ^4.3.10
+package_info_plus: ^9.0.0
+url_launcher: ^6.3.2
+archive: ^4.0.2
+uuid: ^4.5.3
 ```
 
 ## 🚀 How to run
@@ -93,7 +105,7 @@ To clone and run this application, you'll need git and flutter installed on your
 `$ cd Moneye-Money-Manager/expense_tracker`
 
 #### Install dependencies
-`$ flutter packages get`
+`$ flutter pub get`
 
 #### Run the app
 `$ flutter run`
